@@ -290,32 +290,30 @@ async function getMovieListFromDb(movie) {
 }
 
 async function indexer() {
+  // 1. Get total YTS-MX pages
   const totalPages = await getTotalPages();
+
+  // 2. Create array of pages (from 1 to totalPages)
   const totalPagesArray = times(totalPages, (value) => value + 1);
-  console.log('\n ~ indexer ~ totalPagesArray:', totalPagesArray);
 
-  // Remove all files from torrents folder
-  // fs.rmdirSync(__dirname + '/torrents', { recursive: true });
-  // fs.rmdirSync(__dirname + '/subtitles', { recursive: true });
-  // fs.rmdirSync(__dirname + '/subs', { recursive: true });
-
-  // Create torrents folder
-  // fs.mkdirSync(__dirname + '/torrents');
-  // fs.mkdirSync(__dirname + '/subtitles');
-  // fs.mkdirSync(__dirname + '/subs');
-
+  // 3. Await for each page to get movies
   for await (const page of totalPagesArray) {
     console.log('getting movies from page 🚨', page);
 
+    // 4. Get all the movies (50) for this page
     const movieList = await getMovieList(page);
-    const movieListPromises = movieList.map(async (movie) => getMovieListFromDb(movie));
 
+    // 5. Run all 50 movies in parallels to get their subtitle and save them to DB and Storage
+    const movieListPromises = movieList.map(async (movie) => getMovieListFromDb(movie));
     await Promise.all(movieListPromises);
+
     console.log('finished movies from page 🥇', page);
 
-    // Generate random delays between 5 and 15 seconds
+    // 6. Generate random delays between 5 and 15 seconds
     const randomDelay = Math.floor(Math.random() * (15 - 5 + 1) + 5);
     console.log(`Delaying next iteration by ${randomDelay}s to avoid get blocked`);
+
+    // 7. Delay next iteration
     await delay(randomDelay * 1000);
   }
 }
