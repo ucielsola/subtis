@@ -1,5 +1,20 @@
+import fs from 'fs';
+import 'dotenv/config';
+import path from 'path';
+import delay from 'delay';
+import crypto from 'crypto';
 import { JSDOM } from 'jsdom';
+import slugify from 'slugify';
+import download from 'download';
+import times from 'lodash.times';
+import extract from 'extract-zip';
+import unrar from '@continuata/unrar';
+import { P, match } from 'ts-pattern';
 import invariant from 'tiny-invariant';
+import parseTorrent from 'parse-torrent-updated';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient('https://yelhsmnvfyyjuamxbobs.supabase.co', process.env.SUPABASE_KEY);
 
 // constants
 const VIDEO_FILE_EXTENSIONS = [
@@ -18,7 +33,7 @@ const VIDEO_FILE_EXTENSIONS = [
   '.3g2',
 ];
 
-// sync helpers
+// movie helpers
 function getMovieData(movie: string) {
   const FIRST_MOVIE_RECORDED = 1888;
 
@@ -28,13 +43,22 @@ function getMovieData(movie: string) {
     const yearString = String(year);
 
     if (movie.includes(yearString)) {
-      const [name, rawAttributes] = movie.split(yearString);
+      const [rawName, rawAttributes] = movie.split(yearString);
+      const name = rawName.replace(/\s+/g, ' ');
+
       const movieName = name.replaceAll('.', ' ').trim();
+      const resolution = match(rawAttributes)
+        .with(P.string.includes('1080'), () => '1080p')
+        .with(P.string.includes('720'), () => '720p')
+        .with(P.string.includes('2160'), () => '2160p')
+        .with(P.string.includes('3D'), () => '3D')
+        .run();
 
       for (const videoFileExtension of VIDEO_FILE_EXTENSIONS) {
         if (rawAttributes.includes(videoFileExtension)) {
-          if (rawAttributes.includes('YTS')) {
-            return { name: movieName, year, releaseGroup: 'YTS' };
+          // 'The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4'
+          if (rawAttributes.includes('YTS.MX')) {
+            return { name: movieName, year, resolution, searchableReleaseGroup: 'YTS MX', releaseGroup: 'YTS-MX' };
           }
 
           // 'The Super Mario Bros Movie 2023 1080p WEBRip H265-CODY.mkv (4.3 GB)'
@@ -46,7 +70,7 @@ function getMovieData(movie: string) {
             .at(-1)!
             .replace('x264-', '');
 
-          return { name: movieName, year, releaseGroup };
+          return { name: movieName, year, resolution, releaseGroup, searchableReleaseGroup: releaseGroup };
         }
       }
     }
@@ -55,7 +79,11 @@ function getMovieData(movie: string) {
   throw new Error("Couldn't parse movie name");
 }
 
-// async helpers
+function getFileNameHash(fileName: string) {
+  return crypto.createHash('md5').update(fileName).digest('hex');
+}
+
+// subdivx helpers
 async function getSearchSubtitlesPage(movieName: string) {
   const response = await fetch(`https://subdivx.com/index.php`, {
     method: 'POST',
@@ -86,8 +114,8 @@ async function checkLinkLife(link: string) {
   return response.status === 200;
 }
 
-async function getSubtitleLink(movieName: string) {
-  const { name, releaseGroup } = getMovieData(movieName);
+async function getSubtitleLink(movieFileName: string) {
+  const { name, resolution, releaseGroup, searchableReleaseGroup } = getMovieData(movieFileName);
 
   const subtitlePageHtml = await getSearchSubtitlesPage(name);
 
@@ -96,7 +124,7 @@ async function getSubtitleLink(movieName: string) {
 
   const value = [...document.querySelectorAll('#buscador_detalle')].find((element) => {
     const movieDetail = element.textContent?.toLowerCase();
-    return movieDetail?.includes(releaseGroup.toLowerCase());
+    return movieDetail?.includes(searchableReleaseGroup.toLowerCase());
   });
 
   const previousSibling = value?.previousSibling as Element;
@@ -110,28 +138,186 @@ async function getSubtitleLink(movieName: string) {
 
   const subtitleInitialLink = await getSubtitleInitialLink(subtitlePageLink);
 
-  // zip link
+  // compressed file link
   const subtitleId = new URL(subtitleInitialLink).searchParams.get('id');
 
   const subtitleRarLink = `https://www.subdivx.com/sub9/${subtitleId}.rar`;
   const subtitleZipLink = `https://www.subdivx.com/sub9/${subtitleId}.zip`;
 
   const isRarLinkAlive = await checkLinkLife(subtitleRarLink);
+
+  const fileExtension = isRarLinkAlive ? 'rar' : 'zip';
   const subtitleLink = isRarLinkAlive ? subtitleRarLink : subtitleZipLink;
 
-  return subtitleLink;
+  const subtitleSrtFileName = slugify(`${name}-${resolution}-${releaseGroup}.srt`).toLowerCase();
+  const subtitleFileNameWithoutExtension = slugify(`${name}-${resolution}-${releaseGroup}`).toLowerCase();
+  const subtitleCompressedFileName = slugify(`${name}-${resolution}-${releaseGroup}.${fileExtension}`).toLowerCase();
+
+  return {
+    subtitleLink,
+    subtitleSrtFileName,
+    subtitleCompressedFileName,
+    subtitleFileNameWithoutExtension,
+    fileExtension,
+  };
+}
+
+// yts helpers
+const YTS_BASE_URL = 'https://yts.mx/api/v2';
+
+const ytsApiEndpoints = {
+  movieList: (page: number = 1, limit: number = 50) => {
+    return `${YTS_BASE_URL}/list_movies.json?limit=${limit}&page=${page}`;
+  },
+};
+
+async function getTotalPages(limit: number = 50) {
+  const response = await fetch(ytsApiEndpoints.movieList(1, 1));
+  const { data } = await response.json();
+
+  return Math.ceil(data.movie_count / limit);
+}
+
+async function getMovieList(page: number = 1, limit: number = 50) {
+  const response = await fetch(ytsApiEndpoints.movieList(page, limit));
+  const { data } = await response.json();
+
+  return data.movies;
+}
+
+// db indexer
+async function getMovieListFromDb(movie) {
+  const { title_long: titleLong, rating, year, torrents, imdb_code: imdbId } = movie;
+
+  for await (const torrent of torrents) {
+    const { url, hash } = torrent;
+
+    try {
+      // 1. Download torrent
+      const torrentFilename = hash;
+      await download(url, 'torrents', { filename: torrentFilename });
+
+      // 2. Read torrent file
+      const torrentFile = fs.readFileSync(__dirname + `/torrents/${torrentFilename}`);
+      const { files } = parseTorrent(torrentFile);
+
+      // 3. Find video file
+      const videoFile = files.find((file) => {
+        return VIDEO_FILE_EXTENSIONS.some((videoFileExtension) => file.name.endsWith(videoFileExtension));
+      });
+
+      // 4. Return if no video file (should return?)
+      if (!videoFile) continue;
+
+      // 5. Get movie data from video file
+      const { name, resolution, releaseGroup } = getMovieData(videoFile.name);
+
+      // 6. Hash video file name
+      const fileNameHash = getFileNameHash(videoFile.name);
+
+      // 7. Find subtitle metadata from SubDivx
+      const {
+        subtitleLink,
+        subtitleCompressedFileName,
+        subtitleSrtFileName,
+        subtitleFileNameWithoutExtension,
+        fileExtension,
+      } = await getSubtitleLink(videoFile.name);
+
+      // 8. Download subtitle to fs
+      await download(subtitleLink, 'subtitles', { filename: subtitleCompressedFileName });
+
+      // 9. Create path to downloaded subtitles
+      const subtitleAbsolutePath = path.resolve(__dirname + `/subtitles/${subtitleCompressedFileName}`);
+
+      // 10. Create path to extracted subtitles
+      const extractedSubtitlePath = path.resolve(__dirname + `/subs/${subtitleFileNameWithoutExtension}`);
+
+      // 11. Create path to extracted subtitles
+      // fs.mkdirSync(extractedSubtitlePath);
+
+      // 12. Handle compressed rar files
+      if (fileExtension === 'rar') {
+        await unrar.uncompress({
+          src: subtitleAbsolutePath,
+          dest: extractedSubtitlePath,
+          command: 'e',
+          switches: ['-o+', '-idcd'],
+        });
+      }
+
+      // 13. Handle compressed zip files
+      if (fileExtension === 'zip') {
+        await extract(subtitleAbsolutePath, { dir: extractedSubtitlePath });
+      }
+
+      // 14. Get extracted subtitle files
+      const extractedSubtitleFiles = fs.readdirSync(extractedSubtitlePath);
+
+      // 15. Get SRT file name
+      const srtFile = extractedSubtitleFiles.find((file) => path.extname(file).toLowerCase() === '.srt');
+
+      // 16. Get SRT file path
+      const extractedSrtFileNamePath = path.resolve(__dirname + `/subs/${subtitleFileNameWithoutExtension}/${srtFile}`);
+
+      // 17. Read SRT file
+      const srtFileToUpload = fs.readFileSync(extractedSrtFileNamePath);
+
+      // 18. Upload SRT file to Supabase storage
+      await supabase.storage.from('subtitles').upload(subtitleSrtFileName, srtFileToUpload);
+
+      // 19. Save SRT to Supabase and get public URL for SRT file
+      const {
+        data: { publicUrl },
+      } = await supabase.storage.from('subtitles').getPublicUrl(subtitleSrtFileName);
+
+      // 20. Save movie to Supabase
+      const movie = await supabase.from('Movies').insert({ name: titleLong, year, rating, imdbId }).select();
+
+      // 21. Get movie id from saved movie
+      const movieId = movie?.data[0].id;
+
+      // 22. Save subtitle to Supabase
+      await supabase
+        .from('Subtitles')
+        .insert({ movieId, fileNameHash, resolution, releaseGroup, subtitleLink: publicUrl });
+
+      console.log(`Movie saved to DB! ${name} ✨`);
+    } catch (error) {
+      // console.log('\n ~ forawait ~ error:', error.message);
+    }
+  }
 }
 
 async function indexer() {
-  getSubtitleLink('The Super Mario Bros Movie 2023 1080p WEBRip H265-CODY.mkv (4.3 GB)');
+  const totalPages = await getTotalPages();
+  const totalPagesArray = times(totalPages, (value) => value + 1);
+  console.log('\n ~ indexer ~ totalPagesArray:', totalPagesArray);
 
-  // 1. Obtener lista de peliculas de TMDB
-  // 2. Buscar película en SubDivx
-  // 3. Obtener todos los links de subtítulos
-  // 4. Descargar subtitulo por cada link
-  // 5. Repetir hasta que no haya más páginas (Siguiente)
-  // 6. Almacenar en Supabase (DB)
-  // ID, Hash del Nombre, Nombre Peli, Nombre del Archivo, Año, Release Group, Link Subs
-  // import download from 'download';
-  // await download(subtitleLink, 'subtitles');
+  // Remove all files from torrents folder
+  // fs.rmdirSync(__dirname + '/torrents', { recursive: true });
+  // fs.rmdirSync(__dirname + '/subtitles', { recursive: true });
+  // fs.rmdirSync(__dirname + '/subs', { recursive: true });
+
+  // Create torrents folder
+  // fs.mkdirSync(__dirname + '/torrents');
+  // fs.mkdirSync(__dirname + '/subtitles');
+  // fs.mkdirSync(__dirname + '/subs');
+
+  for await (const page of totalPagesArray) {
+    console.log('getting movies from page 🚨', page);
+
+    const movieList = await getMovieList(page);
+    const movieListPromises = movieList.map(async (movie) => getMovieListFromDb(movie));
+
+    await Promise.all(movieListPromises);
+    console.log('finished movies from page 🥇', page);
+
+    // Generate random delays between 5 and 15 seconds
+    const randomDelay = Math.floor(Math.random() * (15 - 5 + 1) + 5);
+    console.log(`Delaying next iteration by ${randomDelay}s to avoid get blocked`);
+    await delay(randomDelay * 1000);
+  }
 }
+
+indexer();
