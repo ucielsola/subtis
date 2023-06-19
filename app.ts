@@ -14,6 +14,7 @@ import invariant from 'tiny-invariant';
 import parseTorrent from 'parse-torrent-updated';
 import { createClient } from '@supabase/supabase-js';
 
+// supabase
 const supabase = createClient('https://yelhsmnvfyyjuamxbobs.supabase.co', process.env.SUPABASE_KEY);
 
 // constants
@@ -32,6 +33,12 @@ const VIDEO_FILE_EXTENSIONS = [
   '.3gp',
   '.3g2',
 ];
+
+// utils
+async function checkLinkLife(link: string) {
+  const response = await fetch(link);
+  return response.status === 200;
+}
 
 // movie helpers
 function getMovieData(movie: string) {
@@ -109,11 +116,6 @@ async function getSubtitleInitialLink(subtitlePage: string) {
   return subtitleLink;
 }
 
-async function checkLinkLife(link: string) {
-  const response = await fetch(link);
-  return response.status === 200;
-}
-
 async function getSubtitleLink(movieFileName: string) {
   const { name, resolution, releaseGroup, searchableReleaseGroup } = getMovieData(movieFileName);
 
@@ -161,6 +163,8 @@ async function getSubtitleLink(movieFileName: string) {
     fileExtension,
   };
 }
+
+// TODO: Go to next page if subtitle is not found, and if there's next page
 
 // yts helpers
 const YTS_BASE_URL = 'https://yts.mx/api/v2';
