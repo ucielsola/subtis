@@ -49,11 +49,17 @@ function getMovieData(movie: string) {
   for (let year = FIRST_MOVIE_RECORDED; year < currentYear; year++) {
     const yearString = String(year);
 
-    if (movie.includes(yearString)) {
-      const [rawName, rawAttributes] = movie.split(yearString);
-      const name = rawName.replace(/\s+/g, ' ');
+    const yearStringToReplace = match(movie)
+      .with(P.string.includes(`(${yearString})`), () => `(${yearString})`)
+      .with(P.string.includes(yearString), () => yearString)
+      .otherwise(() => false);
 
-      const movieName = name.replaceAll('.', ' ').trim();
+    if (yearStringToReplace && typeof yearStringToReplace === 'string') {
+      const [rawName, rawAttributes] = movie.split(yearStringToReplace);
+
+      const movieName = rawName.replace(/\s+/g, ' ').replaceAll('.', ' ').trim();
+      const searchableMovieName = `${movieName} (${yearString})`;
+
       const resolution = match(rawAttributes)
         .with(P.string.includes('1080'), () => '1080p')
         .with(P.string.includes('720'), () => '720p')
@@ -65,7 +71,14 @@ function getMovieData(movie: string) {
         if (rawAttributes.includes(videoFileExtension)) {
           // 'The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4'
           if (rawAttributes.includes('YTS.MX')) {
-            return { name: movieName, year, resolution, searchableReleaseGroup: 'YTS MX', releaseGroup: 'YTS-MX' };
+            return {
+              name: movieName,
+              searchableMovieName,
+              year,
+              resolution,
+              releaseGroup: 'YTS-MX',
+              searchableReleaseGroup: 'YTS MX',
+            };
           }
 
           // 'The Super Mario Bros Movie 2023 1080p WEBRip H265-CODY.mkv (4.3 GB)'
@@ -77,7 +90,14 @@ function getMovieData(movie: string) {
             .at(-1)!
             .replace('x264-', '');
 
-          return { name: movieName, year, resolution, releaseGroup, searchableReleaseGroup: releaseGroup };
+          return {
+            name: movieName,
+            searchableMovieName,
+            year,
+            resolution,
+            releaseGroup,
+            searchableReleaseGroup: releaseGroup,
+          };
         }
       }
     }
@@ -91,11 +111,21 @@ function getFileNameHash(fileName: string) {
 }
 
 // subdivx helpers
-async function getSearchSubtitlesPage(movieName: string) {
-  const response = await fetch(`https://subdivx.com/index.php`, {
+const SUBDIVX_BASE_URL = 'https://subdivx.com';
+
+async function getSearchSubtitlesPage(movieName: string, page: string = '1') {
+  console.log('\n ~ getSearchSubtitlesPage ~ page:', page);
+  const response = await fetch(`${SUBDIVX_BASE_URL}/index.php`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({ buscar2: movieName, accion: '5', masdesc: '', subtitulos: '1', realiza_b: '1' }),
+    body: new URLSearchParams({
+      buscar2: movieName,
+      accion: '5',
+      masdesc: '',
+      subtitulos: '1',
+      realiza_b: '1',
+      pg: page,
+    }),
   });
 
   const html = await response.text();
@@ -110,27 +140,37 @@ async function getSubtitleInitialLink(subtitlePage: string) {
   const dom = new JSDOM(html);
   const document = dom.window.document;
 
-  const path = document.querySelector('.link1').getAttribute('href');
-  const subtitleLink = `https://www.subdivx.com/${path}`;
+  const anchor = document.querySelector('.link1');
+  invariant(anchor, 'Link should be defined');
+
+  const href = anchor.getAttribute('href');
+  const subtitleLink = `${SUBDIVX_BASE_URL}/${href}`;
 
   return subtitleLink;
 }
 
-async function getSubtitleLink(movieFileName: string) {
-  const { name, resolution, releaseGroup, searchableReleaseGroup } = getMovieData(movieFileName);
+async function getSubtitleLink(movieFileName: string, page: string = '1') {
+  const { name, searchableMovieName, resolution, releaseGroup, searchableReleaseGroup } = getMovieData(movieFileName);
 
-  const subtitlePageHtml = await getSearchSubtitlesPage(name);
+  const subtitlePageHtml = await getSearchSubtitlesPage(searchableMovieName, page);
 
   const dom = new JSDOM(subtitlePageHtml);
   const document = dom.window.document;
 
-  const value = [...document.querySelectorAll('#buscador_detalle')].find((element) => {
+  const allSubtitlesElements = [...document.querySelectorAll('#buscador_detalle')];
+  invariant(allSubtitlesElements.length > 0, 'There should be at least one subtitle');
+
+  const value = allSubtitlesElements.find((element) => {
     const movieDetail = element.textContent?.toLowerCase();
     return movieDetail?.includes(searchableReleaseGroup.toLowerCase());
   });
 
   const previousSibling = value?.previousSibling as Element;
-  invariant(previousSibling, 'Previous sibling for value should be defined');
+
+  if (!previousSibling) {
+    // Iterate to next pages until find the subtitle or no more results
+    return getSubtitleLink(movieFileName, String(Number(page) + 1));
+  }
 
   const hrefElement = previousSibling.querySelector('.titulo_menu_izq');
   invariant(hrefElement, 'Anchor element should be defined');
@@ -143,8 +183,8 @@ async function getSubtitleLink(movieFileName: string) {
   // compressed file link
   const subtitleId = new URL(subtitleInitialLink).searchParams.get('id');
 
-  const subtitleRarLink = `https://www.subdivx.com/sub9/${subtitleId}.rar`;
-  const subtitleZipLink = `https://www.subdivx.com/sub9/${subtitleId}.zip`;
+  const subtitleRarLink = `${SUBDIVX_BASE_URL}/sub9/${subtitleId}.rar`;
+  const subtitleZipLink = `${SUBDIVX_BASE_URL}/sub9/${subtitleId}.zip`;
 
   const isRarLinkAlive = await checkLinkLife(subtitleRarLink);
 
@@ -163,8 +203,6 @@ async function getSubtitleLink(movieFileName: string) {
     fileExtension,
   };
 }
-
-// TODO: Go to next page if subtitle is not found, and if there's next page
 
 // yts helpers
 const YTS_BASE_URL = 'https://yts.mx/api/v2';
@@ -322,4 +360,6 @@ async function indexer() {
   }
 }
 
-indexer();
+// indexer();
+
+// TODO: Add table for release groups
