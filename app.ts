@@ -41,7 +41,15 @@ async function checkLinkLife(link: string) {
 }
 
 // movie helpers
-function getMovieData(movie: string) {
+function removeExtraSpaces(name: string) {
+  return name.replace(/\s+/g, ' ').trim();
+}
+
+function getMovieName(name: string) {
+  return removeExtraSpaces(name).replaceAll('.', ' ').trim();
+}
+
+export function getMovieData(movie: string) {
   const FIRST_MOVIE_RECORDED = 1888;
 
   const currentYear = new Date().getFullYear() + 1;
@@ -57,8 +65,8 @@ function getMovieData(movie: string) {
     if (yearStringToReplace && typeof yearStringToReplace === 'string') {
       const [rawName, rawAttributes] = movie.split(yearStringToReplace);
 
-      const movieName = rawName.replace(/\s+/g, ' ').replaceAll('.', ' ').trim();
-      const searchableMovieName = `${movieName} (${yearString})`;
+      const movieName = getMovieName(rawName);
+      const searchableMovieName = removeExtraSpaces(`${movieName} (${yearString})`);
 
       const resolution = match(rawAttributes)
         .with(P.string.includes('1080'), () => '1080p')
@@ -69,7 +77,6 @@ function getMovieData(movie: string) {
 
       for (const videoFileExtension of VIDEO_FILE_EXTENSIONS) {
         if (rawAttributes.includes(videoFileExtension)) {
-          // 'The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4'
           if (rawAttributes.includes('YTS.MX')) {
             return {
               name: movieName,
@@ -81,7 +88,17 @@ function getMovieData(movie: string) {
             };
           }
 
-          // 'The Super Mario Bros Movie 2023 1080p WEBRip H265-CODY.mkv (4.3 GB)'
+          if (rawAttributes.includes('CODY')) {
+            return {
+              name: movieName,
+              searchableMovieName,
+              year,
+              resolution,
+              releaseGroup: 'CODY',
+              searchableReleaseGroup: 'H265-CODY',
+            };
+          }
+
           // 'Evil.Dead.Rise.2023.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv (1.4 GB)'
           const releaseGroup = rawAttributes
             .split(videoFileExtension)
@@ -114,7 +131,6 @@ function getFileNameHash(fileName: string) {
 const SUBDIVX_BASE_URL = 'https://subdivx.com';
 
 async function getSearchSubtitlesPage(movieName: string, page: string = '1') {
-  console.log('\n ~ getSearchSubtitlesPage ~ page:', page);
   const response = await fetch(`${SUBDIVX_BASE_URL}/index.php`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

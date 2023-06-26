@@ -1,11 +1,11 @@
 {
-  "name": "demo",
+  "name": "ponele-los-subs",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
     "@continuata/unrar": "^1.6.0",
-    "@supabase/supabase-js": "^2.25.0",
+    "@supabase/supabase-js": "^2.26.0",
     "delay": "^6.0.0",
     "dotenv": "^16.3.1",
     "download": "^8.0.0",
@@ -19,6 +19,13 @@
   },
   "devDependencies": {
     "@types/download": "^8.0.2",
-    "@types/jsdom": "^21.1.1"
+    "@types/jsdom": "^21.1.1",
+    "tsx": "^3.12.7",
+    "vitest": "^0.32.2"
+  },
+  "scripts": {
+    "test": "vitest",
+    "dev": "tsx --watch app.ts",
+    "coverage": "vitest run --coverage"
   }
 }
