@@ -41,4 +41,30 @@ describe('suite', () => {
       year: 2023,
     });
   });
+
+  it('Fast X | 2023 | CMRG', ({ expect }) => {
+    const data = getMovieData('Fast.X.2023.1080p.MA.WEB-DL.DDP5.1.Atmos.x264-CMRG.mkv (8.6 GB)');
+
+    expect(data).toEqual({
+      name: 'Fast X',
+      releaseGroup: 'CMRG',
+      resolution: '1080p',
+      searchableMovieName: 'Fast X (2023)',
+      searchableReleaseGroup: 'CMRG',
+      year: 2023,
+    });
+  });
+
+  it('Beau is Afraid | 2023 | GalaxyRG', ({ expect }) => {
+    const data = getMovieData('Beau.is.Afraid.2023.1080p.AMZN.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv (1.6 GB)');
+
+    expect(data).toEqual({
+      name: 'Beau is Afraid',
+      releaseGroup: 'GalaxyRG',
+      resolution: '1080p',
+      searchableMovieName: 'Beau is Afraid (2023)',
+      searchableReleaseGroup: 'GalaxyRG',
+      year: 2023,
+    });
+  });
 });
