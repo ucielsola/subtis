@@ -15,7 +15,8 @@ import parseTorrent from 'parse-torrent-updated';
 import { createClient } from '@supabase/supabase-js';
 
 // supabase
-const supabase = createClient('https://yelhsmnvfyyjuamxbobs.supabase.co', process.env.SUPABASE_KEY);
+const supabaseApiKey = process.env.SUPABASE_KEY as string;
+const supabase = createClient('https://yelhsmnvfyyjuamxbobs.supabase.co', supabaseApiKey);
 
 // constants
 const VIDEO_FILE_EXTENSIONS = [
@@ -32,7 +33,7 @@ const VIDEO_FILE_EXTENSIONS = [
   '.mpeg',
   '.3gp',
   '.3g2',
-];
+] as const;
 
 // utils
 async function checkLinkLife(link: string): Promise<boolean> {
@@ -45,13 +46,19 @@ function removeExtraSpaces(name: string): string {
   return name.replace(/\s+/g, ' ').trim();
 }
 
-function getMovieName(name: string) {
+function getMovieName(name: string): string {
   return removeExtraSpaces(name).replaceAll('.', ' ').trim();
 }
 
-export function getMovieData(movie: string) {
+export function getMovieData(movie: string): {
+  name: string;
+  year: number;
+  resolution: string;
+  releaseGroup: string;
+  searchableMovieName: string;
+  searchableReleaseGroup: string;
+} {
   const FIRST_MOVIE_RECORDED = 1888;
-
   const currentYear = new Date().getFullYear() + 1;
 
   for (let year = FIRST_MOVIE_RECORDED; year < currentYear; year++) {
@@ -123,14 +130,14 @@ export function getMovieData(movie: string) {
   throw new Error("Couldn't parse movie name");
 }
 
-function getFileNameHash(fileName: string) {
+function getFileNameHash(fileName: string): string {
   return crypto.createHash('md5').update(fileName).digest('hex');
 }
 
 // subdivx helpers
 const SUBDIVX_BASE_URL = 'https://subdivx.com';
 
-async function getSearchSubtitlesPage(movieName: string, page: string = '1') {
+async function getSearchSubtitlesPage(movieName: string, page: string = '1'): Promise<string> {
   const response = await fetch(`${SUBDIVX_BASE_URL}/index.php`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -145,11 +152,10 @@ async function getSearchSubtitlesPage(movieName: string, page: string = '1') {
   });
 
   const html = await response.text();
-
   return html;
 }
 
-async function getSubtitleInitialLink(subtitlePage: string) {
+async function getSubtitleInitialLink(subtitlePage: string): Promise<string> {
   const response = await fetch(subtitlePage);
   const html = await response.text();
 
@@ -165,9 +171,17 @@ async function getSubtitleInitialLink(subtitlePage: string) {
   return subtitleLink;
 }
 
-async function getSubtitleLink(movieFileName: string, page: string = '1') {
+async function getSubtitleLink(
+  movieFileName: string,
+  page: string = '1',
+): Promise<{
+  subtitleLink: string;
+  subtitleSrtFileName: string;
+  subtitleCompressedFileName: string;
+  subtitleFileNameWithoutExtension: string;
+  fileExtension: 'zip' | 'rar';
+}> {
   const { name, searchableMovieName, resolution, releaseGroup, searchableReleaseGroup } = getMovieData(movieFileName);
-
   const subtitlePageHtml = await getSearchSubtitlesPage(searchableMovieName, page);
 
   const dom = new JSDOM(subtitlePageHtml);
@@ -185,6 +199,7 @@ async function getSubtitleLink(movieFileName: string, page: string = '1') {
 
   if (!previousSibling) {
     // Iterate to next pages until find the subtitle or no more results
+    // The recursion will break loop on line 185
     return getSubtitleLink(movieFileName, String(Number(page) + 1));
   }
 
@@ -203,6 +218,9 @@ async function getSubtitleLink(movieFileName: string, page: string = '1') {
   const subtitleZipLink = `${SUBDIVX_BASE_URL}/sub9/${subtitleId}.zip`;
 
   const isRarLinkAlive = await checkLinkLife(subtitleRarLink);
+  const isZipLinkAlive = await checkLinkLife(subtitleZipLink);
+
+  invariant(isRarLinkAlive || isZipLinkAlive, 'Subtitle link should be alive');
 
   const fileExtension = isRarLinkAlive ? 'rar' : 'zip';
   const subtitleLink = isRarLinkAlive ? subtitleRarLink : subtitleZipLink;
@@ -229,22 +247,81 @@ const ytsApiEndpoints = {
   },
 };
 
-async function getTotalPages(limit: number = 50) {
+async function getTotalMoviesAndPages(limit: number = 50): Promise<{
+  totalMovies: number;
+  totalPages: number;
+}> {
   const response = await fetch(ytsApiEndpoints.movieList(1, 1));
   const { data } = await response.json();
 
-  return Math.ceil(data.movie_count / limit);
+  const totalMovies = (data as { movie_count: number }).movie_count;
+  const totalPages = Math.ceil(totalMovies / limit);
+
+  return { totalMovies, totalPages };
 }
 
-async function getMovieList(page: number = 1, limit: number = 50) {
+type Torrent = {
+  url: string;
+  hash: string;
+  quality: string;
+  type: string;
+  is_repack: string;
+  video_codec: string;
+  bit_depth: string;
+  audio_channels: string;
+  seeds: number;
+  peers: number;
+  size: string;
+  size_bytes: number;
+  date_uploaded: string;
+  date_uploaded_unix: number;
+};
+
+type Movie = {
+  id: number;
+  url: string;
+  imdb_code: string;
+  title: string;
+  title_english: string;
+  title_long: string;
+  slug: string;
+  year: number;
+  rating: number;
+  runtime: number;
+  genres: string[];
+  summary: string;
+  description_full: string;
+  synopsis: string;
+  yt_trailer_code: string;
+  language: string;
+  mp_rating: string;
+  background_image: string;
+  background_image_original: string;
+  small_cover_image: string;
+  medium_cover_image: string;
+  large_cover_image: string;
+  state: string;
+  torrents: Torrent[];
+  date_uploaded: string;
+  date_uploaded_unix: number;
+};
+
+async function getMovieList(page: number = 1, limit: number = 50): Promise<Movie[]> {
   const response = await fetch(ytsApiEndpoints.movieList(page, limit));
   const { data } = await response.json();
 
-  return data.movies;
+  return data.movies as Movie[];
 }
 
 // db indexer
-async function getMovieListFromDb(movie) {
+type File = {
+  path: string;
+  name: string;
+  length: number;
+  offset: number;
+};
+
+async function getMovieListFromDb(movie: Movie) {
   const { title_long: titleLong, rating, year, torrents, imdb_code: imdbId } = movie;
 
   for await (const torrent of torrents) {
@@ -257,7 +334,7 @@ async function getMovieListFromDb(movie) {
 
       // 2. Read torrent file
       const torrentFile = fs.readFileSync(__dirname + `/torrents/${torrentFilename}`);
-      const { files } = parseTorrent(torrentFile);
+      const { files } = parseTorrent(torrentFile) as { files: File[] };
 
       // 3. Find video file
       const videoFile = files.find((file) => {
@@ -297,10 +374,10 @@ async function getMovieListFromDb(movie) {
       // 12. Handle compressed rar files
       if (fileExtension === 'rar') {
         await unrar.uncompress({
-          src: subtitleAbsolutePath,
-          dest: extractedSubtitlePath,
           command: 'e',
           switches: ['-o+', '-idcd'],
+          src: subtitleAbsolutePath,
+          dest: extractedSubtitlePath,
         });
       }
 
@@ -340,23 +417,34 @@ async function getMovieListFromDb(movie) {
         .from('Subtitles')
         .insert({ movieId, fileNameHash, resolution, releaseGroup, subtitleLink: publicUrl });
 
-      console.log(`Movie saved to DB! ${name} ✨`);
+      console.log(`Movie (+ Subtitle) saved to DB! ${name} ✨`);
     } catch (error) {
       // console.log('\n ~ forawait ~ error:', error.message);
     }
   }
 }
 
-async function indexer() {
+function getRandomDelayInSeconds(
+  min: number = 5,
+  max: number = 15,
+): {
+  seconds: number;
+  miliseconds: number;
+} {
+  const seconds = Math.floor(Math.random() * (max - min + 1) + min);
+  return { seconds, miliseconds: seconds * 1000 };
+}
+
+async function indexer(): Promise<void> {
   // 1. Get total YTS-MX pages
-  const totalPages = await getTotalPages();
+  const { totalPages } = await getTotalMoviesAndPages();
 
   // 2. Create array of pages (from 1 to totalPages)
   const totalPagesArray = times(totalPages, (value) => value + 1);
 
   // 3. Await for each page to get movies
   for await (const page of totalPagesArray) {
-    console.log('getting movies from page 🚨', page);
+    console.log(`Getting movies for page ${page} 🚨`);
 
     // 4. Get all the movies (50) for this page
     const movieList = await getMovieList(page);
@@ -365,17 +453,22 @@ async function indexer() {
     const movieListPromises = movieList.map(async (movie) => getMovieListFromDb(movie));
     await Promise.all(movieListPromises);
 
-    console.log('finished movies from page 🥇', page);
+    console.log(`Finished movies from page ${page} 🥇`);
 
     // 6. Generate random delays between 5 and 15 seconds
-    const randomDelay = Math.floor(Math.random() * (15 - 5 + 1) + 5);
-    console.log(`Delaying next iteration by ${randomDelay}s to avoid get blocked`);
+    const { seconds, miliseconds } = getRandomDelayInSeconds();
+    console.log(`Delaying next iteration by ${seconds}s to avoid get blocked`);
 
     // 7. Delay next iteration
-    await delay(randomDelay * 1000);
+    await delay(miliseconds);
   }
+
+  console.log('All movies saved to DB and Storage! 🎉');
 }
 
-// indexer();
+indexer();
 
 // TODO: Add table for release groups
+
+// TODO: Add type defintions from Supabase
+// TODO: Check if movie subtitle already exists in DB before triggering all logic within getMovieListFromDb
