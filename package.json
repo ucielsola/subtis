@@ -20,7 +20,9 @@
   "devDependencies": {
     "@types/download": "^8.0.2",
     "@types/jsdom": "^21.1.1",
+    "@types/lodash.times": "^4.3.7",
     "tsx": "^3.12.7",
+    "typescript": "^5.1.6",
     "vitest": "^0.32.2"
   },
   "scripts": {
