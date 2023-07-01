@@ -35,13 +35,13 @@ const VIDEO_FILE_EXTENSIONS = [
 ];
 
 // utils
-async function checkLinkLife(link: string) {
+async function checkLinkLife(link: string): Promise<boolean> {
   const response = await fetch(link);
   return response.status === 200;
 }
 
 // movie helpers
-function removeExtraSpaces(name: string) {
+function removeExtraSpaces(name: string): string {
   return name.replace(/\s+/g, ' ').trim();
 }
 
