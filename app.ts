@@ -466,8 +466,9 @@ async function indexer(): Promise<void> {
   console.log('All movies saved to DB and Storage! 🎉');
 }
 
-indexer();
+// indexer();
 
+// TODO: Add Husky for tests
 // TODO: Add table for release groups
 // TODO: Add type defintions from Supabase
 // TODO: Check if movie subtitle already exists in DB before triggering all logic within getMovieListFromDb
