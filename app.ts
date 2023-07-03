@@ -435,7 +435,7 @@ function getRandomDelayInSeconds(
   return { seconds, miliseconds: seconds * 1000 };
 }
 
-async function indexer(): Promise<void> {
+async function ytsMxIndexer(): Promise<void> {
   // 1. Get total YTS-MX pages
   const { totalPages } = await getTotalMoviesAndPages();
 
@@ -466,7 +466,7 @@ async function indexer(): Promise<void> {
   console.log('All movies saved to DB and Storage! 🎉');
 }
 
-// indexer();
+// ytsMxIndexer();
 
 // TODO: Add Husky for tests
 // TODO: Add table for release groups
