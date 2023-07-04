@@ -1,12 +1,12 @@
-import fs from 'fs';
 import 'dotenv/config';
+
+import fs from 'fs';
 import path from 'path';
 import delay from 'delay';
 import crypto from 'crypto';
 import { JSDOM } from 'jsdom';
 import slugify from 'slugify';
 import download from 'download';
-import times from 'lodash.times';
 import extract from 'extract-zip';
 import unrar from '@continuata/unrar';
 import { P, match } from 'ts-pattern';
@@ -39,6 +39,10 @@ const VIDEO_FILE_EXTENSIONS = [
 async function checkLinkLife(link: string): Promise<boolean> {
   const response = await fetch(link);
   return response.status === 200;
+}
+
+function createArray(length: number): number[] {
+  return Array.from({ length }, (_, index) => index + 1);
 }
 
 // movie helpers
@@ -440,7 +444,7 @@ async function ytsMxIndexer(): Promise<void> {
   const { totalPages } = await getTotalMoviesAndPages();
 
   // 2. Create array of pages (from 1 to totalPages)
-  const totalPagesArray = times(totalPages, (value) => value + 1);
+  const totalPagesArray = createArray(totalPages);
 
   // 3. Await for each page to get movies
   for await (const page of totalPagesArray) {
@@ -472,3 +476,4 @@ async function ytsMxIndexer(): Promise<void> {
 // TODO: Add table for release groups
 // TODO: Add type defintions from Supabase
 // TODO: Check if movie subtitle already exists in DB before triggering all logic within getMovieListFromDb
+// TODO: Add source for subtitles i.e "subdivx" | "opensubtitles" | "argenteam"
