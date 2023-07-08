@@ -31,6 +31,6 @@
     "coverage": "vitest run --coverage"
   },
   "lint-staged": {
-    "*.ts": "yarn test"
+    "*": "yarn test"
   }
 }
