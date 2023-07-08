@@ -472,7 +472,7 @@ async function ytsMxIndexer(): Promise<void> {
 
 // ytsMxIndexer();
 
-// TODO: Add table for release groups
+// TODO: Add table for release groups - ?
 // TODO: Add type defintions from Supabase
 // TODO: Check if movie subtitle already exists in DB before triggering all logic within getMovieListFromDb
 // TODO: Add source for subtitles i.e "subdivx" | "opensubtitles" | "argenteam"
