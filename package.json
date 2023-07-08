@@ -19,7 +19,6 @@
   "devDependencies": {
     "@types/download": "^8.0.2",
     "@types/jsdom": "^21.1.1",
-    "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
     "tsx": "^3.12.7",
     "typescript": "^5.1.6",
@@ -28,9 +27,10 @@
   "scripts": {
     "test": "vitest",
     "dev": "tsx --watch app.ts",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "prepare": "husky install"
   },
   "lint-staged": {
-    "*": "vitest"
+    "*.ts": "vitest"
   }
 }
