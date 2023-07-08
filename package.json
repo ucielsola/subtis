@@ -25,12 +25,13 @@
     "vitest": "^0.32.4"
   },
   "scripts": {
-    "test": "vitest",
     "dev": "tsx --watch app.ts",
-    "coverage": "vitest run --coverage",
-    "prepare": "husky install"
+    "test": "vitest related --run",
+    "coverage": "vitest run --coverage"
   },
   "lint-staged": {
-    "*.ts": "yarn test"
+    "*.ts": [
+      "npm run test"
+    ]
   }
 }
