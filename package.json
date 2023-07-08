@@ -30,8 +30,6 @@
     "coverage": "vitest run --coverage"
   },
   "lint-staged": {
-    "*.ts": [
-      "npm run test"
-    ]
+    "*.ts": "npm run test"
   }
 }
