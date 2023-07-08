@@ -31,6 +31,6 @@
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.ts": "vitest"
+    "*.test.ts": "yarn test"
   }
 }

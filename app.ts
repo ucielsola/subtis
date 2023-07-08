@@ -472,7 +472,7 @@ async function ytsMxIndexer(): Promise<void> {
 
 // ytsMxIndexer();
 
-// TODO: Add Husky for tests
+// TODO: Add Husky for tests - X
 // TODO: Add table for release groups
 // TODO: Add type defintions from Supabase
 // TODO: Check if movie subtitle already exists in DB before triggering all logic within getMovieListFromDb
