@@ -1,13 +1,13 @@
 import { describe, it } from 'vitest';
 
-import { getMovieData } from '../app';
+import { getMovieData } from '../movie';
 
-describe('suite', () => {
+describe('getMovieData parses a file name and returns a movie object', () => {
   it('The Super Mario Bros | 2023 | YTS-MX', ({ expect }) => {
     const data = getMovieData('The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4');
 
     expect(data).toEqual({
-      name: 'The Super Mario Bros  Movie',
+      name: 'The Super Mario Bros Movie',
       releaseGroup: 'YTS-MX',
       resolution: '1080p',
       searchableMovieName: 'The Super Mario Bros Movie (2023)',

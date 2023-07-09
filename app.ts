@@ -3,319 +3,19 @@ import 'dotenv/config';
 import fs from 'fs';
 import path from 'path';
 import delay from 'delay';
-import crypto from 'crypto';
-import { JSDOM } from 'jsdom';
-import slugify from 'slugify';
 import download from 'download';
 import extract from 'extract-zip';
 import unrar from '@continuata/unrar';
-import { P, match } from 'ts-pattern';
-import invariant from 'tiny-invariant';
 import parseTorrent from 'parse-torrent-updated';
-import { createClient } from '@supabase/supabase-js';
+
+import { getMovieData } from './movie';
+import { getSupabaseClient } from './supabase';
+import { getSubDivXSubtitleLink } from './subdivx';
+import { YtsMxMovie, getYtsMxTotalMoviesAndPages, getYtsMxMovieList } from './yts-mx';
+import { getFileNameHash, getNumbersArray, getRandomDelay, VIDEO_FILE_EXTENSIONS } from './utils';
 
 // supabase
-const supabaseApiKey = process.env.SUPABASE_KEY as string;
-const supabase = createClient('https://yelhsmnvfyyjuamxbobs.supabase.co', supabaseApiKey);
-
-// constants
-const VIDEO_FILE_EXTENSIONS = [
-  '.mkv',
-  '.mp4',
-  '.avi',
-  '.mov',
-  '.wmv',
-  '.flv',
-  '.webm',
-  '.vob',
-  '.m4v',
-  '.mpg',
-  '.mpeg',
-  '.3gp',
-  '.3g2',
-] as const;
-
-// utils
-async function checkLinkLife(link: string): Promise<boolean> {
-  const response = await fetch(link);
-  return response.status === 200;
-}
-
-function createArray(length: number): number[] {
-  return Array.from({ length }, (_, index) => index + 1);
-}
-
-// movie helpers
-function removeExtraSpaces(name: string): string {
-  return name.replace(/\s+/g, ' ').trim();
-}
-
-function getMovieName(name: string): string {
-  return removeExtraSpaces(name).replaceAll('.', ' ').trim();
-}
-
-export function getMovieData(movie: string): {
-  name: string;
-  year: number;
-  resolution: string;
-  releaseGroup: string;
-  searchableMovieName: string;
-  searchableReleaseGroup: string;
-} {
-  const FIRST_MOVIE_RECORDED = 1888;
-  const currentYear = new Date().getFullYear() + 1;
-
-  for (let year = FIRST_MOVIE_RECORDED; year < currentYear; year++) {
-    const yearString = String(year);
-
-    const yearStringToReplace = match(movie)
-      .with(P.string.includes(`(${yearString})`), () => `(${yearString})`)
-      .with(P.string.includes(yearString), () => yearString)
-      .otherwise(() => false);
-
-    if (yearStringToReplace && typeof yearStringToReplace === 'string') {
-      const [rawName, rawAttributes] = movie.split(yearStringToReplace);
-
-      const movieName = getMovieName(rawName);
-      const searchableMovieName = removeExtraSpaces(`${movieName} (${yearString})`);
-
-      const resolution = match(rawAttributes)
-        .with(P.string.includes('1080'), () => '1080p')
-        .with(P.string.includes('720'), () => '720p')
-        .with(P.string.includes('2160'), () => '2160p')
-        .with(P.string.includes('3D'), () => '3D')
-        .run();
-
-      for (const videoFileExtension of VIDEO_FILE_EXTENSIONS) {
-        if (rawAttributes.includes(videoFileExtension)) {
-          if (rawAttributes.includes('YTS.MX')) {
-            return {
-              name: movieName,
-              searchableMovieName,
-              year,
-              resolution,
-              releaseGroup: 'YTS-MX',
-              searchableReleaseGroup: 'YTS MX',
-            };
-          }
-
-          if (rawAttributes.includes('CODY')) {
-            return {
-              name: movieName,
-              searchableMovieName,
-              year,
-              resolution,
-              releaseGroup: 'CODY',
-              searchableReleaseGroup: 'H265-CODY',
-            };
-          }
-
-          // 'Evil.Dead.Rise.2023.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv (1.4 GB)'
-          const releaseGroup = rawAttributes
-            .split(videoFileExtension)
-            .at(0)!
-            .split(/\.|\s/g)
-            .at(-1)!
-            .replace('x264-', '');
-
-          return {
-            name: movieName,
-            searchableMovieName,
-            year,
-            resolution,
-            releaseGroup,
-            searchableReleaseGroup: releaseGroup,
-          };
-        }
-      }
-    }
-  }
-
-  throw new Error("Couldn't parse movie name");
-}
-
-function getFileNameHash(fileName: string): string {
-  return crypto.createHash('md5').update(fileName).digest('hex');
-}
-
-// subdivx helpers
-const SUBDIVX_BASE_URL = 'https://subdivx.com';
-
-async function getSearchSubtitlesPage(movieName: string, page: string = '1'): Promise<string> {
-  const response = await fetch(`${SUBDIVX_BASE_URL}/index.php`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
-      buscar2: movieName,
-      accion: '5',
-      masdesc: '',
-      subtitulos: '1',
-      realiza_b: '1',
-      pg: page,
-    }),
-  });
-
-  const html = await response.text();
-  return html;
-}
-
-async function getSubtitleInitialLink(subtitlePage: string): Promise<string> {
-  const response = await fetch(subtitlePage);
-  const html = await response.text();
-
-  const dom = new JSDOM(html);
-  const document = dom.window.document;
-
-  const anchor = document.querySelector('.link1');
-  invariant(anchor, 'Link should be defined');
-
-  const href = anchor.getAttribute('href');
-  const subtitleLink = `${SUBDIVX_BASE_URL}/${href}`;
-
-  return subtitleLink;
-}
-
-async function getSubtitleLink(
-  movieFileName: string,
-  page: string = '1',
-): Promise<{
-  subtitleLink: string;
-  subtitleSrtFileName: string;
-  subtitleCompressedFileName: string;
-  subtitleFileNameWithoutExtension: string;
-  fileExtension: 'zip' | 'rar';
-}> {
-  const { name, searchableMovieName, resolution, releaseGroup, searchableReleaseGroup } = getMovieData(movieFileName);
-  const subtitlePageHtml = await getSearchSubtitlesPage(searchableMovieName, page);
-
-  const dom = new JSDOM(subtitlePageHtml);
-  const document = dom.window.document;
-
-  const allSubtitlesElements = [...document.querySelectorAll('#buscador_detalle')];
-  invariant(allSubtitlesElements.length > 0, 'There should be at least one subtitle');
-
-  const value = allSubtitlesElements.find((element) => {
-    const movieDetail = element.textContent?.toLowerCase();
-    return movieDetail?.includes(searchableReleaseGroup.toLowerCase());
-  });
-
-  const previousSibling = value?.previousSibling as Element;
-
-  if (!previousSibling) {
-    // Iterate to next pages until find the subtitle or no more results
-    // The recursion will break loop on line 185
-    return getSubtitleLink(movieFileName, String(Number(page) + 1));
-  }
-
-  const hrefElement = previousSibling.querySelector('.titulo_menu_izq');
-  invariant(hrefElement, 'Anchor element should be defined');
-
-  const subtitlePageLink = hrefElement.getAttribute('href');
-  invariant(subtitlePageLink, 'Subtitle page link should be defined');
-
-  const subtitleInitialLink = await getSubtitleInitialLink(subtitlePageLink);
-
-  // compressed file link
-  const subtitleId = new URL(subtitleInitialLink).searchParams.get('id');
-
-  const subtitleRarLink = `${SUBDIVX_BASE_URL}/sub9/${subtitleId}.rar`;
-  const subtitleZipLink = `${SUBDIVX_BASE_URL}/sub9/${subtitleId}.zip`;
-
-  const isRarLinkAlive = await checkLinkLife(subtitleRarLink);
-  const isZipLinkAlive = await checkLinkLife(subtitleZipLink);
-
-  invariant(isRarLinkAlive || isZipLinkAlive, 'Subtitle link should be alive');
-
-  const fileExtension = isRarLinkAlive ? 'rar' : 'zip';
-  const subtitleLink = isRarLinkAlive ? subtitleRarLink : subtitleZipLink;
-
-  const subtitleSrtFileName = slugify(`${name}-${resolution}-${releaseGroup}.srt`).toLowerCase();
-  const subtitleFileNameWithoutExtension = slugify(`${name}-${resolution}-${releaseGroup}`).toLowerCase();
-  const subtitleCompressedFileName = slugify(`${name}-${resolution}-${releaseGroup}.${fileExtension}`).toLowerCase();
-
-  return {
-    subtitleLink,
-    subtitleSrtFileName,
-    subtitleCompressedFileName,
-    subtitleFileNameWithoutExtension,
-    fileExtension,
-  };
-}
-
-// yts helpers
-const YTS_BASE_URL = 'https://yts.mx/api/v2';
-
-const ytsApiEndpoints = {
-  movieList: (page: number = 1, limit: number = 50) => {
-    return `${YTS_BASE_URL}/list_movies.json?limit=${limit}&page=${page}`;
-  },
-};
-
-async function getTotalMoviesAndPages(limit: number = 50): Promise<{
-  totalMovies: number;
-  totalPages: number;
-}> {
-  const response = await fetch(ytsApiEndpoints.movieList(1, 1));
-  const { data } = await response.json();
-
-  const totalMovies = (data as { movie_count: number }).movie_count;
-  const totalPages = Math.ceil(totalMovies / limit);
-
-  return { totalMovies, totalPages };
-}
-
-type Torrent = {
-  url: string;
-  hash: string;
-  quality: string;
-  type: string;
-  is_repack: string;
-  video_codec: string;
-  bit_depth: string;
-  audio_channels: string;
-  seeds: number;
-  peers: number;
-  size: string;
-  size_bytes: number;
-  date_uploaded: string;
-  date_uploaded_unix: number;
-};
-
-type Movie = {
-  id: number;
-  url: string;
-  imdb_code: string;
-  title: string;
-  title_english: string;
-  title_long: string;
-  slug: string;
-  year: number;
-  rating: number;
-  runtime: number;
-  genres: string[];
-  summary: string;
-  description_full: string;
-  synopsis: string;
-  yt_trailer_code: string;
-  language: string;
-  mp_rating: string;
-  background_image: string;
-  background_image_original: string;
-  small_cover_image: string;
-  medium_cover_image: string;
-  large_cover_image: string;
-  state: string;
-  torrents: Torrent[];
-  date_uploaded: string;
-  date_uploaded_unix: number;
-};
-
-async function getMovieList(page: number = 1, limit: number = 50): Promise<Movie[]> {
-  const response = await fetch(ytsApiEndpoints.movieList(page, limit));
-  const { data } = await response.json();
-
-  return data.movies as Movie[];
-}
+const supabase = getSupabaseClient();
 
 // db indexer
 type File = {
@@ -325,7 +25,7 @@ type File = {
   offset: number;
 };
 
-async function getMovieListFromDb(movie: Movie) {
+async function getMovieListFromDb(movie: YtsMxMovie) {
   const { title_long: titleLong, rating, year, torrents, imdb_code: imdbId } = movie;
 
   for await (const torrent of torrents) {
@@ -361,7 +61,7 @@ async function getMovieListFromDb(movie: Movie) {
         subtitleSrtFileName,
         subtitleFileNameWithoutExtension,
         fileExtension,
-      } = await getSubtitleLink(videoFile.name);
+      } = await getSubDivXSubtitleLink(videoFile.name);
 
       // 8. Download subtitle to fs
       await download(subtitleLink, 'subtitles', { filename: subtitleCompressedFileName });
@@ -421,37 +121,26 @@ async function getMovieListFromDb(movie: Movie) {
         .from('Subtitles')
         .insert({ movieId, fileNameHash, resolution, releaseGroup, subtitleLink: publicUrl });
 
-      console.log(`Movie (+ Subtitle) saved to DB! ${name} ✨`);
+      console.log(`Movie (+ Subtitle) saved to DB! ${name} in ${resolution} for ${releaseGroup} ✨`);
     } catch (error) {
       // console.log('\n ~ forawait ~ error:', error.message);
     }
   }
 }
 
-function getRandomDelayInSeconds(
-  min: number = 5,
-  max: number = 15,
-): {
-  seconds: number;
-  miliseconds: number;
-} {
-  const seconds = Math.floor(Math.random() * (max - min + 1) + min);
-  return { seconds, miliseconds: seconds * 1000 };
-}
-
 async function ytsMxIndexer(): Promise<void> {
   // 1. Get total YTS-MX pages
-  const { totalPages } = await getTotalMoviesAndPages();
+  const { totalPages } = await getYtsMxTotalMoviesAndPages();
 
   // 2. Create array of pages (from 1 to totalPages)
-  const totalPagesArray = createArray(totalPages);
+  const totalPagesArray = getNumbersArray(totalPages);
 
   // 3. Await for each page to get movies
   for await (const page of totalPagesArray) {
     console.log(`Getting movies for page ${page} 🚨`);
 
     // 4. Get all the movies (50) for this page
-    const movieList = await getMovieList(page);
+    const movieList = await getYtsMxMovieList(page);
 
     // 5. Run all 50 movies in parallels to get their subtitle and save them to DB and Storage
     const movieListPromises = movieList.map(async (movie) => getMovieListFromDb(movie));
@@ -460,7 +149,7 @@ async function ytsMxIndexer(): Promise<void> {
     console.log(`Finished movies from page ${page} 🥇`);
 
     // 6. Generate random delays between 5 and 15 seconds
-    const { seconds, miliseconds } = getRandomDelayInSeconds();
+    const { seconds, miliseconds } = getRandomDelay();
     console.log(`Delaying next iteration by ${seconds}s to avoid get blocked`);
 
     // 7. Delay next iteration
@@ -470,9 +159,11 @@ async function ytsMxIndexer(): Promise<void> {
   console.log('All movies saved to DB and Storage! 🎉');
 }
 
-// ytsMxIndexer();
+ytsMxIndexer();
 
 // TODO: Add table for release groups - ?
 // TODO: Add type defintions from Supabase
-// TODO: Check if movie subtitle already exists in DB before triggering all logic within getMovieListFromDb
+// TODO: Add a ESLint alternative (maybe XO)
+// TODO: Add Zod schemas and infer types from them
 // TODO: Add source for subtitles i.e "subdivx" | "opensubtitles" | "argenteam"
+// TODO: Check if movie subtitle already exists in DB before triggering all logic within getMovieListFromDb
