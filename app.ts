@@ -11,6 +11,7 @@ import parseTorrent from 'parse-torrent-updated';
 import { getMovieData } from './movie';
 import { getSupabaseClient } from './supabase';
 import { getSubDivXSubtitleLink } from './subdivx';
+import { ReleaseGroupMap, getReleaseGroupsFromDb } from './release-groups';
 import { YtsMxMovie, getYtsMxTotalMoviesAndPages, getYtsMxMovieList } from './yts-mx';
 import { getFileNameHash, getNumbersArray, getRandomDelay, VIDEO_FILE_EXTENSIONS } from './utils';
 
@@ -25,7 +26,7 @@ type File = {
   offset: number;
 };
 
-async function getMovieListFromDb(movie: YtsMxMovie) {
+async function getMovieListFromDb(movie: YtsMxMovie, releaseGroups: ReleaseGroupMap) {
   const { title_long: titleLong, rating, year, torrents, imdb_code: imdbId } = movie;
 
   for await (const torrent of torrents) {
@@ -110,16 +111,21 @@ async function getMovieListFromDb(movie: YtsMxMovie) {
         data: { publicUrl },
       } = await supabase.storage.from('subtitles').getPublicUrl(subtitleSrtFileName);
 
-      // 20. Save movie to Supabase
-      const movie = await supabase.from('Movies').insert({ name: titleLong, year, rating, imdbId }).select();
+      // 19. Get movie id by imdbId
+      const { data: movieData } = await supabase.from('Movies').select('*').eq('id', imdbId);
 
-      // 21. Get movie id from saved movie
-      const movieId = movie?.data[0].id;
+      // 20. Save movie to Supabase if is not yet saved
+      if (Array.isArray(movieData) && !movieData.length) {
+        await supabase.from('Movies').insert({ id: imdbId, name: titleLong, year, rating }).select();
+      }
+
+      // 21. Get release group id
+      const releaseGroupId = releaseGroups[releaseGroup].id;
 
       // 22. Save subtitle to Supabase
       await supabase
         .from('Subtitles')
-        .insert({ movieId, fileNameHash, resolution, releaseGroup, subtitleLink: publicUrl });
+        .insert({ movieId: imdbId, fileNameHash, resolution, releaseGroupId, subtitleLink: publicUrl });
 
       console.log(`Movie (+ Subtitle) saved to DB! ${name} in ${resolution} for ${releaseGroup} ✨`);
     } catch (error) {
@@ -129,6 +135,9 @@ async function getMovieListFromDb(movie: YtsMxMovie) {
 }
 
 async function ytsMxIndexer(): Promise<void> {
+  // 0. Get release groups from DB
+  const releaseGroups = await getReleaseGroupsFromDb(supabase);
+
   // 1. Get total YTS-MX pages
   const { totalPages } = await getYtsMxTotalMoviesAndPages();
 
@@ -143,8 +152,14 @@ async function ytsMxIndexer(): Promise<void> {
     const movieList = await getYtsMxMovieList(page);
 
     // 5. Run all 50 movies in parallels to get their subtitle and save them to DB and Storage
-    const movieListPromises = movieList.map(async (movie) => getMovieListFromDb(movie));
+    const movieListPromises = movieList.map(async (movie) => getMovieListFromDb(movie, releaseGroups));
     await Promise.all(movieListPromises);
+
+    // one by one just for testing purposess
+    // for await (const movieData of movieList) {
+    //   await getMovieListFromDb(movieData, releaseGroups);
+    //   // return;
+    // }
 
     console.log(`Finished movies from page ${page} 🥇`);
 
@@ -161,7 +176,6 @@ async function ytsMxIndexer(): Promise<void> {
 
 ytsMxIndexer();
 
-// TODO: Add table for release groups - ?
 // TODO: Add type defintions from Supabase
 // TODO: Add a ESLint alternative (maybe XO)
 // TODO: Add Zod schemas and infer types from them

@@ -58,7 +58,7 @@ export async function getSubDivXSubtitleLink(
   subtitleFileNameWithoutExtension: string;
   fileExtension: 'zip' | 'rar';
 }> {
-  const { name, searchableMovieName, resolution, releaseGroup, searchableReleaseGroup } = getMovieData(movieFileName);
+  const { name, searchableMovieName, resolution, releaseGroup, searchableSubDivXName } = getMovieData(movieFileName);
   const subtitlePageHtml = await getSubDivXSearchPageHtml(searchableMovieName, page);
 
   const dom = new JSDOM(subtitlePageHtml);
@@ -69,12 +69,13 @@ export async function getSubDivXSubtitleLink(
 
   const value = allSubtitlesElements.find((element) => {
     const movieDetail = element.textContent?.toLowerCase();
-    return movieDetail?.includes(searchableReleaseGroup.toLowerCase());
+    return movieDetail?.includes(searchableSubDivXName.toLowerCase());
   });
 
   const previousSibling = value?.previousSibling as Element;
+  invariant(previousSibling, 'Subtitle Element should exist');
 
-  if (!previousSibling) {
+  if (allSubtitlesElements.length > 90) {
     // Iterate to next pages until find the subtitle or no more results
     // The recursion will break loop on line 185
     return getSubDivXSubtitleLink(movieFileName, String(Number(page) + 1));

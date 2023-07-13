@@ -11,7 +11,7 @@ describe('getMovieData parses a file name and returns a movie object', () => {
       releaseGroup: 'YTS-MX',
       resolution: '1080p',
       searchableMovieName: 'The Super Mario Bros Movie (2023)',
-      searchableReleaseGroup: 'YTS MX',
+      searchableSubDivXName: 'YTS MX',
       year: 2023,
     });
   });
@@ -24,7 +24,7 @@ describe('getMovieData parses a file name and returns a movie object', () => {
       releaseGroup: 'CODY',
       resolution: '1080p',
       searchableMovieName: 'The Super Mario Bros Movie (2023)',
-      searchableReleaseGroup: 'H265-CODY',
+      searchableSubDivXName: 'H265-CODY',
       year: 2023,
     });
   });
@@ -37,7 +37,7 @@ describe('getMovieData parses a file name and returns a movie object', () => {
       releaseGroup: 'GalaxyRG',
       resolution: '1080p',
       searchableMovieName: 'Evil Dead Rise (2023)',
-      searchableReleaseGroup: 'GalaxyRG',
+      searchableSubDivXName: 'GalaxyRG',
       year: 2023,
     });
   });
@@ -50,7 +50,7 @@ describe('getMovieData parses a file name and returns a movie object', () => {
       releaseGroup: 'CMRG',
       resolution: '1080p',
       searchableMovieName: 'Fast X (2023)',
-      searchableReleaseGroup: 'CMRG',
+      searchableSubDivXName: 'CMRG',
       year: 2023,
     });
   });
@@ -63,7 +63,7 @@ describe('getMovieData parses a file name and returns a movie object', () => {
       releaseGroup: 'GalaxyRG',
       resolution: '1080p',
       searchableMovieName: 'Beau is Afraid (2023)',
-      searchableReleaseGroup: 'GalaxyRG',
+      searchableSubDivXName: 'GalaxyRG',
       year: 2023,
     });
   });

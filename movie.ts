@@ -1,6 +1,7 @@
 import { P, match } from 'ts-pattern';
 
 import { removeExtraSpaces, VIDEO_FILE_EXTENSIONS } from './utils';
+import { RELEASE_GROUPS, ReleaseGroupNames } from './release-groups';
 
 export function getMovieName(name: string): string {
   return removeExtraSpaces(name.replaceAll('.', ' ')).trim();
@@ -10,12 +11,15 @@ export function getMovieData(movie: string): {
   name: string;
   year: number;
   resolution: string;
-  releaseGroup: string;
   searchableMovieName: string;
-  searchableReleaseGroup: string;
+  searchableSubDivXName: string;
+  releaseGroup: ReleaseGroupNames | string;
 } {
   const FIRST_MOVIE_RECORDED = 1888;
   const currentYear = new Date().getFullYear() + 1;
+
+  const cody = RELEASE_GROUPS.CODY;
+  const ytsMx = RELEASE_GROUPS.YTS_MX;
 
   for (let year = FIRST_MOVIE_RECORDED; year < currentYear; year++) {
     const yearString = String(year);
@@ -40,29 +44,28 @@ export function getMovieData(movie: string): {
 
       for (const videoFileExtension of VIDEO_FILE_EXTENSIONS) {
         if (rawAttributes.includes(videoFileExtension)) {
-          if (rawAttributes.includes('YTS.MX')) {
+          if (rawAttributes.includes(ytsMx.fileAttribute)) {
             return {
               name: movieName,
               searchableMovieName,
               year,
               resolution,
-              releaseGroup: 'YTS-MX',
-              searchableReleaseGroup: 'YTS MX',
+              releaseGroup: ytsMx.name,
+              searchableSubDivXName: ytsMx.searchableSubDivXName,
             };
           }
 
-          if (rawAttributes.includes('CODY')) {
+          if (rawAttributes.includes(cody.fileAttribute)) {
             return {
               name: movieName,
               searchableMovieName,
               year,
               resolution,
-              releaseGroup: 'CODY',
-              searchableReleaseGroup: 'H265-CODY',
+              releaseGroup: cody.name,
+              searchableSubDivXName: cody.searchableSubDivXName,
             };
           }
 
-          // 'Evil.Dead.Rise.2023.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv (1.4 GB)'
           const releaseGroup = rawAttributes
             .split(videoFileExtension)
             .at(0)!
@@ -70,13 +73,15 @@ export function getMovieData(movie: string): {
             .at(-1)!
             .replace('x264-', '');
 
+          console.log('Unknown release group', releaseGroup);
+
           return {
             name: movieName,
             searchableMovieName,
             year,
             resolution,
             releaseGroup,
-            searchableReleaseGroup: releaseGroup,
+            searchableSubDivXName: releaseGroup,
           };
         }
       }
