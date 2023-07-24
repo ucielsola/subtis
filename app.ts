@@ -203,9 +203,26 @@ async function ytsMxIndexer(): Promise<void> {
 
     // 4. Get all the movies (50) for this page
     const movieList = await getYtsMxMovieList(page);
+    console.log("\n ~ forawait ~ movieList:", movieList.length);
 
-    // 5. Run all 50 movies in parallels to get their subtitle and save them to DB and Storage
-    const movieListPromises = movieList.map(async (movie) =>
+    // 5. Filter movies from movie list which already exists in DB
+    const { data: moviesFromDb } = await supabase
+      .from("Movies")
+      .select("*")
+      .in(
+        "id",
+        movieList.map((movie) => movie.imdb_code),
+      );
+
+    const moviesIdsFromDb = (moviesFromDb ?? []).map((movie) => movie.id);
+    console.log("\n ~ forawait ~ moviesIdsFromDb:", moviesIdsFromDb.length);
+    const movieListNotInDb = movieList.filter(
+      (movie) => !moviesIdsFromDb.includes(movie.imdb_code),
+    );
+    console.log("\n ~ forawait ~ movieListNotInDb:", movieListNotInDb.length);
+
+    // 6. Run all 50 movies in parallels to get their subtitle and save them to DB and Storage
+    const movieListPromises = movieListNotInDb.map(async (movie) =>
       getMovieListFromDb(movie, releaseGroups, subtitleGroups),
     );
     await Promise.all(movieListPromises);
@@ -218,11 +235,11 @@ async function ytsMxIndexer(): Promise<void> {
 
     console.log(`Finished movies from page ${page} 🥇`);
 
-    // 6. Generate random delays between 5 and 15 seconds
+    // 7. Generate random delays between 5 and 15 seconds
     const { seconds, miliseconds } = getRandomDelay();
     console.log(`Delaying next iteration by ${seconds}s to avoid get blocked`);
 
-    // 7. Delay next iteration
+    // 8. Delay next iteration
     await delay(miliseconds);
   }
 
@@ -230,9 +247,3 @@ async function ytsMxIndexer(): Promise<void> {
 }
 
 ytsMxIndexer();
-
-// saveSubtitleGroupsToDb(supabase);
-
-// TODO: Add a ESLint alternative (maybe XO)
-// TODO: Add Zod schemas and infer types from them
-// TODO: Check if movie subtitle already exists in DB before triggering all logic within getMovieListFromDb
