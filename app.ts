@@ -136,7 +136,7 @@ async function getMovieListFromDb(movie: YtsMxMovie, releaseGroups: ReleaseGroup
 
       console.log(`Movie (+ Subtitle) saved to DB! ${name} in ${resolution} for ${releaseGroup} ✨`);
     } catch (error) {
-      console.log('\n ~ forawait ~ error:', error.message);
+      // console.log('\n ~ forawait ~ error:', error.message);
     }
   }
 }
@@ -186,7 +186,6 @@ ytsMxIndexer();
 
 // saveSubtitleGroupsToDb(supabase);
 
-// TODO: Add type defintions from Supabase
 // TODO: Add a ESLint alternative (maybe XO)
 // TODO: Add Zod schemas and infer types from them
 // TODO: Add source for subtitles i.e "subdivx" | "opensubtitles" | "argenteam"

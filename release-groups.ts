@@ -1,4 +1,6 @@
-import { SupabaseClient } from '@supabase/supabase-js';
+import invariant from 'tiny-invariant';
+
+import { SupabaseClient } from './supabase';
 
 export const RELEASE_GROUPS = {
   YTS_MX: {
@@ -38,6 +40,8 @@ export async function saveReleaseGroupsToDb(supabaseClient: SupabaseClient): Pro
 
 export async function getReleaseGroupsFromDb(supabaseClient: SupabaseClient): Promise<ReleaseGroupMap> {
   const { data } = await supabaseClient.from('ReleaseGroups').select('*');
+  invariant(data, 'ReleaseGroups not found in database');
+
   const releaseGroups = data.reduce((acc, releaseGroup) => ({ ...acc, [releaseGroup.name]: releaseGroup }), {});
 
   return releaseGroups as ReleaseGroupMap;

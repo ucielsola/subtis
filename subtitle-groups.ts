@@ -1,4 +1,5 @@
-import { SupabaseClient } from '@supabase/supabase-js';
+import invariant from 'tiny-invariant';
+import { SupabaseClient } from './supabase';
 
 export const SUBTITLE_GROUPS = {
   SUBDIVX: {
@@ -28,6 +29,8 @@ export async function saveSubtitleGroupsToDb(supabaseClient: SupabaseClient): Pr
 
 export async function getSubtitleGroupsFromDb(supabaseClient: SupabaseClient): Promise<SubtitleGroupMap> {
   const { data } = await supabaseClient.from('SubtitleGroups').select('*');
+  invariant(data, 'SubtitleGroups not found in database');
+
   const subtitleGroups = data.reduce((acc, subtitleGroup) => ({ ...acc, [subtitleGroup.name]: subtitleGroup }), {});
 
   return subtitleGroups as SubtitleGroupMap;
