@@ -72,5 +72,7 @@ export async function getYtsMxMovieList(
   const response = await fetch(ytsApiEndpoints.movieList(page, limit));
   const { data } = await response.json();
 
+  // TODO: Add zod schema here
+
   return data.movies as YtsMxMovie[];
 }

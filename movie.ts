@@ -75,8 +75,6 @@ export function getMovieData(movie: string): {
             .at(-1)
             ?.replace("x264-", "");
 
-          console.log("Unknown release group", releaseGroup);
-
           return {
             name: movieName,
             searchableMovieName,
