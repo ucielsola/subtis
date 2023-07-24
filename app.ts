@@ -14,6 +14,7 @@ import { getSubDivXSubtitleLink } from './subdivx';
 import { ReleaseGroupMap, getReleaseGroupsFromDb } from './release-groups';
 import { YtsMxMovie, getYtsMxTotalMoviesAndPages, getYtsMxMovieList } from './yts-mx';
 import { getFileNameHash, getNumbersArray, getRandomDelay, VIDEO_FILE_EXTENSIONS } from './utils';
+import { SubtitleGroupMap, getSubtitleGroupsFromDb, saveSubtitleGroupsToDb } from './subtitle-groups';
 
 // supabase
 const supabase = getSupabaseClient();
@@ -26,7 +27,7 @@ type File = {
   offset: number;
 };
 
-async function getMovieListFromDb(movie: YtsMxMovie, releaseGroups: ReleaseGroupMap) {
+async function getMovieListFromDb(movie: YtsMxMovie, releaseGroups: ReleaseGroupMap, subtitleGroups: SubtitleGroupMap) {
   const { title_long: titleLong, rating, year, torrents, imdb_code: imdbId } = movie;
 
   for await (const torrent of torrents) {
@@ -119,24 +120,31 @@ async function getMovieListFromDb(movie: YtsMxMovie, releaseGroups: ReleaseGroup
         await supabase.from('Movies').insert({ id: imdbId, name: titleLong, year, rating }).select();
       }
 
-      // 21. Get release group id
+      // 21. Get release and subtitle group id
       const releaseGroupId = releaseGroups[releaseGroup].id;
+      const subtitleGroupId = subtitleGroups['SubDivX'].id;
 
       // 22. Save subtitle to Supabase
-      await supabase
-        .from('Subtitles')
-        .insert({ movieId: imdbId, fileNameHash, resolution, releaseGroupId, subtitleLink: publicUrl });
+      await supabase.from('Subtitles').insert({
+        releaseGroupId,
+        subtitleGroupId,
+        movieId: imdbId,
+        resolution,
+        fileNameHash,
+        subtitleLink: publicUrl,
+      });
 
       console.log(`Movie (+ Subtitle) saved to DB! ${name} in ${resolution} for ${releaseGroup} ✨`);
     } catch (error) {
-      // console.log('\n ~ forawait ~ error:', error.message);
+      console.log('\n ~ forawait ~ error:', error.message);
     }
   }
 }
 
 async function ytsMxIndexer(): Promise<void> {
-  // 0. Get release groups from DB
+  // 0. Get release and subtitle groups from DB
   const releaseGroups = await getReleaseGroupsFromDb(supabase);
+  const subtitleGroups = await getSubtitleGroupsFromDb(supabase);
 
   // 1. Get total YTS-MX pages
   const { totalPages } = await getYtsMxTotalMoviesAndPages();
@@ -152,7 +160,7 @@ async function ytsMxIndexer(): Promise<void> {
     const movieList = await getYtsMxMovieList(page);
 
     // 5. Run all 50 movies in parallels to get their subtitle and save them to DB and Storage
-    const movieListPromises = movieList.map(async (movie) => getMovieListFromDb(movie, releaseGroups));
+    const movieListPromises = movieList.map(async (movie) => getMovieListFromDb(movie, releaseGroups, subtitleGroups));
     await Promise.all(movieListPromises);
 
     // one by one just for testing purposess
@@ -175,6 +183,8 @@ async function ytsMxIndexer(): Promise<void> {
 }
 
 ytsMxIndexer();
+
+// saveSubtitleGroupsToDb(supabase);
 
 // TODO: Add type defintions from Supabase
 // TODO: Add a ESLint alternative (maybe XO)

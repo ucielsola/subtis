@@ -13,7 +13,7 @@ export function getMovieData(movie: string): {
   resolution: string;
   searchableMovieName: string;
   searchableSubDivXName: string;
-  releaseGroup: ReleaseGroupNames | string;
+  releaseGroup: ReleaseGroupNames;
 } {
   const FIRST_MOVIE_RECORDED = 1888;
   const currentYear = new Date().getFullYear() + 1;
@@ -80,8 +80,8 @@ export function getMovieData(movie: string): {
             searchableMovieName,
             year,
             resolution,
-            releaseGroup,
             searchableSubDivXName: releaseGroup,
+            releaseGroup: releaseGroup as ReleaseGroupNames,
           };
         }
       }

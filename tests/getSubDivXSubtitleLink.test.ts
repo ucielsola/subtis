@@ -7,6 +7,7 @@ describe('getSubDivXSubtitleLink', () => {
     const subtitleLink = await getSubDivXSubtitleLink(
       'Guardians.Of.The.Galaxy.Vol..3.2023.720p.WEBRip.x264.AAC-[YTS.MX].mp4',
     );
+
     expect(subtitleLink).toEqual({
       subtitleLink: 'https://subdivx.com/sub9/666540.zip',
       subtitleSrtFileName: 'guardians-of-the-galaxy-vol-3-720p-yts-mx.srt',

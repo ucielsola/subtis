@@ -28,9 +28,10 @@
     "test": "vitest --run",
     "dev": "tsx --watch app.ts",
     "test:watch": "vitest --watch",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "test:ci": "vitest --run --silent --bail 1"
   },
   "lint-staged": {
-    "*.ts": "npm run test"
+    "*.ts": "npm run test:ci"
   }
 }
