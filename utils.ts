@@ -1,19 +1,19 @@
-import crypto from 'crypto';
+import crypto from "crypto";
 
 export const VIDEO_FILE_EXTENSIONS = [
-  '.mkv',
-  '.mp4',
-  '.avi',
-  '.mov',
-  '.wmv',
-  '.flv',
-  '.webm',
-  '.vob',
-  '.m4v',
-  '.mpg',
-  '.mpeg',
-  '.3gp',
-  '.3g2',
+  ".mkv",
+  ".mp4",
+  ".avi",
+  ".mov",
+  ".wmv",
+  ".flv",
+  ".webm",
+  ".vob",
+  ".m4v",
+  ".mpg",
+  ".mpeg",
+  ".3gp",
+  ".3g2",
 ] as const;
 
 export async function getIsLinkAlive(link: string): Promise<boolean> {
@@ -26,8 +26,8 @@ export function getNumbersArray(length: number): number[] {
 }
 
 export function getRandomDelay(
-  min: number = 5,
-  max: number = 15,
+  min = 5,
+  max = 15,
 ): {
   seconds: number;
   miliseconds: number;
@@ -37,9 +37,9 @@ export function getRandomDelay(
 }
 
 export function removeExtraSpaces(value: string): string {
-  return value.replace(/\s+/g, ' ').trim();
+  return value.replace(/\s+/g, " ").trim();
 }
 
 export function getFileNameHash(fileName: string): string {
-  return crypto.createHash('md5').update(fileName).digest('hex');
+  return crypto.createHash("md5").update(fileName).digest("hex");
 }

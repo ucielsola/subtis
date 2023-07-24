@@ -1,48 +1,53 @@
-import slugify from 'slugify';
-import { JSDOM } from 'jsdom';
-import invariant from 'tiny-invariant';
+import { JSDOM } from "jsdom";
+import slugify from "slugify";
+import invariant from "tiny-invariant";
 
-import { getMovieData } from './movie';
-import { getIsLinkAlive } from './utils';
+import { getMovieData } from "./movie";
+import { getIsLinkAlive } from "./utils";
 
-const SUBDIVX_BASE_URL = 'https://subdivx.com' as const;
+const SUBDIVX_BASE_URL = "https://subdivx.com" as const;
 
-export function getSubDivXSearchParams(movieName: string, page: string = '1') {
+export function getSubDivXSearchParams(movieName: string, page = "1") {
   return {
     pg: page,
     buscar2: movieName,
-    accion: '5',
-    masdesc: '',
-    realiza_b: '1',
-    subtitulos: '1',
+    accion: "5",
+    masdesc: "",
+    realiza_b: "1",
+    subtitulos: "1",
   };
 }
 
-export async function getSubDivXSearchPageHtml(movieName: string, page: string = '1'): Promise<string> {
+export async function getSubDivXSearchPageHtml(
+  movieName: string,
+  page = "1",
+): Promise<string> {
   const searchParams = getSubDivXSearchParams(movieName, page);
   const urlSearchParams = new URLSearchParams(searchParams);
 
   const response = await fetch(`${SUBDIVX_BASE_URL}/index.php`, {
-    method: 'POST',
+    method: "POST",
     body: urlSearchParams,
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
   });
 
   const html = await response.text();
   return html;
 }
 
-export async function getSubDivXSubtitleDownloadLink(subtitlePage: string): Promise<string> {
+export async function getSubDivXSubtitleDownloadLink(
+  subtitlePage: string,
+): Promise<string> {
   const response = await fetch(subtitlePage);
   const html = await response.text();
 
   const dom = new JSDOM(html);
   const document = dom.window.document;
 
-  const anchor = document.querySelector('.link1');
-  invariant(anchor, 'Link should be defined');
+  const anchor = document.querySelector(".link1");
+  invariant(anchor, "Link should be defined");
 
-  const href = anchor.getAttribute('href');
+  const href = anchor.getAttribute("href");
   const subtitleLink = `${SUBDIVX_BASE_URL}/${href}`;
 
   return subtitleLink;
@@ -50,22 +55,36 @@ export async function getSubDivXSubtitleDownloadLink(subtitlePage: string): Prom
 
 export async function getSubDivXSubtitleLink(
   movieFileName: string,
-  page: string = '1',
+  page = "1",
 ): Promise<{
   subtitleLink: string;
   subtitleSrtFileName: string;
   subtitleCompressedFileName: string;
   subtitleFileNameWithoutExtension: string;
-  fileExtension: 'zip' | 'rar';
+  fileExtension: "zip" | "rar";
 }> {
-  const { name, searchableMovieName, resolution, releaseGroup, searchableSubDivXName } = getMovieData(movieFileName);
-  const subtitlePageHtml = await getSubDivXSearchPageHtml(searchableMovieName, page);
+  const {
+    name,
+    searchableMovieName,
+    resolution,
+    releaseGroup,
+    searchableSubDivXName,
+  } = getMovieData(movieFileName);
+  const subtitlePageHtml = await getSubDivXSearchPageHtml(
+    searchableMovieName,
+    page,
+  );
 
   const dom = new JSDOM(subtitlePageHtml);
   const document = dom.window.document;
 
-  const allSubtitlesElements = [...document.querySelectorAll('#buscador_detalle')];
-  invariant(allSubtitlesElements.length > 0, 'There should be at least one subtitle');
+  const allSubtitlesElements = [
+    ...document.querySelectorAll("#buscador_detalle"),
+  ];
+  invariant(
+    allSubtitlesElements.length > 0,
+    "There should be at least one subtitle",
+  );
 
   const value = allSubtitlesElements.find((element) => {
     const movieDetail = element.textContent?.toLowerCase();
@@ -73,7 +92,7 @@ export async function getSubDivXSubtitleLink(
   });
 
   const previousSibling = value?.previousSibling as Element;
-  invariant(previousSibling, 'Subtitle Element should exist');
+  invariant(previousSibling, "Subtitle Element should exist");
 
   if (allSubtitlesElements.length > 90) {
     // Iterate to next pages until find the subtitle or no more results
@@ -81,16 +100,18 @@ export async function getSubDivXSubtitleLink(
     return getSubDivXSubtitleLink(movieFileName, String(Number(page) + 1));
   }
 
-  const hrefElement = previousSibling.querySelector('.titulo_menu_izq');
-  invariant(hrefElement, 'Anchor element should be defined');
+  const hrefElement = previousSibling.querySelector(".titulo_menu_izq");
+  invariant(hrefElement, "Anchor element should be defined");
 
-  const subtitleHref = hrefElement.getAttribute('href');
-  invariant(subtitleHref, 'Subtitle page link should be defined');
+  const subtitleHref = hrefElement.getAttribute("href");
+  invariant(subtitleHref, "Subtitle page link should be defined");
 
-  const subtitleDownloadLink = await getSubDivXSubtitleDownloadLink(subtitleHref);
+  const subtitleDownloadLink = await getSubDivXSubtitleDownloadLink(
+    subtitleHref,
+  );
 
   // compressed file link
-  const subtitleId = new URL(subtitleDownloadLink).searchParams.get('id');
+  const subtitleId = new URL(subtitleDownloadLink).searchParams.get("id");
 
   const subtitleRarLink = `${SUBDIVX_BASE_URL}/sub9/${subtitleId}.rar`;
   const subtitleZipLink = `${SUBDIVX_BASE_URL}/sub9/${subtitleId}.zip`;
@@ -98,14 +119,20 @@ export async function getSubDivXSubtitleLink(
   const isRarLinkAlive = await getIsLinkAlive(subtitleRarLink);
   const isZipLinkAlive = await getIsLinkAlive(subtitleZipLink);
 
-  invariant(isRarLinkAlive || isZipLinkAlive, 'Subtitle link should be alive');
+  invariant(isRarLinkAlive || isZipLinkAlive, "Subtitle link should be alive");
 
-  const fileExtension = isRarLinkAlive ? 'rar' : 'zip';
+  const fileExtension = isRarLinkAlive ? "rar" : "zip";
   const subtitleLink = isRarLinkAlive ? subtitleRarLink : subtitleZipLink;
 
-  const subtitleSrtFileName = slugify(`${name}-${resolution}-${releaseGroup}.srt`).toLowerCase();
-  const subtitleFileNameWithoutExtension = slugify(`${name}-${resolution}-${releaseGroup}`).toLowerCase();
-  const subtitleCompressedFileName = slugify(`${name}-${resolution}-${releaseGroup}.${fileExtension}`).toLowerCase();
+  const subtitleSrtFileName = slugify(
+    `${name}-${resolution}-${releaseGroup}.srt`,
+  ).toLowerCase();
+  const subtitleFileNameWithoutExtension = slugify(
+    `${name}-${resolution}-${releaseGroup}`,
+  ).toLowerCase();
+  const subtitleCompressedFileName = slugify(
+    `${name}-${resolution}-${releaseGroup}.${fileExtension}`,
+  ).toLowerCase();
 
   return {
     subtitleLink,

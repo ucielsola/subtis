@@ -1,12 +1,12 @@
-const YTS_BASE_URL = 'https://yts.mx/api/v2' as const;
+const YTS_BASE_URL = "https://yts.mx/api/v2" as const;
 
 const ytsApiEndpoints = {
-  movieList: (page: number = 1, limit: number = 50) => {
+  movieList: (page = 1, limit = 50) => {
     return `${YTS_BASE_URL}/list_movies.json?limit=${limit}&page=${page}`;
   },
 };
 
-export async function getYtsMxTotalMoviesAndPages(limit: number = 50): Promise<{
+export async function getYtsMxTotalMoviesAndPages(limit = 50): Promise<{
   totalMovies: number;
   totalPages: number;
 }> {
@@ -65,7 +65,10 @@ export type YtsMxMovie = {
   date_uploaded_unix: number;
 };
 
-export async function getYtsMxMovieList(page: number = 1, limit: number = 50): Promise<YtsMxMovie[]> {
+export async function getYtsMxMovieList(
+  page = 1,
+  limit = 50,
+): Promise<YtsMxMovie[]> {
   const response = await fetch(ytsApiEndpoints.movieList(page, limit));
   const { data } = await response.json();
 

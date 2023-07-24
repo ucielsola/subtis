@@ -1,10 +1,10 @@
-import { P, match } from 'ts-pattern';
+import { P, match } from "ts-pattern";
 
-import { removeExtraSpaces, VIDEO_FILE_EXTENSIONS } from './utils';
-import { RELEASE_GROUPS, ReleaseGroupNames } from './release-groups';
+import { RELEASE_GROUPS, ReleaseGroupNames } from "./release-groups";
+import { VIDEO_FILE_EXTENSIONS, removeExtraSpaces } from "./utils";
 
 export function getMovieName(name: string): string {
-  return removeExtraSpaces(name.replaceAll('.', ' ')).trim();
+  return removeExtraSpaces(name.replaceAll(".", " ")).trim();
 }
 
 export function getMovieData(movie: string): {
@@ -29,17 +29,19 @@ export function getMovieData(movie: string): {
       .with(P.string.includes(yearString), () => yearString)
       .otherwise(() => false);
 
-    if (yearStringToReplace && typeof yearStringToReplace === 'string') {
+    if (yearStringToReplace && typeof yearStringToReplace === "string") {
       const [rawName, rawAttributes] = movie.split(yearStringToReplace);
 
       const movieName = getMovieName(rawName);
-      const searchableMovieName = removeExtraSpaces(`${movieName} (${yearString})`);
+      const searchableMovieName = removeExtraSpaces(
+        `${movieName} (${yearString})`,
+      );
 
       const resolution = match(rawAttributes)
-        .with(P.string.includes('1080'), () => '1080p')
-        .with(P.string.includes('720'), () => '720p')
-        .with(P.string.includes('2160'), () => '2160p')
-        .with(P.string.includes('3D'), () => '3D')
+        .with(P.string.includes("1080"), () => "1080p")
+        .with(P.string.includes("720"), () => "720p")
+        .with(P.string.includes("2160"), () => "2160p")
+        .with(P.string.includes("3D"), () => "3D")
         .run();
 
       for (const videoFileExtension of VIDEO_FILE_EXTENSIONS) {
@@ -68,19 +70,19 @@ export function getMovieData(movie: string): {
 
           const releaseGroup = rawAttributes
             .split(videoFileExtension)
-            .at(0)!
-            .split(/\.|\s/g)
-            .at(-1)!
-            .replace('x264-', '');
+            .at(0)
+            ?.split(/\.|\s/g)
+            .at(-1)
+            ?.replace("x264-", "");
 
-          console.log('Unknown release group', releaseGroup);
+          console.log("Unknown release group", releaseGroup);
 
           return {
             name: movieName,
             searchableMovieName,
             year,
             resolution,
-            searchableSubDivXName: releaseGroup,
+            searchableSubDivXName: releaseGroup as string,
             releaseGroup: releaseGroup as ReleaseGroupNames,
           };
         }
