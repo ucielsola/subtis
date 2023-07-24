@@ -33,6 +33,6 @@
     "supabase:type:definitions": "npx supabase gen types typescript --project-id 'yelhsmnvfyyjuamxbobs' --schema public > supabase-types.ts"
   },
   "lint-staged": {
-    "*.ts": "yarn test:ci"
+    "*.ts": "vitest related --run"
   }
 }
