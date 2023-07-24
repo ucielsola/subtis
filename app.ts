@@ -203,7 +203,6 @@ async function ytsMxIndexer(): Promise<void> {
 
     // 4. Get all the movies (50) for this page
     const movieList = await getYtsMxMovieList(page);
-    console.log("\n ~ forawait ~ movieList:", movieList.length);
 
     // 5. Filter movies from movie list which already exists in DB
     const { data: moviesFromDb } = await supabase
@@ -215,11 +214,9 @@ async function ytsMxIndexer(): Promise<void> {
       );
 
     const moviesIdsFromDb = (moviesFromDb ?? []).map((movie) => movie.id);
-    console.log("\n ~ forawait ~ moviesIdsFromDb:", moviesIdsFromDb.length);
     const movieListNotInDb = movieList.filter(
       (movie) => !moviesIdsFromDb.includes(movie.imdb_code),
     );
-    console.log("\n ~ forawait ~ movieListNotInDb:", movieListNotInDb.length);
 
     // 6. Run all 50 movies in parallels to get their subtitle and save them to DB and Storage
     const movieListPromises = movieListNotInDb.map(async (movie) =>
@@ -247,3 +244,5 @@ async function ytsMxIndexer(): Promise<void> {
 }
 
 ytsMxIndexer();
+
+// TODO: Add support for Argenteam (with its own SubtitleGroup)
