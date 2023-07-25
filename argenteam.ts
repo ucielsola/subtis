@@ -103,6 +103,8 @@ export async function getArgenteamSubtitle(
 
   // 4. Filter releases by release group and quality
   const { releases } = argenteamResourceSchema.parse(rawResourceData);
+
+  // TODO: I think team is translation team and not releated to release group
   const release = releases.find(
     (release) => release.team === releaseGroup && release.tags === quality,
   );
@@ -115,3 +117,5 @@ export async function getArgenteamSubtitle(
   const subtitleLink = subtitles[0].uri;
   return subtitleLink;
 }
+
+// getArgenteamSubtitle("tt0439572", "RiGHTNOW", "1080p");
