@@ -41,13 +41,7 @@ async function getMovieListFromDb(
   releaseGroups: ReleaseGroupMap,
   subtitleGroups: SubtitleGroupMap,
 ) {
-  const {
-    title_long: titleLong,
-    rating,
-    year,
-    torrents,
-    imdb_code: imdbId,
-  } = movie;
+  const { title, rating, year, torrents, imdb_code: imdbId } = movie;
 
   for await (const torrent of torrents) {
     const { url, hash } = torrent;
@@ -159,7 +153,7 @@ async function getMovieListFromDb(
       if (Array.isArray(movieData) && !movieData.length) {
         await supabase
           .from("Movies")
-          .insert({ id: imdbId, name: titleLong, year, rating })
+          .insert({ id: imdbId, name: title, year, rating })
           .select();
       }
 
