@@ -21,8 +21,8 @@ export const torrentSchema = z.object({
   peers: z.number(),
   size: z.string(),
   size_bytes: z.number(),
-  date_uploaded: z.string(),
-  date_uploaded_unix: z.number(),
+  date_uploaded: z.string().optional(),
+  date_uploaded_unix: z.number().optional(),
 });
 
 export const ytsMxMovieSchema = z.object({
@@ -49,8 +49,8 @@ export const ytsMxMovieSchema = z.object({
   large_cover_image: z.string(),
   state: z.string(),
   torrents: z.array(torrentSchema),
-  date_uploaded: z.string(),
-  date_uploaded_unix: z.number(),
+  date_uploaded: z.string().optional(),
+  date_uploaded_unix: z.number().optional(),
 });
 
 export type Torrent = z.infer<typeof torrentSchema>;
@@ -95,6 +95,5 @@ export async function getYtsMxMovieList(
   const data = await response.json();
 
   const parsedData = schema.parse(data);
-
   return parsedData.data.movies;
 }
