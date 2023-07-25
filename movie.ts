@@ -18,8 +18,7 @@ export function getMovieData(movie: string): {
   const FIRST_MOVIE_RECORDED = 1888;
   const currentYear = new Date().getFullYear() + 1;
 
-  const cody = RELEASE_GROUPS.CODY;
-  const ytsMx = RELEASE_GROUPS.YTS_MX;
+  const { CODY, YTS_MX, RIGHTNOW } = RELEASE_GROUPS;
 
   for (let year = FIRST_MOVIE_RECORDED; year < currentYear; year++) {
     const yearString = String(year);
@@ -46,25 +45,36 @@ export function getMovieData(movie: string): {
 
       for (const videoFileExtension of VIDEO_FILE_EXTENSIONS) {
         if (rawAttributes.includes(videoFileExtension)) {
-          if (rawAttributes.includes(ytsMx.fileAttribute)) {
+          if (rawAttributes.includes(YTS_MX.fileAttribute)) {
             return {
               name: movieName,
               searchableMovieName,
               year,
               resolution,
-              releaseGroup: ytsMx.name,
-              searchableSubDivXName: ytsMx.searchableSubDivXName,
+              releaseGroup: YTS_MX.name,
+              searchableSubDivXName: YTS_MX.searchableSubDivXName,
             };
           }
 
-          if (rawAttributes.includes(cody.fileAttribute)) {
+          if (rawAttributes.includes(CODY.fileAttribute)) {
             return {
               name: movieName,
               searchableMovieName,
               year,
               resolution,
-              releaseGroup: cody.name,
-              searchableSubDivXName: cody.searchableSubDivXName,
+              releaseGroup: CODY.name,
+              searchableSubDivXName: CODY.searchableSubDivXName,
+            };
+          }
+
+          if (rawAttributes.includes(RIGHTNOW.fileAttribute)) {
+            return {
+              name: movieName,
+              searchableMovieName,
+              year,
+              resolution,
+              releaseGroup: RIGHTNOW.name,
+              searchableSubDivXName: RIGHTNOW.searchableSubDivXName,
             };
           }
 

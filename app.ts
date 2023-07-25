@@ -237,6 +237,4 @@ async function ytsMxIndexer(): Promise<void> {
   console.log("All movies saved to DB and Storage! 🎉");
 }
 
-ytsMxIndexer();
-
-// TODO: Add support for Argenteam (with its own SubtitleGroup)
+// ytsMxIndexer();

@@ -1,7 +1,11 @@
-import invariant from "tiny-invariant";
-import { match } from "ts-pattern";
 import { z } from "zod";
+import slugify from "slugify";
+import { match } from "ts-pattern";
+import invariant from "tiny-invariant";
 
+import { getMovieData } from "./movie";
+
+// Argenteam endpoints
 const ARGENTEAM_BASE_URL = "http://argenteam.net/api/v1" as const;
 
 const argenteamApiEndpoints = {
@@ -19,6 +23,7 @@ const argenteamApiEndpoints = {
   },
 };
 
+// Schemas
 const argenteamSearchResultSchema = z.object({
   id: z.number(),
   title: z.string(),
@@ -71,11 +76,19 @@ const argenteamResourceSchema = z.object({
   releases: z.array(argenteamResourceReleaseSchema),
 });
 
-export async function getArgenteamSubtitle(
+export async function getArgenteamSubtitleLink(
+  movieFileName: string,
   imdbId: string,
-  releaseGroup: string,
-  quality: string,
-) {
+): Promise<{
+  fileExtension: "zip";
+  subtitleLink: string;
+  subtitleSrtFileName: string;
+  subtitleCompressedFileName: string;
+  subtitleFileNameWithoutExtension: string;
+}> {
+  // 0. Get movie data
+  const { name, resolution, releaseGroup } = getMovieData(movieFileName);
+
   // 1. Parse imdb id
   const parsedImdbId = imdbId.replace("tt", "");
 
@@ -104,9 +117,8 @@ export async function getArgenteamSubtitle(
   // 4. Filter releases by release group and quality
   const { releases } = argenteamResourceSchema.parse(rawResourceData);
 
-  // TODO: I think team is translation team and not releated to release group
   const release = releases.find(
-    (release) => release.team === releaseGroup && release.tags === quality,
+    (release) => release.team === releaseGroup && release.tags === resolution,
   );
   invariant(release, "Release should exist");
 
@@ -115,7 +127,27 @@ export async function getArgenteamSubtitle(
   invariant(subtitles.length > 0, "There should be at least one subtitle");
 
   const subtitleLink = subtitles[0].uri;
-  return subtitleLink;
-}
 
-// getArgenteamSubtitle("tt0439572", "RiGHTNOW", "1080p");
+  // 6. Create extra needed strings
+  const fileExtension = "zip";
+
+  const subtitleSrtFileName = slugify(
+    `${name}-${resolution}-${releaseGroup}-argenteam.srt`,
+  ).toLowerCase();
+
+  const subtitleFileNameWithoutExtension = slugify(
+    `${name}-${resolution}-${releaseGroup}-argenteam`,
+  ).toLowerCase();
+
+  const subtitleCompressedFileName = slugify(
+    `${name}-${resolution}-${releaseGroup}-argenteam.zip`,
+  ).toLowerCase();
+
+  return {
+    subtitleLink,
+    fileExtension,
+    subtitleSrtFileName,
+    subtitleCompressedFileName,
+    subtitleFileNameWithoutExtension,
+  };
+}

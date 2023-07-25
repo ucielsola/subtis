@@ -15,6 +15,12 @@ export const RELEASE_GROUPS = {
     fileAttribute: "CODY",
     searchableSubDivXName: "H265-CODY",
   },
+  RIGHTNOW: {
+    name: "RiGHTNOW",
+    website: "",
+    fileAttribute: "RiGHTNOW",
+    searchableSubDivXName: "RIGHTNOW",
+  },
 } as const;
 
 export type ReleaseGroup = {

@@ -125,13 +125,13 @@ export async function getSubDivXSubtitleLink(
   const subtitleLink = isRarLinkAlive ? subtitleRarLink : subtitleZipLink;
 
   const subtitleSrtFileName = slugify(
-    `${name}-${resolution}-${releaseGroup}.srt`,
+    `${name}-${resolution}-${releaseGroup}-subdivx.srt`,
   ).toLowerCase();
   const subtitleFileNameWithoutExtension = slugify(
-    `${name}-${resolution}-${releaseGroup}`,
+    `${name}-${resolution}-${releaseGroup}-subdivx`,
   ).toLowerCase();
   const subtitleCompressedFileName = slugify(
-    `${name}-${resolution}-${releaseGroup}.${fileExtension}`,
+    `${name}-${resolution}-${releaseGroup}-subdivx.${fileExtension}`,
   ).toLowerCase();
 
   return {
