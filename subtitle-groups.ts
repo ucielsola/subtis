@@ -6,6 +6,10 @@ export const SUBTITLE_GROUPS = {
     name: "SubDivX",
     website: "https://subdivx.com",
   },
+  ARGENTEAM: {
+    name: "Argenteam",
+    website: "https://argenteam.net",
+  },
 } as const;
 
 export type SubtitleGroup = {

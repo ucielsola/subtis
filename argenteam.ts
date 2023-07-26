@@ -4,6 +4,7 @@ import { match } from "ts-pattern";
 import invariant from "tiny-invariant";
 
 import { getMovieData } from "./movie";
+import { SUBTITLE_GROUPS } from "./subtitle-groups";
 
 // Argenteam endpoints
 const ARGENTEAM_BASE_URL = "http://argenteam.net/api/v1" as const;
@@ -44,9 +45,9 @@ const argenteamResourceInfoSchema = z.object({
   imdb: z.string(),
   year: z.number(),
   rating: z.number(),
-  runtime: z.number(),
+  runtime: z.number().nullable().optional(),
   alternativeTitle: z.string(),
-  country: z.string(),
+  country: z.string().nullable().optional(),
   poster: z.string(),
   director: z.string(),
   actors: z.string(),
@@ -82,12 +83,14 @@ export async function getArgenteamSubtitleLink(
 ): Promise<{
   fileExtension: "zip";
   subtitleLink: string;
+  subtitleGroup: string;
   subtitleSrtFileName: string;
   subtitleCompressedFileName: string;
   subtitleFileNameWithoutExtension: string;
 }> {
   // 0. Get movie data
-  const { name, resolution, releaseGroup } = getMovieData(movieFileName);
+  const { name, resolution, releaseGroup, searchableArgenteamName } =
+    getMovieData(movieFileName);
 
   // 1. Parse imdb id
   const parsedImdbId = imdbId.replace("tt", "");
@@ -117,8 +120,11 @@ export async function getArgenteamSubtitleLink(
   // 4. Filter releases by release group and quality
   const { releases } = argenteamResourceSchema.parse(rawResourceData);
 
+  const searchableTeam = searchableArgenteamName.toLowerCase();
   const release = releases.find(
-    (release) => release.team === releaseGroup && release.tags === resolution,
+    (release) =>
+      release.team.toLowerCase() === searchableTeam &&
+      release.tags.includes(resolution),
   );
   invariant(release, "Release should exist");
 
@@ -130,6 +136,7 @@ export async function getArgenteamSubtitleLink(
 
   // 6. Create extra needed strings
   const fileExtension = "zip";
+  const subtitleGroup = SUBTITLE_GROUPS.ARGENTEAM.name;
 
   const subtitleSrtFileName = slugify(
     `${name}-${resolution}-${releaseGroup}-argenteam.srt`,
@@ -146,6 +153,7 @@ export async function getArgenteamSubtitleLink(
   return {
     subtitleLink,
     fileExtension,
+    subtitleGroup,
     subtitleSrtFileName,
     subtitleCompressedFileName,
     subtitleFileNameWithoutExtension,

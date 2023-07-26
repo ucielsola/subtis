@@ -36,7 +36,7 @@ export const ytsMxMovieSchema = z.object({
   year: z.number(),
   rating: z.number(),
   runtime: z.number(),
-  genres: z.array(z.string()),
+  genres: z.array(z.string()).nullable().optional(),
   summary: z.string(),
   description_full: z.string(),
   synopsis: z.string(),

@@ -4,6 +4,7 @@ import invariant from "tiny-invariant";
 
 import { getMovieData } from "./movie";
 import { getIsLinkAlive } from "./utils";
+import { SUBTITLE_GROUPS } from "./subtitle-groups";
 
 const SUBDIVX_BASE_URL = "https://subdivx.com" as const;
 
@@ -58,6 +59,7 @@ export async function getSubDivXSubtitleLink(
   page = "1",
 ): Promise<{
   subtitleLink: string;
+  subtitleGroup: string;
   subtitleSrtFileName: string;
   subtitleCompressedFileName: string;
   subtitleFileNameWithoutExtension: string;
@@ -134,11 +136,14 @@ export async function getSubDivXSubtitleLink(
     `${name}-${resolution}-${releaseGroup}-subdivx.${fileExtension}`,
   ).toLowerCase();
 
+  const subtitleGroup = SUBTITLE_GROUPS.SUBDIVX.name;
+
   return {
+    fileExtension,
     subtitleLink,
+    subtitleGroup,
     subtitleSrtFileName,
     subtitleCompressedFileName,
     subtitleFileNameWithoutExtension,
-    fileExtension,
   };
 }

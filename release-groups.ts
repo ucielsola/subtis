@@ -8,18 +8,28 @@ export const RELEASE_GROUPS = {
     fileAttribute: "YTS.MX",
     website: "https://yts.mx",
     searchableSubDivXName: "YTS MX",
+    searchableArgenteamName: "YIFY",
   },
   CODY: {
     name: "CODY",
     website: "",
     fileAttribute: "CODY",
     searchableSubDivXName: "H265-CODY",
+    searchableArgenteamName: "CODY",
+  },
+  GALAXY_RG: {
+    name: "GalaxyRG",
+    website: "",
+    fileAttribute: "GalaxyRG",
+    searchableSubDivXName: "GalaxyRG",
+    searchableArgenteamName: "GalaxyRG",
   },
   RIGHTNOW: {
     name: "RiGHTNOW",
     website: "",
     fileAttribute: "RiGHTNOW",
     searchableSubDivXName: "RIGHTNOW",
+    searchableArgenteamName: "RiGHTNOW",
   },
 } as const;
 

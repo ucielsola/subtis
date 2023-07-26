@@ -13,12 +13,13 @@ export function getMovieData(movie: string): {
   resolution: string;
   searchableMovieName: string;
   searchableSubDivXName: string;
+  searchableArgenteamName: string;
   releaseGroup: ReleaseGroupNames;
 } {
   const FIRST_MOVIE_RECORDED = 1888;
   const currentYear = new Date().getFullYear() + 1;
 
-  const { CODY, YTS_MX, RIGHTNOW } = RELEASE_GROUPS;
+  const { CODY, YTS_MX, RIGHTNOW, GALAXY_RG } = RELEASE_GROUPS;
 
   for (let year = FIRST_MOVIE_RECORDED; year < currentYear; year++) {
     const yearString = String(year);
@@ -53,6 +54,7 @@ export function getMovieData(movie: string): {
               resolution,
               releaseGroup: YTS_MX.name,
               searchableSubDivXName: YTS_MX.searchableSubDivXName,
+              searchableArgenteamName: YTS_MX.searchableArgenteamName,
             };
           }
 
@@ -64,6 +66,19 @@ export function getMovieData(movie: string): {
               resolution,
               releaseGroup: CODY.name,
               searchableSubDivXName: CODY.searchableSubDivXName,
+              searchableArgenteamName: CODY.searchableArgenteamName,
+            };
+          }
+
+          if (rawAttributes.includes(GALAXY_RG.fileAttribute)) {
+            return {
+              name: movieName,
+              searchableMovieName,
+              year,
+              resolution,
+              releaseGroup: GALAXY_RG.name,
+              searchableSubDivXName: GALAXY_RG.searchableSubDivXName,
+              searchableArgenteamName: GALAXY_RG.searchableArgenteamName,
             };
           }
 
@@ -75,6 +90,7 @@ export function getMovieData(movie: string): {
               resolution,
               releaseGroup: RIGHTNOW.name,
               searchableSubDivXName: RIGHTNOW.searchableSubDivXName,
+              searchableArgenteamName: RIGHTNOW.searchableArgenteamName,
             };
           }
 
@@ -91,6 +107,7 @@ export function getMovieData(movie: string): {
             year,
             resolution,
             searchableSubDivXName: releaseGroup as string,
+            searchableArgenteamName: releaseGroup as string,
             releaseGroup: releaseGroup as ReleaseGroupNames,
           };
         }

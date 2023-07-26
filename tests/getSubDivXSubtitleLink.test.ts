@@ -11,6 +11,7 @@ describe("getSubDivXSubtitleLink", () => {
     );
 
     expect(subtitleLink).toEqual({
+      subtitleGroup: "SubDivX",
       subtitleLink: "https://subdivx.com/sub9/666540.zip",
       subtitleSrtFileName:
         "guardians-of-the-galaxy-vol-3-720p-yts-mx-subdivx.srt",

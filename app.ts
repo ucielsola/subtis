@@ -11,8 +11,19 @@ import parseTorrent from "parse-torrent-updated";
 import { getMovieData } from "./movie";
 import { getSupabaseClient } from "./supabase";
 import { getSubDivXSubtitleLink } from "./subdivx";
-import { ReleaseGroupMap, getReleaseGroupsFromDb } from "./release-groups";
-import { SubtitleGroupMap, getSubtitleGroupsFromDb } from "./subtitle-groups";
+import {
+  ReleaseGroupMap,
+  ReleaseGroupNames,
+  getReleaseGroupsFromDb,
+  saveReleaseGroupsToDb,
+} from "./release-groups";
+import {
+  SUBTITLE_GROUPS,
+  SubtitleGroupMap,
+  SubtitleGroupNames,
+  getSubtitleGroupsFromDb,
+  saveSubtitleGroupsToDb,
+} from "./subtitle-groups";
 import {
   YtsMxMovie,
   getYtsMxMovieList,
@@ -24,6 +35,7 @@ import {
   getNumbersArray,
   VIDEO_FILE_EXTENSIONS,
 } from "./utils";
+import { getArgenteamSubtitleLink } from "./argenteam";
 
 // supabase
 const supabase = getSupabaseClient();
@@ -35,6 +47,134 @@ type File = {
   length: number;
   offset: number;
 };
+
+async function setMovieSubtitlesToDatabase({
+  subtitle,
+  movie,
+  resolution,
+  fileNameHash,
+  releaseGroup,
+  subtitleGroup,
+  releaseGroups,
+  subtitleGroups,
+}: {
+  subtitle: {
+    subtitleLink: string;
+    subtitleSrtFileName: string;
+    subtitleCompressedFileName: string;
+    subtitleFileNameWithoutExtension: string;
+    fileExtension: "rar" | "zip";
+  };
+  movie: {
+    id: string;
+    name: string;
+    year: number;
+    rating: number;
+  };
+  resolution: string;
+  fileNameHash: string;
+  releaseGroup: ReleaseGroupNames;
+  subtitleGroup: SubtitleGroupNames;
+  releaseGroups: ReleaseGroupMap;
+  subtitleGroups: SubtitleGroupMap;
+}) {
+  const {
+    subtitleLink,
+    subtitleSrtFileName,
+    subtitleCompressedFileName,
+    subtitleFileNameWithoutExtension,
+    fileExtension,
+  } = subtitle;
+
+  // 8. Download subtitle to fs
+  await download(subtitleLink, "subtitles", {
+    filename: subtitleCompressedFileName,
+  });
+
+  // 9. Create path to downloaded subtitles
+  const subtitleAbsolutePath = path.resolve(
+    `${__dirname}/subtitles/${subtitleCompressedFileName}`,
+  );
+
+  // 10. Create path to extracted subtitles
+  const extractedSubtitlePath = path.resolve(
+    `${__dirname}/subs/${subtitleFileNameWithoutExtension}`,
+  );
+
+  // 11. Handle compressed rar files
+  if (fileExtension === "rar") {
+    fs.mkdir(extractedSubtitlePath, { recursive: true }, (error) => null);
+
+    await unrar.uncompress({
+      command: "e",
+      switches: ["-o+", "-idcd"],
+      src: subtitleAbsolutePath,
+      dest: extractedSubtitlePath,
+    });
+  }
+
+  // 12. Handle compressed zip files
+  if (fileExtension === "zip") {
+    await extract(subtitleAbsolutePath, { dir: extractedSubtitlePath });
+  }
+
+  // 13. Get extracted subtitle files
+  const extractedSubtitleFiles = fs.readdirSync(extractedSubtitlePath);
+
+  // 14. Get SRT file name
+  const srtFile = extractedSubtitleFiles.find(
+    (file) => path.extname(file).toLowerCase() === ".srt",
+  );
+
+  // 15. Get SRT file path
+  const extractedSrtFileNamePath = path.resolve(
+    `${__dirname}/subs/${subtitleFileNameWithoutExtension}/${srtFile}`,
+  );
+
+  // 16. Read SRT file
+  const srtFileToUpload = fs.readFileSync(extractedSrtFileNamePath);
+
+  // 17. Upload SRT file to Supabase storage
+  const uploaded = await supabase.storage
+    .from("subtitles")
+    .upload(subtitleSrtFileName, srtFileToUpload);
+
+  // 18. Save SRT to Supabase and get public URL for SRT file
+  const {
+    data: { publicUrl },
+  } = await supabase.storage
+    .from("subtitles")
+    .getPublicUrl(subtitleSrtFileName);
+
+  // 19. Get movie id by imdbId
+  const { data: movieData } = await supabase
+    .from("Movies")
+    .select("*")
+    .eq("id", movie.id);
+
+  // 20. Save movie to Supabase if is not yet saved
+  if (Array.isArray(movieData) && !movieData.length) {
+    await supabase.from("Movies").insert(movie).select();
+  }
+
+  // 21. Get release and subtitle group id
+  const releaseGroupId = releaseGroups[releaseGroup].id;
+  const subtitleGroupId = subtitleGroups[subtitleGroup].id;
+
+  // 22. Save subtitle to Supabase
+  await supabase.from("Subtitles").insert({
+    releaseGroupId,
+    subtitleGroupId,
+    movieId: movie.id,
+    resolution,
+    fileNameHash,
+    subtitleLink: publicUrl,
+  });
+
+  console.table([
+    { name: movie.name, resolution, releaseGroup, subtitleGroup },
+  ]);
+}
 
 async function getMovieListFromDb(
   movie: YtsMxMovie,
@@ -68,114 +208,42 @@ async function getMovieListFromDb(
       if (!videoFile) continue;
 
       // 5. Get movie data from video file
-      const { name, resolution, releaseGroup } = getMovieData(videoFile.name);
+      const { resolution, releaseGroup } = getMovieData(videoFile.name);
 
       // 6. Hash video file name
       const fileNameHash = getFileNameHash(videoFile.name);
 
       // 7. Find subtitle metadata from SubDivx
-      const {
-        subtitleLink,
-        subtitleCompressedFileName,
-        subtitleSrtFileName,
-        subtitleFileNameWithoutExtension,
-        fileExtension,
-      } = await getSubDivXSubtitleLink(videoFile.name);
+      const subtitles = await Promise.allSettled([
+        getSubDivXSubtitleLink(videoFile.name),
+        getArgenteamSubtitleLink(videoFile.name, imdbId),
+      ]);
 
-      // 8. Download subtitle to fs
-      await download(subtitleLink, "subtitles", {
-        filename: subtitleCompressedFileName,
-      });
-
-      // 9. Create path to downloaded subtitles
-      const subtitleAbsolutePath = path.resolve(
-        `${__dirname}/subtitles/${subtitleCompressedFileName}`,
+      const resolvedSubtitles = subtitles.filter(
+        (subtitle) => subtitle.status === "fulfilled",
       );
 
-      // 10. Create path to extracted subtitles
-      const extractedSubtitlePath = path.resolve(
-        `${__dirname}/subs/${subtitleFileNameWithoutExtension}`,
-      );
+      resolvedSubtitles.forEach(({ value: subtitle }) => {
+        const { subtitleGroup } = subtitle;
 
-      // 11. Create path to extracted subtitles
-      // fs.mkdirSync(extractedSubtitlePath);
-
-      // 12. Handle compressed rar files
-      if (fileExtension === "rar") {
-        await unrar.uncompress({
-          command: "e",
-          switches: ["-o+", "-idcd"],
-          src: subtitleAbsolutePath,
-          dest: extractedSubtitlePath,
+        setMovieSubtitlesToDatabase({
+          subtitle,
+          subtitleGroup,
+          movie: {
+            id: imdbId,
+            name: title,
+            year,
+            rating,
+          },
+          resolution,
+          fileNameHash,
+          releaseGroup,
+          releaseGroups,
+          subtitleGroups,
         });
-      }
-
-      // 13. Handle compressed zip files
-      if (fileExtension === "zip") {
-        await extract(subtitleAbsolutePath, { dir: extractedSubtitlePath });
-      }
-
-      // 14. Get extracted subtitle files
-      const extractedSubtitleFiles = fs.readdirSync(extractedSubtitlePath);
-
-      // 15. Get SRT file name
-      const srtFile = extractedSubtitleFiles.find(
-        (file) => path.extname(file).toLowerCase() === ".srt",
-      );
-
-      // 16. Get SRT file path
-      const extractedSrtFileNamePath = path.resolve(
-        `${__dirname}/subs/${subtitleFileNameWithoutExtension}/${srtFile}`,
-      );
-
-      // 17. Read SRT file
-      const srtFileToUpload = fs.readFileSync(extractedSrtFileNamePath);
-
-      // 18. Upload SRT file to Supabase storage
-      await supabase.storage
-        .from("subtitles")
-        .upload(subtitleSrtFileName, srtFileToUpload);
-
-      // 19. Save SRT to Supabase and get public URL for SRT file
-      const {
-        data: { publicUrl },
-      } = await supabase.storage
-        .from("subtitles")
-        .getPublicUrl(subtitleSrtFileName);
-
-      // 19. Get movie id by imdbId
-      const { data: movieData } = await supabase
-        .from("Movies")
-        .select("*")
-        .eq("id", imdbId);
-
-      // 20. Save movie to Supabase if is not yet saved
-      if (Array.isArray(movieData) && !movieData.length) {
-        await supabase
-          .from("Movies")
-          .insert({ id: imdbId, name: title, year, rating })
-          .select();
-      }
-
-      // 21. Get release and subtitle group id
-      const releaseGroupId = releaseGroups[releaseGroup].id;
-      const subtitleGroupId = subtitleGroups["SubDivX"].id;
-
-      // 22. Save subtitle to Supabase
-      await supabase.from("Subtitles").insert({
-        releaseGroupId,
-        subtitleGroupId,
-        movieId: imdbId,
-        resolution,
-        fileNameHash,
-        subtitleLink: publicUrl,
       });
-
-      console.log(
-        `Movie (+ Subtitle) saved to DB! ${name} in ${resolution} for ${releaseGroup} ✨`,
-      );
     } catch (error) {
-      // console.log('\n ~ forawait ~ error:', error.message);
+      console.log("\n ~ forawait ~ error:", error.message);
     }
   }
 }
@@ -227,7 +295,7 @@ async function ytsMxIndexer(): Promise<void> {
     console.log(`Finished movies from page ${page} 🥇`);
 
     // 7. Generate random delays between 5 and 15 seconds
-    const { seconds, miliseconds } = getRandomDelay();
+    const { seconds, miliseconds } = getRandomDelay(5, 10);
     console.log(`Delaying next iteration by ${seconds}s to avoid get blocked`);
 
     // 8. Delay next iteration
@@ -237,4 +305,9 @@ async function ytsMxIndexer(): Promise<void> {
   console.log("All movies saved to DB and Storage! 🎉");
 }
 
-// ytsMxIndexer();
+ytsMxIndexer();
+
+// saveReleaseGroupsToDb(supabase);
+// saveSubtitleGroupsToDb(supabase);
+
+// TODO: Add support table in Notion for QA
