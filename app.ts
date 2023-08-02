@@ -221,7 +221,14 @@ async function getMovieListFromDb(
 
       const resolvedSubtitles = subtitles.filter(
         (subtitle) => subtitle.status === "fulfilled",
-      );
+      ) as PromiseFulfilledResult<{
+        subtitleLink: string;
+        subtitleGroup: SubtitleGroupNames;
+        subtitleSrtFileName: string;
+        subtitleCompressedFileName: string;
+        subtitleFileNameWithoutExtension: string;
+        fileExtension: "zip" | "rar";
+      }>[];
 
       resolvedSubtitles.forEach(({ value: subtitle }) => {
         const { subtitleGroup } = subtitle;
@@ -243,7 +250,9 @@ async function getMovieListFromDb(
         });
       });
     } catch (error) {
-      console.log("\n ~ forawait ~ error:", error.message);
+      if (error instanceof Error) {
+        console.log("\n ~ forawait ~ error:", error.message);
+      }
     }
   }
 }
@@ -310,6 +319,5 @@ ytsMxIndexer();
 // saveReleaseGroupsToDb(supabase);
 // saveSubtitleGroupsToDb(supabase);
 
-// TODO: Add support table in Notion for QA
-// TODO: Add ts-reset
 // TODO: Try bun for dev at least
+// TODO: Add support table in Notion for QA
