@@ -311,3 +311,5 @@ ytsMxIndexer();
 // saveSubtitleGroupsToDb(supabase);
 
 // TODO: Add support table in Notion for QA
+// TODO: Add ts-reset
+// TODO: Try bun for dev at least
