@@ -7,7 +7,7 @@ import { getMovieData } from "./movie";
 import { SUBTITLE_GROUPS } from "./subtitle-groups";
 
 // Argenteam endpoints
-const ARGENTEAM_BASE_URL = "http://argenteam.net/api/v1" as const;
+const ARGENTEAM_BASE_URL = "https://argenteam.net/api/v1" as const;
 
 const argenteamApiEndpoints = {
   search: (query: string) => {

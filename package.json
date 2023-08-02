@@ -30,7 +30,7 @@
   "scripts": {
     "test": "vitest --run",
     "dev": "tsx --watch app.ts",
-    "check:types": "tsc --noEmit",
+    "check:types": "tsc --noEmit --pretty",
     "test:watch": "vitest --watch",
     "coverage": "vitest run --coverage",
     "test:ci": "vitest --run --silent --bail 1",
@@ -38,6 +38,9 @@
     "supabase:type:definitions": "npx supabase gen types typescript --project-id 'yelhsmnvfyyjuamxbobs' --schema public > supabase-types.ts"
   },
   "lint-staged": {
-    "*.ts": "vitest related --run"
+    "{src,tests}/**/*.ts": [
+      "yarn check:types",
+      "vitest related --run"
+    ]
   }
 }
