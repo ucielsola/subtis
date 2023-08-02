@@ -38,7 +38,7 @@
     "supabase:type:definitions": "npx supabase gen types typescript --project-id 'yelhsmnvfyyjuamxbobs' --schema public > supabase-types.ts"
   },
   "lint-staged": {
-    "./*.ts": [
+    "*.ts": [
       "tsc --noEmit",
       "vitest related --run"
     ]
