@@ -314,7 +314,7 @@ async function ytsMxIndexer(): Promise<void> {
   console.log("All movies saved to DB and Storage! 🎉");
 }
 
-ytsMxIndexer();
+// ytsMxIndexer();
 
 // saveReleaseGroupsToDb(supabase);
 // saveSubtitleGroupsToDb(supabase);
