@@ -31,9 +31,9 @@
     "dev": "tsx --watch app.ts",
     "check:types": "tsc --noEmit",
     "test:watch": "vitest --watch",
+    "test": "vitest related --run",
     "coverage": "vitest run --coverage",
     "clean": "rm -rf node_modules yarn.lock && yarn",
-    "test": "vitest related --run --testTimeout=30000",
     "supabase:type:definitions": "npx supabase gen types typescript --project-id 'yelhsmnvfyyjuamxbobs' --schema public > supabase-types.ts"
   },
   "lint-staged": {
