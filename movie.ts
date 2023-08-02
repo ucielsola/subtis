@@ -1,7 +1,7 @@
 import { P, match } from "ts-pattern";
 
-import { RELEASE_GROUPS, ReleaseGroupNames } from "./release-groups";
 import { VIDEO_FILE_EXTENSIONS, removeExtraSpaces } from "./utils";
+import { RELEASE_GROUPS, ReleaseGroupNames } from "./release-groups";
 
 export function getMovieName(name: string): string {
   return removeExtraSpaces(name.replaceAll(".", " ")).trim();
