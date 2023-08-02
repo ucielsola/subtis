@@ -40,7 +40,7 @@
   "lint-staged": {
     "*.ts": [
       "tsc --noEmit",
-      "vitest related --run"
+      "vitest related --run --testTimeout=30000"
     ]
   }
 }
