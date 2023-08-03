@@ -1,12 +1,14 @@
 import "dotenv/config";
 
 import fs from "fs";
+import turl from "turl";
 import path from "path";
 import delay from "delay";
 import download from "download";
 import extract from "extract-zip";
+import { match } from "ts-pattern";
 import unrar from "@continuata/unrar";
-import parseTorrent from "parse-torrent-updated";
+import invariant from "tiny-invariant";
 
 import { getMovieData } from "./movie";
 import { getSupabaseClient } from "./supabase";
@@ -15,14 +17,11 @@ import {
   ReleaseGroupMap,
   ReleaseGroupNames,
   getReleaseGroupsFromDb,
-  saveReleaseGroupsToDb,
 } from "./release-groups";
 import {
-  SUBTITLE_GROUPS,
   SubtitleGroupMap,
   SubtitleGroupNames,
   getSubtitleGroupsFromDb,
-  saveSubtitleGroupsToDb,
 } from "./subtitle-groups";
 import {
   YtsMxMovie,
@@ -32,21 +31,13 @@ import {
 import {
   getRandomDelay,
   getFileNameHash,
-  getNumbersArray,
+  safeParseTorrent,
   VIDEO_FILE_EXTENSIONS,
 } from "./utils";
 import { getArgenteamSubtitleLink } from "./argenteam";
 
 // supabase
 const supabase = getSupabaseClient();
-
-// db indexer
-type File = {
-  path: string;
-  name: string;
-  length: number;
-  offset: number;
-};
 
 async function setMovieSubtitlesToDatabase({
   subtitle,
@@ -77,7 +68,7 @@ async function setMovieSubtitlesToDatabase({
   subtitleGroup: SubtitleGroupNames;
   releaseGroups: ReleaseGroupMap;
   subtitleGroups: SubtitleGroupMap;
-}) {
+}): Promise<void> {
   const {
     subtitleLink,
     subtitleSrtFileName,
@@ -86,93 +77,105 @@ async function setMovieSubtitlesToDatabase({
     fileExtension,
   } = subtitle;
 
-  // 8. Download subtitle to fs
+  // 1. Download subtitle to fs
   await download(subtitleLink, "subtitles", {
     filename: subtitleCompressedFileName,
   });
 
-  // 9. Create path to downloaded subtitles
+  // 2. Create path to downloaded subtitles
   const subtitleAbsolutePath = path.resolve(
     `${__dirname}/subtitles/${subtitleCompressedFileName}`,
   );
 
-  // 10. Create path to extracted subtitles
+  // 3. Create path to extracted subtitles
   const extractedSubtitlePath = path.resolve(
     `${__dirname}/subs/${subtitleFileNameWithoutExtension}`,
   );
 
-  // 11. Handle compressed rar files
-  if (fileExtension === "rar") {
-    fs.mkdir(extractedSubtitlePath, { recursive: true }, (error) => null);
+  // 4. Handle compressed zip/rar files
+  await match(fileExtension)
+    .with("rar", async () => {
+      fs.mkdir(extractedSubtitlePath, { recursive: true }, (_error) => null);
 
-    await unrar.uncompress({
-      command: "e",
-      switches: ["-o+", "-idcd"],
-      src: subtitleAbsolutePath,
-      dest: extractedSubtitlePath,
-    });
-  }
+      await unrar.uncompress({
+        command: "e",
+        switches: ["-o+", "-idcd"],
+        src: subtitleAbsolutePath,
+        dest: extractedSubtitlePath,
+      });
+    })
+    .with("zip", async () => {
+      await extract(subtitleAbsolutePath, { dir: extractedSubtitlePath });
+    })
+    .exhaustive();
 
-  // 12. Handle compressed zip files
-  if (fileExtension === "zip") {
-    await extract(subtitleAbsolutePath, { dir: extractedSubtitlePath });
-  }
-
-  // 13. Get extracted subtitle files
+  // 6. Get extracted subtitle files
   const extractedSubtitleFiles = fs.readdirSync(extractedSubtitlePath);
 
-  // 14. Get SRT file name
+  // 7. Get SRT file name
   const srtFile = extractedSubtitleFiles.find(
     (file) => path.extname(file).toLowerCase() === ".srt",
   );
+  invariant(srtFile, "SRT file not found");
 
-  // 15. Get SRT file path
+  // 8. Get SRT file path
   const extractedSrtFileNamePath = path.resolve(
     `${__dirname}/subs/${subtitleFileNameWithoutExtension}/${srtFile}`,
   );
 
-  // 16. Read SRT file
+  // 9. Read SRT file
   const srtFileToUpload = fs.readFileSync(extractedSrtFileNamePath);
 
-  // 17. Upload SRT file to Supabase storage
-  const uploaded = await supabase.storage
+  // 10. Upload SRT file to Supabase storage
+  await supabase.storage
     .from("subtitles")
     .upload(subtitleSrtFileName, srtFileToUpload);
 
-  // 18. Save SRT to Supabase and get public URL for SRT file
+  // 11. Save SRT to Supabase and get public URL for SRT file
   const {
     data: { publicUrl },
   } = await supabase.storage
     .from("subtitles")
     .getPublicUrl(subtitleSrtFileName);
 
-  // 19. Get movie id by imdbId
+  // 12. Get movie by ID
   const { data: movieData } = await supabase
     .from("Movies")
     .select("*")
     .eq("id", movie.id);
+  invariant(movieData, "Movie not found");
 
-  // 20. Save movie to Supabase if is not yet saved
+  // 13. Save movie to Supabase if is not yet saved
   if (Array.isArray(movieData) && !movieData.length) {
     await supabase.from("Movies").insert(movie).select();
   }
 
-  // 21. Get release and subtitle group id
-  const releaseGroupId = releaseGroups[releaseGroup].id;
-  const subtitleGroupId = subtitleGroups[subtitleGroup].id;
+  // 14. Get release and subtitle group id
+  const { id: releaseGroupId } = releaseGroups[releaseGroup];
+  const { id: subtitleGroupId } = subtitleGroups[subtitleGroup];
 
-  // 22. Save subtitle to Supabase
+  // 15. Save subtitle to Supabase
   await supabase.from("Subtitles").insert({
     releaseGroupId,
     subtitleGroupId,
-    movieId: movie.id,
     resolution,
     fileNameHash,
+    movieId: movie.id,
     subtitleLink: publicUrl,
   });
 
+  // 16. Short Subtitle link
+  const subtitleShortLink = await turl.shorten(publicUrl);
+
   console.table([
-    { name: movie.name, resolution, releaseGroup, subtitleGroup },
+    {
+      name: movie.name.padEnd(50, "."),
+      resolution,
+      releaseGroup,
+      subtitleGroup,
+      subtitleLink: subtitleShortLink,
+      imdbLink: `https://www.imdb.com/title/${movie.id}`,
+    },
   ]);
 }
 
@@ -180,7 +183,7 @@ async function getMovieListFromDb(
   movie: YtsMxMovie,
   releaseGroups: ReleaseGroupMap,
   subtitleGroups: SubtitleGroupMap,
-) {
+): Promise<void> {
   const { title, rating, year, torrents, imdb_code: imdbId } = movie;
 
   for await (const torrent of torrents) {
@@ -195,7 +198,7 @@ async function getMovieListFromDb(
       const torrentFile = fs.readFileSync(
         `${__dirname}/torrents/${torrentFilename}`,
       );
-      const { files } = parseTorrent(torrentFile) as { files: File[] };
+      const { files } = safeParseTorrent(torrentFile);
 
       // 3. Find video file
       const videoFile = files.find((file) => {
@@ -204,21 +207,22 @@ async function getMovieListFromDb(
         });
       });
 
-      // 4. Return if no video file (should return?)
+      // 4. Return if no video file
       if (!videoFile) continue;
 
-      // 5. Get movie data from video file
+      // 5. Get movie data from video file name
       const { resolution, releaseGroup } = getMovieData(videoFile.name);
 
       // 6. Hash video file name
       const fileNameHash = getFileNameHash(videoFile.name);
 
-      // 7. Find subtitle metadata from SubDivx
+      // 7. Find subtitle metadata from SubDivx and Argenteam
       const subtitles = await Promise.allSettled([
         getSubDivXSubtitleLink(videoFile.name),
-        getArgenteamSubtitleLink(videoFile.name, imdbId),
+        // getArgenteamSubtitleLink(videoFile.name, imdbId),
       ]);
 
+      // 8. Filter fulfilled only promises
       const resolvedSubtitles = subtitles.filter(
         (subtitle) => subtitle.status === "fulfilled",
       ) as PromiseFulfilledResult<{
@@ -230,6 +234,7 @@ async function getMovieListFromDb(
         fileExtension: "zip" | "rar";
       }>[];
 
+      // 9. Save whole subtitles data to DB
       resolvedSubtitles.forEach(({ value: subtitle }) => {
         const { subtitleGroup } = subtitle;
 
@@ -257,40 +262,35 @@ async function getMovieListFromDb(
   }
 }
 
-async function ytsMxIndexer(): Promise<void> {
-  // 0. Get release and subtitle groups from DB
-  const releaseGroups = await getReleaseGroupsFromDb(supabase);
-  const subtitleGroups = await getSubtitleGroupsFromDb(supabase);
-
+async function indexYtsMxMoviesSubtitles(
+  releaseGroups: ReleaseGroupMap,
+  subtitleGroups: SubtitleGroupMap,
+): Promise<void> {
   // 1. Get total YTS-MX pages
-  const { totalPages } = await getYtsMxTotalMoviesAndPages();
+  const { totalPagesArray } = await getYtsMxTotalMoviesAndPages();
 
-  // 2. Create array of pages (from 1 to totalPages)
-  const totalPagesArray = getNumbersArray(totalPages);
-
-  // 3. Await for each page to get movies
+  // 2. Await for each page to get movies
   for await (const page of totalPagesArray) {
     console.log(`Getting movies for page ${page} 🚨`);
 
-    // 4. Get all the movies (50) for this page
+    // 3. Get all the movies (50) for this page
     const movieList = await getYtsMxMovieList(page);
 
-    // 5. Filter movies from movie list which already exists in DB
+    // 4. Filter movies from movie list which already exists in DB
+    const movieListIds = movieList.map(({ imdb_code }) => imdb_code);
+
     const { data: moviesFromDb } = await supabase
       .from("Movies")
       .select("*")
-      .in(
-        "id",
-        movieList.map((movie) => movie.imdb_code),
-      );
+      .in("id", movieListIds);
 
-    const moviesIdsFromDb = (moviesFromDb ?? []).map((movie) => movie.id);
+    const moviesIdsFromDb = (moviesFromDb ?? []).map(({ id }) => id);
     const movieListNotInDb = movieList.filter(
-      (movie) => !moviesIdsFromDb.includes(movie.imdb_code),
+      ({ imdb_code }) => !moviesIdsFromDb.includes(imdb_code),
     );
 
-    // 6. Run all 50 movies in parallels to get their subtitle and save them to DB and Storage
-    const movieListPromises = movieListNotInDb.map(async (movie) =>
+    // 5. Run all 50 movies in parallels to get their subtitle and save them to DB and Storage
+    const movieListPromises = movieListNotInDb.map((movie) =>
       getMovieListFromDb(movie, releaseGroups, subtitleGroups),
     );
     await Promise.all(movieListPromises);
@@ -303,20 +303,34 @@ async function ytsMxIndexer(): Promise<void> {
 
     console.log(`Finished movies from page ${page} 🥇`);
 
-    // 7. Generate random delays between 5 and 15 seconds
-    const { seconds, miliseconds } = getRandomDelay(5, 10);
+    // 6. Generate random delays between 2 and 5 seconds
+    const { seconds, miliseconds } = getRandomDelay(2, 5);
     console.log(`Delaying next iteration by ${seconds}s to avoid get blocked`);
 
-    // 8. Delay next iteration
+    // 7. Delay next iteration
     await delay(miliseconds);
+
+    console.log("-------------------------------\n\n\n");
   }
 
   console.log("All movies saved to DB and Storage! 🎉");
 }
 
-// ytsMxIndexer();
+async function mod() {
+  console.log("ABOUT TO INDEX ALL MOVIES SUBTITLES FROM YTS-MX 🚀");
 
-// saveReleaseGroupsToDb(supabase);
-// saveSubtitleGroupsToDb(supabase);
+  // 1. Get release and subtitle groups from DB
+  const releaseGroups = await getReleaseGroupsFromDb(supabase);
+  const subtitleGroups = await getSubtitleGroupsFromDb(supabase);
 
-// TODO: Try bun for dev at least
+  // 2. Run YTS-MX indexer
+  indexYtsMxMoviesSubtitles(releaseGroups, subtitleGroups);
+}
+
+mod();
+
+// TODO: Review tables and types with Hugo
+// TODO: Ping Nico to work over codebase scalability
+// TODO: Maybe add imdb full link to DB?
+// TODO: Run getSubDivXSubtitleLink, and getArgenteamSubtitleLink, by separate to find bugs
+// TODO: Can we get short URL from Supabase without using turl?

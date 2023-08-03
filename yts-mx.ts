@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { getNumbersArray } from "./utils";
+
 const YTS_BASE_URL = "https://yts.mx/api/v2" as const;
 
 const ytsApiEndpoints = {
@@ -76,15 +78,18 @@ export const schema = z.object({
 export async function getYtsMxTotalMoviesAndPages(limit = 50): Promise<{
   totalMovies: number;
   totalPages: number;
+  totalPagesArray: number[];
 }> {
   const response = await fetch(ytsApiEndpoints.movieList(1, 1));
   const data = await response.json();
 
   const parsedData = schema.parse(data);
   const totalMovies = parsedData.data.movie_count;
-  const totalPages = Math.ceil(totalMovies / limit);
 
-  return { totalMovies, totalPages };
+  const totalPages = Math.ceil(totalMovies / limit);
+  const totalPagesArray = getNumbersArray(totalPages);
+
+  return { totalMovies, totalPages, totalPagesArray };
 }
 
 export async function getYtsMxMovieList(
