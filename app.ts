@@ -334,3 +334,4 @@ mod();
 // TODO: Maybe add imdb full link to DB?
 // TODO: Run getSubDivXSubtitleLink, and getArgenteamSubtitleLink, by separate to find bugs
 // TODO: Can we get short URL from Supabase without using turl?
+// TODO: Test rarbg-api node module to get movies https://www.npmjs.com/package/rarbg-api

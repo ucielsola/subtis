@@ -101,6 +101,8 @@ export function getMovieData(movie: string): {
             .at(-1)
             ?.replace("x264-", "");
 
+          console.warn(`Release Group not supported in DB, ${releaseGroup}`);
+
           return {
             name: movieName,
             searchableMovieName,
