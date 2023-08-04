@@ -337,3 +337,4 @@ mod();
 // TODO: Can we get short URL from Supabase without using turl?
 // TODO: Add OpenSubtitles source
 // TODO: Test rarbg-api node module to get movies https://www.npmjs.com/package/rarbg-api
+// TODO: Add CLI to be able to play with a video file, i.e ponele-los-subs 'Zero.Tolerance.2015.720p.WEBRip.x264.AAC-[YTS.MX].mp4'
