@@ -329,9 +329,11 @@ async function mod() {
 
 mod();
 
-// TODO: Review tables and types with Hugo
-// TODO: Ping Nico to work over codebase scalability
+// TODO: Add videoFileName, and fileExtension to DB in Subtitles
 // TODO: Maybe add imdb full link to DB?
+// TODO: Review tables and types with Hugo
+// TODO: Ping Nico to work over codebase simplification and scalability
 // TODO: Run getSubDivXSubtitleLink, and getArgenteamSubtitleLink, by separate to find bugs
 // TODO: Can we get short URL from Supabase without using turl?
+// TODO: Add OpenSubtitles source
 // TODO: Test rarbg-api node module to get movies https://www.npmjs.com/package/rarbg-api
