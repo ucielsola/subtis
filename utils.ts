@@ -59,14 +59,8 @@ export function getFileNameHash(fileName: string): string {
   return crypto.createHash("md5").update(fileName).digest("hex");
 }
 
-// db indexer
-type File = {
-  path: string;
-  name: string;
-  length: number;
-  offset: number;
-};
+type File = { path: string; name: string; length: number; offset: number };
 
-export function safeParseTorrent(torrentFile: Buffer) {
+export function safeParseTorrent(torrentFile: Buffer): { files: File[] } {
   return parseTorrent(torrentFile) as { files: File[] };
 }
