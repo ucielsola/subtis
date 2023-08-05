@@ -87,6 +87,8 @@ export interface Database {
       Subtitles: {
         Row: {
           created_at: string
+          fileExtension: string
+          fileName: string
           fileNameHash: string
           id: number
           movieId: string
@@ -97,6 +99,8 @@ export interface Database {
         }
         Insert: {
           created_at?: string
+          fileExtension: string
+          fileName: string
           fileNameHash: string
           id?: number
           movieId: string
@@ -107,6 +111,8 @@ export interface Database {
         }
         Update: {
           created_at?: string
+          fileExtension?: string
+          fileName?: string
           fileNameHash?: string
           id?: number
           movieId?: string

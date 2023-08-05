@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import invariant from "tiny-invariant";
 import parseTorrent from "parse-torrent-updated";
 
 export const VIDEO_FILE_EXTENSIONS = [
@@ -39,6 +40,19 @@ export function getRandomDelay(
 
 export function removeExtraSpaces(value: string): string {
   return value.replace(/\s+/g, " ").trim();
+}
+
+export function getFileNameExtension(fileName: string): string {
+  const videoFileExtension = VIDEO_FILE_EXTENSIONS.find((videoFileExtension) =>
+    fileName.endsWith(videoFileExtension),
+  );
+
+  invariant(
+    videoFileExtension,
+    `Video file extension not supported: ${fileName}`,
+  );
+
+  return videoFileExtension.slice(1);
 }
 
 export function getFileNameHash(fileName: string): string {

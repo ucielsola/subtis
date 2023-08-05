@@ -32,6 +32,7 @@ import {
   getRandomDelay,
   getFileNameHash,
   safeParseTorrent,
+  getFileNameExtension,
   VIDEO_FILE_EXTENSIONS,
 } from "./utils";
 import { getArgenteamSubtitleLink } from "./argenteam";
@@ -42,8 +43,10 @@ const supabase = getSupabaseClient();
 async function setMovieSubtitlesToDatabase({
   subtitle,
   movie,
+  fileName,
   resolution,
   fileNameHash,
+  fileNameExtension,
   releaseGroup,
   subtitleGroup,
   releaseGroups,
@@ -62,8 +65,10 @@ async function setMovieSubtitlesToDatabase({
     year: number;
     rating: number;
   };
+  fileName: string;
   resolution: string;
   fileNameHash: string;
+  fileNameExtension: string;
   releaseGroup: ReleaseGroupNames;
   subtitleGroup: SubtitleGroupNames;
   releaseGroups: ReleaseGroupMap;
@@ -156,12 +161,14 @@ async function setMovieSubtitlesToDatabase({
 
   // 15. Save subtitle to Supabase
   await supabase.from("Subtitles").insert({
+    resolution,
     releaseGroupId,
     subtitleGroupId,
-    resolution,
-    fileNameHash,
     movieId: movie.id,
     subtitleLink: publicUrl,
+    fileName,
+    fileNameHash,
+    fileExtension: fileNameExtension,
   });
 
   // 16. Short Subtitle link
@@ -211,10 +218,13 @@ async function getMovieListFromDb(
       if (!videoFile) continue;
 
       // 5. Get movie data from video file name
-      const { resolution, releaseGroup } = getMovieData(videoFile.name);
+      const fileName = videoFile.name;
+      const fileNameExtension = getFileNameExtension(fileName);
+
+      const { resolution, releaseGroup } = getMovieData(fileName);
 
       // 6. Hash video file name
-      const fileNameHash = getFileNameHash(videoFile.name);
+      const fileNameHash = getFileNameHash(fileName);
 
       // 7. Find subtitle metadata from SubDivx and Argenteam
       const subtitles = await Promise.allSettled([
@@ -248,7 +258,9 @@ async function getMovieListFromDb(
             rating,
           },
           resolution,
+          fileName,
           fileNameHash,
+          fileNameExtension,
           releaseGroup,
           releaseGroups,
           subtitleGroups,
@@ -329,7 +341,7 @@ async function mod() {
 
 mod();
 
-// TODO: Add videoFileName, and fileExtension to DB in Subtitles
+// TODO: Upload SRT file to Supabase with original movie file name
 // TODO: Maybe add imdb full link to DB?
 // TODO: Review tables and types with Hugo
 // TODO: Ping Nico to work over codebase simplification and scalability
