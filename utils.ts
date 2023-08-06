@@ -42,7 +42,7 @@ export function removeExtraSpaces(value: string): string {
   return value.replace(/\s+/g, " ").trim();
 }
 
-export function getFileNameExtension(fileName: string): string {
+export function getMovieFileNameExtension(fileName: string): string {
   const videoFileExtension = VIDEO_FILE_EXTENSIONS.find((videoFileExtension) =>
     fileName.endsWith(videoFileExtension),
   );

@@ -4,6 +4,7 @@ import fs from "fs";
 import turl from "turl";
 import path from "path";
 import delay from "delay";
+import { rimraf } from "rimraf";
 import download from "download";
 import extract from "extract-zip";
 import { match } from "ts-pattern";
@@ -32,7 +33,7 @@ import {
   getRandomDelay,
   getFileNameHash,
   safeParseTorrent,
-  getFileNameExtension,
+  getMovieFileNameExtension,
   VIDEO_FILE_EXTENSIONS,
 } from "./utils";
 import { getArgenteamSubtitleLink } from "./argenteam";
@@ -136,30 +137,33 @@ async function setMovieSubtitlesToDatabase({
     .from("subtitles")
     .upload(subtitleSrtFileName, srtFileToUpload);
 
-  // 11. Save SRT to Supabase and get public URL for SRT file
+  // 11. Remove files and folders from fs to avoid collition with others subtitle groups
+  await rimraf([subtitleAbsolutePath, extractedSubtitlePath]);
+
+  // 12. Save SRT to Supabase and get public URL for SRT file
   const {
     data: { publicUrl },
   } = await supabase.storage
     .from("subtitles")
-    .getPublicUrl(subtitleSrtFileName);
+    .getPublicUrl(subtitleSrtFileName, { download: true });
 
-  // 12. Get movie by ID
+  // 13. Get movie by ID
   const { data: movieData } = await supabase
     .from("Movies")
     .select("*")
     .eq("id", movie.id);
   invariant(movieData, "Movie not found");
 
-  // 13. Save movie to Supabase if is not yet saved
+  // 14. Save movie to Supabase if is not yet saved
   if (Array.isArray(movieData) && !movieData.length) {
     await supabase.from("Movies").insert(movie).select();
   }
 
-  // 14. Get release and subtitle group id
+  // 15. Get release and subtitle group id
   const { id: releaseGroupId } = releaseGroups[releaseGroup];
   const { id: subtitleGroupId } = subtitleGroups[subtitleGroup];
 
-  // 15. Save subtitle to Supabase
+  // 16. Save subtitle to Supabase
   await supabase.from("Subtitles").insert({
     resolution,
     releaseGroupId,
@@ -171,7 +175,7 @@ async function setMovieSubtitlesToDatabase({
     fileExtension: fileNameExtension,
   });
 
-  // 16. Short Subtitle link
+  // 17. Short Subtitle link
   const subtitleShortLink = await turl.shorten(publicUrl);
 
   console.table([
@@ -202,10 +206,12 @@ async function getMovieListFromDb(
       await download(url, "torrents", { filename: torrentFilename });
 
       // 2. Read torrent file
-      const torrentFile = fs.readFileSync(
-        `${__dirname}/torrents/${torrentFilename}`,
-      );
+      const torrentPath = `${__dirname}/torrents/${torrentFilename}`;
+      const torrentFile = fs.readFileSync(torrentPath);
       const { files } = safeParseTorrent(torrentFile);
+
+      // 3. Remove torrent from fs
+      await rimraf(torrentPath);
 
       // 3. Find video file
       const videoFile = files.find((file) => {
@@ -219,7 +225,7 @@ async function getMovieListFromDb(
 
       // 5. Get movie data from video file name
       const fileName = videoFile.name;
-      const fileNameExtension = getFileNameExtension(fileName);
+      const fileNameExtension = getMovieFileNameExtension(fileName);
 
       const { resolution, releaseGroup } = getMovieData(fileName);
 
@@ -341,8 +347,6 @@ async function mod() {
 
 mod();
 
-// TODO: Upload SRT file to Supabase with original movie file name
-// TODO: Maybe add imdb full link to DB?
 // TODO: Review tables and types with Hugo
 // TODO: Ping Nico to work over codebase simplification and scalability
 // TODO: Run getSubDivXSubtitleLink, and getArgenteamSubtitleLink, by separate to find bugs
@@ -350,3 +354,4 @@ mod();
 // TODO: Add OpenSubtitles source
 // TODO: Test rarbg-api node module to get movies https://www.npmjs.com/package/rarbg-api
 // TODO: Add CLI to be able to play with a video file, i.e ponele-los-subs 'Zero.Tolerance.2015.720p.WEBRip.x264.AAC-[YTS.MX].mp4'
+// TODO: Upload SRT file to Supabase with original movie file name (not supported, it needs to be uploaded as a compressed file)
