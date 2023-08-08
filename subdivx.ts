@@ -2,9 +2,9 @@ import { JSDOM } from "jsdom";
 import slugify from "slugify";
 import invariant from "tiny-invariant";
 
-import { getMovieData } from "./movie";
 import { getIsLinkAlive } from "./utils";
 import { SUBTITLE_GROUPS } from "./subtitle-groups";
+import { ReleaseGroupNames } from "./release-groups";
 
 const SUBDIVX_BASE_URL = "https://subdivx.com" as const;
 
@@ -55,7 +55,15 @@ export async function getSubDivXSubtitleDownloadLink(
 }
 
 export async function getSubDivXSubtitleLink(
-  movieFileName: string,
+  movieData: {
+    name: string;
+    year: number;
+    resolution: string;
+    searchableMovieName: string;
+    searchableSubDivXName: string;
+    searchableArgenteamName: string;
+    releaseGroup: ReleaseGroupNames;
+  },
   page = "1",
 ): Promise<{
   subtitleLink: string;
@@ -71,7 +79,8 @@ export async function getSubDivXSubtitleLink(
     resolution,
     releaseGroup,
     searchableSubDivXName,
-  } = getMovieData(movieFileName);
+  } = movieData;
+
   const subtitlePageHtml = await getSubDivXSearchPageHtml(
     searchableMovieName,
     page,
@@ -99,7 +108,7 @@ export async function getSubDivXSubtitleLink(
   if (allSubtitlesElements.length > 90) {
     // Iterate to next pages until find the subtitle or no more results
     // The recursion will break loop on line 185
-    return getSubDivXSubtitleLink(movieFileName, String(Number(page) + 1));
+    return getSubDivXSubtitleLink(movieData, String(Number(page) + 1));
   }
 
   const hrefElement = previousSibling.querySelector(".titulo_menu_izq");

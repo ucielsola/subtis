@@ -3,10 +3,9 @@ import slugify from "slugify";
 import { match } from "ts-pattern";
 import invariant from "tiny-invariant";
 
-import { getMovieData } from "./movie";
 import { SUBTITLE_GROUPS } from "./subtitle-groups";
+import { ReleaseGroupNames } from "./release-groups";
 
-// Argenteam endpoints
 const ARGENTEAM_BASE_URL = "https://argenteam.net/api/v1" as const;
 
 const argenteamApiEndpoints = {
@@ -78,7 +77,15 @@ const argenteamResourceSchema = z.object({
 });
 
 export async function getArgenteamSubtitleLink(
-  movieFileName: string,
+  movieData: {
+    name: string;
+    year: number;
+    resolution: string;
+    searchableMovieName: string;
+    searchableSubDivXName: string;
+    searchableArgenteamName: string;
+    releaseGroup: ReleaseGroupNames;
+  },
   imdbId: string,
 ): Promise<{
   fileExtension: "zip";
@@ -88,9 +95,7 @@ export async function getArgenteamSubtitleLink(
   subtitleCompressedFileName: string;
   subtitleFileNameWithoutExtension: string;
 }> {
-  // 0. Get movie data
-  const { name, resolution, releaseGroup, searchableArgenteamName } =
-    getMovieData(movieFileName);
+  const { name, resolution, releaseGroup, searchableArgenteamName } = movieData;
 
   // 1. Parse imdb id
   const parsedImdbId = imdbId.replace("tt", "");

@@ -1,15 +1,16 @@
 import { describe, it } from "vitest";
 
+import { getMovieData } from "../movie";
 import { getArgenteamSubtitleLink } from "../argenteam";
 
 describe("getArgenteamSubtitleLink", () => {
   it("should return a subtitle link giving a movie, release group and quality", async ({
     expect,
   }) => {
-    const subtitleLink = await getArgenteamSubtitleLink(
+    const movieData = getMovieData(
       "The.Flash.2023.1080p.WEB-DL.H.264-RiGHTNOW.mkv",
-      "tt0439572",
     );
+    const subtitleLink = await getArgenteamSubtitleLink(movieData, "tt0439572");
 
     expect(subtitleLink).toEqual({
       fileExtension: "zip",
@@ -23,10 +24,8 @@ describe("getArgenteamSubtitleLink", () => {
   });
 
   it("should support YIFY group", async ({ expect }) => {
-    const subtitleLink = await getArgenteamSubtitleLink(
-      "Gremlins.1984.720p.x264.YIFY.mkv",
-      "tt0087363",
-    );
+    const movieData = getMovieData("Gremlins.1984.720p.x264.YIFY.mkv");
+    const subtitleLink = await getArgenteamSubtitleLink(movieData, "tt0087363");
 
     expect(subtitleLink).toEqual({
       subtitleLink:

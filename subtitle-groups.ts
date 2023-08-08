@@ -10,6 +10,10 @@ export const SUBTITLE_GROUPS = {
     name: "Argenteam",
     website: "https://argenteam.net",
   },
+  OPEN_SUBTITLES: {
+    name: "OpenSubtitles",
+    website: "https://www.opensubtitles.org",
+  },
 } as const;
 
 export type SubtitleGroup = {

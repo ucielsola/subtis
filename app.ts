@@ -1,5 +1,4 @@
 import "dotenv/config";
-
 import fs from "fs";
 import turl from "turl";
 import path from "path";
@@ -13,7 +12,6 @@ import invariant from "tiny-invariant";
 
 import { getMovieData } from "./movie";
 import { getSupabaseClient } from "./supabase";
-import { getSubDivXSubtitleLink } from "./subdivx";
 import {
   ReleaseGroupMap,
   ReleaseGroupNames,
@@ -36,7 +34,11 @@ import {
   getMovieFileNameExtension,
   VIDEO_FILE_EXTENSIONS,
 } from "./utils";
+
+// providers
+import { getSubDivXSubtitleLink } from "./subdivx";
 import { getArgenteamSubtitleLink } from "./argenteam";
+import { getOpenSubtitlesSubtitleLink } from "./opensubtitles";
 
 // supabase
 const supabase = getSupabaseClient();
@@ -175,7 +177,7 @@ async function setMovieSubtitlesToDatabase({
     fileExtension: fileNameExtension,
   });
 
-  // 17. Short Subtitle link
+  // 17. Short Subtitle link (ONLY USED FOR DEVELOPMENT)
   const subtitleShortLink = await turl.shorten(publicUrl);
 
   console.table([
@@ -227,15 +229,17 @@ async function getMovieListFromDb(
       const fileName = videoFile.name;
       const fileNameExtension = getMovieFileNameExtension(fileName);
 
-      const { resolution, releaseGroup } = getMovieData(fileName);
+      const movieData = getMovieData(fileName);
+      const { resolution, releaseGroup } = movieData;
 
       // 6. Hash video file name
       const fileNameHash = getFileNameHash(fileName);
 
       // 7. Find subtitle metadata from SubDivx and Argenteam
       const subtitles = await Promise.allSettled([
-        getSubDivXSubtitleLink(videoFile.name),
-        // getArgenteamSubtitleLink(videoFile.name, imdbId),
+        getSubDivXSubtitleLink(movieData),
+        // getArgenteamSubtitleLink(movieData, imdbId),
+        // getOpenSubtitlesSubtitleLink(movieData, imdbId),
       ]);
 
       // 8. Filter fulfilled only promises
@@ -322,7 +326,7 @@ async function indexYtsMxMoviesSubtitles(
     console.log(`Finished movies from page ${page} 🥇`);
 
     // 6. Generate random delays between 2 and 5 seconds
-    const { seconds, miliseconds } = getRandomDelay(2, 5);
+    const { seconds, miliseconds } = getRandomDelay(10, 15);
     console.log(`Delaying next iteration by ${seconds}s to avoid get blocked`);
 
     // 7. Delay next iteration
@@ -345,12 +349,12 @@ async function mod() {
   indexYtsMxMoviesSubtitles(releaseGroups, subtitleGroups);
 }
 
-mod();
+// mod();
 
+// TODO: Add support for series
 // TODO: Review tables and types with Hugo
 // TODO: Ping Nico to work over codebase simplification and scalability
 // TODO: Run getSubDivXSubtitleLink, and getArgenteamSubtitleLink, by separate to find bugs
-// TODO: Can we get short URL from Supabase without using turl?
 // TODO: Add OpenSubtitles source
 // TODO: Test rarbg-api node module to get movies https://www.npmjs.com/package/rarbg-api
 // TODO: Add CLI to be able to play with a video file, i.e ponele-los-subs 'Zero.Tolerance.2015.720p.WEBRip.x264.AAC-[YTS.MX].mp4'
