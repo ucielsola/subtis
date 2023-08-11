@@ -12,21 +12,21 @@ export interface Database {
       Movies: {
         Row: {
           created_at: string
-          id: string
+          id: number
           name: string
           rating: number
           year: number
         }
         Insert: {
           created_at?: string
-          id: string
+          id: number
           name: string
           rating: number
           year: number
         }
         Update: {
           created_at?: string
-          id?: string
+          id?: number
           name?: string
           rating?: number
           year?: number
@@ -91,7 +91,7 @@ export interface Database {
           fileName: string
           fileNameHash: string
           id: number
-          movieId: string
+          movieId: number | null
           releaseGroupId: number
           resolution: string
           subtitleGroupId: number
@@ -103,7 +103,7 @@ export interface Database {
           fileName: string
           fileNameHash: string
           id?: number
-          movieId: string
+          movieId?: number | null
           releaseGroupId: number
           resolution: string
           subtitleGroupId: number
@@ -115,7 +115,7 @@ export interface Database {
           fileName?: string
           fileNameHash?: string
           id?: number
-          movieId?: string
+          movieId?: number | null
           releaseGroupId?: number
           resolution?: string
           subtitleGroupId?: number

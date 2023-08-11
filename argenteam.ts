@@ -9,7 +9,7 @@ import { ReleaseGroupNames } from "./release-groups";
 const ARGENTEAM_BASE_URL = "https://argenteam.net/api/v1" as const;
 
 const argenteamApiEndpoints = {
-  search: (query: string) => {
+  search: (query: number) => {
     return `${ARGENTEAM_BASE_URL}/search?q=${query}`;
   },
   tvShow: (id: number) => {
@@ -86,7 +86,7 @@ export async function getArgenteamSubtitleLink(
     searchableArgenteamName: string;
     releaseGroup: ReleaseGroupNames;
   },
-  imdbId: string,
+  imdbId: number,
 ): Promise<{
   fileExtension: "zip";
   subtitleLink: string;
@@ -97,11 +97,14 @@ export async function getArgenteamSubtitleLink(
 }> {
   const { name, resolution, releaseGroup, searchableArgenteamName } = movieData;
 
-  // 1. Parse imdb id
-  const parsedImdbId = imdbId.replace("tt", "");
+  // 1. Validate imdbId
+  invariant(
+    !String(imdbId).startsWith("tt"),
+    "imdbId should not start with 'tt'",
+  );
 
   // 2. Get argenteam search results
-  const argenteamSearchEndpoint = argenteamApiEndpoints.search(parsedImdbId);
+  const argenteamSearchEndpoint = argenteamApiEndpoints.search(imdbId);
   const searchResponse = await fetch(argenteamSearchEndpoint);
   const rawSearchData = await searchResponse.json();
 

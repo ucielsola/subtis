@@ -25,14 +25,18 @@ export async function getOpenSubtitlesSubtitleLink(
     searchableArgenteamName: string;
     releaseGroup: ReleaseGroupNames;
   },
-  imdbId: string,
+  imdbId: number,
 ) {
   try {
     const { name, resolution, releaseGroup } = movieData;
-    const parsedImdbId = imdbId.replace("tt", "");
+
+    invariant(
+      !String(imdbId).startsWith("tt"),
+      "imdbId should not start with 'tt'",
+    );
 
     const response = await fetch(
-      `${OPEN_SUBTITLES_BASE_URL}/subtitles?imdb_id=${parsedImdbId}&languages=es`,
+      `${OPEN_SUBTITLES_BASE_URL}/subtitles?imdb_id=${imdbId}&languages=es`,
       { headers },
     );
     const data = await response.json();

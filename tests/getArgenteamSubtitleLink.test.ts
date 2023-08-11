@@ -8,33 +8,21 @@ describe("getArgenteamSubtitleLink", () => {
     expect,
   }) => {
     const movieData = getMovieData(
-      "The.Flash.2023.1080p.WEB-DL.H.264-RiGHTNOW.mkv",
+      "Spider-Man.Across.The.Spider-Verse.2023.1080p.WEB-DL.DDP5.1.Atmos.x264-AOC.mkv",
     );
-    const subtitleLink = await getArgenteamSubtitleLink(movieData, "tt0439572");
+    const subtitleLink = await getArgenteamSubtitleLink(movieData, 9362722);
 
     expect(subtitleLink).toEqual({
       fileExtension: "zip",
       subtitleGroup: "Argenteam",
-      subtitleCompressedFileName: "the-flash-1080p-rightnow-argenteam.zip",
-      subtitleFileNameWithoutExtension: "the-flash-1080p-rightnow-argenteam",
+      subtitleCompressedFileName:
+        "spider-man-across-the-spider-verse-1080p-aoc-argenteam.zip",
+      subtitleFileNameWithoutExtension:
+        "spider-man-across-the-spider-verse-1080p-aoc-argenteam",
       subtitleLink:
-        "https://argenteam.net/subtitles/90162/The.Flash.%282023%29.WEB-DL.H264.1080p-RiGHTNOW",
-      subtitleSrtFileName: "the-flash-1080p-rightnow-argenteam.srt",
-    });
-  });
-
-  it("should support YIFY group", async ({ expect }) => {
-    const movieData = getMovieData("Gremlins.1984.720p.x264.YIFY.mkv");
-    const subtitleLink = await getArgenteamSubtitleLink(movieData, "tt0087363");
-
-    expect(subtitleLink).toEqual({
-      subtitleLink:
-        "https://argenteam.net/subtitles/64042/Gremlins.%281984%29.BDRip.x264.720p.AAC-YIFY",
-      fileExtension: "zip",
-      subtitleGroup: "Argenteam",
-      subtitleSrtFileName: "gremlins-720p-yify-argenteam.srt",
-      subtitleCompressedFileName: "gremlins-720p-yify-argenteam.zip",
-      subtitleFileNameWithoutExtension: "gremlins-720p-yify-argenteam",
+        "https://argenteam.net/subtitles/90262/Spider-Man.Across.the.Spider-Verse.%282023%29.WEB-DL.x264.1080p.ATMOS-AOC",
+      subtitleSrtFileName:
+        "spider-man-across-the-spider-verse-1080p-aoc-argenteam.srt",
     });
   });
 

@@ -23,7 +23,7 @@ import {
   getSubtitleGroupsFromDb,
 } from "./subtitle-groups";
 import {
-  YtsMxMovie,
+  YtsMxMovieList,
   getYtsMxMovieList,
   getYtsMxTotalMoviesAndPages,
 } from "./yts-mx";
@@ -63,7 +63,7 @@ async function setMovieSubtitlesToDatabase({
     fileExtension: "rar" | "zip";
   };
   movie: {
-    id: string;
+    id: number;
     name: string;
     year: number;
     rating: number;
@@ -193,11 +193,11 @@ async function setMovieSubtitlesToDatabase({
 }
 
 async function getMovieListFromDb(
-  movie: YtsMxMovie,
+  movie: YtsMxMovieList,
   releaseGroups: ReleaseGroupMap,
   subtitleGroups: SubtitleGroupMap,
 ): Promise<void> {
-  const { title, rating, year, torrents, imdb_code: imdbId } = movie;
+  const { title, rating, year, torrents, imdbId } = movie;
 
   for await (const torrent of torrents) {
     const { url, hash } = torrent;
@@ -299,7 +299,7 @@ async function indexYtsMxMoviesSubtitles(
     const movieList = await getYtsMxMovieList(page);
 
     // 4. Filter movies from movie list which already exists in DB
-    const movieListIds = movieList.map(({ imdb_code }) => imdb_code);
+    const movieListIds = movieList.map(({ imdbId }) => imdbId);
 
     const { data: moviesFromDb } = await supabase
       .from("Movies")
@@ -308,7 +308,7 @@ async function indexYtsMxMoviesSubtitles(
 
     const moviesIdsFromDb = (moviesFromDb ?? []).map(({ id }) => id);
     const movieListNotInDb = movieList.filter(
-      ({ imdb_code }) => !moviesIdsFromDb.includes(imdb_code),
+      ({ imdbId }) => !moviesIdsFromDb.includes(imdbId),
     );
 
     // 5. Run all 50 movies in parallels to get their subtitle and save them to DB and Storage
@@ -349,7 +349,7 @@ async function mod() {
   indexYtsMxMoviesSubtitles(releaseGroups, subtitleGroups);
 }
 
-// mod();
+mod();
 
 // TODO: Add support for series
 // TODO: Review tables and types with Hugo
