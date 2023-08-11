@@ -351,9 +351,9 @@ async function mod() {
 
 mod();
 
+// TODO: Add tests for all functions
 // TODO: Add support for series
 // TODO: Review tables and types with Hugo
-// TODO: Ping Nico to work over codebase simplification and scalability
 // TODO: Run getSubDivXSubtitleLink, and getArgenteamSubtitleLink, getOpenSubtitleLink by separate to find bugs
 // TODO: Test rarbg-api node module to get movies https://www.npmjs.com/package/rarbg-api
 // TODO: Upload SRT file to Supabase with original movie file name (not supported, it needs to be uploaded as a compressed file?)
