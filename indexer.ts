@@ -354,8 +354,6 @@ async function mod() {
 // TODO: Add support for series
 // TODO: Review tables and types with Hugo
 // TODO: Ping Nico to work over codebase simplification and scalability
-// TODO: Run getSubDivXSubtitleLink, and getArgenteamSubtitleLink, by separate to find bugs
-// TODO: Add OpenSubtitles source
+// TODO: Run getSubDivXSubtitleLink, and getArgenteamSubtitleLink, getOpenSubtitleLink by separate to find bugs
 // TODO: Test rarbg-api node module to get movies https://www.npmjs.com/package/rarbg-api
-// TODO: Add CLI to be able to play with a video file, i.e ponele-los-subs 'Zero.Tolerance.2015.720p.WEBRip.x264.AAC-[YTS.MX].mp4'
-// TODO: Upload SRT file to Supabase with original movie file name (not supported, it needs to be uploaded as a compressed file)
+// TODO: Upload SRT file to Supabase with original movie file name (not supported, it needs to be uploaded as a compressed file?)
