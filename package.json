@@ -31,9 +31,9 @@
   },
   "scripts": {
     "test:ci": "vitest run",
-    "dev": "tsx --watch app.ts",
     "check:types": "tsc --noEmit",
     "test:watch": "vitest --watch",
+    "dev": "tsx --watch indexer.ts",
     "coverage": "vitest run --coverage",
     "clean": "rm -rf node_modules yarn-error.log yarn.lock && yarn",
     "supabase:type:definitions": "npx supabase gen types typescript --project-id 'yelhsmnvfyyjuamxbobs' --schema public > supabase-types.ts"
