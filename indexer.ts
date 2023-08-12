@@ -1,4 +1,5 @@
 import "dotenv/config";
+
 import fs from "fs";
 import turl from "turl";
 import path from "path";
@@ -237,9 +238,9 @@ async function getMovieListFromDb(
 
       // 7. Find subtitle metadata from SubDivx and Argenteam
       const subtitles = await Promise.allSettled([
-        getSubDivXSubtitleLink(movieData),
+        // getSubDivXSubtitleLink(movieData),
         // getArgenteamSubtitleLink(movieData, imdbId),
-        // getOpenSubtitlesSubtitleLink(movieData, imdbId),
+        getOpenSubtitlesSubtitleLink(movieData, imdbId),
       ]);
 
       // 8. Filter fulfilled only promises
@@ -351,6 +352,8 @@ async function mod() {
 
 mod();
 
+// TODO: Handle download .SRT file
+// TODO: Reach out to OpenSubtitles for a higher quota
 // TODO: Add tests for all functions
 // TODO: Add support for series
 // TODO: Review tables and types with Hugo
