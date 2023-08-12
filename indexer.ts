@@ -61,7 +61,7 @@ async function setMovieSubtitlesToDatabase({
     subtitleSrtFileName: string;
     subtitleCompressedFileName: string;
     subtitleFileNameWithoutExtension: string;
-    fileExtension: "rar" | "zip";
+    fileExtension: "rar" | "zip" | "srt";
   };
   movie: {
     id: number;
@@ -116,29 +116,42 @@ async function setMovieSubtitlesToDatabase({
     .with("zip", async () => {
       await extract(subtitleAbsolutePath, { dir: extractedSubtitlePath });
     })
+    .with("srt", async () => {
+      await download(subtitleLink, "subs", {
+        filename: subtitleSrtFileName,
+      });
+    })
     .exhaustive();
 
-  // 6. Get extracted subtitle files
-  const extractedSubtitleFiles = fs.readdirSync(extractedSubtitlePath);
+  let srtFileToUpload;
 
-  // 7. Get SRT file name
-  const srtFile = extractedSubtitleFiles.find(
-    (file) => path.extname(file).toLowerCase() === ".srt",
-  );
-  invariant(srtFile, "SRT file not found");
+  if (["zip", "rar"].includes(fileExtension)) {
+    const extractedSubtitleFiles = fs.readdirSync(extractedSubtitlePath);
 
-  // 8. Get SRT file path
-  const extractedSrtFileNamePath = path.resolve(
-    `${__dirname}/subs/${subtitleFileNameWithoutExtension}/${srtFile}`,
-  );
+    const srtFile = extractedSubtitleFiles.find(
+      (file) => path.extname(file).toLowerCase() === ".srt",
+    );
+    invariant(srtFile, "SRT file not found");
 
-  // 9. Read SRT file
-  const srtFileToUpload = fs.readFileSync(extractedSrtFileNamePath);
+    const extractedSrtFileNamePath = path.resolve(
+      `${__dirname}/subs/${subtitleFileNameWithoutExtension}/${srtFile}`,
+    );
+
+    srtFileToUpload = fs.readFileSync(extractedSrtFileNamePath);
+  }
+
+  if (fileExtension === "srt") {
+    const srtFileNamePath = path.resolve(
+      `${__dirname}/subs/${subtitleSrtFileName}`,
+    );
+
+    srtFileToUpload = fs.readFileSync(srtFileNamePath);
+  }
 
   // 10. Upload SRT file to Supabase storage
   await supabase.storage
     .from("subtitles")
-    .upload(subtitleSrtFileName, srtFileToUpload);
+    .upload(subtitleSrtFileName, srtFileToUpload as Buffer);
 
   // 11. Remove files and folders from fs to avoid collition with others subtitle groups
   await rimraf([subtitleAbsolutePath, extractedSubtitlePath]);
@@ -352,11 +365,11 @@ async function mod() {
 
 mod();
 
-// TODO: Handle download .SRT file
+// TODO: Filter OpenSubtitles files by release group and definition
 // TODO: Reach out to OpenSubtitles for a higher quota
 // TODO: Add tests for all functions
 // TODO: Add support for series
 // TODO: Review tables and types with Hugo
 // TODO: Run getSubDivXSubtitleLink, and getArgenteamSubtitleLink, getOpenSubtitleLink by separate to find bugs
 // TODO: Test rarbg-api node module to get movies https://www.npmjs.com/package/rarbg-api
-// TODO: Upload SRT file to Supabase with original movie file name (not supported, it needs to be uploaded as a compressed file?)
+// TODO: Upload SRT file to Supabase with original movie file name (not supported?, it needs to be uploaded as a compressed file?)
