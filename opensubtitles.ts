@@ -1,4 +1,6 @@
 import "dotenv/config";
+
+import { z } from "zod";
 import slugify from "slugify";
 import invariant from "tiny-invariant";
 
@@ -7,13 +9,84 @@ import { ReleaseGroupNames } from "./release-groups";
 
 const OPEN_SUBTITLES_BASE_URL = "https://api.opensubtitles.com/api/v1" as const;
 
-// TODO: Save API-KEY to an env
 const headers = {
   "Content-Type": "application/json",
   "Api-Key": process.env.OPEN_SUBTITLES_API_KEY as string,
 };
 
-// TODO: Reach out to OpenSubtitles for a higher quota
+const subtitleDataSchema = z.object({
+  id: z.string(),
+  type: z.string(),
+  attributes: z.object({
+    subtitle_id: z.string(),
+    language: z.string(),
+    download_count: z.number(),
+    new_download_count: z.number(),
+    hearing_impaired: z.boolean(),
+    hd: z.boolean(),
+    fps: z.number(),
+    votes: z.number(),
+    ratings: z.number(),
+    from_trusted: z.boolean().nullable(),
+    foreign_parts_only: z.boolean(),
+    upload_date: z.string(),
+    ai_translated: z.boolean(),
+    machine_translated: z.boolean(),
+    release: z.string(),
+    comments: z.string(),
+    legacy_subtitle_id: z.number().nullable(),
+    uploader: z.object({
+      name: z.string(),
+      rank: z.string(),
+      uploader_id: z.number().nullable(),
+    }),
+
+    feature_details: z.object({
+      feature_id: z.number(),
+      feature_type: z.string(),
+      year: z.number(),
+      title: z.string(),
+      movie_name: z.string(),
+      imdb_id: z.number(),
+      tmdb_id: z.number(),
+    }),
+    related_links: z.array(
+      z.object({
+        label: z.string(),
+        url: z.string(),
+        img_url: z.string(),
+      }),
+    ),
+    files: z.array(
+      z.object({
+        file_id: z.number(),
+        cd_number: z.number(),
+        file_name: z.string(),
+      }),
+    ),
+  }),
+});
+
+const subtitlesSchema = z.object({
+  total_pages: z.number(),
+  total_count: z.number(),
+  per_page: z.number(),
+  page: z.number(),
+  data: z.array(subtitleDataSchema),
+});
+
+const downloadSchema = z.object({
+  link: z.string(),
+  file_name: z.string(),
+  requests: z.number(),
+  remaining: z.number(),
+  message: z.string(),
+  reset_time: z.string(),
+  reset_time_utc: z.string(),
+  uk: z.string(),
+  uid: z.number(),
+  ts: z.number(),
+});
 
 export async function getOpenSubtitlesSubtitleLink(
   movieData: {
@@ -40,58 +113,53 @@ export async function getOpenSubtitlesSubtitleLink(
       { headers },
     );
     const data = await response.json();
+    console.log("\n ~ data:", data);
 
-    // @ts-expect-error
-    if (data?.data) {
-      // @ts-expect-error
-      const firstResult = data.data[0];
+    const parsedData = subtitlesSchema.parse(data);
+    invariant(parsedData.data, "No subtitles data found");
 
-      invariant(firstResult, "No data found");
+    const firstResult = parsedData.data[0];
+    invariant(firstResult, "No subtitle data found");
 
-      const { files } = firstResult.attributes;
-      const { file_id: fileId } = files[0];
-      console.table(files);
+    const { files } = firstResult.attributes;
+    const { file_id } = files[0];
+    console.table(files);
 
-      const response2 = await fetch(`${OPEN_SUBTITLES_BASE_URL}/download`, {
+    const downloadResponse = await fetch(
+      `${OPEN_SUBTITLES_BASE_URL}/download`,
+      {
         headers,
-        body: JSON.stringify({ file_id: fileId }),
         method: "POST",
-      });
-      const data2 = await response2.json();
-      console.log("\n ~ data2:", data2);
+        body: JSON.stringify({ file_id }),
+      },
+    );
+    const downloadData = await downloadResponse.json();
 
-      // @ts-expect-error
-      invariant(data2?.link, "No data found");
+    const parsedDownloadData = downloadSchema.parse(downloadData);
+    invariant(parsedDownloadData.link, "No download subtitle link found");
 
-      const fileExtension = "srt";
+    const fileExtension = "srt";
+    const subtitleLink = parsedDownloadData.link;
+    const subtitleGroup = SUBTITLE_GROUPS.OPEN_SUBTITLES.name;
 
-      // @ts-expect-error
-      const subtitleLink = data2?.link;
-      const subtitleGroup = SUBTITLE_GROUPS.OPEN_SUBTITLES.name;
+    const subtitleSrtFileName = slugify(
+      `${name}-${resolution}-${releaseGroup}-${subtitleGroup}.srt`,
+    ).toLowerCase();
+    const subtitleFileNameWithoutExtension = slugify(
+      `${name}-${resolution}-${releaseGroup}-${subtitleGroup}`,
+    ).toLowerCase();
+    const subtitleCompressedFileName = slugify(
+      `${name}-${resolution}-${releaseGroup}-${subtitleGroup}.${fileExtension}`,
+    ).toLowerCase();
 
-      const subtitleSrtFileName = slugify(
-        `${name}-${resolution}-${releaseGroup}-opensubtitles.srt`,
-      ).toLowerCase();
-      const subtitleFileNameWithoutExtension = slugify(
-        `${name}-${resolution}-${releaseGroup}-opensubtitles`,
-      ).toLowerCase();
-      const subtitleCompressedFileName = slugify(
-        `${name}-${resolution}-${releaseGroup}-opensubtitles.${fileExtension}`,
-      ).toLowerCase();
-
-      return {
-        fileExtension,
-        subtitleLink,
-        subtitleGroup,
-        subtitleSrtFileName,
-        subtitleCompressedFileName,
-        subtitleFileNameWithoutExtension,
-      };
-    }
-
-    invariant(false, "No data found");
-
-    console.log("\n ~ getOpenSubtitlesSubtitleLink ~ data:", data);
+    return {
+      fileExtension,
+      subtitleLink,
+      subtitleGroup,
+      subtitleSrtFileName,
+      subtitleCompressedFileName,
+      subtitleFileNameWithoutExtension,
+    };
   } catch (error) {
     console.log("\n ~ getOpenSubtitlesSubtitleLink ~ error:", error);
   }
