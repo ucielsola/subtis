@@ -132,20 +132,19 @@ export async function getSubDivXSubtitleLink(
 
   invariant(isRarLinkAlive || isZipLinkAlive, "Subtitle link should be alive");
 
+  const subtitleGroup = SUBTITLE_GROUPS.SUBDIVX.name;
   const fileExtension = isRarLinkAlive ? "rar" : "zip";
   const subtitleLink = isRarLinkAlive ? subtitleRarLink : subtitleZipLink;
 
   const subtitleSrtFileName = slugify(
-    `${name}-${resolution}-${releaseGroup}-subdivx.srt`,
+    `${name}-${resolution}-${releaseGroup}-${subtitleGroup}.srt`,
   ).toLowerCase();
   const subtitleFileNameWithoutExtension = slugify(
-    `${name}-${resolution}-${releaseGroup}-subdivx`,
+    `${name}-${resolution}-${releaseGroup}-${subtitleGroup}`,
   ).toLowerCase();
   const subtitleCompressedFileName = slugify(
-    `${name}-${resolution}-${releaseGroup}-subdivx.${fileExtension}`,
+    `${name}-${resolution}-${releaseGroup}-${subtitleGroup}.${fileExtension}`,
   ).toLowerCase();
-
-  const subtitleGroup = SUBTITLE_GROUPS.SUBDIVX.name;
 
   return {
     fileExtension,

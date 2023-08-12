@@ -147,15 +147,15 @@ export async function getArgenteamSubtitleLink(
   const subtitleGroup = SUBTITLE_GROUPS.ARGENTEAM.name;
 
   const subtitleSrtFileName = slugify(
-    `${name}-${resolution}-${releaseGroup}-argenteam.srt`,
+    `${name}-${resolution}-${releaseGroup}-${subtitleGroup}.srt`,
   ).toLowerCase();
 
   const subtitleFileNameWithoutExtension = slugify(
-    `${name}-${resolution}-${releaseGroup}-argenteam`,
+    `${name}-${resolution}-${releaseGroup}-${subtitleGroup}`,
   ).toLowerCase();
 
   const subtitleCompressedFileName = slugify(
-    `${name}-${resolution}-${releaseGroup}-argenteam.zip`,
+    `${name}-${resolution}-${releaseGroup}-${subtitleGroup}.zip`,
   ).toLowerCase();
 
   return {
