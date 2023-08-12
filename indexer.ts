@@ -366,7 +366,6 @@ async function mod() {
 
 mod();
 
-// TODO: Filter OpenSubtitles files by release group and definition
 // TODO: Reach out to OpenSubtitles for a higher quota
 // TODO: Add tests for all functions
 // TODO: Add support for series
@@ -374,3 +373,9 @@ mod();
 // TODO: Run getSubDivXSubtitleLink, and getArgenteamSubtitleLink, getOpenSubtitleLink by separate to find bugs
 // TODO: Test rarbg-api node module to get movies https://www.npmjs.com/package/rarbg-api
 // TODO: Upload SRT file to Supabase with original movie file name (not supported?, it needs to be uploaded as a compressed file?)
+
+// Support Table
+// RELEASE GROUPS | SUBTITLE GROUP | SUPPORT
+// YTS.MX         | SUBDIVX        | ✅
+// YTS.MX         | ARGENTEAM      | ✅
+// YTS.MX         | OPEN SUBTITLES | ✅
