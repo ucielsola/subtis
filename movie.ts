@@ -15,6 +15,7 @@ export function getMovieData(movie: string): {
   searchableSubDivXName: string;
   searchableArgenteamName: string;
   releaseGroup: ReleaseGroupNames;
+  searchableOpenSubtitlesName: string;
 } {
   const FIRST_MOVIE_RECORDED = 1888;
   const currentYear = new Date().getFullYear() + 1;
@@ -55,6 +56,7 @@ export function getMovieData(movie: string): {
               releaseGroup: YTS_MX.name,
               searchableSubDivXName: YTS_MX.searchableSubDivXName,
               searchableArgenteamName: YTS_MX.searchableArgenteamName,
+              searchableOpenSubtitlesName: YTS_MX.searchableOpenSubtitlesName,
             };
           }
 
@@ -67,6 +69,7 @@ export function getMovieData(movie: string): {
               releaseGroup: CODY.name,
               searchableSubDivXName: CODY.searchableSubDivXName,
               searchableArgenteamName: CODY.searchableArgenteamName,
+              searchableOpenSubtitlesName: CODY.searchableOpenSubtitlesName,
             };
           }
 
@@ -79,6 +82,8 @@ export function getMovieData(movie: string): {
               releaseGroup: GALAXY_RG.name,
               searchableSubDivXName: GALAXY_RG.searchableSubDivXName,
               searchableArgenteamName: GALAXY_RG.searchableArgenteamName,
+              searchableOpenSubtitlesName:
+                GALAXY_RG.searchableOpenSubtitlesName,
             };
           }
 
@@ -91,6 +96,7 @@ export function getMovieData(movie: string): {
               releaseGroup: RIGHTNOW.name,
               searchableSubDivXName: RIGHTNOW.searchableSubDivXName,
               searchableArgenteamName: RIGHTNOW.searchableArgenteamName,
+              searchableOpenSubtitlesName: RIGHTNOW.searchableOpenSubtitlesName,
             };
           }
 
@@ -110,9 +116,10 @@ export function getMovieData(movie: string): {
             searchableMovieName,
             year,
             resolution,
+            releaseGroup: releaseGroup as ReleaseGroupNames,
             searchableSubDivXName: releaseGroup as string,
             searchableArgenteamName: releaseGroup as string,
-            releaseGroup: releaseGroup as ReleaseGroupNames,
+            searchableOpenSubtitlesName: releaseGroup as string,
           };
         }
       }
