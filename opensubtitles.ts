@@ -40,7 +40,6 @@ const subtitleDataSchema = z.object({
       rank: z.string(),
       uploader_id: z.number().nullable(),
     }),
-
     feature_details: z.object({
       feature_id: z.number(),
       feature_type: z.string(),
@@ -93,14 +92,16 @@ export async function getOpenSubtitlesSubtitleLink(
     name: string;
     year: number;
     resolution: string;
+    releaseGroup: ReleaseGroupNames;
     searchableMovieName: string;
     searchableSubDivXName: string;
     searchableArgenteamName: string;
-    releaseGroup: ReleaseGroupNames;
+    searchableOpenSubtitlesName: string;
   },
   imdbId: number,
 ) {
-  const { name, resolution, releaseGroup } = movieData;
+  const { name, resolution, releaseGroup, searchableOpenSubtitlesName } =
+    movieData;
 
   invariant(
     !String(imdbId).startsWith("tt"),
@@ -116,7 +117,11 @@ export async function getOpenSubtitlesSubtitleLink(
   const parsedData = subtitlesSchema.parse(data);
   invariant(parsedData.data, "No subtitles data found");
 
-  const firstResult = parsedData.data[0];
+  const parsedReleaseGroup = searchableOpenSubtitlesName.toLowerCase();
+  const firstResult = parsedData.data.find((subtitle) => {
+    const release = subtitle.attributes.release.toLowerCase();
+    return release.includes(parsedReleaseGroup) && release.includes(resolution);
+  });
   invariant(firstResult, "No subtitle data found");
 
   const { files } = firstResult.attributes;
