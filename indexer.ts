@@ -11,6 +11,7 @@ import { match } from "ts-pattern";
 import unrar from "@continuata/unrar";
 import invariant from "tiny-invariant";
 
+import { getImdbLink } from "./imdb";
 import { getMovieData } from "./movie";
 import { getSupabaseClient } from "./supabase";
 import {
@@ -201,7 +202,7 @@ async function setMovieSubtitlesToDatabase({
       releaseGroup,
       subtitleGroup,
       subtitleLink: subtitleShortLink,
-      imdbLink: `https://www.imdb.com/title/${movie.id}`,
+      imdbLink: getImdbLink(movie.id),
     },
   ]);
 }
