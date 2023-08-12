@@ -9,6 +9,7 @@ export const RELEASE_GROUPS = {
     website: "https://yts.mx",
     searchableSubDivXName: "YTS MX",
     searchableArgenteamName: "YIFY",
+    searchableOpenSubtitlesName: "YTS.MX",
   },
   CODY: {
     name: "CODY",
@@ -16,6 +17,7 @@ export const RELEASE_GROUPS = {
     fileAttribute: "CODY",
     searchableSubDivXName: "H265-CODY",
     searchableArgenteamName: "CODY",
+    searchableOpenSubtitlesName: "CODY",
   },
   GALAXY_RG: {
     name: "GalaxyRG",
@@ -23,6 +25,7 @@ export const RELEASE_GROUPS = {
     fileAttribute: "GalaxyRG",
     searchableSubDivXName: "GalaxyRG",
     searchableArgenteamName: "GalaxyRG",
+    searchableOpenSubtitlesName: "GalaxyRG",
   },
   RIGHTNOW: {
     name: "RiGHTNOW",
@@ -30,6 +33,7 @@ export const RELEASE_GROUPS = {
     fileAttribute: "RiGHTNOW",
     searchableSubDivXName: "RIGHTNOW",
     searchableArgenteamName: "RiGHTNOW",
+    searchableOpenSubtitlesName: "RiGHTNOW",
   },
 } as const;
 

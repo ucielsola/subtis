@@ -15,6 +15,7 @@ describe("getMovieData parses a file name and returns a movie object", () => {
       searchableMovieName: "The Super Mario Bros Movie (2023)",
       searchableSubDivXName: "YTS MX",
       searchableArgenteamName: "YIFY",
+      searchableOpenSubtitlesName: "YTS.MX",
       year: 2023,
     });
   });
@@ -31,6 +32,7 @@ describe("getMovieData parses a file name and returns a movie object", () => {
       searchableMovieName: "The Super Mario Bros Movie (2023)",
       searchableSubDivXName: "H265-CODY",
       searchableArgenteamName: "CODY",
+      searchableOpenSubtitlesName: "CODY",
       year: 2023,
     });
   });
@@ -47,6 +49,7 @@ describe("getMovieData parses a file name and returns a movie object", () => {
       searchableMovieName: "Evil Dead Rise (2023)",
       searchableSubDivXName: "GalaxyRG",
       searchableArgenteamName: "GalaxyRG",
+      searchableOpenSubtitlesName: "GalaxyRG",
       year: 2023,
     });
   });
@@ -63,6 +66,7 @@ describe("getMovieData parses a file name and returns a movie object", () => {
       searchableMovieName: "Fast X (2023)",
       searchableSubDivXName: "CMRG",
       searchableArgenteamName: "CMRG",
+      searchableOpenSubtitlesName: "CMRG",
       year: 2023,
     });
   });
@@ -79,6 +83,7 @@ describe("getMovieData parses a file name and returns a movie object", () => {
       searchableMovieName: "Beau is Afraid (2023)",
       searchableSubDivXName: "GalaxyRG",
       searchableArgenteamName: "GalaxyRG",
+      searchableOpenSubtitlesName: "GalaxyRG",
       year: 2023,
     });
   });
