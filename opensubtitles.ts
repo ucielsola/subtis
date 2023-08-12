@@ -100,67 +100,58 @@ export async function getOpenSubtitlesSubtitleLink(
   },
   imdbId: number,
 ) {
-  try {
-    const { name, resolution, releaseGroup } = movieData;
+  const { name, resolution, releaseGroup } = movieData;
 
-    invariant(
-      !String(imdbId).startsWith("tt"),
-      "imdbId should not start with 'tt'",
-    );
+  invariant(
+    !String(imdbId).startsWith("tt"),
+    "imdbId should not start with 'tt'",
+  );
 
-    const response = await fetch(
-      `${OPEN_SUBTITLES_BASE_URL}/subtitles?imdb_id=${imdbId}&languages=es`,
-      { headers },
-    );
-    const data = await response.json();
-    console.log("\n ~ data:", data);
+  const response = await fetch(
+    `${OPEN_SUBTITLES_BASE_URL}/subtitles?imdb_id=${imdbId}&languages=es`,
+    { headers },
+  );
+  const data = await response.json();
 
-    const parsedData = subtitlesSchema.parse(data);
-    invariant(parsedData.data, "No subtitles data found");
+  const parsedData = subtitlesSchema.parse(data);
+  invariant(parsedData.data, "No subtitles data found");
 
-    const firstResult = parsedData.data[0];
-    invariant(firstResult, "No subtitle data found");
+  const firstResult = parsedData.data[0];
+  invariant(firstResult, "No subtitle data found");
 
-    const { files } = firstResult.attributes;
-    const { file_id } = files[0];
-    console.table(files);
+  const { files } = firstResult.attributes;
+  const { file_id } = files[0];
 
-    const downloadResponse = await fetch(
-      `${OPEN_SUBTITLES_BASE_URL}/download`,
-      {
-        headers,
-        method: "POST",
-        body: JSON.stringify({ file_id }),
-      },
-    );
-    const downloadData = await downloadResponse.json();
+  const downloadResponse = await fetch(`${OPEN_SUBTITLES_BASE_URL}/download`, {
+    headers,
+    method: "POST",
+    body: JSON.stringify({ file_id }),
+  });
+  const downloadData = await downloadResponse.json();
 
-    const parsedDownloadData = downloadSchema.parse(downloadData);
-    invariant(parsedDownloadData.link, "No download subtitle link found");
+  const parsedDownloadData = downloadSchema.parse(downloadData);
+  invariant(parsedDownloadData.link, "No download subtitle link found");
 
-    const fileExtension = "srt";
-    const subtitleLink = parsedDownloadData.link;
-    const subtitleGroup = SUBTITLE_GROUPS.OPEN_SUBTITLES.name;
+  const fileExtension = "srt";
+  const subtitleLink = parsedDownloadData.link;
+  const subtitleGroup = SUBTITLE_GROUPS.OPEN_SUBTITLES.name;
 
-    const subtitleSrtFileName = slugify(
-      `${name}-${resolution}-${releaseGroup}-${subtitleGroup}.srt`,
-    ).toLowerCase();
-    const subtitleFileNameWithoutExtension = slugify(
-      `${name}-${resolution}-${releaseGroup}-${subtitleGroup}`,
-    ).toLowerCase();
-    const subtitleCompressedFileName = slugify(
-      `${name}-${resolution}-${releaseGroup}-${subtitleGroup}.${fileExtension}`,
-    ).toLowerCase();
+  const subtitleSrtFileName = slugify(
+    `${name}-${resolution}-${releaseGroup}-${subtitleGroup}.srt`,
+  ).toLowerCase();
+  const subtitleFileNameWithoutExtension = slugify(
+    `${name}-${resolution}-${releaseGroup}-${subtitleGroup}`,
+  ).toLowerCase();
+  const subtitleCompressedFileName = slugify(
+    `${name}-${resolution}-${releaseGroup}-${subtitleGroup}.${fileExtension}`,
+  ).toLowerCase();
 
-    return {
-      fileExtension,
-      subtitleLink,
-      subtitleGroup,
-      subtitleSrtFileName,
-      subtitleCompressedFileName,
-      subtitleFileNameWithoutExtension,
-    };
-  } catch (error) {
-    console.log("\n ~ getOpenSubtitlesSubtitleLink ~ error:", error);
-  }
+  return {
+    fileExtension,
+    subtitleLink,
+    subtitleGroup,
+    subtitleSrtFileName,
+    subtitleCompressedFileName,
+    subtitleFileNameWithoutExtension,
+  };
 }
