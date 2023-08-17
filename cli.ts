@@ -1,7 +1,4 @@
-import { getSupabaseClient } from "./supabase";
-
-// supabase
-const supabase = getSupabaseClient();
+import { supabase } from "./supabase";
 
 async function cli() {
   const args = process.argv;

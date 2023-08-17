@@ -11,9 +11,9 @@ import { match } from "ts-pattern";
 import unrar from "@continuata/unrar";
 import invariant from "tiny-invariant";
 
+import { supabase } from "./supabase";
 import { getImdbLink } from "./imdb";
 import { getMovieData } from "./movie";
-import { getSupabaseClient } from "./supabase";
 import {
   ReleaseGroupMap,
   ReleaseGroupNames,
@@ -41,9 +41,6 @@ import {
 import { getSubDivXSubtitleLink } from "./subdivx";
 import { getArgenteamSubtitleLink } from "./argenteam";
 import { getOpenSubtitlesSubtitleLink } from "./opensubtitles";
-
-// supabase
-const supabase = getSupabaseClient();
 
 async function setMovieSubtitlesToDatabase({
   subtitle,

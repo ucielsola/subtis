@@ -5,7 +5,7 @@ import { Database } from "./supabase-types";
 
 export type SupabaseClient = ReturnType<typeof getSupabaseClient>;
 
-export function getSupabaseClient() {
+function getSupabaseClient() {
   const [supabaseApiKey, supabaseBaseUrl] = [
     process.env.SUPABASE_API_KEY,
     process.env.SUPABASE_BASE_URL,
@@ -13,3 +13,5 @@ export function getSupabaseClient() {
 
   return createClient<Database>(supabaseBaseUrl, supabaseApiKey);
 }
+
+export const supabase = getSupabaseClient();
