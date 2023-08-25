@@ -1,5 +1,3 @@
-import "dotenv/config";
-
 import fs from "fs";
 import turl from "turl";
 import path from "path";
@@ -249,8 +247,8 @@ async function getMovieListFromDb(
 
       // 7. Find subtitle metadata from SubDivx and Argenteam
       const subtitles = await Promise.allSettled([
-        // getSubDivXSubtitleLink(movieData),
-        // getArgenteamSubtitleLink(movieData, imdbId),
+        getSubDivXSubtitleLink(movieData),
+        getArgenteamSubtitleLink(movieData, imdbId),
         getOpenSubtitlesSubtitleLink(movieData, imdbId),
       ]);
 
