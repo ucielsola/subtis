@@ -1,11 +1,12 @@
 {
   "name": "ponele-los-subs",
   "version": "1.0.0",
-  "main": "app.ts",
+  "main": "indexer.ts",
   "license": "MIT",
   "dependencies": {
+    "@clack/prompts": "^0.7.0",
     "@continuata/unrar": "^1.6.0",
-    "@supabase/supabase-js": "^2.32.0",
+    "@supabase/supabase-js": "^2.33.1",
     "delay": "^6.0.0",
     "dotenv": "^16.3.1",
     "download": "^8.0.0",
@@ -17,17 +18,17 @@
     "tiny-invariant": "^1.3.1",
     "ts-pattern": "^5.0.5",
     "turl": "^1.1.2",
-    "zod": "^3.21.4"
+    "zod": "^3.22.2"
   },
   "devDependencies": {
-    "@total-typescript/ts-reset": "^0.4.2",
+    "@total-typescript/ts-reset": "^0.5.1",
     "@types/download": "^8.0.2",
-    "@types/jsdom": "^21.1.1",
-    "lint-staged": "^13.2.3",
+    "@types/jsdom": "^21.1.2",
+    "lint-staged": "^14.0.1",
     "rome": "12.1.3",
     "tsx": "^3.12.7",
-    "typescript": "^5.1.6",
-    "vitest": "^0.34.1"
+    "typescript": "^5.2.2",
+    "vitest": "^0.34.2"
   },
   "scripts": {
     "test:ci": "vitest run",
