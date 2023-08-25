@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { createClient } from "@supabase/supabase-js";
 
 // supabase db type definitions
@@ -11,7 +12,9 @@ function getSupabaseClient() {
     process.env.SUPABASE_BASE_URL,
   ] as [string, string];
 
-  return createClient<Database>(supabaseBaseUrl, supabaseApiKey);
+  return createClient<Database>(supabaseBaseUrl, supabaseApiKey, {
+    auth: { persistSession: false },
+  });
 }
 
 export const supabase = getSupabaseClient();
