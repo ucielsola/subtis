@@ -28,7 +28,8 @@
     "rome": "12.1.3",
     "tsx": "^3.12.7",
     "typescript": "^5.2.2",
-    "vitest": "^0.34.2"
+    "vitest": "^0.34.3",
+    "@types/lodash.times": "^4.3.7"
   },
   "scripts": {
     "test:ci": "vitest run",
