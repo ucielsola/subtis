@@ -7,13 +7,26 @@ import invariant from "tiny-invariant";
 import { SUBTITLE_GROUPS } from "./subtitle-groups";
 import { ReleaseGroupNames } from "./release-groups";
 
+// constants
 const OPEN_SUBTITLES_BASE_URL = "https://api.opensubtitles.com/api/v1" as const;
 
-const headers = {
-  "Content-Type": "application/json",
-  "Api-Key": process.env.OPEN_SUBTITLES_API_KEY as string,
-};
+// utils
+function getOpenSubtitlesApiKey(): string {
+  const openSubtitlesApiKey = process.env.OPEN_SUBTITLES_API_KEY;
+  return z.string().parse(openSubtitlesApiKey);
+}
 
+function getOpenSubtitlesHeaders(): {
+  "Content-Type": "application/json";
+  "Api-Key": string;
+} {
+  return {
+    "Content-Type": "application/json",
+    "Api-Key": getOpenSubtitlesApiKey(),
+  };
+}
+
+// schemas
 const subtitleDataSchema = z.object({
   id: z.string(),
   type: z.string(),
@@ -110,7 +123,7 @@ export async function getOpenSubtitlesSubtitleLink(
 
   const response = await fetch(
     `${OPEN_SUBTITLES_BASE_URL}/subtitles?imdb_id=${imdbId}&languages=es`,
-    { headers },
+    { headers: getOpenSubtitlesHeaders() },
   );
   const data = await response.json();
 
@@ -128,9 +141,9 @@ export async function getOpenSubtitlesSubtitleLink(
   const { file_id } = files[0];
 
   const downloadResponse = await fetch(`${OPEN_SUBTITLES_BASE_URL}/download`, {
-    headers,
     method: "POST",
     body: JSON.stringify({ file_id }),
+    headers: getOpenSubtitlesHeaders(),
   });
   const downloadData = await downloadResponse.json();
 
