@@ -361,6 +361,7 @@ async function mod() {
 
 mod();
 
+// TODO: Remove filenameHash from DBg
 // TODO: Reach out to OpenSubtitles for a higher quota
 // TODO: Add tests for all functions
 // TODO: Add support for series
