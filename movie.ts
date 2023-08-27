@@ -110,7 +110,7 @@ export function getMovieData(movie: string): {
             ?.replace("x264-", "");
 
           console.warn(
-            `⚠️ ⚠️ ⚠️ ☢️ ☢️ ☢️ Release Group not supported in DB, ${releaseGroup}`,
+            `⚠️ ☢️ ⚠️ Release Group not supported in DB, ${releaseGroup} ⚠️ ☢️ ⚠️`,
           );
 
           return {
