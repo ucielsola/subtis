@@ -1,6 +1,6 @@
 {
   "name": "ponele-los-subs",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "indexer.ts",
   "license": "MIT",
   "dependencies": {
@@ -41,7 +41,8 @@
     "dev": "tsx --watch indexer.ts",
     "coverage": "vitest run --coverage",
     "clean": "rm -rf node_modules yarn-error.log yarn.lock && yarn",
-    "supabase:type:definitions": "npx supabase gen types typescript --project-id 'yelhsmnvfyyjuamxbobs' --schema public > supabase-types.ts"
+    "supabase:type:definitions": "npx supabase gen types typescript --project-id 'yelhsmnvfyyjuamxbobs' --schema public > supabase-types.ts",
+    "use:recommended:node:version": "fnm use"
   },
   "lint-staged": {
     "*.ts": [
