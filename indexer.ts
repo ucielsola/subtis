@@ -370,7 +370,7 @@ async function mainIndexer(): Promise<void> {
 
 mainIndexer();
 
-// TODO: Add tests for all functions
+// TODO: Reach 100% coverage
 // TODO: Add support for series
 // TODO: Review tables and types with Hugo
 // TODO: Run getSubDivXSubtitle, and getArgenteamSubtitle, getOpenSubtitleLink by separate to find bugs
