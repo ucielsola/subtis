@@ -5,3 +5,4 @@ subs
 .env
 .DS_Store
 *.mp4
+coverage
