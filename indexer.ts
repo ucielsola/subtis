@@ -339,8 +339,8 @@ async function indexYtsMxMoviesSubtitles(
 
     console.log(`Finished movies from page ${page} 🥇`);
 
-    // 6. Generate random delays between 2 and 5 seconds
-    const { seconds, miliseconds } = getRandomDelay(10, 15);
+    // 6. Generate random delays between 4 and 6 seconds
+    const { seconds, miliseconds } = getRandomDelay(4, 6);
     console.log(`Delaying next iteration by ${seconds}s to avoid get blocked`);
 
     // 7. Delay next iteration
