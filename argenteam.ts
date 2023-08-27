@@ -6,24 +6,26 @@ import invariant from "tiny-invariant";
 import { SUBTITLE_GROUPS } from "./subtitle-groups";
 import { ReleaseGroupNames } from "./release-groups";
 
+// constants
 const ARGENTEAM_BASE_URL = "https://argenteam.net/api/v1" as const;
 
+// utils
 const argenteamApiEndpoints = {
   search: (query: number) => {
-    return `${ARGENTEAM_BASE_URL}/search?q=${query}`;
+    return `${ARGENTEAM_BASE_URL}/search?q=${query}` as const;
   },
   tvShow: (id: number) => {
-    return `${ARGENTEAM_BASE_URL}/tvshow?id=${id}`;
+    return `${ARGENTEAM_BASE_URL}/tvshow?id=${id}` as const;
   },
   episode: (id: number) => {
-    return `${ARGENTEAM_BASE_URL}/episode?id=${id}`;
+    return `${ARGENTEAM_BASE_URL}/episode?id=${id}` as const;
   },
   movie: (id: number) => {
-    return `${ARGENTEAM_BASE_URL}/movie?id=${id}`;
+    return `${ARGENTEAM_BASE_URL}/movie?id=${id}` as const;
   },
 };
 
-// Schemas
+// schemas
 const argenteamSearchResultSchema = z.object({
   id: z.number(),
   title: z.string(),
@@ -76,6 +78,7 @@ const argenteamResourceSchema = z.object({
   releases: z.array(argenteamResourceReleaseSchema),
 });
 
+// main
 export async function getArgenteamSubtitleLink(
   movieData: {
     name: string;

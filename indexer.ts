@@ -40,6 +40,7 @@ import { getSubDivXSubtitleLink } from "./subdivx";
 import { getArgenteamSubtitleLink } from "./argenteam";
 import { getOpenSubtitlesSubtitleLink } from "./opensubtitles";
 
+// utils
 async function setMovieSubtitlesToDatabase({
   subtitle,
   movie,
@@ -348,7 +349,8 @@ async function indexYtsMxMoviesSubtitles(
   console.log("All movies saved to DB and Storage! 🎉");
 }
 
-async function mod() {
+// main
+async function mainIndexer(): Promise<void> {
   console.log("ABOUT TO INDEX ALL MOVIES SUBTITLES FROM YTS-MX 🚀");
 
   // 1. Get release and subtitle groups from DB
@@ -359,10 +361,8 @@ async function mod() {
   indexYtsMxMoviesSubtitles(releaseGroups, subtitleGroups);
 }
 
-mod();
+mainIndexer();
 
-// TODO: Remove filenameHash from DBg
-// TODO: Reach out to OpenSubtitles for a higher quota
 // TODO: Add tests for all functions
 // TODO: Add support for series
 // TODO: Review tables and types with Hugo

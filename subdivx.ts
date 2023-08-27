@@ -6,9 +6,21 @@ import { getIsLinkAlive } from "./utils";
 import { SUBTITLE_GROUPS } from "./subtitle-groups";
 import { ReleaseGroupNames } from "./release-groups";
 
+// constants
 const SUBDIVX_BASE_URL = "https://subdivx.com" as const;
 
-export function getSubDivXSearchParams(movieName: string, page = "1") {
+// utils
+export function getSubDivXSearchParams(
+  movieName: string,
+  page = "1",
+): {
+  pg: string;
+  buscar2: string;
+  accion: string;
+  masdesc: string;
+  realiza_b: string;
+  subtitulos: string;
+} {
   return {
     pg: page,
     buscar2: movieName,
@@ -54,6 +66,7 @@ export async function getSubDivXSubtitleDownloadLink(
   return subtitleLink;
 }
 
+// main
 export async function getSubDivXSubtitleLink(
   movieData: {
     name: string;

@@ -3,14 +3,17 @@ import { z } from "zod";
 import { getNumbersArray } from "./utils";
 import { getStripedImdbId } from "./imdb";
 
+// constants
 const YTS_BASE_URL = "https://yts.mx/api/v2" as const;
 
+// utils
 const ytsApiEndpoints = {
   movieList: (page = 1, limit = 50) => {
-    return `${YTS_BASE_URL}/list_movies.json?limit=${limit}&page=${page}`;
+    return `${YTS_BASE_URL}/list_movies.json?limit=${limit}&page=${page}` as const;
   },
 };
 
+// schemas
 export const torrentSchema = z.object({
   url: z.string(),
   hash: z.string(),
@@ -56,10 +59,6 @@ export const ytsMxMovieSchema = z.object({
   date_uploaded_unix: z.number().optional(),
 });
 
-type YtsMxMovie = z.infer<typeof ytsMxMovieSchema>;
-export type Torrent = z.infer<typeof torrentSchema>;
-export type YtsMxMovieList = YtsMxMovie & { imdbId: number };
-
 export const schema = z.object({
   status: z.string(),
   status_message: z.string(),
@@ -77,6 +76,12 @@ export const schema = z.object({
   }),
 });
 
+// type definitions
+type YtsMxMovie = z.infer<typeof ytsMxMovieSchema>;
+export type Torrent = z.infer<typeof torrentSchema>;
+export type YtsMxMovieList = YtsMxMovie & { imdbId: number };
+
+// main
 export async function getYtsMxTotalMoviesAndPages(limit = 50): Promise<{
   totalMovies: number;
   totalPages: number;

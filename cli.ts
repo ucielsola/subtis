@@ -7,7 +7,8 @@ import { supabase } from "./supabase";
 import { getMovieData } from "./movie";
 import { VIDEO_FILE_EXTENSIONS } from "./utils";
 
-async function cli() {
+// main
+async function cli(): Promise<void> {
   const loader = spinner();
 
   try {

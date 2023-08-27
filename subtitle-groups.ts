@@ -1,6 +1,8 @@
-import { SupabaseClient } from "./supabase";
 import invariant from "tiny-invariant";
 
+import { SupabaseClient } from "./supabase";
+
+// constants
 export const SUBTITLE_GROUPS = {
   SUBDIVX: {
     name: "SubDivX",
@@ -16,6 +18,7 @@ export const SUBTITLE_GROUPS = {
   },
 } as const;
 
+// type definitions
 export type SubtitleGroup = {
   name: string;
   website: string;
@@ -33,7 +36,7 @@ export type SubtitleGroupNames =
 
 type SubtitleGroupKeys = keyof typeof SUBTITLE_GROUPS;
 
-// run only once
+// utils
 export async function saveSubtitleGroupsToDb(
   supabaseClient: SupabaseClient,
 ): Promise<void> {
@@ -44,6 +47,7 @@ export async function saveSubtitleGroupsToDb(
   }
 }
 
+// main
 export async function getSubtitleGroupsFromDb(
   supabaseClient: SupabaseClient,
 ): Promise<SubtitleGroupMap> {

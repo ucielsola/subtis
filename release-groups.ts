@@ -2,6 +2,7 @@ import invariant from "tiny-invariant";
 
 import { SupabaseClient } from "./supabase";
 
+// constants
 export const RELEASE_GROUPS = {
   YTS_MX: {
     name: "YTS-MX",
@@ -37,6 +38,7 @@ export const RELEASE_GROUPS = {
   },
 } as const;
 
+// type definitions
 export type ReleaseGroup = {
   name: string;
   website: string;
@@ -53,7 +55,7 @@ export type ReleaseGroupNames =
 
 type ReleaseGroupKeys = keyof typeof RELEASE_GROUPS;
 
-// run only once
+// utils
 export async function saveReleaseGroupsToDb(
   supabaseClient: SupabaseClient,
 ): Promise<void> {
@@ -63,6 +65,7 @@ export async function saveReleaseGroupsToDb(
   }
 }
 
+// main
 export async function getReleaseGroupsFromDb(
   supabaseClient: SupabaseClient,
 ): Promise<ReleaseGroupMap> {

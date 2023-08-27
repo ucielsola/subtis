@@ -3,10 +3,12 @@ import { P, match } from "ts-pattern";
 import { VIDEO_FILE_EXTENSIONS, removeExtraSpaces } from "./utils";
 import { RELEASE_GROUPS, ReleaseGroupNames } from "./release-groups";
 
+// utls
 export function getMovieName(name: string): string {
   return removeExtraSpaces(name.replaceAll(".", " ")).trim();
 }
 
+// main
 export function getMovieData(movie: string): {
   name: string;
   year: number;
@@ -112,10 +114,10 @@ export function getMovieData(movie: string): {
           );
 
           return {
-            name: movieName,
-            searchableMovieName,
             year,
             resolution,
+            name: movieName,
+            searchableMovieName,
             releaseGroup: releaseGroup as ReleaseGroupNames,
             searchableSubDivXName: releaseGroup as string,
             searchableArgenteamName: releaseGroup as string,

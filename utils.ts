@@ -2,6 +2,7 @@ import crypto from "crypto";
 import invariant from "tiny-invariant";
 import parseTorrent from "parse-torrent-updated";
 
+// constants
 export const VIDEO_FILE_EXTENSIONS = [
   ".mkv",
   ".mp4",
@@ -59,8 +60,10 @@ export function getFileNameHash(fileName: string): string {
   return crypto.createHash("md5").update(fileName).digest("hex");
 }
 
-type File = { path: string; name: string; length: number; offset: number };
-
-export function safeParseTorrent(torrentFile: Buffer): { files: File[] } {
-  return parseTorrent(torrentFile) as { files: File[] };
+export function safeParseTorrent(torrentFile: Buffer): {
+  files: { path: string; name: string; length: number; offset: number }[];
+} {
+  return parseTorrent(torrentFile) as {
+    files: { path: string; name: string; length: number; offset: number }[];
+  };
 }
