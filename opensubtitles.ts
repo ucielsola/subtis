@@ -123,8 +123,6 @@ export async function getOpenSubtitlesSubtitle(
 }> {
   const { name, resolution, releaseGroup, searchableOpenSubtitlesName } =
     movieData;
-  console.log("\n ~ movieData:", movieData);
-  console.log("\n ~ imdbId:", imdbId);
 
   invariant(
     !String(imdbId).startsWith("tt"),

@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import delay from "delay";
+import sound from "sound-play";
 import { rimraf } from "rimraf";
 import download from "download";
 import extract from "extract-zip";
@@ -267,7 +268,9 @@ async function getMovieListFromDb(
       // 9. Save whole subtitles data to DB
       resolvedSubtitles.forEach(({ value: subtitle }) => {
         const { subtitleGroup } = subtitle;
-        console.log("\n ~ resolvedSubtitles.forEach ~ subtitle:", subtitle);
+
+        // play sound when a subtitle was found
+        sound.play("./success_short_high.wav");
 
         setMovieSubtitlesToDatabase({
           subtitle,

@@ -473,6 +473,13 @@
   resolved "https://registry.yarnpkg.com/@types/phoenix/-/phoenix-1.6.0.tgz#eb7536259ee695646e75c4c7b0c9a857ea174781"
   integrity sha512-qwfpsHmFuhAS/dVd4uBIraMxRd56vwBUYQGZ6GpXnFuM2XMRFJbIyruFKKlW2daQliuYZwe0qfn/UjFCDKic5g==
 
+"@types/sound-play@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@types/sound-play/-/sound-play-1.1.0.tgz#5e8a8354c92492b40a477c747ac6059d9e251768"
+  integrity sha512-r9BuZ7T8KmS3qxW52hg3LoFX8kl+jUPZilI2QawmjnNEjbHLDYrGOX1HOguF5BRI8ECM0OSXONl13UwT0XkPgw==
+  dependencies:
+    "@types/node" "*"
+
 "@types/tough-cookie@*":
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-4.0.2.tgz#6286b4c7228d58ab7866d19716f3696e03a09397"
@@ -1477,11 +1484,6 @@ is-typedarray@^1.0.0:
   resolved "https://registry.yarnpkg.com/is-typedarray/-/is-typedarray-1.0.0.tgz#e479c80858df0c1b11ddda6940f96011fcda4a9a"
   integrity sha512-cyA56iCMHAh5CdzjJIa4aohJyeO1YbwLi3Jc35MmRU6poroFjIGZzUzupGiRPOjgHg9TLu43xbpwXk523fMxKA==
 
-is-unicode-supported@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/is-unicode-supported/-/is-unicode-supported-1.3.0.tgz#d824984b616c292a2e198207d4a609983842f714"
-  integrity sha512-43r2mRvz+8JRIKnWJ+3j8JtjRKZ6GmjzfaE/qiBJnikNnYv/6bagRJ1kUhNk8R5EX/GkobD+r+sfxCPJsiKBLQ==
-
 isarray@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-1.0.0.tgz#bb935d48582cba168c06834957a54a3e07124f11"
@@ -2213,6 +2215,11 @@ sort-keys@^2.0.0:
   dependencies:
     is-plain-obj "^1.0.0"
 
+sound-play@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/sound-play/-/sound-play-1.1.0.tgz#58ffa31d1bf51822d49d91ff7865591fd9376381"
+  integrity sha512-Bd/L0AoCwITFeOnpNLMsfPXrV5GG5NhrC/T6odveahYbhPZkdTnrFXRia9FCC5WBWdUTw1d+yvLBvi4wnD1xOA==
+
 source-map-js@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.0.2.tgz#adbc361d9c62df380125e7f161f71c826f1e490c"
@@ -2252,6 +2259,7 @@ string-argv@0.3.2:
   integrity sha512-aqD2Q0144Z+/RqG52NeHEkZauTAUWJO8c6yTftGJKO3Tja5tUgIfmIl6kExvhtxSDP7fXB6DvzkfMpCd/F3G+Q==
 
 "string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0:
+  name string-width-cjs
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -2277,6 +2285,7 @@ string_decoder@~1.1.1:
     safe-buffer "~5.1.0"
 
 "strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+  name strip-ansi-cjs
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
