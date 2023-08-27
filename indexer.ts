@@ -15,12 +15,12 @@ import { getMovieData } from "./movie";
 import {
   ReleaseGroupMap,
   ReleaseGroupNames,
-  getReleaseGroupsFromDb,
+  getReleaseGroups,
 } from "./release-groups";
 import {
   SubtitleGroupMap,
   SubtitleGroupNames,
-  getSubtitleGroupsFromDb,
+  getSubtitleGroups,
 } from "./subtitle-groups";
 import {
   YtsMxMovieList,
@@ -248,8 +248,8 @@ async function getMovieListFromDb(
 
       // 7. Find subtitle metadata from SubDivx and Argenteam
       const subtitles = await Promise.allSettled([
-        // getSubDivXSubtitle(movieData),
-        // getArgenteamSubtitle(movieData, imdbId),
+        getSubDivXSubtitle(movieData),
+        getArgenteamSubtitle(movieData, imdbId),
         getOpenSubtitlesSubtitle(movieData, imdbId),
       ]);
 
@@ -358,8 +358,8 @@ async function mainIndexer(): Promise<void> {
     console.log("ABOUT TO INDEX ALL MOVIES SUBTITLES FROM YTS-MX 🚀");
 
     // 1. Get release and subtitle groups from DB
-    const releaseGroups = await getReleaseGroupsFromDb(supabase);
-    const subtitleGroups = await getSubtitleGroupsFromDb(supabase);
+    const releaseGroups = await getReleaseGroups(supabase);
+    const subtitleGroups = await getSubtitleGroups(supabase);
 
     // 2. Run YTS-MX indexer
     indexYtsMxMoviesSubtitles(releaseGroups, subtitleGroups);

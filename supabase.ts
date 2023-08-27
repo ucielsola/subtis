@@ -6,7 +6,7 @@ import { createClient } from "@supabase/supabase-js";
 import { Database } from "./supabase-types";
 
 // utils
-function getSupabaseEnvironmentVariables(): {
+export function getSupabaseEnvironmentVariables(): {
   supabaseApiKey: string;
   supabaseBaseUrl: string;
 } {
