@@ -67,7 +67,7 @@ export async function getSubDivXSubtitleDownloadLink(
 }
 
 // main
-export async function getSubDivXSubtitleLink(
+export async function getSubDivXSubtitle(
   movieData: {
     name: string;
     year: number;
@@ -121,7 +121,7 @@ export async function getSubDivXSubtitleLink(
   if (allSubtitlesElements.length > 90) {
     // Iterate to next pages until find the subtitle or no more results
     // The recursion will break loop on line 185
-    return getSubDivXSubtitleLink(movieData, String(Number(page) + 1));
+    return getSubDivXSubtitle(movieData, String(Number(page) + 1));
   }
 
   const hrefElement = previousSibling.querySelector(".titulo_menu_izq");

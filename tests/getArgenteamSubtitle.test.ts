@@ -1,18 +1,18 @@
 import { describe, it } from "vitest";
 
 import { getMovieData } from "../movie";
-import { getArgenteamSubtitleLink } from "../argenteam";
+import { getArgenteamSubtitle } from "../argenteam";
 
-describe("getArgenteamSubtitleLink", () => {
+describe("getArgenteamSubtitle", () => {
   it("should return a subtitle link giving a movie, release group and quality", async ({
     expect,
   }) => {
     const movieData = getMovieData(
       "Spider-Man.Across.The.Spider-Verse.2023.1080p.WEB-DL.DDP5.1.Atmos.x264-AOC.mkv",
     );
-    const subtitleLink = await getArgenteamSubtitleLink(movieData, 9362722);
+    const subtitle = await getArgenteamSubtitle(movieData, 9362722);
 
-    expect(subtitleLink).toEqual({
+    expect(subtitle).toEqual({
       fileExtension: "zip",
       subtitleGroup: "Argenteam",
       subtitleCompressedFileName:

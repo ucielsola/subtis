@@ -1,18 +1,18 @@
 import { describe, it } from "vitest";
 
 import { getMovieData } from "../movie";
-import { getSubDivXSubtitleLink } from "../subdivx";
+import { getSubDivXSubtitle } from "../subdivx";
 
-describe("getSubDivXSubtitleLink", () => {
+describe("getSubDivXSubtitle", () => {
   it('should return an search params for "Guardians of the Galaxy Vol 3 (2023)" for page 1', async ({
     expect,
   }) => {
     const movieData = getMovieData(
       "Guardians.Of.The.Galaxy.Vol..3.2023.720p.WEBRip.x264.AAC-[YTS.MX].mp4",
     );
-    const subtitleLink = await getSubDivXSubtitleLink(movieData);
+    const subtitle = await getSubDivXSubtitle(movieData);
 
-    expect(subtitleLink).toEqual({
+    expect(subtitle).toEqual({
       subtitleGroup: "SubDivX",
       subtitleLink: "https://subdivx.com/sub9/666540.zip",
       subtitleSrtFileName:

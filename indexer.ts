@@ -35,9 +35,9 @@ import {
 } from "./utils";
 
 // providers
-import { getSubDivXSubtitleLink } from "./subdivx";
-import { getArgenteamSubtitleLink } from "./argenteam";
-import { getOpenSubtitlesSubtitleLink } from "./opensubtitles";
+import { getSubDivXSubtitle } from "./subdivx";
+import { getArgenteamSubtitle } from "./argenteam";
+import { getOpenSubtitlesSubtitle } from "./opensubtitles";
 
 // utils
 async function setMovieSubtitlesToDatabase({
@@ -247,9 +247,9 @@ async function getMovieListFromDb(
 
       // 7. Find subtitle metadata from SubDivx and Argenteam
       const subtitles = await Promise.allSettled([
-        getSubDivXSubtitleLink(movieData),
-        getArgenteamSubtitleLink(movieData, imdbId),
-        getOpenSubtitlesSubtitleLink(movieData, imdbId),
+        // getSubDivXSubtitle(movieData),
+        // getArgenteamSubtitle(movieData, imdbId),
+        getOpenSubtitlesSubtitle(movieData, imdbId),
       ]);
 
       // 8. Filter fulfilled only promises
@@ -267,6 +267,7 @@ async function getMovieListFromDb(
       // 9. Save whole subtitles data to DB
       resolvedSubtitles.forEach(({ value: subtitle }) => {
         const { subtitleGroup } = subtitle;
+        console.log("\n ~ resolvedSubtitles.forEach ~ subtitle:", subtitle);
 
         setMovieSubtitlesToDatabase({
           subtitle,
@@ -369,7 +370,7 @@ mainIndexer();
 // TODO: Add tests for all functions
 // TODO: Add support for series
 // TODO: Review tables and types with Hugo
-// TODO: Run getSubDivXSubtitleLink, and getArgenteamSubtitleLink, getOpenSubtitleLink by separate to find bugs
+// TODO: Run getSubDivXSubtitle, and getArgenteamSubtitle, getOpenSubtitleLink by separate to find bugs
 // TODO: Test rarbg-api node module to get movies https://www.npmjs.com/package/rarbg-api
 // TODO: Upload SRT file to Supabase with original movie file name (not supported?, it needs to be uploaded as a compressed file?)
 // TODO: Can we download movie and check with a script if the subtitle matches the audio?

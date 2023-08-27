@@ -79,7 +79,7 @@ const argenteamResourceSchema = z.object({
 });
 
 // main
-export async function getArgenteamSubtitleLink(
+export async function getArgenteamSubtitle(
   movieData: {
     name: string;
     year: number;

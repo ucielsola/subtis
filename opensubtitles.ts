@@ -101,7 +101,7 @@ const downloadSchema = z.object({
 });
 
 // main
-export async function getOpenSubtitlesSubtitleLink(
+export async function getOpenSubtitlesSubtitle(
   movieData: {
     name: string;
     year: number;
@@ -113,9 +113,18 @@ export async function getOpenSubtitlesSubtitleLink(
     searchableOpenSubtitlesName: string;
   },
   imdbId: number,
-) {
+): Promise<{
+  fileExtension: string;
+  subtitleLink: string;
+  subtitleGroup: "OpenSubtitles";
+  subtitleSrtFileName: string;
+  subtitleCompressedFileName: string;
+  subtitleFileNameWithoutExtension: string;
+}> {
   const { name, resolution, releaseGroup, searchableOpenSubtitlesName } =
     movieData;
+  console.log("\n ~ movieData:", movieData);
+  console.log("\n ~ imdbId:", imdbId);
 
   invariant(
     !String(imdbId).startsWith("tt"),
