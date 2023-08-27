@@ -5,5 +5,8 @@
 	},
   "[typescript]": {
     "editor.defaultFormatter": "rome.rome"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }
