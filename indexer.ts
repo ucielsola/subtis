@@ -377,9 +377,3 @@ mainIndexer();
 // TODO: Test rarbg-api node module to get movies https://www.npmjs.com/package/rarbg-api
 // TODO: Upload SRT file to Supabase with original movie file name (not supported?, it needs to be uploaded as a compressed file?)
 // TODO: Can we download movie and check with a script if the subtitle matches the audio?
-
-// Support Table
-// RELEASE GROUPS | SUBTITLE GROUP | SUPPORT
-// YTS.MX         | SUBDIVX        | ✅
-// YTS.MX         | ARGENTEAM      | ✅
-// YTS.MX         | OPEN SUBTITLES | ✅
