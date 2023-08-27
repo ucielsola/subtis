@@ -5,8 +5,6 @@ import { getYtsMxTotalMoviesAndPages } from "../yts-mx";
 describe("getYtsMxTotalMoviesAndPages", () => {
   it("should return yts mx total movies and pages", async ({ expect }) => {
     const { totalMovies, totalPages } = await getYtsMxTotalMoviesAndPages();
-    console.log("\n ~ it ~ totalMovies:", totalMovies);
-    console.log("\n ~ it ~ totalPages:", totalPages);
 
     expect(totalMovies).toBeTypeOf("number");
     expect(totalPages).toBeTypeOf("number");
