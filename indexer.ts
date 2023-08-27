@@ -1,5 +1,4 @@
 import fs from "fs";
-import turl from "turl";
 import path from "path";
 import delay from "delay";
 import { rimraf } from "rimraf";
@@ -189,7 +188,7 @@ async function setMovieSubtitlesToDatabase({
   });
 
   // 17. Short Subtitle link (ONLY USED FOR DEVELOPMENT)
-  const subtitleShortLink = await turl.shorten(publicUrl);
+  // const subtitleShortLink = await turl.shorten(publicUrl);
 
   console.table([
     {
@@ -197,8 +196,8 @@ async function setMovieSubtitlesToDatabase({
       resolution,
       releaseGroup,
       subtitleGroup,
-      subtitleLink: subtitleShortLink,
       imdbLink: getImdbLink(movie.id),
+      subtitleLink: `${subtitleLink.slice(0, 20)}...`,
     },
   ]);
 }
@@ -351,14 +350,18 @@ async function indexYtsMxMoviesSubtitles(
 
 // main
 async function mainIndexer(): Promise<void> {
-  console.log("ABOUT TO INDEX ALL MOVIES SUBTITLES FROM YTS-MX 🚀");
+  try {
+    console.log("ABOUT TO INDEX ALL MOVIES SUBTITLES FROM YTS-MX 🚀");
 
-  // 1. Get release and subtitle groups from DB
-  const releaseGroups = await getReleaseGroupsFromDb(supabase);
-  const subtitleGroups = await getSubtitleGroupsFromDb(supabase);
+    // 1. Get release and subtitle groups from DB
+    const releaseGroups = await getReleaseGroupsFromDb(supabase);
+    const subtitleGroups = await getSubtitleGroupsFromDb(supabase);
 
-  // 2. Run YTS-MX indexer
-  indexYtsMxMoviesSubtitles(releaseGroups, subtitleGroups);
+    // 2. Run YTS-MX indexer
+    indexYtsMxMoviesSubtitles(releaseGroups, subtitleGroups);
+  } catch (error) {
+    console.log("\n ~ mainIndexer ~ error:", error);
+  }
 }
 
 mainIndexer();
