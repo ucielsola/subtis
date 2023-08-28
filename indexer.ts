@@ -373,6 +373,7 @@ mainIndexer();
 // TODO: Reach 100% coverage
 // TODO: Add support for series
 // TODO: Review tables and types with Hugo
+// TODO: Ping Nico to showcase codebase
 // TODO: Run getSubDivXSubtitle, and getArgenteamSubtitle, getOpenSubtitleLink by separate to find bugs
 // TODO: Test rarbg-api node module to get movies https://www.npmjs.com/package/rarbg-api
 // TODO: Upload SRT file to Supabase with original movie file name (not supported?, it needs to be uploaded as a compressed file?)
