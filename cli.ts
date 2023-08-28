@@ -26,11 +26,13 @@ async function cli(): Promise<void> {
 
     invariant(parsedFileName, "File name not provided");
 
-    const { name, resolution, releaseGroup } = getMovieData(parsedFileName);
+    const { name, resolution, releaseGroup, year } =
+      getMovieData(parsedFileName);
+
     loader.start(
-      `🔎 Searching subtitle for "${name}" in ${resolution} for "${releaseGroup}" release group`,
+      `🔎 Searching subtitle for "${name}" from ${year} in ${resolution} for "${releaseGroup}" release group`,
     );
-    await delay(400);
+    await delay(800);
 
     // 2. Checks if file is a video
     const isVideoFile = VIDEO_FILE_EXTENSIONS.some((videoFileExtension) =>
