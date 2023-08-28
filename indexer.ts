@@ -8,6 +8,7 @@ import extract from "extract-zip";
 import { match } from "ts-pattern";
 import unrar from "@continuata/unrar";
 import invariant from "tiny-invariant";
+import { confirm } from "@clack/prompts";
 
 import { supabase } from "./supabase";
 import { getImdbLink } from "./imdb";
@@ -302,6 +303,8 @@ async function indexYtsMxMoviesSubtitles(
   releaseGroups: ReleaseGroupMap,
   subtitleGroups: SubtitleGroupMap,
 ): Promise<void> {
+  console.log("ABOUT TO INDEX ALL MOVIES SUBTITLES FROM YTS-MX 🚀");
+
   // 1. Get total YTS-MX pages
   const { totalPagesArray } = await getYtsMxTotalMoviesAndPages();
 
@@ -326,16 +329,23 @@ async function indexYtsMxMoviesSubtitles(
     );
 
     // 5. Run all 50 movies in parallels to get their subtitle and save them to DB and Storage
-    const movieListPromises = movieListNotInDb.map((movie) =>
-      getMovieListFromDb(movie, releaseGroups, subtitleGroups),
-    );
-    await Promise.all(movieListPromises);
+    // const movieListPromises = movieListNotInDb.map((movie) =>
+    //   getMovieListFromDb(movie, releaseGroups, subtitleGroups),
+    // );
+    // await Promise.all(movieListPromises);
 
-    // one by one just for testing purposess
-    // for await (const movieData of movieList) {
-    //   await getMovieListFromDb(movieData, releaseGroups);
-    //   // return;
-    // }
+    // 6. Optional: or one by one just for testing purposess
+    for await (const movie of movieListNotInDb) {
+      console.log(`Movie to find: ${movie.title} (${movie.year})`);
+
+      await getMovieListFromDb(movie, releaseGroups, subtitleGroups);
+
+      const shouldContinue = await confirm({
+        message: "Do you want to continue?",
+      });
+
+      if (!shouldContinue) break;
+    }
 
     console.log(`Finished movies from page ${page} 🥇`);
 
@@ -355,8 +365,6 @@ async function indexYtsMxMoviesSubtitles(
 // main
 async function mainIndexer(): Promise<void> {
   try {
-    console.log("ABOUT TO INDEX ALL MOVIES SUBTITLES FROM YTS-MX 🚀");
-
     // 1. Get release and subtitle groups from DB
     const releaseGroups = await getReleaseGroups(supabase);
     const subtitleGroups = await getSubtitleGroups(supabase);
@@ -370,6 +378,7 @@ async function mainIndexer(): Promise<void> {
 
 mainIndexer();
 
+// TODO: Add custom error types for each provider
 // TODO: Reach 100% coverage
 // TODO: Add support for series
 // TODO: Review tables and types with Hugo
