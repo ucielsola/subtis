@@ -378,6 +378,7 @@ async function mainIndexer(): Promise<void> {
 
 mainIndexer();
 
+// TODO: Switch up to PNPM for better performance
 // TODO: Add custom error types for each provider
 // TODO: Reach 100% coverage
 // TODO: Add support for series
