@@ -378,6 +378,8 @@ async function mainIndexer(): Promise<void> {
 
 mainIndexer();
 
+// TODO: Replace Rome for ESLint/Prettier
+// TODO: Add PNPM Workspaces: indexer, cli
 // TODO: Switch up to PNPM for better performance
 // TODO: Add custom error types for each provider
 // TODO: Reach 100% coverage

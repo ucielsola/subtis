@@ -41,14 +41,14 @@
     "test:watch": "vitest --watch",
     "dev": "tsx --watch indexer.ts",
     "coverage": "vitest run --coverage",
-    "clean": "rm -rf node_modules yarn-error.log yarn.lock && yarn",
+    "clean": "rm -rf node_modules pnpm-lock.yaml && pnpm install",
     "supabase:type:definitions": "npx supabase gen types typescript --project-id 'yelhsmnvfyyjuamxbobs' --schema public > supabase-types.ts",
     "use:recommended:node:version": "fnm use"
   },
   "lint-staged": {
     "*.ts": [
-      "bash -c 'yarn test:ci'",
-      "bash -c 'yarn check:types'"
+      "bash -c 'pnpm test:ci'",
+      "bash -c 'pnpm check:types'"
     ]
   }
 }
