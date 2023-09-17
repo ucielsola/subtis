@@ -27,7 +27,6 @@
     "@types/lodash.times": "^4.3.7"
   },
   "scripts": {
-    "dev": "bun --watch app.ts",
-    "check:types": "tsc --noEmit"
+    "dev": "bun --watch app.ts"
   }
 }

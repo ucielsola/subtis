@@ -7,6 +7,7 @@ import { SUBTITLE_GROUPS } from './subtitle-groups';
 import { ReleaseGroupNames } from './release-groups';
 
 // constants
+const ARGENTEAM_BREADCRUMB_ERROR = 'ARGENTEAM_ERROR' as const;
 const ARGENTEAM_BASE_URL = 'https://argenteam.net/api/v1' as const;
 
 // utils
@@ -101,7 +102,7 @@ export async function getArgenteamSubtitle(
   const { name, resolution, releaseGroup, searchableArgenteamName } = movieData;
 
   // 1. Validate imdbId
-  invariant(!String(imdbId).startsWith('tt'), "imdbId should not start with 'tt'");
+  invariant(!String(imdbId).startsWith('tt'), `[${ARGENTEAM_BREADCRUMB_ERROR}]: imdbId should not start with 'tt'`);
 
   // 2. Get argenteam search results
   const argenteamSearchEndpoint = argenteamApiEndpoints.search(imdbId);
@@ -109,7 +110,7 @@ export async function getArgenteamSubtitle(
   const rawSearchData = await searchResponse.json();
 
   const { results } = argenteamSearchSchema.parse(rawSearchData);
-  invariant(results.length > 0, 'There should be at least one result');
+  invariant(results.length > 0, `[${ARGENTEAM_BREADCRUMB_ERROR}]: There should be at least one result`);
 
   // 3. Get argenteam resource data
   const { id, type } = results[0];
@@ -132,11 +133,11 @@ export async function getArgenteamSubtitle(
   const release = releases.find(
     (release) => release.team.toLowerCase() === searchableTeam && release.tags.includes(resolution),
   );
-  invariant(release, 'Release should exist');
+  invariant(release, `[${ARGENTEAM_BREADCRUMB_ERROR}]: Release should exist`);
 
   // 5. Get subtitle link
   const { subtitles } = release;
-  invariant(subtitles.length > 0, 'There should be at least one subtitle');
+  invariant(subtitles.length > 0, `[${ARGENTEAM_BREADCRUMB_ERROR}]: There should be at least one subtitle`);
 
   const subtitleLink = subtitles[0].uri;
 

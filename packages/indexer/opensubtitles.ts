@@ -6,6 +6,7 @@ import { SUBTITLE_GROUPS } from './subtitle-groups';
 import { ReleaseGroupNames } from './release-groups';
 
 // constants
+const OPEN_SUBTITLES_BREADCRUMB_ERROR = 'OPEN_SUBTITLES_ERROR' as const;
 const OPEN_SUBTITLES_BASE_URL = 'https://api.opensubtitles.com/api/v1' as const;
 
 // utils
@@ -121,7 +122,10 @@ export async function getOpenSubtitlesSubtitle(
 }> {
   const { name, resolution, releaseGroup, searchableOpenSubtitlesName } = movieData;
 
-  invariant(!String(imdbId).startsWith('tt'), "imdbId should not start with 'tt'");
+  invariant(
+    !String(imdbId).startsWith('tt'),
+    `[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: imdbId should not start with 'tt'`,
+  );
 
   const response = await fetch(`${OPEN_SUBTITLES_BASE_URL}/subtitles?imdb_id=${imdbId}&languages=es`, {
     headers: getOpenSubtitlesHeaders(),
@@ -129,14 +133,14 @@ export async function getOpenSubtitlesSubtitle(
   const data = await response.json();
 
   const parsedData = subtitlesSchema.parse(data);
-  invariant(parsedData.data, 'No subtitles data found');
+  invariant(parsedData.data, `[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: No subtitles data found`);
 
   const parsedReleaseGroup = searchableOpenSubtitlesName.toLowerCase();
   const firstResult = parsedData.data.find((subtitle) => {
     const release = subtitle.attributes.release.toLowerCase();
     return release.includes(parsedReleaseGroup) && release.includes(resolution);
   });
-  invariant(firstResult, 'No subtitle data found');
+  invariant(firstResult, `[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: No subtitle data found`);
 
   const { files } = firstResult.attributes;
   const { file_id } = files[0];
@@ -149,7 +153,7 @@ export async function getOpenSubtitlesSubtitle(
   const downloadData = await downloadResponse.json();
 
   const parsedDownloadData = downloadSchema.parse(downloadData);
-  invariant(parsedDownloadData.link, 'No download subtitle link found');
+  invariant(parsedDownloadData.link, `[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: No download subtitle link found`);
 
   const fileExtension = 'srt';
   const subtitleLink = parsedDownloadData.link;

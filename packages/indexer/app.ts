@@ -354,7 +354,6 @@ async function mainIndexer(): Promise<void> {
 
 mainIndexer();
 
-// TODO: Add custom error types for each provider
 // TODO: Reach 100% coverage
 // TODO: Add support for series
 // TODO: Review tables and types with Hugo

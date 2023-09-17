@@ -8,6 +8,7 @@ import { ReleaseGroupNames } from './release-groups';
 
 // constants
 const SUBDIVX_BASE_URL = 'https://subdivx.com' as const;
+const SUBDIVX_BREADCRUMB_ERROR = 'SUBDIVX_ERROR' as const;
 
 // utils
 export function getSubDivXSearchParams(
@@ -53,7 +54,7 @@ export async function getSubDivXSubtitleDownloadLink(subtitlePage: string): Prom
   const document = dom.window.document;
 
   const anchor = document.querySelector('.link1');
-  invariant(anchor, 'Link should be defined');
+  invariant(anchor, `[${SUBDIVX_BREADCRUMB_ERROR}]: Link should be defined`);
 
   const href = anchor.getAttribute('href');
   const subtitleLink = `${SUBDIVX_BASE_URL}/${href}`;
@@ -89,7 +90,7 @@ export async function getSubDivXSubtitle(
   const document = dom.window.document;
 
   const allSubtitlesElements = [...document.querySelectorAll('#buscador_detalle')];
-  invariant(allSubtitlesElements.length > 0, 'There should be at least one subtitle');
+  invariant(allSubtitlesElements.length > 0, `[${SUBDIVX_BREADCRUMB_ERROR}]: There should be at least one subtitle`);
 
   const value = allSubtitlesElements.find((element) => {
     const movieDetail = element.textContent?.toLowerCase();
@@ -97,7 +98,7 @@ export async function getSubDivXSubtitle(
   });
 
   const previousSibling = value?.previousSibling as Element;
-  invariant(previousSibling, 'Subtitle Element should exist');
+  invariant(previousSibling, `[${SUBDIVX_BREADCRUMB_ERROR}]: Subtitle Element should exist`);
 
   if (allSubtitlesElements.length > 90) {
     // Iterate to next pages until find the subtitle or no more results
@@ -106,10 +107,10 @@ export async function getSubDivXSubtitle(
   }
 
   const hrefElement = previousSibling.querySelector('.titulo_menu_izq');
-  invariant(hrefElement, 'Anchor element should be defined');
+  invariant(hrefElement, `[${SUBDIVX_BREADCRUMB_ERROR}]: Anchor element should be defined`);
 
   const subtitleHref = hrefElement.getAttribute('href');
-  invariant(subtitleHref, 'Subtitle page link should be defined');
+  invariant(subtitleHref, `[${SUBDIVX_BREADCRUMB_ERROR}]: Subtitle page link should be defined`);
 
   const subtitleDownloadLink = await getSubDivXSubtitleDownloadLink(subtitleHref);
 
@@ -122,7 +123,7 @@ export async function getSubDivXSubtitle(
   const isRarLinkAlive = await getIsLinkAlive(subtitleRarLink);
   const isZipLinkAlive = await getIsLinkAlive(subtitleZipLink);
 
-  invariant(isRarLinkAlive || isZipLinkAlive, 'Subtitle link should be alive');
+  invariant(isRarLinkAlive || isZipLinkAlive, `[${SUBDIVX_BREADCRUMB_ERROR}]: Subtitle link should be alive`);
 
   const subtitleGroup = SUBTITLE_GROUPS.SUBDIVX.name;
   const fileExtension = isRarLinkAlive ? 'rar' : 'zip';
