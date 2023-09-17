@@ -1,0 +1,20 @@
+{
+  "name": "db",
+  "version": "0.0.1",
+  "main": "app.ts",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.33.2",
+    "zod": "^3.22.2"
+  },
+  "devDependencies": {
+    "supabase": ">=1.93.0"
+  },
+  "trustedDependencies": [
+    "supabase"
+  ],
+  "scripts": {
+    "dev": "bun watch app.ts",
+    "supabase:type:definitions": "bunx supabase gen types typescript --project-id 'yelhsmnvfyyjuamxbobs' --schema public > types.ts"
+  }
+}
