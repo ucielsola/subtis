@@ -354,7 +354,6 @@ async function mainIndexer(): Promise<void> {
 
 // mainIndexer();
 
-// TODO: QA: Run getSubDivXSubtitle, and getArgenteamSubtitle, getOpenSubtitleLink by separate to find bugs
-// TODO: FEAT: Test rarbg-api node module to get movies https://www.npmjs.com/package/rarbg-api
 // TODO: FEAT: Add support for series
+// TODO: QA: Run getSubDivXSubtitle, and getArgenteamSubtitle, getOpenSubtitleLink by separate to find bugs
 // TODO: FEAT: Upload SRT file to Supabase with original movie file name (not supported?, it needs to be uploaded as a compressed file?)
