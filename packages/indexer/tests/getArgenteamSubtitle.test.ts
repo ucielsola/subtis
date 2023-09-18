@@ -1,7 +1,38 @@
-import { expect, test } from 'bun:test';
+import { expect, test, mock } from 'bun:test';
 
 import { getMovieData } from '../movie';
-import { getArgenteamSubtitle } from '../argenteam';
+import { argenteamApiEndpoints, getArgenteamSubtitle } from '../argenteam';
+
+test('should return an endpoint for each value', () => {
+  const MOVIE_ID = 24146896;
+
+  const searchEndpoint = argenteamApiEndpoints.search(MOVIE_ID);
+  const tvShowEndpoint = argenteamApiEndpoints.tvShow(MOVIE_ID);
+  const episodeEndpoint = argenteamApiEndpoints.episode(MOVIE_ID);
+  const movieEndpoint = argenteamApiEndpoints.movie(MOVIE_ID);
+
+  expect(searchEndpoint).toBe(`https://argenteam.net/api/v1/search?q=${MOVIE_ID}`);
+  expect(tvShowEndpoint).toBe(`https://argenteam.net/api/v1/tvshow?id=${MOVIE_ID}`);
+  expect(episodeEndpoint).toBe(`https://argenteam.net/api/v1/episode?id=${MOVIE_ID}`);
+  expect(movieEndpoint).toBe(`https://argenteam.net/api/v1/movie?id=${MOVIE_ID}`);
+});
+
+test('should throw error if no search results are found', () => {
+  expect(async () => {
+    await getArgenteamSubtitle(
+      {
+        name: 'Movie Name',
+        year: 2021,
+        resolution: '1080p',
+        searchableMovieName: 'Movie',
+        searchableSubDivXName: 'Movie',
+        searchableArgenteamName: 'Movie',
+        releaseGroup: 'YTS-MX',
+      },
+      1234,
+    );
+  }).toThrow('[ARGENTEAM_ERROR]: There should be at least one result');
+});
 
 test('should return a subtitle link giving a movie, release group and quality', async () => {
   const movieData = getMovieData('Spider-Man.Across.The.Spider-Verse.2023.1080p.WEB-DL.DDP5.1.Atmos.x264-AOC.mkv');
@@ -18,4 +49,9 @@ test('should return a subtitle link giving a movie, release group and quality', 
   });
 });
 
-// TODO: Add 3-4 more tests cases
+test('should throw an error giving a subtitle link giving a movie, release group and quality', () => {
+  expect(async () => {
+    const movieData = getMovieData('Haunting.Of.The.Queen.Mary.2023.720p.WEBRip.x264.AAC-[YTS.MX].mp4');
+    await getArgenteamSubtitle(movieData, 9362722);
+  }).toThrow();
+});

@@ -5,6 +5,8 @@
     "packages/*"
   ],
   "scripts": {
+    "test": "bun test --coverage",
+    "test:watch": "bun test --watch",
     "cli": "bun run packages/cli/app.ts",
     "indexer": "bun run packages/indexer/app.ts",
     "dev:cli": "bun --watch packages/cli/app.ts",

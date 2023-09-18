@@ -11,7 +11,7 @@ const ARGENTEAM_BREADCRUMB_ERROR = 'ARGENTEAM_ERROR' as const;
 const ARGENTEAM_BASE_URL = 'https://argenteam.net/api/v1' as const;
 
 // utils
-const argenteamApiEndpoints = {
+export const argenteamApiEndpoints = {
   search: (query: number) => {
     return `${ARGENTEAM_BASE_URL}/search?q=${query}` as const;
   },
@@ -101,10 +101,7 @@ export async function getArgenteamSubtitle(
 }> {
   const { name, resolution, releaseGroup, searchableArgenteamName } = movieData;
 
-  // 1. Validate imdbId
-  invariant(!String(imdbId).startsWith('tt'), `[${ARGENTEAM_BREADCRUMB_ERROR}]: imdbId should not start with 'tt'`);
-
-  // 2. Get argenteam search results
+  // 1. Get argenteam search results
   const argenteamSearchEndpoint = argenteamApiEndpoints.search(imdbId);
   const searchResponse = await fetch(argenteamSearchEndpoint);
   const rawSearchData = await searchResponse.json();
@@ -112,7 +109,7 @@ export async function getArgenteamSubtitle(
   const { results } = argenteamSearchSchema.parse(rawSearchData);
   invariant(results.length > 0, `[${ARGENTEAM_BREADCRUMB_ERROR}]: There should be at least one result`);
 
-  // 3. Get argenteam resource data
+  // 2. Get argenteam resource data
   const { id, type } = results[0];
 
   const argenteamResourceEndpoint = match(type)
@@ -126,7 +123,7 @@ export async function getArgenteamSubtitle(
   const resourceResponse = await fetch(argenteamResourceEndpoint);
   const rawResourceData = await resourceResponse.json();
 
-  // 4. Filter releases by release group and quality
+  // 3. Filter releases by release group and quality
   const { releases } = argenteamResourceSchema.parse(rawResourceData);
 
   const searchableTeam = searchableArgenteamName.toLowerCase();
@@ -135,13 +132,13 @@ export async function getArgenteamSubtitle(
   );
   invariant(release, `[${ARGENTEAM_BREADCRUMB_ERROR}]: Release should exist`);
 
-  // 5. Get subtitle link
+  // 4. Get subtitle link
   const { subtitles } = release;
   invariant(subtitles.length > 0, `[${ARGENTEAM_BREADCRUMB_ERROR}]: There should be at least one subtitle`);
 
   const subtitleLink = subtitles[0].uri;
 
-  // 6. Create extra needed strings
+  // 5. Create extra needed strings
   const fileExtension = 'zip';
   const subtitleGroup = SUBTITLE_GROUPS.ARGENTEAM.name;
 

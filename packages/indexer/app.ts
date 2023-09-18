@@ -14,8 +14,8 @@ import { confirm } from '@clack/prompts';
 import { supabase } from 'db';
 import { getImdbLink } from './imdb';
 import { getMovieData } from './movie';
-import { ReleaseGroupMap, ReleaseGroupNames, getReleaseGroups } from './release-groups';
 import { YtsMxMovieList, getYtsMxMovieList, getYtsMxTotalMoviesAndPages } from './yts-mx';
+import { ReleaseGroupMap, ReleaseGroupNames, getReleaseGroups } from './release-groups';
 import { SubtitleGroupMap, SubtitleGroupNames, getSubtitleGroups } from './subtitle-groups';
 import {
   getRandomDelay,
@@ -27,8 +27,8 @@ import {
 
 // providers
 import { getSubDivXSubtitle } from './subdivx';
-import { getArgenteamSubtitle } from './argenteam';
-import { getOpenSubtitlesSubtitle } from './opensubtitles';
+// import { getArgenteamSubtitle } from './argenteam';
+// import { getOpenSubtitlesSubtitle } from './opensubtitles';
 
 // utils
 async function setMovieSubtitlesToDatabase({
@@ -303,7 +303,7 @@ async function indexYtsMxMoviesSubtitles(
     const movieListNotInDb = movieList.filter(({ imdbId }) => !moviesIdsFromDb.includes(imdbId));
     console.log('\n ~ forawait ~ movieListNotInDb:', movieListNotInDb.length);
 
-    // FIXME: FOR AWAIT OR PROMISE.ALL SEEMS NOT TO BE WORKING CORRECTLY IN BUN
+    // TODO: FOR AWAIT OR PROMISE.ALL SEEMS NOT TO BE WORKING CORRECTLY IN BUN
 
     // 5. Run all 50 movies in parallels to get their subtitle and save them to DB and Storage
     // const movieListPromises = movieListNotInDb.map((movie) => getMovieListFromDb(movie, releaseGroups, subtitleGroups));
@@ -352,13 +352,9 @@ async function mainIndexer(): Promise<void> {
   }
 }
 
-mainIndexer();
+// mainIndexer();
 
-// TODO: Reach 100% coverage
-// TODO: Add support for series
-// TODO: Review tables and types with Hugo
-// TODO: Ping Nico to showcase codebase
-// TODO: Run getSubDivXSubtitle, and getArgenteamSubtitle, getOpenSubtitleLink by separate to find bugs
-// TODO: Test rarbg-api node module to get movies https://www.npmjs.com/package/rarbg-api
-// TODO: Upload SRT file to Supabase with original movie file name (not supported?, it needs to be uploaded as a compressed file?)
-// TODO: Can we download movie and check with a script if the subtitle matches the audio?
+// TODO: QA: Run getSubDivXSubtitle, and getArgenteamSubtitle, getOpenSubtitleLink by separate to find bugs
+// TODO: FEAT: Test rarbg-api node module to get movies https://www.npmjs.com/package/rarbg-api
+// TODO: FEAT: Add support for series
+// TODO: FEAT: Upload SRT file to Supabase with original movie file name (not supported?, it needs to be uploaded as a compressed file?)

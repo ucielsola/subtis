@@ -2,6 +2,7 @@ import { P, match } from 'ts-pattern';
 
 import { VIDEO_FILE_EXTENSIONS, removeExtraSpaces } from './utils';
 import { RELEASE_GROUPS, ReleaseGroupNames } from './release-groups';
+import invariant from 'tiny-invariant';
 
 // utls
 export function getMovieName(name: string): string {
@@ -32,96 +33,61 @@ export function getMovieData(movie: string): {
       .with(P.string.includes(yearString), () => yearString)
       .otherwise(() => false);
 
-    if (yearStringToReplace && typeof yearStringToReplace === 'string') {
-      const [rawName, rawAttributes] = movie.split(yearStringToReplace);
-
-      const movieName = getMovieName(rawName);
-      const searchableMovieName = removeExtraSpaces(`${movieName} (${yearString})`);
-
-      const resolution = match(rawAttributes)
-        .with(P.string.includes('1080'), () => '1080p')
-        .with(P.string.includes('720'), () => '720p')
-        .with(P.string.includes('2160'), () => '2160p')
-        .with(P.string.includes('3D'), () => '3D')
-        .run();
-
-      for (const videoFileExtension of VIDEO_FILE_EXTENSIONS) {
-        if (rawAttributes.includes(videoFileExtension)) {
-          if (rawAttributes.includes(YTS_MX.fileAttribute)) {
-            return {
-              name: movieName,
-              searchableMovieName,
-              year,
-              resolution,
-              releaseGroup: YTS_MX.name,
-              searchableSubDivXName: YTS_MX.searchableSubDivXName,
-              searchableArgenteamName: YTS_MX.searchableArgenteamName,
-              searchableOpenSubtitlesName: YTS_MX.searchableOpenSubtitlesName,
-            };
-          }
-
-          if (rawAttributes.includes(CODY.fileAttribute)) {
-            return {
-              name: movieName,
-              searchableMovieName,
-              year,
-              resolution,
-              releaseGroup: CODY.name,
-              searchableSubDivXName: CODY.searchableSubDivXName,
-              searchableArgenteamName: CODY.searchableArgenteamName,
-              searchableOpenSubtitlesName: CODY.searchableOpenSubtitlesName,
-            };
-          }
-
-          if (rawAttributes.includes(GALAXY_RG.fileAttribute)) {
-            return {
-              name: movieName,
-              searchableMovieName,
-              year,
-              resolution,
-              releaseGroup: GALAXY_RG.name,
-              searchableSubDivXName: GALAXY_RG.searchableSubDivXName,
-              searchableArgenteamName: GALAXY_RG.searchableArgenteamName,
-              searchableOpenSubtitlesName: GALAXY_RG.searchableOpenSubtitlesName,
-            };
-          }
-
-          if (rawAttributes.includes(RIGHTNOW.fileAttribute)) {
-            return {
-              name: movieName,
-              searchableMovieName,
-              year,
-              resolution,
-              releaseGroup: RIGHTNOW.name,
-              searchableSubDivXName: RIGHTNOW.searchableSubDivXName,
-              searchableArgenteamName: RIGHTNOW.searchableArgenteamName,
-              searchableOpenSubtitlesName: RIGHTNOW.searchableOpenSubtitlesName,
-            };
-          }
-
-          const releaseGroup = rawAttributes
-            .split(videoFileExtension)
-            .at(0)
-            ?.split(/\.|\s/g)
-            .at(-1)
-            ?.replace('x264-', '');
-
-          console.warn(`⚠️ ☢️ ⚠️ Release Group not supported in DB, ${releaseGroup} ⚠️ ☢️ ⚠️`);
-
-          return {
-            year,
-            resolution,
-            name: movieName,
-            searchableMovieName,
-            releaseGroup: releaseGroup as ReleaseGroupNames,
-            searchableSubDivXName: releaseGroup as string,
-            searchableArgenteamName: releaseGroup as string,
-            searchableOpenSubtitlesName: releaseGroup as string,
-          };
-        }
-      }
+    if (!yearStringToReplace || typeof yearStringToReplace !== 'string') {
+      continue;
     }
+
+    const [rawName, rawAttributes] = movie.split(yearStringToReplace);
+
+    const movieName = getMovieName(rawName);
+    const searchableMovieName = removeExtraSpaces(`${movieName} (${yearString})`);
+
+    const resolution = match(rawAttributes)
+      .with(P.string.includes('1080'), () => '1080p')
+      .with(P.string.includes('720'), () => '720p')
+      .with(P.string.includes('2160'), () => '2160p')
+      .with(P.string.includes('3D'), () => '3D')
+      .run();
+
+    const videoFileExtension = VIDEO_FILE_EXTENSIONS.find((videoFileExtension) =>
+      rawAttributes.includes(videoFileExtension),
+    );
+    invariant(videoFileExtension, 'Unsupported file extension');
+
+    const releaseGroup = match(rawAttributes)
+      .with(P.string.includes(YTS_MX.fileAttribute), () => YTS_MX)
+      .with(P.string.includes(CODY.fileAttribute), () => CODY)
+      .with(P.string.includes(GALAXY_RG.fileAttribute), () => GALAXY_RG)
+      .with(P.string.includes(RIGHTNOW.fileAttribute), () => RIGHTNOW)
+      .otherwise(() => {
+        const unsupportedReleaseGroup = rawAttributes
+          .split(videoFileExtension)
+          .at(0)
+          ?.split(/\.|\s/g)
+          .at(-1)
+          ?.replace('x264-', '');
+
+        // console.warn(`⚠️ Release Group not supported in DB, ${unsupportedReleaseGroup} ⚠️`);
+
+        return {
+          name: unsupportedReleaseGroup,
+          searchableSubDivXName: unsupportedReleaseGroup,
+          searchableArgenteamName: unsupportedReleaseGroup,
+          searchableOpenSubtitlesName: unsupportedReleaseGroup,
+        };
+      });
+
+    return {
+      year,
+      resolution,
+      name: movieName,
+      searchableMovieName,
+      releaseGroup: releaseGroup.name as ReleaseGroupNames,
+      searchableSubDivXName: releaseGroup.searchableSubDivXName as string,
+      searchableArgenteamName: releaseGroup.searchableArgenteamName as string,
+      searchableOpenSubtitlesName: releaseGroup.searchableOpenSubtitlesName as string,
+    };
   }
 
-  throw new Error("Couldn't parse movie name");
+  throw new Error('Unsupported year movie');
 }
