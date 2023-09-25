@@ -1,6 +1,6 @@
 import { expect, test } from 'bun:test';
 
-import { getMovieName } from '../movie';
+import { getMovieName } from 'shared/movie';
 
 test('should return a movie name without dots and any extra spaces for "The.Kept.Mistress.Killer."', async () => {
   const numbersArray = getMovieName('The.Kept.Mistress.Killer.');

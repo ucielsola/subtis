@@ -1,6 +1,9 @@
-import { expect, test, mock } from 'bun:test';
+import { expect, test } from 'bun:test';
 
-import { getMovieData } from '../movie';
+// shared
+import { getMovieData } from 'shared/movie';
+
+// internals
 import { argenteamApiEndpoints, getArgenteamSubtitle } from '../argenteam';
 
 test('should return an endpoint for each value', () => {

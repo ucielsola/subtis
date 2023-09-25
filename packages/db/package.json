@@ -4,17 +4,20 @@
   "main": "app.ts",
   "license": "MIT",
   "dependencies": {
-    "@supabase/supabase-js": "^2.33.2",
+    "@supabase/supabase-js": "^2.36.0",
     "zod": "^3.22.2"
   },
   "devDependencies": {
-    "supabase": ">=1.93.0"
+    "@total-typescript/ts-reset": "^0.5.1",
+    "bun-types": "^1.0.3",
+    "supabase": ">=1.99.5",
+    "typescript": "^5.2.2"
   },
   "trustedDependencies": [
     "supabase"
   ],
   "scripts": {
-    "dev": "bun watch app.ts",
+    "dev": "bun --watch app.ts",
     "supabase:type:definitions": "bunx supabase gen types typescript --project-id 'yelhsmnvfyyjuamxbobs' --schema public > types.ts"
   }
 }

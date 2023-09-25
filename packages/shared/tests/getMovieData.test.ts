@@ -1,6 +1,6 @@
 import { expect, test } from 'bun:test';
 
-import { getMovieData } from '../movie';
+import { getMovieData } from 'shared/movie';
 
 test('Unsupported year movie', () => {
   expect(() => {

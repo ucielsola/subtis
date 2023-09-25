@@ -1,57 +1,54 @@
+import { z } from 'zod';
 import turl from 'turl';
 import delay from 'delay';
 import invariant from 'tiny-invariant';
 import { intro, outro, spinner } from '@clack/prompts';
 
-// ponele-los-subs
-import { supabase } from 'db';
-import { getMovieData } from 'indexer/movie';
-import { VIDEO_FILE_EXTENSIONS } from 'indexer/utils';
+// shared
+import { getSubtitleLink } from 'shared/api';
+import { getMovieFileNameExtension, getMovieData } from 'shared/movie';
 
-// main
+// cli
+import { getCliArguments, sanitizePath } from './args';
+
+// schemas
+const cliArgumentsSchema = z.object({ '--file': z.string() });
+
+// core fn
 async function cli(fakeFileName?: string): Promise<void> {
   const loader = spinner();
 
   try {
     intro('➖ PoneleLosSubs - CLI');
 
-    // 1. Get file name from CLI args
-    const args = process.argv;
-    const fileName = fakeFileName ?? args.at(-1);
+    // 1. Get cli arguments
+    const cliArguments = getCliArguments();
 
+    // 2. Parse with zod
+    const { ['--file']: file } = cliArgumentsSchema.parse(cliArguments);
+
+    // 3. Sanitize filename
+    const fileName = fakeFileName ?? sanitizePath(file);
     invariant(fileName, 'File name not provided');
 
-    const parsedFileName = fileName.includes('/') ? fileName.split('/').at(-1) : fileName;
-
-    invariant(parsedFileName, 'File name not provided');
-
-    const { name, resolution, releaseGroup, year } = getMovieData(parsedFileName);
+    // 4. Get movie data
+    const { name, resolution, releaseGroup, year } = getMovieData(fileName);
 
     loader.start(
       `🔎 Searching subtitle for "${name}" from ${year} in ${resolution} for "${releaseGroup}" release group`,
     );
-    await delay(1200);
+    await delay(15000);
 
-    // 2. Checks if file is a video
-    const isVideoFile = VIDEO_FILE_EXTENSIONS.some((videoFileExtension) => parsedFileName.endsWith(videoFileExtension));
+    // 5. Checks if file is a video
+    getMovieFileNameExtension(fileName);
 
-    invariant(isVideoFile, `File is not a video: ${parsedFileName}`);
+    // 6. Get subtitle link from API
+    const { subtitleLink } = await getSubtitleLink(fileName);
 
-    // 3. Get subtitles from supabase
-    const { data: subtitles, statusText } = await supabase.from('Subtitles').select('*').eq('fileName', parsedFileName);
+    // 7. Short subtitle link
+    const subtitleShortLink = await turl.shorten(subtitleLink);
 
-    invariant(
-      statusText === 'OK' && subtitles && subtitles.length > 0,
-      `Subtitles not found for file: ${parsedFileName}`,
-    );
-
-    // 4. Display subtitle link
-    const [subtitle] = subtitles;
-
-    // 5. Short subtitle link
-    const subtitleShortLink = await turl.shorten(subtitle.subtitleLink);
-
-    // 6. Stop loader and display subtitle link
+    // 8. Stop loader and display subtitle link
     loader.stop(`🥳 Click on the following link to download your subtitle: ${subtitleShortLink}`);
 
     outro('🍿 Enjoy your movie!');
@@ -63,4 +60,4 @@ async function cli(fakeFileName?: string): Promise<void> {
   }
 }
 
-cli('Haunting.Of.The.Queen.Mary.2023.720p.WEBRip.x264.AAC-[YTS.MX].mp4');
+cli();

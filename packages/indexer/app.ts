@@ -10,20 +10,18 @@ import unrar from '@continuata/unrar';
 import invariant from 'tiny-invariant';
 import { confirm } from '@clack/prompts';
 
-// ponele-los-subs
+// db
 import { supabase } from 'db';
+
+// shared
+import { VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieData } from 'shared/movie';
+
+// internals
 import { getImdbLink } from './imdb';
-import { getMovieData } from './movie';
-import { YtsMxMovieList, getYtsMxMovieList, getYtsMxTotalMoviesAndPages } from './yts-mx';
+import { getRandomDelay, getFileNameHash, safeParseTorrent } from './utils';
 import { ReleaseGroupMap, ReleaseGroupNames, getReleaseGroups } from './release-groups';
+import { YtsMxMovieList, getYtsMxMovieList, getYtsMxTotalMoviesAndPages } from './yts-mx';
 import { SubtitleGroupMap, SubtitleGroupNames, getSubtitleGroups } from './subtitle-groups';
-import {
-  getRandomDelay,
-  getFileNameHash,
-  safeParseTorrent,
-  getMovieFileNameExtension,
-  VIDEO_FILE_EXTENSIONS,
-} from './utils';
 
 // providers
 import { getSubDivXSubtitle } from './subdivx';
@@ -352,7 +350,7 @@ async function mainIndexer(): Promise<void> {
   }
 }
 
-// mainIndexer();
+mainIndexer();
 
 // TODO: FEAT: Add support for series
 // TODO: QA: Run getSubDivXSubtitle, and getArgenteamSubtitle, getOpenSubtitleLink by separate to find bugs

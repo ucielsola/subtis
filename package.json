@@ -9,12 +9,10 @@
     "test:watch": "bun test --watch",
     "cli": "bun run packages/cli/app.ts",
     "indexer": "bun run packages/indexer/app.ts",
-    "dev:cli": "bun --watch packages/cli/app.ts",
+    "dev:api": "cd packages/api && bun dev",
+    "dev:web": "cd packages/web && bun dev",
+    "dev:cli": "bun --watch packages/cli/app.ts --file ./Blue.Beetle.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
     "dev:indexer": "bun --watch packages/indexer/app.ts",
     "clean:install": "bun pm cache rm && rm -rf bun.lockb && rm -rf node_modules && bun install"
-  },
-  "devDependencies": {
-    "@total-typescript/ts-reset": "^0.5.1",
-    "typescript": "^5.2.2"
   }
 }

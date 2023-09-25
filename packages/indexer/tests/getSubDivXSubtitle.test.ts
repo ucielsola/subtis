@@ -1,6 +1,9 @@
 import { expect, test } from 'bun:test';
 
-import { getMovieData } from '../movie';
+// shared
+import { getMovieData } from 'shared/movie';
+
+// subdivx
 import { getSubDivXSubtitle } from '../subdivx';
 
 test('should return an search params for "Guardians of the Galaxy Vol 3 (2023)" for page 1', async () => {

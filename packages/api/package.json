@@ -1,13 +1,10 @@
 {
-  "name": "cli",
+  "name": "api",
   "version": "0.0.1",
   "main": "app.ts",
   "license": "MIT",
   "dependencies": {
-    "@clack/prompts": "^0.7.0",
-    "delay": "^6.0.0",
-    "tiny-invariant": "^1.3.1",
-    "turl": "^1.1.2"
+    "tiny-invariant": "^1.3.1"
   },
   "scripts": {
     "dev": "bun --watch app.ts"

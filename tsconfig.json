@@ -2,9 +2,10 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "commonjs",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+    "types": ["bun-types"],
     "strict": true,
     "skipLibCheck": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
   }
 }
