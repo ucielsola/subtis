@@ -9,7 +9,7 @@ import { getSubtitleLink } from 'shared/api';
 import { getMovieFileNameExtension, getMovieData } from 'shared/movie';
 
 // cli
-import { getCliArguments, sanitizePath } from './args';
+import { getCliArguments, getSanitizedPath } from './args';
 
 // schemas
 const cliArgumentsSchema = z.object({ '--file': z.string() });
@@ -22,13 +22,13 @@ async function cli(fakeFileName?: string): Promise<void> {
     intro('➖ PoneleLosSubs - CLI');
 
     // 1. Get cli arguments
-    const cliArguments = getCliArguments();
+    const cliArguments = getCliArguments(process.argv);
 
     // 2. Parse with zod
     const { ['--file']: file } = cliArgumentsSchema.parse(cliArguments);
 
     // 3. Sanitize filename
-    const fileName = fakeFileName ?? sanitizePath(file);
+    const fileName = fakeFileName ?? getSanitizedPath(file);
     invariant(fileName, 'File name not provided');
 
     // 4. Get movie data
@@ -37,7 +37,7 @@ async function cli(fakeFileName?: string): Promise<void> {
     loader.start(
       `🔎 Searching subtitle for "${name}" from ${year} in ${resolution} for "${releaseGroup}" release group`,
     );
-    await delay(15000);
+    await delay(600);
 
     // 5. Checks if file is a video
     getMovieFileNameExtension(fileName);

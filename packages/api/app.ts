@@ -39,7 +39,7 @@ export async function fetchSubtitleLink(request: Request) {
       return new Response(JSON.stringify({ subtitleLink: subtitleInCache }), { status: 200 });
     }
 
-    // 8. Check if file exists in database
+    // 8. Get subtitle from database
     const { data: subtitles, statusText } = await supabase
       .from('Subtitles')
       .select('subtitleLink')
