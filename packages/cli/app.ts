@@ -1,59 +1,68 @@
 import { z } from 'zod';
 import turl from 'turl';
 import delay from 'delay';
+import minimist from 'minimist';
 import invariant from 'tiny-invariant';
 import { intro, outro, spinner } from '@clack/prompts';
 
 // shared
 import { getSubtitleLink } from 'shared/api';
-import { getMovieFileNameExtension, getMovieData } from 'shared/movie';
-
-// cli
-import { getCliArguments, getSanitizedPath } from './args';
+import { getParsedInvariantMessage } from 'shared/invariant';
+import { getFilenameFromPath, getMovieData, getVideoFileExtension } from 'shared/movie';
 
 // schemas
-const cliArgumentsSchema = z.object({ '--file': z.string() });
+const cliArgumentsSchema = z.object({ file: z.string() });
 
 // core fn
-async function cli(fakeFileName?: string): Promise<void> {
+async function cli(): Promise<void> {
+  // 1. Initialize loader
   const loader = spinner();
 
   try {
-    intro('➖ PoneleLosSubs - CLI');
+    // 2. Display intro
+    intro('➖ Subtis CLI');
 
-    // 1. Get cli arguments
-    const cliArguments = getCliArguments(process.argv);
+    // 3. Get cli arguments
+    const cliArguments = minimist(Bun.argv);
 
-    // 2. Parse with zod
-    const { ['--file']: file } = cliArgumentsSchema.parse(cliArguments);
+    // 4. Parse with zod
+    const { file } = cliArgumentsSchema.parse(cliArguments);
 
-    // 3. Sanitize filename
-    const fileName = fakeFileName ?? getSanitizedPath(file);
+    // 5. Sanitize filename
+    const fileName = getFilenameFromPath(file);
     invariant(fileName, 'File name not provided');
 
-    // 4. Get movie data
+    // 6. Checks if file is a video
+    const videoFileExtension = getVideoFileExtension(fileName);
+    invariant(videoFileExtension, `Video file extension not supported: ${fileName}`);
+
+    // 7. Get movie data
     const { name, resolution, releaseGroup, year } = getMovieData(fileName);
 
-    loader.start(
-      `🔎 Searching subtitle for "${name}" from ${year} in ${resolution} for "${releaseGroup}" release group`,
-    );
-    await delay(600);
+    // 8. Display loader
+    loader.start(`🔎 Searching "${name}" subtitle from ${year} in ${resolution} by ${releaseGroup} release group`);
+    await delay(3500);
 
-    // 5. Checks if file is a video
-    getMovieFileNameExtension(fileName);
+    // 9. Get subtitle link from API
+    const { data, error, status } = await getSubtitleLink(fileName, {
+      isProduction: process.env.NODE_ENV === 'production',
+      apiBaseUrlProduction: process.env.PUBLIC_API_BASE_URL_PRODUCTION,
+      apiBaseUrlDevelopment: process.env.PUBLIC_API_BASE_URL_DEVELOPMENT,
+    });
 
-    // 6. Get subtitle link from API
-    const { subtitleLink } = await getSubtitleLink(fileName);
+    // 10. Throw error if subtitle not found
+    invariant(data !== null, error);
 
-    // 7. Short subtitle link
-    const subtitleShortLink = await turl.shorten(subtitleLink);
+    // 11. Short subtitle link
+    const subtitleShortLink = await turl.shorten(data.subtitleLink);
 
-    // 8. Stop loader and display subtitle link
-    loader.stop(`🥳 Click on the following link to download your subtitle: ${subtitleShortLink}`);
+    // 12. Stop loader and display subtitle link
+    loader.stop(`🥳 Download your subtitle: ${subtitleShortLink}`);
 
+    // 13. Display outro
     outro('🍿 Enjoy your movie!');
   } catch (error) {
-    const errorMessage = (error as Error).message.slice(18);
+    const errorMessage = getParsedInvariantMessage(error as Error);
 
     loader.stop();
     outro(`🔴 ${errorMessage}`);

@@ -1,5 +1,6 @@
 import invariant from 'tiny-invariant';
 
+// db
 import { SupabaseClient } from 'db';
 
 // constants
@@ -18,7 +19,7 @@ export const SUBTITLE_GROUPS = {
   },
 } as const;
 
-// type definitions
+// types
 export type SubtitleGroup = {
   name: string;
   website: string;
@@ -43,7 +44,7 @@ export async function saveSubtitleGroupsToDb(supabaseClient: SupabaseClient): Pr
   }
 }
 
-// main
+// core fn
 export async function getSubtitleGroups(supabaseClient: SupabaseClient): Promise<SubtitleGroupMap> {
   const { data } = await supabaseClient.from('SubtitleGroups').select('*');
   invariant(data, 'SubtitleGroups not found in database');

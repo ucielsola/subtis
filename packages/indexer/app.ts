@@ -8,25 +8,23 @@ import extract from 'extract-zip';
 import { match } from 'ts-pattern';
 import unrar from '@continuata/unrar';
 import invariant from 'tiny-invariant';
-import { confirm } from '@clack/prompts';
+// import { confirm } from '@clack/prompts';
+
+// internals
+import { getImdbLink } from './imdb';
+import { getSubDivXSubtitle } from './subdivx';
+// import { getArgenteamSubtitle } from './argenteam';
+// import { getOpenSubtitlesSubtitle } from './opensubtitles';
+import { getRandomDelay, getFileNameHash, safeParseTorrent } from './utils';
+import { ReleaseGroupMap, ReleaseGroupNames, getReleaseGroups } from './release-groups';
+import { YtsMxMovieList, getYtsMxMovieList, getYtsMxTotalMoviesAndPages } from './yts-mx';
+import { SubtitleGroupMap, SubtitleGroupNames, getSubtitleGroups } from './subtitle-groups';
 
 // db
 import { supabase } from 'db';
 
 // shared
 import { VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieData } from 'shared/movie';
-
-// internals
-import { getImdbLink } from './imdb';
-import { getRandomDelay, getFileNameHash, safeParseTorrent } from './utils';
-import { ReleaseGroupMap, ReleaseGroupNames, getReleaseGroups } from './release-groups';
-import { YtsMxMovieList, getYtsMxMovieList, getYtsMxTotalMoviesAndPages } from './yts-mx';
-import { SubtitleGroupMap, SubtitleGroupNames, getSubtitleGroups } from './subtitle-groups';
-
-// providers
-import { getSubDivXSubtitle } from './subdivx';
-// import { getArgenteamSubtitle } from './argenteam';
-// import { getOpenSubtitlesSubtitle } from './opensubtitles';
 
 // utils
 async function setMovieSubtitlesToDatabase({
@@ -167,7 +165,7 @@ async function setMovieSubtitlesToDatabase({
   });
 
   // 17. Short Subtitle link (ONLY USED FOR DEVELOPMENT)
-  // const subtitleShortLink = Bun.env. await turl.shorten(publicUrl);
+  // const subtitleShortLink = process.env. await turl.shorten(publicUrl);
 
   // play sound when a subtitle was found
   console.log('Subtitle found, and saved to DB and Storage! 🎉');
@@ -178,7 +176,7 @@ async function setMovieSubtitlesToDatabase({
   // TODO: Move to console.table when is supported in Bun
   console.log(
     {
-      name: movie,
+      movie,
       resolution,
       releaseGroup,
       subtitleGroup,
@@ -299,13 +297,12 @@ async function indexYtsMxMoviesSubtitles(
 
     const moviesIdsFromDb = (moviesFromDb ?? []).map(({ id }) => id);
     const movieListNotInDb = movieList.filter(({ imdbId }) => !moviesIdsFromDb.includes(imdbId));
-    console.log('\n ~ forawait ~ movieListNotInDb:', movieListNotInDb.length);
 
-    // TODO: FOR AWAIT OR PROMISE.ALL SEEMS NOT TO BE WORKING CORRECTLY IN BUN
+    // TODO: FOR AWAIT OR PROMISE.ALL SEEMS NOT TO BE WORKING CORRECTLY IN process
 
     // 5. Run all 50 movies in parallels to get their subtitle and save them to DB and Storage
     // const movieListPromises = movieListNotInDb.map((movie) => getMovieListFromDb(movie, releaseGroups, subtitleGroups));
-    // const movies = await Promise.allSettled(movieListPromises);
+    // const movies = await Promise.all(movieListPromises);
     // console.log('\n ~ movies:', movies);
 
     // 6. Optional: or one by one just for testing purposess
@@ -336,7 +333,7 @@ async function indexYtsMxMoviesSubtitles(
   console.log('All movies saved to DB and Storage! 🎉');
 }
 
-// main
+// core fn
 async function mainIndexer(): Promise<void> {
   try {
     // 1. Get release and subtitle groups from DB
@@ -351,7 +348,3 @@ async function mainIndexer(): Promise<void> {
 }
 
 mainIndexer();
-
-// TODO: FEAT: Add support for series
-// TODO: QA: Run getSubDivXSubtitle, and getArgenteamSubtitle, getOpenSubtitleLink by separate to find bugs
-// TODO: FEAT: Upload SRT file to Supabase with original movie file name (not supported?, it needs to be uploaded as a compressed file?)

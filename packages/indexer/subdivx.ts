@@ -2,6 +2,7 @@ import { JSDOM } from 'jsdom';
 import slugify from 'slugify';
 import invariant from 'tiny-invariant';
 
+// internals
 import { getIsLinkAlive } from './utils';
 import { SUBTITLE_GROUPS } from './subtitle-groups';
 import { ReleaseGroupNames } from './release-groups';
@@ -62,7 +63,7 @@ export async function getSubDivXSubtitleDownloadLink(subtitlePage: string): Prom
   return subtitleLink;
 }
 
-// main
+// core fn
 export async function getSubDivXSubtitle(
   movieData: {
     name: string;

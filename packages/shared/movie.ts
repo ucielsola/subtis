@@ -22,6 +22,10 @@ export const VIDEO_FILE_EXTENSIONS = [
 ] as const;
 
 // utils
+export function getFilenameFromPath(path: string): string {
+  return path.split(/[\\\/]/).at(-1) as string;
+}
+
 export function removeExtraSpaces(value: string): string {
   return value.replace(/\s+/g, ' ').trim();
 }
@@ -31,9 +35,12 @@ export function getMovieName(name: string): string {
   return removeExtraSpaces(name.replaceAll('.', ' ')).trim();
 }
 
-export function getMovieFileNameExtension(fileName: string): string {
-  const videoFileExtension = VIDEO_FILE_EXTENSIONS.find((videoFileExtension) => fileName.endsWith(videoFileExtension));
+export function getVideoFileExtension(fileName: string): string | undefined {
+  return VIDEO_FILE_EXTENSIONS.find((videoFileExtension) => fileName.endsWith(videoFileExtension));
+}
 
+export function getMovieFileNameExtension(fileName: string): string {
+  const videoFileExtension = getVideoFileExtension(fileName);
   invariant(videoFileExtension, `Video file extension not supported: ${fileName}`);
 
   return videoFileExtension.slice(1);

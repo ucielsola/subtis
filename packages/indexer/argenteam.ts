@@ -3,6 +3,7 @@ import slugify from 'slugify';
 import { match } from 'ts-pattern';
 import invariant from 'tiny-invariant';
 
+// internals
 import { SUBTITLE_GROUPS } from './subtitle-groups';
 import { ReleaseGroupNames } from './release-groups';
 
@@ -79,7 +80,7 @@ const argenteamResourceSchema = z.object({
   releases: z.array(argenteamResourceReleaseSchema),
 });
 
-// main
+// core fn
 export async function getArgenteamSubtitle(
   movieData: {
     name: string;

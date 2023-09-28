@@ -1,30 +1,44 @@
 import { z } from 'zod';
+import { edenTreaty } from '@elysiajs/eden';
 
-// schemas
-const subtitlesSchema = z.object({ subtitleLink: z.string() });
+// api
+import { type App } from 'api';
+
+// db
+import { Subtitle } from 'db';
+
+// types
+type ApiBaseUrlConfig = {
+  isProduction: boolean;
+  apiBaseUrlProduction?: string;
+  apiBaseUrlDevelopment?: string;
+};
 
 // utils
-function getApiBaseUrl(): { apiBaseUrl: string } {
-  const [apiBaseUrl] = [Bun.env.API_BASE_URL];
-  const apiEnvironmentVariables = { apiBaseUrl };
+export function getApiBaseUrl(apiBaseUrlConfig: ApiBaseUrlConfig): string {
+  const schema = z.object({
+    isProduction: z.boolean(),
+    apiBaseUrlProduction: z.string(),
+    apiBaseUrlDevelopment: z.string(),
+  });
 
-  const schema = z.object({ apiBaseUrl: z.string() });
-  return schema.parse(apiEnvironmentVariables);
+  const apiBaseUrlConfigParsed = schema.parse(apiBaseUrlConfig);
+  return apiBaseUrlConfigParsed.isProduction
+    ? apiBaseUrlConfigParsed.apiBaseUrlProduction
+    : apiBaseUrlConfigParsed.apiBaseUrlDevelopment;
 }
+export async function getSubtitleLink(
+  fileName: string,
+  apiBaseUrlConfig: ApiBaseUrlConfig,
+): Promise<{
+  error: any;
+  status: number;
+  data: Subtitle | null;
+}> {
+  const apiBaseUrl = getApiBaseUrl(apiBaseUrlConfig);
+  const app = edenTreaty<App>(apiBaseUrl);
 
-function getApiEndpoints() {
-  const { apiBaseUrl } = getApiBaseUrl();
+  const { data, error, status } = await app.subtitles.post({ fileName });
 
-  return {
-    subtitles: () => `${apiBaseUrl}/subtitles`,
-  };
-}
-
-export async function getSubtitleLink(fileName: string): Promise<{ subtitleLink: string }> {
-  const subtitlesEndpoint = getApiEndpoints().subtitles();
-
-  const response = await fetch(subtitlesEndpoint, { headers: { body: JSON.stringify({ fileName }) } });
-  const data = await response.json();
-
-  return subtitlesSchema.parse(data);
+  return { data, error, status };
 }

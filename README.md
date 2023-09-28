@@ -1,4 +1,4 @@
-# PoneleLosSubs
+# Subtis
 
 ## Soporte
 
@@ -14,4 +14,4 @@
 
 ## Diagramas
 
-[Whimsical](https://whimsical.com/ponelelossubs-9VTuUJTU3KcGLHGbk19ioA)
+[Whimsical](https://whimsical.com/Subtis-9VTuUJTU3KcGLHGbk19ioA)

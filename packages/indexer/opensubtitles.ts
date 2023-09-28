@@ -2,6 +2,7 @@ import { z } from 'zod';
 import slugify from 'slugify';
 import invariant from 'tiny-invariant';
 
+// internals
 import { SUBTITLE_GROUPS } from './subtitle-groups';
 import { ReleaseGroupNames } from './release-groups';
 
@@ -99,7 +100,7 @@ const downloadSchema = z.object({
   ts: z.number(),
 });
 
-// main
+// core fn
 export async function getOpenSubtitlesSubtitle(
   movieData: {
     name: string;

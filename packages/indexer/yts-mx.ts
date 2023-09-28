@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+// internals
 import { getNumbersArray } from './utils';
 import { getStripedImdbId } from './imdb';
 
@@ -76,12 +77,12 @@ export const schema = z.object({
   }),
 });
 
-// type definitions
+// types
 type YtsMxMovie = z.infer<typeof ytsMxMovieSchema>;
 export type Torrent = z.infer<typeof torrentSchema>;
 export type YtsMxMovieList = YtsMxMovie & { imdbId: number };
 
-// main
+// core fn
 export async function getYtsMxTotalMoviesAndPages(limit = 50): Promise<{
   totalMovies: number;
   totalPages: number;

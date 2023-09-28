@@ -1,6 +1,6 @@
 {
   "license": "MIT",
-  "name": "ponele-los-subs",
+  "name": "subtis",
   "workspaces": [
     "packages/*"
   ],

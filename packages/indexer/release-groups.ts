@@ -1,5 +1,6 @@
 import invariant from 'tiny-invariant';
 
+// db
 import { SupabaseClient } from 'db';
 
 // constants
@@ -38,7 +39,7 @@ export const RELEASE_GROUPS = {
   },
 } as const;
 
-// type definitions
+// types
 export type ReleaseGroup = {
   name: string;
   website: string;
@@ -62,7 +63,7 @@ export async function saveReleaseGroupsToDb(supabaseClient: SupabaseClient): Pro
   }
 }
 
-// main
+// core fn
 export async function getReleaseGroups(supabaseClient: SupabaseClient): Promise<ReleaseGroupMap> {
   const { data } = await supabaseClient.from('ReleaseGroups').select('*');
   invariant(data, 'ReleaseGroups not found in database');

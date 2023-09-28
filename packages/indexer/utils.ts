@@ -3,7 +3,7 @@ import parseTorrent from 'parse-torrent-updated';
 
 export async function getIsLinkAlive(link: string): Promise<boolean> {
   const response = await fetch(link);
-  return response.status === 200;
+  return response.ok;
 }
 
 export function getNumbersArray(length: number): number[] {

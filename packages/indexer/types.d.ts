@@ -1,2 +1,2 @@
-declare module "turl";
-declare module "parse-torrent-updated";
+declare module 'turl';
+declare module 'parse-torrent-updated';
