@@ -30,7 +30,7 @@ export function removeExtraSpaces(value: string): string {
   return value.replace(/\s+/g, ' ').trim();
 }
 
-// core fns
+// core
 export function getMovieName(name: string): string {
   return removeExtraSpaces(name.replaceAll('.', ' ')).trim();
 }

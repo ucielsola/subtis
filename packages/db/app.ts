@@ -26,7 +26,7 @@ export function getSupabaseEnvironmentVariables(): {
   return schema.parse(supabaseEnvVars);
 }
 
-// core fn
+// core
 function getSupabaseClient() {
   const { supabaseApiKey, supabaseBaseUrl } = getSupabaseEnvironmentVariables();
 

@@ -100,7 +100,7 @@ const downloadSchema = z.object({
   ts: z.number(),
 });
 
-// core fn
+// core
 export async function getOpenSubtitlesSubtitle(
   movieData: {
     name: string;

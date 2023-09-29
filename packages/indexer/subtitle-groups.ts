@@ -44,7 +44,7 @@ export async function saveSubtitleGroupsToDb(supabaseClient: SupabaseClient): Pr
   }
 }
 
-// core fn
+// core
 export async function getSubtitleGroups(supabaseClient: SupabaseClient): Promise<SubtitleGroupMap> {
   const { data } = await supabaseClient.from('SubtitleGroups').select('*');
   invariant(data, 'SubtitleGroups not found in database');

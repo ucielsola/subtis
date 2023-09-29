@@ -63,7 +63,7 @@ export async function saveReleaseGroupsToDb(supabaseClient: SupabaseClient): Pro
   }
 }
 
-// core fn
+// core
 export async function getReleaseGroups(supabaseClient: SupabaseClient): Promise<ReleaseGroupMap> {
   const { data } = await supabaseClient.from('ReleaseGroups').select('*');
   invariant(data, 'ReleaseGroups not found in database');

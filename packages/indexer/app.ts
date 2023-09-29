@@ -333,7 +333,7 @@ async function indexYtsMxMoviesSubtitles(
   console.log('All movies saved to DB and Storage! 🎉');
 }
 
-// core fn
+// core
 async function mainIndexer(): Promise<void> {
   try {
     // 1. Get release and subtitle groups from DB

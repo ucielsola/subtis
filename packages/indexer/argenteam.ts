@@ -80,7 +80,7 @@ const argenteamResourceSchema = z.object({
   releases: z.array(argenteamResourceReleaseSchema),
 });
 
-// core fn
+// core
 export async function getArgenteamSubtitle(
   movieData: {
     name: string;

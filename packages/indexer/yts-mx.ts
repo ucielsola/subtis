@@ -82,7 +82,7 @@ type YtsMxMovie = z.infer<typeof ytsMxMovieSchema>;
 export type Torrent = z.infer<typeof torrentSchema>;
 export type YtsMxMovieList = YtsMxMovie & { imdbId: number };
 
-// core fn
+// core
 export async function getYtsMxTotalMoviesAndPages(limit = 50): Promise<{
   totalMovies: number;
   totalPages: number;

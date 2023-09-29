@@ -63,7 +63,7 @@ export async function getSubDivXSubtitleDownloadLink(subtitlePage: string): Prom
   return subtitleLink;
 }
 
-// core fn
+// core
 export async function getSubDivXSubtitle(
   movieData: {
     name: string;
