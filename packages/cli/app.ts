@@ -13,7 +13,7 @@ import { getFilenameFromPath, getMovieData, getVideoFileExtension } from 'shared
 // schemas
 const cliArgumentsSchema = z.object({ file: z.string() });
 
-// core fn
+// core
 async function cli(): Promise<void> {
   // 1. Initialize loader
   const loader = spinner();
@@ -41,14 +41,16 @@ async function cli(): Promise<void> {
 
     // 8. Display loader
     loader.start(`🔎 Searching "${name}" subtitle from ${year} in ${resolution} by ${releaseGroup} release group`);
-    await delay(3500);
 
-    // 9. Get subtitle link from API
-    const { data, error, status } = await getSubtitleLink(fileName, {
-      isProduction: process.env.NODE_ENV === 'production',
-      apiBaseUrlProduction: process.env.PUBLIC_API_BASE_URL_PRODUCTION,
-      apiBaseUrlDevelopment: process.env.PUBLIC_API_BASE_URL_DEVELOPMENT,
-    });
+    // 9. Wait for 3.5s so user can properly read the message, and fetch subtitle link from API
+    const [_, { data, error }] = await Promise.all([
+      delay(3500),
+      getSubtitleLink(fileName, {
+        isProduction: process.env.NODE_ENV === 'production',
+        apiBaseUrlProduction: process.env.PUBLIC_API_BASE_URL_PRODUCTION,
+        apiBaseUrlDevelopment: process.env.PUBLIC_API_BASE_URL_DEVELOPMENT,
+      }),
+    ]);
 
     // 10. Throw error if subtitle not found
     invariant(data !== null, error);
