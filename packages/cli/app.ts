@@ -42,7 +42,7 @@ async function cli(): Promise<void> {
     // 8. Display loader
     loader.start(`🔎 Searching "${name}" subtitle from ${year} in ${resolution} by ${releaseGroup} release group`);
 
-    // 9. Wait for 3.5s so user can properly read the message, and fetch subtitle link from API
+    // 9. Wait for 3.5s so user can properly read loader message, and fetch subtitle link from API
     const [_, { data, error }] = await Promise.all([
       delay(3500),
       getSubtitleLink(fileName, {
