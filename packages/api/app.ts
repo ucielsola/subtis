@@ -5,11 +5,11 @@ import { swagger } from '@elysiajs/swagger';
 // internals
 import { getSubtitleFromFileName } from './subtitles';
 
-// core fn
+// core
 const app = new Elysia()
   .use(cors())
   .use(swagger())
-  .post('/subtitles', ({ body, set }) => getSubtitleFromFileName({ body, set }), {
+  .post('/subtitles', ({ set, body }) => getSubtitleFromFileName({ set, body }), {
     body: t.Object({ fileName: t.String() }),
   })
   .listen(8080);

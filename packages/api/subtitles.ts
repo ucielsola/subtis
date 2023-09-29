@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { type Context } from 'elysia';
 import invariant from 'tiny-invariant';
 
 // db
@@ -17,13 +18,13 @@ const errorSchema = z.object({
 // constants
 const cache = new Map<string, Subtitle>();
 
-// core fn
+// core
 export async function getSubtitleFromFileName({
-  body,
   set,
+  body,
 }: {
+  set: Context['set'];
   body: { fileName: string };
-  set: any;
 }): Promise<Subtitle> {
   try {
     const { fileName } = body;
