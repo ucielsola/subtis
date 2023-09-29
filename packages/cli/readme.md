@@ -1,5 +1,6 @@
 # Subtis - CLI
 
+## How to use
 ```typescript
 bnx @subtis/cli --file [YOUR_MOVIE_FILE_PATH]
 npx @subtis/cli --file [YOUR_MOVIE_FILE_PATH]

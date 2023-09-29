@@ -1,6 +1,6 @@
-# Subtis API
+# Subtis - API
 
-## Install
+## Installation
 
 ```bash
 > bun install
