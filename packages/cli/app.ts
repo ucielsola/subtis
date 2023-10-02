@@ -7,7 +7,7 @@ import { intro, outro, spinner } from '@clack/prompts';
 
 // shared
 import { getSubtitleLink } from 'shared/api';
-import { getParsedInvariantMessage } from 'shared/invariant';
+import { getIsInvariantMessage, getParsedInvariantMessage } from 'shared/invariant';
 import { getFilenameFromPath, getMovieData, getVideoFileExtension } from 'shared/movie';
 
 // schemas
@@ -64,9 +64,14 @@ async function cli(): Promise<void> {
     // 13. Display outro
     outro('🍿 Enjoy your movie!');
   } catch (error) {
-    const errorMessage = getParsedInvariantMessage(error as Error);
-
     loader.stop();
+    const parsedError = error as Error;
+
+    if (!getIsInvariantMessage(parsedError)) {
+      return outro(`🔴 ${parsedError.message}`);
+    }
+
+    const errorMessage = getParsedInvariantMessage(parsedError);
     outro(`🔴 ${errorMessage}`);
   }
 }

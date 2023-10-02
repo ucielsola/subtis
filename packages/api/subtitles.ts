@@ -7,7 +7,7 @@ import { supabase, Subtitle } from 'db';
 
 // shared
 import { getVideoFileExtension } from 'shared/movie';
-import { INVARIANT_ERROR, getParsedInvariantMessage } from 'shared/invariant';
+import { getIsInvariantMessage, getParsedInvariantMessage } from 'shared/invariant';
 
 // schemas
 const errorSchema = z.object({
@@ -64,7 +64,7 @@ export async function getSubtitleFromFileName({
   } catch (error) {
     const parsedError = error as Error;
 
-    if (!parsedError.message.includes(INVARIANT_ERROR)) {
+    if (!getIsInvariantMessage(parsedError)) {
       throw new Error(parsedError.message);
     }
 
