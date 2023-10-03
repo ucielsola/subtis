@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import turl from 'turl';
-import delay from 'delay';
 import minimist from 'minimist';
 import invariant from 'tiny-invariant';
 import { intro, outro, spinner } from '@clack/prompts';
@@ -39,15 +38,12 @@ async function cli(): Promise<void> {
     // 8. Display loader
     loader.start(`🔎 Buscando subtitulos`);
 
-    // 9. Wait for 3.5s so user can properly read loader message, and fetch subtitle link from API
-    const [_, { data, error }] = await Promise.all([
-      delay(3500),
-      getSubtitleLink(fileName, {
-        isProduction: process.env.NODE_ENV === 'production',
-        apiBaseUrlProduction: process.env.PUBLIC_API_BASE_URL_PRODUCTION,
-        apiBaseUrlDevelopment: process.env.PUBLIC_API_BASE_URL_DEVELOPMENT,
-      }),
-    ]);
+    // 9. Fetch subtitle link from API
+    const { data, error } = await getSubtitleLink(fileName, {
+      isProduction: process.env.NODE_ENV === 'production',
+      apiBaseUrlProduction: process.env.PUBLIC_API_BASE_URL_PRODUCTION,
+      apiBaseUrlDevelopment: process.env.PUBLIC_API_BASE_URL_DEVELOPMENT,
+    });
 
     // 10. Throw error if subtitle not found
     invariant(data !== null, error);
