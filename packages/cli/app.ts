@@ -7,7 +7,7 @@ import { intro, outro, spinner } from '@clack/prompts';
 
 // shared
 import { getSubtitleLink } from 'shared/api';
-import { getIsInvariantMessage, getParsedInvariantMessage } from 'shared/invariant';
+import { getIsInvariantError, getParsedInvariantMessage } from 'shared/invariant';
 import { getFilenameFromPath, getMovieData, getVideoFileExtension } from 'shared/movie';
 
 // schemas
@@ -30,17 +30,14 @@ async function cli(): Promise<void> {
 
     // 5. Sanitize filename
     const fileName = getFilenameFromPath(file);
-    invariant(fileName, 'File name not provided');
+    invariant(fileName, 'Parámetro --file no provisto. Prueba con "--file [archivo]".');
 
     // 6. Checks if file is a video
     const videoFileExtension = getVideoFileExtension(fileName);
-    invariant(videoFileExtension, `Video file extension not supported: ${fileName}`);
-
-    // 7. Get movie data
-    const { name, resolution, releaseGroup, year } = getMovieData(fileName);
+    invariant(videoFileExtension, 'Extension de video no soportada');
 
     // 8. Display loader
-    loader.start(`🔎 Searching "${name}" subtitle from ${year} in ${resolution} by ${releaseGroup} release group`);
+    loader.start(`🔎 Buscando subtitulos`);
 
     // 9. Wait for 3.5s so user can properly read loader message, and fetch subtitle link from API
     const [_, { data, error }] = await Promise.all([
@@ -59,15 +56,19 @@ async function cli(): Promise<void> {
     const subtitleShortLink = await turl.shorten(data.subtitleLink);
 
     // 12. Stop loader and display subtitle link
-    loader.stop(`🥳 Download your subtitle: ${subtitleShortLink}`);
+    loader.stop(`🥳 Descarga tu subtítulo del siguiente link: ${subtitleShortLink}`);
+
+    // 12. Get movie data
+    const { name } = getMovieData(fileName);
 
     // 13. Display outro
-    outro('🍿 Enjoy your movie!');
+    outro(`🍿 Disfruta de "${name}" subtitulada!`);
   } catch (error) {
     loader.stop();
     const parsedError = error as Error;
+    const isInvariantError = getIsInvariantError(parsedError);
 
-    if (!getIsInvariantMessage(parsedError)) {
+    if (!isInvariantError) {
       return outro(`🔴 ${parsedError.message}`);
     }
 

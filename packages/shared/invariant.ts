@@ -1,7 +1,7 @@
 export const INVARIANT_ERROR = 'Invariant';
 
-export function getIsInvariantMessage(error: Error): boolean {
-  return !error.message.includes(INVARIANT_ERROR);
+export function getIsInvariantError(error: Error): boolean {
+  return error.message.includes(INVARIANT_ERROR);
 }
 
 export function getParsedInvariantMessage(error: Error): string {
