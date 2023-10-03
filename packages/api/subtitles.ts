@@ -39,7 +39,7 @@ export async function getSubtitleFromFileName({
     // 2. Check if file exists in cache
     const subtitleInCache = cache.get(fileName);
 
-    // 3. Return subtitle link from cache if exists
+    // 3. Return subtitle from cache if exists
     if (subtitleInCache) {
       return subtitleInCache;
     }
