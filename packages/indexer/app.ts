@@ -16,9 +16,9 @@ import { getSubDivXSubtitle } from './subdivx';
 // import { getArgenteamSubtitle } from './argenteam';
 // import { getOpenSubtitlesSubtitle } from './opensubtitles';
 import { getRandomDelay, getFileNameHash, safeParseTorrent } from './utils';
-import { ReleaseGroupMap, ReleaseGroupNames, getReleaseGroups } from './release-groups';
-import { YtsMxMovieList, getYtsMxMovieList, getYtsMxTotalMoviesAndPages } from './yts-mx';
-import { SubtitleGroupMap, SubtitleGroupNames, getSubtitleGroups } from './subtitle-groups';
+import { type YtsMxMovieList, getYtsMxMovieList, getYtsMxTotalMoviesAndPages } from './yts-mx';
+import { type ReleaseGroupMap, type ReleaseGroupNames, getReleaseGroups } from './release-groups';
+import { type SubtitleGroupMap, type SubtitleGroupNames, getSubtitleGroups } from './subtitle-groups';
 
 // db
 import { supabase } from 'db';

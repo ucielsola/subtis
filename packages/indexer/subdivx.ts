@@ -5,7 +5,7 @@ import invariant from 'tiny-invariant';
 // internals
 import { getIsLinkAlive } from './utils';
 import { SUBTITLE_GROUPS } from './subtitle-groups';
-import { ReleaseGroupNames } from './release-groups';
+import { type ReleaseGroupNames } from './release-groups';
 
 // constants
 const SUBDIVX_BASE_URL = 'https://subdivx.com' as const;

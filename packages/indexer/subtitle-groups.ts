@@ -1,7 +1,7 @@
 import invariant from 'tiny-invariant';
 
 // db
-import { SupabaseClient } from 'db';
+import { type SupabaseClient } from 'db';
 
 // constants
 export const SUBTITLE_GROUPS = {

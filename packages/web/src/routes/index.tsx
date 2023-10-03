@@ -1,5 +1,5 @@
 import { HiFilmOutline } from '@qwikest/icons/heroicons';
-import type { DocumentHead } from '@builder.io/qwik-city';
+import { type DocumentHead } from '@builder.io/qwik-city';
 import { Resource, component$, useResource$, useSignal } from '@builder.io/qwik';
 
 // shared

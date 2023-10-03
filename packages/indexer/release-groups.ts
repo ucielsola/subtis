@@ -1,7 +1,7 @@
 import invariant from 'tiny-invariant';
 
 // db
-import { SupabaseClient } from 'db';
+import { type SupabaseClient } from 'db';
 
 // constants
 export const RELEASE_GROUPS = {
@@ -56,7 +56,7 @@ export type ReleaseGroupNames = (typeof RELEASE_GROUPS)[keyof typeof RELEASE_GRO
 type ReleaseGroupKeys = keyof typeof RELEASE_GROUPS;
 
 // utils
-export async function saveReleaseGroupsToDb(supabaseClient: SupabaseClient): Promise<void> {
+export async function saveReleaseGroupsToDb(type: SupabaseClient): Promise<void> {
   for (const releaseGroupKey in RELEASE_GROUPS) {
     const releaseGroup = RELEASE_GROUPS[releaseGroupKey as ReleaseGroupKeys];
     await supabaseClient.from('ReleaseGroups').insert(releaseGroup);

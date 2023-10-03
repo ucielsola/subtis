@@ -3,7 +3,7 @@ import { type Context } from 'elysia';
 import invariant from 'tiny-invariant';
 
 // db
-import { supabase, Subtitle } from 'db';
+import { type Subtitle, supabase } from 'db';
 
 // shared
 import { getVideoFileExtension } from 'shared/movie';

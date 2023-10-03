@@ -5,7 +5,7 @@ import { edenTreaty } from '@elysiajs/eden';
 import { type App } from 'api';
 
 // db
-import { Subtitle } from 'db';
+import { type Subtitle } from 'db';
 
 // types
 type ApiBaseUrlConfig = {

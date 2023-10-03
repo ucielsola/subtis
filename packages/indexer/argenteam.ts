@@ -5,7 +5,7 @@ import invariant from 'tiny-invariant';
 
 // internals
 import { SUBTITLE_GROUPS } from './subtitle-groups';
-import { ReleaseGroupNames } from './release-groups';
+import { type ReleaseGroupNames } from './release-groups';
 
 // constants
 const ARGENTEAM_BREADCRUMB_ERROR = 'ARGENTEAM_ERROR' as const;

@@ -1,4 +1,4 @@
-export const INVARIANT_ERROR = 'Invariant';
+export const INVARIANT_ERROR = 'Invariant' as const;
 
 export function getIsInvariantError(error: Error): boolean {
   return error.message.includes(INVARIANT_ERROR);

@@ -4,7 +4,7 @@ import invariant from 'tiny-invariant';
 
 // internals
 import { SUBTITLE_GROUPS } from './subtitle-groups';
-import { ReleaseGroupNames } from './release-groups';
+import { type ReleaseGroupNames } from './release-groups';
 
 // constants
 const OPEN_SUBTITLES_BREADCRUMB_ERROR = 'OPEN_SUBTITLES_ERROR' as const;
