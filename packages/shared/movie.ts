@@ -26,13 +26,12 @@ export function getFilenameFromPath(path: string): string {
   return path.split(/[\\\/]/).at(-1) as string;
 }
 
-export function removeExtraSpaces(value: string): string {
+export function getStringWithoutExtraSpaces(value: string): string {
   return value.replace(/\s+/g, ' ').trim();
 }
 
-// core
 export function getMovieName(name: string): string {
-  return removeExtraSpaces(name.replaceAll('.', ' ')).trim();
+  return getStringWithoutExtraSpaces(name.replaceAll('.', ' ')).trim();
 }
 
 export function getVideoFileExtension(fileName: string): string | undefined {
@@ -46,6 +45,7 @@ export function getMovieFileNameExtension(fileName: string): string {
   return videoFileExtension.slice(1);
 }
 
+// core
 export function getMovieData(movie: string): {
   name: string;
   year: number;
@@ -76,7 +76,7 @@ export function getMovieData(movie: string): {
     const [rawName, rawAttributes] = movie.split(yearStringToReplace);
 
     const movieName = getMovieName(rawName);
-    const searchableMovieName = removeExtraSpaces(`${movieName} (${yearString})`);
+    const searchableMovieName = getStringWithoutExtraSpaces(`${movieName} (${yearString})`);
 
     const resolution = match(rawAttributes)
       .with(P.string.includes('1080'), () => '1080p')
