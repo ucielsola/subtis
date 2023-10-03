@@ -58,13 +58,14 @@ async function cli(): Promise<void> {
     // 12. Stop loader and display subtitle link
     loader.stop(`🥳 Descarga tu subtítulo del siguiente link: ${subtitleShortLink}`);
 
-    // 12. Get movie data
+    // 13. Get movie data
     const { name } = getMovieData(fileName);
 
-    // 13. Display outro
+    // 14. Display outro
     outro(`🍿 Disfruta de "${name}" subtitulada!`);
   } catch (error) {
     loader.stop();
+
     const parsedError = error as Error;
     const isInvariantError = getIsInvariantError(parsedError);
 
