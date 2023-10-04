@@ -92,7 +92,7 @@ export default component$(() => {
               </label>
               {action.value?.failed ? <p>{action.value.fieldErrors.fileName}</p> : null}
             </form>
-            <p class='text-xs leading-5 text-zinc-600 mt-[2px]'>Arrastrar y soltar tu archivo aquí</p>
+            <p class='text-xs leading-5 text-zinc-600 mt-[2px]'>Arrastra y solta tu archivo aquí</p>
           </div>
         </div>
       </div>
