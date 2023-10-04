@@ -24,10 +24,10 @@
 > curl -fsSL https://bun.sh/install | bash
 ```
 
-or update it
+or upgrade it
 
 ```bash
-> bun update
+> bun upgrade
 ```
 
 2. Install project dependencies
