@@ -105,7 +105,7 @@ export default component$(() => {
         ) : null}
       </div>
 
-      <footer class='fixed bottom-0 right-0 px-4 py-3'>
+      <footer class='fixed bottom-0 left-0 right-0 w-full px-4 py-3 flex justify-between'>
         <nav class='flex gap-2 text-xs font-medium text-zinc-600'>
           <a class='hover:text-zinc-700' href='https://github.com/lndgalante/subtis/tree/main/packages/cli'>
             CLI
@@ -116,6 +116,8 @@ export default component$(() => {
           <a class='hover:text-zinc-700' href='https://github.com/lndgalante/subtis/tree/main/packages/vlc'>
             VLC
           </a>
+        </nav>
+        <nav class='flex gap-2 text-xs font-medium text-zinc-600'>
           <a class='hover:text-zinc-700' href='https://github.com/lndgalante/subtis'>
             GitHub
           </a>
@@ -123,7 +125,7 @@ export default component$(() => {
             Twitter
           </a>
           <a class='hover:text-zinc-700' href='mailto:soporte@subt.is'>
-            Email
+            Soporte
           </a>
         </nav>
       </footer>
