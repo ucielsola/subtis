@@ -3,8 +3,11 @@ import slugify from 'slugify';
 import invariant from 'tiny-invariant';
 
 // internals
+import { type SubtitleData } from './types';
 import { SUBTITLE_GROUPS } from './subtitle-groups';
-import { type ReleaseGroupNames } from './release-groups';
+
+// shared
+import { type MovieData } from 'shared/movie';
 
 // constants
 const OPEN_SUBTITLES_BREADCRUMB_ERROR = 'OPEN_SUBTITLES_ERROR' as const;
@@ -101,26 +104,7 @@ const downloadSchema = z.object({
 });
 
 // core
-export async function getOpenSubtitlesSubtitle(
-  movieData: {
-    name: string;
-    year: number;
-    resolution: string;
-    releaseGroup: ReleaseGroupNames;
-    searchableMovieName: string;
-    searchableSubDivXName: string;
-    searchableArgenteamName: string;
-    searchableOpenSubtitlesName: string;
-  },
-  imdbId: number,
-): Promise<{
-  fileExtension: string;
-  subtitleLink: string;
-  subtitleGroup: 'OpenSubtitles';
-  subtitleSrtFileName: string;
-  subtitleCompressedFileName: string;
-  subtitleFileNameWithoutExtension: string;
-}> {
+export async function getOpenSubtitlesSubtitle(movieData: MovieData, imdbId: number): Promise<SubtitleData> {
   const { name, resolution, releaseGroup, searchableOpenSubtitlesName } = movieData;
 
   invariant(

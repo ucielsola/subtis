@@ -5,6 +5,8 @@ import invariant from 'tiny-invariant';
 // internals
 import { getIsLinkAlive } from './utils';
 import { SUBTITLE_GROUPS } from './subtitle-groups';
+
+import { type SubtitleData } from './types';
 import { type ReleaseGroupNames } from './release-groups';
 
 // constants
@@ -75,14 +77,7 @@ export async function getSubDivXSubtitle(
     releaseGroup: ReleaseGroupNames;
   },
   page = '1',
-): Promise<{
-  subtitleLink: string;
-  subtitleGroup: string;
-  subtitleSrtFileName: string;
-  subtitleCompressedFileName: string;
-  subtitleFileNameWithoutExtension: string;
-  fileExtension: 'zip' | 'rar';
-}> {
+): Promise<SubtitleData> {
   const { name, searchableMovieName, resolution, releaseGroup, searchableSubDivXName } = movieData;
 
   const subtitlePageHtml = await getSubDivXSearchPageHtml(searchableMovieName, page);

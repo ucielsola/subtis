@@ -21,7 +21,7 @@ import { type ReleaseGroupMap, type ReleaseGroupNames, getReleaseGroups } from '
 import { type SubtitleGroupMap, type SubtitleGroupNames, getSubtitleGroups } from './subtitle-groups';
 
 // db
-import { supabase } from 'db';
+import { type Movie, supabase } from 'db';
 
 // shared
 import { VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieData } from 'shared/movie';
@@ -46,12 +46,7 @@ async function setMovieSubtitlesToDatabase({
     subtitleFileNameWithoutExtension: string;
     fileExtension: 'rar' | 'zip' | 'srt';
   };
-  movie: {
-    id: number;
-    name: string;
-    year: number;
-    rating: number;
-  };
+  movie: Pick<Movie, 'id' | 'name' | 'year' | 'rating'>;
   fileName: string;
   resolution: string;
   fileNameHash: string;

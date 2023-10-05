@@ -4,8 +4,11 @@ import { match } from 'ts-pattern';
 import invariant from 'tiny-invariant';
 
 // internals
+import { SubtitleData } from './types';
 import { SUBTITLE_GROUPS } from './subtitle-groups';
-import { type ReleaseGroupNames } from './release-groups';
+
+// shared
+import { MovieData } from 'shared/movie';
 
 // constants
 const ARGENTEAM_BREADCRUMB_ERROR = 'ARGENTEAM_ERROR' as const;
@@ -81,25 +84,7 @@ const argenteamResourceSchema = z.object({
 });
 
 // core
-export async function getArgenteamSubtitle(
-  movieData: {
-    name: string;
-    year: number;
-    resolution: string;
-    searchableMovieName: string;
-    searchableSubDivXName: string;
-    searchableArgenteamName: string;
-    releaseGroup: ReleaseGroupNames;
-  },
-  imdbId: number,
-): Promise<{
-  fileExtension: 'zip';
-  subtitleLink: string;
-  subtitleGroup: string;
-  subtitleSrtFileName: string;
-  subtitleCompressedFileName: string;
-  subtitleFileNameWithoutExtension: string;
-}> {
+export async function getArgenteamSubtitle(movieData: MovieData, imdbId: number): Promise<SubtitleData> {
   const { name, resolution, releaseGroup, searchableArgenteamName } = movieData;
 
   // 1. Get argenteam search results
