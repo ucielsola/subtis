@@ -1,9 +1,13 @@
+import { isServer } from '@builder.io/qwik/build';
 import { HiFilmOutline } from '@qwikest/icons/heroicons';
 import { component$, useSignal, useTask$ } from '@builder.io/qwik';
 import { type DocumentHead, routeAction$, routeLoader$, zod$, z } from '@builder.io/qwik-city';
 
+// internals
+import { getSubtitleFromFileName } from '~/utils/api';
+import { getMessageFromStatusCode } from '~/utils/error-messages';
+
 // shared
-import { getSubtitleLink } from 'shared/api';
 import { getFilenameFromPath, getVideoFileExtension } from 'shared/movie';
 
 // schemas
@@ -13,19 +17,10 @@ const schema = z.object({
   }),
 });
 
-// helpers
-async function fetchSubtitle(fileName: string) {
-  return getSubtitleLink(fileName, {
-    isProduction: import.meta.env.NODE_ENV === 'production',
-    apiBaseUrlProduction: import.meta.env.PUBLIC_API_BASE_URL_PRODUCTION,
-    apiBaseUrlDevelopment: import.meta.env.PUBLIC_API_BASE_URL_DEVELOPMENT,
-  });
-}
-
 // actions
 export const useSubtitleAction = routeAction$(async (data) => {
-  const result = await fetchSubtitle(data.fileName);
-  return result.data;
+  const result = await getSubtitleFromFileName(data.fileName);
+  return result;
 }, zod$(schema));
 
 // loaders
@@ -36,8 +31,8 @@ export const useSubtitleLoader = routeLoader$(async (requestEvent) => {
     return null;
   }
 
-  const result = await fetchSubtitle(fileName);
-  return result.data;
+  const result = await getSubtitleFromFileName(fileName);
+  return result;
 });
 
 export default component$(() => {
@@ -45,11 +40,12 @@ export default component$(() => {
   const fileName = useSignal('');
   const fileNameError = useSignal('');
 
-  // actions
-  const action = useSubtitleAction();
+  // actions / loaders
+  const subtitleAction = useSubtitleAction();
+  const subtitleLoader = useSubtitleLoader();
 
-  // loaders
-  const loader = useSubtitleLoader();
+  // constants
+  const primaryValue = subtitleAction.value || subtitleLoader.value;
 
   // tasks
   useTask$(({ track }) => {
@@ -62,10 +58,24 @@ export default component$(() => {
     if (!videoFileExtension) return;
 
     if (fileNameFromPath) {
-      action.submit({ fileName: fileNameFromPath });
-      history.pushState({}, '', `/?fileName=${fileNameFromPath}`);
-    } else {
-      history.pushState({}, '', `/`);
+      subtitleAction.submit({ fileName: fileNameFromPath });
+    }
+  });
+
+  useTask$(({ track }) => {
+    track(() => primaryValue?.data?.fileName);
+    track(() => primaryValue?.data?.fileName);
+
+    if (isServer) {
+      return;
+    }
+
+    if (primaryValue?.data?.fileName) {
+      history.pushState({}, '', `/?fileName=${primaryValue.data.fileName}`);
+    }
+
+    if (primaryValue?.data?.fileName) {
+      history.pushState({}, '', `/?fileName=${primaryValue.data.fileName}`);
     }
   });
 
@@ -90,18 +100,25 @@ export default component$(() => {
                 <span>Selecciona un archivo</span>
                 <input id='file-upload' name='file-upload' type='file' class='sr-only' bind:value={fileName} />
               </label>
-              {action.value?.failed ? <p>{action.value.fieldErrors.fileName}</p> : null}
+              {subtitleAction.value?.failed ? <p>{subtitleAction.value.fieldErrors.fileName}</p> : null}
             </form>
             <p class='text-xs leading-5 text-zinc-600 mt-[2px]'>Arrastra y solta tu archivo aquí</p>
           </div>
         </div>
       </div>
 
-      <div class='text-center'>
-        {action.value?.subtitleLink ? (
-          <a href={action.value.subtitleLink}>Descargar Subtitulo</a>
-        ) : loader.value?.subtitleLink ? (
-          <a href={loader.value.subtitleLink}>Descargar Subtitulo</a>
+      <div class='text-center min-h-[60px]'>
+        {primaryValue?.status && primaryValue.status !== 200 ? (
+          <div>
+            <p>{getMessageFromStatusCode(primaryValue.status).title}</p>
+            <p>{getMessageFromStatusCode(primaryValue.status).subtitle}</p>
+          </div>
+        ) : null}
+
+        {primaryValue?.data?.subtitleLink ? (
+          <a href={primaryValue.data.subtitleLink} class='hover:text-indigo-700 text-indigo-600'>
+            Descargar Subtitulo
+          </a>
         ) : null}
       </div>
 
