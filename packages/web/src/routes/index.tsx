@@ -63,19 +63,14 @@ export default component$(() => {
   });
 
   useTask$(({ track }) => {
-    track(() => primaryValue?.data?.fileName);
-    track(() => primaryValue?.data?.fileName);
+    track(() => subtitleAction.value?.data?.fileName);
 
     if (isServer) {
       return;
     }
 
-    if (primaryValue?.data?.fileName) {
-      history.pushState({}, '', `/?fileName=${primaryValue.data.fileName}`);
-    }
-
-    if (primaryValue?.data?.fileName) {
-      history.pushState({}, '', `/?fileName=${primaryValue.data.fileName}`);
+    if (subtitleAction.value?.data?.fileName) {
+      history.pushState({}, '', `/?fileName=${subtitleAction.value.data.fileName}`);
     }
   });
 
