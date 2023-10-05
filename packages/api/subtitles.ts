@@ -62,16 +62,17 @@ export async function getSubtitleFromFileName({
     // 8. Return subtitle link
     return subtitle;
   } catch (error) {
-    const parsedError = error as Error;
-    const isInvariantError = getIsInvariantError(parsedError);
+    const nativeError = error as Error;
+    const isInvariantError = getIsInvariantError(nativeError);
 
     if (!isInvariantError) {
-      throw new Error(parsedError.message);
+      set.status = 500;
+      return { message: nativeError.message };
     }
 
-    const invariantMessage = getParsedInvariantMessage(parsedError);
-    const rawError = JSON.parse(invariantMessage);
-    const { status, message } = errorSchema.parse(rawError);
+    const invariantMessage = getParsedInvariantMessage(nativeError);
+    const invariantError = JSON.parse(invariantMessage);
+    const { status, message } = errorSchema.parse(invariantError);
 
     set.status = status;
     return { message };
