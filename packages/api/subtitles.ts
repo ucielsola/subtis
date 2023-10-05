@@ -9,6 +9,9 @@ import { type Subtitle, supabase } from 'db';
 import { getVideoFileExtension } from 'shared/movie';
 import { getIsInvariantError, getParsedInvariantMessage } from 'shared/invariant';
 
+// types
+type ApiErrorResponse = { message: string };
+
 // schemas
 const errorSchema = z.object({
   status: z.number(),
@@ -25,16 +28,13 @@ export async function getSubtitleFromFileName({
 }: {
   set: Context['set'];
   body: { fileName: string };
-}): Promise<Subtitle> {
+}): Promise<Subtitle | ApiErrorResponse> {
   try {
     const { fileName } = body;
 
     // 1. Checks if file is a video
     const videoFileExtension = getVideoFileExtension(fileName);
-    invariant(
-      videoFileExtension,
-      JSON.stringify({ message: `Video file extension not supported: ${fileName}`, status: 415 }),
-    );
+    invariant(videoFileExtension, JSON.stringify({ message: 'File extension not supported', status: 415 }));
 
     // 2. Check if file exists in cache
     const subtitleInCache = cache.get(fileName);
@@ -50,7 +50,7 @@ export async function getSubtitleFromFileName({
     // 5. Throw error if subtitles not found
     invariant(
       statusText === 'OK' && data && data.length > 0,
-      JSON.stringify({ message: `Subtitles not found for file: ${fileName}`, status: 404 }),
+      JSON.stringify({ message: 'Subtitles not found for file', status: 404 }),
     );
 
     // 6. Get subtitle link from array
@@ -74,6 +74,6 @@ export async function getSubtitleFromFileName({
     const { status, message } = errorSchema.parse(rawError);
 
     set.status = status;
-    throw new Error(message);
+    return { message };
   }
 }
