@@ -46,7 +46,6 @@ export default component$(() => {
 
   // constants
   const primaryValue = subtitleAction.value || subtitleLoader.value;
-  console.log('\n ~ primaryValue:', primaryValue);
 
   // tasks
   useTask$(({ track }) => {
