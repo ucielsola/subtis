@@ -54,7 +54,7 @@ async function cli(): Promise<void> {
     // 12. Stop loader and display subtitle link
     loader.stop(`🥳 Descarga tu subtítulo del siguiente link: ${subtitleShortLink}`);
 
-    // 13. Get movie data
+    // 13. Get movie data - TODO: Get this from a join query
     const { name } = getMovieData(fileName);
 
     // 14. Display outro
