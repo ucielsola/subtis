@@ -1,3 +1,4 @@
+import ms from 'ms';
 import { z } from 'zod';
 import { type Context } from 'elysia';
 import invariant from 'tiny-invariant';
@@ -18,8 +19,11 @@ const errorSchema = z.object({
   message: z.string(),
 });
 
-// constants // TODO: Replace Map cache with Upstash
+// constants
 const cache = new Map<string, Subtitle>();
+
+// clear cache every 1 day
+setInterval(() => cache.clear(), ms('1d'));
 
 // core
 export async function getSubtitleFromFileName({
@@ -45,13 +49,10 @@ export async function getSubtitleFromFileName({
     }
 
     // 4. Get subtitle from database
-    const { data, statusText } = await supabase.from('Subtitles').select('*').eq('fileName', fileName);
+    const { data } = await supabase.from('Subtitles').select('*').eq('fileName', fileName);
 
     // 5. Throw error if subtitles not found
-    invariant(
-      statusText === 'OK' && data && data.length > 0,
-      JSON.stringify({ message: 'Subtitles not found for file', status: 404 }),
-    );
+    invariant(data && data.length > 0, JSON.stringify({ message: 'Subtitles not found for file', status: 404 }));
 
     // 6. Get subtitle link from array
     const [subtitle] = data;
