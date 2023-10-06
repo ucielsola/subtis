@@ -18,9 +18,9 @@ const schema = z.object({
 });
 
 // actions
-export const useSubtitleAction = routeAction$(async (data) => {
-  const result = await getSubtitleFromFileName(data.fileName);
-  return result;
+export const useSubtitleAction = routeAction$(async (formData) => {
+  const { data, status } = await getSubtitleFromFileName(formData.fileName);
+  return { data, status };
 }, zod$(schema));
 
 // loaders
@@ -31,8 +31,8 @@ export const useSubtitleLoader = routeLoader$(async (requestEvent) => {
     return null;
   }
 
-  const result = await getSubtitleFromFileName(fileName);
-  return result;
+  const { data, status } = await getSubtitleFromFileName(fileName);
+  return { data, status };
 });
 
 export default component$(() => {
@@ -46,6 +46,7 @@ export default component$(() => {
 
   // constants
   const primaryValue = subtitleAction.value || subtitleLoader.value;
+  console.log('\n ~ primaryValue:', primaryValue);
 
   // tasks
   useTask$(({ track }) => {
@@ -102,7 +103,11 @@ export default component$(() => {
         </div>
       </div>
 
-      <div class='text-center min-h-[60px]'>
+      <div
+        class={`text-center min-h-[90px] rounded-sm border-zinc-400 border flex self-center min-w-[240px] ${
+          primaryValue ? 'opacity-100' : 'opacity-0'
+        } transition-opacity hover:bg-zinc-100 hover:cursor-pointer`}
+      >
         {primaryValue?.status && primaryValue.status !== 200 ? (
           <div>
             <p>{getMessageFromStatusCode(primaryValue.status).title}</p>
@@ -110,9 +115,17 @@ export default component$(() => {
           </div>
         ) : null}
 
-        {primaryValue?.data?.subtitleLink ? (
-          <a href={primaryValue.data.subtitleLink} class='hover:text-indigo-700 text-indigo-600'>
-            Descargar Subtitulo
+        {primaryValue?.status && primaryValue.status === 200 && primaryValue.data ? (
+          <a href={primaryValue.data.subtitleLink} class='text-zinc-600 flex-1 p-2'>
+            <div>
+              <p>
+                {primaryValue.data.Movies?.name} from {primaryValue.data.Movies?.year} at {primaryValue.data.resolution}
+              </p>
+            </div>
+            <div>
+              <p>Release Group: {primaryValue.data.ReleaseGroups?.name}</p>
+              <p>Subtitle Group: {primaryValue.data.SubtitleGroups?.name}</p>
+            </div>
           </a>
         ) : null}
       </div>

@@ -4,14 +4,20 @@ import { type Context } from 'elysia';
 import invariant from 'tiny-invariant';
 
 // db
-import { type Subtitle, supabase } from 'db';
+import { type Subtitle, type Movie, type ReleaseGroup, type SubtitleGroup, supabase } from 'db';
 
 // shared
 import { getVideoFileExtension } from 'shared/movie';
 import { getIsInvariantError, getParsedInvariantMessage } from 'shared/invariant';
 
 // types
-type ApiErrorResponse = { message: string };
+type CustomQuery = Pick<Subtitle, 'id' | 'subtitleLink' | 'fileName' | 'resolution'> & {
+  Movies: Pick<Movie, 'name' | 'year'> | null;
+} & {
+  ReleaseGroups: Pick<ReleaseGroup, 'name'> | null;
+} & {
+  SubtitleGroups: Pick<SubtitleGroup, 'name'> | null;
+};
 
 // schemas
 const errorSchema = z.object({
@@ -20,7 +26,7 @@ const errorSchema = z.object({
 });
 
 // constants
-const cache = new Map<string, Subtitle>();
+const cache = new Map<string, CustomQuery>();
 
 // clear cache every 1 day
 setInterval(() => cache.clear(), ms('1d'));
@@ -32,7 +38,7 @@ export async function getSubtitleFromFileName({
 }: {
   set: Context['set'];
   body: { fileName: string };
-}): Promise<Subtitle | ApiErrorResponse> {
+}): Promise<CustomQuery> {
   try {
     const { fileName } = body;
 
@@ -49,7 +55,12 @@ export async function getSubtitleFromFileName({
     }
 
     // 4. Get subtitle from database
-    const { data } = await supabase.from('Subtitles').select('*').eq('fileName', fileName);
+    const { data } = await supabase
+      .from('Subtitles')
+      .select(
+        'id, subtitleLink, resolution, fileName, Movies ( name, year ), ReleaseGroups ( name ), SubtitleGroups ( name )',
+      )
+      .eq('fileName', fileName);
 
     // 5. Throw error if subtitles not found
     invariant(data && data.length > 0, JSON.stringify({ message: 'Subtitles not found for file', status: 404 }));
@@ -68,7 +79,7 @@ export async function getSubtitleFromFileName({
 
     if (!isInvariantError) {
       set.status = 500;
-      return { message: nativeError.message };
+      throw new Error(nativeError.message);
     }
 
     const invariantMessage = getParsedInvariantMessage(nativeError);
@@ -76,6 +87,6 @@ export async function getSubtitleFromFileName({
     const { status, message } = errorSchema.parse(invariantError);
 
     set.status = status;
-    return { message };
+    throw new Error(message);
   }
 }

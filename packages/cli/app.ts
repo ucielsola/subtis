@@ -3,10 +3,12 @@ import minimist from 'minimist';
 import invariant from 'tiny-invariant';
 import { intro, outro, spinner } from '@clack/prompts';
 
+// internals
+import { getSubtitleFromFileName } from './api';
+
 // shared
-import { getSubtitleLink } from 'shared/api';
+import { getFilenameFromPath, getVideoFileExtension } from 'shared/movie';
 import { getIsInvariantError, getParsedInvariantMessage } from 'shared/invariant';
-import { getFilenameFromPath, getMovieData, getVideoFileExtension } from 'shared/movie';
 
 // schemas
 const cliArgumentsSchema = z.object({ file: z.string() });
@@ -38,11 +40,7 @@ async function cli(): Promise<void> {
     loader.start(`🔎 Buscando subtitulos`);
 
     // 9. Fetch subtitle link from API
-    const { data } = await getSubtitleLink(fileName, {
-      isProduction: Bun.env.NODE_ENV === 'production',
-      apiBaseUrlProduction: Bun.env.PUBLIC_API_BASE_URL_PRODUCTION,
-      apiBaseUrlDevelopment: Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT,
-    });
+    const { data } = await getSubtitleFromFileName(fileName);
 
     // 10. Throw error if subtitle not found
     invariant(data !== null && !('message' in data), 'No se encontró ningún subtítulo');
@@ -50,11 +48,8 @@ async function cli(): Promise<void> {
     // 11. Stop loader and display subtitle link
     loader.stop(`🥳 Descarga tu subtítulo del siguiente link: ${data.subtitleLink}`);
 
-    // 12. Get movie data - TODO: Get this from a join query
-    const { name } = getMovieData(fileName);
-
-    // 13. Display outro
-    outro(`🍿 Disfruta de "${name}" subtitulada!`);
+    // 12. Display outro
+    outro(`🍿 Disfruta de "${data.Movies?.name}" subtitulada!`);
   } catch (error) {
     loader.stop();
 
