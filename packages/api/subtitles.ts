@@ -18,7 +18,7 @@ const errorSchema = z.object({
   message: z.string(),
 });
 
-// constants
+// constants // TODO: Replace Map cache with Upstash
 const cache = new Map<string, Subtitle>();
 
 // core
