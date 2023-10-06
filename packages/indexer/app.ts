@@ -1,3 +1,4 @@
+import turl from 'turl';
 import fs from 'node:fs';
 import path from 'node:path';
 import delay from 'delay';
@@ -135,7 +136,11 @@ async function setMovieSubtitlesToDatabase({
       data: { publicUrl },
     } = await supabase.storage.from('subtitles').getPublicUrl(subtitleSrtFileName, { download: true });
 
-    const parsedSubtitleLink = `${publicUrl}${downloadFileName}`;
+    // 13. Append download file name to public URL so it matches movie file name
+    const subtitleLinkWithDownloadFileName = `${publicUrl}${downloadFileName}`;
+
+    // 14. Crearte short link for subtitle
+    const subtitleShortLink = await turl.shorten(subtitleLinkWithDownloadFileName);
 
     // 13. Get movie by ID
     const { data: movieData } = await supabase.from('Movies').select('*').eq('id', movie.id);
@@ -152,14 +157,14 @@ async function setMovieSubtitlesToDatabase({
 
     // 16. Save subtitle to Supabase
     await supabase.from('Subtitles').insert({
+      fileName,
       resolution,
+      fileNameHash,
       releaseGroupId,
       subtitleGroupId,
       movieId: movie.id,
-      fileName,
-      fileNameHash,
+      subtitleLink: subtitleShortLink,
       fileExtension: fileNameExtension,
-      subtitleLink: parsedSubtitleLink,
     });
 
     // play sound when a subtitle was found

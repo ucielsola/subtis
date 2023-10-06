@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import turl from 'turl';
 import minimist from 'minimist';
 import invariant from 'tiny-invariant';
 import { intro, outro, spinner } from '@clack/prompts';
@@ -39,25 +38,22 @@ async function cli(): Promise<void> {
     loader.start(`🔎 Buscando subtitulos`);
 
     // 9. Fetch subtitle link from API
-    const { data, error } = await getSubtitleLink(fileName, {
-      isProduction: process.env.NODE_ENV === 'production',
-      apiBaseUrlProduction: process.env.PUBLIC_API_BASE_URL_PRODUCTION,
-      apiBaseUrlDevelopment: process.env.PUBLIC_API_BASE_URL_DEVELOPMENT,
+    const { data } = await getSubtitleLink(fileName, {
+      isProduction: Bun.env.NODE_ENV === 'production',
+      apiBaseUrlProduction: Bun.env.PUBLIC_API_BASE_URL_PRODUCTION,
+      apiBaseUrlDevelopment: Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT,
     });
 
     // 10. Throw error if subtitle not found
-    invariant(data !== null, error);
+    invariant(data !== null && !('message' in data), 'No se encontró ningún subtítulo');
 
-    // 11. Short subtitle link
-    const subtitleShortLink = await turl.shorten(data.subtitleLink);
+    // 11. Stop loader and display subtitle link
+    loader.stop(`🥳 Descarga tu subtítulo del siguiente link: ${data.subtitleLink}`);
 
-    // 12. Stop loader and display subtitle link
-    loader.stop(`🥳 Descarga tu subtítulo del siguiente link: ${subtitleShortLink}`);
-
-    // 13. Get movie data - TODO: Get this from a join query
+    // 12. Get movie data - TODO: Get this from a join query
     const { name } = getMovieData(fileName);
 
-    // 14. Display outro
+    // 13. Display outro
     outro(`🍿 Disfruta de "${name}" subtitulada!`);
   } catch (error) {
     loader.stop();
@@ -70,7 +66,7 @@ async function cli(): Promise<void> {
     }
 
     const errorMessage = getParsedInvariantMessage(parsedError);
-    outro(`🔴 ${errorMessage}`);
+    outro(`😢 ${errorMessage}`);
   }
 }
 

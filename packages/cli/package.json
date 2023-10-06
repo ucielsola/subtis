@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "main": "app.ts",
   "license": "MIT",
+  "bin": {
+    "cli": "dist/app.js"
+  },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
     "delay": "^6.0.0",
