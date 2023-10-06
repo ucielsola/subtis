@@ -4,10 +4,11 @@ import invariant from 'tiny-invariant';
 
 // internals
 import { getIsLinkAlive } from './utils';
+import { type SubtitleData } from './types';
 import { SUBTITLE_GROUPS } from './subtitle-groups';
 
-import { type SubtitleData } from './types';
-import { type ReleaseGroupNames } from './release-groups';
+// shared
+import { type MovieData } from 'shared/movie';
 
 // constants
 const SUBDIVX_BASE_URL = 'https://subdivx.com' as const;
@@ -66,19 +67,9 @@ export async function getSubDivXSubtitleDownloadLink(subtitlePage: string): Prom
 }
 
 // core
-export async function getSubDivXSubtitle(
-  movieData: {
-    name: string;
-    year: number;
-    resolution: string;
-    searchableMovieName: string;
-    searchableSubDivXName: string;
-    searchableArgenteamName: string;
-    releaseGroup: ReleaseGroupNames;
-  },
-  page = '1',
-): Promise<SubtitleData> {
-  const { name, searchableMovieName, resolution, releaseGroup, searchableSubDivXName } = movieData;
+export async function getSubDivXSubtitle(movieData: MovieData, page = '1'): Promise<SubtitleData> {
+  const { name, resolution, releaseGroup, searchableMovieName, searchableSubDivXName, fileNameWithoutExtension } =
+    movieData;
 
   const subtitlePageHtml = await getSubDivXSearchPageHtml(searchableMovieName, page);
 
@@ -126,6 +117,8 @@ export async function getSubDivXSubtitle(
   const subtitleLink = isRarLinkAlive ? subtitleRarLink : subtitleZipLink;
 
   const subtitleSrtFileName = slugify(`${name}-${resolution}-${releaseGroup}-${subtitleGroup}.srt`).toLowerCase();
+  const downloadFileName = `${fileNameWithoutExtension}.srt`;
+
   const subtitleFileNameWithoutExtension = slugify(
     `${name}-${resolution}-${releaseGroup}-${subtitleGroup}`,
   ).toLowerCase();
@@ -137,6 +130,7 @@ export async function getSubDivXSubtitle(
     fileExtension,
     subtitleLink,
     subtitleGroup,
+    downloadFileName,
     subtitleSrtFileName,
     subtitleCompressedFileName,
     subtitleFileNameWithoutExtension,

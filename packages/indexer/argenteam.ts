@@ -85,7 +85,7 @@ const argenteamResourceSchema = z.object({
 
 // core
 export async function getArgenteamSubtitle(movieData: MovieData, imdbId: number): Promise<SubtitleData> {
-  const { name, resolution, releaseGroup, searchableArgenteamName } = movieData;
+  const { name, resolution, releaseGroup, searchableArgenteamName, fileNameWithoutExtension } = movieData;
 
   // 1. Get argenteam search results
   const argenteamSearchEndpoint = argenteamApiEndpoints.search(imdbId);
@@ -129,6 +129,7 @@ export async function getArgenteamSubtitle(movieData: MovieData, imdbId: number)
   const subtitleGroup = SUBTITLE_GROUPS.ARGENTEAM.name;
 
   const subtitleSrtFileName = slugify(`${name}-${resolution}-${releaseGroup}-${subtitleGroup}.srt`).toLowerCase();
+  const downloadFileName = `${fileNameWithoutExtension}.srt`;
 
   const subtitleFileNameWithoutExtension = slugify(
     `${name}-${resolution}-${releaseGroup}-${subtitleGroup}`,
@@ -142,6 +143,7 @@ export async function getArgenteamSubtitle(movieData: MovieData, imdbId: number)
     subtitleLink,
     fileExtension,
     subtitleGroup,
+    downloadFileName,
     subtitleSrtFileName,
     subtitleCompressedFileName,
     subtitleFileNameWithoutExtension,

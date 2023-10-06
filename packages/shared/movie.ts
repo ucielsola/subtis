@@ -45,17 +45,25 @@ export function getMovieFileNameExtension(fileName: string): string {
   return videoFileExtension.slice(1);
 }
 
-// core
-export function getMovieData(movie: string): {
+export function getMovieFileNameWithoutExtension(fileName: string): string {
+  return fileName.slice(0, -4);
+}
+
+// types
+export type MovieData = {
   name: string;
   year: number;
   resolution: string;
   searchableMovieName: string;
   searchableSubDivXName: string;
+  fileNameWithoutExtension: string;
   searchableArgenteamName: string;
   releaseGroup: ReleaseGroupNames;
   searchableOpenSubtitlesName: string;
-} {
+};
+
+// core
+export function getMovieData(movieFileName: string): MovieData {
   const FIRST_MOVIE_RECORDED = 1888;
   const currentYear = new Date().getFullYear() + 1;
 
@@ -64,7 +72,7 @@ export function getMovieData(movie: string): {
   for (let year = FIRST_MOVIE_RECORDED; year < currentYear; year++) {
     const yearString = String(year);
 
-    const yearStringToReplace = match(movie)
+    const yearStringToReplace = match(movieFileName)
       .with(P.string.includes(`(${yearString})`), () => `(${yearString})`)
       .with(P.string.includes(yearString), () => yearString)
       .otherwise(() => false);
@@ -73,7 +81,7 @@ export function getMovieData(movie: string): {
       continue;
     }
 
-    const [rawName, rawAttributes] = movie.split(yearStringToReplace);
+    const [rawName, rawAttributes] = movieFileName.split(yearStringToReplace);
 
     const movieName = getMovieName(rawName);
     const searchableMovieName = getStringWithoutExtraSpaces(`${movieName} (${yearString})`);
@@ -89,6 +97,8 @@ export function getMovieData(movie: string): {
       rawAttributes.includes(videoFileExtension),
     );
     invariant(videoFileExtension, 'Unsupported file extension');
+
+    const fileNameWithoutExtension = getMovieFileNameWithoutExtension(movieFileName);
 
     const releaseGroup = match(rawAttributes)
       .with(P.string.includes(YTS_MX.fileAttribute), () => YTS_MX)
@@ -118,6 +128,7 @@ export function getMovieData(movie: string): {
       resolution,
       name: movieName,
       searchableMovieName,
+      fileNameWithoutExtension,
       releaseGroup: releaseGroup.name as ReleaseGroupNames,
       searchableSubDivXName: releaseGroup.searchableSubDivXName as string,
       searchableArgenteamName: releaseGroup.searchableArgenteamName as string,

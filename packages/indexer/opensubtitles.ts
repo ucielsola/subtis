@@ -105,7 +105,7 @@ const downloadSchema = z.object({
 
 // core
 export async function getOpenSubtitlesSubtitle(movieData: MovieData, imdbId: number): Promise<SubtitleData> {
-  const { name, resolution, releaseGroup, searchableOpenSubtitlesName } = movieData;
+  const { name, resolution, releaseGroup, searchableOpenSubtitlesName, fileNameWithoutExtension } = movieData;
 
   invariant(
     !String(imdbId).startsWith('tt'),
@@ -145,6 +145,8 @@ export async function getOpenSubtitlesSubtitle(movieData: MovieData, imdbId: num
   const subtitleGroup = SUBTITLE_GROUPS.OPEN_SUBTITLES.name;
 
   const subtitleSrtFileName = slugify(`${name}-${resolution}-${releaseGroup}-${subtitleGroup}.srt`).toLowerCase();
+  const downloadFileName = `${fileNameWithoutExtension}.srt`;
+
   const subtitleFileNameWithoutExtension = slugify(
     `${name}-${resolution}-${releaseGroup}-${subtitleGroup}`,
   ).toLowerCase();
@@ -156,6 +158,7 @@ export async function getOpenSubtitlesSubtitle(movieData: MovieData, imdbId: num
     fileExtension,
     subtitleLink,
     subtitleGroup,
+    downloadFileName,
     subtitleSrtFileName,
     subtitleCompressedFileName,
     subtitleFileNameWithoutExtension,
