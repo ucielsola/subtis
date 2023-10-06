@@ -4,9 +4,6 @@ import { edenTreaty } from '@elysiajs/eden';
 // api
 import { type App } from 'api';
 
-// db
-import { type Subtitle } from 'db';
-
 // types
 type ApiBaseUrlConfig = {
   isProduction: boolean;
@@ -27,18 +24,11 @@ export function getApiBaseUrl(apiBaseUrlConfig: ApiBaseUrlConfig): string {
     ? apiBaseUrlConfigParsed.apiBaseUrlProduction
     : apiBaseUrlConfigParsed.apiBaseUrlDevelopment;
 }
-export async function getSubtitleLink(
-  fileName: string,
-  apiBaseUrlConfig: ApiBaseUrlConfig,
-): Promise<{
-  error: any;
-  status: number;
-  data: Subtitle | null;
-}> {
+
+// core
+export async function getSubtitleLink(fileName: string, apiBaseUrlConfig: ApiBaseUrlConfig) {
   const apiBaseUrl = getApiBaseUrl(apiBaseUrlConfig);
   const app = edenTreaty<App>(apiBaseUrl);
 
-  const { data, error, status } = await app.subtitles.post({ fileName });
-
-  return { data, error, status };
+  return app.subtitles.post({ fileName });
 }
