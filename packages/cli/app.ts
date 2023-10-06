@@ -20,7 +20,7 @@ async function cli(): Promise<void> {
 
   try {
     // 2. Display intro
-    intro('➖ Subtis CLI');
+    intro('🤗 Hola, soy Subtis CLI');
 
     // 3. Get cli arguments
     const cliArguments = minimist(Bun.argv);
@@ -34,7 +34,7 @@ async function cli(): Promise<void> {
 
     // 6. Checks if file is a video
     const videoFileExtension = getVideoFileExtension(fileName);
-    invariant(videoFileExtension, 'Extension de video no soportada');
+    invariant(videoFileExtension, 'Extension de video no soportada. Prueba con otro archivo.');
 
     // 8. Display loader
     loader.start(`🔎 Buscando subtitulos`);
@@ -43,13 +43,13 @@ async function cli(): Promise<void> {
     const { data } = await getSubtitleFromFileName(fileName);
 
     // 10. Throw error if subtitle not found
-    invariant(data !== null && !('message' in data), 'No se encontró ningún subtítulo');
+    invariant(data !== null && !('message' in data), 'No se encontró ningún subtítulo. Prueba con otro archivo.');
 
     // 11. Stop loader and display subtitle link
     loader.stop(`🥳 Descarga tu subtítulo del siguiente link: ${data.subtitleLink}`);
 
     // 12. Display outro
-    outro(`🍿 Disfruta de "${data.Movies?.name}" subtitulada!`);
+    outro(`🍿 Disfruta de "${data.Movies?.name}" del ${data.Movies?.year} en ${data.resolution} subtitulada!`);
   } catch (error) {
     loader.stop();
 
