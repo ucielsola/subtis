@@ -49,7 +49,7 @@ async function cli(): Promise<void> {
     loader.stop(`🥳 Descarga tu subtítulo del siguiente link: ${data.subtitleShortLink}`);
 
     // 12. Display outro
-    outro(`🍿 Disfruta de "${data.Movies?.name}" del ${data.Movies?.year} en ${data.resolution} subtitulada!`);
+    outro(`🍿 Disfruta de ${data.Movies?.name} (${data.Movies?.year}) en ${data.resolution} subtitulada`);
   } catch (error) {
     loader.stop();
 
