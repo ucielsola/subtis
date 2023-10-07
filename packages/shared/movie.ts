@@ -87,6 +87,7 @@ export function getMovieData(movieFileName: string): MovieData {
     const searchableMovieName = getStringWithoutExtraSpaces(`${movieName} (${yearString})`);
 
     const resolution = match(rawAttributes)
+      .with(P.string.includes('480'), () => '480p')
       .with(P.string.includes('1080'), () => '1080p')
       .with(P.string.includes('720'), () => '720p')
       .with(P.string.includes('2160'), () => '2160p')
