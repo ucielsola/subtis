@@ -87,6 +87,7 @@ export async function getSubtitleFromFileName({
     const { status, message } = errorSchema.parse(invariantError);
 
     set.status = status;
+    // TODO: Check if 415 is being sent
     throw new Error(message);
   }
 }
