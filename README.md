@@ -1,12 +1,6 @@
-<div>
-  <h1 align="center">
-    Subtis
-  </h1>
+# Subtis
 
-  <h6 align="center">
-    Encontrá los subtítulos para tu película
-  <h6>
-</div>
+> Encontrá los subtítulos para tu película
 
 ## Packages
 
