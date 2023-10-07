@@ -14,5 +14,8 @@
     "dev:cli": "bun --watch packages/cli/app.ts --file ./Totally.Killer.2023.720p.WEBRip.x264.AAC-[YTS.MX].mp4",
     "dev:indexer": "bun --watch packages/indexer/app.ts",
     "clean:install": "bun pm cache rm && rm -rf bun.lockb && rm -rf node_modules && bun install"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1"
   }
 }
