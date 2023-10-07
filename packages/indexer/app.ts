@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 import turl from 'turl';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -24,10 +26,10 @@ import { type SubtitleGroupMap, type SubtitleGroupNames, getSubtitleGroups } fro
 // import { getOpenSubtitlesSubtitle } from './opensubtitles';
 
 // db
-import { type Movie, supabase } from 'db';
+import { type Movie, supabase } from '../db';
 
 // shared
-import { VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieData } from 'shared/movie';
+import { VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieData } from '../shared/movie';
 
 // utils
 async function setMovieSubtitlesToDatabase({
@@ -129,7 +131,7 @@ async function setMovieSubtitlesToDatabase({
     });
 
     // 11. Remove files and folders from fs to avoid collition with others subtitle groups
-    await rimraf([subtitleAbsolutePath, extractedSubtitlePath]);
+    // await rimraf([subtitleAbsolutePath, extractedSubtitlePath]);
 
     // 12. Save SRT to Supabase and get public URL for SRT file
     const {
@@ -140,6 +142,7 @@ async function setMovieSubtitlesToDatabase({
     const subtitleLinkWithDownloadFileName = `${publicUrl}${downloadFileName}`;
 
     // 14. Crearte short link for subtitle
+    const subtitleFullLink = subtitleLinkWithDownloadFileName;
     const subtitleShortLink = await turl.shorten(subtitleLinkWithDownloadFileName);
 
     // 13. Get movie by ID
@@ -162,8 +165,9 @@ async function setMovieSubtitlesToDatabase({
       fileNameHash,
       releaseGroupId,
       subtitleGroupId,
+      subtitleFullLink,
+      subtitleShortLink,
       movieId: movie.id,
-      subtitleLink: subtitleShortLink,
       fileExtension: fileNameExtension,
     });
 
@@ -174,7 +178,7 @@ async function setMovieSubtitlesToDatabase({
     sound.play(successSoundPath);
 
     // TODO: Move to console.table when is supported in Bun
-    console.log(
+    console.table([
       {
         movie,
         resolution,
@@ -183,8 +187,7 @@ async function setMovieSubtitlesToDatabase({
         imdbLink: getImdbLink(movie.id),
         subtitleLink: `${subtitleLink.slice(0, 100)}...`,
       },
-      '\n-----------------------------',
-    );
+    ]);
   } catch (error) {
     console.log('\n ~ error:', error);
     console.log('\n ~ error message:', error instanceof Error ? error.message : '');
@@ -197,6 +200,8 @@ async function getMovieListFromDb(
   subtitleGroups: SubtitleGroupMap,
 ): Promise<void> {
   const { title, rating, year, torrents, imdbId } = movie;
+
+  console.log(`Finding subtitle for : ${movie.title} (${movie.year})`);
 
   for await (const torrent of torrents) {
     const { url, hash } = torrent;
@@ -212,7 +217,7 @@ async function getMovieListFromDb(
     const { files } = safeParseTorrent(torrentFile);
 
     // 3. Remove torrent from fs
-    await rimraf(torrentPath);
+    // await rimraf(torrentPath);
 
     // 3. Find video file
     const videoFile = files.find((file) => {
@@ -277,15 +282,17 @@ async function indexYtsMxMoviesSubtitles(
 ): Promise<void> {
   console.log('ABOUT TO INDEX ALL MOVIES SUBTITLES FROM YTS-MX 🚀');
 
+  const FIND_EVERY_X_MOVIES = 5;
+
   // 1. Get total YTS-MX pages
-  const { totalPagesArray } = await getYtsMxTotalMoviesAndPages(5);
+  const { totalPagesArray } = await getYtsMxTotalMoviesAndPages(FIND_EVERY_X_MOVIES);
 
   // 2. Await for each page to get movies
   for await (const page of totalPagesArray) {
     console.log(`Getting movies for page ${page} 🚨`);
 
-    // 3. Get all the movies (50) for this page
-    const movieList = await getYtsMxMovieList(page, 5);
+    // 3. Get all the movies (FIND_EVERY_X_MOVIES) for this page
+    const movieList = await getYtsMxMovieList(page, FIND_EVERY_X_MOVIES);
 
     // 4. Filter movies from movie list which already exists in DB
     const movieListIds = movieList.map(({ imdbId }) => imdbId);
@@ -298,12 +305,11 @@ async function indexYtsMxMoviesSubtitles(
     // TODO: FOR AWAIT OR PROMISE.ALL SEEMS NOT TO BE WORKING CORRECTLY IN process
 
     // 5. Run all 50 movies in parallels to get their subtitle and save them to DB and Storage
-    // const movieListPromises = movieListNotInDb.map((movie) => getMovieListFromDb(movie, releaseGroups, subtitleGroups));
-    // const movies = await Promise.all(movieListPromises);
-    // console.log('\n ~ movies:', movies);
+    const movieListPromises = movieListNotInDb.map((movie) => getMovieListFromDb(movie, releaseGroups, subtitleGroups));
+    const movies = await Promise.allSettled(movieListPromises);
 
     // 6. Optional: or one by one just for testing purposess
-    for (const movie of movieListNotInDb) {
+    /* for (const movie of movieListNotInDb) {
       console.log(`Finding subtitle for : ${movie.title} (${movie.year})`);
 
       getMovieListFromDb(movie, releaseGroups, subtitleGroups);
@@ -313,12 +319,12 @@ async function indexYtsMxMoviesSubtitles(
       // });
 
       // if (!shouldContinue) break;
-    }
+    } */
 
     console.log(`Finished movies from page ${page} 🥇`);
 
-    // 6. Generate random delays between 4 and 6 seconds
-    const { seconds, miliseconds } = getRandomDelay(4, 4);
+    // 6. Generate random delays between 2, and 2 seconds
+    const { seconds, miliseconds } = getRandomDelay(3, 3);
     console.log(`Delaying next iteration by ${seconds}s to avoid get blocked`);
 
     // 7. Delay next iteration

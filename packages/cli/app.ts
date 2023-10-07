@@ -46,7 +46,7 @@ async function cli(): Promise<void> {
     invariant(data !== null && !('message' in data), 'No se encontró ningún subtítulo. Prueba con otro archivo.');
 
     // 11. Stop loader and display subtitle link
-    loader.stop(`🥳 Descarga tu subtítulo del siguiente link: ${data.subtitleLink}`);
+    loader.stop(`🥳 Descarga tu subtítulo del siguiente link: ${data.subtitleShortLink}`);
 
     // 12. Display outro
     outro(`🍿 Disfruta de "${data.Movies?.name}" del ${data.Movies?.year} en ${data.resolution} subtitulada!`);

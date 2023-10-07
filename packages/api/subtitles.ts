@@ -11,7 +11,7 @@ import { getVideoFileExtension } from 'shared/movie';
 import { getIsInvariantError, getParsedInvariantMessage } from 'shared/invariant';
 
 // types
-type CustomQuery = Pick<Subtitle, 'id' | 'subtitleLink' | 'fileName' | 'resolution'> & {
+type CustomQuery = Pick<Subtitle, 'id' | 'subtitleShortLink' | 'subtitleFullLink' | 'fileName' | 'resolution'> & {
   Movies: Pick<Movie, 'name' | 'year'> | null;
 } & {
   ReleaseGroups: Pick<ReleaseGroup, 'name'> | null;
@@ -58,7 +58,7 @@ export async function getSubtitleFromFileName({
     const { data } = await supabase
       .from('Subtitles')
       .select(
-        'id, subtitleLink, resolution, fileName, Movies ( name, year ), ReleaseGroups ( name ), SubtitleGroups ( name )',
+        'id, subtitleShortLink, subtitleFullLink, resolution, fileName, Movies ( name, year ), ReleaseGroups ( name ), SubtitleGroups ( name )',
       )
       .eq('fileName', fileName);
 

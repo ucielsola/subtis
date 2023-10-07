@@ -91,8 +91,9 @@ export interface Database {
           movieId: number | null;
           releaseGroupId: number;
           resolution: string;
+          subtitleFullLink: string;
           subtitleGroupId: number;
-          subtitleLink: string;
+          subtitleShortLink: string;
         };
         Insert: {
           created_at?: string;
@@ -103,8 +104,9 @@ export interface Database {
           movieId?: number | null;
           releaseGroupId: number;
           resolution: string;
+          subtitleFullLink: string;
           subtitleGroupId: number;
-          subtitleLink: string;
+          subtitleShortLink: string;
         };
         Update: {
           created_at?: string;
@@ -115,8 +117,9 @@ export interface Database {
           movieId?: number | null;
           releaseGroupId?: number;
           resolution?: string;
+          subtitleFullLink?: string;
           subtitleGroupId?: number;
-          subtitleLink?: string;
+          subtitleShortLink?: string;
         };
         Relationships: [
           {
