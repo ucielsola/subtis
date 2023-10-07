@@ -1,6 +1,6 @@
 import { isServer } from '@builder.io/qwik/build';
 import { HiFilmOutline } from '@qwikest/icons/heroicons';
-import { component$, useSignal, useTask$ } from '@builder.io/qwik';
+import { component$, useSignal, useTask$, useVisibleTask$ } from '@builder.io/qwik';
 import { type DocumentHead, routeAction$, routeLoader$, zod$, z } from '@builder.io/qwik-city';
 
 // internals
@@ -74,6 +74,37 @@ export default component$(() => {
     }
   });
 
+  const droppableRef = useSignal<HTMLElement>();
+  const dropStatus = useSignal<'drop' | 'dragover' | 'none'>('none');
+
+  useVisibleTask$(({ cleanup }) => {
+    if (droppableRef.value) {
+      const drop = (event) => {
+        dropStatus.value = 'drop';
+
+        if (event.dataTransfer.items) {
+          const [file] = [...event.dataTransfer.items].map((item) => item.getAsFile());
+
+          if (file && file.name) {
+            subtitleAction.submit({ fileName: file.name });
+          }
+        }
+      };
+
+      const dragover = () => {
+        dropStatus.value = 'dragover';
+      };
+
+      droppableRef.value!.addEventListener('drop', drop);
+      droppableRef.value!.addEventListener('dragover', dragover);
+
+      cleanup(() => {
+        droppableRef.value!.removeEventListener('drop', drop);
+        droppableRef.value!.removeEventListener('dragover', dragover);
+      });
+    }
+  });
+
   return (
     <main class='flex flex-col min-h-screen p-2 pt-6 pb-10'>
       <header class='text-center'>
@@ -83,8 +114,15 @@ export default component$(() => {
         </h2>
       </header>
 
-      <div class='flex items-center justify-center flex-1 w-full max-w-lg m-auto'>
-        <div class='flex flex-1 justify-center px-6 py-10 mt-2 border border-dashed rounded-lg border-zinc-900/25 hover:scale-105 hover:cursor-pointer focus-within:scale-105 transition-all will-change-transform'>
+      <div class='flex items-center justify-center flex-1 w-full max-w-lg m-auto p-4'>
+        <div
+          class={`flex flex-1 justify-center px-6 py-10 mt-2 border border-dashed rounded-lg border-zinc-900/25 hover:scale-105 hover:cursor-pointer transition-all will-change-transform ${
+            dropStatus.value === 'dragover' ? 'scale-105' : ' scale-100'
+          }`}
+          preventdefault:dragover
+          preventdefault:drop
+          ref={droppableRef}
+        >
           <div class='text-center flex flex-col items-center'>
             <HiFilmOutline class='w-12 h-12 mx-auto text-zinc-600' aria-hidden='true' />
             <form class='flex mt-4 text-sm leading-6 text-zinc-600'>
@@ -115,7 +153,7 @@ export default component$(() => {
         ) : null}
 
         {primaryValue?.status && primaryValue.status === 200 && primaryValue.data ? (
-          <a href={primaryValue.data.subtitleLink} class='text-zinc-600 flex-1 p-2'>
+          <a href={primaryValue.data.subtitleShortLink} class='text-zinc-600 flex-1 p-2'>
             <div>
               <p>
                 {primaryValue.data.Movies?.name} from {primaryValue.data.Movies?.year} at {primaryValue.data.resolution}
