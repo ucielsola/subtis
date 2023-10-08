@@ -53,14 +53,14 @@ async function cli(): Promise<void> {
   } catch (error) {
     loader.stop();
 
-    const parsedError = error as Error;
-    const isInvariantError = getIsInvariantError(parsedError);
+    const nativeError = error as Error;
+    const isInvariantError = getIsInvariantError(nativeError);
 
     if (!isInvariantError) {
-      return outro(`🔴 ${parsedError.message}`);
+      return outro(`🔴 ${nativeError.message}`);
     }
 
-    const errorMessage = getParsedInvariantMessage(parsedError);
+    const errorMessage = getParsedInvariantMessage(nativeError);
     outro(`😢 ${errorMessage}`);
   }
 }
