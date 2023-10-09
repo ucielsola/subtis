@@ -26,7 +26,7 @@ export function getApiBaseUrl(apiBaseUrlConfig: ApiBaseUrlConfig): string {
 }
 
 // core
-export async function getSubtitleLink(fileName: string, apiBaseUrlConfig: ApiBaseUrlConfig) {
+export async function getSubtitle(fileName: string, apiBaseUrlConfig: ApiBaseUrlConfig) {
   const apiBaseUrl = getApiBaseUrl(apiBaseUrlConfig);
   const app = edenTreaty<App>(apiBaseUrl);
 

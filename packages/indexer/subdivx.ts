@@ -4,8 +4,8 @@ import invariant from 'tiny-invariant';
 
 // internals
 import { getIsLinkAlive } from './utils';
-import { type SubtitleData } from './types';
 import { SUBTITLE_GROUPS } from './subtitle-groups';
+import { type SubtitleData } from './types';
 
 // shared
 import { type MovieData } from 'shared/movie';

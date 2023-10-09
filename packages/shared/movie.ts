@@ -56,9 +56,9 @@ export type MovieData = {
   resolution: string;
   searchableMovieName: string;
   searchableSubDivXName: string;
-  fileNameWithoutExtension: string;
   searchableArgenteamName: string;
   releaseGroup: ReleaseGroupNames;
+  fileNameWithoutExtension: string;
   searchableOpenSubtitlesName: string;
 };
 
@@ -82,7 +82,6 @@ export function getMovieData(movieFileName: string): MovieData {
     }
 
     const [rawName, rawAttributes] = movieFileName.split(yearStringToReplace);
-
     const movieName = getMovieName(rawName);
     const searchableMovieName = getStringWithoutExtraSpaces(`${movieName} (${yearString})`);
 

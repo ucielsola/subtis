@@ -25,7 +25,11 @@ export function getMessageFromStatusCode(statusCode: number): {
       },
     ],
   ]);
-  const defaultMessage = { title: 'Error desconocido', subtitle: 'Estamos haciendo arreglos del servicio' };
+
+  const defaultMessage = {
+    title: 'Error desconocido',
+    subtitle: 'Estamos haciendo arreglos del servicio',
+  };
 
   return messages.get(statusCode) || defaultMessage;
 }
