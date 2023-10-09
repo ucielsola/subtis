@@ -3,12 +3,15 @@ import { z } from 'zod';
 import invariant from 'tiny-invariant';
 import { type Context } from 'elysia';
 
-// db
-import { type Subtitle, type Movie, type ReleaseGroup, type SubtitleGroup, supabase } from 'db';
+// internals
+import { getRedisInstance } from './redis';
 
 // shared
 import { getVideoFileExtension } from 'shared/movie';
 import { getIsInvariantError, getParsedInvariantMessage } from 'shared/invariant';
+
+// db
+import { type Subtitle, type Movie, type ReleaseGroup, type SubtitleGroup, supabase } from 'db';
 
 // types
 type ApiResponseError = { message: string };
@@ -24,14 +27,10 @@ type CustomQuery =
   | ApiResponseError;
 
 // schemas
-const errorSchema = z.object({
-  status: z.number(),
-  message: z.string(),
-});
+const errorSchema = z.object({ status: z.number(), message: z.string() });
 
-// cache (+ clear cache every 1 day) | TODO: Move to Upstash
-const cache = new Map<string, CustomQuery>();
-setInterval(() => cache.clear(), ms('1d'));
+// constants
+const redis = getRedisInstance();
 
 // core
 export async function getSubtitleFromFileName({
@@ -49,7 +48,7 @@ export async function getSubtitleFromFileName({
     invariant(videoFileExtension, JSON.stringify({ message: 'File extension not supported', status: 415 }));
 
     // 2. Check if file exists in cache
-    const subtitleInCache = cache.get(fileName);
+    const subtitleInCache = await redis.get<CustomQuery>(fileName);
 
     // 3. Return subtitle from cache if exists
     if (subtitleInCache) {
@@ -71,7 +70,7 @@ export async function getSubtitleFromFileName({
     const [subtitle] = data;
 
     // 7. Save subtitle in cache
-    cache.set(fileName, subtitle);
+    redis.set(fileName, subtitle);
 
     // 8. Return subtitle link
     return subtitle;
