@@ -10,3 +10,8 @@
 ## Documentation
 
 - Swagger: `/swagger`
+
+## Endpoints
+
+- Subtitles: `/subtitles`
+  - POST with fileName key
