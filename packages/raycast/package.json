@@ -2,14 +2,14 @@
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "subtis",
   "title": "Subtis",
-  "description": "",
+  "description": "Encontrá los subtítulos para tu película",
   "icon": "command-icon.png",
   "author": "leonardo_galante",
   "license": "MIT",
   "commands": [
     {
       "name": "index",
-      "title": "Buscar subtítulo",
+      "title": "Buscar Subtítulo",
       "description": "Template for submitting a form",
       "mode": "view"
     }
