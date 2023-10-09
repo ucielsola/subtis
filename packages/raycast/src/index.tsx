@@ -77,7 +77,7 @@ export default function Command() {
         toast.message = `Descargando subtitulo...`;
 
         // 7. Add small delay to be able to read toast message
-        await delay(1000);
+        await delay(800);
 
         // 8. Open in browser to automatically begin dowloading subtitle
         return open(subtitle.subtitleFullLink);
