@@ -6,13 +6,10 @@ import { Database } from './types';
 
 // types
 type Tables = Database['public']['Tables'];
-
 export type Movie = Tables['Movies']['Row'];
 export type Subtitle = Tables['Subtitles']['Row'];
 export type ReleaseGroup = Tables['ReleaseGroups']['Row'];
 export type SubtitleGroup = Tables['SubtitleGroups']['Row'];
-
-export type SupabaseClient = ReturnType<typeof getSupabaseClient>;
 
 // utils
 export function getSupabaseEnvironmentVariables(): {
@@ -34,6 +31,9 @@ function getSupabaseClient() {
     auth: { persistSession: false },
   });
 }
+
+// core types
+export type SupabaseClient = ReturnType<typeof getSupabaseClient>;
 
 // constants
 export const supabase = getSupabaseClient();
