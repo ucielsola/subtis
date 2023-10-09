@@ -178,7 +178,11 @@ export default component$(() => {
           <a class='hover:text-zinc-700' href='https://github.com/lndgalante/subtis/tree/main/packages/vlc'>
             VLC
           </a>
+          <a class='hover:text-zinc-700' href='https://github.com/lndgalante/subtis/tree/main/packages/raycast'>
+            Raycast
+          </a>
         </nav>
+
         <nav class='flex gap-2 text-xs font-medium text-zinc-600'>
           <a class='hover:text-zinc-700' href='https://github.com/lndgalante/subtis'>
             GitHub
