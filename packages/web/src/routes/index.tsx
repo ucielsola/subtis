@@ -5,9 +5,9 @@ import { type DocumentHead, routeAction$, routeLoader$, zod$, z } from '@builder
 
 // internals
 import { getSubtitleFromFileName } from '~/utils/api';
-import { getMessageFromStatusCode } from '~/utils/error-messages';
 
 // shared
+import { getMessageFromStatusCode } from 'shared/error-messages';
 import { getFilenameFromPath, getVideoFileExtension } from 'shared/movie';
 
 // schemas
