@@ -1,7 +1,7 @@
 import ms from 'ms';
 import { z } from 'zod';
-import { type Context } from 'elysia';
 import invariant from 'tiny-invariant';
+import { type Context } from 'elysia';
 
 // db
 import { type Subtitle, type Movie, type ReleaseGroup, type SubtitleGroup, supabase } from 'db';
@@ -11,13 +11,17 @@ import { getVideoFileExtension } from 'shared/movie';
 import { getIsInvariantError, getParsedInvariantMessage } from 'shared/invariant';
 
 // types
-type CustomQuery = Pick<Subtitle, 'id' | 'subtitleShortLink' | 'subtitleFullLink' | 'fileName' | 'resolution'> & {
-  Movies: Pick<Movie, 'name' | 'year'> | null;
-} & {
-  ReleaseGroups: Pick<ReleaseGroup, 'name'> | null;
-} & {
-  SubtitleGroups: Pick<SubtitleGroup, 'name'> | null;
-};
+type ApiResponseError = { message: string };
+
+type CustomQuery =
+  | (Pick<Subtitle, 'id' | 'subtitleShortLink' | 'subtitleFullLink' | 'fileName' | 'resolution'> & {
+      Movies: Pick<Movie, 'name' | 'year'> | null;
+    } & {
+      ReleaseGroups: Pick<ReleaseGroup, 'name'> | null;
+    } & {
+      SubtitleGroups: Pick<SubtitleGroup, 'name'> | null;
+    })
+  | ApiResponseError;
 
 // schemas
 const errorSchema = z.object({
@@ -25,10 +29,8 @@ const errorSchema = z.object({
   message: z.string(),
 });
 
-// constants
+// cache (+ clear cache every 1 day) | TODO: Move to Upstash
 const cache = new Map<string, CustomQuery>();
-
-// clear cache every 1 day
 setInterval(() => cache.clear(), ms('1d'));
 
 // core
@@ -79,7 +81,7 @@ export async function getSubtitleFromFileName({
 
     if (!isInvariantError) {
       set.status = 500;
-      throw new Error(nativeError.message);
+      return { message: nativeError.message };
     }
 
     const invariantMessage = getParsedInvariantMessage(nativeError);
@@ -87,7 +89,6 @@ export async function getSubtitleFromFileName({
     const { status, message } = errorSchema.parse(invariantError);
 
     set.status = status;
-    // TODO: Check if 415 is being sent
-    throw new Error(message);
+    return { message };
   }
 }
