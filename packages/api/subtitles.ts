@@ -1,10 +1,9 @@
-import ms from 'ms';
 import { z } from 'zod';
 import invariant from 'tiny-invariant';
 import { type Context } from 'elysia';
 
 // internals
-import { getRedisInstance } from './redis';
+import { redis } from './redis';
 
 // shared
 import { getVideoFileExtension } from 'shared/movie';
@@ -28,9 +27,6 @@ type CustomQuery =
 
 // schemas
 const errorSchema = z.object({ status: z.number(), message: z.string() });
-
-// constants
-const redis = getRedisInstance();
 
 // core
 export async function getSubtitleFromFileName({
