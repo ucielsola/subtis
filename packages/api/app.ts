@@ -6,7 +6,7 @@ import { swagger } from '@elysiajs/swagger';
 import { getSubtitleFromFileName } from './subtitles';
 
 // core
-const app = new Elysia()
+export const app = new Elysia()
   .use(cors())
   .use(swagger())
   .post('/subtitles', ({ set, body }) => getSubtitleFromFileName({ set, body }), {
