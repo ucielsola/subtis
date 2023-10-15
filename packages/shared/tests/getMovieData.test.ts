@@ -18,7 +18,7 @@ test('No file extension', () => {
   expect(() => getMovieData('Avatar (2009) 1080p YTS.MX')).toThrow('Unsupported file extension');
 });
 
-test('The Super Mario Bros | 2023 | YTS-MX | (in 720p)', () => {
+test('The Super Mario Bros | 2023 | YTS-MX | (in 1080p)', () => {
   const data = getMovieData('The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4');
 
   expect(data).toEqual({
@@ -29,6 +29,7 @@ test('The Super Mario Bros | 2023 | YTS-MX | (in 720p)', () => {
     searchableSubDivXName: 'YTS MX',
     searchableArgenteamName: 'YIFY',
     searchableOpenSubtitlesName: 'YTS.MX',
+    fileNameWithoutExtension: 'The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX]',
     year: 2023,
   });
 });
@@ -44,6 +45,7 @@ test('The Super Mario Bros | 2023 | YTS-MX | (in 720p)', () => {
     searchableSubDivXName: 'YTS MX',
     searchableArgenteamName: 'YIFY',
     searchableOpenSubtitlesName: 'YTS.MX',
+    fileNameWithoutExtension: 'The.Super.Mario.Bros..Movie.2023.720p.BluRay.x264.AAC5.1-[YTS.MX]',
     year: 2023,
   });
 });
@@ -59,6 +61,7 @@ test('The Super Mario Bros | 2023 | YTS-MX | (in 1080p)', () => {
     searchableSubDivXName: 'YTS MX',
     searchableArgenteamName: 'YIFY',
     searchableOpenSubtitlesName: 'YTS.MX',
+    fileNameWithoutExtension: 'The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX]',
     year: 2023,
   });
 });
@@ -74,6 +77,7 @@ test('The Super Mario Bros | 2023 | YTS-MX | (in 2160p)', () => {
     searchableSubDivXName: 'YTS MX',
     searchableArgenteamName: 'YIFY',
     searchableOpenSubtitlesName: 'YTS.MX',
+    fileNameWithoutExtension: 'The.Super.Mario.Bros..Movie.2023.2160p.BluRay.x264.AAC5.1-[YTS.MX]',
     year: 2023,
   });
 });
@@ -89,6 +93,7 @@ test('The Super Mario Bros | 2023 | YTS-MX | (in 3D)', () => {
     searchableSubDivXName: 'YTS MX',
     searchableArgenteamName: 'YIFY',
     searchableOpenSubtitlesName: 'YTS.MX',
+    fileNameWithoutExtension: 'The.Super.Mario.Bros..Movie.2023.3D.BluRay.x264.AAC5.1-[YTS.MX]',
     year: 2023,
   });
 });
@@ -104,6 +109,7 @@ test('The Super Mario Bros | 2023 | CODY', () => {
     searchableSubDivXName: 'H265-CODY',
     searchableArgenteamName: 'CODY',
     searchableOpenSubtitlesName: 'CODY',
+    fileNameWithoutExtension: 'The Super Mario Bros Movie 2023 1080p WEBRip H265-CODY',
     year: 2023,
   });
 });
@@ -119,6 +125,7 @@ test('Evil Dead Rise | 2023 | GalaxyRG', () => {
     searchableSubDivXName: 'GalaxyRG',
     searchableArgenteamName: 'GalaxyRG',
     searchableOpenSubtitlesName: 'GalaxyRG',
+    fileNameWithoutExtension: 'Evil.Dead.Rise.2023.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG',
     year: 2023,
   });
 });
@@ -134,6 +141,7 @@ test('The Flash | 2023 | RiGHTNOW', () => {
     searchableSubDivXName: 'RIGHTNOW',
     searchableArgenteamName: 'RiGHTNOW',
     searchableOpenSubtitlesName: 'RiGHTNOW',
+    fileNameWithoutExtension: 'The.Flash.2023.1080p.WEB-DL.H.264-RiGHTNOW',
     year: 2023,
   });
 });
@@ -149,6 +157,7 @@ test('Come Fly With Me | 2023 | BONE | (Unsupported release group)', () => {
     searchableSubDivXName: 'BONE',
     searchableArgenteamName: 'BONE',
     searchableOpenSubtitlesName: 'BONE',
+    fileNameWithoutExtension: 'Come Fly With Me 2023 720p HDRip x264 BONE',
     year: 2023,
   });
 });
@@ -163,6 +172,7 @@ test('should correctly parse a movie string with year and resolution', () => {
     searchableMovieName: 'Avatar (2009)',
     searchableOpenSubtitlesName: 'YTS.MX',
     searchableSubDivXName: 'YTS MX',
+    fileNameWithoutExtension: 'Avatar (2009) 1080p x264 YTS.MX',
     year: 2009,
   });
 });
