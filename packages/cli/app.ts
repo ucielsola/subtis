@@ -7,11 +7,9 @@ import { intro, outro, spinner } from '@clack/prompts';
 import { getSubtitleFromFileName } from './api';
 
 // shared
+import { getMessageFromStatusCode } from 'shared/error-messages';
 import { getFilenameFromPath, getVideoFileExtension } from 'shared/movie';
 import { getIsInvariantError, getParsedInvariantMessage } from 'shared/invariant';
-
-// schemas
-const cliArgumentsSchema = z.object({ file: z.string() });
 
 // core
 async function cli(): Promise<void> {
@@ -26,24 +24,28 @@ async function cli(): Promise<void> {
     const cliArguments = minimist(Bun.argv);
 
     // 4. Parse with zod
-    const { file } = cliArgumentsSchema.parse(cliArguments);
+    const cliParse = z.object({ file: z.string() }).safeParse(cliArguments);
+    invariant(cliParse.success, '🤔 Parámetro --file no provisto. Prueba con "--file [archivo]".');
 
     // 5. Sanitize filename
-    const fileName = getFilenameFromPath(file);
-    invariant(fileName, 'Parámetro --file no provisto. Prueba con "--file [archivo]".');
+    const fileName = getFilenameFromPath(cliParse.data.file);
 
     // 6. Checks if file is a video
     const videoFileExtension = getVideoFileExtension(fileName);
-    invariant(videoFileExtension, 'Extension de video no soportada. Prueba con otro archivo.');
+    invariant(videoFileExtension, '🤔 Extension de video no soportada. Prueba con otro archivo.');
 
     // 8. Display loader
     loader.start(`🔎 Buscando subtitulos`);
 
     // 9. Fetch subtitle link from API
-    const { data } = await getSubtitleFromFileName(fileName);
+    const { data, status } = await getSubtitleFromFileName(fileName);
 
     // 10. Throw error if subtitle not found
-    invariant(data !== null && !('message' in data), 'No se encontró ningún subtítulo. Prueba con otro archivo.');
+    if (data === null || 'message' in data) {
+      const message = getMessageFromStatusCode(status);
+      loader.stop(`😥 ${message.title}`);
+      return outro(`⛏ ${message.description}`);
+    }
 
     // 11. Stop loader and display subtitle link
     loader.stop(`🥳 Descarga tu subtítulo del siguiente link: ${data.subtitleShortLink}`);
@@ -51,8 +53,6 @@ async function cli(): Promise<void> {
     // 12. Display outro
     outro(`🍿 Disfruta de ${data.Movies?.name} (${data.Movies?.year}) en ${data.resolution} subtitulada`);
   } catch (error) {
-    loader.stop();
-
     const nativeError = error as Error;
     const isInvariantError = getIsInvariantError(nativeError);
 
@@ -61,7 +61,7 @@ async function cli(): Promise<void> {
     }
 
     const errorMessage = getParsedInvariantMessage(nativeError);
-    outro(`😢 ${errorMessage}`);
+    outro(errorMessage);
   }
 }
 
