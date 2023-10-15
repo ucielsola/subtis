@@ -16,6 +16,7 @@ test('should return an search params for "Guardians of the Galaxy Vol 3 (2023)" 
     subtitleSrtFileName: 'guardians-of-the-galaxy-vol-3-720p-yts-mx-subdivx.srt',
     subtitleCompressedFileName: 'guardians-of-the-galaxy-vol-3-720p-yts-mx-subdivx.zip',
     subtitleFileNameWithoutExtension: 'guardians-of-the-galaxy-vol-3-720p-yts-mx-subdivx',
+    downloadFileName: 'Guardians.Of.The.Galaxy.Vol..3.2023.720p.WEBRip.x264.AAC-[YTS.MX].srt',
     fileExtension: 'zip',
   });
 });

@@ -49,6 +49,7 @@ test('should return a subtitle link giving a movie, release group and quality', 
     subtitleLink:
       'https://argenteam.net/subtitles/90262/Spider-Man.Across.the.Spider-Verse.%282023%29.WEB-DL.x264.1080p.ATMOS-AOC',
     subtitleSrtFileName: 'spider-man-across-the-spider-verse-1080p-aoc-argenteam.srt',
+    downloadFileName: 'Spider-Man.Across.The.Spider-Verse.2023.1080p.WEB-DL.DDP5.1.Atmos.x264-AOC.srt',
   });
 });
 
