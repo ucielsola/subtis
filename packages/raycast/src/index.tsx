@@ -86,7 +86,7 @@ export default function Command() {
       const message = getMessageFromStatusCode(response.status);
 
       toast.title = message.title;
-      toast.message = message.subtitle;
+      toast.message = message.description;
       toast.style = Toast.Style.Failure;
     } catch (error) {
       const nativeError = error as Error;

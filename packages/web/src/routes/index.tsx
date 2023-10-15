@@ -148,7 +148,7 @@ export default component$(() => {
         {primaryValue?.status && primaryValue.status !== 200 ? (
           <div>
             <p>{getMessageFromStatusCode(primaryValue.status).title}</p>
-            <p>{getMessageFromStatusCode(primaryValue.status).subtitle}</p>
+            <p>{getMessageFromStatusCode(primaryValue.status).description}</p>
           </div>
         ) : null}
 
