@@ -1,38 +1,14 @@
-import { z } from 'zod';
 import delay from 'delay';
-import fetch from 'node-fetch';
 import invariant from 'tiny-invariant';
 import { Form, ActionPanel, Action, Toast, showToast, open } from '@raycast/api';
+
+// internals
+import { getSubtitleFromFileName } from './api';
 
 // shared
 import { getMessageFromStatusCode } from 'shared/error-messages';
 import { getFilenameFromPath, getVideoFileExtension } from 'shared/movie';
 import { getIsInvariantError, getParsedInvariantMessage } from 'shared/invariant';
-
-// schemas
-export const subtitleQuerySchema = z.object({
-  id: z.number(),
-  subtitleShortLink: z.string(),
-  subtitleFullLink: z.string(),
-  resolution: z.string(),
-  fileName: z.string(),
-  Movies: z
-    .object({
-      name: z.string(),
-      year: z.number(),
-    })
-    .nullable(),
-  ReleaseGroups: z
-    .object({
-      name: z.string(),
-    })
-    .nullable(),
-  SubtitleGroups: z
-    .object({
-      name: z.string(),
-    })
-    .nullable(),
-});
 
 // types
 type Values = {
@@ -60,34 +36,26 @@ export default function Command() {
       invariant(videoFileExtension, 'Extension de video no soportada.');
 
       // 4. Get subtitle from API
-      const response = await fetch('http://localhost:8080/subtitles', {
-        method: 'POST',
-        body: JSON.stringify({ fileName }),
-        headers: { 'Content-Type': 'application/json' },
-      });
-      const data = await response.json();
+      const { data, status } = await getSubtitleFromFileName(fileName);
 
-      if (response.ok) {
-        // 5. Parse subtitle data
-        const subtitle = subtitleQuerySchema.parse(data);
-
-        // 6. Update toast messages
-        toast.style = Toast.Style.Success;
-        toast.title = 'Subtitulo encontrado!';
-        toast.message = `Descargando subtitulo...`;
-
-        // 7. Add small delay to be able to read toast message
-        await delay(800);
-
-        // 8. Open in browser to automatically begin dowloading subtitle
-        return open(subtitle.subtitleFullLink);
+      // 5. Display failure toast message if subtitle is not found
+      if (data === null || 'message' in data) {
+        const message = getMessageFromStatusCode(status);
+        return Object.assign(toast, { style: Toast.Style.Failure, title: message.title, message: message.description });
       }
 
-      const message = getMessageFromStatusCode(response.status);
+      // 6. Update toast messages
+      Object.assign(toast, {
+        style: Toast.Style.Success,
+        title: 'Subtitulo encontrado!',
+        message: 'Descargando subtitulo...',
+      });
 
-      toast.title = message.title;
-      toast.message = message.description;
-      toast.style = Toast.Style.Failure;
+      // 7. Add small delay to be able to read toast message
+      await delay(800);
+
+      // 8. Open in browser to automatically begin dowloading subtitle
+      return open(data.subtitleFullLink);
     } catch (error) {
       const nativeError = error as Error;
       const isInvariantError = getIsInvariantError(nativeError);
@@ -96,8 +64,7 @@ export default function Command() {
       toast.title = 'Ups! Nos encontramos con un error';
 
       if (!isInvariantError) {
-        toast.message = nativeError.message;
-        return;
+        return Object.assign(toast, { message: nativeError.message });
       }
 
       toast.message = getParsedInvariantMessage(nativeError);
