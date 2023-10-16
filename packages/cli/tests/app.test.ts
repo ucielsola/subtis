@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'bun:test';
+
+// shared
 import { getMessageFromStatusCode } from 'shared/error-messages';
 
 describe('CLI', () => {

@@ -26,7 +26,6 @@ export function getSupabaseEnvironmentVariables(): {
 // core
 function getSupabaseClient() {
   const { supabaseApiKey, supabaseBaseUrl } = getSupabaseEnvironmentVariables();
-
   return createClient<Database>(supabaseBaseUrl, supabaseApiKey, {
     auth: { persistSession: false },
   });

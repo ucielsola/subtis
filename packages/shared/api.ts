@@ -12,7 +12,7 @@ type ApiBaseUrlConfig = {
 };
 
 // utils
-export function getApiBaseUrl(apiBaseUrlConfig: ApiBaseUrlConfig): string {
+function getApiBaseUrl(apiBaseUrlConfig: ApiBaseUrlConfig): string {
   const schema = z.object({
     isProduction: z.boolean(),
     apiBaseUrlProduction: z.string(),
@@ -28,7 +28,5 @@ export function getApiBaseUrl(apiBaseUrlConfig: ApiBaseUrlConfig): string {
 // core
 export async function getSubtitle(fileName: string, apiBaseUrlConfig: ApiBaseUrlConfig) {
   const apiBaseUrl = getApiBaseUrl(apiBaseUrlConfig);
-  const app = edenTreaty<App>(apiBaseUrl);
-
-  return app.subtitles.post({ fileName });
+  return edenTreaty<App>(apiBaseUrl).subtitles.post({ fileName });
 }
