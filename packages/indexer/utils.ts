@@ -2,8 +2,8 @@ import crypto from 'crypto';
 import parseTorrent from 'parse-torrent-updated';
 
 export async function getIsLinkAlive(link: string): Promise<boolean> {
-  const response = await fetch(link);
-  return response.ok;
+  const { ok } = await fetch(link, { method: 'HEAD' });
+  return ok;
 }
 
 export function getNumbersArray(length: number): number[] {

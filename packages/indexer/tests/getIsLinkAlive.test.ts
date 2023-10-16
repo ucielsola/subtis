@@ -7,7 +7,7 @@ test('should return true for alive subdivx zip link file', async () => {
   expect(isLinkAlive).toBeTruthy();
 });
 
-test('should return false for dead subdivx zip link file', async () => {
+test('should return false for dead subdivx rar link file', async () => {
   const isLinkAlive = await getIsLinkAlive('https://www.subdivx.com/sub3/130730.rar');
   expect(isLinkAlive).toBeFalsy();
 });
