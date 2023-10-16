@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { Redis } from '@upstash/redis';
 
-// utils
+// core
 function getRedisInstance() {
   const [url, token] = [process.env.UPSTASH_REDIS_REST_URL, process.env.UPSTASH_REDIS_REST_TOKEN];
   const supabaseEnvironmentVariables = { url, token };

@@ -1,7 +1,7 @@
 // shared
 import { getSubtitle } from 'shared/api';
 
-// helpers
+// core
 export async function getSubtitleFromFileName(fileName: string) {
   return getSubtitle(fileName, {
     isProduction: import.meta.env.NODE_ENV === 'production',

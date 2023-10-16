@@ -18,4 +18,4 @@ export const app = new Elysia()
 export type App = typeof app;
 
 // logs
-console.log(`🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`);
+console.log(`🦊 API is running at ${app.server?.hostname}:${app.server?.port}`);
