@@ -41,11 +41,11 @@ describe('CLI', () => {
   it('returns a message when subtitle is not found', async () => {
     const process = Bun.spawn(['bun', 'app.ts', '--file', 'The.Matrix.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4']);
     const text = await new Response(process.stdout).text();
-    const message = getMessageFromStatusCode(404);
+    const { title, description } = getMessageFromStatusCode(404);
 
     expect(text).toInclude('🤗 Hola, soy Subtis CLI');
     expect(text).toInclude('🔎 Buscando subtitulos');
-    expect(text).toInclude(`😥 ${message.title}`);
-    expect(text).toInclude(`⛏ ${message.description}`);
+    expect(text).toInclude(`😥 ${title}`);
+    expect(text).toInclude(`⛏ ${description}`);
   });
 });

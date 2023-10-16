@@ -42,9 +42,9 @@ async function cli(): Promise<void> {
 
     // 10. Display error message if status is not 200
     if (data === null || 'message' in data) {
-      const message = getMessageFromStatusCode(status);
-      loader.stop(`😥 ${message.title}`);
-      return outro(`⛏ ${message.description}`);
+      const { title, description } = getMessageFromStatusCode(status);
+      loader.stop(`😥 ${title}`);
+      return outro(`⛏ ${description}`);
     }
 
     // 11. Stop loader and display subtitle link

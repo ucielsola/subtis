@@ -40,8 +40,8 @@ export default function Command() {
 
       // 5. Display failure toast message if subtitle is not found
       if (data === null || 'message' in data) {
-        const message = getMessageFromStatusCode(status);
-        return Object.assign(toast, { style: Toast.Style.Failure, title: message.title, message: message.description });
+        const { title, description: message } = getMessageFromStatusCode(status);
+        return Object.assign(toast, { style: Toast.Style.Failure, title, message });
       }
 
       // 6. Update toast messages
