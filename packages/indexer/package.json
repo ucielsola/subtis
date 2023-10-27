@@ -6,7 +6,6 @@
   "dependencies": {
     "@clack/prompts": "^0.7.0",
     "@continuata/unrar": "^1.6.0",
-    "cheerio": "^1.0.0-rc.12",
     "delay": "^6.0.0",
     "download": "^8.0.0",
     "extract-zip": "^2.0.1",
