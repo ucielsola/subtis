@@ -4,13 +4,13 @@
   "main": "app.ts",
   "license": "MIT",
   "dependencies": {
-    "@supabase/supabase-js": "^2.38.1",
+    "@supabase/supabase-js": "^2.38.4",
     "zod": "^3.22.4"
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "^0.5.1",
-    "bun-types": "^1.0.6",
-    "supabase": ">=1.100.1",
+    "bun-types": "^1.0.7",
+    "supabase": ">=1.106.1",
     "typescript": "^5.2.2"
   },
   "trustedDependencies": [
