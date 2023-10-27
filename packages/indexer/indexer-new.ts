@@ -1,9 +1,7 @@
-import 'dotenv/config';
-
 import turl from 'turl';
 import fs from 'node:fs';
-import path from 'node:path';
 import delay from 'delay';
+import path from 'node:path';
 import sound from 'sound-play';
 import { rimraf } from 'rimraf';
 import download from 'download';
@@ -11,17 +9,14 @@ import extract from 'extract-zip';
 import { match } from 'ts-pattern';
 import unrar from '@continuata/unrar';
 import invariant from 'tiny-invariant';
+import torrentSearchApi from 'torrent-search-api';
 // import { confirm } from '@clack/prompts';
 
-import cheerio from 'cheerio';
-import torrentSearchApi from 'torrent-search-api';
-
 // internals
-import { getImdbLink, getStripedImdbId } from './imdb';
+import { getImdbLink } from './imdb';
 import { type SubtitleData } from './types';
 import { getSubDivXSubtitle } from './subdivx';
-import { getRandomDelay, getFileNameHash, safeParseTorrent, getNumbersArray } from './utils';
-import { type YtsMxMovieList, getYtsMxMovieList, getYtsMxTotalMoviesAndPages } from './yts-mx';
+import { getFileNameHash, safeParseTorrent } from './utils';
 import { type ReleaseGroupMap, type ReleaseGroupNames, getReleaseGroups } from './release-groups';
 import { type SubtitleGroupMap, type SubtitleGroupNames, getSubtitleGroups } from './subtitle-groups';
 
@@ -31,13 +26,14 @@ import { type SubtitleGroupMap, type SubtitleGroupNames, getSubtitleGroups } fro
 // db
 import { type Movie, supabase } from '../db';
 
+// tmdb
+import { TmdbMovie, getMoviesFromTmdb, getTmdbMoviesTotalPagesArray } from './tmdb';
+
 // shared
 import { VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieData } from '../shared/movie';
-import z from 'zod';
 
+// setup torrent-search-api
 torrentSearchApi.enableProvider('1337x');
-
-console.log('NodeJS version', process.version);
 
 // utils
 async function setMovieSubtitlesToDatabase({
@@ -202,116 +198,6 @@ async function setMovieSubtitlesToDatabase({
   }
 }
 
-export const tmdbDiscoverSchema = z.object({
-  page: z.number(),
-  results: z.array(
-    z.object({
-      adult: z.boolean(),
-      backdrop_path: z.string(),
-      genre_ids: z.array(z.number()),
-      id: z.number(),
-      original_language: z.string(),
-      original_title: z.string(),
-      overview: z.string(),
-      popularity: z.number(),
-      poster_path: z.string(),
-      release_date: z.string(),
-      title: z.string(),
-      video: z.boolean(),
-      vote_average: z.number(),
-      vote_count: z.number(),
-    }),
-  ),
-  total_pages: z.number(),
-  total_results: z.number(),
-});
-
-export const tmdbMovieSchema = z.object({
-  adult: z.boolean(),
-  backdrop_path: z.string(),
-  belongs_to_collection: z
-    .object({
-      id: z.number(),
-      name: z.string(),
-      poster_path: z.string().nullable(),
-      backdrop_path: z.string().nullable(),
-    })
-    .nullable(),
-  budget: z.number(),
-  genres: z.array(z.object({ id: z.number(), name: z.string() })),
-  homepage: z.string(),
-  id: z.number(),
-  imdb_id: z.string(),
-  original_language: z.string(),
-  original_title: z.string(),
-  overview: z.string(),
-  popularity: z.number(),
-  poster_path: z.string(),
-  production_companies: z.array(
-    z.union([
-      z.object({
-        id: z.number(),
-        logo_path: z.string(),
-        name: z.string(),
-        origin_country: z.string(),
-      }),
-      z.object({
-        id: z.number(),
-        logo_path: z.null(),
-        name: z.string(),
-        origin_country: z.string(),
-      }),
-    ]),
-  ),
-  production_countries: z.array(z.object({ iso_3166_1: z.string(), name: z.string() })),
-  release_date: z.string(),
-  revenue: z.number(),
-  runtime: z.number(),
-  spoken_languages: z.array(
-    z.object({
-      english_name: z.string(),
-      iso_639_1: z.string(),
-      name: z.string(),
-    }),
-  ),
-  status: z.string(),
-  tagline: z.string(),
-  title: z.string(),
-  video: z.boolean(),
-  vote_average: z.number(),
-  vote_count: z.number(),
-});
-
-const torrentSearchApiSchema = z.array(
-  z.object({
-    title: z.string(),
-    time: z.string(),
-    seeds: z.number(),
-    peers: z.number(),
-    size: z.string(),
-    desc: z.string(),
-    provider: z.string(),
-  }),
-);
-
-async function getTmdbMoviesTotalPagesArray(): Promise<number[]> {
-  const url = 'https://api.themoviedb.org/3/discover/movie?language=en-US&page=1&language=en-US';
-  const options = {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1OWQzMTc0MjM1OTUzYzUzMmNhZjUzZjIzYzJkNGMzMCIsInN1YiI6IjViZDY3OTA5OTI1MTQxMDM5NjAzN2U1MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Jgt15vr7N0PFptDVWYaHD_wIkJvxs9-YeMkePZR4AJM',
-    },
-  };
-
-  const response = await fetch(url, options);
-  const data = await response.json();
-
-  const validatedData = tmdbDiscoverSchema.parse(data);
-  return getNumbersArray(validatedData.total_pages);
-}
-
 async function getSubtitlesFromMovie(
   movie: TmdbMovie,
   releaseGroups: ReleaseGroupMap,
@@ -324,10 +210,9 @@ async function getSubtitlesFromMovie(
   const torrents = await torrentSearchApi.search(movie.title, 'Movies', 5);
   console.log('\n ~ forawait ~ torrents:', torrents);
 
-  const validateTorrentsData = torrentSearchApiSchema.parse(torrents);
-
   // 2. Iterate over each torrent
-  for await (const torrentData of validateTorrentsData) {
+  for await (const torrentData of torrents) {
+    console.log('\n ~ forawait ~ torrentData:', torrentData);
     // 3. Download torrent
     const torrentFilename = torrentData.title;
     const torrentFolderPath = path.join(__dirname, '..', 'indexer', 'torrents', torrentFilename);
@@ -401,76 +286,7 @@ async function getSubtitlesFromMovie(
   }
 }
 
-const tmdbApiEndpoints = {
-  discoverMovies: (page: number) => {
-    return `https://api.themoviedb.org/3/discover/movie?language=en-US&page=${page}`;
-  },
-  movieDetail: (id: number) => {
-    return `https://api.themoviedb.org/3/movie/${id}`;
-  },
-};
-
-const TMDB_OPTIONS = {
-  method: 'GET',
-  headers: {
-    accept: 'application/json',
-    Authorization:
-      'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1OWQzMTc0MjM1OTUzYzUzMmNhZjUzZjIzYzJkNGMzMCIsInN1YiI6IjViZDY3OTA5OTI1MTQxMDM5NjAzN2U1MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Jgt15vr7N0PFptDVWYaHD_wIkJvxs9-YeMkePZR4AJM',
-  },
-};
-
-type TmdbMovie = {
-  year: number;
-  title: string;
-  imdbId: number;
-  rating: number;
-};
-
-async function getMoviesFromTmdb(page: number): Promise<TmdbMovie[]> {
-  const movies: Movie[] = [];
-
-  // 1. Get movies for current page
-  const url = tmdbApiEndpoints.discoverMovies(page);
-
-  const response = await fetch(url, TMDB_OPTIONS);
-  const data = await response.json();
-  const validatedData = tmdbDiscoverSchema.parse(data);
-  console.log('\n ~ forawait ~ validatedData:', validatedData);
-
-  // 2. Iterate movies for current page
-  for await (const movie of validatedData.results) {
-    const { id, release_date, title, vote_average: rating } = movie;
-    console.log('\n ~ forawait ~ movie:', movie);
-
-    // 3. Get IMDB ID from TMDB movie detail
-    const url2 = tmdbApiEndpoints.movieDetail(id);
-
-    const response = await fetch(url2, TMDB_OPTIONS);
-    const data = await response.json();
-    const { imdb_id } = tmdbMovieSchema.parse(data);
-
-    // 4. Parse raw imdb_id
-    const imdbId = getStripedImdbId(imdb_id);
-
-    // 5. Get year from release date
-    const year = Number(release_date.split('-')[0]);
-
-    const movieData = {
-      year,
-      title,
-      imdbId,
-      rating,
-    };
-
-    movies.push(movieData);
-  }
-
-  return movies;
-}
-
-// NEW FLOW : TMDB -> Torrent-search-api -> Indexer
-
-// core
+// core -> NEW FLOW : TMDB -> Torrent-search-api -> Indexer
 async function mainIndexer(): Promise<void> {
   try {
     // 1. Get release and subtitle groups from DB
@@ -486,7 +302,6 @@ async function mainIndexer(): Promise<void> {
 
       // 3. Get movies from TMDB
       const movies = await getMoviesFromTmdb(tmbdMoviesPage);
-      console.log('\n ~ mainIndexer ~ movies:', movies);
 
       for await (const movie of movies) {
         console.log(`Buscando subtitulos para "${movie.title}"`);
