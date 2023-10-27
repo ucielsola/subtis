@@ -29,6 +29,7 @@
     "@types/lodash.times": "^4.3.7",
     "@types/rimraf": "^4.0.5",
     "@types/sound-play": "^1.1.1",
+    "@types/torrent-search-api": "^2.0.2",
     "bun-types": "^1.0.6",
     "typescript": "^5.2.2"
   },
