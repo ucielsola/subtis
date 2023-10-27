@@ -2,7 +2,7 @@
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "subtis",
   "title": "Subtis",
-  "description": "Encontrá los subtítulos para tu película",
+  "description": "El subtítulo que buscabas",
   "icon": "command-icon.png",
   "author": "lndgalante",
   "license": "MIT",

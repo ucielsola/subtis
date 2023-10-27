@@ -110,7 +110,7 @@ export default component$(() => {
       <header class='text-center'>
         <h1 class='text-3xl antialiased font-black text-zinc-900 sm:text-5xl md:text-7xl lg:text-8xl'>Subtis</h1>
         <h2 class='text-sm antialiased font-semibold text-zinc-900 sm:text-base md:text-lg'>
-          Encontrá los subtítulos para tu película
+          El subtítulo que buscabas
         </h2>
       </header>
 
@@ -204,7 +204,7 @@ export const head: DocumentHead = {
   meta: [
     {
       name: 'description',
-      content: 'Encontrá los subtítulos para tu película!',
+      content: 'El subtítulo que buscabas!',
     },
   ],
 };

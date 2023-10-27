@@ -1,6 +1,6 @@
 # Subtis
 
-> Encontrá los subtítulos para tu película
+> El subtítulo que buscabas
 
 ## Packages
 
@@ -12,8 +12,7 @@
 
 ## Development
 
-
-1) Install bun runtime
+1. Install bun runtime
 
 ```bash
 > curl -fsSL https://bun.sh/install | bash
@@ -31,7 +30,7 @@ or upgrade it
 > bun install
 ```
 
-3) Run any of the desired packages
+3. Run any of the desired packages
 
 ```bash
 > bun dev:api // needed for web and cli
