@@ -1,19 +1,19 @@
-import delay from 'delay';
-import invariant from 'tiny-invariant';
-import { Form, ActionPanel, Action, Toast, showToast, open } from '@raycast/api';
+import delay from 'delay'
+import invariant from 'tiny-invariant'
+import { Action, ActionPanel, Form, Toast, open, showToast } from '@raycast/api'
 
 // internals
-import { getSubtitleFromFileName } from './api';
 
 // shared
-import { getMessageFromStatusCode } from 'shared/error-messages';
-import { getFilenameFromPath, getVideoFileExtension } from 'shared/movie';
-import { getIsInvariantError, getParsedInvariantMessage } from 'shared/invariant';
+import { getMessageFromStatusCode } from 'shared/error-messages'
+import { getFilenameFromPath, getVideoFileExtension } from 'shared/movie'
+import { getIsInvariantError, getParsedInvariantMessage } from 'shared/invariant'
+import { getSubtitleFromFileName } from './api'
 
 // types
-type Values = {
-  filePicker: string[];
-};
+interface Values {
+  filePicker: string[]
+}
 
 export default function Command() {
   // handlers
@@ -21,27 +21,27 @@ export default function Command() {
     const toast = await showToast({
       style: Toast.Style.Animated,
       title: 'Buscando subtitulos...',
-    });
+    })
 
     try {
       // 1. Get file from file picker
-      const [file] = values.filePicker;
+      const [file] = values.filePicker
 
       // 2. Sanitize filename
-      const fileName = getFilenameFromPath(file);
-      invariant(fileName, 'El archivo no fue provisto.');
+      const fileName = getFilenameFromPath(file)
+      invariant(fileName, 'El archivo no fue provisto.')
 
       // 3. Checks if file is a video
-      const videoFileExtension = getVideoFileExtension(fileName);
-      invariant(videoFileExtension, 'Extension de video no soportada.');
+      const videoFileExtension = getVideoFileExtension(fileName)
+      invariant(videoFileExtension, 'Extension de video no soportada.')
 
       // 4. Get subtitle from API
-      const { data, status } = await getSubtitleFromFileName(fileName);
+      const { data, status } = await getSubtitleFromFileName(fileName)
 
       // 5. Display failure toast message if subtitle is not found
       if (data === null || 'message' in data) {
-        const { title, description: message } = getMessageFromStatusCode(status);
-        return Object.assign(toast, { style: Toast.Style.Failure, title, message });
+        const { title, description: message } = getMessageFromStatusCode(status)
+        return Object.assign(toast, { style: Toast.Style.Failure, title, message })
       }
 
       // 6. Update toast messages
@@ -49,37 +49,37 @@ export default function Command() {
         style: Toast.Style.Success,
         title: 'Subtitulo encontrado!',
         message: 'Descargando subtitulo...',
-      });
+      })
 
       // 7. Add small delay to be able to read toast message
-      await delay(800);
+      await delay(800)
 
       // 8. Open in browser to automatically begin dowloading subtitle
-      return open(data.subtitleFullLink);
-    } catch (error) {
-      const nativeError = error as Error;
-      const isInvariantError = getIsInvariantError(nativeError);
+      return open(data.subtitleFullLink)
+    }
+    catch (error) {
+      const nativeError = error as Error
+      const isInvariantError = getIsInvariantError(nativeError)
 
-      toast.style = Toast.Style.Failure;
-      toast.title = 'Ups! Nos encontramos con un error';
+      toast.style = Toast.Style.Failure
+      toast.title = 'Ups! Nos encontramos con un error'
 
-      if (!isInvariantError) {
-        return Object.assign(toast, { message: nativeError.message });
-      }
+      if (!isInvariantError)
+        return Object.assign(toast, { message: nativeError.message })
 
-      toast.message = getParsedInvariantMessage(nativeError);
+      toast.message = getParsedInvariantMessage(nativeError)
     }
   }
 
   return (
     <Form
-      actions={
+      actions={(
         <ActionPanel>
           <Action.SubmitForm onSubmit={handleSubmit} />
         </ActionPanel>
-      }
+      )}
     >
-      <Form.FilePicker id='filePicker' title='Buscar subtitulo para' allowMultipleSelection={false} />
+      <Form.FilePicker id="filePicker" title="Buscar subtitulo para" allowMultipleSelection={false} />
     </Form>
-  );
+  )
 }

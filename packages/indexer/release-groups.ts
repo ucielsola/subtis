@@ -1,7 +1,7 @@
-import invariant from 'tiny-invariant';
+import invariant from 'tiny-invariant'
 
 // db
-import { type SupabaseClient } from 'db';
+import type { SupabaseClient } from 'db'
 
 // constants
 export const RELEASE_GROUPS = {
@@ -37,38 +37,38 @@ export const RELEASE_GROUPS = {
     searchableArgenteamName: 'RiGHTNOW',
     searchableOpenSubtitlesName: 'RiGHTNOW',
   },
-} as const;
+} as const
 
 // types
-export type ReleaseGroup = {
-  name: string;
-  website: string;
-  fileAttribute: string;
-  searchableSubDivXName: string;
-};
+export interface ReleaseGroup {
+  name: string
+  website: string
+  fileAttribute: string
+  searchableSubDivXName: string
+}
 
 export type ReleaseGroupMap = {
   [key in ReleaseGroupNames]: ReleaseGroup & { id: number; created_at: string };
-};
+}
 
-export type ReleaseGroupNames = (typeof RELEASE_GROUPS)[keyof typeof RELEASE_GROUPS]['name'];
+export type ReleaseGroupNames = (typeof RELEASE_GROUPS)[keyof typeof RELEASE_GROUPS]['name']
 
-type ReleaseGroupKeys = keyof typeof RELEASE_GROUPS;
+type ReleaseGroupKeys = keyof typeof RELEASE_GROUPS
 
 // utils
-export async function saveReleaseGroupsToDb(type: SupabaseClient): Promise<void> {
+export async function saveReleaseGroupsToDb(supabaseClient: SupabaseClient): Promise<void> {
   for (const releaseGroupKey in RELEASE_GROUPS) {
-    const releaseGroup = RELEASE_GROUPS[releaseGroupKey as ReleaseGroupKeys];
-    await supabaseClient.from('ReleaseGroups').insert(releaseGroup);
+    const releaseGroup = RELEASE_GROUPS[releaseGroupKey as ReleaseGroupKeys]
+    await supabaseClient.from('ReleaseGroups').insert(releaseGroup)
   }
 }
 
 // core
 export async function getReleaseGroups(supabaseClient: SupabaseClient): Promise<ReleaseGroupMap> {
-  const { data } = await supabaseClient.from('ReleaseGroups').select('*');
-  invariant(data, 'ReleaseGroups not found in database');
+  const { data } = await supabaseClient.from('ReleaseGroups').select('*')
+  invariant(data, 'ReleaseGroups not found in database')
 
-  const releaseGroups = data.reduce((acc, releaseGroup) => ({ ...acc, [releaseGroup.name]: releaseGroup }), {});
+  const releaseGroups = data.reduce((acc, releaseGroup) => ({ ...acc, [releaseGroup.name]: releaseGroup }), {})
 
-  return releaseGroups as ReleaseGroupMap;
+  return releaseGroups as ReleaseGroupMap
 }

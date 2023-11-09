@@ -1,12 +1,12 @@
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
-import { expect, test, afterEach, beforeAll, afterAll } from 'bun:test';
+import { rest } from 'msw'
+import { setupServer } from 'msw/node'
+import { afterAll, afterEach, beforeAll, expect, test } from 'bun:test'
 
-import { getSubtitleGroups } from '../subtitle-groups';
-import { getSupabaseEnvironmentVariables, supabase } from 'db';
+import { getSupabaseEnvironmentVariables, supabase } from 'db'
+import { getSubtitleGroups } from '../subtitle-groups'
 
 // constants
-const { supabaseBaseUrl } = getSupabaseEnvironmentVariables();
+const { supabaseBaseUrl } = getSupabaseEnvironmentVariables()
 
 // mocks
 const SUBTITLE_GROUPS_MOCK = {
@@ -28,24 +28,24 @@ const SUBTITLE_GROUPS_MOCK = {
     website: 'https://subdivx.com',
     created_at: '2023-09-18T02:01:56.7104+00:00',
   },
-};
+}
 
 const server = setupServer(
   rest.all(`${supabaseBaseUrl}/rest/v1/SubtitleGroups`, async (req, res, ctx) => {
     switch (req.method) {
       case 'GET':
-        return res(ctx.json(SUBTITLE_GROUPS_MOCK));
+        return res(ctx.json(SUBTITLE_GROUPS_MOCK))
       default:
-        return res(ctx.json('Unhandled method'));
+        return res(ctx.json('Unhandled method'))
     }
   }),
-);
+)
 
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
+beforeAll(() => server.listen())
+afterEach(() => server.resetHandlers())
+afterAll(() => server.close())
 
 test('should return a list of release groups', async () => {
-  const releaseGroups = await getSubtitleGroups(supabase);
-  expect(releaseGroups).toEqual(SUBTITLE_GROUPS_MOCK);
-});
+  const releaseGroups = await getSubtitleGroups(supabase)
+  expect(releaseGroups).toEqual(SUBTITLE_GROUPS_MOCK)
+})

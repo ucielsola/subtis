@@ -1,10 +1,13 @@
 {
-  "license": "MIT",
   "name": "subtis",
+  "type": "module",
+  "license": "MIT",
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "test:watch": "bun test --watch",
     "test:coverage": "bun test --coverage",
     "cli": "bun run packages/cli/app.ts",
@@ -19,5 +22,9 @@
   },
   "dependencies": {
     "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^1.1.0",
+    "eslint": "^8.53.0"
   }
 }

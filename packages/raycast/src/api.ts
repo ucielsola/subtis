@@ -1,10 +1,10 @@
-import fetch from 'node-fetch';
+import fetch from 'node-fetch'
 
 // shared
-import { getSubtitle } from 'shared/api';
+import { getSubtitle } from 'shared/api'
 
 // polyfill global fetch
-Object.assign(global, { fetch });
+Object.assign(globalThis, { fetch })
 
 // helpers
 export async function getSubtitleFromFileName(fileName: string) {
@@ -12,5 +12,5 @@ export async function getSubtitleFromFileName(fileName: string) {
     isProduction: true,
     apiBaseUrlProduction: 'http://localhost:8080',
     apiBaseUrlDevelopment: 'http://localhost:8080',
-  });
+  })
 }

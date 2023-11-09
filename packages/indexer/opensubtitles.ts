@@ -1,32 +1,32 @@
-import { z } from 'zod';
-import slugify from 'slugify';
-import invariant from 'tiny-invariant';
+import { z } from 'zod'
+import slugify from 'slugify'
+import invariant from 'tiny-invariant'
 
 // internals
-import { type SubtitleData } from './types';
-import { SUBTITLE_GROUPS } from './subtitle-groups';
+import type { MovieData } from 'shared/movie'
+import type { SubtitleData } from './types'
+import { SUBTITLE_GROUPS } from './subtitle-groups'
 
 // shared
-import { type MovieData } from 'shared/movie';
 
 // constants
-const OPEN_SUBTITLES_BREADCRUMB_ERROR = 'OPEN_SUBTITLES_ERROR' as const;
-const OPEN_SUBTITLES_BASE_URL = 'https://api.opensubtitles.com/api/v1' as const;
+const OPEN_SUBTITLES_BREADCRUMB_ERROR = 'OPEN_SUBTITLES_ERROR' as const
+const OPEN_SUBTITLES_BASE_URL = 'https://api.opensubtitles.com/api/v1' as const
 
 // utils
 function getOpenSubtitlesApiKey(): string {
-  const openSubtitlesApiKey = process.env.OPEN_SUBTITLES_API_KEY;
-  return z.string().parse(openSubtitlesApiKey);
+  const openSubtitlesApiKey = Bun.env.OPEN_SUBTITLES_API_KEY
+  return z.string().parse(openSubtitlesApiKey)
 }
 
 function getOpenSubtitlesHeaders(): {
-  'Content-Type': 'application/json';
-  'Api-Key': string;
+  'Content-Type': 'application/json'
+  'Api-Key': string
 } {
   return {
     'Content-Type': 'application/json',
     'Api-Key': getOpenSubtitlesApiKey(),
-  };
+  }
 }
 
 // schemas
@@ -80,7 +80,7 @@ const subtitleDataSchema = z.object({
       }),
     ),
   }),
-});
+})
 
 const subtitlesSchema = z.object({
   total_pages: z.number(),
@@ -88,7 +88,7 @@ const subtitlesSchema = z.object({
   per_page: z.number(),
   page: z.number(),
   data: z.array(subtitleDataSchema),
-});
+})
 
 const downloadSchema = z.object({
   link: z.string(),
@@ -101,58 +101,58 @@ const downloadSchema = z.object({
   uk: z.string(),
   uid: z.number(),
   ts: z.number(),
-});
+})
 
 // core
 export async function getOpenSubtitlesSubtitle(movieData: MovieData, imdbId: number): Promise<SubtitleData> {
-  const { name, resolution, releaseGroup, searchableOpenSubtitlesName, fileNameWithoutExtension } = movieData;
+  const { name, resolution, releaseGroup, searchableOpenSubtitlesName, fileNameWithoutExtension } = movieData
 
   invariant(
     !String(imdbId).startsWith('tt'),
     `[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: imdbId should not start with 'tt'`,
-  );
+  )
 
   const response = await fetch(`${OPEN_SUBTITLES_BASE_URL}/subtitles?imdb_id=${imdbId}&languages=es`, {
     headers: getOpenSubtitlesHeaders(),
-  });
-  const data = await response.json();
+  })
+  const data = await response.json()
 
-  const parsedData = subtitlesSchema.parse(data);
-  invariant(parsedData.data, `[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: No subtitles data found`);
+  const parsedData = subtitlesSchema.parse(data)
+  invariant(parsedData.data, `[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: No subtitles data found`)
 
-  const parsedReleaseGroup = searchableOpenSubtitlesName.toLowerCase();
+  const parsedReleaseGroup = searchableOpenSubtitlesName.toLowerCase()
   const firstResult = parsedData.data.find((subtitle) => {
-    const release = subtitle.attributes.release.toLowerCase();
-    return release.includes(parsedReleaseGroup) && release.includes(resolution);
-  });
-  invariant(firstResult, `[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: No subtitle data found`);
+    const release = subtitle.attributes.release.toLowerCase()
+    return release.includes(parsedReleaseGroup) && release.includes(resolution)
+  })
+  invariant(firstResult, `[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: No subtitle data found`)
 
-  const { files } = firstResult.attributes;
-  const { file_id } = files[0];
+  const { files } = firstResult.attributes
+  const { file_id } = files[0]
 
   const downloadResponse = await fetch(`${OPEN_SUBTITLES_BASE_URL}/download`, {
     method: 'POST',
     body: JSON.stringify({ file_id }),
     headers: getOpenSubtitlesHeaders(),
-  });
-  const downloadData = await downloadResponse.json();
+  })
+  const downloadData = await downloadResponse.json()
 
-  const parsedDownloadData = downloadSchema.parse(downloadData);
-  invariant(parsedDownloadData.link, `[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: No download subtitle link found`);
+  const parsedDownloadData = downloadSchema.parse(downloadData)
+  invariant(parsedDownloadData.link, `[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: No download subtitle link found`)
 
-  const fileExtension = 'srt';
-  const subtitleLink = parsedDownloadData.link;
-  const subtitleGroup = SUBTITLE_GROUPS.OPEN_SUBTITLES.name;
+  const fileExtension = 'srt'
+  const subtitleLink = parsedDownloadData.link
+  const subtitleGroup = SUBTITLE_GROUPS.OPEN_SUBTITLES.name
 
-  const subtitleSrtFileName = slugify(`${name}-${resolution}-${releaseGroup}-${subtitleGroup}.srt`).toLowerCase();
-  const downloadFileName = `${fileNameWithoutExtension}.srt`;
+  const subtitleSrtFileName = slugify(`${name}-${resolution}-${releaseGroup}-${subtitleGroup}.srt`).toLowerCase()
+  const downloadFileName = `${fileNameWithoutExtension}.srt`
 
   const subtitleFileNameWithoutExtension = slugify(
     `${name}-${resolution}-${releaseGroup}-${subtitleGroup}`,
-  ).toLowerCase();
+  ).toLowerCase()
   const subtitleCompressedFileName = slugify(
     `${name}-${resolution}-${releaseGroup}-${subtitleGroup}.${fileExtension}`,
-  ).toLowerCase();
+  ).toLowerCase()
 
   return {
     fileExtension,
@@ -162,5 +162,5 @@ export async function getOpenSubtitlesSubtitle(movieData: MovieData, imdbId: num
     subtitleSrtFileName,
     subtitleCompressedFileName,
     subtitleFileNameWithoutExtension,
-  };
+  }
 }

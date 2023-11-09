@@ -1,13 +1,13 @@
-import { expect, test } from 'bun:test';
+import { expect, test } from 'bun:test'
 
-import { getYtsMxTotalMoviesAndPages } from '../yts-mx';
+import { getYtsMxTotalMoviesAndPages } from '../yts-mx'
 
 test('should return yts mx total movies and pages', async () => {
-  const { totalMovies, totalPages } = await getYtsMxTotalMoviesAndPages();
+  const { totalMovies, totalPages } = await getYtsMxTotalMoviesAndPages()
 
-  expect(totalMovies).toBeTypeOf('number');
-  expect(totalPages).toBeTypeOf('number');
+  expect(totalMovies).toBeTypeOf('number')
+  expect(totalPages).toBeTypeOf('number')
 
-  expect(totalMovies).toBeGreaterThan(52200);
-  expect(totalPages).toBeGreaterThan(1040);
-});
+  expect(totalMovies).toBeGreaterThan(52200)
+  expect(totalPages).toBeGreaterThan(1040)
+})

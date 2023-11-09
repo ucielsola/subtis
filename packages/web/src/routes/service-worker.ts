@@ -1,9 +1,11 @@
-import { setupServiceWorker } from '@builder.io/qwik-city/service-worker';
+/* eslint-disable ts/no-use-before-define */
 
-setupServiceWorker();
+import { setupServiceWorker } from '@builder.io/qwik-city/service-worker'
 
-addEventListener('install', () => self.skipWaiting());
+setupServiceWorker()
 
-addEventListener('activate', () => self.clients.claim());
+addEventListener('install', () => self.skipWaiting())
 
-declare const self: ServiceWorkerGlobalScope;
+addEventListener('activate', () => self.clients.claim())
+
+declare const self: ServiceWorkerGlobalScope

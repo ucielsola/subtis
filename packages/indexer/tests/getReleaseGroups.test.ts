@@ -1,16 +1,16 @@
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
-import { expect, test, afterEach, beforeAll, afterAll } from 'bun:test';
+import { rest } from 'msw'
+import { setupServer } from 'msw/node'
+import { afterAll, afterEach, beforeAll, expect, test } from 'bun:test'
 
-import { getReleaseGroups } from '../release-groups';
-import { getSupabaseEnvironmentVariables, supabase } from 'db';
+import { getSupabaseEnvironmentVariables, supabase } from 'db'
+import { getReleaseGroups } from '../release-groups'
 
 // constants
-const { supabaseBaseUrl } = getSupabaseEnvironmentVariables();
+const { supabaseBaseUrl } = getSupabaseEnvironmentVariables()
 
 // mocks
 const RELEASE_GROUPS_MOCK = {
-  CODY: {
+  'CODY': {
     id: 30,
     website: '',
     name: 'CODY',
@@ -20,7 +20,7 @@ const RELEASE_GROUPS_MOCK = {
     searchableOpenSubtitlesName: 'CODY',
     created_at: '2023-09-18T02:01:56.800708+00:00',
   },
-  GalaxyRG: {
+  'GalaxyRG': {
     id: 31,
     website: '',
     name: 'GalaxyRG',
@@ -30,7 +30,7 @@ const RELEASE_GROUPS_MOCK = {
     searchableOpenSubtitlesName: 'GalaxyRG',
     created_at: '2023-09-18T02:01:56.987645+00:00',
   },
-  RiGHTNOW: {
+  'RiGHTNOW': {
     id: 32,
     name: 'RiGHTNOW',
     website: '',
@@ -50,24 +50,24 @@ const RELEASE_GROUPS_MOCK = {
     searchableOpenSubtitlesName: 'YTS.MX',
     created_at: '2023-09-18T02:01:56.644634+00:00',
   },
-};
+}
 
 const server = setupServer(
   rest.all(`${supabaseBaseUrl}/rest/v1/ReleaseGroups`, async (req, res, ctx) => {
     switch (req.method) {
       case 'GET':
-        return res(ctx.json(RELEASE_GROUPS_MOCK));
+        return res(ctx.json(RELEASE_GROUPS_MOCK))
       default:
-        return res(ctx.json('Unhandled method'));
+        return res(ctx.json('Unhandled method'))
     }
   }),
-);
+)
 
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
+beforeAll(() => server.listen())
+afterEach(() => server.resetHandlers())
+afterAll(() => server.close())
 
 test('should return a list of release groups', async () => {
-  const releaseGroups = await getReleaseGroups(supabase);
-  expect(releaseGroups).toEqual(RELEASE_GROUPS_MOCK);
-});
+  const releaseGroups = await getReleaseGroups(supabase)
+  expect(releaseGroups).toEqual(RELEASE_GROUPS_MOCK)
+})

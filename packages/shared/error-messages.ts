@@ -1,8 +1,8 @@
-import { match } from 'ts-pattern';
+import { match } from 'ts-pattern'
 
 export function getMessageFromStatusCode(statusCode: number): {
-  title: string;
-  description: string;
+  title: string
+  description: string
 } {
   return match(statusCode)
     .with(415, () => ({
@@ -20,5 +20,5 @@ export function getMessageFromStatusCode(statusCode: number): {
     .otherwise(() => ({
       title: 'Error desconocido',
       description: 'Estamos haciendo arreglos del servicio',
-    }));
+    }))
 }

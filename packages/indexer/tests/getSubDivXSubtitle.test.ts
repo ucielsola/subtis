@@ -1,14 +1,14 @@
-import { expect, test } from 'bun:test';
+import { expect, test } from 'bun:test'
 
 // shared
-import { getMovieData } from 'shared/movie';
+import { getMovieData } from 'shared/movie'
 
 // subdivx
-import { getSubDivXSubtitle } from '../subdivx';
+import { getSubDivXSubtitle } from '../subdivx'
 
 test('should return an search params for "Guardians of the Galaxy Vol 3 (2023)" for page 1', async () => {
-  const movieData = getMovieData('Guardians.Of.The.Galaxy.Vol..3.2023.720p.WEBRip.x264.AAC-[YTS.MX].mp4');
-  const subtitle = await getSubDivXSubtitle(movieData);
+  const movieData = getMovieData('Guardians.Of.The.Galaxy.Vol..3.2023.720p.WEBRip.x264.AAC-[YTS.MX].mp4')
+  const subtitle = await getSubDivXSubtitle(movieData)
 
   expect(subtitle).toEqual({
     subtitleGroup: 'SubDivX',
@@ -18,5 +18,5 @@ test('should return an search params for "Guardians of the Galaxy Vol 3 (2023)" 
     subtitleFileNameWithoutExtension: 'guardians-of-the-galaxy-vol-3-720p-yts-mx-subdivx',
     downloadFileName: 'Guardians.Of.The.Galaxy.Vol..3.2023.720p.WEBRip.x264.AAC-[YTS.MX].srt',
     fileExtension: 'zip',
-  });
-});
+  })
+})

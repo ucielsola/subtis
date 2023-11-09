@@ -1,24 +1,24 @@
-import { expect, test } from 'bun:test';
+import { expect, test } from 'bun:test'
 
 // shared
-import { getMovieData } from 'shared/movie';
+import { getMovieData } from 'shared/movie'
 
 // internals
-import { argenteamApiEndpoints, getArgenteamSubtitle } from '../argenteam';
+import { argenteamApiEndpoints, getArgenteamSubtitle } from '../argenteam'
 
 test('should return an endpoint for each value', () => {
-  const MOVIE_ID = 24146896;
+  const MOVIE_ID = 24146896
 
-  const searchEndpoint = argenteamApiEndpoints.search(MOVIE_ID);
-  const tvShowEndpoint = argenteamApiEndpoints.tvShow(MOVIE_ID);
-  const episodeEndpoint = argenteamApiEndpoints.episode(MOVIE_ID);
-  const movieEndpoint = argenteamApiEndpoints.movie(MOVIE_ID);
+  const searchEndpoint = argenteamApiEndpoints.search(MOVIE_ID)
+  const tvShowEndpoint = argenteamApiEndpoints.tvShow(MOVIE_ID)
+  const episodeEndpoint = argenteamApiEndpoints.episode(MOVIE_ID)
+  const movieEndpoint = argenteamApiEndpoints.movie(MOVIE_ID)
 
-  expect(searchEndpoint).toBe(`https://argenteam.net/api/v1/search?q=${MOVIE_ID}`);
-  expect(tvShowEndpoint).toBe(`https://argenteam.net/api/v1/tvshow?id=${MOVIE_ID}`);
-  expect(episodeEndpoint).toBe(`https://argenteam.net/api/v1/episode?id=${MOVIE_ID}`);
-  expect(movieEndpoint).toBe(`https://argenteam.net/api/v1/movie?id=${MOVIE_ID}`);
-});
+  expect(searchEndpoint).toBe(`https://argenteam.net/api/v1/search?q=${MOVIE_ID}`)
+  expect(tvShowEndpoint).toBe(`https://argenteam.net/api/v1/tvshow?id=${MOVIE_ID}`)
+  expect(episodeEndpoint).toBe(`https://argenteam.net/api/v1/episode?id=${MOVIE_ID}`)
+  expect(movieEndpoint).toBe(`https://argenteam.net/api/v1/movie?id=${MOVIE_ID}`)
+})
 
 test('should throw error if no search results are found', () => {
   expect(async () => {
@@ -33,13 +33,13 @@ test('should throw error if no search results are found', () => {
         releaseGroup: 'YTS-MX',
       },
       1234,
-    );
-  }).toThrow('[ARGENTEAM_ERROR]: There should be at least one result');
-});
+    )
+  }).toThrow('[ARGENTEAM_ERROR]: There should be at least one result')
+})
 
 test('should return a subtitle link giving a movie, release group and quality', async () => {
-  const movieData = getMovieData('Spider-Man.Across.The.Spider-Verse.2023.1080p.WEB-DL.DDP5.1.Atmos.x264-AOC.mkv');
-  const subtitle = await getArgenteamSubtitle(movieData, 9362722);
+  const movieData = getMovieData('Spider-Man.Across.The.Spider-Verse.2023.1080p.WEB-DL.DDP5.1.Atmos.x264-AOC.mkv')
+  const subtitle = await getArgenteamSubtitle(movieData, 9362722)
 
   expect(subtitle).toEqual({
     fileExtension: 'zip',
@@ -50,12 +50,12 @@ test('should return a subtitle link giving a movie, release group and quality', 
       'https://argenteam.net/subtitles/90262/Spider-Man.Across.the.Spider-Verse.%282023%29.WEB-DL.x264.1080p.ATMOS-AOC',
     subtitleSrtFileName: 'spider-man-across-the-spider-verse-1080p-aoc-argenteam.srt',
     downloadFileName: 'Spider-Man.Across.The.Spider-Verse.2023.1080p.WEB-DL.DDP5.1.Atmos.x264-AOC.srt',
-  });
-});
+  })
+})
 
 test('should throw an error giving a subtitle link giving a movie, release group and quality', () => {
   expect(async () => {
-    const movieData = getMovieData('Haunting.Of.The.Queen.Mary.2023.720p.WEBRip.x264.AAC-[YTS.MX].mp4');
-    await getArgenteamSubtitle(movieData, 9362722);
-  }).toThrow();
-});
+    const movieData = getMovieData('Haunting.Of.The.Queen.Mary.2023.720p.WEBRip.x264.AAC-[YTS.MX].mp4')
+    await getArgenteamSubtitle(movieData, 9362722)
+  }).toThrow()
+})

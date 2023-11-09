@@ -1,7 +1,7 @@
-import invariant from 'tiny-invariant';
+import invariant from 'tiny-invariant'
 
 // db
-import { type SupabaseClient } from 'db';
+import type { SupabaseClient } from 'db'
 
 // constants
 export const SUBTITLE_GROUPS = {
@@ -17,39 +17,39 @@ export const SUBTITLE_GROUPS = {
     name: 'OpenSubtitles',
     website: 'https://www.opensubtitles.org',
   },
-} as const;
+} as const
 
 // types
-export type SubtitleGroup = {
-  name: string;
-  website: string;
-};
+export interface SubtitleGroup {
+  name: string
+  website: string
+}
 
 export type SubtitleGroupMap = {
   [key in SubtitleGroupNames]: SubtitleGroup & {
-    id: number;
-    created_at: string;
+    id: number
+    created_at: string
   };
-};
+}
 
-export type SubtitleGroupNames = (typeof SUBTITLE_GROUPS)[keyof typeof SUBTITLE_GROUPS]['name'];
+export type SubtitleGroupNames = (typeof SUBTITLE_GROUPS)[keyof typeof SUBTITLE_GROUPS]['name']
 
-type SubtitleGroupKeys = keyof typeof SUBTITLE_GROUPS;
+type SubtitleGroupKeys = keyof typeof SUBTITLE_GROUPS
 
 // utils
 export async function saveSubtitleGroupsToDb(supabaseClient: SupabaseClient): Promise<void> {
   for (const subtitleGroupKey in SUBTITLE_GROUPS) {
-    const subtitleGroup = SUBTITLE_GROUPS[subtitleGroupKey as SubtitleGroupKeys];
-    await supabaseClient.from('SubtitleGroups').insert(subtitleGroup);
+    const subtitleGroup = SUBTITLE_GROUPS[subtitleGroupKey as SubtitleGroupKeys]
+    await supabaseClient.from('SubtitleGroups').insert(subtitleGroup)
   }
 }
 
 // core
 export async function getSubtitleGroups(supabaseClient: SupabaseClient): Promise<SubtitleGroupMap> {
-  const { data } = await supabaseClient.from('SubtitleGroups').select('*');
-  invariant(data, 'SubtitleGroups not found in database');
+  const { data } = await supabaseClient.from('SubtitleGroups').select('*')
+  invariant(data, 'SubtitleGroups not found in database')
 
-  const subtitleGroups = data.reduce((acc, subtitleGroup) => ({ ...acc, [subtitleGroup.name]: subtitleGroup }), {});
+  const subtitleGroups = data.reduce((acc, subtitleGroup) => ({ ...acc, [subtitleGroup.name]: subtitleGroup }), {})
 
-  return subtitleGroups as SubtitleGroupMap;
+  return subtitleGroups as SubtitleGroupMap
 }

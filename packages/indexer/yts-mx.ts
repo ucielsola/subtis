@@ -1,18 +1,18 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 // internals
-import { getNumbersArray } from './utils';
-import { getStripedImdbId } from './imdb';
+import { getNumbersArray } from './utils'
+import { getStripedImdbId } from './imdb'
 
 // constants
-const YTS_BASE_URL = 'https://yts.mx/api/v2' as const;
+const YTS_BASE_URL = 'https://yts.mx/api/v2' as const
 
 // utils
 const ytsApiEndpoints = {
   movieList: (page = 1, limit = 50) => {
-    return `${YTS_BASE_URL}/list_movies.json?limit=${limit}&page=${page}` as const;
+    return `${YTS_BASE_URL}/list_movies.json?limit=${limit}&page=${page}` as const
   },
-};
+}
 
 // schemas
 export const torrentSchema = z.object({
@@ -30,7 +30,7 @@ export const torrentSchema = z.object({
   size_bytes: z.number(),
   date_uploaded: z.string().optional(),
   date_uploaded_unix: z.number().optional(),
-});
+})
 
 export const ytsMxMovieSchema = z.object({
   id: z.number(),
@@ -58,12 +58,12 @@ export const ytsMxMovieSchema = z.object({
   torrents: z.array(torrentSchema),
   date_uploaded: z.string().optional(),
   date_uploaded_unix: z.number().optional(),
-});
+})
 
 export const schema = z.object({
-  status: z.string(),
-  status_message: z.string(),
-  data: z.object({
+  'status': z.string(),
+  'status_message': z.string(),
+  'data': z.object({
     movie_count: z.number(),
     limit: z.number(),
     page_number: z.number(),
@@ -75,40 +75,40 @@ export const schema = z.object({
     api_version: z.number(),
     execution_time: z.string(),
   }),
-});
+})
 
 // types
-type YtsMxMovie = z.infer<typeof ytsMxMovieSchema>;
-export type Torrent = z.infer<typeof torrentSchema>;
-export type YtsMxMovieList = YtsMxMovie & { imdbId: number };
+type YtsMxMovie = z.infer<typeof ytsMxMovieSchema>
+export type Torrent = z.infer<typeof torrentSchema>
+export type YtsMxMovieList = YtsMxMovie & { imdbId: number }
 
 // core
 export async function getYtsMxTotalMoviesAndPages(limit = 50): Promise<{
-  totalMovies: number;
-  totalPages: number;
-  totalPagesArray: number[];
+  totalMovies: number
+  totalPages: number
+  totalPagesArray: number[]
 }> {
-  const response = await fetch(ytsApiEndpoints.movieList(1, 1));
-  const data = await response.json();
+  const response = await fetch(ytsApiEndpoints.movieList(1, 1))
+  const data = await response.json()
 
-  const parsedData = schema.parse(data);
-  const totalMovies = parsedData.data.movie_count;
+  const parsedData = schema.parse(data)
+  const totalMovies = parsedData.data.movie_count
 
-  const totalPages = Math.ceil(totalMovies / limit);
-  const totalPagesArray = getNumbersArray(totalPages);
+  const totalPages = Math.ceil(totalMovies / limit)
+  const totalPagesArray = getNumbersArray(totalPages)
 
-  return { totalMovies, totalPages, totalPagesArray };
+  return { totalMovies, totalPages, totalPagesArray }
 }
 
 export async function getYtsMxMovieList(page = 1, limit = 50): Promise<YtsMxMovieList[]> {
-  const response = await fetch(ytsApiEndpoints.movieList(page, limit));
-  const data = await response.json();
+  const response = await fetch(ytsApiEndpoints.movieList(page, limit))
+  const data = await response.json()
 
-  const parsedData = schema.parse(data);
-  const { movies } = parsedData.data;
+  const parsedData = schema.parse(data)
+  const { movies } = parsedData.data
 
-  return movies.map((movie) => ({
+  return movies.map(movie => ({
     ...movie,
     imdbId: getStripedImdbId(movie.imdb_code),
-  }));
+  }))
 }

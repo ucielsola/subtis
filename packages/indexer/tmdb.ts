@@ -1,10 +1,10 @@
-import z from 'zod';
+import z from 'zod'
 
 // utils
-import { getNumbersArray } from './utils';
+import { getNumbersArray } from './utils'
 
 // imdb
-import { getStripedImdbId } from './imdb';
+import { getStripedImdbId } from './imdb'
 
 // schemas
 export const tmdbDiscoverSchema = z.object({
@@ -29,7 +29,7 @@ export const tmdbDiscoverSchema = z.object({
   ),
   total_pages: z.number(),
   total_results: z.number(),
-});
+})
 
 export const tmdbMovieSchema = z.object({
   adult: z.boolean(),
@@ -85,10 +85,10 @@ export const tmdbMovieSchema = z.object({
   video: z.boolean(),
   vote_average: z.number(),
   vote_count: z.number(),
-});
+})
 
 export async function getTmdbMoviesTotalPagesArray(): Promise<number[]> {
-  const url = 'https://api.themoviedb.org/3/discover/movie?language=en-US&page=1&language=en-US';
+  const url = 'https://api.themoviedb.org/3/discover/movie?language=en-US&page=1&language=en-US'
   const options = {
     method: 'GET',
     headers: {
@@ -96,75 +96,75 @@ export async function getTmdbMoviesTotalPagesArray(): Promise<number[]> {
       Authorization:
         'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1OWQzMTc0MjM1OTUzYzUzMmNhZjUzZjIzYzJkNGMzMCIsInN1YiI6IjViZDY3OTA5OTI1MTQxMDM5NjAzN2U1MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Jgt15vr7N0PFptDVWYaHD_wIkJvxs9-YeMkePZR4AJM',
     },
-  };
+  }
 
-  const response = await fetch(url, options);
-  const data = await response.json();
+  const response = await fetch(url, options)
+  const data = await response.json()
 
-  const validatedData = tmdbDiscoverSchema.parse(data);
-  return getNumbersArray(validatedData.total_pages);
+  const validatedData = tmdbDiscoverSchema.parse(data)
+  return getNumbersArray(validatedData.total_pages)
 }
 
 const tmdbApiEndpoints = {
   discoverMovies: (page: number) => {
-    return `https://api.themoviedb.org/3/discover/movie?language=en-US&page=${page}`;
+    return `https://api.themoviedb.org/3/discover/movie?language=en-US&page=${page}`
   },
   movieDetail: (id: number) => {
-    return `https://api.themoviedb.org/3/movie/${id}`;
+    return `https://api.themoviedb.org/3/movie/${id}`
   },
-};
+}
 
 const TMDB_OPTIONS = {
   method: 'GET',
   headers: {
     accept: 'application/json',
-    Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
+    Authorization: `Bearer ${Bun.env.TMDB_API_KEY}`,
   },
-};
+}
 
-export type TmdbMovie = {
-  year: number;
-  title: string;
-  imdbId: number;
-  rating: number;
-};
+export interface TmdbMovie {
+  year: number
+  title: string
+  imdbId: number
+  rating: number
+}
 
 export async function getMoviesFromTmdb(page: number): Promise<TmdbMovie[]> {
-  const movies: TmdbMovie[] = [];
+  const movies: TmdbMovie[] = []
 
   // 1. Get movies for current page
-  const url = tmdbApiEndpoints.discoverMovies(page);
+  const url = tmdbApiEndpoints.discoverMovies(page)
 
-  const response = await fetch(url, TMDB_OPTIONS);
-  const data = await response.json();
-  const validatedData = tmdbDiscoverSchema.parse(data);
+  const response = await fetch(url, TMDB_OPTIONS)
+  const data = await response.json()
+  const validatedData = tmdbDiscoverSchema.parse(data)
 
   // 2. Iterate movies for current page
   for await (const movie of validatedData.results) {
-    const { id, release_date, title, vote_average: rating } = movie;
+    const { id, release_date, title, vote_average: rating } = movie
 
     // 3. Get IMDB ID from TMDB movie detail
-    const url2 = tmdbApiEndpoints.movieDetail(id);
+    const url2 = tmdbApiEndpoints.movieDetail(id)
 
-    const response = await fetch(url2, TMDB_OPTIONS);
-    const data = await response.json();
-    const { imdb_id } = tmdbMovieSchema.parse(data);
+    const response = await fetch(url2, TMDB_OPTIONS)
+    const data = await response.json()
+    const { imdb_id } = tmdbMovieSchema.parse(data)
 
     // 4. Parse raw imdb_id
-    const imdbId = getStripedImdbId(imdb_id);
+    const imdbId = getStripedImdbId(imdb_id)
 
     // 5. Get year from release date
-    const year = Number(release_date.split('-')[0]);
+    const year = Number(release_date.split('-')[0])
 
     const movieData = {
       year,
       title,
       imdbId,
       rating,
-    };
+    }
 
-    movies.push(movieData);
+    movies.push(movieData)
   }
 
-  return movies;
+  return movies
 }

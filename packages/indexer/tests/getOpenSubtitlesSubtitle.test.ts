@@ -1,7 +1,7 @@
-import { expect, test } from 'bun:test';
+import { expect, test } from 'bun:test'
 
-import { ReleaseGroupNames } from '../release-groups';
-import { getOpenSubtitlesSubtitle } from '../opensubtitles';
+import type { ReleaseGroupNames } from '../release-groups'
+import { getOpenSubtitlesSubtitle } from '../opensubtitles'
 
 test('should return a subtitle link giving a movie, release group and quality', async () => {
   const movieData = {
@@ -13,18 +13,18 @@ test('should return a subtitle link giving a movie, release group and quality', 
     searchableArgenteamName: 'YIFY',
     searchableOpenSubtitlesName: 'YTS.MX',
     releaseGroup: 'YTS-MX' as ReleaseGroupNames,
-  };
+  }
 
-  const subtitle = await getOpenSubtitlesSubtitle(movieData, 9224104);
+  const subtitle = await getOpenSubtitlesSubtitle(movieData, 9224104)
 
-  expect(subtitle.subtitleLink).toBeTypeOf('string');
+  expect(subtitle.subtitleLink).toBeTypeOf('string')
 
-  expect(subtitle.fileExtension).toBe('srt');
-  expect(subtitle.subtitleGroup).toBe('OpenSubtitles');
-  expect(subtitle.subtitleSrtFileName).toBe('meg-2-the-trench-1080p-yts-mx-opensubtitles.srt');
-  expect(subtitle.subtitleCompressedFileName).toBe('meg-2-the-trench-1080p-yts-mx-opensubtitles.srt');
-  expect(subtitle.subtitleFileNameWithoutExtension).toBe('meg-2-the-trench-1080p-yts-mx-opensubtitles');
-});
+  expect(subtitle.fileExtension).toBe('srt')
+  expect(subtitle.subtitleGroup).toBe('OpenSubtitles')
+  expect(subtitle.subtitleSrtFileName).toBe('meg-2-the-trench-1080p-yts-mx-opensubtitles.srt')
+  expect(subtitle.subtitleCompressedFileName).toBe('meg-2-the-trench-1080p-yts-mx-opensubtitles.srt')
+  expect(subtitle.subtitleFileNameWithoutExtension).toBe('meg-2-the-trench-1080p-yts-mx-opensubtitles')
+})
 
 test('should return a subtitle link giving a movie, release group and quality', async () => {
   const movieData = {
@@ -36,15 +36,15 @@ test('should return a subtitle link giving a movie, release group and quality', 
     searchableArgenteamName: 'YIFY',
     searchableOpenSubtitlesName: 'YTS.MX',
     releaseGroup: 'YTS-MX' as ReleaseGroupNames,
-  };
+  }
 
-  const subtitle = await getOpenSubtitlesSubtitle(movieData, 6848928);
+  const subtitle = await getOpenSubtitlesSubtitle(movieData, 6848928)
 
-  expect(subtitle.subtitleLink).toBeTypeOf('string');
+  expect(subtitle.subtitleLink).toBeTypeOf('string')
 
-  expect(subtitle.fileExtension).toBe('srt');
-  expect(subtitle.subtitleGroup).toBe('OpenSubtitles');
-  expect(subtitle.subtitleSrtFileName).toBe('junk-head-1080p-yts-mx-opensubtitles.srt');
-  expect(subtitle.subtitleCompressedFileName).toBe('junk-head-1080p-yts-mx-opensubtitles.srt');
-  expect(subtitle.subtitleFileNameWithoutExtension).toBe('junk-head-1080p-yts-mx-opensubtitles');
-});
+  expect(subtitle.fileExtension).toBe('srt')
+  expect(subtitle.subtitleGroup).toBe('OpenSubtitles')
+  expect(subtitle.subtitleSrtFileName).toBe('junk-head-1080p-yts-mx-opensubtitles.srt')
+  expect(subtitle.subtitleCompressedFileName).toBe('junk-head-1080p-yts-mx-opensubtitles.srt')
+  expect(subtitle.subtitleFileNameWithoutExtension).toBe('junk-head-1080p-yts-mx-opensubtitles')
+})
