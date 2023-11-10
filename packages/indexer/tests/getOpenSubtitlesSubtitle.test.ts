@@ -14,6 +14,7 @@ test('should return a subtitle link giving a movie, release group and quality', 
     searchableArgenteamName: 'YIFY',
     searchableOpenSubtitlesName: 'YTS.MX',
     releaseGroup: 'YTS-MX' as ReleaseGroupNames,
+    fileNameWithoutExtension: '',
   }
 
   const subtitle = await getOpenSubtitlesSubtitle(movieData, 9224104)
@@ -37,6 +38,7 @@ test('should return a subtitle link giving a movie, release group and quality', 
     searchableArgenteamName: 'YIFY',
     searchableOpenSubtitlesName: 'YTS.MX',
     releaseGroup: 'YTS-MX' as ReleaseGroupNames,
+    fileNameWithoutExtension: '',
   }
 
   const subtitle = await getOpenSubtitlesSubtitle(movieData, 6848928)
