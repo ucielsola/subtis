@@ -1,5 +1,6 @@
 import { expect, test } from 'bun:test'
 
+// internals
 import type { ReleaseGroupNames } from '../release-groups'
 import { getOpenSubtitlesSubtitle } from '../opensubtitles'
 

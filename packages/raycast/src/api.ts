@@ -3,7 +3,7 @@ import fetch from 'node-fetch'
 // shared
 import { getSubtitle } from 'shared/api'
 
-// polyfill global fetch
+// polyfill fetch
 Object.assign(globalThis, { fetch })
 
 // helpers

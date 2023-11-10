@@ -1,5 +1,6 @@
 import { match } from 'ts-pattern'
 
+// core
 export function getMessageFromStatusCode(statusCode: number): {
   title: string
   description: string

@@ -1,5 +1,6 @@
 import { expect, test } from 'bun:test'
 
+// internals
 import { getYtsMxTotalMoviesAndPages } from '../yts-mx'
 
 test('should return yts mx total movies and pages', async () => {

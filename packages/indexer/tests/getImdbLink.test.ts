@@ -1,5 +1,6 @@
 import { expect, test } from 'bun:test'
 
+// internals
 import { getFullImdbId, getImdbLink } from '../imdb'
 
 test('should return striped imdb id without \'tt\' prefix', () => {

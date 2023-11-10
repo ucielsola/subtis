@@ -3,12 +3,12 @@ import minimist from 'minimist'
 import invariant from 'tiny-invariant'
 import { intro, outro, spinner } from '@clack/prompts'
 
-// internals
-
 // shared
 import { getMessageFromStatusCode } from 'shared/error-messages'
 import { getFilenameFromPath, getVideoFileExtension } from 'shared/movie'
 import { getIsInvariantError, getParsedInvariantMessage } from 'shared/invariant'
+
+// internals
 import { getSubtitleFromFileName } from './api'
 
 // core

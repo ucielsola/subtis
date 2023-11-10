@@ -2,13 +2,13 @@ import { JSDOM } from 'jsdom'
 import slugify from 'slugify'
 import invariant from 'tiny-invariant'
 
-// internals
-import type { MovieData } from 'shared/movie'
-import { getIsLinkAlive } from './utils'
-import { SUBTITLE_GROUPS } from './subtitle-groups'
-import type { SubtitleData } from './types'
-
 // shared
+import type { MovieData } from 'shared/movie'
+
+// internals
+import { getIsLinkAlive } from './utils'
+import type { SubtitleData } from './types'
+import { SUBTITLE_GROUPS } from './subtitle-groups'
 
 // constants
 const SUBDIVX_BASE_URL = 'https://subdivx.com' as const

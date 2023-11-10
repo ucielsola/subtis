@@ -1,7 +1,7 @@
 import { expect, test } from 'bun:test'
 
 // shared
-import { getMovieData } from 'shared/movie'
+import { getMovieMetadata } from 'shared/movie'
 
 // internals
 import { argenteamApiEndpoints, getArgenteamSubtitle } from '../argenteam'
@@ -38,7 +38,7 @@ test('should throw error if no search results are found', () => {
 })
 
 test('should return a subtitle link giving a movie, release group and quality', async () => {
-  const movieData = getMovieData('Spider-Man.Across.The.Spider-Verse.2023.1080p.WEB-DL.DDP5.1.Atmos.x264-AOC.mkv')
+  const movieData = getMovieMetadata('Spider-Man.Across.The.Spider-Verse.2023.1080p.WEB-DL.DDP5.1.Atmos.x264-AOC.mkv')
   const subtitle = await getArgenteamSubtitle(movieData, 9362722)
 
   expect(subtitle).toEqual({
@@ -55,7 +55,7 @@ test('should return a subtitle link giving a movie, release group and quality', 
 
 test('should throw an error giving a subtitle link giving a movie, release group and quality', () => {
   expect(async () => {
-    const movieData = getMovieData('Haunting.Of.The.Queen.Mary.2023.720p.WEBRip.x264.AAC-[YTS.MX].mp4')
+    const movieData = getMovieMetadata('Haunting.Of.The.Queen.Mary.2023.720p.WEBRip.x264.AAC-[YTS.MX].mp4')
     await getArgenteamSubtitle(movieData, 9362722)
   }).toThrow()
 })

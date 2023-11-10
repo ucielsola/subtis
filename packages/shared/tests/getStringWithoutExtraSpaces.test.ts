@@ -1,5 +1,6 @@
 import { expect, test } from 'bun:test'
 
+// shared
 import { getStringWithoutExtraSpaces } from 'shared/movie'
 
 test('should return an string without any extra spaces', () => {

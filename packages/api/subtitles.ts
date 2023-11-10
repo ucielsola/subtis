@@ -2,18 +2,18 @@ import { z } from 'zod'
 import invariant from 'tiny-invariant'
 import type { Context } from 'elysia'
 
-// internals
-
 // shared
 import { getVideoFileExtension } from 'shared/movie'
 import { getIsInvariantError, getParsedInvariantMessage } from 'shared/invariant'
 
 // db
 import { type Movie, type ReleaseGroup, type Subtitle, type SubtitleGroup, supabase } from 'db'
+
+// internals
 import { redis } from './redis'
 
 // types
-interface ApiResponseError { message: string }
+type ApiResponseError = { message: string }
 
 type CustomQuery =
   | (Pick<Subtitle, 'id' | 'subtitleShortLink' | 'subtitleFullLink' | 'fileName' | 'resolution'> & {

@@ -3,7 +3,6 @@
 import 'dotenv/config'
 import fs from 'node:fs'
 import path from 'node:path'
-import type { Buffer } from 'node:buffer'
 import turl from 'turl'
 import delay from 'delay'
 import sound from 'sound-play'
@@ -15,9 +14,14 @@ import invariant from 'tiny-invariant'
 
 // import { confirm } from '@clack/prompts';
 
-// internals
+// db
 import { type Movie, supabase } from '../db'
-import { VIDEO_FILE_EXTENSIONS, getMovieData, getMovieFileNameExtension } from '../shared/movie'
+
+// shared
+import { VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieMetadata } from '../shared/movie'
+
+// internals
+import { bufferSchema } from './buffer'
 import { getImdbLink } from './imdb'
 import type { SubtitleData } from './types'
 import { getSubDivXSubtitle } from './subdivx'
@@ -26,12 +30,8 @@ import { type YtsMxMovieList, getYtsMxMovieList, getYtsMxTotalMoviesAndPages } f
 import { type ReleaseGroupMap, type ReleaseGroupNames, getReleaseGroups } from './release-groups'
 import { type SubtitleGroupMap, type SubtitleGroupNames, getSubtitleGroups } from './subtitle-groups'
 
-// import { getArgenteamSubtitle } from './argenteam';
-// import { getOpenSubtitlesSubtitle } from './opensubtitles';
-
-// db
-
-// shared
+import { getArgenteamSubtitle } from './argenteam'
+import { getOpenSubtitlesSubtitle } from './opensubtitles'
 
 // utils
 async function setMovieSubtitlesToDatabase({
@@ -127,7 +127,7 @@ async function setMovieSubtitlesToDatabase({
     }
 
     // 10. Upload SRT file to Supabase storage
-    await supabase.storage.from('subtitles').upload(subtitleSrtFileName, srtFileToUpload as Buffer, {
+    await supabase.storage.from('subtitles').upload(subtitleSrtFileName, bufferSchema.parse(srtFileToUpload), {
       upsert: true,
       contentType: 'text/plain;charset=UTF-8',
     })
@@ -236,7 +236,7 @@ async function getMovieListFromDb(
     const fileName = videoFile.name
     const fileNameExtension = getMovieFileNameExtension(fileName)
 
-    const movieData = getMovieData(fileName)
+    const movieData = getMovieMetadata(fileName)
     const { resolution, releaseGroup } = movieData
 
     // 6. Hash video file name
@@ -245,8 +245,8 @@ async function getMovieListFromDb(
     // 7. Find subtitle metadata from SubDivx and Argenteam
     const subtitles = await Promise.allSettled([
       getSubDivXSubtitle(movieData),
-      // getArgenteamSubtitle(movieData, imdbId),
-      // getOpenSubtitlesSubtitle(movieData, imdbId),
+      getArgenteamSubtitle(movieData, imdbId),
+      getOpenSubtitlesSubtitle(movieData, imdbId),
     ])
 
     // 8. Filter fulfilled only promises

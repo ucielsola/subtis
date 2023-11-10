@@ -40,7 +40,7 @@ export const RELEASE_GROUPS = {
 } as const
 
 // types
-export interface ReleaseGroup {
+export type ReleaseGroup = {
   name: string
   website: string
   fileAttribute: string

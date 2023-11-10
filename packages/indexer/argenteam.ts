@@ -3,12 +3,12 @@ import slugify from 'slugify'
 import { match } from 'ts-pattern'
 import invariant from 'tiny-invariant'
 
-// internals
+// shared
 import type { MovieData } from 'shared/movie'
+
+// internals
 import type { SubtitleData } from './types'
 import { SUBTITLE_GROUPS } from './subtitle-groups'
-
-// shared
 
 // constants
 const ARGENTEAM_BREADCRUMB_ERROR = 'ARGENTEAM_ERROR' as const

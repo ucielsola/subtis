@@ -2,16 +2,16 @@ import delay from 'delay'
 import invariant from 'tiny-invariant'
 import { Action, ActionPanel, Form, Toast, open, showToast } from '@raycast/api'
 
-// internals
-
 // shared
 import { getMessageFromStatusCode } from 'shared/error-messages'
 import { getFilenameFromPath, getVideoFileExtension } from 'shared/movie'
 import { getIsInvariantError, getParsedInvariantMessage } from 'shared/invariant'
+
+// internals
 import { getSubtitleFromFileName } from './api'
 
 // types
-interface Values {
+type Values = {
   filePicker: string[]
 }
 

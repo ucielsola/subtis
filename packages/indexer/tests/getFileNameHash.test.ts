@@ -1,5 +1,6 @@
 import { expect, test } from 'bun:test'
 
+// internals
 import { getFileNameHash } from '../utils'
 
 test('should return hash for Rumba Therapy movie file', () => {

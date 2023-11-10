@@ -2,7 +2,10 @@ import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { afterAll, afterEach, beforeAll, expect, test } from 'bun:test'
 
+// db
 import { getSupabaseEnvironmentVariables, supabase } from 'db'
+
+// internals
 import { getReleaseGroups } from '../release-groups'
 
 // constants

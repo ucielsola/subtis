@@ -20,7 +20,7 @@ export const SUBTITLE_GROUPS = {
 } as const
 
 // types
-export interface SubtitleGroup {
+export type SubtitleGroup = {
   name: string
   website: string
 }

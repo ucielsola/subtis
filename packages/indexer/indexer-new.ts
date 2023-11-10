@@ -2,7 +2,6 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
-import type { Buffer } from 'node:buffer'
 import turl from 'turl'
 import delay from 'delay'
 import sound from 'sound-play'
@@ -15,9 +14,11 @@ import torrentSearchApi from 'torrent-search-api'
 
 // import { confirm } from '@clack/prompts';
 
+// shared
+import { VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieMetadata } from '../shared/movie'
+
 // internals
 import { type Movie, supabase } from '../db'
-import { VIDEO_FILE_EXTENSIONS, getMovieData, getMovieFileNameExtension } from '../shared/movie'
 import { getImdbLink } from './imdb'
 import type { SubtitleData } from './types'
 import { getSubDivXSubtitle } from './subdivx'
@@ -31,10 +32,8 @@ import { type SubtitleGroupMap, type SubtitleGroupNames, getSubtitleGroups } fro
 // db
 
 // tmdb
-import type { TmdbMovie } from './tmdb'
-import { getMoviesFromTmdb, getTmdbMoviesTotalPagesArray } from './tmdb'
-
-// shared
+import { type TmdbMovie, getMoviesFromTmdb, getTmdbMoviesTotalPagesArray } from './tmdb'
+import { bufferSchema } from './buffer'
 
 // setup torrent-search-api
 torrentSearchApi.enableProvider('1337x')
@@ -107,7 +106,7 @@ async function setMovieSubtitlesToDatabase({
       })
       .exhaustive()
 
-    let srtFileToUpload
+    let srtFileToUpload: unknown
 
     if (['zip', 'rar'].includes(fileExtension)) {
       const extractedSubtitleFiles = fs.readdirSync(extractedSubtitlePath)
@@ -133,7 +132,7 @@ async function setMovieSubtitlesToDatabase({
     }
 
     // 10. Upload SRT file to Supabase storage
-    await supabase.storage.from('subtitles').upload(subtitleSrtFileName, srtFileToUpload as Buffer, {
+    await supabase.storage.from('subtitles').upload(subtitleSrtFileName, bufferSchema.parse(srtFileToUpload), {
       upsert: true,
       contentType: 'text/plain;charset=UTF-8',
     })
@@ -149,7 +148,7 @@ async function setMovieSubtitlesToDatabase({
     // 13. Append download file name to public URL so it matches movie file name
     const subtitleLinkWithDownloadFileName = `${publicUrl}${downloadFileName}`
 
-    // 14. Crearte short link for subtitle
+    // 14. Create short link for subtitle
     const subtitleFullLink = subtitleLinkWithDownloadFileName
     const subtitleShortLink = await turl.shorten(subtitleLinkWithDownloadFileName)
 
@@ -211,7 +210,8 @@ async function getSubtitlesFromMovie(
   console.log('\n ~ getSubtitlesFromMovie ~ title:', title)
 
   // 1. Get first 21 movie torrents from 1337x
-  const torrents = await torrentSearchApi.search(movie.title, 'Movies', 5)
+  const TOTAL_MOVIES_TO_SEARCH = 5
+  const torrents = await torrentSearchApi.search(movie.title, 'Movies', TOTAL_MOVIES_TO_SEARCH)
   console.log('\n ~ forawait ~ torrents:', torrents)
 
   // 2. Iterate over each torrent
@@ -245,7 +245,7 @@ async function getSubtitlesFromMovie(
     const fileName = videoFile.name
     const fileNameExtension = getMovieFileNameExtension(fileName)
 
-    const movieData = getMovieData(fileName)
+    const movieData = getMovieMetadata(fileName)
     const { resolution, releaseGroup } = movieData
 
     // 9. Hash video file name
@@ -291,7 +291,7 @@ async function getSubtitlesFromMovie(
   }
 }
 
-// core -> NEW FLOW : TMDB -> Torrent-search-api -> Indexer
+// core -> NEW FLOW : TMDB -> Torrent-search-api -> Indexer -> DB
 async function mainIndexer(): Promise<void> {
   try {
     // 1. Get release and subtitle groups from DB

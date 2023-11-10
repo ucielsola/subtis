@@ -50,7 +50,7 @@ export function getMovieFileNameWithoutExtension(fileName: string): string {
 }
 
 // types
-export interface MovieData {
+export type MovieData = {
   name: string
   year: number
   resolution: string
@@ -63,7 +63,7 @@ export interface MovieData {
 }
 
 // core
-export function getMovieData(movieFileName: string): MovieData {
+export function getMovieMetadata(movieFileName: string): MovieData {
   const FIRST_MOVIE_RECORDED = 1888
   const currentYear = new Date().getFullYear() + 1
 

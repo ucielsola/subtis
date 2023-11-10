@@ -5,7 +5,7 @@ import { edenTreaty } from '@elysiajs/eden'
 import type { App } from 'api'
 
 // types
-interface ApiBaseUrlConfig {
+type ApiBaseUrlConfig = {
   isProduction: boolean
   apiBaseUrlProduction?: string
   apiBaseUrlDevelopment?: string

@@ -1,5 +1,6 @@
 import { expect, test } from 'bun:test'
 
+// internals
 import { getSubDivXSubtitleDownloadLink } from '../subdivx'
 
 test('should return a subtitle page link for "The Guardians of the Galaxy Vol. 3"', async () => {

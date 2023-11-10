@@ -1,25 +1,26 @@
 import { expect, test } from 'bun:test'
 
-import { getMovieData } from 'shared/movie'
+// shared
+import { getMovieMetadata } from 'shared/movie'
 
 test('Unsupported year movie', () => {
   expect(() => {
-    getMovieData('The.Super.Mario.Bros..Movie.1788.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4')
+    getMovieMetadata('The.Super.Mario.Bros..Movie.1788.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4')
   }).toThrow('Unsupported year movie')
 })
 
 test('Unsupported file extension', () => {
   expect(() => {
-    getMovieData('The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX].zip')
+    getMovieMetadata('The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX].zip')
   }).toThrow('Unsupported file extension')
 })
 
 test('No file extension', () => {
-  expect(() => getMovieData('Avatar (2009) 1080p YTS.MX')).toThrow('Unsupported file extension')
+  expect(() => getMovieMetadata('Avatar (2009) 1080p YTS.MX')).toThrow('Unsupported file extension')
 })
 
 test('The Super Mario Bros | 2023 | YTS-MX | (in 1080p)', () => {
-  const data = getMovieData('The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4')
+  const data = getMovieMetadata('The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4')
 
   expect(data).toEqual({
     name: 'The Super Mario Bros Movie',
@@ -35,7 +36,7 @@ test('The Super Mario Bros | 2023 | YTS-MX | (in 1080p)', () => {
 })
 
 test('The Super Mario Bros | 2023 | YTS-MX | (in 720p)', () => {
-  const data = getMovieData('The.Super.Mario.Bros..Movie.2023.720p.BluRay.x264.AAC5.1-[YTS.MX].mp4')
+  const data = getMovieMetadata('The.Super.Mario.Bros..Movie.2023.720p.BluRay.x264.AAC5.1-[YTS.MX].mp4')
 
   expect(data).toEqual({
     name: 'The Super Mario Bros Movie',
@@ -51,7 +52,7 @@ test('The Super Mario Bros | 2023 | YTS-MX | (in 720p)', () => {
 })
 
 test('The Super Mario Bros | 2023 | YTS-MX | (in 1080p)', () => {
-  const data = getMovieData('The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4')
+  const data = getMovieMetadata('The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4')
 
   expect(data).toEqual({
     name: 'The Super Mario Bros Movie',
@@ -67,7 +68,7 @@ test('The Super Mario Bros | 2023 | YTS-MX | (in 1080p)', () => {
 })
 
 test('The Super Mario Bros | 2023 | YTS-MX | (in 2160p)', () => {
-  const data = getMovieData('The.Super.Mario.Bros..Movie.2023.2160p.BluRay.x264.AAC5.1-[YTS.MX].mp4')
+  const data = getMovieMetadata('The.Super.Mario.Bros..Movie.2023.2160p.BluRay.x264.AAC5.1-[YTS.MX].mp4')
 
   expect(data).toEqual({
     name: 'The Super Mario Bros Movie',
@@ -83,7 +84,7 @@ test('The Super Mario Bros | 2023 | YTS-MX | (in 2160p)', () => {
 })
 
 test('The Super Mario Bros | 2023 | YTS-MX | (in 3D)', () => {
-  const data = getMovieData('The.Super.Mario.Bros..Movie.2023.3D.BluRay.x264.AAC5.1-[YTS.MX].mp4')
+  const data = getMovieMetadata('The.Super.Mario.Bros..Movie.2023.3D.BluRay.x264.AAC5.1-[YTS.MX].mp4')
 
   expect(data).toEqual({
     name: 'The Super Mario Bros Movie',
@@ -99,7 +100,7 @@ test('The Super Mario Bros | 2023 | YTS-MX | (in 3D)', () => {
 })
 
 test('The Super Mario Bros | 2023 | CODY', () => {
-  const data = getMovieData('The Super Mario Bros Movie 2023 1080p WEBRip H265-CODY.mkv')
+  const data = getMovieMetadata('The Super Mario Bros Movie 2023 1080p WEBRip H265-CODY.mkv')
 
   expect(data).toEqual({
     name: 'The Super Mario Bros Movie',
@@ -115,7 +116,7 @@ test('The Super Mario Bros | 2023 | CODY', () => {
 })
 
 test('Evil Dead Rise | 2023 | GalaxyRG', () => {
-  const data = getMovieData('Evil.Dead.Rise.2023.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv')
+  const data = getMovieMetadata('Evil.Dead.Rise.2023.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv')
 
   expect(data).toEqual({
     name: 'Evil Dead Rise',
@@ -131,7 +132,7 @@ test('Evil Dead Rise | 2023 | GalaxyRG', () => {
 })
 
 test('The Flash | 2023 | RiGHTNOW', () => {
-  const data = getMovieData('The.Flash.2023.1080p.WEB-DL.H.264-RiGHTNOW.mkv')
+  const data = getMovieMetadata('The.Flash.2023.1080p.WEB-DL.H.264-RiGHTNOW.mkv')
 
   expect(data).toEqual({
     name: 'The Flash',
@@ -147,7 +148,7 @@ test('The Flash | 2023 | RiGHTNOW', () => {
 })
 
 test('Come Fly With Me | 2023 | BONE | (Unsupported release group)', () => {
-  const data = getMovieData('Come Fly With Me 2023 720p HDRip x264 BONE.mkv')
+  const data = getMovieMetadata('Come Fly With Me 2023 720p HDRip x264 BONE.mkv')
 
   expect(data).toEqual({
     name: 'Come Fly With Me',
@@ -163,7 +164,7 @@ test('Come Fly With Me | 2023 | BONE | (Unsupported release group)', () => {
 })
 
 test('should correctly parse a movie string with year and resolution', () => {
-  const result = getMovieData('Avatar (2009) 1080p x264 YTS.MX.mp4')
+  const result = getMovieMetadata('Avatar (2009) 1080p x264 YTS.MX.mp4')
   expect(result).toEqual({
     name: 'Avatar',
     releaseGroup: 'YTS-MX',
@@ -178,7 +179,7 @@ test('should correctly parse a movie string with year and resolution', () => {
 })
 
 test('should recognize release groups not supported in the DB', () => {
-  const result = getMovieData('Avatar (2009) 1080p x264 UNKNOWN.mp4')
+  const result = getMovieMetadata('Avatar (2009) 1080p x264 UNKNOWN.mp4')
   expect(result).toMatchObject({
     name: 'Avatar',
     year: 2009,

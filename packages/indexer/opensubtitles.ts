@@ -2,12 +2,12 @@ import { z } from 'zod'
 import slugify from 'slugify'
 import invariant from 'tiny-invariant'
 
-// internals
+// shared
 import type { MovieData } from 'shared/movie'
+
+// internals
 import type { SubtitleData } from './types'
 import { SUBTITLE_GROUPS } from './subtitle-groups'
-
-// shared
 
 // constants
 const OPEN_SUBTITLES_BREADCRUMB_ERROR = 'OPEN_SUBTITLES_ERROR' as const

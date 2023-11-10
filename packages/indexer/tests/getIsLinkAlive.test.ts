@@ -1,5 +1,6 @@
 import { expect, test } from 'bun:test'
 
+// internals
 import { getIsLinkAlive } from '../utils'
 
 test('should return true for alive subdivx zip link file', async () => {

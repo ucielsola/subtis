@@ -1,9 +1,7 @@
 import z from 'zod'
 
-// utils
+// internals
 import { getNumbersArray } from './utils'
-
-// imdb
 import { getStripedImdbId } from './imdb'
 
 // schemas
@@ -93,8 +91,7 @@ export async function getTmdbMoviesTotalPagesArray(): Promise<number[]> {
     method: 'GET',
     headers: {
       Accept: 'application/json',
-      Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1OWQzMTc0MjM1OTUzYzUzMmNhZjUzZjIzYzJkNGMzMCIsInN1YiI6IjViZDY3OTA5OTI1MTQxMDM5NjAzN2U1MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Jgt15vr7N0PFptDVWYaHD_wIkJvxs9-YeMkePZR4AJM',
+      Authorization: `Bearer ${Bun.env.TMDB_API_KEY}`,
     },
   }
 
@@ -122,7 +119,7 @@ const TMDB_OPTIONS = {
   },
 }
 
-export interface TmdbMovie {
+export type TmdbMovie = {
   year: number
   title: string
   imdbId: number

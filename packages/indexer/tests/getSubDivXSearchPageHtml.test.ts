@@ -1,5 +1,6 @@
 import { expect, test } from 'bun:test'
 
+// internals
 import { getSubDivXSearchPageHtml } from '../subdivx'
 
 test('should return an search HTML for "Kinderfanger (2023)"', async () => {

@@ -1,5 +1,6 @@
 import { expect, test } from 'bun:test'
 
+// internals
 import { getNumbersArray } from '../utils'
 
 test('should return an array of 1 number', () => {

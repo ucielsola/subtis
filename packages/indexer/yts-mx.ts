@@ -9,7 +9,7 @@ const YTS_BASE_URL = 'https://yts.mx/api/v2' as const
 
 // utils
 const ytsApiEndpoints = {
-  movieList: (page = 1, limit = 50) => {
+  movieList: (page = 1, limit = 50): string => {
     return `${YTS_BASE_URL}/list_movies.json?limit=${limit}&page=${page}` as const
   },
 }

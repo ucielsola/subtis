@@ -1,7 +1,7 @@
 // internals
 import type { SubtitleGroupNames } from './subtitle-groups'
 
-export interface SubtitleData {
+export type SubtitleData = {
   subtitleLink: string
   downloadFileName: string
   subtitleSrtFileName: string
