@@ -14,7 +14,7 @@
     "indexer": "bun run packages/indexer/app.ts",
     "dev:api": "cd packages/api && bun dev",
     "dev:web": "cd packages/web && bun dev",
-    "dev:cli": "bun --watch packages/cli/app.ts --file ./Totally.Killer.2023.720p.WEBRip.x264.AAC-[YTS.MX].mp4",
+    "dev:cli": "bun --watch packages/cli/app.ts --file ./The.Equalizer.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
     "dev:indexer": "bun --watch packages/indexer/app.ts",
     "dev:indexer:new": "bun --watch packages/indexer/indexer-new.ts",
     "dev:raycast": "cd packages/raycast && bun dev",
