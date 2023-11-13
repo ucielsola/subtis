@@ -26,10 +26,16 @@ export function getFileNameHash(fileName: string): string {
   return crypto.createHash('md5').update(fileName).digest('hex')
 }
 
-export function safeParseTorrent(torrentFile: Buffer): {
+export function safeParseTorrent(torrentFile: Buffer, torrentFilename: string): {
   files: { path: string; name: string; length: number; offset: number }[]
 } {
-  return parseTorrent(torrentFile) as {
-    files: { path: string; name: string; length: number; offset: number }[]
+  try {
+    return parseTorrent(torrentFile) as {
+      files: { path: string; name: string; length: number; offset: number }[]
+    }
+  }
+  catch (error) {
+    console.error(`No se pudo parsear el torrent ${torrentFilename} \n`)
+    return { files: [] }
   }
 }
