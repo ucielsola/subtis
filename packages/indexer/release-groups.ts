@@ -8,6 +8,7 @@ export const RELEASE_GROUPS = {
   YTS_MX: {
     name: 'YTS-MX',
     fileAttribute: 'YTS.MX',
+    isSupported: true,
     website: 'https://yts.mx',
     searchableSubDivXName: 'YTS MX',
     searchableArgenteamName: 'YIFY',
@@ -16,6 +17,7 @@ export const RELEASE_GROUPS = {
   CODY: {
     name: 'CODY',
     website: '',
+    isSupported: true,
     fileAttribute: 'CODY',
     searchableSubDivXName: 'H265-CODY',
     searchableArgenteamName: 'CODY',
@@ -24,6 +26,7 @@ export const RELEASE_GROUPS = {
   GALAXY_RG: {
     name: 'GalaxyRG',
     website: '',
+    isSupported: true,
     fileAttribute: 'GalaxyRG',
     searchableSubDivXName: 'GalaxyRG',
     searchableArgenteamName: 'GalaxyRG',
@@ -32,6 +35,7 @@ export const RELEASE_GROUPS = {
   RIGHTNOW: {
     name: 'RiGHTNOW',
     website: '',
+    isSupported: true,
     fileAttribute: 'RiGHTNOW',
     searchableSubDivXName: 'RIGHTNOW',
     searchableArgenteamName: 'RiGHTNOW',
