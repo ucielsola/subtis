@@ -3,21 +3,31 @@ import invariant from 'tiny-invariant'
 // db
 import type { SupabaseClient } from 'db'
 
+// internals
+import { getSubDivXSubtitle } from './subdivx'
+import { getArgenteamSubtitle } from './argenteam'
+import { getOpenSubtitlesSubtitle } from './opensubtitles'
+
 // constants
 export const SUBTITLE_GROUPS = {
   SUBDIVX: {
     name: 'SubDivX',
     website: 'https://subdivx.com',
+    getSubtitle: getSubDivXSubtitle,
   },
   ARGENTEAM: {
     name: 'Argenteam',
     website: 'https://argenteam.net',
+    getSubtitle: getArgenteamSubtitle,
   },
   OPEN_SUBTITLES: {
     name: 'OpenSubtitles',
     website: 'https://www.opensubtitles.org',
+    getSubtitle: getOpenSubtitlesSubtitle,
   },
 } as const
+
+export const SUBTITLE_GROUPS_ARRAY = Object.values(SUBTITLE_GROUPS)
 
 // types
 export type SubtitleGroup = {
@@ -39,8 +49,8 @@ type SubtitleGroupKeys = keyof typeof SUBTITLE_GROUPS
 // utils
 export async function saveSubtitleGroupsToDb(supabaseClient: SupabaseClient): Promise<void> {
   for (const subtitleGroupKey in SUBTITLE_GROUPS) {
-    const subtitleGroup = SUBTITLE_GROUPS[subtitleGroupKey as SubtitleGroupKeys]
-    await supabaseClient.from('SubtitleGroups').insert(subtitleGroup)
+    const { name, website } = SUBTITLE_GROUPS[subtitleGroupKey as SubtitleGroupKeys]
+    await supabaseClient.from('SubtitleGroups').insert({ name, website })
   }
 }
 
