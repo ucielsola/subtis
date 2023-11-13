@@ -14,14 +14,14 @@ import invariant from 'tiny-invariant'
 
 // import { confirm } from '@clack/prompts';
 
-// db
-import { type Movie, supabase } from '../db'
-
 // shared
-import { VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieMetadata } from '../shared/movie'
+import { bufferSchema } from 'shared/buffer'
+import { VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieMetadata } from 'shared/movie'
+
+// db
+import { type Movie, supabase } from 'db'
 
 // internals
-import { bufferSchema } from './buffer'
 import { getImdbLink } from './imdb'
 import type { SubtitleData } from './types'
 import { getSubDivXSubtitle } from './subdivx'
@@ -216,7 +216,7 @@ async function getMovieListFromDb(
     // 2. Read torrent file
     const torrentPath = path.join(__dirname, '..', 'indexer', 'torrents', torrentFilename)
     const torrentFile = fs.readFileSync(torrentPath)
-    const { files } = safeParseTorrent(torrentFile)
+    const { files } = safeParseTorrent(torrentFile, torrentFilename)
 
     // 3. Remove torrent from fs
     // await rimraf(torrentPath);

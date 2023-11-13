@@ -3,7 +3,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import turl from 'turl'
-import delay from 'delay'
 import sound from 'sound-play'
 import download from 'download'
 import extract from 'extract-zip'
@@ -17,20 +16,16 @@ import torrentSearchApi from 'torrent-search-api'
 import { type Movie, supabase } from 'db'
 
 // shared
-import { VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieMetadata } from '../shared/movie'
+import { bufferSchema } from 'shared/buffer'
+import { VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieMetadata } from 'shared/movie'
 
 // internals
 import { getImdbLink } from './imdb'
 import type { SubtitleData } from './types'
 import { getFileNameHash, safeParseTorrent } from './utils'
+import { type TmdbMovie, getMoviesFromTmdb, getTmdbMoviesTotalPagesArray } from './tmdb'
 import { type ReleaseGroupMap, type ReleaseGroupNames, getReleaseGroups } from './release-groups'
 import { SUBTITLE_GROUPS_ARRAY, type SubtitleGroupMap, type SubtitleGroupNames, getSubtitleGroups } from './subtitle-groups'
-
-// db
-
-// tmdb
-import { type TmdbMovie, getMoviesFromTmdb, getTmdbMoviesTotalPagesArray } from './tmdb'
-import { bufferSchema } from './buffer'
 
 // setup torrent-search-api
 torrentSearchApi.enableProvider('1337x')
