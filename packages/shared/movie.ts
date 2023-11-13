@@ -60,6 +60,7 @@ export type MovieData = {
   releaseGroup: ReleaseGroupNames
   fileNameWithoutExtension: string
   searchableOpenSubtitlesName: string
+  isReleaseGroupSupported: boolean
 }
 
 // core
@@ -115,6 +116,7 @@ export function getMovieMetadata(movieFileName: string): MovieData {
         console.warn(`⚠️ Release Group not supported in DB, ${unsupportedReleaseGroup} ⚠️`)
 
         return {
+          isSupported: false,
           name: unsupportedReleaseGroup,
           searchableSubDivXName: unsupportedReleaseGroup,
           searchableArgenteamName: unsupportedReleaseGroup,
@@ -129,6 +131,7 @@ export function getMovieMetadata(movieFileName: string): MovieData {
       searchableMovieName,
       fileNameWithoutExtension,
       releaseGroup: releaseGroup.name as ReleaseGroupNames,
+      isReleaseGroupSupported: releaseGroup?.isSupported ?? true,
       searchableSubDivXName: releaseGroup.searchableSubDivXName as string,
       searchableArgenteamName: releaseGroup.searchableArgenteamName as string,
       searchableOpenSubtitlesName: releaseGroup.searchableOpenSubtitlesName as string,
