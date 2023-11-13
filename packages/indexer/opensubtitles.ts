@@ -104,7 +104,10 @@ const downloadSchema = z.object({
 })
 
 // core
-export async function getOpenSubtitlesSubtitle(movieData: MovieData, imdbId: number): Promise<SubtitleData> {
+export async function getOpenSubtitlesSubtitle({ movieData, imdbId }: {
+  movieData: MovieData
+  imdbId: number
+}): Promise<SubtitleData> {
   const { name, resolution, releaseGroup, searchableOpenSubtitlesName, fileNameWithoutExtension } = movieData
 
   invariant(

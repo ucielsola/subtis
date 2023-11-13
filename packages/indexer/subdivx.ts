@@ -67,7 +67,10 @@ export async function getSubDivXSubtitleDownloadLink(subtitlePage: string): Prom
 }
 
 // core
-export async function getSubDivXSubtitle(movieData: MovieData, page = '1'): Promise<SubtitleData> {
+export async function getSubDivXSubtitle({ movieData, page = '1' }: {
+  movieData: MovieData
+  page?: string
+}): Promise<SubtitleData> {
   const { name, resolution, releaseGroup, searchableMovieName, searchableSubDivXName, fileNameWithoutExtension }
     = movieData
 
@@ -90,7 +93,7 @@ export async function getSubDivXSubtitle(movieData: MovieData, page = '1'): Prom
   if (allSubtitlesElements.length > 90) {
     // Iterate to next pages until find the subtitle or no more results
     // The recursion will break loop on line 185
-    return getSubDivXSubtitle(movieData, String(Number(page) + 1))
+    return getSubDivXSubtitle({ movieData, page: String(Number(page) + 1) })
   }
 
   const hrefElement = previousSibling.querySelector('.titulo_menu_izq')

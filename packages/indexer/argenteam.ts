@@ -84,7 +84,10 @@ const argenteamResourceSchema = z.object({
 })
 
 // core
-export async function getArgenteamSubtitle(movieData: MovieData, imdbId: number): Promise<SubtitleData> {
+export async function getArgenteamSubtitle({ movieData, imdbId }: {
+  movieData: MovieData
+  imdbId: number
+}): Promise<SubtitleData> {
   const { name, resolution, releaseGroup, searchableArgenteamName, fileNameWithoutExtension } = movieData
 
   // 1. Get argenteam search results
