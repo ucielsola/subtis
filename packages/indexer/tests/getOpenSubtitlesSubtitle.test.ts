@@ -1,5 +1,8 @@
 import { expect, test } from 'bun:test'
 
+// shared
+import type { MovieData } from 'shared/movie'
+
 // internals
 import type { ReleaseGroupNames } from '../release-groups'
 import { getOpenSubtitlesSubtitle } from '../opensubtitles'
@@ -15,9 +18,9 @@ test('should return a subtitle link giving a movie, release group and quality', 
     searchableOpenSubtitlesName: 'YTS.MX',
     releaseGroup: 'YTS-MX' as ReleaseGroupNames,
     fileNameWithoutExtension: '',
-  }
+  } as MovieData
 
-  const subtitle = await getOpenSubtitlesSubtitle(movieData, 9224104)
+  const subtitle = await getOpenSubtitlesSubtitle({ movieData, imdbId: 9224104 })
 
   expect(subtitle.subtitleLink).toBeTypeOf('string')
 
@@ -39,9 +42,9 @@ test('should return a subtitle link giving a movie, release group and quality', 
     searchableOpenSubtitlesName: 'YTS.MX',
     releaseGroup: 'YTS-MX' as ReleaseGroupNames,
     fileNameWithoutExtension: '',
-  }
+  } as MovieData
 
-  const subtitle = await getOpenSubtitlesSubtitle(movieData, 6848928)
+  const subtitle = await getOpenSubtitlesSubtitle({ movieData, imdbId: 6848928 })
 
   expect(subtitle.subtitleLink).toBeTypeOf('string')
 
