@@ -7,10 +7,10 @@
   ],
   "scripts": {
     "lint": "eslint .",
+    "bump:deps": "npx taze -r",
     "lint:fix": "eslint . --fix",
     "test:watch": "bun test --watch",
     "test:coverage": "bun test --coverage",
-    "cli": "bun run packages/cli/app.ts",
     "indexer": "bun run packages/indexer/app.ts",
     "dev:api": "cd packages/api && bun dev",
     "dev:web": "cd packages/web && bun dev",
@@ -24,7 +24,7 @@
     "dotenv": "^16.3.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^1.1.1",
+    "@antfu/eslint-config": "^1.1.2",
     "eslint": "^8.53.0"
   }
 }
