@@ -1,37 +1,34 @@
 /* eslint-disable no-console */
 
-import 'dotenv/config'
 import fs from 'node:fs'
 import path from 'node:path'
 import turl from 'turl'
-import delay from 'delay'
 import sound from 'sound-play'
 import download from 'download'
 import extract from 'extract-zip'
 import { match } from 'ts-pattern'
 import unrar from '@continuata/unrar'
 import invariant from 'tiny-invariant'
+import { confirm } from '@clack/prompts'
+import torrentSearchApi from 'torrent-search-api'
 
-// import { confirm } from '@clack/prompts';
+// db
+import { type Movie, supabase } from 'db'
 
 // shared
 import { bufferSchema } from 'shared/buffer'
 import { VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieMetadata } from 'shared/movie'
 
-// db
-import { type Movie, supabase } from 'db'
-
 // internals
 import { getImdbLink } from './imdb'
 import type { SubtitleData } from './types'
-import { getSubDivXSubtitle } from './subdivx'
-import { getFileNameHash, getRandomDelay, safeParseTorrent } from './utils'
-import { type YtsMxMovieList, getYtsMxMovieList, getYtsMxTotalMoviesAndPages } from './yts-mx'
+import { getFileNameHash, safeParseTorrent } from './utils'
+import { type TmdbMovie, getMoviesFromTmdb, getTmdbMoviesTotalPagesArray } from './tmdb'
 import { type ReleaseGroupMap, type ReleaseGroupNames, getReleaseGroups } from './release-groups'
-import { type SubtitleGroupMap, type SubtitleGroupNames, getSubtitleGroups } from './subtitle-groups'
+import { SUBTITLE_GROUPS_ARRAY, type SubtitleGroupMap, type SubtitleGroupNames, getSubtitleGroups } from './subtitle-groups'
 
-import { getArgenteamSubtitle } from './argenteam'
-import { getOpenSubtitlesSubtitle } from './opensubtitles'
+// setup torrent-search-api
+torrentSearchApi.enableProvider('1337x')
 
 // utils
 async function setMovieSubtitlesToDatabase({
@@ -101,7 +98,7 @@ async function setMovieSubtitlesToDatabase({
       })
       .exhaustive()
 
-    let srtFileToUpload
+    let srtFileToUpload: unknown
 
     if (['zip', 'rar'].includes(fileExtension)) {
       const extractedSubtitleFiles = fs.readdirSync(extractedSubtitlePath)
@@ -143,7 +140,7 @@ async function setMovieSubtitlesToDatabase({
     // 13. Append download file name to public URL so it matches movie file name
     const subtitleLinkWithDownloadFileName = `${publicUrl}${downloadFileName}`
 
-    // 14. Crearte short link for subtitle
+    // 14. Create short link for subtitle
     const subtitleFullLink = subtitleLinkWithDownloadFileName
     const subtitleShortLink = await turl.shorten(subtitleLinkWithDownloadFileName)
 
@@ -173,7 +170,7 @@ async function setMovieSubtitlesToDatabase({
     })
 
     // play sound when a subtitle was found
-    console.log('Subtitle found, and saved to DB and Storage! 🎉')
+    console.log('Subtitlo guardado en la base de datos! 🎉')
 
     const successSoundPath = path.join(__dirname, '..', 'indexer', 'success_short_high.wav')
     sound.play(successSoundPath)
@@ -196,161 +193,150 @@ async function setMovieSubtitlesToDatabase({
   }
 }
 
-async function getMovieListFromDb(
-  movie: YtsMxMovieList,
+function getEnabledSubtitleProviders(providers: SubtitleGroupNames[]) {
+  return SUBTITLE_GROUPS_ARRAY.filter(subtitleGroup => providers.includes(subtitleGroup.name))
+}
+
+async function getSubtitlesFromMovie(
+  movie: TmdbMovie,
   releaseGroups: ReleaseGroupMap,
   subtitleGroups: SubtitleGroupMap,
-): Promise<void> {
-  const { title, rating, year, torrents, imdbId } = movie
+) {
+  const { year, rating, imdbId, title } = movie
 
-  console.log(`Finding subtitle for : ${movie.title} (${movie.year})`)
+  // 1. Get first 21 movie torrents from 1337x
+  const TOTAL_MOVIES_TO_SEARCH = 5
+  const torrents = await torrentSearchApi.search(movie.title, 'Movies', TOTAL_MOVIES_TO_SEARCH)
+  console.log(`4) Torrents encontrados para la pelicula "${title}"`, torrents, '\n')
 
-  for await (const torrent of torrents) {
-    const { url, hash } = torrent
+  // 2. Iterate over each torrent
+  for await (const torrentData of torrents) {
+    console.log(`Procesando torrent`, `"${torrentData.title}"`, '\n')
 
-    // 1. Download torrent
-    const torrentFilename = hash
-    const torrentFolderPath = path.join(__dirname, '..', 'indexer', 'torrents')
-    await download(url, torrentFolderPath, { filename: torrentFilename })
+    // 3. Download torrent
+    const torrentFilename = torrentData.title
+    const torrentFolderPath = path.join(__dirname, '..', 'indexer', 'torrents', torrentFilename)
+    await torrentSearchApi.downloadTorrent(torrentData, torrentFolderPath)
 
-    // 2. Read torrent file
+    // 4. Read torrent files
     const torrentPath = path.join(__dirname, '..', 'indexer', 'torrents', torrentFilename)
     const torrentFile = fs.readFileSync(torrentPath)
     const { files } = safeParseTorrent(torrentFile, torrentFilename)
 
-    // 3. Remove torrent from fs
+    if (files.length === 0) {
+      console.log('No se encontraron archivos en el torrent', '\n')
+      continue
+    }
+
+    // 5. Remove torrent from fs
     // await rimraf(torrentPath);
 
-    // 3. Find video file
+    // 6. Find video file
     const videoFile = files.find((file) => {
       return VIDEO_FILE_EXTENSIONS.some((videoFileExtension) => {
         return file.name.endsWith(videoFileExtension)
       })
     })
 
-    // 4. Return if no video file
+    // 7. Return if no video file
     if (!videoFile)
       continue
 
-    // 5. Get movie data from video file name
+    // 8. Get movie data from video file name
     const fileName = videoFile.name
     const fileNameExtension = getMovieFileNameExtension(fileName)
 
     const movieData = getMovieMetadata(fileName)
-    const { resolution, releaseGroup } = movieData
+    const { resolution, releaseGroup, isReleaseGroupSupported } = movieData
 
-    // 6. Hash video file name
+    if (isReleaseGroupSupported === false) {
+      await confirm({
+        message: `¿Desea continuar? El Release Group ${releaseGroup} no es soportado, se debería de agregar al indexador \n`,
+      })
+      continue
+    }
+
+    // 9. Hash video file name
     const fileNameHash = getFileNameHash(fileName)
 
-    // 7. Find subtitle metadata from SubDivx and Argenteam
-    const subtitles = await Promise.allSettled([
-      getSubDivXSubtitle(movieData),
-      getArgenteamSubtitle(movieData, imdbId),
-      getOpenSubtitlesSubtitle(movieData, imdbId),
-    ])
+    // 10. Get only providers I want to use
+    const enabledSubtitleProviders = getEnabledSubtitleProviders(['SubDivX'])
 
-    // 8. Filter fulfilled only promises
+    // 10. Find subtitle metadata from SubDivx and Argenteam
+    const subtitles = await Promise.allSettled(
+      enabledSubtitleProviders.map(({ getSubtitle }) => getSubtitle({ movieData, imdbId })),
+    )
+
+    // 11. Filter fulfilled only promises
     const resolvedSubtitles = subtitles.filter(
       subtitle => subtitle.status === 'fulfilled',
     ) as PromiseFulfilledResult<SubtitleData>[]
 
-    // 9. Save whole subtitles data to DB
-    resolvedSubtitles.forEach(({ value: subtitle }) => {
-      const { subtitleGroup } = subtitle
+    // 12. Save whole subtitles data to DB
 
-      setMovieSubtitlesToDatabase({
-        subtitle,
-        subtitleGroup,
-        movie: {
-          year,
-          rating,
-          id: imdbId,
-          name: title,
-        },
-        resolution,
-        fileName,
-        fileNameHash,
-        fileNameExtension,
-        releaseGroup,
-        releaseGroups,
-        subtitleGroups,
-      })
+    await Promise.all(
+      resolvedSubtitles.map(({ value: subtitle }) => {
+        const { subtitleGroup } = subtitle
+        console.log(`Subtitulo encontrado para ${subtitleGroup}`, '\n')
+
+        return setMovieSubtitlesToDatabase({
+          subtitle,
+          subtitleGroup,
+          movie: {
+            year,
+            rating,
+            id: imdbId,
+            name: title,
+          },
+          resolution,
+          fileName,
+          fileNameHash,
+          fileNameExtension,
+          releaseGroup,
+          releaseGroups,
+          subtitleGroups,
+        })
+      }),
+    )
+
+    await confirm({
+      message: `¿Desea continuar? Recordar de chequear en ${enabledSubtitleProviders.map(({ name }) => name).join(', ')} si hay subtitulos para "${torrentData.title} \n"`,
     })
+
+    console.log('------------------------------')
   }
 }
 
-async function indexYtsMxMoviesSubtitles(
-  releaseGroups: ReleaseGroupMap,
-  subtitleGroups: SubtitleGroupMap,
-): Promise<void> {
-  console.log('ABOUT TO INDEX ALL MOVIES SUBTITLES FROM YTS-MX 🚀')
-
-  const FIND_EVERY_X_MOVIES = 5
-
-  // 1. Get total YTS-MX pages
-  const { totalPagesArray } = await getYtsMxTotalMoviesAndPages(FIND_EVERY_X_MOVIES)
-
-  // 2. Await for each page to get movies
-  for await (const page of totalPagesArray) {
-    console.log(`Getting movies for page ${page} 🚨`)
-
-    // 3. Get all the movies (FIND_EVERY_X_MOVIES) for this page
-    const movieList = await getYtsMxMovieList(page, FIND_EVERY_X_MOVIES)
-
-    // 4. Filter movies from movie list which already exists in DB
-    const movieListIds = movieList.map(({ imdbId }) => imdbId)
-
-    const { data: moviesFromDb } = await supabase.from('Movies').select('*').in('id', movieListIds)
-
-    const moviesIdsFromDb = (moviesFromDb ?? []).map(({ id }) => id)
-    const movieListNotInDb = movieList.filter(({ imdbId }) => !moviesIdsFromDb.includes(imdbId))
-
-    // TODO: FOR AWAIT OR PROMISE.ALL SEEMS NOT TO BE WORKING CORRECTLY IN process
-
-    // 5. Run all 50 movies in parallels to get their subtitle and save them to DB and Storage
-    const movieListPromises = movieListNotInDb.map(movie => getMovieListFromDb(movie, releaseGroups, subtitleGroups))
-    await Promise.allSettled(movieListPromises)
-
-    // 6. Optional: or one by one just for testing purposess
-    /* for (const movie of movieListNotInDb) {
-      console.log(`Finding subtitle for : ${movie.title} (${movie.year})`);
-
-      getMovieListFromDb(movie, releaseGroups, subtitleGroups);
-
-      // const shouldContinue = await confirm({
-      //   message: 'Do you want to continue?',
-      // });
-
-      // if (!shouldContinue) break;
-    } */
-
-    console.log(`Finished movies from page ${page} 🥇`)
-
-    // 6. Generate random delays between 2, and 2 seconds
-    const { seconds, miliseconds } = getRandomDelay(3, 3)
-    console.log(`Delaying next iteration by ${seconds}s to avoid get blocked`)
-
-    // 7. Delay next iteration
-    await delay(miliseconds)
-
-    console.log('-------------------------------\n\n\n')
-  }
-
-  console.log('All movies saved to DB and Storage! 🎉')
-}
-
-// core
+// core -> NEW FLOW : TMDB -> Torrent-search-api -> Indexer -> DB
 async function mainIndexer(): Promise<void> {
   try {
     // 1. Get release and subtitle groups from DB
     const releaseGroups = await getReleaseGroups(supabase)
     const subtitleGroups = await getSubtitleGroups(supabase)
 
-    // 2. Run YTS-MX indexer
-    await indexYtsMxMoviesSubtitles(releaseGroups, subtitleGroups)
+    // 2. Get all movie pages from TMDB
+    const totalPagesArray = await getTmdbMoviesTotalPagesArray()
+    console.log('1) Total de páginas (con 20 pelis c/u)', totalPagesArray.at(-1), '\n')
+
+    for await (const tmbdMoviesPage of totalPagesArray) {
+      console.log(`2) Buscando en pagina ${tmbdMoviesPage} \n`)
+
+      // 3. Get movies from TMDB
+      const movies = await getMoviesFromTmdb(tmbdMoviesPage)
+      console.log(`3) Películas encontadas para página ${tmbdMoviesPage} \n`, movies, '\n')
+
+      for await (const movie of movies) {
+        // 4. Get subtitles from each movie
+        await getSubtitlesFromMovie(movie, releaseGroups, subtitleGroups)
+
+        console.log('Pasando la siguiente película \n')
+        console.log('------------------------------ \n')
+      }
+    }
   }
   catch (error) {
     console.log('\n ~ mainIndexer ~ error:', error)
+    console.log('\n ~ mainIndexer ~ error message:', (error as Error).message)
   }
 }
 
