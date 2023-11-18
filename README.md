@@ -18,6 +18,12 @@
 > curl -fsSL https://bun.sh/install | bash
 ```
 
+If there's any specific issue with the latest version install the latest stable
+
+```bash
+> curl -fsSL https://bun.sh/install | bash -s "bun-v1.0.11"
+```
+
 or upgrade it
 
 ```bash
