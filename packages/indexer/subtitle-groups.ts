@@ -13,17 +13,17 @@ export const SUBTITLE_GROUPS = {
   SUBDIVX: {
     name: 'SubDivX',
     website: 'https://subdivx.com',
-    getSubtitle: getSubDivXSubtitle,
+    getSubtitleFromProvider: getSubDivXSubtitle,
   },
   ARGENTEAM: {
     name: 'Argenteam',
     website: 'https://argenteam.net',
-    getSubtitle: getArgenteamSubtitle,
+    getSubtitleFromProvider: getArgenteamSubtitle,
   },
   OPEN_SUBTITLES: {
     name: 'OpenSubtitles',
     website: 'https://www.opensubtitles.org',
-    getSubtitle: getOpenSubtitlesSubtitle,
+    getSubtitleFromProvider: getOpenSubtitlesSubtitle,
   },
 } as const
 
