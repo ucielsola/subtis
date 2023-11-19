@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { Redis } from '@upstash/redis'
 
 // core
-function getRedisInstance() {
+function getRedisInstance(): Redis {
   const [url, token] = [Bun.env.UPSTASH_REDIS_REST_URL, Bun.env.UPSTASH_REDIS_REST_TOKEN]
   const supabaseEnvironmentVariables = { url, token }
 
