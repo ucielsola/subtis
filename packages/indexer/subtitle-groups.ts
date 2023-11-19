@@ -54,6 +54,10 @@ export async function saveSubtitleGroupsToDb(supabaseClient: SupabaseClient): Pr
   }
 }
 
+export function getEnabledSubtitleProviders(providers: SubtitleGroupNames[]) {
+  return SUBTITLE_GROUPS_ARRAY.filter(subtitleGroup => providers.includes(subtitleGroup.name))
+}
+
 // core
 export async function getSubtitleGroups(supabaseClient: SupabaseClient): Promise<SubtitleGroupMap> {
   const { data } = await supabaseClient.from('SubtitleGroups').select('*')

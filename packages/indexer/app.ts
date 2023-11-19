@@ -26,7 +26,7 @@ import type { SubtitleData } from './types'
 import { getFileNameHash, safeParseTorrent } from './utils'
 import { type TmdbMovie, getMoviesFromTmdb, getTmdbMoviesTotalPagesArray } from './tmdb'
 import { type ReleaseGroupMap, type ReleaseGroupNames, getReleaseGroups } from './release-groups'
-import { SUBTITLE_GROUPS_ARRAY, type SubtitleGroupMap, type SubtitleGroupNames, getSubtitleGroups } from './subtitle-groups'
+import { type SubtitleGroupMap, type SubtitleGroupNames, getEnabledSubtitleProviders, getSubtitleGroups } from './subtitle-groups'
 
 // setup torrent-search-api
 torrentSearchApi.enableProvider('1337x')
@@ -191,10 +191,6 @@ async function setMovieSubtitlesToDatabase({
     console.log('\n ~ error:', error)
     console.log('\n ~ error message:', error instanceof Error ? error.message : '')
   }
-}
-
-function getEnabledSubtitleProviders(providers: SubtitleGroupNames[]) {
-  return SUBTITLE_GROUPS_ARRAY.filter(subtitleGroup => providers.includes(subtitleGroup.name))
 }
 
 async function getSubtitlesFromMovie(
