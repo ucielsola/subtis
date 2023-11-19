@@ -37,17 +37,17 @@ export async function getSubtitlesFromMovieId({
   body: { movieId: string }
 }): Promise<CustomQuery> {
   try {
-    // 0. Get movieId from body
+    // 1. Get movieId from body
     const { movieId } = body
 
-    // 1. Check if movie exists in cache
+    // 2. Check if movie exists in cache
     const subtitleInCache = await redis.get<CustomQuery>(`/v1/subtitles/${movieId}`)
 
-    // 2. Return subtitle from cache if exists
+    // 3. Return subtitle from cache if exists
     if (subtitleInCache)
       return subtitleInCache
 
-    // 3. Get subtitles from database
+    // 4. Get subtitles from database
     const { data: subtitles } = await supabase
       .from('Subtitles')
       .select(
@@ -55,13 +55,13 @@ export async function getSubtitlesFromMovieId({
       )
       .eq('movieId', movieId)
 
-    // 4. Throw error if subtitles not found
+    // 5. Throw error if subtitles not found
     invariant(subtitles && subtitles.length > 0, JSON.stringify({ message: 'Subtitles not found for movie', status: 404 }))
 
-    // 5. Save subtitle in cache
+    // 6. Save subtitles in cache
     redis.set(`/v1/subtitles/${movieId}`, subtitles)
 
-    // 6. Return subtitle link
+    // 7. Return subtitles
     return subtitles
   }
   catch (error) {

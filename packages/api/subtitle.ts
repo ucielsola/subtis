@@ -37,21 +37,21 @@ export async function getSubtitleFromFileName({
   body: { fileName: string }
 }): Promise<CustomQuery> {
   try {
-    // 0. Get fileName from body
+    // 1. Get fileName from body
     const { fileName } = body
 
-    // 1. Checks if file is a video
+    // 2. Checks if file is a video
     const videoFileExtension = getVideoFileExtension(fileName)
     invariant(videoFileExtension, JSON.stringify({ message: 'File extension not supported', status: 415 }))
 
-    // 2. Check if file exists in cache
+    // 3. Check if file exists in cache
     const subtitleInCache = await redis.get<CustomQuery>(fileName)
 
-    // 3. Return subtitle from cache if exists
+    // 4. Return subtitle from cache if exists
     if (subtitleInCache)
       return subtitleInCache
 
-    // 4. Get subtitle from database
+    // 5. Get subtitle from database
     const { data: subtitle } = await supabase
       .from('Subtitles')
       .select(
@@ -60,13 +60,13 @@ export async function getSubtitleFromFileName({
       .eq('fileName', fileName)
       .single()
 
-    // 5. Throw error if subtitles not found
+    // 6. Throw error if subtitle is not found
     invariant(subtitle, JSON.stringify({ message: 'Subtitle not found for file', status: 404 }))
 
-    // 6. Save subtitle in cache
+    // 7. Save subtitle in cache
     redis.set(`/v1/subtitle/${fileName}`, subtitle)
 
-    // 7. Return subtitle link
+    // 8. Return subtitle
     return subtitle
   }
   catch (error) {
