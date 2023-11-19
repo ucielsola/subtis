@@ -5,7 +5,7 @@ import { app } from '../app'
 
 describe('API | /subtitles', () => {
   it('return a response for an existant subtitle', async () => {
-    const request = new Request('http://localhost:8080/subtitles', {
+    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ fileName: 'The.Equalizer.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4' }),
@@ -35,7 +35,7 @@ describe('API | /subtitles', () => {
   })
 
   it('return a response for an 415 error for non supported file extensions', async () => {
-    const request = new Request('http://localhost:8080/subtitles', {
+    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ fileName: 'The.Equalizer.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3' }),
@@ -51,7 +51,7 @@ describe('API | /subtitles', () => {
   })
 
   it('return a response for an 404 error for a non existant subtitle', async () => {
-    const request = new Request('http://localhost:8080/subtitles', {
+    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ fileName: 'The.Matrix.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4' }),
@@ -69,7 +69,7 @@ describe('API | /subtitles', () => {
 
 describe('API | /swagger', () => {
   it('return a response with a Swagger documentation', async () => {
-    const request = new Request('http://localhost:8080/swagger', {
+    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/swagger`, {
       method: 'GET',
     })
 
@@ -82,7 +82,7 @@ describe('API | /swagger', () => {
 
 describe('API | /swagger/json', () => {
   it('return a response with a OpenAPI schema', async () => {
-    const request = new Request('http://localhost:8080/swagger/json', {
+    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/swagger/json`, {
       method: 'GET',
     })
 

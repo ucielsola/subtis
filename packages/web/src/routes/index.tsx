@@ -3,11 +3,11 @@ import { HiFilmOutline } from '@qwikest/icons/heroicons'
 import { component$, useSignal, useTask$, useVisibleTask$ } from '@builder.io/qwik'
 import { type DocumentHead, routeAction$, routeLoader$, z, zod$ } from '@builder.io/qwik-city'
 
-// internals
-
 // shared
 import { getMessageFromStatusCode } from 'shared/error-messages'
 import { getFilenameFromPath, getVideoFileExtension } from 'shared/movie'
+
+// utils
 import { getSubtitleFromFileName } from '~/utils/api'
 
 // schemas

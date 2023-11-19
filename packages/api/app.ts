@@ -9,7 +9,7 @@ import { getSubtitleFromFileName } from './subtitles'
 export const app = new Elysia()
   .use(cors())
   .use(swagger())
-  .post('/subtitles', ({ set, body }) => getSubtitleFromFileName({ set, body }), {
+  .post('/v1/subtitles', ({ set, body }) => getSubtitleFromFileName({ set, body }), {
     body: t.Object({ fileName: t.String() }),
   })
   .listen(8080)
