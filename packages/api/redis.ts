@@ -14,3 +14,8 @@ function getRedisInstance(): Redis {
 
 // constants
 export const redis = getRedisInstance()
+
+// utils
+export async function cleanRedis(): Promise<'OK'> {
+  return redis.flushall()
+}

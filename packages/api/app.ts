@@ -3,14 +3,18 @@ import { cors } from '@elysiajs/cors'
 import { swagger } from '@elysiajs/swagger'
 
 // internals
-import { getSubtitleFromFileName } from './subtitles'
+import { getSubtitleFromFileName } from './subtitle'
+import { getSubtitlesFromMovieId } from './subtitles'
 
 // core
 export const app = new Elysia()
   .use(cors())
-  .use(swagger())
-  .post('/v1/subtitles', ({ set, body }) => getSubtitleFromFileName({ set, body }), {
+  .use(swagger({ path: '/v1/docs' }))
+  .post('/v1/subtitle', ({ set, body }) => getSubtitleFromFileName({ set, body }), {
     body: t.Object({ fileName: t.String() }),
+  })
+  .post('/v1/subtitles', ({ set, body }) => getSubtitlesFromMovieId({ set, body }), {
+    body: t.Object({ movieId: t.String() }),
   })
   .listen(8080)
 

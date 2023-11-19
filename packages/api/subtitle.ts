@@ -22,47 +22,52 @@ type CustomQuery =
     ReleaseGroups: Pick<ReleaseGroup, 'name'> | null
   } & {
     SubtitleGroups: Pick<SubtitleGroup, 'name'> | null
-  })[]
+  })
   | ApiResponseError
 
 // schemas
 const errorSchema = z.object({ status: z.number(), message: z.string() })
 
 // core
-export async function getSubtitlesFromMovieId({
+export async function getSubtitleFromFileName({
   set,
   body,
 }: {
   set: Context['set']
-  body: { movieId: string }
+  body: { fileName: string }
 }): Promise<CustomQuery> {
   try {
-    // 0. Get movieId from body
-    const { movieId } = body
+    // 0. Get fileName from body
+    const { fileName } = body
 
-    // 1. Check if movie exists in cache
-    const subtitleInCache = await redis.get<CustomQuery>(`/v1/subtitles/${movieId}`)
+    // 1. Checks if file is a video
+    const videoFileExtension = getVideoFileExtension(fileName)
+    invariant(videoFileExtension, JSON.stringify({ message: 'File extension not supported', status: 415 }))
 
-    // 2. Return subtitle from cache if exists
+    // 2. Check if file exists in cache
+    const subtitleInCache = await redis.get<CustomQuery>(fileName)
+
+    // 3. Return subtitle from cache if exists
     if (subtitleInCache)
       return subtitleInCache
 
-    // 3. Get subtitles from database
-    const { data: subtitles } = await supabase
+    // 4. Get subtitle from database
+    const { data: subtitle } = await supabase
       .from('Subtitles')
       .select(
         'id, subtitleShortLink, subtitleFullLink, resolution, fileName, Movies ( name, year ), ReleaseGroups ( name ), SubtitleGroups ( name )',
       )
-      .eq('movieId', movieId)
+      .eq('fileName', fileName)
+      .single()
 
-    // 4. Throw error if subtitles not found
-    invariant(subtitles && subtitles.length > 0, JSON.stringify({ message: 'Subtitles not found for movie', status: 404 }))
+    // 5. Throw error if subtitles not found
+    invariant(subtitle, JSON.stringify({ message: 'Subtitle not found for file', status: 404 }))
 
-    // 5. Save subtitle in cache
-    redis.set(`/v1/subtitles/${movieId}`, subtitles)
+    // 6. Save subtitle in cache
+    redis.set(`/v1/subtitle/${fileName}`, subtitle)
 
-    // 6. Return subtitle link
-    return subtitles
+    // 7. Return subtitle link
+    return subtitle
   }
   catch (error) {
     const nativeError = error as Error
