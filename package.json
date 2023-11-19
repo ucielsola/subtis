@@ -18,7 +18,7 @@
     "check:deps": "npx taze -r",
     "bump:deps": "npx taze -r -w",
     "clean:install": "bun pm cache rm && rm -rf bun.lockb && rm -rf node_modules && bun install",
-    "update:deps": "bun bump:deps -w && bun clean:install"
+    "update:deps": "bun bump:deps && bun clean:install"
   },
   "dependencies": {
     "dotenv": "^16.3.1"
