@@ -3,7 +3,163 @@ import { describe, expect, it } from 'bun:test'
 // internals
 import { app } from '../app'
 
+describe('API | /movies', () => {
+  it('return a movies response for a movie name query', async () => {
+    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ movieName: 'The Equ' }),
+    })
+
+    const response = await app.handle(request)
+    const data = await response.json()
+
+    expect(data).toEqual([
+      {
+        year: 2023,
+        id: 17024450,
+        name: 'The Equalizer 3',
+      },
+    ])
+  })
+
+  it('return a movies response for a movie name query with lowercase', async () => {
+    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ movieName: 'the equ' }),
+    })
+
+    const response = await app.handle(request)
+    const data = await response.json()
+
+    expect(data).toEqual([
+      {
+        year: 2023,
+        id: 17024450,
+        name: 'The Equalizer 3',
+      },
+    ])
+  })
+
+  it('return a response for an 404 error for a non existant movie name', async () => {
+    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ movieName: 'zxsa' }),
+    })
+
+    const response = await app.handle(request)
+    const data = await response.json()
+
+    expect(response.status).toBe(404)
+    expect(data).toEqual({
+      message: 'Movies not found for query zxsa',
+    })
+  })
+})
+
 describe('API | /subtitles', () => {
+  it('return a subtitles response for a specific movie', async () => {
+    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ movieId: '17024450' }),
+    })
+
+    const response = await app.handle(request)
+    const data = await response.json()
+
+    expect(data).toEqual([
+      {
+        id: 1094,
+        subtitleShortLink: 'https://tinyurl.com/ykgbkzx6',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-equalizer-3-720p-yts-mx-subdivx.srt?download=The.Equalizer.3.2023.720p.WEBRip.x264.AAC-[YTS.MX].srt',
+        resolution: '720p',
+        fileName: 'The.Equalizer.3.2023.720p.WEBRip.x264.AAC-[YTS.MX].mp4',
+        Movies: {
+          name: 'The Equalizer 3',
+          year: 2023,
+        },
+        ReleaseGroups: {
+          name: 'YTS-MX',
+        },
+        SubtitleGroups: {
+          name: 'SubDivX',
+        },
+      },
+      {
+        id: 1095,
+        subtitleShortLink: 'https://tinyurl.com/yszmsjua',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-equalizer-3-1080p-yts-mx-subdivx.srt?download=The.Equalizer.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt',
+        resolution: '1080p',
+        fileName: 'The.Equalizer.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4',
+        Movies: {
+          name: 'The Equalizer 3',
+          year: 2023,
+        },
+        ReleaseGroups: {
+          name: 'YTS-MX',
+        },
+        SubtitleGroups: {
+          name: 'SubDivX',
+        },
+      },
+      {
+        id: 1096,
+        subtitleShortLink: 'https://tinyurl.com/ypw8lzpq',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-equalizer-3-1080p-yts-mx-subdivx.srt?download=The.Equalizer.3.2023.1080p.WEBRip.x265.10bit.AAC5.1-[YTS.MX].srt',
+        resolution: '1080p',
+        fileName: 'The.Equalizer.3.2023.1080p.WEBRip.x265.10bit.AAC5.1-[YTS.MX].mp4',
+        Movies: {
+          name: 'The Equalizer 3',
+          year: 2023,
+        },
+        ReleaseGroups: {
+          name: 'YTS-MX',
+        },
+        SubtitleGroups: {
+          name: 'SubDivX',
+        },
+      },
+      {
+        id: 1097,
+        subtitleShortLink: 'https://tinyurl.com/ymn8uv45',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-equalizer-3-2160p-yts-mx-subdivx.srt?download=The.Equalizer.3.2023.2160p.4K.WEB.x265.10bit.AAC5.1-[YTS.MX].srt',
+        resolution: '2160p',
+        fileName: 'The.Equalizer.3.2023.2160p.4K.WEB.x265.10bit.AAC5.1-[YTS.MX].mkv',
+        Movies: {
+          name: 'The Equalizer 3',
+          year: 2023,
+        },
+        ReleaseGroups: {
+          name: 'YTS-MX',
+        },
+        SubtitleGroups: {
+          name: 'SubDivX',
+        },
+      },
+    ])
+  })
+
+  it('return a response for an 404 error for a non existant movie id', async () => {
+    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ movieId: '17913a50' }),
+    })
+
+    const response = await app.handle(request)
+    const data = await response.json()
+
+    expect(response.status).toBe(404)
+    expect(data).toEqual({
+      message: 'Subtitles not found for movie',
+    })
+  })
+})
+
+describe('API | /subtitle', () => {
   it('return a response for an existant subtitle', async () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitle`, {
       method: 'POST',
@@ -62,12 +218,12 @@ describe('API | /subtitles', () => {
 
     expect(response.status).toBe(404)
     expect(data).toEqual({
-      message: 'Subtitles not found for file',
+      message: 'Subtitle not found for file',
     })
   })
 })
 
-describe('API | /swagger', () => {
+describe('API | /v1/docs', () => {
   it('return a response with a Swagger documentation', async () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/swagger`, {
       method: 'GET',
@@ -80,9 +236,9 @@ describe('API | /swagger', () => {
   })
 })
 
-describe('API | /swagger/json', () => {
+describe('API | /v1/docs/json', () => {
   it('return a response with a OpenAPI schema', async () => {
-    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/swagger/json`, {
+    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/docs/json`, {
       method: 'GET',
     })
 
@@ -105,10 +261,81 @@ describe('API | /swagger/json', () => {
             },
           },
         },
-        '/subtitles': {
+        '/v1/docs': {
+          get: {
+            operationId: 'getV1Docs',
+            responses: {
+              200: {},
+            },
+          },
+        },
+        '/v1/docs/json': {
+          get: {
+            operationId: 'getV1DocsJson',
+            responses: {
+              200: {},
+            },
+          },
+        },
+        '/v1/movies': {
           post: {
             parameters: [],
-            operationId: 'postSubtitles',
+            operationId: 'postV1Movies',
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      movieName: {
+                        type: 'string',
+                      },
+                    },
+                    required: [
+                      'movieName',
+                    ],
+                    additionalProperties: false,
+                  },
+                },
+                'multipart/form-data': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      movieName: {
+                        type: 'string',
+                      },
+                    },
+                    required: [
+                      'movieName',
+                    ],
+                    additionalProperties: false,
+                  },
+                },
+                'text/plain': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      movieName: {
+                        type: 'string',
+                      },
+                    },
+                    required: [
+                      'movieName',
+                    ],
+                    additionalProperties: false,
+                  },
+                },
+              },
+            },
+            responses: {
+              200: {},
+            },
+          },
+        },
+        '/v1/subtitle': {
+          post: {
+            parameters: [],
+            operationId: 'postV1Subtitle',
             requestBody: {
               content: {
                 'application/json': {
@@ -119,7 +346,9 @@ describe('API | /swagger/json', () => {
                         type: 'string',
                       },
                     },
-                    required: ['fileName'],
+                    required: [
+                      'fileName',
+                    ],
                     additionalProperties: false,
                   },
                 },
@@ -131,7 +360,9 @@ describe('API | /swagger/json', () => {
                         type: 'string',
                       },
                     },
-                    required: ['fileName'],
+                    required: [
+                      'fileName',
+                    ],
                     additionalProperties: false,
                   },
                 },
@@ -143,7 +374,64 @@ describe('API | /swagger/json', () => {
                         type: 'string',
                       },
                     },
-                    required: ['fileName'],
+                    required: [
+                      'fileName',
+                    ],
+                    additionalProperties: false,
+                  },
+                },
+              },
+            },
+            responses: {
+              200: {},
+            },
+          },
+        },
+        '/v1/subtitles': {
+          post: {
+            parameters: [],
+            operationId: 'postV1Subtitles',
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      movieId: {
+                        type: 'string',
+                      },
+                    },
+                    required: [
+                      'movieId',
+                    ],
+                    additionalProperties: false,
+                  },
+                },
+                'multipart/form-data': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      movieId: {
+                        type: 'string',
+                      },
+                    },
+                    required: [
+                      'movieId',
+                    ],
+                    additionalProperties: false,
+                  },
+                },
+                'text/plain': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      movieId: {
+                        type: 'string',
+                      },
+                    },
+                    required: [
+                      'movieId',
+                    ],
                     additionalProperties: false,
                   },
                 },
