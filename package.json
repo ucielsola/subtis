@@ -8,8 +8,9 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "test:watch": "bun test --watch",
-    "test:coverage": "bun test --coverage",
+    "test:watch": "bun test packages/api packages/db packages/indexer packages/raycast packages/shared packages/web --watch",
+    "test:coverage": "bun test packages/api packages/db packages/indexer packages/raycast packages/shared packages/web --coverage",
+    "test": "bun test packages/api packages/db packages/indexer packages/raycast packages/shared packages/web",
     "dev:api": "cd packages/api && bun dev",
     "dev:web": "cd packages/web && bun dev",
     "dev:raycast": "cd packages/raycast && bun dev",

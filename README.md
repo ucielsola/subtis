@@ -51,6 +51,11 @@ or upgrade it
 > bun test:watch
 ```
 
+## Warnings
+
+- Tests run all packages except CLI since msw is not working with Bun at the moment
+  - Tests work running it separately doing `cd packages/cli && bun test`
+
 ## Support
 
 | Release Groups | Subtitle Group | Support |

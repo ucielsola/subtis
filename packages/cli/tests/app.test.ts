@@ -1,9 +1,11 @@
-import { describe, expect, it } from 'bun:test'
+import { beforeAll, describe, expect, it } from 'bun:test'
 
 // shared
 import { getMessageFromStatusCode } from 'shared/error-messages'
 
-describe('CLI', () => {
+describe('CLI', async () => {
+  await import('api')
+
   it('returns a message with a subtitle link', async () => {
     const process = Bun.spawn([
       'bun',
