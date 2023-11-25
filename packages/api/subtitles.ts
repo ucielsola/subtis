@@ -3,7 +3,6 @@ import invariant from 'tiny-invariant'
 import type { Context } from 'elysia'
 
 // shared
-import { getVideoFileExtension } from 'shared/movie'
 import { getIsInvariantError, getParsedInvariantMessage } from 'shared/invariant'
 
 // db

@@ -52,7 +52,7 @@ export type ReleaseGroup = {
 }
 
 export type ReleaseGroupMap = {
-  [key in ReleaseGroupNames]: ReleaseGroup & { id: number; created_at: string };
+  [key in ReleaseGroupNames]: ReleaseGroup & { id: number, created_at: string };
 }
 
 export type ReleaseGroupNames = (typeof RELEASE_GROUPS)[keyof typeof RELEASE_GROUPS]['name']

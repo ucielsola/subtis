@@ -3,6 +3,7 @@
 import { Console } from 'node:console'
 import { Transform } from 'node:stream'
 
+// eslint-disable-next-line style/max-statements-per-line
 const ts = new Transform({ transform(chunk, _, cb) { cb(null, chunk) } })
 const logger = new Console({ stdout: ts })
 
