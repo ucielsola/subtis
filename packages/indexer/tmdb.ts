@@ -10,7 +10,7 @@ export const tmdbDiscoverSchema = z.object({
   results: z.array(
     z.object({
       adult: z.boolean(),
-      backdrop_path: z.string(),
+      backdrop_path: z.string().nullable(),
       genre_ids: z.array(z.number()),
       id: z.number(),
       original_language: z.string(),
@@ -31,7 +31,7 @@ export const tmdbDiscoverSchema = z.object({
 
 export const tmdbMovieSchema = z.object({
   adult: z.boolean(),
-  backdrop_path: z.string(),
+  backdrop_path: z.string().nullable(),
   belongs_to_collection: z
     .object({
       id: z.number(),
