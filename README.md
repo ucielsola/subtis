@@ -51,6 +51,14 @@ or upgrade it
 > bun test:watch
 ```
 
+## Updating Database
+
+If there's a database schema update, we should update type definitions for it by running:
+
+```bash
+> cd packages/db && bun run supabase:type:definitions
+```
+
 ## Warnings
 
 - Tests run all packages except CLI since msw is not working with Bun at the moment
