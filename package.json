@@ -16,8 +16,8 @@
     "dev:raycast": "cd packages/raycast && bun dev",
     "dev:indexer": "bun --watch packages/indexer/app.ts",
     "dev:cli": "bun --watch packages/cli/app.ts --file ./The.Equalizer.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
-    "check:deps": "npx taze -r",
-    "bump:deps": "npx taze -r -w",
+    "check:deps": "bunx taze -r",
+    "bump:deps": "bunx taze -r -w",
     "clean:install": "bun pm cache rm && rm -rf bun.lockb && rm -rf node_modules && bun install",
     "update:deps": "bun bump:deps && bun clean:install"
   },
