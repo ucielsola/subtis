@@ -21,9 +21,6 @@
     "clean:install": "bun pm cache rm && rm -rf bun.lockb && rm -rf node_modules && bun install",
     "update:deps": "bun bump:deps && bun clean:install"
   },
-  "dependencies": {
-    "dotenv": "^16.3.1"
-  },
   "devDependencies": {
     "@antfu/eslint-config": "^1.2.1",
     "eslint": "^8.54.0"
