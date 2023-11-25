@@ -23,7 +23,7 @@ import { VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieMetadata } fr
 // internals
 import { getImdbLink } from './imdb'
 import type { SubtitleData } from './types'
-import { getFileNameHash, safeParseTorrent } from './utils'
+import { getFileNameHash, getSubtitleAuthor, safeParseTorrent } from './utils'
 import { type TmdbMovie, getMoviesFromTmdb, getTmdbMoviesTotalPagesArray } from './tmdb'
 import { type ReleaseGroupMap, type ReleaseGroupNames, getReleaseGroups } from './release-groups'
 import { type SubtitleGroupMap, type SubtitleGroupNames, getEnabledSubtitleProviders, getSubtitleGroups } from './subtitle-groups'
@@ -124,8 +124,12 @@ async function setMovieSubtitlesToDatabase({
       srtFileToUpload = fs.readFileSync(srtFileNamePath)
     }
 
+    // 10. Get author
+    const srtFileToUploadBuffer = bufferSchema.parse(srtFileToUpload)
+    const author = getSubtitleAuthor(srtFileToUploadBuffer)
+
     // 10. Upload SRT file to Supabase storage
-    await supabase.storage.from('subtitles').upload(subtitleSrtFileName, bufferSchema.parse(srtFileToUpload), {
+    await supabase.storage.from('subtitles').upload(subtitleSrtFileName, srtFileToUploadBuffer, {
       upsert: true,
       contentType: 'text/plain;charset=UTF-8',
     })
@@ -159,6 +163,7 @@ async function setMovieSubtitlesToDatabase({
 
     // 16. Save subtitle to Supabase
     await supabase.from('Subtitles').insert({
+      author,
       fileName,
       resolution,
       fileNameHash,
@@ -336,7 +341,6 @@ async function mainIndexer(): Promise<void> {
     }
   }
   catch (error) {
-    console.log('\n ~ mainIndexer ~ error:', error)
     console.log('\n ~ mainIndexer ~ error message:', (error as Error).message)
   }
 }

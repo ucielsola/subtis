@@ -1,6 +1,12 @@
-export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
 
-export type Database = {
+export interface Database {
   public: {
     Tables: {
       Movies: {
@@ -83,6 +89,7 @@ export type Database = {
       }
       Subtitles: {
         Row: {
+          author: string | null
           created_at: string
           fileExtension: string
           fileName: string
@@ -96,6 +103,7 @@ export type Database = {
           subtitleShortLink: string
         }
         Insert: {
+          author?: string | null
           created_at?: string
           fileExtension: string
           fileName: string
@@ -109,6 +117,7 @@ export type Database = {
           subtitleShortLink: string
         }
         Update: {
+          author?: string | null
           created_at?: string
           fileExtension?: string
           fileName?: string
@@ -125,18 +134,21 @@ export type Database = {
           {
             foreignKeyName: 'Subtitles_movieId_fkey'
             columns: ['movieId']
+            isOneToOne: false
             referencedRelation: 'Movies'
             referencedColumns: ['id']
           },
           {
             foreignKeyName: 'Subtitles_releaseGroupId_fkey'
             columns: ['releaseGroupId']
+            isOneToOne: false
             referencedRelation: 'ReleaseGroups'
             referencedColumns: ['id']
           },
           {
             foreignKeyName: 'Subtitles_subtitleGroupId_fkey'
             columns: ['subtitleGroupId']
+            isOneToOne: false
             referencedRelation: 'SubtitleGroups'
             referencedColumns: ['id']
           },
@@ -144,16 +156,16 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never;
+      [_ in never]: never
     }
     Functions: {
-      [_ in never]: never;
+      [_ in never]: never
     }
     Enums: {
-      [_ in never]: never;
+      [_ in never]: never
     }
     CompositeTypes: {
-      [_ in never]: never;
+      [_ in never]: never
     }
   }
 }

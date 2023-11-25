@@ -27,15 +27,35 @@ export function getFileNameHash(fileName: string): string {
 }
 
 export function safeParseTorrent(torrentFile: Buffer, torrentFilename: string): {
-  files: { path: string; name: string; length: number; offset: number }[]
+  files: { path: string, name: string, length: number, offset: number }[]
 } {
   try {
     return parseTorrent(torrentFile) as {
-      files: { path: string; name: string; length: number; offset: number }[]
+      files: { path: string, name: string, length: number, offset: number }[]
     }
   }
   catch (error) {
     console.error(`No se pudo parsear el torrent ${torrentFilename} \n`)
     return { files: [] }
   }
+}
+
+export function getSubtitleAuthor(subtitleFile: Buffer): string | null {
+  let author: null | string = null
+  const subtitleString = subtitleFile.toString('utf8')
+
+  const regex = /<i>([^<]*)<\/i>(?!.*<i>)/s
+  const lastItalicTagMatch = subtitleString.match(regex)
+
+  if (lastItalicTagMatch) {
+    const innerText = lastItalicTagMatch[1]
+    const hasAuthor = innerText.includes('traducc')
+
+    if (hasAuthor) {
+      const innerTextSplitted = innerText.split(/\s\n/g)
+      author = innerTextSplitted[innerTextSplitted.length - 1]
+    }
+  }
+
+  return author
 }
