@@ -68,7 +68,7 @@ export function getMovieMetadata(movieFileName: string): MovieData {
   const FIRST_MOVIE_RECORDED = 1888
   const currentYear = new Date().getFullYear() + 1
 
-  const { CODY, YTS_MX, RIGHTNOW, GALAXY_RG } = RELEASE_GROUPS
+  const { CODY, YTS_MX, RIGHTNOW, GALAXY_RG, FLUX } = RELEASE_GROUPS
 
   for (let year = FIRST_MOVIE_RECORDED; year < currentYear; year++) {
     const yearString = String(year)
@@ -105,6 +105,7 @@ export function getMovieMetadata(movieFileName: string): MovieData {
       .with(P.string.includes(CODY.fileAttribute), () => CODY)
       .with(P.string.includes(GALAXY_RG.fileAttribute), () => GALAXY_RG)
       .with(P.string.includes(RIGHTNOW.fileAttribute), () => RIGHTNOW)
+      .with(P.string.includes(FLUX.fileAttribute), () => FLUX)
       .otherwise(() => {
         const unsupportedReleaseGroup = rawAttributes
           .split(videoFileExtension)
@@ -113,7 +114,7 @@ export function getMovieMetadata(movieFileName: string): MovieData {
           .at(-1)
           ?.replace('x264-', '')
 
-        console.warn(`⚠️ Release Group not supported in DB, ${unsupportedReleaseGroup} ⚠️`)
+        console.warn(`⚠️ Release group ${unsupportedReleaseGroup} no soportado ⚠️`)
 
         return {
           isSupported: false,
