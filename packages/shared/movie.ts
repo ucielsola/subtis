@@ -114,7 +114,7 @@ export function getMovieMetadata(movieFileName: string): MovieData {
           .at(-1)
           ?.replace('x264-', '')
 
-        console.warn(`⚠️ Release group ${unsupportedReleaseGroup} no soportado ⚠️`)
+        console.error(`⚠️ Release group ${unsupportedReleaseGroup} no soportado ⚠️`)
 
         return {
           isSupported: false,
