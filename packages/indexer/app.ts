@@ -210,12 +210,15 @@ async function getSubtitlesFromMovie(
   const TOTAL_MOVIES_TO_SEARCH = 5
 
   const torrents = await torrentSearchApi.search(movie.title, 'Movies', TOTAL_MOVIES_TO_SEARCH)
+
+  const torrentsWithoutCineRecordings = torrents.filter(({ title }) => !['telesync', 'hq-cam'].includes(title.toLowerCase()))
+
   console.log(`4.${index}) Torrents encontrados para la pelicula "${title}" \n`)
-  console.table(torrents.map(({ title, provider, size }) => ({ title, provider, size })))
+  console.table(torrentsWithoutCineRecordings.map(({ title, provider, size }) => ({ title, provider, size })))
   console.log('\n')
 
   // 2. Iterate over each torrent
-  for await (const [index, torrentData] of Object.entries(torrents)) {
+  for await (const [index, torrentData] of Object.entries(torrentsWithoutCineRecordings)) {
     console.log(`4.${index}) Procesando torrent`, `"${torrentData.title}"`, '\n')
 
     // 3. Download torrent
@@ -295,7 +298,7 @@ async function getSubtitlesFromMovie(
     await Promise.all(
       resolvedSubtitles.map((({ value: subtitle }, indexResolvedSubtitles) => {
         const { subtitleGroup } = subtitle
-        console.log(`4.${index}.${indexResolvedSubtitles}) Subtítulo encontrado para ${subtitleGroup}`, '\n')
+        console.log(`4.${index}.${indexResolvedSubtitles}) Subtítulo encontrado para ${subtitleGroup}`)
 
         return setMovieSubtitlesToDatabase({
           subtitle,
