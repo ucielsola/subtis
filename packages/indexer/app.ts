@@ -179,7 +179,7 @@ async function setMovieSubtitlesToDatabase({
     })
 
     // play sound when a subtitle was found
-    console.log('\n✅ Subtitulo guardado en la base de datos!\n')
+    console.log('\n✅ Subtítulo guardado en la base de datos!\n')
 
     const successSoundPath = path.join(__dirname, '..', 'indexer', 'success_short_high.wav')
     sound.play(successSoundPath)
@@ -214,7 +214,9 @@ async function getSubtitlesFromMovie(
 
   const torrents = await torrentSearchApi.search(movie.title, 'Movies', TOTAL_MOVIES_TO_SEARCH)
 
-  const torrentsWithoutCineRecordings = torrents.filter(({ title }) => !['telesync', 'hq-cam'].includes(title.toLowerCase()))
+  const torrentsWithoutCineRecordings = torrents.filter(({ title }) =>
+    !/hq-cam|telesync/gi.test(title),
+  )
 
   console.log(`4.${index}) Torrents encontrados para la pelicula "${title}" \n`)
   console.table(torrentsWithoutCineRecordings.map(({ title, provider, size }) => ({ title, provider, size })))
@@ -273,10 +275,11 @@ async function getSubtitlesFromMovie(
     const fileNameHash = getFileNameHash(fileName)
 
     // 10. Get only providers I want to use
-    const enabledSubtitleProviders = getEnabledSubtitleProviders(['SubDivX', 'OpenSubtitles'])
+
+    // TODO: Check if we can download subtitles from OpenSubitles
+    const enabledSubtitleProviders = getEnabledSubtitleProviders(['SubDivX'])
 
     // 11. Find subtitle metadata from SubDivx and Argenteam
-
     for await (const [indexSubtitleProvider, enabledSubtitleProvider] of Object.entries(enabledSubtitleProviders)) {
       const { name, getSubtitleFromProvider } = enabledSubtitleProvider
 
