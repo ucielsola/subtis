@@ -1,7 +1,5 @@
 import antfu from '@antfu/eslint-config'
 
 export default antfu({
-  rules: {
-    'ts/consistent-type-definitions': 0,
-  },
+  rules: { 'ts/consistent-type-definitions': 0 },
 })
