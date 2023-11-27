@@ -276,37 +276,19 @@ async function getSubtitlesFromMovie(
     const enabledSubtitleProviders = getEnabledSubtitleProviders(['SubDivX', 'OpenSubtitles'])
 
     // 11. Find subtitle metadata from SubDivx and Argenteam
-    console.log(`4.${index}) Buscando subtitulos en ${enabledSubtitleProviders.map(({ name }) => name).join(', ')}\n`)
-    const subtitles = await Promise.allSettled(
-      enabledSubtitleProviders.map(({ getSubtitleFromProvider }) => getSubtitleFromProvider({ movieData, imdbId })),
-    )
 
-    // 12. Get providers that didn't find subtitles
-    const providersWithoutSubtitles = subtitles.reduce<string[]>(
-      (accumulator, subtitle, index) => {
-        if (subtitle.status === 'rejected')
-          return [...accumulator, enabledSubtitleProviders[index].name]
+    for await (const [indexSubtitleProvider, enabledSubtitleProvider] of Object.entries(enabledSubtitleProviders)) {
+      const { name, getSubtitleFromProvider } = enabledSubtitleProvider
 
-        return accumulator
-      },
-      [],
-    )
+      try {
+        console.log(`4.${index}.${indexSubtitleProvider}) Buscando subtítulo en ${name}`)
 
-    // 13. Filter fulfilled only promises
-    const resolvedSubtitles = subtitles.filter(
-      subtitle => subtitle.status === 'fulfilled',
-    ) as PromiseFulfilledResult<SubtitleData>[]
+        const subtitle = await getSubtitleFromProvider({ movieData, imdbId })
 
-    if (resolvedSubtitles.length === 0)
-      console.log(`4.${index}) No se encontraron subtitulos para la pelicula "${title}" del ${year} con torrent "${torrentData.title}" \n`)
-
-    // 14. Save whole subtitles data to DB
-    await Promise.all(
-      resolvedSubtitles.map((({ value: subtitle }, indexResolvedSubtitles) => {
         const { subtitleGroup } = subtitle
-        console.log(`4.${index}.${indexResolvedSubtitles}) Subtítulo encontrado para ${subtitleGroup}`)
+        console.log(`4.${index}.${indexSubtitleProvider}) Subtítulo encontrado para ${subtitleGroup}`)
 
-        return setMovieSubtitlesToDatabase({
+        await setMovieSubtitlesToDatabase({
           subtitle,
           subtitleGroup,
           movie: {
@@ -323,11 +305,12 @@ async function getSubtitlesFromMovie(
           releaseGroups,
           subtitleGroups,
         })
-      }),
-      ),
-    )
+      }
+      catch (error) {
+        console.log(`4.${index}.${indexSubtitleProvider}) Subtítulo no encontrado en ${name} \n`)
+      }
+    }
 
-    console.warn(`\nRecordar de chequear en ${providersWithoutSubtitles.join(', ')} si hay subtítulos para la película "${title}" del ${year} con archivo "${torrentData.title}" \n`)
     await confirm({ message: `¿Desea continuar?` })
     console.log('\n------------------------------\n')
   }
