@@ -77,11 +77,11 @@ async function setMovieSubtitlesToDatabase({
     // 3. Create path to extracted subtitles
     const extractedSubtitlePath = path.join(__dirname, '..', 'indexer', 'subs', subtitleFileNameWithoutExtension)
 
-    // 4. Handle compressed zip/rar files
+    // 4. Handle compressed zip/rar files or srt files
+    fs.mkdirSync(extractedSubtitlePath, { recursive: true })
+
     await match(fileExtension)
       .with('rar', async () => {
-        fs.mkdir(extractedSubtitlePath, { recursive: true }, _error => null)
-
         await unrar.uncompress({
           command: 'e',
           switches: ['-o+', '-idcd'],
@@ -93,7 +93,7 @@ async function setMovieSubtitlesToDatabase({
         await extract(subtitleAbsolutePath, { dir: extractedSubtitlePath })
       })
       .with('srt', async () => {
-        await download(subtitleLink, 'subs', {
+        await download(subtitleLink, extractedSubtitlePath, {
           filename: subtitleSrtFileName,
         })
       })
@@ -120,7 +120,7 @@ async function setMovieSubtitlesToDatabase({
     }
 
     if (fileExtension === 'srt') {
-      const srtFileNamePath = path.join(__dirname, '..', 'indexer', 'subs', subtitleSrtFileName)
+      const srtFileNamePath = path.join(__dirname, '..', 'indexer', 'subs', subtitleFileNameWithoutExtension, subtitleSrtFileName)
       srtFileToUpload = fs.readFileSync(srtFileNamePath)
     }
 
@@ -257,8 +257,9 @@ async function getSubtitlesFromMovie(
     if (isReleaseGroupSupported === false) {
       console.log('\n')
       await confirm({
-        message: `¿Desea continuar? El Release Group ${releaseGroup} no es soportado, se debería de agregar al indexador \n`,
+        message: `¿Desea continuar? El Release Group ${releaseGroup} no es soportado, se debería de agregar al indexador`,
       })
+      console.log('\n')
       continue
     }
 
@@ -266,19 +267,30 @@ async function getSubtitlesFromMovie(
     const fileNameHash = getFileNameHash(fileName)
 
     // 10. Get only providers I want to use
-    const enabledSubtitleProviders = getEnabledSubtitleProviders(['SubDivX'])
+    const enabledSubtitleProviders = getEnabledSubtitleProviders(['SubDivX', 'OpenSubtitles'])
 
-    // 10. Find subtitle metadata from SubDivx and Argenteam
+    // 11. Find subtitle metadata from SubDivx and Argenteam
     const subtitles = await Promise.allSettled(
       enabledSubtitleProviders.map(({ getSubtitleFromProvider }) => getSubtitleFromProvider({ movieData, imdbId })),
     )
 
-    // 11. Filter fulfilled only promises
+    // 12. Get providers that didn't find subtitles
+    const providersWithoutSubtitles = subtitles.reduce<string[]>(
+      (accumulator, subtitle, index) => {
+        if (subtitle.status === 'rejected')
+          return [...accumulator, enabledSubtitleProviders[index].name]
+
+        return accumulator
+      },
+      [],
+    )
+
+    // 13. Filter fulfilled only promises
     const resolvedSubtitles = subtitles.filter(
       subtitle => subtitle.status === 'fulfilled',
     ) as PromiseFulfilledResult<SubtitleData>[]
 
-    // 12. Save whole subtitles data to DB
+    // 14. Save whole subtitles data to DB
     await Promise.all(
       resolvedSubtitles.map((({ value: subtitle }, indexResolvedSubtitles) => {
         const { subtitleGroup } = subtitle
@@ -305,9 +317,9 @@ async function getSubtitlesFromMovie(
       ),
     )
 
-    console.warn(`\nRecordar de chequear en ${enabledSubtitleProviders.map(({ name }) => name).join(', ')} si hay subtítulos para "${torrentData.title}" \n`)
+    console.warn(`\nRecordar de chequear en ${providersWithoutSubtitles.join(', ')} si hay subtítulos para la película "${title}" del ${year} con archivo "${torrentData.title}" \n`)
     await confirm({ message: `¿Desea continuar?` })
-    console.log('------------------------------')
+    console.log('\n------------------------------\n')
   }
 
   console.log(`4.${index}) Pasando la siguiente película... \n`)
