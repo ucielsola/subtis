@@ -176,7 +176,7 @@ async function setMovieSubtitlesToDatabase({
     })
 
     // play sound when a subtitle was found
-    console.log('✅ Subtitulo guardado en la base de datos!\n')
+    console.log('\n✅ Subtitulo guardado en la base de datos!\n')
 
     const successSoundPath = path.join(__dirname, '..', 'indexer', 'success_short_high.wav')
     sound.play(successSoundPath)
@@ -270,6 +270,7 @@ async function getSubtitlesFromMovie(
     const enabledSubtitleProviders = getEnabledSubtitleProviders(['SubDivX', 'OpenSubtitles'])
 
     // 11. Find subtitle metadata from SubDivx and Argenteam
+    console.log(`4.${index}) Buscando subtitulos en ${enabledSubtitleProviders.map(({ name }) => name).join(', ')}\n`)
     const subtitles = await Promise.allSettled(
       enabledSubtitleProviders.map(({ getSubtitleFromProvider }) => getSubtitleFromProvider({ movieData, imdbId })),
     )
