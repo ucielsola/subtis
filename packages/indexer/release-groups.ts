@@ -41,6 +41,15 @@ export const RELEASE_GROUPS = {
     searchableArgenteamName: 'RiGHTNOW',
     searchableOpenSubtitlesName: 'RiGHTNOW',
   },
+  AMZN: {
+    name: 'AMZN',
+    website: '',
+    isSupported: true,
+    fileAttribute: 'AMZN',
+    searchableSubDivXName: 'amzn',
+    searchableArgenteamName: 'AMZN',
+    searchableOpenSubtitlesName: 'AMAZN',
+  },
 } as const
 
 // types
