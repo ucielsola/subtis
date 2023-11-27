@@ -41,14 +41,14 @@ export const RELEASE_GROUPS = {
     searchableArgenteamName: 'RiGHTNOW',
     searchableOpenSubtitlesName: 'RiGHTNOW',
   },
-  AMZN: {
-    name: 'AMZN',
+  FLUX: {
+    name: 'FLUX',
     website: '',
     isSupported: true,
-    fileAttribute: 'AMZN',
-    searchableSubDivXName: 'amzn',
-    searchableArgenteamName: 'AMZN',
-    searchableOpenSubtitlesName: 'AMAZN',
+    fileAttribute: 'FLUX',
+    searchableSubDivXName: 'FLUX',
+    searchableArgenteamName: 'FLUX',
+    searchableOpenSubtitlesName: 'FLUX',
   },
 } as const
 
