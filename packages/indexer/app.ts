@@ -65,11 +65,14 @@ async function setMovieSubtitlesToDatabase({
       subtitleFileNameWithoutExtension,
     } = subtitle
 
-    // 1. Download subtitle to fs
+    // 1. Download subtitle to fs if file is compressed
     const subtitlesFolderAbsolutePath = path.join(__dirname, '..', 'indexer', 'subtitles')
-    await download(subtitleLink, subtitlesFolderAbsolutePath, {
-      filename: subtitleCompressedFileName,
-    })
+
+    if (['rar', 'zip'].includes(fileExtension)) {
+      await download(subtitleLink, subtitlesFolderAbsolutePath, {
+        filename: subtitleCompressedFileName,
+      })
+    }
 
     // 2. Create path to downloaded subtitles
     const subtitleAbsolutePath = path.join(__dirname, '..', 'indexer', 'subtitles', subtitleCompressedFileName)
@@ -294,6 +297,9 @@ async function getSubtitlesFromMovie(
       subtitle => subtitle.status === 'fulfilled',
     ) as PromiseFulfilledResult<SubtitleData>[]
 
+    if (resolvedSubtitles.length === 0)
+      console.log(`4.${index}) No se encontraron subtitulos para la pelicula "${title}" del ${year} con torrent "${torrentData.title}" \n`)
+
     // 14. Save whole subtitles data to DB
     await Promise.all(
       resolvedSubtitles.map((({ value: subtitle }, indexResolvedSubtitles) => {
@@ -346,7 +352,7 @@ async function mainIndexer(): Promise<void> {
 
       // 3. Get movies from TMDB
       const movies = await getMoviesFromTmdb(tmbdMoviesPage)
-      console.log(`3) Películas encontadas para página ${tmbdMoviesPage} \n`)
+      console.log(`3) Películas encontradas en página ${tmbdMoviesPage} \n`)
       console.table(movies)
       console.log('\n')
 
