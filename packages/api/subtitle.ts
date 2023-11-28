@@ -53,21 +53,25 @@ export async function getSubtitleFromFileName({
     }
 
     // 5. Get subtitle from database
-    const { data: subtitle } = await supabase
+    const { data: subtitles } = await supabase
       .from('Subtitles')
       .select(
         'id, subtitleShortLink, subtitleFullLink, resolution, fileName, Movies ( name, year ), ReleaseGroups ( name ), SubtitleGroups ( name )',
       )
       .eq('fileName', fileName)
-      .single()
+      .order('subtitleGroupId', { ascending: false })
+      .limit(1)
 
     // 6. Throw error if subtitle is not found
-    invariant(subtitle, JSON.stringify({ message: 'Subtitle not found for file', status: 404 }))
+    invariant(subtitles && subtitles.length > 0, JSON.stringify({ message: 'Subtitle not found for file', status: 404 }))
 
-    // 7. Save subtitle in cache
+    // 7. Desctructure first subtitle
+    const [subtitle] = subtitles
+
+    // 8. Save subtitle in cache
     redis.set(`/v1/subtitle/${fileName}`, subtitle)
 
-    // 8. Return subtitle
+    // 9. Return subtitle
     return subtitle
   }
   catch (error) {

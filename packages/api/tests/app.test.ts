@@ -8,7 +8,7 @@ describe('API | /movies', () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ movieName: 'The Equ' }),
+      body: JSON.stringify({ movieName: 'The Cre' }),
     })
 
     const response = await app.handle(request)
@@ -17,8 +17,8 @@ describe('API | /movies', () => {
     expect(data).toEqual([
       {
         year: 2023,
-        id: 17024450,
-        name: 'The Equalizer 3',
+        id: 11858890,
+        name: 'The Creator',
       },
     ])
   })
@@ -27,7 +27,7 @@ describe('API | /movies', () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ movieName: 'the equ' }),
+      body: JSON.stringify({ movieName: 'the cre' }),
     })
 
     const response = await app.handle(request)
@@ -36,8 +36,8 @@ describe('API | /movies', () => {
     expect(data).toEqual([
       {
         year: 2023,
-        id: 17024450,
-        name: 'The Equalizer 3',
+        id: 11858890,
+        name: 'The Creator',
       },
     ])
   })
@@ -164,25 +164,24 @@ describe('API | /subtitle', () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitle`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fileName: 'The.Equalizer.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4' }),
+      body: JSON.stringify({ fileName: 'The.Creator.2023.720p.AMZN.WEBRip.900MB.x264-GalaxyRG.mkv' }),
     })
 
     const response = await app.handle(request)
     const data = await response.json()
 
     expect(data).toEqual({
-      id: 1095,
-      subtitleShortLink: 'https://tinyurl.com/yszmsjua',
-      subtitleFullLink:
-        'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-equalizer-3-1080p-yts-mx-subdivx.srt?download=The.Equalizer.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt',
-      resolution: '1080p',
-      fileName: 'The.Equalizer.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4',
+      id: 1219,
+      subtitleShortLink: 'https://tinyurl.com/yum3z4b9',
+      subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-creator-720p-galaxyrg-subdivx.srt?download=The.Creator.2023.720p.AMZN.WEBRip.900MB.x264-GalaxyRG.srt',
+      resolution: '720p',
+      fileName: 'The.Creator.2023.720p.AMZN.WEBRip.900MB.x264-GalaxyRG.mkv',
       Movies: {
-        name: 'The Equalizer 3',
+        name: 'The Creator',
         year: 2023,
       },
       ReleaseGroups: {
-        name: 'YTS-MX',
+        name: 'GalaxyRG',
       },
       SubtitleGroups: {
         name: 'SubDivX',
