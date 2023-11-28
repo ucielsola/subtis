@@ -27,8 +27,9 @@ export const useSubtitleAction = routeAction$(async (formData) => {
 export const useSubtitleLoader = routeLoader$(async (requestEvent) => {
   const fileName = requestEvent.url.searchParams.get('fileName')
 
-  if (!fileName)
+  if (!fileName) {
     return null
+  }
 
   const { data, status } = await getSubtitleFromFileName(fileName)
   return { data, status }
@@ -54,21 +55,25 @@ export default component$(() => {
     const videoFileExtension = getVideoFileExtension(fileNameFromPath)
 
     fileNameError.value = !videoFileExtension ? `Invalid file extension for ${fileNameFromPath}` : ''
-    if (!videoFileExtension)
+    if (!videoFileExtension) {
       return
+    }
 
-    if (fileNameFromPath)
+    if (fileNameFromPath) {
       subtitleAction.submit({ fileName: fileNameFromPath })
+    }
   })
 
   useTask$(({ track }) => {
     track(() => subtitleAction.value?.data?.fileName)
 
-    if (isServer)
+    if (isServer) {
       return
+    }
 
-    if (subtitleAction.value?.data?.fileName)
+    if (subtitleAction.value?.data?.fileName) {
       history.pushState({}, '', `/?fileName=${subtitleAction.value.data.fileName}`)
+    }
   })
 
   const droppableRef = useSignal<HTMLElement>()
@@ -82,8 +87,9 @@ export default component$(() => {
         if (event.dataTransfer.items) {
           const [file] = [...event.dataTransfer.items].map(item => item.getAsFile())
 
-          if (file && file.name)
+          if (file && file.name) {
             subtitleAction.submit({ fileName: file.name })
+          }
         }
       }
 

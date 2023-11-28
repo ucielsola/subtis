@@ -48,8 +48,9 @@ export async function getSubtitleFromFileName({
     const subtitleInCache = await redis.get<CustomQuery>(fileName)
 
     // 4. Return subtitle from cache if exists
-    if (subtitleInCache)
+    if (subtitleInCache) {
       return subtitleInCache
+    }
 
     // 5. Get subtitle from database
     const { data: subtitle } = await supabase

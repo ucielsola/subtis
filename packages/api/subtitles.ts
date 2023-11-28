@@ -43,8 +43,9 @@ export async function getSubtitlesFromMovieId({
     const subtitleInCache = await redis.get<CustomQuery>(`/v1/subtitles/${movieId}`)
 
     // 3. Return subtitle from cache if exists
-    if (subtitleInCache)
+    if (subtitleInCache) {
       return subtitleInCache
+    }
 
     // 4. Get subtitles from database
     const { data: subtitles } = await supabase

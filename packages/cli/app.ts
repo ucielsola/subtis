@@ -57,8 +57,9 @@ async function cli(): Promise<void> {
     const nativeError = error as Error
     const isInvariantError = getIsInvariantError(nativeError)
 
-    if (!isInvariantError)
+    if (!isInvariantError) {
       return outro(`🔴 ${nativeError.message}`)
+    }
 
     const errorMessage = getParsedInvariantMessage(nativeError)
     outro(errorMessage)

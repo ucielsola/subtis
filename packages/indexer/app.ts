@@ -157,8 +157,9 @@ async function setMovieSubtitlesToDatabase({
     invariant(movieData, 'Movie not found')
 
     // 14. Save movie to Supabase if is not yet saved
-    if (Array.isArray(movieData) && !movieData.length)
+    if (Array.isArray(movieData) && !movieData.length) {
       await supabase.from('Movies').insert(movie).select()
+    }
 
     // 15. Get release and subtitle group id
     const { id: releaseGroupId } = releaseGroups[releaseGroup]
@@ -252,8 +253,9 @@ async function getSubtitlesFromMovie(
     })
 
     // 7. Return if no video file
-    if (!videoFile)
+    if (!videoFile) {
       continue
+    }
 
     // 8. Get movie data from video file name
     const fileName = videoFile.name

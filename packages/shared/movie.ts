@@ -78,8 +78,9 @@ export function getMovieMetadata(movieFileName: string): MovieData {
       .with(P.string.includes(yearString), () => yearString)
       .otherwise(() => false)
 
-    if (!yearStringToReplace || typeof yearStringToReplace !== 'string')
+    if (!yearStringToReplace || typeof yearStringToReplace !== 'string') {
       continue
+    }
 
     const [rawName, rawAttributes] = movieFileName.split(yearStringToReplace)
     const movieName = getMovieName(rawName)
