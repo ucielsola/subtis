@@ -58,6 +58,10 @@ If there's a database schema update, we should update type definitions for it by
 
 If you want to have lint in auto-save follow the official [VSCode Support](https://github.com/antfu/eslint-config#vs-code-support-auto-fix) guide from the ESLint config we use.
 
+## API Testing
+
+Import [/docs/collection.json](/docs/collection.json) into your preferred HTTP client like Hoppscotch, Postman or Insomnia, to quickly test all API endpoints and different scenarios.
+
 ## Warnings
 
 - Tests run all packages except CLI since msw is not working with Bun at the moment
