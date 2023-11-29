@@ -1,6 +1,8 @@
 import { Elysia, t } from 'elysia'
 import { cors } from '@elysiajs/cors'
+import { helmet } from 'elysia-helmet'
 import { swagger } from '@elysiajs/swagger'
+import { rateLimit } from 'elysia-rate-limit'
 
 // internals
 import { getMoviesFromMovieId } from './movies'
@@ -10,6 +12,8 @@ import { getSubtitlesFromMovieId } from './subtitles'
 // core
 export const app = new Elysia()
   .use(cors())
+  .use(helmet())
+  .use(rateLimit())
   .use(swagger({ path: '/v1/docs' }))
   .post('/v1/movies', ({ set, body }) => getMoviesFromMovieId({ set, body }), {
     body: t.Object({ movieName: t.String() }),
