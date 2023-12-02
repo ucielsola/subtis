@@ -54,6 +54,10 @@ If there's a database schema update, we should update type definitions for it by
 > cd packages/db && bun run supabase:type:definitions
 ```
 
+## Access Database
+
+Request access to Supabase team with the developer email.
+
 ## Linting on VSCode
 
 If you want to have lint in auto-save follow the official [VSCode Support](https://github.com/antfu/eslint-config#vs-code-support-auto-fix) guide from the ESLint config we use.
