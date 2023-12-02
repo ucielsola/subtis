@@ -12,18 +12,22 @@
     "test:watch": "bun test packages/api packages/db packages/indexer packages/raycast packages/shared packages/web --watch",
     "test:coverage": "bun test packages/api packages/db packages/indexer packages/raycast packages/shared packages/web --coverage",
     "dev:api": "cd packages/api && bun dev",
-    "dev:web": "cd packages/web && bun dev",
-    "dev:raycast": "cd packages/raycast && bun dev",
+    "dev:web:only": "cd packages/web && bun dev",
+    "dev:web": "run-p dev:api dev:web:only",
+    "dev:cli:only": "bun --watch packages/cli/app.ts --file",
+    "dev:cli:params": "bun --watch packages/cli/app.ts --file ./Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv",
+    "dev:raycast:only": "cd packages/raycast && bun dev",
+    "dev:raycast": "run-p dev:api dev:raycast:only",
     "dev:indexer": "bun --watch packages/indexer/app.ts",
-    "dev:cli:demo": "bun --watch packages/cli/app.ts --file ./Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv",
     "check:deps": "taze -r",
     "bump:deps": "taze -r -w",
     "clean:install": "bun pm cache rm && rm -rf bun.lockb && rm -rf node_modules && bun install",
     "update:deps": "bun bump:deps && bun clean:install"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^1.2.1",
-    "eslint": "^8.54.0",
-    "taze": "0.12.0"
+    "@antfu/eslint-config": "^2.1.2",
+    "eslint": "^8.55.0",
+    "npm-run-all": "^4.1.5",
+    "taze": "0.13.0"
   }
 }
