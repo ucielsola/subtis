@@ -15,7 +15,7 @@
     "dev:web": "cd packages/web && bun dev",
     "dev:raycast": "cd packages/raycast && bun dev",
     "dev:indexer": "bun --watch packages/indexer/app.ts",
-    "dev:cli": "bun --watch packages/cli/app.ts --file ./The.Equalizer.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
+    "dev:cli:demo": "bun --watch packages/cli/app.ts --file ./Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv",
     "check:deps": "taze -r",
     "bump:deps": "taze -r -w",
     "clean:install": "bun pm cache rm && rm -rf bun.lockb && rm -rf node_modules && bun install",
