@@ -1,14 +1,13 @@
 import { z } from 'zod'
 import minimist from 'minimist'
-import invariant from 'tiny-invariant'
 import { intro, outro, spinner } from '@clack/prompts'
 
 // shared
 import { getMessageFromStatusCode } from 'shared/error-messages'
 import { getFilenameFromPath, getVideoFileExtension } from 'shared/movie'
-import { getIsInvariantError, getParsedInvariantMessage } from 'shared/invariant'
 
 // internals
+import { getZodError } from 'shared/zod'
 import { getSubtitleFromFileName } from './api'
 
 // core
@@ -24,15 +23,16 @@ async function cli(): Promise<void> {
     const cliArguments = minimist(Bun.argv)
 
     // 4. Parse with zod
-    const cliParse = z.object({ file: z.string() }).safeParse(cliArguments)
-    invariant(cliParse.success, '🤔 Parámetro --file no provisto. Prueba con "--file [archivo]".')
+    const cliParse = z.object({ file: z.string({
+      invalid_type_error: '🤔 Parámetro --file no provisto. Prueba con "--file [archivo]".',
+    }) }).parse(cliArguments)
 
     // 5. Sanitize filename
-    const fileName = getFilenameFromPath(cliParse.data.file)
+    const fileName = getFilenameFromPath(cliParse.file)
 
     // 6. Checks if file is a video
     const videoFileExtension = getVideoFileExtension(fileName)
-    invariant(videoFileExtension, '🤔 Extension de video no soportada. Prueba con otro archivo.')
+    z.string({ invalid_type_error: '🤔 Extension de video no soportada. Prueba con otro archivo.' }).parse(videoFileExtension)
 
     // 8. Display loader
     loader.start(`🔎 Buscando subtitulos`)
@@ -55,14 +55,13 @@ async function cli(): Promise<void> {
   }
   catch (error) {
     const nativeError = error as Error
-    const isInvariantError = getIsInvariantError(nativeError)
+    const zodError = getZodError(nativeError)
 
-    if (!isInvariantError) {
-      return outro(`🔴 ${nativeError.message}`)
+    if (zodError) {
+      return outro(zodError)
     }
 
-    const errorMessage = getParsedInvariantMessage(nativeError)
-    outro(errorMessage)
+    return outro(`🔴 ${nativeError.message}`)
   }
 }
 
