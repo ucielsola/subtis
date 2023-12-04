@@ -213,7 +213,7 @@ async function getSubtitlesFromMovie(
   // 1. Get first 21 movie torrents from 1337x
   const TOTAL_MOVIES_TO_SEARCH = 5
 
-  const torrents = await torrentSearchApi.search(movie.title, 'Movies', TOTAL_MOVIES_TO_SEARCH)
+  const torrents = await torrentSearchApi.search(`${movie.title} ${movie.year}`, 'Movies', TOTAL_MOVIES_TO_SEARCH)
 
   const torrentsWithoutCineRecordings = torrents.filter(({ title }) =>
     !/hq-cam|telesync/gi.test(title),
