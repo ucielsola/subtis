@@ -3,30 +3,42 @@ import invariant from 'tiny-invariant'
 import type { Context } from 'elysia'
 
 // shared
-import { getVideoFileExtension } from 'shared/movie'
-import { getIsInvariantError, getParsedInvariantMessage } from 'shared/invariant'
+import { videoFileExtensionSchema } from 'shared/movie'
 
 // db
-import { type Movie, type ReleaseGroup, type Subtitle, type SubtitleGroup, supabase } from 'db'
+import { supabase } from 'db'
 
 // internals
 import { redis } from './redis'
 
-// types
-type ApiResponseError = { message: string }
-
-type CustomQuery =
-  | (Pick<Subtitle, 'id' | 'subtitleShortLink' | 'subtitleFullLink' | 'fileName' | 'resolution'> & {
-    Movies: Pick<Movie, 'name' | 'year'> | null
-  } & {
-    ReleaseGroups: Pick<ReleaseGroup, 'name'> | null
-  } & {
-    SubtitleGroups: Pick<SubtitleGroup, 'name'> | null
-  })
-  | ApiResponseError
-
-// schemas
-const errorSchema = z.object({ status: z.number(), message: z.string() })
+const errorSchema = z.object({ message: z.string() })
+const resolutionSchema = z.union([z.literal('720p'), z.literal('1080p')])
+const subtitleSchema = z.object({
+  id: z.number(),
+  subtitleShortLink: z.string(),
+  subtitleFullLink: z.string(),
+  fileName: z.string(),
+  resolution: resolutionSchema,
+  Movie: z.null(
+    z.object({
+      name: z.string(),
+      year: z.string(),
+    }),
+  ),
+  ReleaseGroups: z.null(
+    z.object({
+      name: z.string(),
+    }),
+  ),
+  SubtitleGroups: z.null(
+    z.object({
+      name: z.string(),
+    }),
+  ),
+})
+const subtitlesSchema = z.array(subtitleSchema, { invalid_type_error: 'Subtitle not found for file' })
+const responseSchema = z.union([subtitleSchema, errorSchema])
+type Response = z.infer<typeof responseSchema>
 
 // core
 export async function getSubtitleFromFileName({
@@ -35,59 +47,38 @@ export async function getSubtitleFromFileName({
 }: {
   set: Context['set']
   body: { fileName: string }
-}): Promise<CustomQuery> {
-  try {
-    // 1. Get fileName from body
-    const { fileName } = body
-
-    // 2. Checks if file is a video
-    const videoFileExtension = getVideoFileExtension(fileName)
-    invariant(videoFileExtension, JSON.stringify({ message: 'File extension not supported', status: 415 }))
-
-    // 3. Check if file exists in cache
-    const subtitleInCache = await redis.get<CustomQuery>(fileName)
-
-    // 4. Return subtitle from cache if exists
-    if (subtitleInCache) {
-      return subtitleInCache
-    }
-
-    // 5. Get subtitle from database
-    const { data: subtitles } = await supabase
-      .from('Subtitles')
-      .select(
-        'id, subtitleShortLink, subtitleFullLink, resolution, fileName, Movies ( name, year ), ReleaseGroups ( name ), SubtitleGroups ( name )',
-      )
-      .eq('fileName', fileName)
-      .order('subtitleGroupId', { ascending: false })
-      .limit(1)
-
-    // 6. Throw error if subtitle is not found
-    invariant(subtitles && subtitles.length > 0, JSON.stringify({ message: 'Subtitle not found for file', status: 404 }))
-
-    // 7. Desctructure first subtitle
-    const [subtitle] = subtitles
-
-    // 8. Save subtitle in cache
-    redis.set(`/v1/subtitle/${fileName}`, subtitle)
-
-    // 9. Return subtitle
-    return subtitle
+}): Promise<Response> {
+  // try {
+  const { fileName } = body
+  const videoFileExtension = videoFileExtensionSchema.safeParse(fileName)
+  if (!videoFileExtension.success) {
+    set.status = 415
+    return { message: videoFileExtension.error.message }
   }
-  catch (error) {
-    const nativeError = error as Error
-    const isInvariantError = getIsInvariantError(nativeError)
 
-    if (!isInvariantError) {
-      set.status = 500
-      return { message: nativeError.message }
-    }
-
-    const invariantMessage = getParsedInvariantMessage(nativeError)
-    const invariantError = JSON.parse(invariantMessage)
-    const { status, message } = errorSchema.parse(invariantError)
-
-    set.status = status
-    return { message }
+  const cachedSubtitle = subtitleSchema.safeParse(await redis.get(fileName))
+  if (cachedSubtitle.success) {
+    set.status = 304
+    return cachedSubtitle.data
   }
+
+  const { data } = await supabase
+    .from('Subtitles')
+    .select(
+      'id, subtitleShortLink, subtitleFullLink, resolution, fileName, Movies ( name, year ), ReleaseGroups ( name ), SubtitleGroups ( name )',
+    )
+    .eq('fileName', fileName)
+    .order('subtitleGroupId', { ascending: false })
+    .limit(1)
+
+  const subtitles = subtitlesSchema.safeParse(data)
+  if (!subtitles.success) {
+    set.status = 404
+    return { message: subtitles.error.message }
+  }
+
+  const [subtitle] = subtitles.data
+  redis.set(`/v1/subtitle/${fileName}`, subtitle)
+
+  return subtitle
 }

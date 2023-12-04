@@ -3,6 +3,7 @@ import invariant from 'tiny-invariant'
 
 // indexer
 import { RELEASE_GROUPS, type ReleaseGroup, type ReleaseGroupKeys, type ReleaseGroupNames } from 'indexer/release-groups'
+import { z } from 'zod'
 
 // constants
 export const VIDEO_FILE_EXTENSIONS = [
@@ -37,6 +38,23 @@ export function getMovieName(name: string): string {
 export function getVideoFileExtension(fileName: string): string | undefined {
   return VIDEO_FILE_EXTENSIONS.find(videoFileExtension => fileName.endsWith(videoFileExtension))
 }
+export const videoFileExtensionSchema = z.union([
+  z.literal('.mkv'),
+  z.literal('.mp4'),
+  z.literal('.avi'),
+  z.literal('.wov'),
+  z.literal('.wmv'),
+  z.literal('.flv'),
+  z.literal('.webm'),
+  z.literal('.vob'),
+  z.literal('.m4v'),
+  z.literal('.mpg'),
+  z.literal('.mpeg'),
+  z.literal('.3gp'),
+  z.literal('.3g2'),
+], {
+  invalid_type_error: 'File extension not supported',
+})
 
 export function getMovieFileNameExtension(fileName: string): string {
   const videoFileExtension = getVideoFileExtension(fileName)
