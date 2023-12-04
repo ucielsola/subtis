@@ -2,7 +2,7 @@ import { P, match } from 'ts-pattern'
 import invariant from 'tiny-invariant'
 
 // indexer
-import { RELEASE_GROUPS, type ReleaseGroupNames } from 'indexer/release-groups'
+import { RELEASE_GROUPS, type ReleaseGroup, type ReleaseGroupKeys, type ReleaseGroupNames } from 'indexer/release-groups'
 
 // constants
 export const VIDEO_FILE_EXTENSIONS = [
@@ -68,8 +68,6 @@ export function getMovieMetadata(movieFileName: string): MovieData {
   const FIRST_MOVIE_RECORDED = 1888
   const currentYear = new Date().getFullYear() + 1
 
-  const { CODY, YTS_MX, RIGHTNOW, GALAXY_RG, FLUX } = RELEASE_GROUPS
-
   for (let year = FIRST_MOVIE_RECORDED; year < currentYear; year++) {
     const yearString = String(year)
 
@@ -101,30 +99,37 @@ export function getMovieMetadata(movieFileName: string): MovieData {
 
     const fileNameWithoutExtension = getMovieFileNameWithoutExtension(movieFileName)
 
-    const releaseGroup = match(rawAttributes)
-      .with(P.string.includes(YTS_MX.fileAttribute), () => YTS_MX)
-      .with(P.string.includes(CODY.fileAttribute), () => CODY)
-      .with(P.string.includes(GALAXY_RG.fileAttribute), () => GALAXY_RG)
-      .with(P.string.includes(RIGHTNOW.fileAttribute), () => RIGHTNOW)
-      .with(P.string.includes(FLUX.fileAttribute), () => FLUX)
-      .otherwise(() => {
-        const unsupportedReleaseGroup = rawAttributes
-          .split(videoFileExtension)
-          .at(0)
-          ?.split(/\.|\s/g)
-          .at(-1)
-          ?.replace('x264-', '')
+    let releaseGroup: ReleaseGroup | undefined
 
-        console.error(`⚠️ Release group ${unsupportedReleaseGroup} no soportado ⚠️`)
+    for (const key in RELEASE_GROUPS) {
+      const releaseGroupInternal = RELEASE_GROUPS[key as ReleaseGroupKeys]
 
-        return {
-          isSupported: false,
-          name: unsupportedReleaseGroup,
-          searchableSubDivXName: unsupportedReleaseGroup,
-          searchableArgenteamName: unsupportedReleaseGroup,
-          searchableOpenSubtitlesName: unsupportedReleaseGroup,
-        }
-      })
+      if (rawAttributes.includes(releaseGroupInternal.fileAttribute)) {
+        releaseGroup = releaseGroupInternal
+        break
+      }
+    }
+
+    if (!releaseGroup) {
+      const unsupportedReleaseGroup = rawAttributes
+        .split(videoFileExtension)
+        .at(0)
+        ?.split(/\.|\s/g)
+        .at(-1)
+        ?.replace('x264-', '') as string
+
+      console.error(`⚠️ Release group ${unsupportedReleaseGroup} no soportado ⚠️`)
+
+      releaseGroup = {
+        website: '',
+        fileAttribute: ' ',
+        isSupported: false,
+        name: unsupportedReleaseGroup,
+        searchableSubDivXName: unsupportedReleaseGroup,
+        searchableArgenteamName: unsupportedReleaseGroup,
+        searchableOpenSubtitlesName: unsupportedReleaseGroup,
+      }
+    }
 
     return {
       year,
