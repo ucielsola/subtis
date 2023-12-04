@@ -50,14 +50,26 @@ export const RELEASE_GROUPS = {
     searchableArgenteamName: 'FLUX',
     searchableOpenSubtitlesName: 'FLUX',
   },
+  EDITH: {
+    name: 'EDITH',
+    website: '',
+    isSupported: true,
+    fileAttribute: 'h264-EDITH',
+    searchableSubDivXName: 'edith',
+    searchableArgenteamName: 'EDITH', // TODO: Check in Argenteam if this is correct
+    searchableOpenSubtitlesName: 'EDITH', // TODO: Check in OpenSubtitles if this is correct
+  },
 } as const
 
 // types
 export type ReleaseGroup = {
   name: string
   website: string
+  isSupported: boolean
   fileAttribute: string
   searchableSubDivXName: string
+  searchableArgenteamName: string
+  searchableOpenSubtitlesName: string
 }
 
 export type ReleaseGroupMap = {
@@ -66,10 +78,16 @@ export type ReleaseGroupMap = {
 
 export type ReleaseGroupNames = (typeof RELEASE_GROUPS)[keyof typeof RELEASE_GROUPS]['name']
 
-type ReleaseGroupKeys = keyof typeof RELEASE_GROUPS
+export type ReleaseGroupKeys = keyof typeof RELEASE_GROUPS
 
 // utils
 export async function saveReleaseGroupsToDb(supabaseClient: SupabaseClient): Promise<void> {
+  console.log('agregando')
+  const result = await supabaseClient.from('ReleaseGroups').insert(RELEASE_GROUPS.EDITH)
+  console.log('\n ~ saveReleaseGroupsToDb ~ result:', result)
+  console.log('agregado')
+
+  return
   for (const releaseGroupKey in RELEASE_GROUPS) {
     const releaseGroup = RELEASE_GROUPS[releaseGroupKey as ReleaseGroupKeys]
     await supabaseClient.from('ReleaseGroups').insert(releaseGroup)
