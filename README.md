@@ -24,6 +24,7 @@ If there's any specific issue with the latest version install the v1.0.11 stable
 > curl -fsSL https://bun.sh/install | bash -s "bun-v1.0.11"
 ```
 
+At least until [Brotly](https://github.com/oven-sh/bun/issues/267) is fully supported on Bun.
 
 2. Install project dependencies
 
