@@ -52,7 +52,7 @@ export async function getSubtitleFromFileName({
 
   const cachedSubtitle = subtitleSchema.safeParse(await redis.get(fileName))
   if (cachedSubtitle.success) {
-    set.status = 304
+    set.status = 200
     return cachedSubtitle.data
   }
 
