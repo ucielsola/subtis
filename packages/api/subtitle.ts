@@ -19,22 +19,16 @@ const subtitleSchema = z.object({
   subtitleFullLink: z.string(),
   fileName: z.string(),
   resolution: resolutionSchema,
-  Movie: z.null(
-    z.object({
-      name: z.string(),
-      year: z.string(),
-    }),
-  ),
-  ReleaseGroups: z.null(
-    z.object({
-      name: z.string(),
-    }),
-  ),
-  SubtitleGroups: z.null(
-    z.object({
-      name: z.string(),
-    }),
-  ),
+  Movie: z.object({
+    name: z.string(),
+    year: z.string(),
+  }).nullable(),
+  ReleaseGroups: z.object({
+    name: z.string(),
+  }).nullable(),
+  SubtitleGroups: z.object({
+    name: z.string(),
+  }).nullable(),
 })
 const subtitlesSchema = z.array(subtitleSchema, { invalid_type_error: 'Subtitle not found for file' })
 const responseSchema = z.union([subtitleSchema, errorSchema])
