@@ -50,10 +50,10 @@ export async function getSubtitleFromFileName({
     return { message: videoFileExtension.error.message }
   }
 
-  const cachedSubtitle = subtitleSchema.safeParse(await redis.get(fileName))
-  if (cachedSubtitle.success) {
+  const subtitleInRedis = subtitleSchema.safeParse(await redis.get(`/v1/subtitle/${fileName}`))
+  if (subtitleInRedis.success) {
     set.status = 200
-    return cachedSubtitle.data
+    return subtitleInRedis.data
   }
 
   const { data } = await supabase
