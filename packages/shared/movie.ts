@@ -38,7 +38,8 @@ export function getMovieName(name: string): string {
 export function getVideoFileExtension(fileName: string): string | undefined {
   return VIDEO_FILE_EXTENSIONS.find(videoFileExtension => fileName.endsWith(videoFileExtension))
 }
-export const videoFileExtensionSchema = z.union([
+
+const videoFileExtensionSchema = z.union([
   z.literal('.mkv'),
   z.literal('.mp4'),
   z.literal('.avi'),
@@ -55,6 +56,15 @@ export const videoFileExtensionSchema = z.union([
 ], {
   invalid_type_error: 'File extension not supported',
 })
+
+export const videoFileNameSchema = z
+  .string()
+  .refine((input) => {
+    const [videoFileExtension] = input.split('.').slice(-1)
+    return videoFileExtensionSchema.safeParse(`.${videoFileExtension}`).success
+  }, {
+    message: 'File extension not supported',
+  })
 
 export function getMovieFileNameExtension(fileName: string): string {
   const videoFileExtension = getVideoFileExtension(fileName)

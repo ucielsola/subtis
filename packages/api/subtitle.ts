@@ -1,12 +1,11 @@
 import { z } from 'zod'
-import invariant from 'tiny-invariant'
 import type { Context } from 'elysia'
-
-// shared
-import { videoFileExtensionSchema } from 'shared/movie'
 
 // db
 import { supabase } from 'db'
+
+// shared
+import { videoFileNameSchema } from 'shared/movie'
 
 // internals
 import { redis } from './redis'
@@ -17,11 +16,11 @@ const subtitleSchema = z.object({
   id: z.number(),
   subtitleShortLink: z.string(),
   subtitleFullLink: z.string(),
-  fileName: z.string(),
   resolution: resolutionSchema,
-  Movie: z.object({
+  fileName: z.string(),
+  Movies: z.object({
     name: z.string(),
-    year: z.string(),
+    year: z.number(),
   }).nullable(),
   ReleaseGroups: z.object({
     name: z.string(),
@@ -30,7 +29,7 @@ const subtitleSchema = z.object({
     name: z.string(),
   }).nullable(),
 })
-const subtitlesSchema = z.array(subtitleSchema, { invalid_type_error: 'Subtitle not found for file' })
+const subtitlesSchema = z.array(subtitleSchema).min(1, { message: 'Subtitle not found for file' })
 const responseSchema = z.union([subtitleSchema, errorSchema])
 type Response = z.infer<typeof responseSchema>
 
@@ -42,12 +41,11 @@ export async function getSubtitleFromFileName({
   set: Context['set']
   body: { fileName: string }
 }): Promise<Response> {
-  // try {
   const { fileName } = body
-  const videoFileExtension = videoFileExtensionSchema.safeParse(fileName)
-  if (!videoFileExtension.success) {
+  const videoFileName = videoFileNameSchema.safeParse(fileName)
+  if (!videoFileName.success) {
     set.status = 415
-    return { message: videoFileExtension.error.message }
+    return { message: videoFileName.error.issues[0].message }
   }
 
   const subtitleInRedis = subtitleSchema.safeParse(await redis.get(`/v1/subtitle/${fileName}`))
@@ -68,7 +66,7 @@ export async function getSubtitleFromFileName({
   const subtitles = subtitlesSchema.safeParse(data)
   if (!subtitles.success) {
     set.status = 404
-    return { message: subtitles.error.message }
+    return { message: subtitles.error.issues[0].message }
   }
 
   const [subtitle] = subtitles.data
