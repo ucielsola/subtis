@@ -1,5 +1,5 @@
 {
-  "name": "@subtis/source",
+  "name": "subtis",
   "type": "module",
   "license": "MIT",
   "workspaces": [
