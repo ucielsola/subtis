@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'bun:test'
 
 // internals
-import { app } from '../app'
+import { app } from '@subtis/api'
 
 describe('API | /movies', () => {
   it('return a movies response for a movie name query', async () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ movieName: 'The Cre' }),
+      body: JSON.stringify({ movieName: 'Trolls Band' }),
     })
 
     const response = await app.handle(request)
@@ -17,8 +17,8 @@ describe('API | /movies', () => {
     expect(data).toEqual([
       {
         year: 2023,
-        id: 11858890,
-        name: 'The Creator',
+        id: 14362112,
+        name: 'Trolls Band Together',
       },
     ])
   })
@@ -27,7 +27,7 @@ describe('API | /movies', () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ movieName: 'the cre' }),
+      body: JSON.stringify({ movieName: 'trolls band' }),
     })
 
     const response = await app.handle(request)
@@ -36,8 +36,8 @@ describe('API | /movies', () => {
     expect(data).toEqual([
       {
         year: 2023,
-        id: 11858890,
-        name: 'The Creator',
+        id: 14362112,
+        name: 'Trolls Band Together',
       },
     ])
   })

@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import invariant from 'tiny-invariant'
 import type { Context } from 'elysia'
+import invariant from 'tiny-invariant'
 
 // shared
 import { getIsInvariantError, getParsedInvariantMessage } from 'shared/invariant'

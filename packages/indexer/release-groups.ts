@@ -82,12 +82,6 @@ export type ReleaseGroupKeys = keyof typeof RELEASE_GROUPS
 
 // utils
 export async function saveReleaseGroupsToDb(supabaseClient: SupabaseClient): Promise<void> {
-  console.log('agregando')
-  const result = await supabaseClient.from('ReleaseGroups').insert(RELEASE_GROUPS.EDITH)
-  console.log('\n ~ saveReleaseGroupsToDb ~ result:', result)
-  console.log('agregado')
-
-  return
   for (const releaseGroupKey in RELEASE_GROUPS) {
     const releaseGroup = RELEASE_GROUPS[releaseGroupKey as ReleaseGroupKeys]
     await supabaseClient.from('ReleaseGroups').insert(releaseGroup)

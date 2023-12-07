@@ -14,22 +14,22 @@ const { supabaseBaseUrl } = getSupabaseEnvironmentVariables()
 // mocks
 const SUBTITLE_GROUPS_MOCK = {
   Argenteam: {
-    id: 34,
+    created_at: '2023-12-07T20:33:29.333364+00:00',
+    id: 37,
     name: 'Argenteam',
     website: 'https://argenteam.net',
-    created_at: '2023-09-18T02:01:56.838121+00:00',
   },
   OpenSubtitles: {
-    id: 35,
+    created_at: '2023-12-07T20:33:29.493883+00:00',
+    id: 38,
     name: 'OpenSubtitles',
     website: 'https://www.opensubtitles.org',
-    created_at: '2023-09-18T02:01:56.969959+00:00',
   },
   SubDivX: {
-    id: 33,
+    created_at: '2023-12-07T20:33:29.16+00:00',
+    id: 36,
     name: 'SubDivX',
     website: 'https://subdivx.com',
-    created_at: '2023-09-18T02:01:56.7104+00:00',
   },
 }
 

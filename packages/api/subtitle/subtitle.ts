@@ -5,13 +5,14 @@ import type { Context } from 'elysia'
 import { supabase } from 'db'
 
 // shared
-import { videoFileNameSchema } from 'shared/movie'
+import { resolutionSchema, videoFileNameSchema } from 'shared/movie'
 
-// internal
-import { redis } from '../redis'
+// api
+import { redis } from '@subtis/api'
 
+// schemas
 const errorSchema = z.object({ message: z.string() })
-const resolutionSchema = z.union([z.literal('720p'), z.literal('1080p')])
+
 const subtitleSchema = z.object({
   id: z.number(),
   subtitleShortLink: z.string(),
@@ -29,8 +30,11 @@ const subtitleSchema = z.object({
     name: z.string(),
   }).nullable(),
 })
+
 const subtitlesSchema = z.array(subtitleSchema).min(1, { message: 'Subtitle not found for file' })
 const responseSchema = z.union([subtitleSchema, errorSchema])
+
+// types
 type Response = z.infer<typeof responseSchema>
 
 // core
@@ -41,14 +45,14 @@ export async function getSubtitleFromFileName({
   set: Context['set']
   body: { fileName: string }
 }): Promise<Response> {
-  const { fileName } = body
-  const videoFileName = videoFileNameSchema.safeParse(fileName)
+  const videoFileName = videoFileNameSchema.safeParse(body.fileName)
   if (!videoFileName.success) {
     set.status = 415
     return { message: videoFileName.error.issues[0].message }
   }
 
-  const subtitleInRedis = subtitleSchema.safeParse(await redis.get(`/v1/subtitle/${fileName}`))
+  const subtitleInCache = await redis.get(`/v1/subtitle/${videoFileName.data}`)
+  const subtitleInRedis = subtitleSchema.safeParse(subtitleInCache)
   if (subtitleInRedis.success) {
     set.status = 200
     return subtitleInRedis.data
@@ -59,7 +63,7 @@ export async function getSubtitleFromFileName({
     .select(
       'id, subtitleShortLink, subtitleFullLink, resolution, fileName, Movies ( name, year ), ReleaseGroups ( name ), SubtitleGroups ( name )',
     )
-    .eq('fileName', fileName)
+    .eq('fileName', videoFileName.data)
     .order('subtitleGroupId', { ascending: false })
     .limit(1)
 
@@ -70,7 +74,7 @@ export async function getSubtitleFromFileName({
   }
 
   const [subtitle] = subtitles.data
-  redis.set(`/v1/subtitle/${fileName}`, subtitle)
+  redis.set(`/v1/subtitle/${videoFileName.data}`, subtitle)
 
   return subtitle
 }

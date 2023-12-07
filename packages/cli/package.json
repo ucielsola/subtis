@@ -1,5 +1,5 @@
 {
-  "name": "cli",
+  "name": "@subtis/cli",
   "version": "0.0.1",
   "license": "MIT",
   "main": "app.ts",
@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
-    "api": "workspace:*",
     "minimist": "^1.2.8",
     "tiny-invariant": "^1.3.1"
   },
@@ -20,6 +19,6 @@
     "@total-typescript/ts-reset": "^0.5.1",
     "@types/minimist": "^1.2.5",
     "bun-types": "^1.0.15",
-    "typescript": "^5.3.2"
+    "typescript": "^5.3.3"
   }
 }

@@ -66,6 +66,10 @@ export const videoFileNameSchema = z
     message: 'File extension not supported',
   })
 
+export const resolutionSchema = z.union(
+  [z.literal('480p'), z.literal('720p'), z.literal('1080p'), z.literal('2160p'), z.literal('3D')],
+)
+
 export function getMovieFileNameExtension(fileName: string): string {
   const videoFileExtension = getVideoFileExtension(fileName)
   invariant(videoFileExtension, `Video file extension not supported: ${fileName}`)
