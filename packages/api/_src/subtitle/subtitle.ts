@@ -7,8 +7,8 @@ import { supabase } from 'db'
 // shared
 import { videoFileNameSchema } from 'shared/movie'
 
-// internals
-import { redis } from './redis'
+// internal
+import { redis } from '../redis'
 
 const errorSchema = z.object({ message: z.string() })
 const resolutionSchema = z.union([z.literal('720p'), z.literal('1080p')])

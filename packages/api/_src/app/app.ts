@@ -5,9 +5,9 @@ import { swagger } from '@elysiajs/swagger'
 import { rateLimit } from 'elysia-rate-limit'
 
 // internals
-import { getMoviesFromMovieId } from './movies'
-import { getSubtitleFromFileName } from './subtitle'
-import { getSubtitlesFromMovieId } from './subtitles'
+import { getMoviesFromMovieId } from '../movies'
+import { getSubtitleFromFileName } from '../subtitle'
+import { getSubtitlesFromMovieId } from '../subtitles'
 
 // core
 export const app = new Elysia()
