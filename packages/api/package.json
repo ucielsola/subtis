@@ -1,6 +1,7 @@
 {
-  "name": "api",
-  "version": "0.0.1",
+  "name": "@subtis/api",
+  "type": "module",
+  "tversion": "0.0.1",
   "license": "MIT",
   "main": "app.ts",
   "scripts": {

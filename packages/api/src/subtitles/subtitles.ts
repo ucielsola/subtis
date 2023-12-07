@@ -9,7 +9,7 @@ import { getIsInvariantError, getParsedInvariantMessage } from 'shared/invariant
 import { type Movie, type ReleaseGroup, type Subtitle, type SubtitleGroup, supabase } from 'db'
 
 // internals
-import { redis } from './redis'
+import { redis } from '../redis'
 
 // types
 type ApiResponseError = { message: string }
