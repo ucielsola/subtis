@@ -5,3 +5,4 @@ subs
 *.mp4
 coverage
 node_modules
+*.zip
