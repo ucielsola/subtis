@@ -5,7 +5,7 @@
   "license": "MIT",
   "main": "app.ts",
   "scripts": {
-    "dev": "bun --watch app.ts",
+    "dev": "bun --watch app/app.ts",
     "test:watch": "bun test --watch"
   },
   "dependencies": {
