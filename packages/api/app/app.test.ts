@@ -64,7 +64,7 @@ describe('API | /subtitles', () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ movieId: '17024450' }),
+      body: JSON.stringify({ movieId: '14362112' }),
     })
 
     const response = await app.handle(request)
@@ -72,68 +72,85 @@ describe('API | /subtitles', () => {
 
     expect(data).toEqual([
       {
-        id: 1094,
-        subtitleShortLink: 'https://tinyurl.com/ykgbkzx6',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-equalizer-3-720p-yts-mx-subdivx.srt?download=The.Equalizer.3.2023.720p.WEBRip.x264.AAC-[YTS.MX].srt',
+        id: 1317,
+        subtitleShortLink: 'https://tinyurl.com/2x465tvl',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/trolls-band-together-1080p-galaxyrg-subdivx.srt?download=Trolls.Band.Together.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt',
+        resolution: '1080p',
+        fileName: 'Trolls.Band.Together.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv',
+        Movies: {
+          name: 'Trolls Band Together',
+          year: 2023,
+        },
+        ReleaseGroups: {
+          name: 'GalaxyRG',
+        },
+        SubtitleGroups: {
+          name: 'SubDivX',
+        },
+      },
+      {
+        id: 1318,
+        subtitleShortLink: 'https://tinyurl.com/ypnd83vq',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/trolls-band-together-720p-galaxyrg-subdivx.srt?download=Trolls.Band.Together.2023.720p.AMZN.WEBRip.800MB.x264-GalaxyRG.srt',
         resolution: '720p',
-        fileName: 'The.Equalizer.3.2023.720p.WEBRip.x264.AAC-[YTS.MX].mp4',
+        fileName: 'Trolls.Band.Together.2023.720p.AMZN.WEBRip.800MB.x264-GalaxyRG.mkv',
         Movies: {
-          name: 'The Equalizer 3',
+          name: 'Trolls Band Together',
           year: 2023,
         },
         ReleaseGroups: {
-          name: 'YTS-MX',
+          name: 'GalaxyRG',
         },
         SubtitleGroups: {
           name: 'SubDivX',
         },
       },
       {
-        id: 1095,
-        subtitleShortLink: 'https://tinyurl.com/yszmsjua',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-equalizer-3-1080p-yts-mx-subdivx.srt?download=The.Equalizer.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt',
+        id: 1319,
+        subtitleShortLink: 'https://tinyurl.com/yotb75f6',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/trolls-band-together-1080p-flux-subdivx.srt?download=Trolls.Band.Together.2023.1080p.AMZN.WEB-DL.DDP5.1.Atmos.H.264-FLUX.srt',
         resolution: '1080p',
-        fileName: 'The.Equalizer.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4',
+        fileName: 'Trolls.Band.Together.2023.1080p.AMZN.WEB-DL.DDP5.1.Atmos.H.264-FLUX.mkv',
         Movies: {
-          name: 'The Equalizer 3',
+          name: 'Trolls Band Together',
           year: 2023,
         },
         ReleaseGroups: {
-          name: 'YTS-MX',
+          name: 'FLUX',
         },
         SubtitleGroups: {
           name: 'SubDivX',
         },
       },
       {
-        id: 1096,
-        subtitleShortLink: 'https://tinyurl.com/ypw8lzpq',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-equalizer-3-1080p-yts-mx-subdivx.srt?download=The.Equalizer.3.2023.1080p.WEBRip.x265.10bit.AAC5.1-[YTS.MX].srt',
-        resolution: '1080p',
-        fileName: 'The.Equalizer.3.2023.1080p.WEBRip.x265.10bit.AAC5.1-[YTS.MX].mp4',
-        Movies: {
-          name: 'The Equalizer 3',
-          year: 2023,
-        },
-        ReleaseGroups: {
-          name: 'YTS-MX',
-        },
-        SubtitleGroups: {
-          name: 'SubDivX',
-        },
-      },
-      {
-        id: 1097,
-        subtitleShortLink: 'https://tinyurl.com/ymn8uv45',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-equalizer-3-2160p-yts-mx-subdivx.srt?download=The.Equalizer.3.2023.2160p.4K.WEB.x265.10bit.AAC5.1-[YTS.MX].srt',
+        id: 1320,
+        subtitleShortLink: 'https://tinyurl.com/ys7jr3kp',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/trolls-band-together-2160p-flux-subdivx.srt?download=Trolls.Band.Together.2023.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.srt',
         resolution: '2160p',
-        fileName: 'The.Equalizer.3.2023.2160p.4K.WEB.x265.10bit.AAC5.1-[YTS.MX].mkv',
+        fileName: 'Trolls.Band.Together.2023.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.mkv',
         Movies: {
-          name: 'The Equalizer 3',
+          name: 'Trolls Band Together',
           year: 2023,
         },
         ReleaseGroups: {
-          name: 'YTS-MX',
+          name: 'FLUX',
+        },
+        SubtitleGroups: {
+          name: 'SubDivX',
+        },
+      },
+      {
+        id: 1321,
+        subtitleShortLink: 'https://tinyurl.com/ylxyxlnv',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/trolls-band-together-1080p-galaxyrg-subdivx.srt?download=Trolls.Band.Together.2023.1080p.AMZN.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.srt',
+        resolution: '1080p',
+        fileName: 'Trolls.Band.Together.2023.1080p.AMZN.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.mkv',
+        Movies: {
+          name: 'Trolls Band Together',
+          year: 2023,
+        },
+        ReleaseGroups: {
+          name: 'GalaxyRG',
         },
         SubtitleGroups: {
           name: 'SubDivX',
@@ -164,20 +181,20 @@ describe('API | /subtitle', () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitle`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fileName: 'The.Creator.2023.720p.AMZN.WEBRip.900MB.x264-GalaxyRG.mkv' }),
+      body: JSON.stringify({ fileName: 'Trolls.Band.Together.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv' }),
     })
 
     const response = await app.handle(request)
     const data = await response.json()
 
     expect(data).toEqual({
-      id: 1219,
-      subtitleShortLink: 'https://tinyurl.com/yum3z4b9',
-      subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-creator-720p-galaxyrg-subdivx.srt?download=The.Creator.2023.720p.AMZN.WEBRip.900MB.x264-GalaxyRG.srt',
-      resolution: '720p',
-      fileName: 'The.Creator.2023.720p.AMZN.WEBRip.900MB.x264-GalaxyRG.mkv',
+      id: 1317,
+      subtitleShortLink: 'https://tinyurl.com/2x465tvl',
+      subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/trolls-band-together-1080p-galaxyrg-subdivx.srt?download=Trolls.Band.Together.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt',
+      resolution: '1080p',
+      fileName: 'Trolls.Band.Together.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv',
       Movies: {
-        name: 'The Creator',
+        name: 'Trolls Band Together',
         year: 2023,
       },
       ReleaseGroups: {
