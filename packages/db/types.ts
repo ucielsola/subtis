@@ -38,6 +38,7 @@ export interface Database {
           created_at: string
           fileAttribute: string
           id: number
+          isSupported: boolean | null
           name: string
           searchableArgenteamName: string
           searchableOpenSubtitlesName: string | null
@@ -48,6 +49,7 @@ export interface Database {
           created_at?: string
           fileAttribute: string
           id?: number
+          isSupported?: boolean | null
           name: string
           searchableArgenteamName: string
           searchableOpenSubtitlesName?: string | null
@@ -58,6 +60,7 @@ export interface Database {
           created_at?: string
           fileAttribute?: string
           id?: number
+          isSupported?: boolean | null
           name?: string
           searchableArgenteamName?: string
           searchableOpenSubtitlesName?: string | null
@@ -132,26 +135,26 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: 'Subtitles_movieId_fkey'
-            columns: ['movieId']
+            foreignKeyName: "Subtitles_movieId_fkey"
+            columns: ["movieId"]
             isOneToOne: false
-            referencedRelation: 'Movies'
-            referencedColumns: ['id']
+            referencedRelation: "Movies"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'Subtitles_releaseGroupId_fkey'
-            columns: ['releaseGroupId']
+            foreignKeyName: "Subtitles_releaseGroupId_fkey"
+            columns: ["releaseGroupId"]
             isOneToOne: false
-            referencedRelation: 'ReleaseGroups'
-            referencedColumns: ['id']
+            referencedRelation: "ReleaseGroups"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'Subtitles_subtitleGroupId_fkey'
-            columns: ['subtitleGroupId']
+            foreignKeyName: "Subtitles_subtitleGroupId_fkey"
+            columns: ["subtitleGroupId"]
             isOneToOne: false
-            referencedRelation: 'SubtitleGroups'
-            referencedColumns: ['id']
-          },
+            referencedRelation: "SubtitleGroups"
+            referencedColumns: ["id"]
+          }
         ]
       }
     }
@@ -169,3 +172,83 @@ export interface Database {
     }
   }
 }
+
+export type Tables<
+  PublicTableNameOrOptions extends
+    | keyof (Database["public"]["Tables"] & Database["public"]["Views"])
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+        Database[PublicTableNameOrOptions["schema"]]["Views"])
+    : never = never
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : PublicTableNameOrOptions extends keyof (Database["public"]["Tables"] &
+      Database["public"]["Views"])
+  ? (Database["public"]["Tables"] &
+      Database["public"]["Views"])[PublicTableNameOrOptions] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : never
+
+export type TablesInsert<
+  PublicTableNameOrOptions extends
+    | keyof Database["public"]["Tables"]
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
+  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : never
+
+export type TablesUpdate<
+  PublicTableNameOrOptions extends
+    | keyof Database["public"]["Tables"]
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
+  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : never
+
+export type Enums<
+  PublicEnumNameOrOptions extends
+    | keyof Database["public"]["Enums"]
+    | { schema: keyof Database },
+  EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
+    : never = never
+> = PublicEnumNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]
+  ? Database["public"]["Enums"][PublicEnumNameOrOptions]
+  : never

@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "bun --watch app.ts",
     "test:watch": "bun test --watch",
-    "supabase:type:definitions": "bunx supabase gen types typescript --project-id 'yelhsmnvfyyjuamxbobs' --schema public > types.ts"
+    "supabase:type:definitions": "bunx supabase gen types typescript --project-id 'yelhsmnvfyyjuamxbobs' --schema public > types.ts",
+    "supabase:schemas": "supabase-to-zod --input types.ts --output schemas.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",
@@ -16,6 +17,7 @@
     "@total-typescript/ts-reset": "^0.5.1",
     "bun-types": "^1.0.15",
     "supabase": ">=1.115.5",
+    "supabase-to-zod": "^1.0.4",
     "typescript": "^5.3.3"
   },
   "trustedDependencies": [
