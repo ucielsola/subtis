@@ -3,9 +3,10 @@ import type { Context } from 'elysia'
 
 // db
 import { supabase } from 'db'
+import { moviesRowSchema, releaseGroupsRowSchema, subtitleGroupsRowSchema, subtitlesRowSchema } from 'db/schemas'
 
 // shared
-import { resolutionSchema, videoFileNameSchema } from 'shared/movie'
+import { videoFileNameSchema } from 'shared/movie'
 
 // api
 import { redis } from '@subtis/api'
@@ -13,23 +14,12 @@ import { redis } from '@subtis/api'
 // schemas
 const errorSchema = z.object({ message: z.string() })
 
-const subtitleSchema = z.object({
-  id: z.number(),
-  subtitleShortLink: z.string(),
-  subtitleFullLink: z.string(),
-  resolution: resolutionSchema,
-  fileName: z.string(),
-  Movies: z.object({
-    name: z.string(),
-    year: z.number(),
-  }).nullable(),
-  ReleaseGroups: z.object({
-    name: z.string(),
-  }).nullable(),
-  SubtitleGroups: z.object({
-    name: z.string(),
-  }).nullable(),
-})
+const subtitleSchema
+  = subtitlesRowSchema.pick({ id: true, subtitleShortLink: true, subtitleFullLink: true, resolution: true, fileName: true }).extend({
+    Movies: moviesRowSchema.pick({ name: true, year: true }),
+    ReleaseGroups: releaseGroupsRowSchema.pick({ name: true }),
+    SubtitleGroups: subtitleGroupsRowSchema.pick({ name: true }),
+  })
 
 const subtitlesSchema = z.array(subtitleSchema).min(1, { message: 'Subtitle not found for file' })
 const responseSchema = z.union([subtitleSchema, errorSchema])
