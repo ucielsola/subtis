@@ -1,31 +1,30 @@
 import { z } from 'zod'
-import invariant from 'tiny-invariant'
 import type { Context } from 'elysia'
 
-// shared
-import { getIsInvariantError, getParsedInvariantMessage } from 'shared/invariant'
-
 // db
-import { type Movie, type ReleaseGroup, type Subtitle, type SubtitleGroup, supabase } from 'db'
+import { supabase } from 'db'
 
 // internals
 import { redis } from '@subtis/api'
-
-// types
-type ApiResponseError = { message: string }
-
-type CustomQuery =
-  | (Pick<Subtitle, 'id' | 'subtitleShortLink' | 'subtitleFullLink' | 'fileName' | 'resolution'> & {
-    Movies: Pick<Movie, 'name' | 'year'> | null
-  } & {
-    ReleaseGroups: Pick<ReleaseGroup, 'name'> | null
-  } & {
-    SubtitleGroups: Pick<SubtitleGroup, 'name'> | null
-  })[]
-  | ApiResponseError
+import { moviesRowSchema, releaseGroupsRowSchema, subtitleGroupsRowSchema, subtitlesRowSchema } from 'db/schemas'
 
 // schemas
-const errorSchema = z.object({ status: z.number(), message: z.string() })
+const errorSchema = z.object({ message: z.string() })
+
+const subtitleSchema
+  = subtitlesRowSchema.pick({ id: true, subtitleShortLink: true, subtitleFullLink: true, resolution: true, fileName: true }).extend({
+    Movies: moviesRowSchema.pick({ name: true, year: true }),
+    ReleaseGroups: releaseGroupsRowSchema.pick({ name: true }),
+    SubtitleGroups: subtitleGroupsRowSchema.pick({ name: true }),
+  })
+
+const subtitlesSchema = z
+  .array(subtitleSchema, { invalid_type_error: 'Subtitles not found for movie' })
+  .min(1, { message: 'Subtitles not found for movie' })
+const responseSchema = z.union([subtitlesSchema, errorSchema])
+
+// types
+type Response = z.infer<typeof responseSchema>
 
 // core
 export async function getSubtitlesFromMovieId({
@@ -34,50 +33,30 @@ export async function getSubtitlesFromMovieId({
 }: {
   set: Context['set']
   body: { movieId: string }
-}): Promise<CustomQuery> {
-  try {
-    // 1. Get movieId from body
-    const { movieId } = body
+}): Promise<Response> {
+  const { movieId } = body
 
-    // 2. Check if movie exists in cache
-    const subtitleInCache = await redis.get<CustomQuery>(`/v1/subtitles/${movieId}`)
-
-    // 3. Return subtitle from cache if exists
-    if (subtitleInCache) {
-      return subtitleInCache
-    }
-
-    // 4. Get subtitles from database
-    const { data: subtitles } = await supabase
-      .from('Subtitles')
-      .select(
-        'id, subtitleShortLink, subtitleFullLink, resolution, fileName, Movies ( name, year ), ReleaseGroups ( name ), SubtitleGroups ( name )',
-      )
-      .eq('movieId', movieId)
-
-    // 5. Throw error if subtitles not found
-    invariant(subtitles && subtitles.length > 0, JSON.stringify({ message: 'Subtitles not found for movie', status: 404 }))
-
-    // 6. Save subtitles in cache
-    redis.set(`/v1/subtitles/${movieId}`, subtitles)
-
-    // 7. Return subtitles
-    return subtitles
+  const subtitlesInCache = await redis.get(`/v1/subtitles/${movieId}`)
+  const subtitlesInRedis = subtitlesSchema.safeParse(subtitlesInCache)
+  if (subtitlesInRedis.success) {
+    set.status = 200
+    return subtitlesInRedis.data
   }
-  catch (error) {
-    const nativeError = error as Error
-    const isInvariantError = getIsInvariantError(nativeError)
 
-    if (!isInvariantError) {
-      set.status = 500
-      return { message: nativeError.message }
-    }
+  const { data } = await supabase
+    .from('Subtitles')
+    .select(
+      'id, subtitleShortLink, subtitleFullLink, resolution, fileName, Movies ( name, year ), ReleaseGroups ( name ), SubtitleGroups ( name )',
+    )
+    .eq('movieId', movieId)
 
-    const invariantMessage = getParsedInvariantMessage(nativeError)
-    const invariantError = JSON.parse(invariantMessage)
-    const { status, message } = errorSchema.parse(invariantError)
-
-    set.status = status
-    return { message }
+  const subtitles = subtitlesSchema.safeParse(data)
+  if (!subtitles.success) {
+    set.status = 404
+    return { message: subtitles.error.issues[0].message }
   }
+
+  redis.set(`/v1/subtitles/${movieId}`, subtitles)
+
+  return subtitles.data
 }
