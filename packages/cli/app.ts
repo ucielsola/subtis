@@ -3,12 +3,38 @@ import minimist from 'minimist'
 import { intro, outro, spinner } from '@clack/prompts'
 
 // shared
+import { getZodError } from 'shared/zod'
 import { getMessageFromStatusCode } from 'shared/error-messages'
 import { getFilenameFromPath, getVideoFileExtension } from 'shared/movie'
 
-// internals
-import { getZodError } from 'shared/zod'
-import { getSubtitleFromFileName } from './api'
+// cli
+import { getSubtitleFromFileName } from '@subtis/cli/api'
+
+// schemas
+const cliArgumentsSchema = z.object({
+  f: z.string({
+    invalid_type_error: '🤔 El valor de --f debe ser una ruta de archivo válida',
+  }).optional(),
+  file: z.string({
+    invalid_type_error: '🤔 El valor de --file debe ser una ruta de archivo válida',
+  }).optional(),
+})
+  .refine(data => data.f || data.file, {
+    message: '🤔 Debe proporcionar o bien --file [archivo] o bien -f [archivo].',
+  })
+  .refine((data) => {
+    if (data.file && !getVideoFileExtension(data.file)) {
+      return false
+    }
+
+    if (data.f && !getVideoFileExtension(data.f)) {
+      return false
+    }
+
+    return true
+  }, {
+    message: '🤔 Extension de video no soportada. Prueba con otro archivo.',
+  })
 
 // core
 async function cli(): Promise<void> {
@@ -20,19 +46,13 @@ async function cli(): Promise<void> {
     intro('🤗 Hola, soy Subtis CLI')
 
     // 3. Get cli arguments
-    const cliArguments = minimist(Bun.argv)
+    const cliRawArguments = minimist(Bun.argv)
 
     // 4. Parse with zod
-    const cliParse = z.object({ file: z.string({
-      invalid_type_error: '🤔 Parámetro --file no provisto. Prueba con "--file [archivo]".',
-    }) }).parse(cliArguments)
+    const cliArguments = cliArgumentsSchema.parse(cliRawArguments)
 
     // 5. Sanitize filename
-    const fileName = getFilenameFromPath(cliParse.file)
-
-    // 6. Checks if file is a video
-    const videoFileExtension = getVideoFileExtension(fileName)
-    z.string({ invalid_type_error: '🤔 Extension de video no soportada. Prueba con otro archivo.' }).parse(videoFileExtension)
+    const fileName = getFilenameFromPath(cliArguments.f ?? cliArguments.file ?? '')
 
     // 8. Display loader
     loader.start(`🔎 Buscando subtitulos`)
