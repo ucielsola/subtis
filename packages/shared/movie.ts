@@ -1,9 +1,9 @@
+import { z } from 'zod'
 import { P, match } from 'ts-pattern'
 import invariant from 'tiny-invariant'
 
 // indexer
 import { RELEASE_GROUPS, type ReleaseGroup, type ReleaseGroupKeys, type ReleaseGroupNames } from 'indexer/release-groups'
-import { z } from 'zod'
 
 // constants
 export const VIDEO_FILE_EXTENSIONS = [
