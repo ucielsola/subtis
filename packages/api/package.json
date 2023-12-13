@@ -11,7 +11,7 @@
   "dependencies": {
     "@elysiajs/cors": "^0.7.2",
     "@elysiajs/swagger": "^0.7.4",
-    "@upstash/redis": "^1.25.1",
+    "@upstash/redis": "^1.25.2",
     "elysia": "^0.7.30",
     "elysia-helmet": "^1.0.1",
     "elysia-rate-limit": "^2.0.1",
@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "^0.5.1",
-    "bun-types": "^1.0.15",
+    "bun-types": "^1.0.17",
     "typescript": "^5.3.3"
   }
 }
