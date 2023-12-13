@@ -14,11 +14,15 @@ yarn dlx @subtis/cli --file [YOUR_MOVIE_FILE_PATH]
 Run in the root:
 
 ```bash
-> bun dev:cli [YOUR_MOVIE_FILE_PATH]
+> bun dev:cli --file [YOUR_MOVIE_FILE_PATH]
 ```
 
 Example:
 
 ```bash
-> bun dev:cli ./Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv
+> bun dev:cli --file ./Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv
 ```
+
+## Guidelines
+
+Follow [Node.js CLI Apps best practices list](https://github.com/lirantal/nodejs-cli-apps-best-practices)
