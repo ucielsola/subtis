@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import chalk from 'chalk'
 import minimist from 'minimist'
 import { intro, outro, spinner } from '@clack/prompts'
 
@@ -13,10 +14,10 @@ import { getSubtitleFromFileName } from '@subtis/cli/api'
 // schemas
 const cliArgumentsSchema = z.object({
   f: z.string({
-    invalid_type_error: '🤔 El valor de --f debe ser una ruta de archivo válida',
+    invalid_type_error: '🤔 El valor de --f debe ser una ruta de archivo válida.',
   }).optional(),
   file: z.string({
-    invalid_type_error: '🤔 El valor de --file debe ser una ruta de archivo válida',
+    invalid_type_error: '🤔 El valor de --file debe ser una ruta de archivo válida.',
   }).optional(),
 })
   .refine(data => data.f || data.file, {
@@ -33,7 +34,7 @@ const cliArgumentsSchema = z.object({
 
     return true
   }, {
-    message: '🤔 Extension de video no soportada. Prueba con otro archivo.',
+    message: '🤔 Extensión de video no soportada. Prueba con otro archivo.',
   })
 
 // core
@@ -43,7 +44,7 @@ async function cli(): Promise<void> {
 
   try {
     // 2. Display intro
-    intro('🤗 Hola, soy Subtis CLI')
+    intro(`👋 Hola, soy ${chalk.magenta('Subtis CLI')}`)
 
     // 3. Get cli arguments
     const cliRawArguments = minimist(Bun.argv)
@@ -68,20 +69,20 @@ async function cli(): Promise<void> {
     }
 
     // 11. Stop loader and display subtitle link
-    loader.stop(`🥳 Descarga tu subtítulo del siguiente link: ${data.subtitleShortLink}`)
+    loader.stop(`🥳 Descarga tu subtítulo en ${chalk.blue(data.subtitleShortLink)}`)
 
     // 12. Display outro
-    outro(`🍿 Disfruta de ${data.Movies?.name} (${data.Movies?.year}) en ${data.resolution} subtitulada`)
+    outro(`🍿 Disfruta de ${chalk.bold(`${data.Movies?.name} (${data.Movies?.year})`)} en ${chalk.italic(data.resolution)} subtitulada`)
   }
   catch (error) {
     const nativeError = error as Error
     const zodError = getZodError(nativeError)
 
     if (zodError) {
-      return outro(zodError)
+      return outro(chalk.yellow(zodError))
     }
 
-    return outro(`🔴 ${nativeError.message}`)
+    return outro(chalk.red(`🔴 ${nativeError.message}`))
   }
 }
 
