@@ -1,6 +1,6 @@
 # Subtis
 
-> El subtítulo que buscabas
+El subtítulo que estabas buscando!
 
 ## Packages
 
@@ -15,36 +15,36 @@
 1. Install bun runtime
 
 ```bash
-> curl -fsSL https://bun.sh/install | bash
+curl -fsSL https://bun.sh/install | bash
 ```
 
 If there's any specific issue with the latest version install the v1.0.11 stable that it works mainly with the indexer
 
 ```bash
-> curl -fsSL https://bun.sh/install | bash -s "bun-v1.0.11"
+curl -fsSL https://bun.sh/install | bash -s "bun-v1.0.11"
 ```
 
-At least until [Brotly](https://github.com/oven-sh/bun/issues/267) is fully supported on Bun.
+_At least until [Brotly](https://github.com/oven-sh/bun/issues/267) is fully supported on Bun._
 
 2. Install project dependencies
 
 ```bash
-> bun install
+bun install
 ```
 
 3. Run any of the desired packages
 
 ```bash
-> bun dev:api // needed for web and cli
-> bun dev:web
-> bun dev:cli
-> bun dev:indexer
+bun dev:api // needed for web and cli
+bun dev:web
+bun dev:cli
+bun dev:indexer
 ```
 
 4. Test your code in watch mode
 
 ```bash
-> bun test:watch
+bun test:watch
 ```
 
 ## Updating Database
@@ -52,7 +52,7 @@ At least until [Brotly](https://github.com/oven-sh/bun/issues/267) is fully supp
 If there's a database schema update, we should update type definitions for it by running:
 
 ```bash
-> cd packages/db && bun run supabase:type:definitions
+cd packages/db && bun run supabase:type:definitions
 ```
 
 ## Access Database
@@ -65,7 +65,7 @@ If you want to have lint in auto-save follow the official [VSCode Support](https
 
 ## API Testing
 
-Import [/docs/collection.json](/docs/collection.json) into your preferred HTTP client like Hoppscotch, Postman or Insomnia, to quickly test all API endpoints and different scenarios.
+Import [docs/collection.json](/docs/collection.json) into your preferred HTTP client like Hoppscotch, Postman or Insomnia, to quickly test all API endpoints and different scenarios.
 
 ## Warnings
 
