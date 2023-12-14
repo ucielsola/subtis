@@ -1,3 +1,4 @@
+import process from 'node:process'
 import { z } from 'zod'
 import chalk from 'chalk'
 import minimist from 'minimist'
@@ -78,11 +79,13 @@ async function cli(): Promise<void> {
     const nativeError = error as Error
     const zodError = getZodError(nativeError)
 
-    if (zodError) {
-      return outro(chalk.yellow(zodError))
-    }
-
-    return outro(chalk.red(`🔴 ${nativeError.message}`))
+    outro(zodError
+      ? chalk.yellow(zodError)
+      : chalk.red(`🔴 ${nativeError.message}`),
+    )
+  }
+  finally {
+    process.exit()
   }
 }
 
