@@ -6,3 +6,4 @@ subs
 coverage
 node_modules
 *.zip
+*.js

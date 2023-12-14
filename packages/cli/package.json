@@ -8,7 +8,9 @@
   },
   "scripts": {
     "dev": "bun --watch app.ts",
-    "test:watch": "bun test --watch"
+    "start": "bun run dist/app.js",
+    "test:watch": "bun test --watch",
+    "build": "bun build --target=node app.ts --outdir ./dist"
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
