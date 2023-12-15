@@ -7,6 +7,7 @@ import { supabase } from 'db'
 // api
 import { errorSchema, subtitleSchema } from '@subtis/api'
 
+// schemas
 const subtitlesSchema = z
   .array(subtitleSchema, { invalid_type_error: 'Subtitles not found for movie' })
   .min(1, { message: 'Subtitles not found for movie' })

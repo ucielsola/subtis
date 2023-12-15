@@ -5,8 +5,6 @@ import type { Context } from 'elysia'
 import { supabase } from 'db'
 import { moviesRowSchema } from 'db/schemas'
 
-// api
-
 // schemas
 const movieSchema = moviesRowSchema.pick({ id: true, name: true, year: true })
 const moviesSchema = z.array(movieSchema).min(1)
