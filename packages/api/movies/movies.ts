@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { edenTreaty } from '@elysiajs/eden'
 import type { Context } from 'elysia'
 
 // db
@@ -7,8 +6,6 @@ import { supabase } from 'db'
 import { moviesRowSchema } from 'db/schemas'
 
 // api
-import type { ApiBaseUrlConfig, App } from '@subtis/api'
-import { getApiBaseUrl } from '@subtis/api'
 
 // schemas
 const movieSchema = moviesRowSchema.pick({ id: true, name: true, year: true })
@@ -44,9 +41,4 @@ export async function getMoviesFromMovieId({
   }
 
   return movies.data
-}
-
-export async function getMovies(movieName: string, apiBaseUrlConfig: ApiBaseUrlConfig) {
-  const apiBaseUrl = getApiBaseUrl(apiBaseUrlConfig)
-  return edenTreaty<App>(apiBaseUrl).v1.movies.post({ movieName })
 }

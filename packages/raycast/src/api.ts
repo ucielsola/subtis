@@ -1,16 +1,14 @@
 import fetch from 'node-fetch'
 
 // api
-import { getSubtitle } from '@subtis/api'
+import { getApiClient } from 'shared/api-client'
 
 // polyfill fetch for Raycast
 Object.assign(globalThis, { fetch })
 
 // helpers
-export async function getSubtitleFromFileName(fileName: string) {
-  return getSubtitle(fileName, {
-    isProduction: true,
-    apiBaseUrlProduction: 'http://localhost:8080',
-    apiBaseUrlDevelopment: 'http://localhost:8080',
-  })
-}
+export const apiClient = getApiClient({
+  isProduction: true,
+  apiBaseUrlProduction: 'http://localhost:8080',
+  apiBaseUrlDevelopment: 'http://localhost:8080',
+})

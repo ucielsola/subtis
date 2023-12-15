@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test'
 
 // internals
-import { app } from '@subtis/api'
+import { app } from './app'
 
 describe('API | /movies', () => {
   it('return a movies response for a movie name query', async () => {

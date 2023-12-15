@@ -1,5 +1,4 @@
 export * from './app'
-export * from './redis'
 export * from './shared'
 export * from './movies'
 export * from './subtitle'

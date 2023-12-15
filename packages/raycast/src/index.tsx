@@ -8,7 +8,7 @@ import { getFilenameFromPath, getVideoFileExtension } from 'shared/movie'
 import { getIsInvariantError, getParsedInvariantMessage } from 'shared/invariant'
 
 // internals
-import { getSubtitleFromFileName } from './api'
+import { apiClient } from './api'
 
 // types
 type Values = {
@@ -36,7 +36,7 @@ export default function Command() {
       invariant(videoFileExtension, 'Extension de video no soportada.')
 
       // 4. Get subtitle from API
-      const { data, status } = await getSubtitleFromFileName(fileName)
+      const { data, status } = await apiClient.v1.subtitle.post({ fileName })
 
       // 5. Display failure toast message if subtitle is not found
       if (data === null || 'message' in data) {

@@ -8,7 +8,7 @@ import { getMessageFromStatusCode } from 'shared/error-messages'
 import { getFilenameFromPath, getVideoFileExtension } from 'shared/movie'
 
 // utils
-import { getSubtitleFromFileName } from '~/utils/api'
+import { apiClient } from '~/utils/api'
 
 // schemas
 const schema = z.object({
@@ -19,7 +19,7 @@ const schema = z.object({
 
 // actions
 export const useSubtitleAction = routeAction$(async (formData) => {
-  const { data, status } = await getSubtitleFromFileName(formData.fileName)
+  const { data, status } = await apiClient.v1.subtitle.post({ fileName: formData.fileName })
   return { data, status }
 }, zod$(schema))
 
@@ -31,7 +31,7 @@ export const useSubtitleLoader = routeLoader$(async (requestEvent) => {
     return null
   }
 
-  const { data, status } = await getSubtitleFromFileName(fileName)
+  const { data, status } = await apiClient.v1.subtitle.post({ fileName })
   return { data, status }
 })
 

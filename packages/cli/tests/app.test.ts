@@ -4,7 +4,7 @@ import { describe, expect, it } from 'bun:test'
 import { getMessageFromStatusCode } from 'shared/error-messages'
 
 describe('CLI', async () => {
-  await import('@subtis/api')
+  await import('@subtis/api/app/app')
 
   it('returns a message with a subtitle link with --file parameter', async () => {
     const process = Bun.spawn([

@@ -1,11 +1,9 @@
 // api
-import { getSubtitle } from '@subtis/api'
+import { getApiClient } from 'shared/api-client'
 
-// helpers
-export async function getSubtitleFromFileName(fileName: string) {
-  return getSubtitle(fileName, {
-    isProduction: Bun.env.NODE_ENV === 'production',
-    apiBaseUrlProduction: Bun.env.PUBLIC_API_BASE_URL_PRODUCTION,
-    apiBaseUrlDevelopment: Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT,
-  })
-}
+// constants
+export const apiClient = getApiClient({
+  isProduction: Bun.env.NODE_ENV === 'production',
+  apiBaseUrlProduction: Bun.env.PUBLIC_API_BASE_URL_PRODUCTION,
+  apiBaseUrlDevelopment: Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT,
+})

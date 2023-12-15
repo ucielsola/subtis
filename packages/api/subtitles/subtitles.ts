@@ -1,15 +1,11 @@
 import { z } from 'zod'
-import { edenTreaty } from '@elysiajs/eden'
 import type { Context } from 'elysia'
 
 // db
 import { supabase } from 'db'
 
 // api
-import type { ApiBaseUrlConfig, App } from '@subtis/api'
-
-// internals
-import { errorSchema, getApiBaseUrl, redis, subtitleSchema } from '@subtis/api'
+import { errorSchema, subtitleSchema } from '@subtis/api'
 
 const subtitlesSchema = z
   .array(subtitleSchema, { invalid_type_error: 'Subtitles not found for movie' })
@@ -29,13 +25,6 @@ export async function getSubtitlesFromMovieId({
 }): Promise<Response> {
   const { movieId } = body
 
-  const subtitlesInCache = await redis.get(`/v1/subtitles/${movieId}`)
-  const subtitlesInRedis = subtitlesSchema.safeParse(subtitlesInCache)
-  if (subtitlesInRedis.success) {
-    set.status = 200
-    return subtitlesInRedis.data
-  }
-
   const { data } = await supabase
     .from('Subtitles')
     .select(
@@ -49,12 +38,5 @@ export async function getSubtitlesFromMovieId({
     return { message: subtitles.error.issues[0].message }
   }
 
-  redis.set(`/v1/subtitles/${movieId}`, subtitles)
-
   return subtitles.data
-}
-
-export async function getSubtitles(movieId: string, apiBaseUrlConfig: ApiBaseUrlConfig) {
-  const apiBaseUrl = getApiBaseUrl(apiBaseUrlConfig)
-  return edenTreaty<App>(apiBaseUrl).v1.subtitles.post({ movieId })
 }

@@ -1,16 +1,23 @@
 import { z } from 'zod'
-import { edenTreaty } from '@elysiajs/eden'
 import type { Context } from 'elysia'
 
 // db
 import { supabase } from 'db'
+import { moviesRowSchema, releaseGroupsRowSchema, subtitleGroupsRowSchema, subtitlesRowSchema } from 'db/schemas'
 
 // shared
 import { videoFileNameSchema } from 'shared/movie'
 
 // api
-import type { ApiBaseUrlConfig, App } from '@subtis/api'
-import { errorSchema, getApiBaseUrl, redis, subtitleSchema } from '@subtis/api'
+import { errorSchema } from '@subtis/api'
+
+// schemas
+export const subtitleSchema
+  = subtitlesRowSchema.pick({ id: true, subtitleShortLink: true, subtitleFullLink: true, resolution: true, fileName: true }).extend({
+    Movies: moviesRowSchema.pick({ name: true, year: true }),
+    ReleaseGroups: releaseGroupsRowSchema.pick({ name: true }),
+    SubtitleGroups: subtitleGroupsRowSchema.pick({ name: true }),
+  })
 
 const subtitlesSchema = z
   .array(subtitleSchema, { invalid_type_error: 'Subtitle not found for file' })
@@ -34,13 +41,6 @@ export async function getSubtitleFromFileName({
     return { message: videoFileName.error.issues[0].message }
   }
 
-  const subtitleInCache = await redis.get(`/v1/subtitle/${videoFileName.data}`)
-  const subtitleInRedis = subtitleSchema.safeParse(subtitleInCache)
-  if (subtitleInRedis.success) {
-    set.status = 200
-    return subtitleInRedis.data
-  }
-
   const { data } = await supabase
     .from('Subtitles')
     .select(
@@ -56,13 +56,5 @@ export async function getSubtitleFromFileName({
     return { message: subtitles.error.issues[0].message }
   }
 
-  const [subtitle] = subtitles.data
-  redis.set(`/v1/subtitle/${videoFileName.data}`, subtitle)
-
-  return subtitle
-}
-
-export async function getSubtitle(fileName: string, apiBaseUrlConfig: ApiBaseUrlConfig) {
-  const apiBaseUrl = getApiBaseUrl(apiBaseUrlConfig)
-  return edenTreaty<App>(apiBaseUrl).v1.subtitle.post({ fileName })
+  return subtitles.data[0]
 }

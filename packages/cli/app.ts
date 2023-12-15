@@ -10,7 +10,7 @@ import { getMessageFromStatusCode } from 'shared/error-messages'
 import { getFilenameFromPath, getVideoFileExtension } from 'shared/movie'
 
 // cli
-import { getSubtitleFromFileName } from '@subtis/cli/api'
+import { apiClient } from '@subtis/cli/api'
 
 // schemas
 const cliArgumentsSchema = z.object({
@@ -60,7 +60,7 @@ async function cli(): Promise<void> {
     loader.start(`🔎 Buscando subtitulos`)
 
     // 9. Fetch subtitle link from API
-    const { data, status } = await getSubtitleFromFileName(fileName)
+    const { data, status } = await apiClient.v1.subtitle.post({ fileName })
 
     // 10. Display error message if status is not 200
     if (data === null || 'message' in data) {
