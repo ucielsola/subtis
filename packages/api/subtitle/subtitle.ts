@@ -4,26 +4,17 @@ import type { Context } from 'elysia'
 
 // db
 import { supabase } from 'db'
-import { moviesRowSchema, releaseGroupsRowSchema, subtitleGroupsRowSchema, subtitlesRowSchema } from 'db/schemas'
 
 // shared
 import { videoFileNameSchema } from 'shared/movie'
 
 // api
 import type { ApiBaseUrlConfig, App } from '@subtis/api'
-import { getApiBaseUrl, redis } from '@subtis/api'
+import { errorSchema, getApiBaseUrl, redis, subtitleSchema } from '@subtis/api'
 
-// schemas
-const errorSchema = z.object({ message: z.string() })
-
-const subtitleSchema
-  = subtitlesRowSchema.pick({ id: true, subtitleShortLink: true, subtitleFullLink: true, resolution: true, fileName: true }).extend({
-    Movies: moviesRowSchema.pick({ name: true, year: true }),
-    ReleaseGroups: releaseGroupsRowSchema.pick({ name: true }),
-    SubtitleGroups: subtitleGroupsRowSchema.pick({ name: true }),
-  })
-
-const subtitlesSchema = z.array(subtitleSchema).min(1, { message: 'Subtitle not found for file' })
+const subtitlesSchema = z
+  .array(subtitleSchema, { invalid_type_error: 'Subtitle not found for file' })
+  .min(1, { message: 'Subtitle not found for file' })
 const responseSchema = z.union([subtitleSchema, errorSchema])
 
 // types

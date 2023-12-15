@@ -4,21 +4,12 @@ import type { Context } from 'elysia'
 
 // db
 import { supabase } from 'db'
-import { moviesRowSchema, releaseGroupsRowSchema, subtitleGroupsRowSchema, subtitlesRowSchema } from 'db/schemas'
 
 // api
 import type { ApiBaseUrlConfig, App } from '@subtis/api'
-import { getApiBaseUrl, redis } from '@subtis/api'
 
-// schemas
-const errorSchema = z.object({ message: z.string() })
-
-const subtitleSchema
-  = subtitlesRowSchema.pick({ id: true, subtitleShortLink: true, subtitleFullLink: true, resolution: true, fileName: true }).extend({
-    Movies: moviesRowSchema.pick({ name: true, year: true }),
-    ReleaseGroups: releaseGroupsRowSchema.pick({ name: true }),
-    SubtitleGroups: subtitleGroupsRowSchema.pick({ name: true }),
-  })
+// internals
+import { errorSchema, getApiBaseUrl, redis, subtitleSchema } from '@subtis/api'
 
 const subtitlesSchema = z
   .array(subtitleSchema, { invalid_type_error: 'Subtitles not found for movie' })
