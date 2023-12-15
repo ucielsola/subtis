@@ -1,5 +1,5 @@
-// shared
-import { getSubtitle } from 'shared/api'
+// api
+import { getSubtitle } from '@subtis/api'
 
 // core
 export async function getSubtitleFromFileName(fileName: string) {

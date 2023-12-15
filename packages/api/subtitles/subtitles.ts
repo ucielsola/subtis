@@ -1,12 +1,14 @@
 import { z } from 'zod'
+import { edenTreaty } from '@elysiajs/eden'
 import type { Context } from 'elysia'
 
 // db
 import { supabase } from 'db'
-
-// internals
-import { redis } from '@subtis/api'
 import { moviesRowSchema, releaseGroupsRowSchema, subtitleGroupsRowSchema, subtitlesRowSchema } from 'db/schemas'
+
+// api
+import type { ApiBaseUrlConfig, App } from '@subtis/api'
+import { getApiBaseUrl, redis } from '@subtis/api'
 
 // schemas
 const errorSchema = z.object({ message: z.string() })
@@ -59,4 +61,9 @@ export async function getSubtitlesFromMovieId({
   redis.set(`/v1/subtitles/${movieId}`, subtitles)
 
   return subtitles.data
+}
+
+export async function getSubtitles(movieId: string, apiBaseUrlConfig: ApiBaseUrlConfig) {
+  const apiBaseUrl = getApiBaseUrl(apiBaseUrlConfig)
+  return edenTreaty<App>(apiBaseUrl).v1.subtitles.post({ movieId })
 }

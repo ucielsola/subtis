@@ -1,18 +1,14 @@
 import { z } from 'zod'
-import { edenTreaty } from '@elysiajs/eden'
-
-// api
-import type { App } from '@subtis/api'
 
 // types
-type ApiBaseUrlConfig = {
+export type ApiBaseUrlConfig = {
   isProduction: boolean
   apiBaseUrlProduction?: string
   apiBaseUrlDevelopment?: string
 }
 
 // utils
-function getApiBaseUrl(apiBaseUrlConfig: ApiBaseUrlConfig): string {
+export function getApiBaseUrl(apiBaseUrlConfig: ApiBaseUrlConfig): string {
   const schema = z.object({
     isProduction: z.boolean(),
     apiBaseUrlProduction: z.string(),
@@ -23,10 +19,4 @@ function getApiBaseUrl(apiBaseUrlConfig: ApiBaseUrlConfig): string {
   return apiBaseUrlConfigParsed.isProduction
     ? apiBaseUrlConfigParsed.apiBaseUrlProduction
     : apiBaseUrlConfigParsed.apiBaseUrlDevelopment
-}
-
-// core
-export async function getSubtitle(fileName: string, apiBaseUrlConfig: ApiBaseUrlConfig) {
-  const apiBaseUrl = getApiBaseUrl(apiBaseUrlConfig)
-  return edenTreaty<App>(apiBaseUrl).v1.subtitle.post({ fileName })
 }

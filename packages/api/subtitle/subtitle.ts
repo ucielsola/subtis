@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { edenTreaty } from '@elysiajs/eden'
 import type { Context } from 'elysia'
 
 // db
@@ -9,7 +10,8 @@ import { moviesRowSchema, releaseGroupsRowSchema, subtitleGroupsRowSchema, subti
 import { videoFileNameSchema } from 'shared/movie'
 
 // api
-import { redis } from '@subtis/api'
+import type { ApiBaseUrlConfig, App } from '@subtis/api'
+import { getApiBaseUrl, redis } from '@subtis/api'
 
 // schemas
 const errorSchema = z.object({ message: z.string() })
@@ -67,4 +69,9 @@ export async function getSubtitleFromFileName({
   redis.set(`/v1/subtitle/${videoFileName.data}`, subtitle)
 
   return subtitle
+}
+
+export async function getSubtitle(fileName: string, apiBaseUrlConfig: ApiBaseUrlConfig) {
+  const apiBaseUrl = getApiBaseUrl(apiBaseUrlConfig)
+  return edenTreaty<App>(apiBaseUrl).v1.subtitle.post({ fileName })
 }
