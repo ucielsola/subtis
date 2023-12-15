@@ -4,13 +4,6 @@ import { createClient } from '@supabase/supabase-js'
 // internals
 import type { Database } from './types'
 
-// types
-type Tables = Database['public']['Tables']
-export type Movie = Tables['Movies']['Row']
-export type Subtitle = Tables['Subtitles']['Row']
-export type ReleaseGroup = Tables['ReleaseGroups']['Row']
-export type SubtitleGroup = Tables['SubtitleGroups']['Row']
-
 // utils
 export function getSupabaseEnvironmentVariables(): {
   supabaseApiKey: string
