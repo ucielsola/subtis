@@ -1,7 +1,7 @@
 import fetch from 'node-fetch'
 
-// shared
-import { getSubtitle } from 'shared/api'
+// api
+import { getSubtitle } from '@subtis/api'
 
 // polyfill fetch for Raycast
 Object.assign(globalThis, { fetch })
