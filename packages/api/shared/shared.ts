@@ -29,6 +29,3 @@ export const subtitleSchema
     ReleaseGroups: releaseGroupsRowSchema.pick({ name: true }),
     SubtitleGroups: subtitleGroupsRowSchema.pick({ name: true }),
   })
-export const subtitlesSchema = z
-  .array(subtitleSchema, { invalid_type_error: 'Subtitles not found for movie' })
-  .min(1, { message: 'Subtitle not found for file' })
