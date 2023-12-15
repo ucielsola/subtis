@@ -45,7 +45,7 @@ async function cli(): Promise<void> {
 
   try {
     // 2. Display intro
-    intro(`👋 Hola, soy ${chalk.magenta('Subtis CLI')}`)
+    intro(`👋 Hola, soy ${chalk.magenta('Subtis')}`)
 
     // 3. Get cli arguments
     const cliRawArguments = minimist(Bun.argv)
