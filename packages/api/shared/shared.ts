@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { moviesRowSchema, releaseGroupsRowSchema, subtitleGroupsRowSchema, subtitlesRowSchema } from 'db/schemas'
 
 // types
 export type ApiBaseUrlConfig = {
@@ -20,3 +21,11 @@ export function getApiBaseUrl(apiBaseUrlConfig: ApiBaseUrlConfig): string {
     ? apiBaseUrlConfigParsed.apiBaseUrlProduction
     : apiBaseUrlConfigParsed.apiBaseUrlDevelopment
 }
+
+export const errorSchema = z.object({ message: z.string() })
+export const subtitleSchema
+  = subtitlesRowSchema.pick({ id: true, subtitleShortLink: true, subtitleFullLink: true, resolution: true, fileName: true }).extend({
+    Movies: moviesRowSchema.pick({ name: true, year: true }),
+    ReleaseGroups: releaseGroupsRowSchema.pick({ name: true }),
+    SubtitleGroups: subtitleGroupsRowSchema.pick({ name: true }),
+  })
