@@ -12,6 +12,7 @@ test('should return an search params for "Kinderfanger (2023)" for page 1', () =
     masdesc: '',
     realiza_b: '1',
     subtitulos: '1',
+    oxdown: '1',
   })
 })
 
@@ -24,6 +25,7 @@ test('should return an search params for "Stories Not To Be Told (2022)" for pag
     masdesc: '',
     realiza_b: '1',
     subtitulos: '1',
+    oxdown: '1',
   })
 })
 
@@ -36,5 +38,6 @@ test('should return an search params for "A Long Way To Come Home (2023)" for pa
     masdesc: '',
     realiza_b: '1',
     subtitulos: '1',
+    oxdown: '1',
   })
 })
