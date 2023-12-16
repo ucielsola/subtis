@@ -15,7 +15,7 @@ describe('CLI', async () => {
     ])
     const text = await new Response(process.stdout).text()
 
-    expect(text).toInclude('👋 Hola, soy Subtis CLI')
+    expect(text).toInclude('👋 Hola, soy Subtis')
     expect(text).toInclude('🥳 Descarga tu subtítulo en https://tinyurl.com/2x465tvl\n\u001B[?25h')
     expect(text).toInclude('🍿 Disfruta de Trolls Band Together (2023) en 1080p subtitulada')
   })
@@ -29,7 +29,7 @@ describe('CLI', async () => {
     ])
     const text = await new Response(process.stdout).text()
 
-    expect(text).toInclude('👋 Hola, soy Subtis CLI')
+    expect(text).toInclude('👋 Hola, soy Subtis')
     expect(text).toInclude('🥳 Descarga tu subtítulo en https://tinyurl.com/2x465tvl')
     expect(text).toInclude('🍿 Disfruta de Trolls Band Together (2023) en 1080p subtitulada')
   })
@@ -38,7 +38,7 @@ describe('CLI', async () => {
     const process = Bun.spawn(['bun', 'app.ts'])
     const text = await new Response(process.stdout).text()
 
-    expect(text).toInclude('👋 Hola, soy Subtis CLI')
+    expect(text).toInclude('👋 Hola, soy Subtis')
     expect(text).toInclude('🤔 Debe proporcionar o bien --file [archivo] o bien -f [archivo].')
   })
 
@@ -46,7 +46,7 @@ describe('CLI', async () => {
     const process = Bun.spawn(['bun', 'app.ts', '--f'])
     const text = await new Response(process.stdout).text()
 
-    expect(text).toInclude('👋 Hola, soy Subtis CLI')
+    expect(text).toInclude('👋 Hola, soy Subtis')
     expect(text).toInclude('🤔 El valor de --f debe ser una ruta de archivo válida.')
   })
 
@@ -54,7 +54,7 @@ describe('CLI', async () => {
     const process = Bun.spawn(['bun', 'app.ts', '--file'])
     const text = await new Response(process.stdout).text()
 
-    expect(text).toInclude('👋 Hola, soy Subtis CLI')
+    expect(text).toInclude('👋 Hola, soy Subtis')
     expect(text).toInclude('🤔 El valor de --file debe ser una ruta de archivo válida.')
   })
 
@@ -67,7 +67,7 @@ describe('CLI', async () => {
     ])
     const text = await new Response(process.stdout).text()
 
-    expect(text).toInclude('👋 Hola, soy Subtis CLI')
+    expect(text).toInclude('👋 Hola, soy Subtis')
     expect(text).toInclude('🤔 Extensión de video no soportada. Prueba con otro archivo.')
   })
 
@@ -76,7 +76,7 @@ describe('CLI', async () => {
     const text = await new Response(process.stdout).text()
     const { title, description } = getMessageFromStatusCode(404)
 
-    expect(text).toInclude('👋 Hola, soy Subtis CLI')
+    expect(text).toInclude('👋 Hola, soy Subtis')
     expect(text).toInclude('🔎 Buscando subtitulos')
     expect(text).toInclude(`😥 ${title}`)
     expect(text).toInclude(`⛏ ${description}`)
