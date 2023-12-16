@@ -2,8 +2,10 @@
 import { getApiClient } from 'shared/api-client'
 
 // constants
+const isProduction = Bun.env.NODE_ENV === 'production'
+
 export const apiClient = getApiClient({
-  isProduction: Bun.env.NODE_ENV === 'production',
-  apiBaseUrlProduction: Bun.env.PUBLIC_API_BASE_URL_PRODUCTION,
-  apiBaseUrlDevelopment: Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT,
+  isProduction,
+  apiBaseUrlProduction: isProduction ? '' : 'http://localhost:8080',
+  apiBaseUrlDevelopment: isProduction ? '' :'http://localhost:8080',
 })
