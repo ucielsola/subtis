@@ -1,4 +1,3 @@
-import process from 'node:process'
 import { z } from 'zod'
 import chalk from 'chalk'
 import minimist from 'minimist'
@@ -89,4 +88,5 @@ async function cli(): Promise<void> {
   }
 }
 
+// auto-run
 cli()
