@@ -84,7 +84,7 @@ export async function getSubDivXSubtitle({ movieData, page = '1' }: {
 
   const value = allSubtitlesElements.find((element) => {
     const movieDetail = element.textContent?.toLowerCase()
-    return movieDetail?.includes(searchableSubDivXName.toLowerCase())
+    return movieDetail?.includes(searchableSubDivXName.toLowerCase()) && movieDetail?.includes(resolution)
   })
 
   const previousSibling = value?.previousSibling as Element
