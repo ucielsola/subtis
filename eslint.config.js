@@ -1,5 +1,9 @@
 import antfu from '@antfu/eslint-config'
 
 export default antfu({
-  rules: { 'ts/consistent-type-definitions': 0, 'curly': 0 },
+  rules: {
+    'curly': 0,
+    'node/prefer-global/process': 0,
+    'ts/consistent-type-definitions': 0,
+  },
 })
