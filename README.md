@@ -35,9 +35,10 @@ bun install
 3. Run any of the desired packages
 
 ```bash
-bun dev:api // needed for web and cli
+bun dev:api
 bun dev:web
 bun dev:cli
+bun dev:raycast
 bun dev:indexer
 ```
 
@@ -74,14 +75,16 @@ Request access to Supabase team with the developer email.
 
 If you want to have lint in auto-save follow the official [VSCode Support](https://github.com/antfu/eslint-config#vs-code-support-auto-fix) guide from the ESLint config we use.
 
-## API Testing
+## API Playground
 
-Import [docs/collection.json](/docs/collection.json) into your preferred HTTP client like Hoppscotch, Postman or Insomnia, to quickly test all API endpoints and different scenarios.
+Import [docs/collection.json](/docs/collection.json) into your preferred HTTP client like Hoppscotch, Postman or Insomnia, to quickly play with all API endpoints and different scenarios.
 
 ## Warnings
 
-- Tests run all packages except CLI since msw is not working with Bun at the moment
-  - Tests work running it separately doing `cd packages/cli && bun test`
+- Tests run all packages except CLI since [Mock Service Worker](https://mswjs.io) is not working with Bun at the moment
+- Tests on CLI works by:
+    1. Run API with `bun run dev:api`
+    2. Run CLI tests `cd packages/cli && bun test`
 
 ## Support
 
