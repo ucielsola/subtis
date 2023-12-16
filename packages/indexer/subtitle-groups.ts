@@ -13,21 +13,24 @@ export const SUBTITLE_GROUPS = {
   SUBDIVX: {
     name: 'SubDivX',
     website: 'https://subdivx.com',
-    getSubtitleFromProvider: getSubDivXSubtitle,
   },
   ARGENTEAM: {
     name: 'Argenteam',
     website: 'https://argenteam.net',
-    getSubtitleFromProvider: getArgenteamSubtitle,
   },
   OPEN_SUBTITLES: {
     name: 'OpenSubtitles',
     website: 'https://www.opensubtitles.org',
-    getSubtitleFromProvider: getOpenSubtitlesSubtitle,
   },
 } as const
 
 export const SUBTITLE_GROUPS_ARRAY = Object.values(SUBTITLE_GROUPS)
+
+const SUBTITLE_GROUPS_GETTERS = {
+  SubDivX: getSubDivXSubtitle,
+  Argenteam: getArgenteamSubtitle,
+  OpenSubtitles: getOpenSubtitlesSubtitle,
+} as const
 
 // types
 export type SubtitleGroup = {
@@ -54,8 +57,11 @@ export async function saveSubtitleGroupsToDb(supabaseClient: SupabaseClient): Pr
   }
 }
 
-export function getEnabledSubtitleProviders(providers: SubtitleGroupNames[]) {
-  return SUBTITLE_GROUPS_ARRAY.filter(subtitleGroup => providers.includes(subtitleGroup.name))
+export function getEnabledSubtitleProviders(subtitleGroups: SubtitleGroupMap, providers: SubtitleGroupNames[]) {
+  return Object.values(subtitleGroups).map((subtitleGroup) => {
+    const subtitleGroupGetter = SUBTITLE_GROUPS_GETTERS[subtitleGroup.name as SubtitleGroupNames]
+    return { ...subtitleGroup, getSubtitleFromProvider: subtitleGroupGetter }
+  }).filter(subtitleGroup => providers.includes(subtitleGroup.name))
 }
 
 // core

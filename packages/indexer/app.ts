@@ -279,16 +279,30 @@ async function getSubtitlesFromMovie(
     // 10. Get only providers I want to use
 
     // TODO: Check if we can download subtitles from OpenSubitles
-    const enabledSubtitleProviders = getEnabledSubtitleProviders(['SubDivX'])
+    const enabledSubtitleProviders = getEnabledSubtitleProviders(subtitleGroups, ['SubDivX'])
 
     // 11. Find subtitle metadata from SubDivx and Argenteam
     for await (const [indexSubtitleProvider, enabledSubtitleProvider] of Object.entries(enabledSubtitleProviders)) {
-      const { name, getSubtitleFromProvider } = enabledSubtitleProvider
+      const { id, name, getSubtitleFromProvider } = enabledSubtitleProvider
 
       try {
         console.log(`4.${index}.${indexSubtitleProvider}) Buscando subtítulo en ${name}`)
 
         const subtitle = await getSubtitleFromProvider({ movieData, imdbId })
+
+        // 12. Check if subtitle already exists in DB
+        if (subtitle) {
+          const { data: subtitles } = await supabase
+            .from('Subtitles')
+            .select('*')
+            .eq('fileName', fileName)
+            .eq('subtitleGroupId', id)
+
+          if (subtitles && subtitles.length) {
+            console.log(`4.${index}.${indexSubtitleProvider}) Subtítulo ya existe en la base de datos para ${subtitle.subtitleGroup}`)
+            continue
+          }
+        }
 
         const { subtitleGroup } = subtitle
         console.log(`4.${index}.${indexSubtitleProvider}) Subtítulo encontrado para ${subtitleGroup}`)
