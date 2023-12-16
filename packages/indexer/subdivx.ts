@@ -25,6 +25,7 @@ export function getSubDivXSearchParams(
     masdesc: string
     realiza_b: string
     subtitulos: string
+    oxdown: string
   } {
   return {
     pg: page,
@@ -33,6 +34,7 @@ export function getSubDivXSearchParams(
     masdesc: '',
     realiza_b: '1',
     subtitulos: '1',
+    oxdown: '1',
   }
 }
 
