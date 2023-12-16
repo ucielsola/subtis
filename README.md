@@ -49,10 +49,21 @@ bun test:watch
 
 ## Updating Database
 
-If there's a database schema update, we should update type definitions for it by running:
+If there's a database schema update, we should follow the next steps:
 
+1. Move to db package
 ```bash
-cd packages/db && bun run supabase:type:definitions
+cd packages/db
+```
+
+2. Update db type definitions
+```bash
+bun run supabase:type:definitions
+```
+
+3. Create zod schemas from type definitions
+```bash
+bun run supabase:schemas
 ```
 
 ## Access Database
