@@ -59,7 +59,7 @@ async function runCLI(): Promise<void> {
     loader.start('🔎 Buscando subtitulos')
 
     // 9. Fetch subtitle link from API
-    const { data, status } = await apiClient.v1.subtitle.post({ fileName })
+    const { data, status } = await apiClient.v1.subtitle.post({ fileName } as any)
 
     // 10. Display error message if status is not 200
     if (data === null || 'message' in data) {
