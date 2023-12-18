@@ -18,11 +18,11 @@ describe('CLI', async () => {
     expect(text).toInclude('🍿 Disfruta de Killers of the Flower Moon (2023) en 1080p subtitulada')
   })
 
-  it('returns a message with a subtitle link with --f parameter', async () => {
+  it('returns a message with a subtitle link with -f parameter', async () => {
     const process = Bun.spawn([
       'bun',
       'app.ts',
-      '--f',
+      '-f',
       'Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv',
     ])
     const text = await new Response(process.stdout).text()
@@ -40,12 +40,12 @@ describe('CLI', async () => {
     expect(text).toInclude('🤔 Debe proporcionar o bien --file [archivo] o bien -f [archivo].')
   })
 
-  it('returns a message when --f parameter is given without a file path', async () => {
-    const process = Bun.spawn(['bun', 'app.ts', '--f'])
+  it('returns a message when -f parameter is given without a file path', async () => {
+    const process = Bun.spawn(['bun', 'app.ts', '-f'])
     const text = await new Response(process.stdout).text()
 
     expect(text).toInclude('👋 Hola, soy Subtis')
-    expect(text).toInclude('🤔 El valor de --f debe ser una ruta de archivo válida.')
+    expect(text).toInclude('🤔 El valor de -f debe ser una ruta de archivo válida.')
   })
 
   it('returns a message when --file parameter is given without a file path', async () => {
