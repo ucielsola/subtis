@@ -3,15 +3,16 @@
 ## Installation
 
 ```bash
-> bun install
-> bun dev
+bun install
+bun dev
+```
+
+## Tests
+
+```bash
+bun test:watch
 ```
 
 ## Documentation
 
-- Swagger: `/swagger`
-
-## Endpoints
-
-- Subtitles: `/subtitles`
-  - POST with fileName key
+- Swagger: `/docs`
