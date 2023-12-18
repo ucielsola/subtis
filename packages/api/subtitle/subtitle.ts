@@ -33,18 +33,9 @@ export async function getSubtitleFromFileName({
   body,
 }: {
   set: Context['set']
-  body: unknown
+  body: { fileName: string }
 }): Promise<Response> {
-  const bodyParsed = z.object({ fileName: z.string({
-    required_error: 'Key fileName is required in JSON payload',
-  }) }).safeParse(body)
-
-  if (!bodyParsed.success) {
-    set.status = 400
-    return { message: bodyParsed.error.issues[0].message }
-  }
-
-  const videoFileName = videoFileNameSchema.safeParse(bodyParsed.data.fileName)
+  const videoFileName = videoFileNameSchema.safeParse(body.fileName)
   if (!videoFileName.success) {
     set.status = 415
     return { message: videoFileName.error.issues[0].message }
