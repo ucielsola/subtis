@@ -38,7 +38,7 @@ const cliArgumentsSchema = z.object({
   })
 
 // core
-async function cli(): Promise<void> {
+async function runCLI(): Promise<void> {
   // 1. Initialize loader
   const loader = spinner()
 
@@ -56,7 +56,7 @@ async function cli(): Promise<void> {
     const fileName = getFilenameFromPath(cliArguments.f ?? cliArguments.file ?? '')
 
     // 8. Display loader
-    loader.start(`🔎 Buscando subtitulos`)
+    loader.start('🔎 Buscando subtitulos')
 
     // 9. Fetch subtitle link from API
     const { data, status } = await apiClient.v1.subtitle.post({ fileName })
@@ -89,4 +89,4 @@ async function cli(): Promise<void> {
 }
 
 // auto-run
-cli()
+runCLI()
