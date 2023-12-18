@@ -66,12 +66,10 @@ describe('API | /movies', () => {
     })
 
     const response = await app.handle(request)
-    const data = await response.json()
+    const data = await response.text()
 
     expect(response.status).toBe(400)
-    expect(data).toEqual({
-      message: 'Key movieName is required in JSON payload',
-    })
+    expect(data).toInclude('Invalid body, \'movieName\': Required property')
   })
 })
 
@@ -199,12 +197,10 @@ describe('API | /subtitles', () => {
     })
 
     const response = await app.handle(request)
-    const data = await response.json()
+    const data = await response.text()
 
     expect(response.status).toBe(400)
-    expect(data).toEqual({
-      message: 'Key movieId is required in JSON payload',
-    })
+    expect(data).toInclude('Invalid body, \'movieId\': Required property')
   })
 })
 
@@ -278,12 +274,10 @@ describe('API | /subtitle', () => {
     })
 
     const response = await app.handle(request)
-    const data = await response.json()
+    const data = await response.text()
 
     expect(response.status).toBe(400)
-    expect(data).toEqual({
-      message: 'Key fileName is required in JSON payload',
-    })
+    expect(data).toInclude(`Invalid body, 'fileName': Required property`)
   })
 })
 
@@ -343,7 +337,54 @@ describe('API | /v1/docs/json', () => {
         },
         '/v1/movies': {
           post: {
+            parameters: [],
             operationId: 'postV1Movies',
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      movieName: {
+                        type: 'string',
+                      },
+                    },
+                    required: [
+                      'movieName',
+                    ],
+                    additionalProperties: false,
+                  },
+                },
+                'multipart/form-data': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      movieName: {
+                        type: 'string',
+                      },
+                    },
+                    required: [
+                      'movieName',
+                    ],
+                    additionalProperties: false,
+                  },
+                },
+                'text/plain': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      movieName: {
+                        type: 'string',
+                      },
+                    },
+                    required: [
+                      'movieName',
+                    ],
+                    additionalProperties: false,
+                  },
+                },
+              },
+            },
             responses: {
               200: {},
             },
@@ -351,7 +392,54 @@ describe('API | /v1/docs/json', () => {
         },
         '/v1/subtitle': {
           post: {
+            parameters: [],
             operationId: 'postV1Subtitle',
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      fileName: {
+                        type: 'string',
+                      },
+                    },
+                    required: [
+                      'fileName',
+                    ],
+                    additionalProperties: false,
+                  },
+                },
+                'multipart/form-data': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      fileName: {
+                        type: 'string',
+                      },
+                    },
+                    required: [
+                      'fileName',
+                    ],
+                    additionalProperties: false,
+                  },
+                },
+                'text/plain': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      fileName: {
+                        type: 'string',
+                      },
+                    },
+                    required: [
+                      'fileName',
+                    ],
+                    additionalProperties: false,
+                  },
+                },
+              },
+            },
             responses: {
               200: {},
             },
@@ -359,7 +447,54 @@ describe('API | /v1/docs/json', () => {
         },
         '/v1/subtitles': {
           post: {
+            parameters: [],
             operationId: 'postV1Subtitles',
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      movieId: {
+                        type: 'string',
+                      },
+                    },
+                    required: [
+                      'movieId',
+                    ],
+                    additionalProperties: false,
+                  },
+                },
+                'multipart/form-data': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      movieId: {
+                        type: 'string',
+                      },
+                    },
+                    required: [
+                      'movieId',
+                    ],
+                    additionalProperties: false,
+                  },
+                },
+                'text/plain': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      movieId: {
+                        type: 'string',
+                      },
+                    },
+                    required: [
+                      'movieId',
+                    ],
+                    additionalProperties: false,
+                  },
+                },
+              },
+            },
             responses: {
               200: {},
             },
