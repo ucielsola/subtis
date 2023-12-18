@@ -14,7 +14,7 @@ import { apiClient } from '@subtis/cli/api'
 // schemas
 const cliArgumentsSchema = z.object({
   f: z.string({
-    invalid_type_error: '🤔 El valor de --f debe ser una ruta de archivo válida.',
+    invalid_type_error: '🤔 El valor de -f debe ser una ruta de archivo válida.',
   }).optional(),
   file: z.string({
     invalid_type_error: '🤔 El valor de --file debe ser una ruta de archivo válida.',
