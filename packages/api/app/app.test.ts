@@ -8,7 +8,7 @@ describe('API | /movies', () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ movieName: 'Trolls Band' }),
+      body: JSON.stringify({ movieName: 'Killers' }),
     })
 
     const response = await app.handle(request)
@@ -17,8 +17,8 @@ describe('API | /movies', () => {
     expect(data).toEqual([
       {
         year: 2023,
-        id: 14362112,
-        name: 'Trolls Band Together',
+        id: 5537002,
+        name: 'Killers of the Flower Moon',
       },
     ])
   })
@@ -27,7 +27,7 @@ describe('API | /movies', () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ movieName: 'trolls band' }),
+      body: JSON.stringify({ movieName: 'killers' }),
     })
 
     const response = await app.handle(request)
@@ -36,8 +36,8 @@ describe('API | /movies', () => {
     expect(data).toEqual([
       {
         year: 2023,
-        id: 14362112,
-        name: 'Trolls Band Together',
+        id: 5537002,
+        name: 'Killers of the Flower Moon',
       },
     ])
   })
@@ -64,7 +64,7 @@ describe('API | /subtitles', () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ movieId: '14362112' }),
+      body: JSON.stringify({ movieId: '5537002' }),
     })
 
     const response = await app.handle(request)
@@ -72,13 +72,13 @@ describe('API | /subtitles', () => {
 
     expect(data).toEqual([
       {
-        id: 1317,
-        subtitleShortLink: 'https://tinyurl.com/2x465tvl',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/trolls-band-together-1080p-galaxyrg-subdivx.srt?download=Trolls.Band.Together.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt',
+        id: 1345,
+        subtitleShortLink: 'https://tinyurl.com/yuo4llr2',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/killers-of-the-flower-moon-1080p-galaxyrg-subdivx.srt?download=Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.srt',
         resolution: '1080p',
-        fileName: 'Trolls.Band.Together.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv',
+        fileName: 'Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv',
         Movies: {
-          name: 'Trolls Band Together',
+          name: 'Killers of the Flower Moon',
           year: 2023,
         },
         ReleaseGroups: {
@@ -89,13 +89,30 @@ describe('API | /subtitles', () => {
         },
       },
       {
-        id: 1318,
-        subtitleShortLink: 'https://tinyurl.com/ypnd83vq',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/trolls-band-together-720p-galaxyrg-subdivx.srt?download=Trolls.Band.Together.2023.720p.AMZN.WEBRip.800MB.x264-GalaxyRG.srt',
+        id: 1346,
+        subtitleShortLink: 'https://tinyurl.com/ytjneoso',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/killers-of-the-flower-moon-1080p-flux-subdivx.srt?download=Killers.Of.The.Flower.Moon.2023.REPACK.1080p.AMZN.WEB-DL.DDP5.1.Atmos.H.264-FLUX.srt',
+        resolution: '1080p',
+        fileName: 'Killers.Of.The.Flower.Moon.2023.REPACK.1080p.AMZN.WEB-DL.DDP5.1.Atmos.H.264-FLUX.mkv',
+        Movies: {
+          name: 'Killers of the Flower Moon',
+          year: 2023,
+        },
+        ReleaseGroups: {
+          name: 'FLUX',
+        },
+        SubtitleGroups: {
+          name: 'SubDivX',
+        },
+      },
+      {
+        id: 1347,
+        subtitleShortLink: 'https://tinyurl.com/ymaah64s',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/killers-of-the-flower-moon-720p-galaxyrg-subdivx.srt?download=Killers.Of.The.Flower.Moon.2023.720p.WEBRip.900MB.x264-GalaxyRG.srt',
         resolution: '720p',
-        fileName: 'Trolls.Band.Together.2023.720p.AMZN.WEBRip.800MB.x264-GalaxyRG.mkv',
+        fileName: 'Killers.Of.The.Flower.Moon.2023.720p.WEBRip.900MB.x264-GalaxyRG.mkv',
         Movies: {
-          name: 'Trolls Band Together',
+          name: 'Killers of the Flower Moon',
           year: 2023,
         },
         ReleaseGroups: {
@@ -106,30 +123,13 @@ describe('API | /subtitles', () => {
         },
       },
       {
-        id: 1319,
-        subtitleShortLink: 'https://tinyurl.com/yotb75f6',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/trolls-band-together-1080p-flux-subdivx.srt?download=Trolls.Band.Together.2023.1080p.AMZN.WEB-DL.DDP5.1.Atmos.H.264-FLUX.srt',
-        resolution: '1080p',
-        fileName: 'Trolls.Band.Together.2023.1080p.AMZN.WEB-DL.DDP5.1.Atmos.H.264-FLUX.mkv',
-        Movies: {
-          name: 'Trolls Band Together',
-          year: 2023,
-        },
-        ReleaseGroups: {
-          name: 'FLUX',
-        },
-        SubtitleGroups: {
-          name: 'SubDivX',
-        },
-      },
-      {
-        id: 1320,
-        subtitleShortLink: 'https://tinyurl.com/ys7jr3kp',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/trolls-band-together-2160p-flux-subdivx.srt?download=Trolls.Band.Together.2023.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.srt',
+        id: 1348,
+        subtitleShortLink: 'https://tinyurl.com/yns25la8',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/killers-of-the-flower-moon-2160p-flux-subdivx.srt?download=Killers.Of.The.Flower.Moon.2023.REPACK.2160p.AMZN.WEB-DL.DDP5.1.Atmos.H.265-FLUX.srt',
         resolution: '2160p',
-        fileName: 'Trolls.Band.Together.2023.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.mkv',
+        fileName: 'Killers.Of.The.Flower.Moon.2023.REPACK.2160p.AMZN.WEB-DL.DDP5.1.Atmos.H.265-FLUX.mkv',
         Movies: {
-          name: 'Trolls Band Together',
+          name: 'Killers of the Flower Moon',
           year: 2023,
         },
         ReleaseGroups: {
@@ -140,13 +140,13 @@ describe('API | /subtitles', () => {
         },
       },
       {
-        id: 1321,
-        subtitleShortLink: 'https://tinyurl.com/ylxyxlnv',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/trolls-band-together-1080p-galaxyrg-subdivx.srt?download=Trolls.Band.Together.2023.1080p.AMZN.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.srt',
+        id: 1349,
+        subtitleShortLink: 'https://tinyurl.com/yqf7kx2r',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/killers-of-the-flower-moon-1080p-galaxyrg-subdivx.srt?download=Killers.Of.The.Flower.Moon.2023.1080p.AMZN.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.srt',
         resolution: '1080p',
-        fileName: 'Trolls.Band.Together.2023.1080p.AMZN.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.mkv',
+        fileName: 'Killers.Of.The.Flower.Moon.2023.1080p.AMZN.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.mkv',
         Movies: {
-          name: 'Trolls Band Together',
+          name: 'Killers of the Flower Moon',
           year: 2023,
         },
         ReleaseGroups: {
@@ -181,20 +181,20 @@ describe('API | /subtitle', () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitle`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fileName: 'Trolls.Band.Together.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv' }),
+      body: JSON.stringify({ fileName: 'Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv' }),
     })
 
     const response = await app.handle(request)
     const data = await response.json()
 
     expect(data).toEqual({
-      id: 1317,
-      subtitleShortLink: 'https://tinyurl.com/2x465tvl',
-      subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/trolls-band-together-1080p-galaxyrg-subdivx.srt?download=Trolls.Band.Together.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt',
+      id: 1345,
+      subtitleShortLink: 'https://tinyurl.com/yuo4llr2',
+      subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/killers-of-the-flower-moon-1080p-galaxyrg-subdivx.srt?download=Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.srt',
       resolution: '1080p',
-      fileName: 'Trolls.Band.Together.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv',
+      fileName: 'Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv',
       Movies: {
-        name: 'Trolls Band Together',
+        name: 'Killers of the Flower Moon',
         year: 2023,
       },
       ReleaseGroups: {
@@ -295,54 +295,7 @@ describe('API | /v1/docs/json', () => {
         },
         '/v1/movies': {
           post: {
-            parameters: [],
             operationId: 'postV1Movies',
-            requestBody: {
-              content: {
-                'application/json': {
-                  schema: {
-                    type: 'object',
-                    properties: {
-                      movieName: {
-                        type: 'string',
-                      },
-                    },
-                    required: [
-                      'movieName',
-                    ],
-                    additionalProperties: false,
-                  },
-                },
-                'multipart/form-data': {
-                  schema: {
-                    type: 'object',
-                    properties: {
-                      movieName: {
-                        type: 'string',
-                      },
-                    },
-                    required: [
-                      'movieName',
-                    ],
-                    additionalProperties: false,
-                  },
-                },
-                'text/plain': {
-                  schema: {
-                    type: 'object',
-                    properties: {
-                      movieName: {
-                        type: 'string',
-                      },
-                    },
-                    required: [
-                      'movieName',
-                    ],
-                    additionalProperties: false,
-                  },
-                },
-              },
-            },
             responses: {
               200: {},
             },
@@ -350,54 +303,7 @@ describe('API | /v1/docs/json', () => {
         },
         '/v1/subtitle': {
           post: {
-            parameters: [],
             operationId: 'postV1Subtitle',
-            requestBody: {
-              content: {
-                'application/json': {
-                  schema: {
-                    type: 'object',
-                    properties: {
-                      fileName: {
-                        type: 'string',
-                      },
-                    },
-                    required: [
-                      'fileName',
-                    ],
-                    additionalProperties: false,
-                  },
-                },
-                'multipart/form-data': {
-                  schema: {
-                    type: 'object',
-                    properties: {
-                      fileName: {
-                        type: 'string',
-                      },
-                    },
-                    required: [
-                      'fileName',
-                    ],
-                    additionalProperties: false,
-                  },
-                },
-                'text/plain': {
-                  schema: {
-                    type: 'object',
-                    properties: {
-                      fileName: {
-                        type: 'string',
-                      },
-                    },
-                    required: [
-                      'fileName',
-                    ],
-                    additionalProperties: false,
-                  },
-                },
-              },
-            },
             responses: {
               200: {},
             },
@@ -405,54 +311,7 @@ describe('API | /v1/docs/json', () => {
         },
         '/v1/subtitles': {
           post: {
-            parameters: [],
             operationId: 'postV1Subtitles',
-            requestBody: {
-              content: {
-                'application/json': {
-                  schema: {
-                    type: 'object',
-                    properties: {
-                      movieId: {
-                        type: 'string',
-                      },
-                    },
-                    required: [
-                      'movieId',
-                    ],
-                    additionalProperties: false,
-                  },
-                },
-                'multipart/form-data': {
-                  schema: {
-                    type: 'object',
-                    properties: {
-                      movieId: {
-                        type: 'string',
-                      },
-                    },
-                    required: [
-                      'movieId',
-                    ],
-                    additionalProperties: false,
-                  },
-                },
-                'text/plain': {
-                  schema: {
-                    type: 'object',
-                    properties: {
-                      movieId: {
-                        type: 'string',
-                      },
-                    },
-                    required: [
-                      'movieId',
-                    ],
-                    additionalProperties: false,
-                  },
-                },
-              },
-            },
             responses: {
               200: {},
             },
