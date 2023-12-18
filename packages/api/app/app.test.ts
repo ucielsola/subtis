@@ -57,6 +57,22 @@ describe('API | /movies', () => {
       message: 'Movies not found for query zxsa',
     })
   })
+
+  it('return a response for an 400 error for a bad payload', async () => {
+    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ movie: 'zxsa' }),
+    })
+
+    const response = await app.handle(request)
+    const data = await response.json()
+
+    expect(response.status).toBe(400)
+    expect(data).toEqual({
+      message: 'Key movieName is required in JSON payload',
+    })
+  })
 })
 
 describe('API | /subtitles', () => {
@@ -174,6 +190,22 @@ describe('API | /subtitles', () => {
       message: 'Subtitles not found for movie',
     })
   })
+
+  it('return a response for an 400 error for a bad payload', async () => {
+    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ movie: '123' }),
+    })
+
+    const response = await app.handle(request)
+    const data = await response.json()
+
+    expect(response.status).toBe(400)
+    expect(data).toEqual({
+      message: 'Key movieId is required in JSON payload',
+    })
+  })
 })
 
 describe('API | /subtitle', () => {
@@ -235,6 +267,22 @@ describe('API | /subtitle', () => {
     expect(response.status).toBe(404)
     expect(data).toEqual({
       message: 'Subtitle not found for file',
+    })
+  })
+
+  it('return a response for an 400 error for a bad payload', async () => {
+    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitle`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ file: 'the' }),
+    })
+
+    const response = await app.handle(request)
+    const data = await response.json()
+
+    expect(response.status).toBe(400)
+    expect(data).toEqual({
+      message: 'Key fileName is required in JSON payload',
     })
   })
 })
