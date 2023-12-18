@@ -1,4 +1,4 @@
-import { Elysia, t } from 'elysia'
+import { Elysia } from 'elysia'
 import { cors } from '@elysiajs/cors'
 import { helmet } from 'elysia-helmet'
 import { swagger } from '@elysiajs/swagger'
@@ -14,15 +14,9 @@ export function initializeElyisia() {
     .use(helmet())
     .use(rateLimit())
     .use(swagger({ path: '/v1/docs' }))
-    .post('/v1/movies', ({ set, body }) => getMoviesFromMovieId({ set, body }), {
-      body: t.Object({ movieName: t.String() }),
-    })
-    .post('/v1/subtitle', ({ set, body }) => getSubtitleFromFileName({ set, body }), {
-      body: t.Object({ fileName: t.String() }),
-    })
-    .post('/v1/subtitles', ({ set, body }) => getSubtitlesFromMovieId({ set, body }), {
-      body: t.Object({ movieId: t.String() }),
-    })
+    .post('/v1/movies', getMoviesFromMovieId)
+    .post('/v1/subtitle', getSubtitleFromFileName)
+    .post('/v1/subtitles', getSubtitlesFromMovieId)
     .listen(8080)
 }
 

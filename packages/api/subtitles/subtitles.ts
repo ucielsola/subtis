@@ -22,16 +22,23 @@ export async function getSubtitlesFromMovieId({
   body,
 }: {
   set: Context['set']
-  body: { movieId: string }
+  body: unknown
 }): Promise<Response> {
-  const { movieId } = body
+  const bodyParsed = z.object({ movieId: z.string({
+    required_error: 'Key movieId is required in JSON payload',
+  }) }).safeParse(body)
+
+  if (!bodyParsed.success) {
+    set.status = 400
+    return { message: bodyParsed.error.issues[0].message }
+  }
 
   const { data } = await supabase
     .from('Subtitles')
     .select(
       'id, subtitleShortLink, subtitleFullLink, resolution, fileName, Movies ( name, year ), ReleaseGroups ( name ), SubtitleGroups ( name )',
     )
-    .eq('movieId', movieId)
+    .eq('movieId', bodyParsed.data.movieId)
 
   const subtitles = subtitlesSchema.safeParse(data)
   if (!subtitles.success) {
