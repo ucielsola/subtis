@@ -19,7 +19,7 @@ const schema = z.object({
 
 // actions
 export const useSubtitleAction = routeAction$(async (formData) => {
-  const { data, status } = await apiClient.v1.subtitle.post({ fileName: formData.fileName } as any)
+  const { data, status } = await apiClient.v1.subtitle.post({ fileName: formData.fileName })
   return { data, status }
 }, zod$(schema))
 
@@ -31,7 +31,7 @@ export const useSubtitleLoader = routeLoader$(async (requestEvent) => {
     return null
   }
 
-  const { data, status } = await apiClient.v1.subtitle.post({ fileName } as any)
+  const { data, status } = await apiClient.v1.subtitle.post({ fileName })
   return { data, status }
 })
 
