@@ -1,4 +1,3 @@
-import crypto from 'node:crypto'
 import type { Buffer } from 'node:buffer'
 import parseTorrent from 'parse-torrent-updated'
 
@@ -20,10 +19,6 @@ export function getRandomDelay(
   } {
   const seconds = Math.floor(Math.random() * (max - min + 1) + min)
   return { seconds, miliseconds: seconds * 1000 }
-}
-
-export function getFileNameHash(fileName: string): string {
-  return crypto.createHash('md5').update(fileName).digest('hex')
 }
 
 export function safeParseTorrent(torrentFile: Buffer, torrentFilename: string): {
