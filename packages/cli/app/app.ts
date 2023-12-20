@@ -15,27 +15,33 @@ const cliArgumentsSchema = z.union([
   z.object({
     f: z.string({
       invalid_type_error: '🤔 El valor de -f debe ser una ruta de archivo válida.',
+      required_error: '🤔 El valor de -f debe ser una ruta de archivo válida.',
     }),
   }),
   z.object({
     file: z.string({
       invalid_type_error: '🤔 El valor de --file debe ser una ruta de archivo válida.',
+      required_error: '🤔 El valor de --file debe ser una ruta de archivo válida.',
     }),
   }),
 ], {
-  invalid_type_error: '🤔 Debe proporcionar o bien --file [archivo] o bien -f [archivo].',
+  errorMap: (issue, context) => {
+    if (issue.code === 'invalid_union') {
+      return { message: '🤔 Debe proporcionar o bien --file [archivo] o bien -f [archivo].' }
+    }
+
+    return { message: context.defaultError }
+  },
 })
 
 // core
 export async function runCli(): Promise<void> {
-  const loader = spinner()
-
   try {
     intro(`👋 Hola, soy ${chalk.magenta('Subtis')}`)
 
     const cliArgumentsResult = cliArgumentsSchema.safeParse(minimist(Bun.argv))
     if (!cliArgumentsResult.success) {
-  	 	 return outro(chalk.yellow(cliArgumentsResult.error.message))
+      return outro(chalk.yellow(cliArgumentsResult.error.message))
     }
     const cliArguments = cliArgumentsResult.data
 
@@ -49,8 +55,8 @@ export async function runCli(): Promise<void> {
     }
     const fileName = fileNameResult.data
 
+    const loader = spinner()
     loader.start('🔎 Buscando subtitulos')
-
     const { data, status } = await apiClient.v1.subtitle.post({ fileName })
     if (data === null || 'message' in data) {
       const { title, description } = getMessageFromStatusCode(status)

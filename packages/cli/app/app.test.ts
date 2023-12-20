@@ -7,7 +7,7 @@ describe('CLI', async () => {
   it('returns a message with a subtitle link with --file parameter', async () => {
     const process = Bun.spawn([
       'bun',
-      'app.ts',
+      'run.ts',
       '--file',
       'Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv',
     ])
@@ -21,7 +21,7 @@ describe('CLI', async () => {
   it('returns a message with a subtitle link with -f parameter', async () => {
     const process = Bun.spawn([
       'bun',
-      'app.ts',
+      'run.ts',
       '-f',
       'Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv',
     ])
@@ -33,7 +33,7 @@ describe('CLI', async () => {
   })
 
   it('returns a message when none parameters is given', async () => {
-    const process = Bun.spawn(['bun', 'app.ts'])
+    const process = Bun.spawn(['bun', 'run.ts'])
     const text = await new Response(process.stdout).text()
 
     expect(text).toInclude('👋 Hola, soy Subtis')
@@ -41,7 +41,7 @@ describe('CLI', async () => {
   })
 
   it('returns a message when -f parameter is given without a file path', async () => {
-    const process = Bun.spawn(['bun', 'app.ts', '-f'])
+    const process = Bun.spawn(['bun', 'run.ts', '-f'])
     const text = await new Response(process.stdout).text()
 
     expect(text).toInclude('👋 Hola, soy Subtis')
@@ -49,7 +49,7 @@ describe('CLI', async () => {
   })
 
   it('returns a message when --file parameter is given without a file path', async () => {
-    const process = Bun.spawn(['bun', 'app.ts', '--file'])
+    const process = Bun.spawn(['bun', 'run.ts', '--file'])
     const text = await new Response(process.stdout).text()
 
     expect(text).toInclude('👋 Hola, soy Subtis')
@@ -59,7 +59,7 @@ describe('CLI', async () => {
   it('returns a message when extension is not supported', async () => {
     const process = Bun.spawn([
       'bun',
-      'app.ts',
+      'run.ts',
       '--file',
       'Trolls.Band.Together.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mp3',
     ])
@@ -70,8 +70,9 @@ describe('CLI', async () => {
   })
 
   it('returns a message when subtitle is not found', async () => {
-    const process = Bun.spawn(['bun', 'app.ts', '--file', 'The.Matrix.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4'])
+    const process = Bun.spawn(['bun', 'run.ts', '--file', 'The.Matrix.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4'])
     const text = await new Response(process.stdout).text()
+    // this text should contain "Buscando subtitulos" but it doesn't
     const { title, description } = getMessageFromStatusCode(404)
 
     expect(text).toInclude('👋 Hola, soy Subtis')
