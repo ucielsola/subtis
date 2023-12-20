@@ -9,6 +9,7 @@
   "dependencies": {
     "@clack/prompts": "^0.7.0",
     "@continuata/unrar": "^1.6.0",
+    "clipboardy": "^4.0.0",
     "delay": "^6.0.0",
     "download": "^8.0.0",
     "extract-zip": "^2.0.1",
