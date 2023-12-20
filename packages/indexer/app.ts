@@ -7,6 +7,7 @@ import sound from 'sound-play'
 import download from 'download'
 import extract from 'extract-zip'
 import { match } from 'ts-pattern'
+import clipboard from 'clipboardy'
 import unrar from '@continuata/unrar'
 import invariant from 'tiny-invariant'
 import { confirm } from '@clack/prompts'
@@ -220,7 +221,10 @@ async function getSubtitlesFromMovie(
   )
 
   console.log(`4.${index}) Torrents encontrados para la pelicula "${title}" \n`)
-  console.table(torrentsWithoutCineRecordings.map(({ title, provider, size }) => ({ title, provider, size })))
+  const subtitleProviderQuery = `${movie.title} ${year}`
+  console.table(torrentsWithoutCineRecordings.map(({ title, provider, size }) => ({ name: subtitleProviderQuery, title, provider, size })))
+  clipboard.writeSync(subtitleProviderQuery)
+  console.log(`Nombre de película ${subtitleProviderQuery} guardado en el clipboard, para poder pegar directamente en proveedor de subtitulos`)
   console.log('\n')
 
   // 2. Iterate over each torrent
