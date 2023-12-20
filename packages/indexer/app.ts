@@ -232,7 +232,6 @@ async function getSubtitlesFromMovie(
   // 2. Iterate over each torrent
   for await (const [index, torrentData] of Object.entries(torrentsWithoutCineRecordings)) {
     console.log(`4.${index}) Procesando torrent`, `"${torrentData.title}"`, '\n')
-
     // 3. Download torrent
     const torrentFilename = torrentData.title
     const torrentFolderPath = path.join(__dirname, '..', 'indexer', 'torrents', torrentFilename)
@@ -269,6 +268,7 @@ async function getSubtitlesFromMovie(
 
     const movieData = getMovieMetadata(fileName)
     const { resolution, releaseGroup, isReleaseGroupSupported } = movieData
+    console.table([{ name: movie.title, year, fileName, resolution, releaseGroup }])
 
     if (isReleaseGroupSupported === false) {
       console.log('\n')
