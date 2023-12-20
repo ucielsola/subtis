@@ -1,6 +1,6 @@
-import { z } from 'zod'
 import chalk from 'chalk'
 import minimist from 'minimist'
+import { ZodIssueCode, z } from 'zod'
 import { intro, outro, spinner } from '@clack/prompts'
 
 // shared
@@ -14,18 +14,20 @@ import { apiClient } from '@subtis/cli'
 const cliArgumentsSchema = z.union([
   z.object({
     f: z.string({
-      invalid_type_error: '🤔 El valor de -f debe ser una ruta de archivo válida.',
+      required_error: '🤔 El valor de -f debe ser una ruta de archivo válida',
+      invalid_type_error: '🤔 El valor de -f debe ser una ruta de archivo válida',
     }),
   }),
   z.object({
     file: z.string({
-      invalid_type_error: '🤔 El valor de --file debe ser una ruta de archivo válida.',
+      required_error: '🤔 El valor de --file debe ser una ruta de archivo válida',
+      invalid_type_error: '🤔 El valor de --file debe ser una ruta de archivo válida',
     }),
   }),
 ], {
   errorMap: (issue, context) => {
-    if (issue.code === 'invalid_union') {
-      return { message: '🤔 Debe proporcionar o bien --file [archivo] o bien -f [archivo].' }
+    if (issue.code === ZodIssueCode.invalid_union) {
+      return { message: '🤔 Debe proporcionar --file [archivo] o bien -f [archivo]' }
     }
 
     return { message: context.defaultError }
@@ -48,11 +50,11 @@ export async function runCli(): Promise<void> {
         : cliArgumentsResult.data.f,
     )
     if (!fileNameResult.success) {
-      return outro(chalk.yellow('🤔 Extensión de video no soportada. Prueba con otro archivo.'))
+      return outro(chalk.yellow('🤔 Extensión de video no soportada. Prueba con otro archivo'))
     }
 
     const loader = spinner()
-    loader.start('🔎 Buscando subtitulos')
+    loader.start('🔎 Buscando subtitulos...')
 
     const { data, status } = await apiClient.v1.subtitle.post({ fileName: fileNameResult.data })
     if (data === null || 'message' in data) {

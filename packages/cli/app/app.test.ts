@@ -37,7 +37,7 @@ describe('CLI', async () => {
     const text = await new Response(process.stdout).text()
 
     expect(text).toInclude('👋 Hola, soy Subtis')
-    expect(text).toInclude('🤔 Debe proporcionar o bien --file [archivo] o bien -f [archivo].')
+    expect(text).toInclude('🤔 Debe proporcionar --file [archivo] o bien -f [archivo]')
   })
 
   it('returns a message when -f parameter is given without a file path', async () => {
@@ -45,7 +45,7 @@ describe('CLI', async () => {
     const text = await new Response(process.stdout).text()
 
     expect(text).toInclude('👋 Hola, soy Subtis')
-    expect(text).toInclude('🤔 El valor de -f debe ser una ruta de archivo válida.')
+    expect(text).toInclude('🤔 El valor de -f debe ser una ruta de archivo válida')
   })
 
   it('returns a message when --file parameter is given without a file path', async () => {
@@ -53,7 +53,7 @@ describe('CLI', async () => {
     const text = await new Response(process.stdout).text()
 
     expect(text).toInclude('👋 Hola, soy Subtis')
-    expect(text).toInclude('🤔 El valor de --file debe ser una ruta de archivo válida.')
+    expect(text).toInclude('🤔 El valor de --file debe ser una ruta de archivo válida')
   })
 
   it('returns a message when extension is not supported', async () => {
@@ -66,7 +66,7 @@ describe('CLI', async () => {
     const text = await new Response(process.stdout).text()
 
     expect(text).toInclude('👋 Hola, soy Subtis')
-    expect(text).toInclude('🤔 Extensión de video no soportada. Prueba con otro archivo.')
+    expect(text).toInclude('🤔 Extensión de video no soportada. Prueba con otro archivo')
   })
 
   it('returns a message when subtitle is not found', async () => {
