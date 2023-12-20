@@ -10,7 +10,7 @@
     "dev": "bun --watch run.ts",
     "test:watch": "bun test --watch",
     "test:coverage": "bun test --coverage",
-    "build": "bun build app.ts --compile --outfile bin/subtis"
+    "build": "bun build run.ts --compile --outfile bin/subtis"
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
