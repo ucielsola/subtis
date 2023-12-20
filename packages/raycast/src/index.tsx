@@ -58,17 +58,18 @@ export default function Command() {
       return open(data.subtitleFullLink)
     }
     catch (error) {
-      const nativeError = error as Error
-      const isInvariantError = getIsInvariantError(nativeError)
+      if (error instanceof Error) {
+        const isInvariantError = getIsInvariantError(error)
 
-      toast.style = Toast.Style.Failure
-      toast.title = 'Ups! Nos encontramos con un error'
+        toast.style = Toast.Style.Failure
+        toast.title = 'Ups! Nos encontramos con un error'
 
-      if (!isInvariantError) {
-        return Object.assign(toast, { message: nativeError.message })
+        if (!isInvariantError) {
+          return Object.assign(toast, { message: error.message })
+        }
+
+        toast.message = getParsedInvariantMessage(error)
       }
-
-      toast.message = getParsedInvariantMessage(nativeError)
     }
   }
 
