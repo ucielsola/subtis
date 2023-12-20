@@ -3,9 +3,6 @@
   "version": "0.0.1",
   "license": "MIT",
   "main": "app.ts",
-  "bin": {
-    "cli": "dist/app.js"
-  },
   "scripts": {
     "dev": "bun --watch run.ts",
     "test:watch": "bun test --watch",
