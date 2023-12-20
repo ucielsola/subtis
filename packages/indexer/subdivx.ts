@@ -15,6 +15,7 @@ const SUBDIVX_BASE_URL = 'https://subdivx.com' as const
 const SUBDIVX_BREADCRUMB_ERROR = 'SUBDIVX_ERROR' as const
 
 // utils
+
 export function getSubDivXSearchParams(
   movieName: string,
   page = '1',
@@ -36,6 +37,11 @@ export function getSubDivXSearchParams(
     subtitulos: '1',
     oxdown: '1',
   }
+}
+
+export function getSubDivXSearchUrl(movieName: string): string {
+  const urlSearchParams = new URLSearchParams({ buscar2: movieName, accion: '5' })
+  return `${SUBDIVX_BASE_URL}/index.php?${urlSearchParams}`
 }
 
 export async function getSubDivXSearchPageHtml(movieName: string, page = '1'): Promise<string> {

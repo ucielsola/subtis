@@ -24,6 +24,7 @@ import { VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieMetadata } fr
 // internals
 import { getImdbLink } from './imdb'
 import type { SubtitleData } from './types'
+import { getSubDivXSearchUrl } from './subdivx'
 import { getFileNameHash, getSubtitleAuthor, safeParseTorrent } from './utils'
 import { type TmdbMovie, getMoviesFromTmdb, getTmdbMoviesTotalPagesArray } from './tmdb'
 import { type ReleaseGroupMap, type ReleaseGroupNames, getReleaseGroups } from './release-groups'
@@ -224,7 +225,8 @@ async function getSubtitlesFromMovie(
   const subtitleProviderQuery = `${movie.title} ${year}`
   console.table(torrentsWithoutCineRecordings.map(({ title, provider, size }) => ({ name: subtitleProviderQuery, title, provider, size })))
   clipboard.writeSync(subtitleProviderQuery)
-  console.log(`Nombre de película ${subtitleProviderQuery} guardado en el clipboard, para poder pegar directamente en proveedor de subtitulos`)
+  console.log(`👉 Nombre de película ${subtitleProviderQuery} guardado en el clipboard, para poder pegar directamente en proveedor de subtitulos\n`)
+  console.log(`👉 Clickea en el link para chequear en SubDivX ${getSubDivXSearchUrl(subtitleProviderQuery)}`)
   console.log('\n')
 
   // 2. Iterate over each torrent
