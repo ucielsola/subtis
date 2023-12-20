@@ -216,7 +216,7 @@ async function getSubtitlesFromMovie(
   const torrents = await torrentSearchApi.search(`${movie.title} ${movie.year}`, 'Movies', TOTAL_MOVIES_TO_SEARCH)
 
   const torrentsWithoutCineRecordings = torrents.filter(({ title }) =>
-    !/hq-cam|telesync/gi.test(title),
+    !/hq-cam|telesync|hdts/gi.test(title),
   )
 
   console.log(`4.${index}) Torrents encontrados para la pelicula "${title}" \n`)
