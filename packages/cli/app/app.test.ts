@@ -72,7 +72,6 @@ describe('CLI', async () => {
   it('returns a message when subtitle is not found', async () => {
     const process = Bun.spawn(['bun', 'run.ts', '--file', 'The.Matrix.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4'])
     const text = await new Response(process.stdout).text()
-    // this text should contain "Buscando subtitulos" but it doesn't
     const { title, description } = getMessageFromStatusCode(404)
 
     expect(text).toInclude('👋 Hola, soy Subtis')
