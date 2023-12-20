@@ -4,11 +4,17 @@ El subtítulo que estabas buscando!
 
 ## Packages
 
-- [API](/packages/api/)
-- [CLI](/packages/cli/)
-- [Web](/packages/web/)
-- [Shared](/packages/shared/)
-- [Indexer](/packages/indexer/)
+- Server-side
+  - [DB](/packages/db/)
+  - [API](/packages/api/)
+  - [Indexer](/packages/indexer/)
+
+- Client-side
+  - [CLI](/packages/cli/)
+  - [Web](/packages/web/)
+
+- Shared cross packages
+  - [Shared](/packages/shared/)
 
 ## Development
 
