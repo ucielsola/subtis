@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test'
+import { runElyisia } from '.'
 
-// internals
-import { app } from './app'
+const app = runElyisia()
 
 describe('API | /movies', () => {
   it('return a movies response for a movie name query', async () => {
