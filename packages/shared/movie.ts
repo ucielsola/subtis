@@ -63,7 +63,7 @@ export const videoFileNameSchema = z
     const [videoFileExtension] = input.split('.').slice(-1)
     return videoFileExtensionSchema.safeParse(`.${videoFileExtension}`).success
   }, {
-    message: '🤔 Extensión de video no soportada. Prueba con otro archivo.',
+    message: 'File extension not supported',
   })
 
 export function getMovieFileNameExtension(fileName: string): string {

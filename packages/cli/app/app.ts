@@ -4,24 +4,22 @@ import minimist from 'minimist'
 import { intro, outro, spinner } from '@clack/prompts'
 
 // shared
-import { getMessageFromStatusCode } from 'shared/error-messages'
 import { videoFileNameSchema } from 'shared/movie'
+import { getMessageFromStatusCode } from 'shared/error-messages'
 
 // cli
-import { apiClient } from '@subtis/cli/api'
+import { apiClient } from '@subtis/cli'
 
 // schemas
 const cliArgumentsSchema = z.union([
   z.object({
     f: z.string({
       invalid_type_error: '🤔 El valor de -f debe ser una ruta de archivo válida.',
-      required_error: '🤔 El valor de -f debe ser una ruta de archivo válida.',
     }),
   }),
   z.object({
     file: z.string({
       invalid_type_error: '🤔 El valor de --file debe ser una ruta de archivo válida.',
-      required_error: '🤔 El valor de --file debe ser una ruta de archivo válida.',
     }),
   }),
 ], {
@@ -43,21 +41,20 @@ export async function runCli(): Promise<void> {
     if (!cliArgumentsResult.success) {
       return outro(chalk.yellow(cliArgumentsResult.error.message))
     }
-    const cliArguments = cliArgumentsResult.data
 
     const fileNameResult = videoFileNameSchema.safeParse(
-      'file' in cliArguments
-        ? cliArguments.file
-        : cliArguments.f,
+      'file' in cliArgumentsResult.data
+        ? cliArgumentsResult.data.file
+        : cliArgumentsResult.data.f,
     )
     if (!fileNameResult.success) {
-  	 	 return outro(chalk.yellow(fileNameResult.error.message))
+      return outro(chalk.yellow('🤔 Extensión de video no soportada. Prueba con otro archivo.'))
     }
-    const fileName = fileNameResult.data
 
     const loader = spinner()
     loader.start('🔎 Buscando subtitulos')
-    const { data, status } = await apiClient.v1.subtitle.post({ fileName })
+
+    const { data, status } = await apiClient.v1.subtitle.post({ fileName: fileNameResult.data })
     if (data === null || 'message' in data) {
       const { title, description } = getMessageFromStatusCode(status)
       loader.stop(`😥 ${title}`)
@@ -65,7 +62,9 @@ export async function runCli(): Promise<void> {
     }
 
     loader.stop(`🥳 Descarga tu subtítulo en ${chalk.blue(data.subtitleShortLink)}`)
-    outro(`🍿 Disfruta de ${chalk.bold(`${data.Movies?.name} (${data.Movies?.year})`)} en ${chalk.italic(data.resolution)} subtitulada`)
+
+    const { Movies: { name, year }, resolution } = data
+    outro(`🍿 Disfruta de ${chalk.bold(`${name} (${year})`)} en ${chalk.italic(resolution)} subtitulada`)
   }
   catch (error) {
     if (error instanceof Error) {

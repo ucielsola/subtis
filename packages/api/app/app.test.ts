@@ -86,7 +86,7 @@ describe('API | /subtitles', () => {
 
     expect(data).toEqual([
       {
-        id: 1345,
+        id: 1364,
         subtitleShortLink: 'https://tinyurl.com/yuo4llr2',
         subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/killers-of-the-flower-moon-1080p-galaxyrg-subdivx.srt?download=Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.srt',
         resolution: '1080p',
@@ -103,7 +103,7 @@ describe('API | /subtitles', () => {
         },
       },
       {
-        id: 1346,
+        id: 1365,
         subtitleShortLink: 'https://tinyurl.com/ytjneoso',
         subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/killers-of-the-flower-moon-1080p-flux-subdivx.srt?download=Killers.Of.The.Flower.Moon.2023.REPACK.1080p.AMZN.WEB-DL.DDP5.1.Atmos.H.264-FLUX.srt',
         resolution: '1080p',
@@ -120,45 +120,11 @@ describe('API | /subtitles', () => {
         },
       },
       {
-        id: 1347,
+        id: 1366,
         subtitleShortLink: 'https://tinyurl.com/ymaah64s',
         subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/killers-of-the-flower-moon-720p-galaxyrg-subdivx.srt?download=Killers.Of.The.Flower.Moon.2023.720p.WEBRip.900MB.x264-GalaxyRG.srt',
         resolution: '720p',
         fileName: 'Killers.Of.The.Flower.Moon.2023.720p.WEBRip.900MB.x264-GalaxyRG.mkv',
-        Movies: {
-          name: 'Killers of the Flower Moon',
-          year: 2023,
-        },
-        ReleaseGroups: {
-          name: 'GalaxyRG',
-        },
-        SubtitleGroups: {
-          name: 'SubDivX',
-        },
-      },
-      {
-        id: 1348,
-        subtitleShortLink: 'https://tinyurl.com/yns25la8',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/killers-of-the-flower-moon-2160p-flux-subdivx.srt?download=Killers.Of.The.Flower.Moon.2023.REPACK.2160p.AMZN.WEB-DL.DDP5.1.Atmos.H.265-FLUX.srt',
-        resolution: '2160p',
-        fileName: 'Killers.Of.The.Flower.Moon.2023.REPACK.2160p.AMZN.WEB-DL.DDP5.1.Atmos.H.265-FLUX.mkv',
-        Movies: {
-          name: 'Killers of the Flower Moon',
-          year: 2023,
-        },
-        ReleaseGroups: {
-          name: 'FLUX',
-        },
-        SubtitleGroups: {
-          name: 'SubDivX',
-        },
-      },
-      {
-        id: 1349,
-        subtitleShortLink: 'https://tinyurl.com/yqf7kx2r',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/killers-of-the-flower-moon-1080p-galaxyrg-subdivx.srt?download=Killers.Of.The.Flower.Moon.2023.1080p.AMZN.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.srt',
-        resolution: '1080p',
-        fileName: 'Killers.Of.The.Flower.Moon.2023.1080p.AMZN.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.mkv',
         Movies: {
           name: 'Killers of the Flower Moon',
           year: 2023,
@@ -216,7 +182,7 @@ describe('API | /subtitle', () => {
     const data = await response.json()
 
     expect(data).toEqual({
-      id: 1345,
+      id: 1364,
       subtitleShortLink: 'https://tinyurl.com/yuo4llr2',
       subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/killers-of-the-flower-moon-1080p-galaxyrg-subdivx.srt?download=Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.srt',
       resolution: '1080p',
