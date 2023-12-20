@@ -5,7 +5,7 @@ import type { SupabaseClient } from 'db'
 
 // constants
 export const RELEASE_GROUPS = {
-  YTS_MX: {
+  'YTS_MX': {
     name: 'YTS-MX',
     fileAttribute: 'YTS.MX',
     isSupported: true,
@@ -14,7 +14,7 @@ export const RELEASE_GROUPS = {
     searchableArgenteamName: 'YIFY',
     searchableOpenSubtitlesName: 'YTS.MX',
   },
-  CODY: {
+  'CODY': {
     name: 'CODY',
     website: '',
     isSupported: true,
@@ -23,7 +23,7 @@ export const RELEASE_GROUPS = {
     searchableArgenteamName: 'CODY',
     searchableOpenSubtitlesName: 'CODY',
   },
-  GALAXY_RG: {
+  'GALAXY_RG': {
     name: 'GalaxyRG',
     website: '',
     isSupported: true,
@@ -32,7 +32,7 @@ export const RELEASE_GROUPS = {
     searchableArgenteamName: 'GalaxyRG',
     searchableOpenSubtitlesName: 'GalaxyRG',
   },
-  RIGHTNOW: {
+  'RIGHTNOW': {
     name: 'RiGHTNOW',
     website: '',
     isSupported: true,
@@ -41,7 +41,7 @@ export const RELEASE_GROUPS = {
     searchableArgenteamName: 'RiGHTNOW',
     searchableOpenSubtitlesName: 'RiGHTNOW',
   },
-  FLUX: {
+  'FLUX': {
     name: 'FLUX',
     website: '',
     isSupported: true,
@@ -50,7 +50,7 @@ export const RELEASE_GROUPS = {
     searchableArgenteamName: 'FLUX',
     searchableOpenSubtitlesName: 'FLUX',
   },
-  EDITH: {
+  'EDITH': {
     name: 'EDITH',
     website: '',
     isSupported: true,
@@ -58,6 +58,15 @@ export const RELEASE_GROUPS = {
     searchableSubDivXName: 'edith',
     searchableArgenteamName: 'EDITH', // TODO: Check in Argenteam if this is correct
     searchableOpenSubtitlesName: 'EDITH', // TODO: Check in OpenSubtitles if this is correct
+  },
+  'HEVC-CMRG': {
+    name: 'HEVC-CMRG',
+    website: '',
+    isSupported: true,
+    fileAttribute: 'HEVC-CMRG',
+    searchableSubDivXName: 'cmrg',
+    searchableArgenteamName: 'HEVC-CMRG', // TODO: Check in Argenteam if this is correct
+    searchableOpenSubtitlesName: 'HEVC-CMRG', // TODO: Check in OpenSubtitles if this is correct
   },
 } as const
 
