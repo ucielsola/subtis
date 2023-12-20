@@ -25,7 +25,7 @@ import { VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieMetadata } fr
 import { getImdbLink } from './imdb'
 import type { SubtitleData } from './types'
 import { getSubDivXSearchUrl } from './subdivx'
-import { getFileNameHash, getSubtitleAuthor, safeParseTorrent } from './utils'
+import { getSubtitleAuthor, safeParseTorrent } from './utils'
 import { type TmdbMovie, getMoviesFromTmdb, getTmdbMoviesTotalPagesArray } from './tmdb'
 import { type ReleaseGroupMap, type ReleaseGroupNames, getReleaseGroups } from './release-groups'
 import { type SubtitleGroupMap, type SubtitleGroupNames, getEnabledSubtitleProviders, getSubtitleGroups } from './subtitle-groups'
@@ -39,7 +39,6 @@ async function setMovieSubtitlesToDatabase({
   movie,
   fileName,
   resolution,
-  fileNameHash,
   fileNameExtension,
   releaseGroup,
   subtitleGroup,
@@ -50,7 +49,6 @@ async function setMovieSubtitlesToDatabase({
   movie: Pick<Movie, 'id' | 'name' | 'year' | 'rating'>
   fileName: string
   resolution: string
-  fileNameHash: string
   fileNameExtension: string
   releaseGroup: ReleaseGroupNames
   subtitleGroup: SubtitleGroupNames
@@ -172,7 +170,6 @@ async function setMovieSubtitlesToDatabase({
       author,
       fileName,
       resolution,
-      fileNameHash,
       releaseGroupId,
       subtitleGroupId,
       subtitleFullLink,
@@ -279,9 +276,6 @@ async function getSubtitlesFromMovie(
       continue
     }
 
-    // 9. Hash video file name
-    const fileNameHash = getFileNameHash(fileName)
-
     // 10. Get only providers I want to use
 
     // TODO: Check if we can download subtitles from OpenSubitles
@@ -324,7 +318,6 @@ async function getSubtitlesFromMovie(
           },
           resolution,
           fileName,
-          fileNameHash,
           fileNameExtension,
           releaseGroup,
           releaseGroups,

@@ -96,7 +96,6 @@ export type Database = {
           created_at: string
           fileExtension: string
           fileName: string
-          fileNameHash: string
           id: number
           movieId: number | null
           releaseGroupId: number
@@ -110,7 +109,6 @@ export type Database = {
           created_at?: string
           fileExtension: string
           fileName: string
-          fileNameHash: string
           id?: number
           movieId?: number | null
           releaseGroupId: number
@@ -124,7 +122,6 @@ export type Database = {
           created_at?: string
           fileExtension?: string
           fileName?: string
-          fileNameHash?: string
           id?: number
           movieId?: number | null
           releaseGroupId?: number
