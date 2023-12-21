@@ -13,7 +13,7 @@ El subtítulo que estabas buscando!
   - [CLI](/packages/cli/)
   - [Web](/packages/web/)
 
-- Shared cross packages
+- Cross packages
   - [Shared](/packages/shared/)
 
 ## Development
