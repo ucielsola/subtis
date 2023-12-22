@@ -8,7 +8,7 @@ import { rateLimit } from 'elysia-rate-limit'
 import { getMoviesFromMovieId, getSubtitleFromFileName, getSubtitlesFromMovieId } from '@subtis/api'
 
 // core
-export function runApi() {
+export function runApi(port: number = 8080) {
   return new Elysia()
     .use(cors())
     .use(helmet())
@@ -17,7 +17,7 @@ export function runApi() {
     .post('/v1/movies', getMoviesFromMovieId, { body: t.Object({ movieName: t.String() }) })
     .post('/v1/subtitle', getSubtitleFromFileName, { body: t.Object({ fileName: t.String() }) })
     .post('/v1/subtitles', getSubtitlesFromMovieId, { body: t.Object({ movieId: t.String() }) })
-    .listen(8080, (context) => {
+    .listen(port, (context) => {
       // eslint-disable-next-line no-console
       console.log(`\n🟢 Subtis API is running at http${context.development ? '' : 's'}://${context.hostname}:${context.port}\n`)
     })
