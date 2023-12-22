@@ -8,3 +8,4 @@ node_modules
 *.zip
 *.js
 packages/cli/bin/*
+bun.lockb
