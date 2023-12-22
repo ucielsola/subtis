@@ -20,9 +20,11 @@ describe('CLI', async () => {
         `./bin/subtis`,
       ])
       const text = await new Response(stdout).text()
+      // eslint-disable-next-line no-console
       console.log('\n ~ beforeAll ~ text:', text)
     }
     catch (error) {
+      // eslint-disable-next-line no-console
       console.log('\n ~ beforeAll ~ error:', error)
     }
   })
