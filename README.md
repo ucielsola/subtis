@@ -51,7 +51,7 @@ bun dev:indexer
 4. Test your code in watch mode
 
 ```bash
-bun test:watch
+bun run test:watch
 ```
 
 ## Updating Database

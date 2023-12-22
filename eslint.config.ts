@@ -1,22 +1,11 @@
 import antfu from '@antfu/eslint-config'
 
 export default antfu({
-  files: ["**/*.ts"],
   rules: {
-    "no-nested-ternary": "error",
-    "ts/explicit-function-return-type": [
-      "error",
-      {
-        allowExpressions: true,
-        allowHigherOrderFunctions: true,
-      },
-    ],
-    "curly": ["error", "all"],
+    'curly': 0,
+    'no-nested-ternary': 0,
     'node/prefer-global/process': 0,
     'ts/consistent-type-definitions': 0,
-    "brace-style": ["error", "1tbs", { allowSingleLine: false }],
-    "unused-imports/no-unused-imports": "error",
-    "no-unused-vars": ["error", { vars: "all", args: "all", ignoreRestSiblings: false, argsIgnorePattern: "^_" }],
+    'unused-imports/no-unused-imports': 0,
   },
 })
-

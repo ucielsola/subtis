@@ -64,9 +64,8 @@ export default function Command() {
         toast.style = Toast.Style.Failure
         toast.title = 'Ups! Nos encontramos con un error'
 
-        if (!isInvariantError) {
+        if (!isInvariantError)
           return Object.assign(toast, { message: error.message })
-        }
 
         toast.message = getParsedInvariantMessage(error)
       }

@@ -5,8 +5,8 @@ import type { Context } from 'elysia'
 import { supabase } from 'db'
 import { moviesRowSchema } from 'db/schemas'
 
-// api
-import { errorSchema } from '@subtis/api'
+// internals
+import { errorSchema } from '../shared/schemas'
 
 // schemas
 const movieSchema = moviesRowSchema.pick({ id: true, name: true, year: true })

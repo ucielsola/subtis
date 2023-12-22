@@ -8,8 +8,8 @@ import { moviesRowSchema, releaseGroupsRowSchema, subtitleGroupsRowSchema, subti
 // shared
 import { videoFileNameSchema } from 'shared/movie'
 
-// api
-import { errorSchema } from '@subtis/api'
+// internals
+import { errorSchema } from '../shared'
 
 // schemas
 export const subtitleSchema

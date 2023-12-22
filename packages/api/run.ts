@@ -1,3 +1,3 @@
-import { runApi } from '@subtis/api'
+import { runApi } from '.'
 
 runApi()

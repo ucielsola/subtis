@@ -7,8 +7,8 @@ import { intro, outro, spinner } from '@clack/prompts'
 import { videoFileNameSchema } from 'shared/movie'
 import { getMessageFromStatusCode } from 'shared/error-messages'
 
-// cli
-import { apiClient } from '@subtis/cli'
+// internals
+import { apiClient } from '../api'
 
 // schemas
 const cliArgumentsSchema = z.union([
@@ -39,12 +39,8 @@ export async function runCli(): Promise<void> {
   try {
     intro(`👋 Hola, soy ${chalk.magenta('Subtis')}`)
 
-    const args = Object.fromEntries(
-      Object.entries(
-        minimist(Bun.argv, { string: ['f', 'file'] }),
-      ).filter(([key]) => key !== '_'),
-    )
-    const cliArgumentsResult = cliArgumentsSchema.safeParse(args)
+    const parsedArguments = minimist(Bun.argv, { string: ['f', 'file'] })
+    const cliArgumentsResult = cliArgumentsSchema.safeParse(parsedArguments)
     if (!cliArgumentsResult.success) {
       return outro(chalk.yellow(cliArgumentsResult.error.errors[0].message))
     }
@@ -73,11 +69,13 @@ export async function runCli(): Promise<void> {
 
     const { Movies: { name, year }, resolution } = data
     outro(`🍿 Disfruta de ${chalk.bold(`${name} (${year})`)} en ${chalk.italic(resolution)} subtitulada`)
-  } catch (error) {
+  }
+  catch (error) {
     if (error instanceof Error) {
       outro(chalk.red(`🔴 ${error.message}`))
     }
-  } finally {
+  }
+  finally {
     process.exit()
   }
 }

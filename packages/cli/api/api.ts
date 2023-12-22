@@ -1,4 +1,4 @@
-// api
+// shared
 import { getApiClient } from 'shared/api-client'
 
 // constants

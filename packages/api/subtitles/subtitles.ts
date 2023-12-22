@@ -4,8 +4,9 @@ import type { Context } from 'elysia'
 // db
 import { supabase } from 'db'
 
-// api
-import { errorSchema, subtitleSchema } from '@subtis/api'
+// internals
+import { errorSchema } from '../shared'
+import { subtitleSchema } from '../subtitle'
 
 // schemas
 const subtitlesSchema = z
