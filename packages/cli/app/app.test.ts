@@ -6,6 +6,8 @@ import { getMessageFromStatusCode } from 'shared/error-messages'
 // api
 import { runApi } from '@subtis/api'
 
+console.log(Bun.env.PWD)
+
 describe('CLI', async () => {
   beforeAll(async () => {
     runApi(8081)
