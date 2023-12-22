@@ -7,5 +7,6 @@ coverage
 node_modules
 *.zip
 *.js
-packages/cli/bin/*
 bun.lockb
+packages/cli/bin/*
+packages/cli/bin/subtis

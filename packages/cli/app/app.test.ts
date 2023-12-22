@@ -3,12 +3,17 @@ import { beforeAll, describe, expect, it } from 'bun:test'
 // shared
 import { getMessageFromStatusCode } from 'shared/error-messages'
 
+// api
+import { runApi } from '@subtis/api'
+
 describe('CLI', async () => {
   beforeAll(() => {
+    runApi(8081)
+
     Bun.spawn([
       'bun',
       'build',
-      'run.ts',
+      './packages/cli/run.ts',
       '--compile',
       '--outfile',
       'bin/subtis',
@@ -18,7 +23,7 @@ describe('CLI', async () => {
   it('returns a message with a subtitle link with --file parameter', async () => {
     const developmentProcess = Bun.spawn([
       'bun',
-      'run.ts',
+      './packages/cli/run.ts',
       '--file',
       'Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv',
     ])
@@ -41,7 +46,7 @@ describe('CLI', async () => {
   it('returns a message with a subtitle link with -f parameter', async () => {
     const developmentProcess = Bun.spawn([
       'bun',
-      'run.ts',
+      './packages/cli/run.ts',
       '-f',
       'Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv',
     ])
@@ -62,7 +67,7 @@ describe('CLI', async () => {
   })
 
   it('returns a message when none parameters is given', async () => {
-    const developmentProcess = Bun.spawn(['bun', 'run.ts'])
+    const developmentProcess = Bun.spawn(['bun', './packages/cli/run.ts'])
     const binaryProcess = Bun.spawn(['./bin/subtis'])
 
     const processes = [developmentProcess, binaryProcess]
@@ -75,7 +80,7 @@ describe('CLI', async () => {
   })
 
   it('returns a message when -f parameter is given without a file path', async () => {
-    const developmentProcess = Bun.spawn(['bun', 'run.ts', '-f'])
+    const developmentProcess = Bun.spawn(['bun', './packages/cli/run.ts', '-f'])
     const binaryProcess = Bun.spawn(['./bin/subtis', '-f'])
 
     const processes = [developmentProcess, binaryProcess]
@@ -87,7 +92,7 @@ describe('CLI', async () => {
   })
 
   it('returns a message when --file parameter is given without a file path', async () => {
-    const developmentProcess = Bun.spawn(['bun', 'run.ts', '--file'])
+    const developmentProcess = Bun.spawn(['bun', './packages/cli/run.ts', '--file'])
     const binaryProcess = Bun.spawn(['./bin/subtis', '--file'])
 
     const processes = [developmentProcess, binaryProcess]
@@ -101,7 +106,7 @@ describe('CLI', async () => {
   it('returns a message when extension is not supported', async () => {
     const developmentProcess = Bun.spawn([
       'bun',
-      'run.ts',
+      './packages/cli/run.ts',
       '--file',
       'Trolls.Band.Together.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mp3',
     ])
@@ -121,7 +126,7 @@ describe('CLI', async () => {
   })
 
   it('returns a message when subtitle is not found', async () => {
-    const developmentProcess = Bun.spawn(['bun', 'run.ts', '--file', 'The.Matrix.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4'])
+    const developmentProcess = Bun.spawn(['bun', './packages/cli/run.ts', '--file', 'The.Matrix.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4'])
     const binaryProcess = Bun.spawn(['./bin/subtis', '--file', 'The.Matrix.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4'])
 
     const processes = [developmentProcess, binaryProcess]
