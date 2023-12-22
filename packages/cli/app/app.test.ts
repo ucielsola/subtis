@@ -12,6 +12,7 @@ describe('CLI', async () => {
 
     Bun.spawn([
       'bun',
+      'run',
       'build',
       import.meta.resolveSync('../run.ts'),
       '--compile',
