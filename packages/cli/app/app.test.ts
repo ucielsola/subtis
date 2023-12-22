@@ -6,6 +6,7 @@ import { getMessageFromStatusCode } from 'shared/error-messages'
 // api
 import { runApi } from '@subtis/api'
 
+// eslint-disable-next-line no-console
 console.log(Bun.env.PWD)
 
 describe('CLI', async () => {
