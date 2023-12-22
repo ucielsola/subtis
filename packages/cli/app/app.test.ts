@@ -7,18 +7,24 @@ import { getMessageFromStatusCode } from 'shared/error-messages'
 import { runApi } from '@subtis/api'
 
 describe('CLI', async () => {
-  beforeAll(() => {
+  beforeAll(async () => {
     runApi(8081)
 
-    Bun.spawn([
-      'bun',
-      'run',
-      'build',
-      import.meta.resolveSync('../run.ts'),
-      '--compile',
-      '--outfile',
-      'bin/subtis',
-    ])
+    try {
+      const { stdout } = Bun.spawn([
+        'bun',
+        'build',
+        import.meta.resolveSync('../run.ts'),
+        '--compile',
+        '--outfile',
+        `./bin/subtis`,
+      ])
+      const text = await new Response(stdout).text()
+      console.log('\n ~ beforeAll ~ text:', text)
+    }
+    catch (error) {
+      console.log('\n ~ beforeAll ~ error:', error)
+    }
   })
 
   it('returns a message with a subtitle link with --file parameter', async () => {
@@ -29,7 +35,7 @@ describe('CLI', async () => {
       'Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv',
     ])
     const binaryProcess = Bun.spawn([
-      './bin/subtis',
+      import.meta.resolveSync('../bin/subtis'),
       '--file',
       'Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv',
     ])
@@ -52,7 +58,7 @@ describe('CLI', async () => {
       'Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv',
     ])
     const binaryProcess = Bun.spawn([
-      './bin/subtis',
+      import.meta.resolveSync('../bin/subtis'),
       '-f',
       'Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv',
     ])
@@ -69,7 +75,7 @@ describe('CLI', async () => {
 
   it('returns a message when none parameters is given', async () => {
     const developmentProcess = Bun.spawn(['bun', import.meta.resolveSync('../run.ts')])
-    const binaryProcess = Bun.spawn(['./bin/subtis'])
+    const binaryProcess = Bun.spawn([import.meta.resolveSync('../bin/subtis')])
 
     const processes = [developmentProcess, binaryProcess]
     processes.forEach(async (process) => {
@@ -82,7 +88,7 @@ describe('CLI', async () => {
 
   it('returns a message when -f parameter is given without a file path', async () => {
     const developmentProcess = Bun.spawn(['bun', import.meta.resolveSync('../run.ts'), '-f'])
-    const binaryProcess = Bun.spawn(['./bin/subtis', '-f'])
+    const binaryProcess = Bun.spawn([import.meta.resolveSync('../bin/subtis'), '-f'])
 
     const processes = [developmentProcess, binaryProcess]
     processes.forEach(async (process) => {
@@ -94,7 +100,7 @@ describe('CLI', async () => {
 
   it('returns a message when --file parameter is given without a file path', async () => {
     const developmentProcess = Bun.spawn(['bun', import.meta.resolveSync('../run.ts'), '--file'])
-    const binaryProcess = Bun.spawn(['./bin/subtis', '--file'])
+    const binaryProcess = Bun.spawn([import.meta.resolveSync('../bin/subtis'), '--file'])
 
     const processes = [developmentProcess, binaryProcess]
     processes.forEach(async (process) => {
@@ -112,7 +118,7 @@ describe('CLI', async () => {
       'Trolls.Band.Together.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mp3',
     ])
     const binaryProcess = Bun.spawn([
-      './bin/subtis',
+      import.meta.resolveSync('../bin/subtis'),
       '--file',
       'Trolls.Band.Together.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mp3',
     ])
@@ -128,7 +134,7 @@ describe('CLI', async () => {
 
   it('returns a message when subtitle is not found', async () => {
     const developmentProcess = Bun.spawn(['bun', import.meta.resolveSync('../run.ts'), '--file', 'The.Matrix.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4'])
-    const binaryProcess = Bun.spawn(['./bin/subtis', '--file', 'The.Matrix.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4'])
+    const binaryProcess = Bun.spawn([import.meta.resolveSync('../bin/subtis'), '--file', 'The.Matrix.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4'])
 
     const processes = [developmentProcess, binaryProcess]
     processes.forEach(async (process) => {
