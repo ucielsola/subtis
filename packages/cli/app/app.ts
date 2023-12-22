@@ -14,18 +14,18 @@ import { apiClient } from '../api'
 const cliArgumentsSchema = z.union([
   z.object({
     f: z.string().min(1, {
-      message: '🤔 El valor de -f debe ser una ruta de archivo válida.',
+      message: '🤔 El valor de -f debe ser una ruta de archivo válida',
     }),
   }),
   z.object({
     file: z.string().min(1, {
-      message: '🤔 El valor de --file debe ser una ruta de archivo válida.',
+      message: '🤔 El valor de --file debe ser una ruta de archivo válida',
     }),
   }),
 ], {
   errorMap: (_, context) => {
     if (context.defaultError === 'Invalid input') {
-      return { message: '🤔 Debe proporcionar o bien --file [archivo] o bien -f [archivo].' }
+      return { message: '🤔 Debe proporcionar --file [archivo] o bien -f [archivo]' }
     }
 
     return { message: context.defaultError }
