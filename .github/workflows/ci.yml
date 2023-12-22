@@ -26,6 +26,9 @@ jobs:
       - name: Compile CLI
         run: cd packages/cli && bun run build
 
+      - name: List files in bin directory
+        run: ls -l packages/cli/bin
+
       - name: Run lint
         run: bun run lint
 
