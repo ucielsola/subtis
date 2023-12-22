@@ -1,6 +1,6 @@
 import chalk from 'chalk'
 import minimist from 'minimist'
-import { ZodIssueCode, z } from 'zod'
+import { z } from 'zod'
 import { intro, outro, spinner } from '@clack/prompts'
 
 // shared
@@ -13,21 +13,19 @@ import { apiClient } from '@subtis/cli'
 // schemas
 const cliArgumentsSchema = z.union([
   z.object({
-    f: z.string({
-      required_error: '🤔 El valor de -f debe ser una ruta de archivo válida',
-      invalid_type_error: '🤔 El valor de -f debe ser una ruta de archivo válida',
+    f: z.string().min(1, {
+      message: '🤔 El valor de -f debe ser una ruta de archivo válida.',
     }),
   }),
   z.object({
-    file: z.string({
-      required_error: '🤔 El valor de --file debe ser una ruta de archivo válida',
-      invalid_type_error: '🤔 El valor de --file debe ser una ruta de archivo válida',
+    file: z.string().min(1, {
+      message: '🤔 El valor de --file debe ser una ruta de archivo válida.',
     }),
   }),
 ], {
-  errorMap: (issue, context) => {
-    if (issue.code === ZodIssueCode.invalid_union) {
-      return { message: '🤔 Debe proporcionar --file [archivo] o bien -f [archivo]' }
+  errorMap: (_, context) => {
+    if (context.defaultError === 'Invalid input') {
+      return { message: '🤔 Debe proporcionar o bien --file [archivo] o bien -f [archivo].' }
     }
 
     return { message: context.defaultError }
@@ -36,27 +34,35 @@ const cliArgumentsSchema = z.union([
 
 // core
 export async function runCli(): Promise<void> {
+  const loader = spinner()
+
   try {
     intro(`👋 Hola, soy ${chalk.magenta('Subtis')}`)
 
-    const cliArgumentsResult = cliArgumentsSchema.safeParse(minimist(Bun.argv))
+    const args = Object.fromEntries(
+      Object.entries(
+        minimist(Bun.argv, { string: ['f', 'file'] }),
+      ).filter(([key]) => key !== '_'),
+    )
+    const cliArgumentsResult = cliArgumentsSchema.safeParse(args)
     if (!cliArgumentsResult.success) {
-      return outro(chalk.yellow(cliArgumentsResult.error.message))
+      return outro(chalk.yellow(cliArgumentsResult.error.errors[0].message))
     }
+    const cliArguments = cliArgumentsResult.data
 
     const fileNameResult = videoFileNameSchema.safeParse(
-      'file' in cliArgumentsResult.data
-        ? cliArgumentsResult.data.file
-        : cliArgumentsResult.data.f,
+      'file' in cliArguments
+        ? cliArguments.file
+        : cliArguments.f,
     )
     if (!fileNameResult.success) {
       return outro(chalk.yellow('🤔 Extensión de video no soportada. Prueba con otro archivo'))
     }
+    const fileName = fileNameResult.data
 
-    const loader = spinner()
-    loader.start('🔎 Buscando subtitulos...')
+    loader.start('🔎 Buscando subtitulos')
 
-    const { data, status } = await apiClient.v1.subtitle.post({ fileName: fileNameResult.data })
+    const { data, status } = await apiClient.v1.subtitle.post({ fileName })
     if (data === null || 'message' in data) {
       const { title, description } = getMessageFromStatusCode(status)
       loader.stop(`😥 ${title}`)
@@ -67,13 +73,11 @@ export async function runCli(): Promise<void> {
 
     const { Movies: { name, year }, resolution } = data
     outro(`🍿 Disfruta de ${chalk.bold(`${name} (${year})`)} en ${chalk.italic(resolution)} subtitulada`)
-  }
-  catch (error) {
+  } catch (error) {
     if (error instanceof Error) {
       outro(chalk.red(`🔴 ${error.message}`))
     }
-  }
-  finally {
+  } finally {
     process.exit()
   }
 }
