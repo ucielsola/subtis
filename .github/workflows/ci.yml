@@ -31,9 +31,6 @@ jobs:
       - name: Set execution permissions for the binary
         run: chmod +x packages/cli/bin/subtis
 
-      - name: List files in bin directory
-        run: ls -l packages/cli/bin
-
       - name: Run lint
         run: bun run lint
 
