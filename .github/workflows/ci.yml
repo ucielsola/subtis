@@ -1,5 +1,13 @@
 name: CI
 
+env:
+  SUPABASE_API_KEY: ${{ secrets.SUPABASE_API_KEY }}
+  SUPABASE_BASE_URL: ${{ secrets.SUPABASE_BASE_URL }}
+  OPEN_SUBTITLES_API_KEY: ${{ secrets.OPEN_SUBTITLES_API_KEY }}
+  TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+  PUBLIC_API_BASE_URL_DEVELOPMENT: ${{ secrets.PUBLIC_API_BASE_URL_DEVELOPMENT }}
+  PUBLIC_API_BASE_URL_PRODUCTION: ${{ secrets.PUBLIC_API_BASE_URL_PRODUCTION }}
+
 on:
   pull_request:
     branches: [main]
