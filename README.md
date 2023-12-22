@@ -85,13 +85,6 @@ If you want to have lint in auto-save follow the official [VSCode Support](https
 
 Import [docs/collection.json](/docs/collection.json) into your preferred HTTP client like Hoppscotch, Postman or Insomnia, to quickly play with all API endpoints and different scenarios.
 
-## Warnings
-
-- Tests run all packages except CLI since [Mock Service Worker](https://mswjs.io) is not working with Bun at the moment
-- Tests on CLI works by:
-    1. Run API with `bun run dev:api`
-    2. Run CLI tests `cd packages/cli && bun test`
-
 ## Support
 
 | Release Groups | Subtitle Group | Support |
