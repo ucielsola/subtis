@@ -3,7 +3,7 @@ import { beforeAll, describe, expect, it } from 'bun:test'
 // shared
 import { getMessageFromStatusCode } from 'shared/error-messages'
 
-describe('cLI', async () => {
+describe('CLI', async () => {
   beforeAll(() => {
     Bun.spawn([
       'bun',
