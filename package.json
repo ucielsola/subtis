@@ -11,6 +11,7 @@
     "test": "bun test",
     "test:watch": "bun test --watch",
     "test:coverage": "bun test --coverage",
+    "db:generate": "cd packages/db && bun run generate",
     "dev:api": "cd packages/api && bun dev",
     "dev:web:only": "cd packages/web && bun dev",
     "dev:web": "run-p dev:api dev:web:only",
