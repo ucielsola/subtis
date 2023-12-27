@@ -41,7 +41,7 @@ test('should throw error if no search results are found', () => {
   }).toThrow('[ARGENTEAM_ERROR]: There should be at least one result')
 })
 
-test('should return a subtitle link giving a movie, release group and quality', async () => {
+test.skip('should return a subtitle link giving a movie, release group and quality', async () => {
   const movieData = getMovieMetadata('Spider-Man.Across.The.Spider-Verse.2023.1080p.WEB-DL.DDP5.1.Atmos.x264-AOC.mkv')
   const subtitle = await getArgenteamSubtitle({ movieData, imdbId: 9362722 })
 

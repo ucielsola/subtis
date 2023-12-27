@@ -69,10 +69,17 @@ describe('API | /movies', () => {
     })
 
     const response = await app.handle(request)
-    const data = await response.text()
+    const data = await response.json()
 
     expect(response.status).toBe(400)
-    expect(data).toInclude('Invalid body, \'movieName\': Required property')
+    expect(data).toMatchObject({
+      type: 'body',
+      at: 'movieName',
+      message: 'Required property',
+      expected: {
+        movieName: '',
+      },
+    })
   })
 })
 
@@ -166,10 +173,18 @@ describe('API | /subtitles', () => {
     })
 
     const response = await app.handle(request)
-    const data = await response.text()
+    const data = await response.json()
 
     expect(response.status).toBe(400)
-    expect(data).toInclude('Invalid body, \'movieId\': Required property')
+    expect(data).toMatchObject({
+      type: 'body',
+      at: 'movieId',
+      message: 'Required property',
+      expected: {
+        movieId: '',
+      },
+    },
+    )
   })
 })
 
@@ -243,10 +258,17 @@ describe('API | /subtitle', () => {
     })
 
     const response = await app.handle(request)
-    const data = await response.text()
+    const data = await response.json()
 
     expect(response.status).toBe(400)
-    expect(data).toInclude(`Invalid body, 'fileName': Required property`)
+    expect(data).toMatchObject({
+      type: 'body',
+      at: 'fileName',
+      message: 'Required property',
+      expected: {
+        fileName: '',
+      },
+    })
   })
 })
 
