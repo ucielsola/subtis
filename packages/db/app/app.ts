@@ -1,8 +1,6 @@
 import { z } from 'zod'
 import { createClient } from '@supabase/supabase-js'
-
-// internals
-import type { Database } from './types'
+import type { Database } from '../types'
 
 // utils
 export function getSupabaseEnvironmentVariables(): {
