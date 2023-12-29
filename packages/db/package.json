@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "bun --watch app.ts",
     "test:watch": "bun test --watch",
-    "supabase:type:definitions": "bunx supabase gen types typescript --project-id 'yelhsmnvfyyjuamxbobs' --schema public > types.ts",
-    "supabase:schemas": "supabase-to-zod --input types.ts --output schemas.ts",
+    "supabase:type:definitions": "bunx supabase gen types typescript --project-id 'yelhsmnvfyyjuamxbobs' --schema public > types/types.ts",
+    "supabase:schemas": "supabase-to-zod --input types/types.ts --output schemas/schemas.ts",
     "generate": "bun run supabase:type:definitions && bun run supabase:schemas"
   },
   "dependencies": {
