@@ -2,8 +2,7 @@ import { z } from 'zod'
 import type { Context } from 'elysia'
 
 // db
-import { supabase } from 'db'
-import { moviesRowSchema, releaseGroupsRowSchema, subtitleGroupsRowSchema, subtitlesRowSchema } from 'db/schemas'
+import { moviesRowSchema, releaseGroupsRowSchema, subtitleGroupsRowSchema, subtitlesRowSchema, supabase } from '@subtis/db'
 
 // shared
 import { videoFileNameSchema } from 'shared/movie'

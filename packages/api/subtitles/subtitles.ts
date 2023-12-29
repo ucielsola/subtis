@@ -2,7 +2,7 @@ import { z } from 'zod'
 import type { Context } from 'elysia'
 
 // db
-import { supabase } from 'db'
+import { supabase } from '@subtis/db'
 
 // internals
 import { errorSchema } from '../shared'

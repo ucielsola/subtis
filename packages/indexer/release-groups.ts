@@ -1,7 +1,7 @@
 import invariant from 'tiny-invariant'
 
 // db
-import type { SupabaseClient } from 'db'
+import type { SupabaseClient } from '@subtis/db'
 
 // constants
 export const RELEASE_GROUPS = {

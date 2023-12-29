@@ -14,7 +14,7 @@ import { confirm } from '@clack/prompts'
 import torrentSearchApi from 'torrent-search-api'
 
 // db
-import { type Movie, supabase } from 'db'
+import { type Movie, supabase } from '@subtis/db'
 
 // shared
 import 'shared/console'

@@ -2,8 +2,7 @@ import { z } from 'zod'
 import type { Context } from 'elysia'
 
 // db
-import { supabase } from 'db'
-import { moviesRowSchema } from 'db/schemas'
+import { moviesRowSchema, supabase } from '@subtis/db'
 
 // internals
 import { errorSchema } from '../shared/schemas'

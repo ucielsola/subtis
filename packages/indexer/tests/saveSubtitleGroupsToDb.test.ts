@@ -3,7 +3,7 @@ import { setupServer } from 'msw/node'
 import { afterAll, afterEach, beforeAll, expect, test } from 'bun:test'
 
 // db
-import { getSupabaseEnvironmentVariables } from 'db'
+import { getSupabaseEnvironmentVariables } from '@subtis/db'
 
 // constants
 const { supabaseBaseUrl } = getSupabaseEnvironmentVariables()

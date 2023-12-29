@@ -1,8 +1,8 @@
 {
-  "name": "db",
+  "name": "@subtis/db",
   "version": "0.0.1",
   "license": "MIT",
-  "main": "app.ts",
+  "main": "index.ts",
   "scripts": {
     "dev": "bun --watch app.ts",
     "test:watch": "bun test --watch",
