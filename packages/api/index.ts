@@ -1,5 +1,6 @@
 export * from './app'
 export * from './shared'
 export * from './movies'
+export * from './trending'
 export * from './subtitle'
 export * from './subtitles'

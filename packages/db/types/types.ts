@@ -97,7 +97,9 @@ export type Database = {
           fileExtension: string
           fileName: string
           id: number
+          lastQueriedAt: string | null
           movieId: number | null
+          queriedTimes: number | null
           releaseGroupId: number
           resolution: string
           subtitleFullLink: string
@@ -110,7 +112,9 @@ export type Database = {
           fileExtension: string
           fileName: string
           id?: number
+          lastQueriedAt?: string | null
           movieId?: number | null
+          queriedTimes?: number | null
           releaseGroupId: number
           resolution: string
           subtitleFullLink: string
@@ -123,7 +127,9 @@ export type Database = {
           fileExtension?: string
           fileName?: string
           id?: number
+          lastQueriedAt?: string | null
           movieId?: number | null
+          queriedTimes?: number | null
           releaseGroupId?: number
           resolution?: string
           subtitleFullLink?: string
@@ -159,7 +165,18 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      update_subtitle_info: {
+        Args: {
+          file_name: string
+        }
+        Returns: undefined
+      }
+      update_subtitles_info: {
+        Args: {
+          movie_id: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

@@ -8,7 +8,7 @@ import { runApi } from '@subtis/api'
 
 describe('CLI', async () => {
   beforeAll(async () => {
-    runApi(8081)
+    runApi(false, 8081)
 
     Bun.spawn([
       'bun',

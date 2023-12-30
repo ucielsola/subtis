@@ -55,5 +55,8 @@ export async function getSubtitleFromFileName({
     return { message: subtitles.error.issues[0].message }
   }
 
+  // update lastQueriedAt and queriedTimes
+  supabase.rpc('update_subtitle_info', { file_name: videoFileName.data })
+
   return subtitles.data[0]
 }

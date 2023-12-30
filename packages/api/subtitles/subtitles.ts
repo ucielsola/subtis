@@ -40,5 +40,8 @@ export async function getSubtitlesFromMovieId({
     return { message: subtitles.error.issues[0].message }
   }
 
+  // update lastQueriedAt and queriedTimes
+  supabase.rpc('update_subtitles_info', { movie_id: movieId })
+
   return subtitles.data
 }

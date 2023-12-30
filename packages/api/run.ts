@@ -1,3 +1,3 @@
 import { runApi } from '.'
 
-runApi()
+runApi(true)
