@@ -11,7 +11,7 @@ El subtítulo que estabas buscando!
 
 - Client-side
   - [CLI](/packages/cli/)
-  - [Web](/packages/web/)
+  - [Raycast](/packages/raycast/)
 
 - Cross packages
   - [Shared](/packages/shared/)
