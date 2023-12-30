@@ -30,7 +30,7 @@ export async function getMoviesFromMovieId({
     .select(
       'id, name, year',
     )
-    .ilike('name', `${movieName}%`)
+    .ilike('name', `%${movieName}%`)
     .limit(10)
 
   const movies = moviesSchema.safeParse(data)

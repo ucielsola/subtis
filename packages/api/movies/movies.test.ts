@@ -28,6 +28,25 @@ describe('API | /movies', () => {
     ])
   })
 
+  it('return a movies response for a movie name query with fuzzy search', async () => {
+    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ movieName: 'flower' }),
+    })
+
+    const response = await app.handle(request)
+    const data = await response.json()
+
+    expect(data).toEqual([
+      {
+        year: 2023,
+        id: 5537002,
+        name: 'Killers of the Flower Moon',
+      },
+    ])
+  })
+
   it('return a movies response for a movie name query with lowercase', async () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
       method: 'POST',
