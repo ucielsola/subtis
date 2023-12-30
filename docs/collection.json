@@ -166,6 +166,36 @@
     },
     {
       "v": 2,
+      "name": "Trending",
+      "folders": [],
+      "requests": [
+        {
+          "v": "1",
+          "endpoint": "http://localhost:8080/v1/trending",
+          "name": "/v1/trending | Found",
+          "params": [],
+          "headers": [],
+          "method": "GET",
+          "auth": {
+            "authType": "none",
+            "authActive": true
+          },
+          "preRequestScript": "",
+          "testScript": "",
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"movieId\": \"5537002\"\n}"
+          }
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": []
+    },
+    {
+      "v": 2,
       "name": "Swagger",
       "folders": [],
       "requests": [
