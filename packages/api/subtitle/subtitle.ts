@@ -17,10 +17,6 @@ export const subtitleSchema
     ReleaseGroups: releaseGroupsRowSchema.pick({ name: true }),
     SubtitleGroups: subtitleGroupsRowSchema.pick({ name: true }),
   })
-
-const subtitlesSchema = z
-  .array(subtitleSchema, { invalid_type_error: 'Subtitle not found for file' })
-  .min(1, { message: 'Subtitle not found for file' })
 const responseSchema = z.union([subtitleSchema, errorSchema])
 
 // types
@@ -48,15 +44,16 @@ export async function getSubtitleFromFileName({
     .eq('fileName', videoFileName.data)
     .order('subtitleGroupId', { ascending: false })
     .limit(1)
+    .single()
 
-  const subtitles = subtitlesSchema.safeParse(data)
-  if (!subtitles.success) {
+  const subtitle = subtitleSchema.safeParse(data)
+  if (!subtitle.success) {
     set.status = 404
-    return { message: subtitles.error.issues[0].message }
+    return { message: 'Subtitle not found for file' }
   }
 
   // update lastQueriedAt and queriedTimes
   supabase.rpc('update_subtitle_info', { file_name: videoFileName.data })
 
-  return subtitles.data[0]
+  return subtitle.data
 }
