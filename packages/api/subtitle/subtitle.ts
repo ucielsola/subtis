@@ -1,3 +1,4 @@
+import ms from 'ms'
 import { z } from 'zod'
 import type { Context } from 'elysia'
 
@@ -20,7 +21,12 @@ export const subtitleSchema
 const responseSchema = z.union([subtitleSchema, errorSchema])
 
 // types
+type Subtitle = z.infer<typeof subtitleSchema>
 type Response = z.infer<typeof responseSchema>
+
+// cache
+const cache = new Map<string, Subtitle>()
+setInterval(() => cache.clear(), ms('1d'))
 
 // core
 export async function getSubtitleFromFileName({
@@ -34,6 +40,12 @@ export async function getSubtitleFromFileName({
   if (!videoFileName.success) {
     set.status = 415
     return { message: videoFileName.error.issues[0].message }
+  }
+
+  // get subtitle from cache
+  const cachedSubtitle = cache.get(videoFileName.data)
+  if (cachedSubtitle) {
+    return cachedSubtitle
   }
 
   const { data } = await supabase
@@ -51,6 +63,9 @@ export async function getSubtitleFromFileName({
     set.status = 404
     return { message: 'Subtitle not found for file' }
   }
+
+  // update cache
+  cache.set(videoFileName.data, subtitle.data)
 
   // update lastQueriedAt and queriedTimes
   supabase.rpc('update_subtitle_info', { file_name: videoFileName.data })
