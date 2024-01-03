@@ -10,7 +10,7 @@
     "lint:fix": "eslint . --fix",
     "test": "bun test",
     "test:watch": "bun test --watch",
-    "test:coverage": "bun test --coverage",
+    "test:coverage": "bun test --coverage packages/api packages/cli packages/db packages/shared",
     "db:generate": "cd packages/db && bun run generate",
     "dev:api": "cd packages/api && bun dev",
     "dev:web:only": "cd packages/web && bun dev",

@@ -1,24 +1,32 @@
-import { afterAll, describe, expect, it } from 'bun:test'
+import { afterAll, describe, expect, it, spyOn } from 'bun:test'
 
 // internals
 import { runApi } from '../app'
+import { cache } from './subtitle'
 
 // constants
 const app = runApi()
+const cacheGetSpy = spyOn(cache, 'get')
+const cacheSetSpy = spyOn(cache, 'set')
 
 describe('API | /subtitle', () => {
   afterAll(() => app.stop())
 
   it('return a response for an existant subtitle', async () => {
+    const fileName = 'Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv'
+
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitle`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fileName: 'Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv' }),
+      body: JSON.stringify({ fileName }),
     })
 
     const response = await app.handle(request)
     const data = await response.json()
 
+    expect(cacheGetSpy).toHaveBeenCalledTimes(1)
+    expect(cacheSetSpy).toHaveBeenCalledTimes(1)
+    expect(cache.size).toBe(1)
     expect(data).toEqual({
       id: 1364,
       subtitleShortLink: 'https://tinyurl.com/yuo4llr2',
@@ -48,6 +56,9 @@ describe('API | /subtitle', () => {
     const response = await app.handle(request)
     const data = await response.json()
 
+    expect(cacheGetSpy).toHaveBeenCalledTimes(1)
+    expect(cacheSetSpy).toHaveBeenCalledTimes(0)
+
     expect(response.status).toBe(415)
     expect(data).toEqual({
       message: 'File extension not supported',
@@ -64,6 +75,9 @@ describe('API | /subtitle', () => {
     const response = await app.handle(request)
     const data = await response.json()
 
+    expect(cacheGetSpy).toHaveBeenCalledTimes(1)
+    expect(cacheSetSpy).toHaveBeenCalledTimes(0)
+
     expect(response.status).toBe(404)
     expect(data).toEqual({
       message: 'Subtitle not found for file',
@@ -79,6 +93,9 @@ describe('API | /subtitle', () => {
 
     const response = await app.handle(request)
     const data = await response.json()
+
+    expect(cacheGetSpy).toHaveBeenCalledTimes(0)
+    expect(cacheSetSpy).toHaveBeenCalledTimes(0)
 
     expect(response.status).toBe(400)
     expect(data).toMatchObject({

@@ -25,7 +25,7 @@ type Subtitle = z.infer<typeof subtitleSchema>
 type Response = z.infer<typeof responseSchema>
 
 // cache
-const cache = new Map<string, Subtitle>()
+export const cache = new Map<string, Subtitle>()
 setInterval(() => cache.clear(), ms('1d'))
 
 // core

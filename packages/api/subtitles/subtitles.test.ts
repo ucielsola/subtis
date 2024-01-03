@@ -10,10 +10,12 @@ describe('API | /subtitles', () => {
   afterAll(() => app.stop())
 
   it('return a subtitles response for a specific movie', async () => {
+    const movieId = '5537002'
+
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ movieId: '5537002' }),
+      body: JSON.stringify({ movieId }),
     })
 
     const response = await app.handle(request)
