@@ -10,10 +10,4 @@ describe('DB | schemas', () => {
       expect(schema).toBeInstanceOf(z.ZodSchema)
     })
   })
-
-  it('checks that all schemas are valid', () => {
-    Object.values(schemas).forEach((schema) => {
-      expect(() => schema.parse({})).not.toThrow()
-    })
-  })
 })

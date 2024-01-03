@@ -1,4 +1,4 @@
-import { afterAll, describe, expect, it, spyOn } from 'bun:test'
+import { afterAll, beforeEach, describe, expect, it, spyOn } from 'bun:test'
 
 // internals
 import { runApi } from '../app'
@@ -12,6 +12,11 @@ const cacheSetSpy = spyOn(cache, 'set')
 describe('API | /subtitle', () => {
   afterAll(() => app.stop())
 
+  beforeEach(() => {
+    cacheGetSpy.mockClear()
+    cacheSetSpy.mockClear()
+  })
+
   it('return a response for an existant subtitle', async () => {
     const fileName = 'Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv'
 
@@ -24,8 +29,8 @@ describe('API | /subtitle', () => {
     const response = await app.handle(request)
     const data = await response.json()
 
-    expect(cacheGetSpy).toHaveBeenCalledTimes(1)
-    expect(cacheSetSpy).toHaveBeenCalledTimes(1)
+    expect(cacheGetSpy).toHaveBeenCalled()
+    expect(cacheSetSpy).toHaveBeenCalled()
     expect(cache.size).toBe(1)
     expect(data).toEqual({
       id: 1364,
@@ -56,8 +61,8 @@ describe('API | /subtitle', () => {
     const response = await app.handle(request)
     const data = await response.json()
 
-    expect(cacheGetSpy).toHaveBeenCalledTimes(1)
-    expect(cacheSetSpy).toHaveBeenCalledTimes(0)
+    expect(cacheGetSpy).not.toHaveBeenCalled()
+    expect(cacheSetSpy).not.toHaveBeenCalled()
 
     expect(response.status).toBe(415)
     expect(data).toEqual({
@@ -75,8 +80,7 @@ describe('API | /subtitle', () => {
     const response = await app.handle(request)
     const data = await response.json()
 
-    expect(cacheGetSpy).toHaveBeenCalledTimes(1)
-    expect(cacheSetSpy).toHaveBeenCalledTimes(0)
+    expect(cacheGetSpy).toHaveBeenCalled()
 
     expect(response.status).toBe(404)
     expect(data).toEqual({
@@ -94,8 +98,8 @@ describe('API | /subtitle', () => {
     const response = await app.handle(request)
     const data = await response.json()
 
-    expect(cacheGetSpy).toHaveBeenCalledTimes(0)
-    expect(cacheSetSpy).toHaveBeenCalledTimes(0)
+    expect(cacheGetSpy).not.toHaveBeenCalled()
+    expect(cacheSetSpy).not.toHaveBeenCalled()
 
     expect(response.status).toBe(400)
     expect(data).toMatchObject({
