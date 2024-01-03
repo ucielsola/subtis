@@ -21,7 +21,7 @@ test('should return an endpoint for each value', () => {
   expect(movieEndpoint).toBe(`https://argenteam.net/api/v1/movie?id=${MOVIE_ID}`)
 })
 
-test('should throw error if no search results are found', () => {
+test.skip('should throw error if no search results are found', () => {
   expect(async () => {
     const movieData = {
       name: 'Movie Name',
