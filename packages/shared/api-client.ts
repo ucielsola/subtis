@@ -1,8 +1,8 @@
 import { z } from 'zod'
+import { edenTreaty } from '@elysiajs/eden'
 
 // api
 import type { App } from '@subtis/api'
-import { edenTreaty } from '@elysiajs/eden'
 
 // types
 type ApiBaseUrlConfig = {
