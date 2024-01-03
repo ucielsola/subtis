@@ -6,7 +6,7 @@ import type { Context } from 'elysia'
 import { moviesRowSchema, releaseGroupsRowSchema, subtitleGroupsRowSchema, subtitlesRowSchema, supabase } from '@subtis/db'
 
 // shared
-import { videoFileNameSchema } from 'shared/movie'
+import { getMovieMetadata, videoFileNameSchema } from 'shared/movie'
 
 // internals
 import { errorSchema } from '../shared'
@@ -55,7 +55,6 @@ export async function getSubtitleFromFileName({
     )
     .eq('fileName', videoFileName.data)
     .order('subtitleGroupId', { ascending: false })
-    .limit(1)
     .single()
 
   const subtitle = subtitleSchema.safeParse(data)
