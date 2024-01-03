@@ -14,10 +14,10 @@ export function runApi(shouldDisplayInitialLog: boolean = false, port: number = 
     .use(helmet())
     .use(swagger({ path: '/v1/docs' }))
     .use(rateLimit({ skip: () => Bun.env.NODE_ENV !== 'production' }))
-    .get('/v1/trending', getTrendingSubtitles)
     .post('/v1/movies', getMoviesFromMovieId, { body: t.Object({ movieName: t.String() }) })
     .post('/v1/subtitle', getSubtitleFromFileName, { body: t.Object({ fileName: t.String() }) })
     .post('/v1/subtitles', getSubtitlesFromMovieId, { body: t.Object({ movieId: t.String() }) })
+    .post('/v1/trending', getTrendingSubtitles, { body: t.Object({ limit: t.Number({ min: 1 }) }) })
     .listen(port, (context) => {
       if (shouldDisplayInitialLog) {
         const { development, hostname, port } = context

@@ -18,7 +18,15 @@ const responseSchema = z.union([trendingSubtitlesSchema, errorSchema])
 type Response = z.infer<typeof responseSchema>
 
 // core
-export async function getTrendingSubtitles({ set }: { set: Context['set'] }): Promise<Response | null> {
+export async function getTrendingSubtitles({
+  set,
+  body,
+}: {
+  set: Context['set']
+  body: { limit: number }
+}): Promise<Response | null> {
+  const { limit } = body
+
   const { data } = await supabase
     .from('Subtitles')
     .select(
@@ -26,7 +34,7 @@ export async function getTrendingSubtitles({ set }: { set: Context['set'] }): Pr
     )
     .order('queriedTimes', { ascending: false })
     .order('lastQueriedAt', { ascending: false })
-    .limit(6)
+    .limit(limit)
 
   const trendingSubtitles = trendingSubtitlesSchema.safeParse(data)
   if (!trendingSubtitles.success) {

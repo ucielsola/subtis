@@ -40,7 +40,7 @@
           "testScript": "",
           "body": {
             "contentType": "application/json",
-            "body": "{\n  \"movieName\": \"the cre\"\n}"
+            "body": "{\n  \"movieName\": \"flower\"\n}"
           }
         }
       ],
@@ -70,7 +70,7 @@
           "testScript": "",
           "body": {
             "contentType": "application/json",
-            "body": "{\n  \"fileName\": \"Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mp3\"\n}"
+            "body": "{\n  \"fileName\": \"Chicken.Run.Dawn.of.the.Nugget.2023.1080p.NF.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv\"\n}"
           }
         },
         {
@@ -88,7 +88,7 @@
           "testScript": "",
           "body": {
             "contentType": "application/json",
-            "body": "{\n  \"fileName\": \"The.Equalizer.4.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}"
+            "body": "{\n \"a\": 3\n}"
           }
         },
         {
@@ -154,7 +154,7 @@
           "testScript": "",
           "body": {
             "contentType": "application/json",
-            "body": "{\n  \"movieId\": \"3122\"\n}"
+            "body": "\n{\n  \"as\": 2\n}"
           }
         }
       ],
@@ -175,7 +175,7 @@
           "name": "/v1/trending | Found",
           "params": [],
           "headers": [],
-          "method": "GET",
+          "method": "POST",
           "auth": {
             "authType": "none",
             "authActive": true
@@ -184,7 +184,7 @@
           "testScript": "",
           "body": {
             "contentType": "application/json",
-            "body": "{\n  \"movieId\": \"5537002\"\n}"
+            "body": "{\n  \"limit\": 4\n}"
           }
         }
       ],
@@ -201,11 +201,11 @@
       "requests": [
         {
           "v": "1",
-          "endpoint": "http://localhost:8080/v1/subtitle",
+          "endpoint": "http://localhost:8080/v1/docs/json",
           "name": "/v1/docs/json",
           "params": [],
           "headers": [],
-          "method": "POST",
+          "method": "GET",
           "auth": {
             "authType": "none",
             "authActive": true

@@ -32,10 +32,6 @@ describe('API | runApi', () => {
         method: 'GET',
       },
       {
-        path: '/v1/trending',
-        method: 'GET',
-      },
-      {
         path: '/v1/movies',
         method: 'POST',
       },
@@ -45,6 +41,10 @@ describe('API | runApi', () => {
       },
       {
         path: '/v1/subtitles',
+        method: 'POST',
+      },
+      {
+        path: '/v1/trending',
         method: 'POST',
       },
     ])
