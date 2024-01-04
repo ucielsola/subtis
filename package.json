@@ -8,6 +8,7 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "ts:coverage": "typescript-coverage-report",
     "test": "bun test",
     "test:watch": "bun test --watch",
     "test:coverage": "bun test --coverage packages/api packages/cli packages/db packages/shared",
@@ -30,6 +31,7 @@
     "eslint": "npm:eslint-ts-patch",
     "eslint-ts-patch": "^8.55.0-1",
     "npm-run-all": "^4.1.5",
-    "taze": "0.13.0"
+    "taze": "0.13.0",
+    "typescript-coverage-report": "^0.8.0"
   }
 }
