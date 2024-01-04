@@ -45,6 +45,9 @@ export async function getSubtitleFromFileName({
   // get subtitle from cache
   const cachedSubtitle = cache.get(videoFileName.data)
   if (cachedSubtitle) {
+    // update lastQueriedAt and queriedTimes
+    supabase.rpc('update_subtitle_info', { file_name: videoFileName.data })
+
     return cachedSubtitle
   }
 
