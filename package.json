@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "ts:coverage": "typescript-coverage-report",
+    "ts:coverage": "typescript-coverage-report -t 99",
     "test": "bun test",
     "test:watch": "bun test --watch",
     "test:coverage": "bun test --coverage packages/api packages/cli packages/db packages/shared",
