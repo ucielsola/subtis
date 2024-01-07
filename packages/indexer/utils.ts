@@ -25,9 +25,7 @@ export function safeParseTorrent(torrentFile: Buffer, torrentFilename: string): 
   files: { path: string, name: string, length: number, offset: number }[]
 } {
   try {
-    return parseTorrent(torrentFile) as {
-      files: { path: string, name: string, length: number, offset: number }[]
-    }
+    return parseTorrent(torrentFile)
   }
   catch (error) {
     console.error(`No se pudo parsear el torrent ${torrentFilename} \n`)
