@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@elysiajs/cors": "^0.8.0",
-    "@elysiajs/swagger": "^0.8.0",
+    "@elysiajs/swagger": "^0.8.3",
     "elysia": "^0.8.8",
     "elysia-helmet": "^1.0.1",
     "elysia-rate-limit": "^2.0.1",
