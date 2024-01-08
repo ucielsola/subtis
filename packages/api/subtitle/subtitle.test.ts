@@ -13,6 +13,7 @@ describe('API | /subtitle', () => {
   afterAll(() => app.stop())
 
   beforeEach(() => {
+    cache.clear()
     cacheGetSpy.mockClear()
     cacheSetSpy.mockClear()
   })

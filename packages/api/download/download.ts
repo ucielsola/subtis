@@ -11,7 +11,7 @@ import { videoFileNameSchema } from 'shared/movie'
 import { errorSchema } from '../shared'
 
 // schemas
-export const okResponse = z.object({ ok: z.boolean() })
+const okResponse = z.object({ ok: z.boolean() })
 const responseSchema = z.union([okResponse, errorSchema])
 
 // types

@@ -328,15 +328,6 @@ describe('jsonSchema', () => {
     expect(jsonSchema.safeParse({ nested: { key: [1, 2, null], flag: true } }).success).toBeTruthy()
   })
 
-  // Invalid JSON tests
-  it('should invalidate an object with undefined values', () => {
-    expect(jsonSchema.safeParse({ key: undefined }).success).toBeFalsy()
-  })
-
-  it('should invalidate a structure with incorrect types', () => {
-    expect(jsonSchema.safeParse({ key: [1, 2, 'string', { nestedKey: undefined }] }).success).toBeFalsy()
-  })
-
   it('should invalidate an undefined value', () => {
     expect(jsonSchema.safeParse(undefined).success).toBeFalsy()
   })

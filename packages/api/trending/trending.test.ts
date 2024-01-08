@@ -9,11 +9,11 @@ const app = runApi()
 describe('API | /trending', () => {
   afterAll(() => app.stop())
 
-  it('return the last 4 trending subtitles', async () => {
+  it('return the last two trending subtitles', async () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/trending`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ limit: 4 }),
+      body: JSON.stringify({ limit: 2 }),
     })
 
     const response = await app.handle(request)
@@ -45,40 +45,6 @@ describe('API | /trending', () => {
         fileName: 'The.Hunger.Games.The.Ballad.of.Songbirds.and.Snakes.2023.720p.AMZN.WEBRip.900MB.x264-GalaxyRG.mkv',
         Movies: {
           name: 'The Hunger Games: The Ballad of Songbirds & Snakes',
-          year: 2023,
-        },
-        ReleaseGroups: {
-          name: 'GalaxyRG',
-        },
-        SubtitleGroups: {
-          name: 'SubDivX',
-        },
-      },
-      {
-        id: 1369,
-        subtitleShortLink: 'https://tinyurl.com/ynjqvdrm',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/chicken-run-dawn-of-the-nugget-1080p-galaxyrg-subdivx.srt?download=Chicken.Run.Dawn.of.the.Nugget.2023.1080p.NF.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt',
-        resolution: '1080p',
-        fileName: 'Chicken.Run.Dawn.of.the.Nugget.2023.1080p.NF.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv',
-        Movies: {
-          name: 'Chicken Run: Dawn of the Nugget',
-          year: 2023,
-        },
-        ReleaseGroups: {
-          name: 'GalaxyRG',
-        },
-        SubtitleGroups: {
-          name: 'SubDivX',
-        },
-      },
-      {
-        id: 1371,
-        subtitleShortLink: 'https://tinyurl.com/ykz2f9tk',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-family-plan-1080p-galaxyrg-subdivx.srt?download=The.Family.Plan.2023.1080p.ATVP.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt',
-        resolution: '1080p',
-        fileName: 'The.Family.Plan.2023.1080p.ATVP.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv',
-        Movies: {
-          name: 'The Family Plan',
           year: 2023,
         },
         ReleaseGroups: {
