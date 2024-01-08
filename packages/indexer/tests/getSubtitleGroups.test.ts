@@ -13,23 +13,17 @@ const { supabaseBaseUrl } = getSupabaseEnvironmentVariables()
 
 // mocks
 const SUBTITLE_GROUPS_MOCK = {
-  Argenteam: {
-    created_at: '2023-12-07T20:33:29.333364+00:00',
-    id: 37,
-    name: 'Argenteam',
-    website: 'https://argenteam.net',
-  },
-  OpenSubtitles: {
-    created_at: '2023-12-07T20:33:29.493883+00:00',
-    id: 38,
-    name: 'OpenSubtitles',
-    website: 'https://www.opensubtitles.org',
-  },
   SubDivX: {
-    created_at: '2023-12-07T20:33:29.16+00:00',
-    id: 36,
+    id: 39,
+    created_at: '2024-01-08T01:10:30.01214+00:00',
     name: 'SubDivX',
     website: 'https://subdivx.com',
+  },
+  OpenSubtitles: {
+    id: 40,
+    created_at: '2024-01-08T01:10:30.090311+00:00',
+    name: 'OpenSubtitles',
+    website: 'https://www.opensubtitles.org',
   },
 }
 
@@ -48,7 +42,7 @@ beforeAll(() => server.listen())
 afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
-test('should return a list of release groups', async () => {
-  const releaseGroups = await getSubtitleGroups(supabase)
-  expect(releaseGroups).toEqual(SUBTITLE_GROUPS_MOCK)
+test('Indexer | should return a list of subtitle groups', async () => {
+  const subtitleGroups = await getSubtitleGroups(supabase)
+  expect(subtitleGroups).toEqual(SUBTITLE_GROUPS_MOCK)
 })

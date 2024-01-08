@@ -40,7 +40,6 @@ export type Database = {
           id: number
           isSupported: boolean | null
           name: string
-          searchableArgenteamName: string
           searchableOpenSubtitlesName: string | null
           searchableSubDivXName: string
           website: string
@@ -51,7 +50,6 @@ export type Database = {
           id?: number
           isSupported?: boolean | null
           name: string
-          searchableArgenteamName: string
           searchableOpenSubtitlesName?: string | null
           searchableSubDivXName: string
           website: string
@@ -62,7 +60,6 @@ export type Database = {
           id?: number
           isSupported?: boolean | null
           name?: string
-          searchableArgenteamName?: string
           searchableOpenSubtitlesName?: string | null
           searchableSubDivXName?: string
           website?: string
@@ -168,12 +165,6 @@ export type Database = {
       update_subtitle_info: {
         Args: {
           file_name: string
-        }
-        Returns: undefined
-      }
-      update_subtitles_info: {
-        Args: {
-          movie_id: string
         }
         Returns: undefined
       }

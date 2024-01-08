@@ -84,7 +84,6 @@ export type MovieData = {
   resolution: string
   searchableMovieName: string
   searchableSubDivXName: string
-  searchableArgenteamName: string
   releaseGroup: ReleaseGroupNames
   fileNameWithoutExtension: string
   searchableOpenSubtitlesName: string
@@ -94,7 +93,7 @@ export type MovieData = {
 // core
 export function getMovieMetadata(movieFileName: string): MovieData {
   const FIRST_MOVIE_RECORDED = 1888
-  const currentYear = new Date().getFullYear() + 1
+  const currentYear = new Date().getFullYear() + 2
 
   for (let year = FIRST_MOVIE_RECORDED; year < currentYear; year++) {
     const yearString = String(year)
@@ -154,7 +153,6 @@ export function getMovieMetadata(movieFileName: string): MovieData {
         isSupported: false,
         name: unsupportedReleaseGroup,
         searchableSubDivXName: unsupportedReleaseGroup,
-        searchableArgenteamName: unsupportedReleaseGroup,
         searchableOpenSubtitlesName: unsupportedReleaseGroup,
       }
     }
@@ -168,7 +166,6 @@ export function getMovieMetadata(movieFileName: string): MovieData {
       isReleaseGroupSupported: releaseGroup.isSupported,
       releaseGroup: releaseGroup.name as ReleaseGroupNames,
       searchableSubDivXName: releaseGroup.searchableSubDivXName as string,
-      searchableArgenteamName: releaseGroup.searchableArgenteamName as string,
       searchableOpenSubtitlesName: releaseGroup.searchableOpenSubtitlesName as string,
     }
   }

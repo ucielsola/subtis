@@ -27,8 +27,8 @@ import type { SubtitleData } from './types'
 import { getSubDivXSearchUrl } from './subdivx'
 import { getSubtitleAuthor, safeParseTorrent } from './utils'
 import { type TmdbMovie, getMoviesFromTmdb, getTmdbMoviesTotalPagesArray } from './tmdb'
-import { type ReleaseGroupMap, type ReleaseGroupNames, getReleaseGroups } from './release-groups'
-import { type SubtitleGroupMap, type SubtitleGroupNames, getEnabledSubtitleProviders, getSubtitleGroups } from './subtitle-groups'
+import { type ReleaseGroupMap, type ReleaseGroupNames, getReleaseGroups, saveReleaseGroupsToDb } from './release-groups'
+import { type SubtitleGroupMap, type SubtitleGroupNames, getEnabledSubtitleProviders, getSubtitleGroups, saveSubtitleGroupsToDb } from './subtitle-groups'
 
 // setup torrent-search-api
 torrentSearchApi.enableProvider('1337x')
@@ -276,12 +276,10 @@ async function getSubtitlesFromMovie(
       continue
     }
 
-    // 10. Get only providers I want to use
-
     // TODO: Check if we can download subtitles from OpenSubitles
+    // 9. Find subtitle metadata from SubDivx
     const enabledSubtitleProviders = getEnabledSubtitleProviders(subtitleGroups, ['SubDivX'])
 
-    // 11. Find subtitle metadata from SubDivx and Argenteam
     for await (const [indexSubtitleProvider, enabledSubtitleProvider] of Object.entries(enabledSubtitleProviders)) {
       const { id, name, getSubtitleFromProvider } = enabledSubtitleProvider
 
@@ -290,7 +288,7 @@ async function getSubtitlesFromMovie(
 
         const subtitle = await getSubtitleFromProvider({ movieData, imdbId })
 
-        // 12. Check if subtitle already exists in DB
+        // 10. Check if subtitle already exists in DB
         if (subtitle) {
           const { data: subtitles } = await supabase
             .from('Subtitles')

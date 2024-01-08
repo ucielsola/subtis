@@ -13,7 +13,7 @@ describe('API | /movies', () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ movieName: 'Killers' }),
+      body: JSON.stringify({ movieName: 'Rebel' }),
     })
 
     const response = await app.handle(request)
@@ -21,9 +21,9 @@ describe('API | /movies', () => {
 
     expect(data).toEqual([
       {
+        id: 14998742,
+        name: 'Rebel Moon - Part One: A Child of Fire',
         year: 2023,
-        id: 5537002,
-        name: 'Killers of the Flower Moon',
       },
     ])
   })
@@ -32,7 +32,7 @@ describe('API | /movies', () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ movieName: 'flower' }),
+      body: JSON.stringify({ movieName: 'one' }),
     })
 
     const response = await app.handle(request)
@@ -40,9 +40,9 @@ describe('API | /movies', () => {
 
     expect(data).toEqual([
       {
+        id: 14998742,
+        name: 'Rebel Moon - Part One: A Child of Fire',
         year: 2023,
-        id: 5537002,
-        name: 'Killers of the Flower Moon',
       },
     ])
   })
@@ -51,7 +51,7 @@ describe('API | /movies', () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ movieName: 'killers' }),
+      body: JSON.stringify({ movieName: 'rebel' }),
     })
 
     const response = await app.handle(request)
@@ -59,9 +59,9 @@ describe('API | /movies', () => {
 
     expect(data).toEqual([
       {
+        id: 14998742,
+        name: 'Rebel Moon - Part One: A Child of Fire',
         year: 2023,
-        id: 5537002,
-        name: 'Killers of the Flower Moon',
       },
     ])
   })

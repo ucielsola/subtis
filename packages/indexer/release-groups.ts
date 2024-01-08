@@ -11,7 +11,6 @@ export const RELEASE_GROUPS = {
     isSupported: true,
     website: 'https://yts.mx',
     searchableSubDivXName: 'YTS MX',
-    searchableArgenteamName: 'YIFY',
     searchableOpenSubtitlesName: 'YTS.MX',
   },
   'CODY': {
@@ -20,7 +19,6 @@ export const RELEASE_GROUPS = {
     isSupported: true,
     fileAttribute: 'CODY',
     searchableSubDivXName: 'H265-CODY',
-    searchableArgenteamName: 'CODY',
     searchableOpenSubtitlesName: 'CODY',
   },
   'GALAXY_RG': {
@@ -29,7 +27,6 @@ export const RELEASE_GROUPS = {
     isSupported: true,
     fileAttribute: 'GalaxyRG',
     searchableSubDivXName: 'GalaxyRG',
-    searchableArgenteamName: 'GalaxyRG',
     searchableOpenSubtitlesName: 'GalaxyRG',
   },
   'RIGHTNOW': {
@@ -38,7 +35,6 @@ export const RELEASE_GROUPS = {
     isSupported: true,
     fileAttribute: 'RiGHTNOW',
     searchableSubDivXName: 'RIGHTNOW',
-    searchableArgenteamName: 'RiGHTNOW',
     searchableOpenSubtitlesName: 'RiGHTNOW',
   },
   'FLUX': {
@@ -47,7 +43,6 @@ export const RELEASE_GROUPS = {
     isSupported: true,
     fileAttribute: 'FLUX',
     searchableSubDivXName: 'FLUX',
-    searchableArgenteamName: 'FLUX',
     searchableOpenSubtitlesName: 'FLUX',
   },
   'EDITH': {
@@ -56,7 +51,6 @@ export const RELEASE_GROUPS = {
     isSupported: true,
     fileAttribute: 'h264-EDITH',
     searchableSubDivXName: 'edith',
-    searchableArgenteamName: 'EDITH', // TODO: Check in Argenteam if this is correct
     searchableOpenSubtitlesName: 'EDITH', // TODO: Check in OpenSubtitles if this is correct
   },
   'HEVC-CMRG': {
@@ -65,7 +59,6 @@ export const RELEASE_GROUPS = {
     isSupported: true,
     fileAttribute: 'HEVC-CMRG',
     searchableSubDivXName: 'cmrg',
-    searchableArgenteamName: 'HEVC-CMRG', // TODO: Check in Argenteam if this is correct
     searchableOpenSubtitlesName: 'HEVC-CMRG', // TODO: Check in OpenSubtitles if this is correct
   },
 } as const
@@ -77,7 +70,6 @@ export type ReleaseGroup = {
   isSupported: boolean
   fileAttribute: string
   searchableSubDivXName: string
-  searchableArgenteamName: string
   searchableOpenSubtitlesName: string
 }
 

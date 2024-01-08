@@ -19,7 +19,7 @@ describe('API | /subtitle', () => {
   })
 
   it('return a response for an existant subtitle', async () => {
-    const fileName = 'Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv'
+    const fileName = 'Rebel.Moon.Part.One.A.Child.of.Fire.2023.1080p.NF.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv'
 
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitle`, {
       method: 'POST',
@@ -34,13 +34,13 @@ describe('API | /subtitle', () => {
     expect(cacheSetSpy).toHaveBeenCalled()
     expect(cache.size).toBe(1)
     expect(data).toEqual({
-      id: 1364,
-      subtitleShortLink: 'https://tinyurl.com/yuo4llr2',
-      subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/killers-of-the-flower-moon-1080p-galaxyrg-subdivx.srt?download=Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.srt',
+      id: 1374,
+      subtitleShortLink: 'https://tinyurl.com/yp8eg3mp',
+      subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/rebel-moon-part-one-a-child-of-fire-1080p-galaxyrg-subdivx.srt?download=Rebel.Moon.Part.One.A.Child.of.Fire.2023.1080p.NF.WEBRip.1600MB.DD5.1.x264-GalaxyRG.srt',
       resolution: '1080p',
-      fileName: 'Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv',
+      fileName: 'Rebel.Moon.Part.One.A.Child.of.Fire.2023.1080p.NF.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv',
       Movies: {
-        name: 'Killers of the Flower Moon',
+        name: 'Rebel Moon - Part One: A Child of Fire',
         year: 2023,
       },
       ReleaseGroups: {

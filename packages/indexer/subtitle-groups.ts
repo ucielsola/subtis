@@ -5,7 +5,6 @@ import type { SupabaseClient } from '@subtis/db'
 
 // internals
 import { getSubDivXSubtitle } from './subdivx'
-import { getArgenteamSubtitle } from './argenteam'
 import { getOpenSubtitlesSubtitle } from './opensubtitles'
 
 // constants
@@ -13,10 +12,6 @@ export const SUBTITLE_GROUPS = {
   SUBDIVX: {
     name: 'SubDivX',
     website: 'https://subdivx.com',
-  },
-  ARGENTEAM: {
-    name: 'Argenteam',
-    website: 'https://argenteam.net',
   },
   OPEN_SUBTITLES: {
     name: 'OpenSubtitles',
@@ -28,7 +23,6 @@ export const SUBTITLE_GROUPS_ARRAY = Object.values(SUBTITLE_GROUPS)
 
 const SUBTITLE_GROUPS_GETTERS = {
   SubDivX: getSubDivXSubtitle,
-  Argenteam: getArgenteamSubtitle,
   OpenSubtitles: getOpenSubtitlesSubtitle,
 } as const
 

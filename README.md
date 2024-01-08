@@ -75,14 +75,6 @@ If you want to have lint in auto-save follow the official [VSCode Support](https
 
 Import [docs/collection.json](/docs/collection.json) into your preferred HTTP client like Hoppscotch, Postman or Insomnia, to quickly play with all API endpoints and different scenarios.
 
-## Support
-
-| Release Groups | Subtitle Group | Support |
-| -------------- | -------------- | ------- |
-| YTS.MX         | SubDivx        | ✅      |
-| YTS.MX         | Argenteam      | ✅      |
-| YTS.MX         | OpenSubtitles  | ✅      |
-
 ## Diagrams
 
 [Whimsical](https://whimsical.com/Subtis-9VTuUJTU3KcGLHGbk19ioA)

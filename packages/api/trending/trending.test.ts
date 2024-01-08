@@ -21,13 +21,13 @@ describe('API | /trending', () => {
 
     expect(data).toEqual([
       {
-        id: 1364,
-        subtitleShortLink: 'https://tinyurl.com/yuo4llr2',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/killers-of-the-flower-moon-1080p-galaxyrg-subdivx.srt?download=Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.srt',
+        id: 1380,
+        subtitleShortLink: 'https://tinyurl.com/yto5xcgr',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/silent-night-1080p-galaxyrg-subdivx.srt?download=Silent.Night.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt',
         resolution: '1080p',
-        fileName: 'Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv',
+        fileName: 'Silent.Night.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv',
         Movies: {
-          name: 'Killers of the Flower Moon',
+          name: 'Silent Night',
           year: 2023,
         },
         ReleaseGroups: {
@@ -38,13 +38,13 @@ describe('API | /trending', () => {
         },
       },
       {
-        id: 1368,
-        subtitleShortLink: 'https://tinyurl.com/ywd8hqs5',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-hunger-games-the-ballad-of-songbirds-and-snakes-720p-galaxyrg-subdivx.srt?download=The.Hunger.Games.The.Ballad.of.Songbirds.and.Snakes.2023.720p.AMZN.WEBRip.900MB.x264-GalaxyRG.srt',
-        resolution: '720p',
-        fileName: 'The.Hunger.Games.The.Ballad.of.Songbirds.and.Snakes.2023.720p.AMZN.WEBRip.900MB.x264-GalaxyRG.mkv',
+        id: 1374,
+        subtitleShortLink: 'https://tinyurl.com/yp8eg3mp',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/rebel-moon-part-one-a-child-of-fire-1080p-galaxyrg-subdivx.srt?download=Rebel.Moon.Part.One.A.Child.of.Fire.2023.1080p.NF.WEBRip.1600MB.DD5.1.x264-GalaxyRG.srt',
+        resolution: '1080p',
+        fileName: 'Rebel.Moon.Part.One.A.Child.of.Fire.2023.1080p.NF.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv',
         Movies: {
-          name: 'The Hunger Games: The Ballad of Songbirds & Snakes',
+          name: 'Rebel Moon - Part One: A Child of Fire',
           year: 2023,
         },
         ReleaseGroups: {

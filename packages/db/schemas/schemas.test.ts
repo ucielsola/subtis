@@ -74,7 +74,6 @@ describe('DB | schemas', () => {
         id: 1,
         isSupported: true,
         name: 'GroupA',
-        searchableArgenteamName: 'GroupA-Arg',
         searchableOpenSubtitlesName: 'GroupA-OS',
         searchableSubDivXName: 'GroupA-SDX',
         website: 'www.groupa.com',
@@ -89,7 +88,6 @@ describe('DB | schemas', () => {
         id: 1,
         isSupported: 'yes', // Invalid type
         name: 'GroupA',
-        searchableArgenteamName: 'GroupA-Arg',
         searchableOpenSubtitlesName: 'GroupA-OS',
         searchableSubDivXName: 'GroupA-SDX',
         website: 'www.groupa.com',
@@ -103,7 +101,6 @@ describe('DB | schemas', () => {
       const validReleaseGroupInsert = {
         fileAttribute: 'HD',
         name: 'GroupB',
-        searchableArgenteamName: 'GroupB-Arg',
         searchableSubDivXName: 'GroupB-SDX',
         website: 'www.groupb.com',
       }
@@ -115,7 +112,6 @@ describe('DB | schemas', () => {
         fileAttribute: 'HD',
         id: 'one', // Invalid ID type
         name: 123, // Invalid name type
-        searchableArgenteamName: 'GroupB-Arg',
         searchableSubDivXName: 'GroupB-SDX',
         website: 'www.groupb.com',
       }
