@@ -36,6 +36,10 @@ describe('API | runApi', () => {
         method: 'POST',
       },
       {
+        path: '/v1/download',
+        method: 'POST',
+      },
+      {
         path: '/v1/subtitle',
         method: 'POST',
       },

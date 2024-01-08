@@ -6,7 +6,7 @@ import type { Context } from 'elysia'
 import { moviesRowSchema, releaseGroupsRowSchema, subtitleGroupsRowSchema, subtitlesRowSchema, supabase } from '@subtis/db'
 
 // shared
-import { getMovieMetadata, videoFileNameSchema } from 'shared/movie'
+import { videoFileNameSchema } from 'shared/movie'
 
 // internals
 import { errorSchema } from '../shared'
@@ -45,9 +45,6 @@ export async function getSubtitleFromFileName({
   // get subtitle from cache
   const cachedSubtitle = cache.get(videoFileName.data)
   if (cachedSubtitle) {
-    // update lastQueriedAt and queriedTimes
-    await supabase.rpc('update_subtitle_info', { file_name: videoFileName.data })
-
     return cachedSubtitle
   }
 
@@ -68,9 +65,6 @@ export async function getSubtitleFromFileName({
 
   // update cache
   cache.set(videoFileName.data, subtitle.data)
-
-  // update lastQueriedAt and queriedTimes
-  await supabase.rpc('update_subtitle_info', { file_name: videoFileName.data })
 
   return subtitle.data
 }
