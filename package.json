@@ -27,11 +27,11 @@
     "update:deps": "bun bump:deps && bun clean:install"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.6.1",
+    "@antfu/eslint-config": "^2.6.2",
     "eslint": "npm:eslint-ts-patch",
     "eslint-ts-patch": "^8.55.0-1",
     "npm-run-all": "^4.1.5",
-    "taze": "0.13.0",
+    "taze": "0.13.1",
     "typescript-coverage-report": "^0.8.0"
   }
 }
