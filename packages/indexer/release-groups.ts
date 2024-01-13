@@ -61,6 +61,14 @@ export const RELEASE_GROUPS = {
     searchableSubDivXName: 'cmrg',
     searchableOpenSubtitlesName: 'HEVC-CMRG', // TODO: Check in OpenSubtitles if this is correct
   },
+  'HEVC-PSA': {
+    name: 'HEVC-PSA',
+    website: '',
+    isSupported: true,
+    fileAttribute: 'HEVC-PSA',
+    searchableSubDivXName: 'hevc-psa',
+    searchableOpenSubtitlesName: 'HEVC-PSA', // TODO: Check in OpenSubtitles if this is correct
+  },
 } as const
 
 // types
