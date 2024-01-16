@@ -1,7 +1,5 @@
 export * from './app'
-export * from './client'
 export * from './download'
-export * from './get-message-from-status-code'
 export * from './movies'
 export * from './shared'
 export * from './subtitle'

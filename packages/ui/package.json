@@ -1,5 +1,5 @@
 {
-  "name": "@subtis/api",
+  "name": "@subtis/ui",
   "type": "module",
   "tversion": "0.0.1",
   "license": "MIT",
@@ -10,17 +10,13 @@
     "test:coverage": "bun test --coverage"
   },
   "dependencies": {
-    "@elysiajs/cors": "^0.8.0",
-    "@elysiajs/swagger": "^0.8.3",
-    "elysia": "^0.8.8",
-    "elysia-helmet": "^1.0.1",
-    "elysia-rate-limit": "^2.0.1",
-    "ms": "^2.1.3",
+    "@elysiajs/eden": "^0.8.0",
+    "ts-pattern": "^5.0.6",
     "zod": "^3.22.4"
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "^0.5.1",
-    "bun-types": "^1.0.25",
+    "bun-types": "^1.0.21",
     "typescript": "^5.3.3"
   }
 }

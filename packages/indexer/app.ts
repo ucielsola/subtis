@@ -303,7 +303,7 @@ async function getSubtitlesFromMovie(
       throw new Error('release group undefined')
     }
 
-    console.table([{ name: movie.title, year, fileName, resolution, releaseGroup }])
+    console.table([{ name: movie.title, year, fileName, resolution, releaseGroup: releaseGroup.name }])
 
     if (releaseGroup.isSupported === false) {
       console.log('\n')
@@ -403,6 +403,7 @@ async function mainIndexer(): Promise<void> {
     }
   }
   catch (error) {
+    console.log('mainIndexer => error =>', error)
     console.log('\n ~ mainIndexer ~ error message:', (error as Error).message)
   }
 }
