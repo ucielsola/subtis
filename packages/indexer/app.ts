@@ -20,10 +20,6 @@ import torrentStream from 'torrent-stream'
 
 import { type Movie, supabase } from '@subtis/db'
 
-// shared
-// TODO: Remove this file when console.table is fully supported in Bun
-import 'shared/console'
-
 // internals
 import { z } from 'zod'
 import { VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieMetadata } from '@subtis/shared'
@@ -35,6 +31,7 @@ import { type TmdbMovie, getMoviesFromTmdb, getTmdbMoviesTotalPagesArray } from 
 import { type ReleaseGroupMap, type ReleaseGroupNames, getReleaseGroups } from './release-groups'
 import { type SubtitleGroupMap, type SubtitleGroupNames, getEnabledSubtitleProviders, getSubtitleGroups } from './subtitle-groups'
 
+//* ** PATCH TO console.table  */
 const ts = new Transform({
   transform(chunk: unknown, _bufferEncoding: BufferEncoding, cb: TransformCallback) {
     cb(null, chunk)
@@ -50,6 +47,7 @@ function getTable(data: Array<Record<string, unknown>>): void {
 }
 
 console.table = getTable
+// END
 
 // utils
 async function setMovieSubtitlesToDatabase({
