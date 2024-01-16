@@ -1,7 +1,10 @@
 /* eslint-disable no-console */
+import { Buffer } from 'node:buffer'
 
 import fs from 'node:fs'
 import path from 'node:path'
+import { Console } from 'node:console'
+import { Transform, type TransformCallback } from 'node:stream'
 import turl from 'turl'
 import sound from 'sound-play'
 import download from 'download'
@@ -18,18 +21,35 @@ import torrentStream from 'torrent-stream'
 import { type Movie, supabase } from '@subtis/db'
 
 // shared
+// TODO: Remove this file when console.table is fully supported in Bun
 import 'shared/console'
-import { bufferSchema } from 'shared/buffer'
-import { VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieMetadata } from 'shared/movie'
 
 // internals
+import { z } from 'zod'
+import { VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieMetadata } from '@subtis/shared'
 import { getImdbLink } from './imdb'
 import { getSubtitleAuthor } from './utils'
 import type { SubtitleData } from './types'
 import { getSubDivXSearchUrl } from './subdivx'
 import { type TmdbMovie, getMoviesFromTmdb, getTmdbMoviesTotalPagesArray } from './tmdb'
-import { type ReleaseGroupMap, type ReleaseGroupNames, getReleaseGroups, saveReleaseGroupsToDb } from './release-groups'
-import { type SubtitleGroupMap, type SubtitleGroupNames, getEnabledSubtitleProviders, getSubtitleGroups, saveSubtitleGroupsToDb } from './subtitle-groups'
+import { type ReleaseGroupMap, type ReleaseGroupNames, getReleaseGroups } from './release-groups'
+import { type SubtitleGroupMap, type SubtitleGroupNames, getEnabledSubtitleProviders, getSubtitleGroups } from './subtitle-groups'
+
+const ts = new Transform({
+  transform(chunk: unknown, _bufferEncoding: BufferEncoding, cb: TransformCallback) {
+    cb(null, chunk)
+  },
+})
+const logger = new Console({ stdout: ts })
+
+function getTable(data: Array<Record<string, unknown>>): void {
+  logger.table(data)
+  const table = (ts.read() || '').toString() as string
+
+  console.log(table)
+}
+
+console.table = getTable
 
 // utils
 async function setMovieSubtitlesToDatabase({
@@ -126,6 +146,7 @@ async function setMovieSubtitlesToDatabase({
     }
 
     // 10. Get author
+    const bufferSchema = z.instanceof(Buffer)
     const srtFileToUploadBuffer = bufferSchema.parse(srtFileToUpload)
     const author = getSubtitleAuthor(srtFileToUploadBuffer)
 
@@ -270,7 +291,6 @@ async function getSubtitlesFromMovie(
     // 8. Get movie data from video file name
     const fileName = videoFile.name
     const fileNameExtension = getMovieFileNameExtension(fileName)
-
     const movieData = getMovieMetadata(fileName)
 
     if (!movieData) {
@@ -278,10 +298,16 @@ async function getSubtitlesFromMovie(
       continue
     }
 
-    const { resolution, releaseGroup, isReleaseGroupSupported } = movieData
+    const { resolution, releaseGroup } = movieData
+
+    if (!releaseGroup) {
+      // TODO: handle how?
+      throw new Error('release group undefined')
+    }
+
     console.table([{ name: movie.title, year, fileName, resolution, releaseGroup }])
 
-    if (isReleaseGroupSupported === false) {
+    if (releaseGroup.isSupported === false) {
       console.log('\n')
       await confirm({
         message: `¿Desea continuar? El Release Group ${releaseGroup} no es soportado, se debería de agregar al indexador`,
@@ -331,7 +357,7 @@ async function getSubtitlesFromMovie(
           resolution,
           fileName,
           fileNameExtension,
-          releaseGroup,
+          releaseGroup: releaseGroup.name as ReleaseGroupNames,
           releaseGroups,
           subtitleGroups,
         })

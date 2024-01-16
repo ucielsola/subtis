@@ -1,7 +1,7 @@
 import { expect, test } from 'bun:test'
 
 // shared
-import { getMovieMetadata } from 'shared/movie'
+import { getMovieMetadata } from '@subtis/shared'
 
 // internals
 import { getSubDivXSubtitle } from '../subdivx'

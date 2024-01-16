@@ -6,7 +6,7 @@ import type { Context } from 'elysia'
 import { moviesRowSchema, releaseGroupsRowSchema, subtitleGroupsRowSchema, subtitlesRowSchema, supabase } from '@subtis/db'
 
 // shared
-import { videoFileNameSchema } from 'shared/movie'
+import { videoFileNameSchema } from '@subtis/shared'
 
 // internals
 import { errorSchema } from '../shared'

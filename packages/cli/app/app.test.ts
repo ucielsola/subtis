@@ -1,10 +1,7 @@
 import { beforeAll, describe, expect, it } from 'bun:test'
 
-// shared
-import { getMessageFromStatusCode } from 'shared/error-messages'
-
 // api
-import { runApi } from '@subtis/api'
+import { getMessageFromStatusCode, runApi } from '@subtis/api'
 
 describe('CLI', async () => {
   beforeAll(async () => {

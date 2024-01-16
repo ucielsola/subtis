@@ -3,7 +3,7 @@ import slugify from 'slugify'
 import invariant from 'tiny-invariant'
 
 // shared
-import type { MovieData } from 'shared/movie'
+import type { MovieData } from '@subtis/shared'
 
 // internals
 import { getIsLinkAlive } from './utils'
@@ -79,8 +79,12 @@ export async function getSubDivXSubtitle({ movieData, page = '1' }: {
   movieData: MovieData
   page?: string
 }): Promise<SubtitleData> {
-  const { name, resolution, releaseGroup, searchableMovieName, searchableSubDivXName, fileNameWithoutExtension }
+  const { name, resolution, releaseGroup, searchableMovieName, fileNameWithoutExtension }
     = movieData
+  if (!releaseGroup) {
+    throw new Error('release group undefined')
+  }
+  const { searchableSubDivXName } = releaseGroup
 
   const subtitlePageHtml = await getSubDivXSearchPageHtml(searchableMovieName, page)
 

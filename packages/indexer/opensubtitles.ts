@@ -3,7 +3,7 @@ import slugify from 'slugify'
 import invariant from 'tiny-invariant'
 
 // shared
-import type { MovieData } from 'shared/movie'
+import type { MovieData } from '@subtis/shared'
 
 // internals
 import type { SubtitleData } from './types'
@@ -108,7 +108,11 @@ export async function getOpenSubtitlesSubtitle({ movieData, imdbId }: {
   movieData: MovieData
   imdbId: number
 }): Promise<SubtitleData> {
-  const { name, resolution, releaseGroup, searchableOpenSubtitlesName, fileNameWithoutExtension } = movieData
+  const { name, resolution, releaseGroup, fileNameWithoutExtension } = movieData
+  if (!releaseGroup) {
+    throw new Error('release group undefined')
+  }
+  const { searchableOpenSubtitlesName } = releaseGroup
 
   invariant(
     !String(imdbId).startsWith('tt'),

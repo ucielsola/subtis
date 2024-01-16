@@ -5,7 +5,7 @@ import type { Context } from 'elysia'
 import { supabase } from '@subtis/db'
 
 // shared
-import { videoFileNameSchema } from 'shared/movie'
+import { videoFileNameSchema } from '@subtis/shared'
 
 // internals
 import { errorSchema } from '../shared'

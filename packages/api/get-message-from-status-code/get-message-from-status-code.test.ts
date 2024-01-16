@@ -1,7 +1,7 @@
 import { expect, test } from 'bun:test'
 
 // shared
-import { getMessageFromStatusCode } from 'shared/error-messages'
+import { getMessageFromStatusCode } from './get-message-from-status-code'
 
 test('returns correct message for 415', () => {
   expect(getMessageFromStatusCode(415)).toEqual({

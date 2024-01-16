@@ -1,5 +1,4 @@
-// shared
-import { getApiClient } from 'shared/api-client'
+import { getApiClient } from '@subtis/api'
 
 // constants
 const isProduction = Bun.env.NODE_ENV === 'production'
