@@ -184,15 +184,15 @@ async function setMovieSubtitlesToDatabase({
     const successSoundPath = path.join(__dirname, '..', 'indexer', 'success_short_high.wav')
     sound.play(successSoundPath)
 
-    console.log(
-      {
+    console.table(
+      [{
         movie,
         resolution,
         releaseGroup,
         subtitleGroup,
         imdbLink: getImdbLink(movie.id),
         subtitleLink: `${subtitleLink.slice(0, 100)}...`,
-      },
+      }],
     )
   }
   catch (error) {
@@ -211,8 +211,10 @@ async function getSubtitlesFromMovie(
   const folders = ['subs', 'subtitles', 'torrents']
 
   folders.forEach((folder) => {
-    if (!fs.existsSync(folder)) {
-      fs.mkdirSync(path.join(__dirname, '..', 'indexer', folder))
+    const folderPath = path.join(__dirname, '..', 'indexer', folder)
+
+    if (!fs.existsSync(folderPath)) {
+      fs.mkdirSync(folderPath)
     }
   })
 
