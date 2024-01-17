@@ -207,6 +207,15 @@ async function getSubtitlesFromMovie(
   releaseGroups: ReleaseGroupMap,
   subtitleGroups: SubtitleGroupMap,
 ) {
+  // 0. Create necessary folders if they do not exists
+  const folders = ['subs', 'subtitles', 'torrents']
+
+  folders.forEach((folder) => {
+    if (!fs.existsSync(folder)) {
+      fs.mkdirSync(path.join(__dirname, '..', 'indexer', folder))
+    }
+  })
+
   const { year, rating, imdbId, title } = movie
 
   // 1. Get first 21 movie torrents from 1337x
