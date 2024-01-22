@@ -378,3 +378,4 @@ async function mainIndexer(): Promise<void> {
 }
 
 mainIndexer()
+saveReleaseGroupsToDb(supabase)
