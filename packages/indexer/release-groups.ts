@@ -5,7 +5,7 @@ import type { SupabaseClient } from '@subtis/db'
 
 // constants
 export const RELEASE_GROUPS = {
-  'YTS_MX': {
+  'YTS-MX': {
     name: 'YTS-MX',
     fileAttribute: 'YTS.MX',
     isSupported: true,
@@ -21,7 +21,7 @@ export const RELEASE_GROUPS = {
     searchableSubDivXName: 'H265-CODY',
     searchableOpenSubtitlesName: 'CODY',
   },
-  'GALAXY_RG': {
+  'GalaxyRG': {
     name: 'GalaxyRG',
     website: '',
     isSupported: true,
@@ -29,7 +29,7 @@ export const RELEASE_GROUPS = {
     searchableSubDivXName: 'GalaxyRG',
     searchableOpenSubtitlesName: 'GalaxyRG',
   },
-  'RIGHTNOW': {
+  'RiGHTNOW': {
     name: 'RiGHTNOW',
     website: '',
     isSupported: true,

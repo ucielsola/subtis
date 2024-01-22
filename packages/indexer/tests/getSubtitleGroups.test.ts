@@ -1,15 +1,10 @@
-import { rest } from 'msw'
-import { setupServer } from 'msw/node'
-import { afterAll, afterEach, beforeAll, expect, test } from 'bun:test'
+import { expect, test } from 'bun:test'
 
 // db
-import { getSupabaseEnvironmentVariables, supabase } from '@subtis/db'
+import { supabase } from '@subtis/db'
 
 // internals
 import { getSubtitleGroups } from '../subtitle-groups'
-
-// constants
-const { supabaseBaseUrl } = getSupabaseEnvironmentVariables()
 
 // mocks
 const SUBTITLE_GROUPS_MOCK = {
@@ -26,21 +21,6 @@ const SUBTITLE_GROUPS_MOCK = {
     website: 'https://www.opensubtitles.org',
   },
 }
-
-const server = setupServer(
-  rest.all(`${supabaseBaseUrl}/rest/v1/SubtitleGroups`, async (req, res, ctx) => {
-    switch (req.method) {
-      case 'GET':
-        return res(ctx.json(SUBTITLE_GROUPS_MOCK))
-      default:
-        return res(ctx.json('Unhandled method'))
-    }
-  }),
-)
-
-beforeAll(() => server.listen())
-afterEach(() => server.resetHandlers())
-afterAll(() => server.close())
 
 test('Indexer | should return a list of subtitle groups', async () => {
   const subtitleGroups = await getSubtitleGroups(supabase)
