@@ -1,5 +1,4 @@
 import type { Buffer } from 'node:buffer'
-import parseTorrent from 'parse-torrent-updated'
 
 export async function getIsLinkAlive(link: string): Promise<boolean> {
   const { ok } = await fetch(link, { method: 'HEAD' })
@@ -19,18 +18,6 @@ export function getRandomDelay(
   } {
   const seconds = Math.floor(Math.random() * (max - min + 1) + min)
   return { seconds, miliseconds: seconds * 1000 }
-}
-
-export function safeParseTorrent(torrentFile: Buffer, torrentFilename: string): {
-  files: { path: string, name: string, length: number, offset: number }[]
-} {
-  try {
-    return parseTorrent(torrentFile)
-  }
-  catch (error) {
-    console.error(`No se pudo parsear el torrent ${torrentFilename} \n`)
-    return { files: [] }
-  }
 }
 
 export function getSubtitleAuthor(subtitleFile: Buffer): string | null {
