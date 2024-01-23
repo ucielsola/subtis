@@ -4,35 +4,26 @@
   "license": "MIT",
   "main": "app.ts",
   "scripts": {
-    "dev": "bun --watch app.ts"
+    "dev": "bun --watch app.ts",
+    "dev:node": "npx tsx --env-file .env --watch app.ts"
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
     "@continuata/unrar": "^1.6.0",
-    "@ctrl/magnet-link": "^4.0.1",
-    "@dil5han/1337x": "^1.4.4",
     "clipboardy": "^4.0.0",
     "delay": "^6.0.0",
     "download": "^8.0.0",
     "extract-zip": "^2.0.1",
-    "isomorphic-htmlparser": "^1.3.0",
     "jsdom": "^24.0.0",
-    "magnet-to-torrent": "^1.0.8",
-    "magnet2torrent": "^1.0.3",
-    "magnet2torrenturl": "^2.1.3",
-    "parse-torrent-updated": "^7.0.5",
     "pretty-bytes": "^6.1.1",
     "rimraf": "^5.0.5",
     "slugify": "^1.6.6",
     "sound-play": "^1.1.0",
     "tiny-invariant": "^1.3.1",
-    "torrent-browse": "^1.0.2",
     "torrent-grabber": "^1.0.2",
-    "torrent-search-api": "^2.1.4",
+    "torrent-stream": "^1.2.1",
     "ts-pattern": "^5.0.6",
     "turl": "^1.1.2",
-    "webtorrent": "^2.1.34",
-    "x1337xapi": "^1.0.5",
     "zod": "^3.22.4"
   },
   "devDependencies": {

@@ -9,14 +9,11 @@ import tg from 'torrent-grabber'
 import extract from 'extract-zip'
 import { match } from 'ts-pattern'
 import clipboard from 'clipboardy'
-import WebTorrent from 'webtorrent'
 import unrar from '@continuata/unrar'
 import invariant from 'tiny-invariant'
-import { confirm } from '@clack/prompts'
-import torrentSearchApi from 'torrent-search-api'
 import prettyBytes from 'pretty-bytes'
-import magnet2torrent from 'magnet2torrenturl'
-import { magnetDecode } from '@ctrl/magnet-link'
+import { confirm } from '@clack/prompts'
+import torrentStream from 'torrent-stream'
 
 import { type Movie, supabase } from '@subtis/db'
 
@@ -27,15 +24,12 @@ import { VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieMetadata } fr
 
 // internals
 import { getImdbLink } from './imdb'
+import { getSubtitleAuthor } from './utils'
 import type { SubtitleData } from './types'
 import { getSubDivXSearchUrl } from './subdivx'
-import { getSubtitleAuthor, safeParseTorrent } from './utils'
 import { type TmdbMovie, getMoviesFromTmdb, getTmdbMoviesTotalPagesArray } from './tmdb'
 import { type ReleaseGroupMap, type ReleaseGroupNames, getReleaseGroups, saveReleaseGroupsToDb } from './release-groups'
 import { type SubtitleGroupMap, type SubtitleGroupNames, getEnabledSubtitleProviders, getSubtitleGroups, saveSubtitleGroupsToDb } from './subtitle-groups'
-
-// constants
-const magnetToTorrent = require('magnet-to-torrent')
 
 // utils
 async function setMovieSubtitlesToDatabase({
@@ -190,7 +184,7 @@ async function setMovieSubtitlesToDatabase({
 
     console.table(
       [{
-        movie,
+        movie: movie.name,
         resolution,
         releaseGroup,
         subtitleGroup,
@@ -234,11 +228,10 @@ async function getSubtitlesFromMovie(
   const torrentsWithoutCineRecordings = torrents.sort((torrentA, torrentB) => torrentB.seeds - torrentA.seeds).slice(0, TOTAL_MOVIES_TO_SEARCH).filter(({ title }) =>
     !/hq-cam|telesync|hdts/gi.test(title),
   )
-  console.log('\n ~ torrentsWithoutCineRecordings:', torrentsWithoutCineRecordings)
 
   console.log(`4.${index}) Torrents encontrados para la pelicula "${title}" \n`)
   const subtitleProviderQuery = `${movie.title} ${year}`
-  console.table(torrentsWithoutCineRecordings.map(({ name, tracker, size }) => ({ name: subtitleProviderQuery, title: name, tracker, size: prettyBytes(size) })))
+  console.table(torrentsWithoutCineRecordings.map(({ tracker, size, title }) => ({ name: subtitleProviderQuery, title, tracker, size: prettyBytes(size) })))
   clipboard.writeSync(subtitleProviderQuery)
   console.log(`👉 Nombre de película ${subtitleProviderQuery} guardado en el clipboard, para poder pegar directamente en proveedor de subtitulos\n`)
   console.log(`👉 Clickea en el link para chequear en SubDivX ${getSubDivXSearchUrl(subtitleProviderQuery)}`)
@@ -246,38 +239,20 @@ async function getSubtitlesFromMovie(
 
   // 2. Iterate over each torrent
   for await (const [index, torrentData] of Object.entries(torrentsWithoutCineRecordings)) {
-    console.log('\n ~ forawait ~ torrentData:', torrentData)
     console.log(`4.${index}) Procesando torrent`, `"${torrentData.title}"`, '\n')
-    // 3. Download torrent
-    const torrentFilename = torrentData.title
-    const torrentFolderPath = path.join(__dirname, '..', 'indexer', 'torrents', torrentFilename)
 
-    const parsed = magnetDecode(torrentData.trackerId)
-    console.log('\n ~ forawait ~ parsed:', parsed)
+    const engine = torrentStream(torrentData.trackerId)
+    const { files } = await new Promise((resolve) => {
+      engine.on('torrent', (data) => {
+        resolve(data)
+      })
+    })
 
-    return
-
-    // try {
-    //   console.log('downloading')
-    //   await torrentSearchApi.downloadTorrent(torrentData, torrentFolderPath)
-    //   console.log('downloaded')
-    // }
-    // catch (error) {
-    //   console.log('\n ~ forawait ~ error:', error.message)
-    // }
-
-    // 4. Read torrent files
-    const torrentPath = path.join(__dirname, '..', 'indexer', 'torrents', torrentFilename)
-    const torrentFile = fs.readFileSync(torrentPath)
-    const { files } = safeParseTorrent(torrentFile, torrentFilename)
 
     if (files.length === 0) {
       console.log('No se encontraron archivos en el torrent', '\n')
       continue
     }
-
-    // 5. Remove torrent from fs
-    // await rimraf(torrentPath);
 
     // 6. Find video file
     const videoFile = files.find((file) => {
@@ -403,25 +378,3 @@ async function mainIndexer(): Promise<void> {
 
 mainIndexer()
 saveReleaseGroupsToDb(supabase)
-
-// async function demo() {
-//   try {
-//     const TOTAL_MOVIES_TO_SEARCH = 5
-
-//     await tg.activate('ThePirateBay')
-
-//     const torrents = await tg.search('The Marvels 2023', {
-//       groupByTracker: false,
-//     })
-
-//     const torrentsSortedBySeeds = torrents.sort((torrentA, torrentB) => torrentB.seeds - torrentA.seeds).slice(0, TOTAL_MOVIES_TO_SEARCH).filter(({ title }) =>
-//     !/hq-cam|telesync|hdts/gi.test(title),
-//   )
-//     console.log('\n ~ demo ~ torrentsSortedBySeeds:', torrentsSortedBySeeds)
-//   }
-//   catch (error) {
-//     console.log('\n ~ demo ~ error:', error)
-//   }
-// }
-
-// demo()
