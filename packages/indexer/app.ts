@@ -248,7 +248,6 @@ async function getSubtitlesFromMovie(
       })
     })
 
-
     if (files.length === 0) {
       console.log('No se encontraron archivos en el torrent', '\n')
       continue
@@ -271,6 +270,12 @@ async function getSubtitlesFromMovie(
     const fileNameExtension = getMovieFileNameExtension(fileName)
 
     const movieData = getMovieMetadata(fileName)
+
+    if (!movieData) {
+      console.log(`4.${index}) No se encontró metadata para la película "${title}" \n`)
+      continue
+    }
+
     const { resolution, releaseGroup, isReleaseGroupSupported } = movieData
     console.table([{ name: movie.title, year, fileName, resolution, releaseGroup }])
 
