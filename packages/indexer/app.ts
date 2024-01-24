@@ -248,6 +248,8 @@ async function getSubtitlesFromMovie(
       })
     })
 
+    engine.destroy()
+
     if (files.length === 0) {
       console.log('No se encontraron archivos en el torrent', '\n')
       continue
