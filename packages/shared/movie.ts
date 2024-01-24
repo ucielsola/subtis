@@ -91,7 +91,7 @@ export type MovieData = {
 }
 
 // core
-export function getMovieMetadata(movieFileName: string): MovieData {
+export function getMovieMetadata(movieFileName: string): MovieData | void {
   const FIRST_MOVIE_RECORDED = 1888
   const currentYear = new Date().getFullYear() + 2
 
@@ -170,5 +170,7 @@ export function getMovieMetadata(movieFileName: string): MovieData {
     }
   }
 
-  throw new Error('Unsupported year movie')
+  console.error('Unsupported year movie')
+  // eslint-disable-next-line no-console
+  console.log(`Check getMovieMetadata function for "${movieFileName}" movieFileName parameter`)
 }
