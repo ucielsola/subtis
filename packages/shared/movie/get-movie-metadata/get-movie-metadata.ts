@@ -46,7 +46,7 @@ export function getMovieMetadata(movieFileName: string): MovieData {
     const fileNameWithoutExtension = getMovieFileNameWithoutExtension(movieFileName)
     // TODO: this will be able to be validated using the schema validation schema, avoiding this type assertion
     const _releaseGroup = Object.values(RELEASE_GROUPS).find(releaseGroupInternal => rawAttributes.includes(releaseGroupInternal.fileAttribute))
-    const releaseGroup = { ..._releaseGroup } as ReleaseGroup | undefined
+    const releaseGroup = _releaseGroup as ReleaseGroup | undefined
 
     return {
       year,
