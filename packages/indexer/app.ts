@@ -290,7 +290,7 @@ async function getSubtitlesFromMovie(
     if (releaseGroup.isSupported === false) {
       console.log('\n')
       await confirm({
-        message: `¿Desea continuar? El Release Group ${releaseGroup} no es soportado, se debería de agregar al indexador`,
+        message: `¿Desea continuar? El Release Group ${releaseGroup.name} no es soportado, se debería de agregar al indexador`,
       })
       console.log('\n')
       continue
