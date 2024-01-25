@@ -6,7 +6,6 @@ import path from 'node:path'
 import turl from 'turl'
 import sound from 'sound-play'
 import download from 'download'
-import tg from 'torrent-grabber'
 import extract from 'extract-zip'
 import { match } from 'ts-pattern'
 import clipboard from 'clipboardy'
@@ -14,10 +13,12 @@ import unrar from '@continuata/unrar'
 import invariant from 'tiny-invariant'
 import prettyBytes from 'pretty-bytes'
 import { confirm } from '@clack/prompts'
-import torrentStream from 'torrent-stream'
 
 import { type Movie, supabase } from '@subtis/db'
 import { VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieMetadata, polyfillConsoleTable } from '@subtis/shared'
+
+import tg from 'torrent-grabber'
+import torrentStream from 'torrent-stream'
 
 // internals
 import { z } from 'zod'
@@ -26,7 +27,7 @@ import { getSubtitleAuthor } from './utils'
 import type { SubtitleData } from './types'
 import { getSubDivXSearchUrl } from './subdivx'
 import { type TmdbMovie, getMoviesFromTmdb, getTmdbMoviesTotalPagesArray } from './tmdb'
-import { type ReleaseGroupMap, type ReleaseGroupNames, getReleaseGroups } from './release-groups'
+import { type ReleaseGroupMap, type ReleaseGroupNames, getReleaseGroups, saveReleaseGroupsToDb } from './release-groups'
 import { type SubtitleGroupMap, type SubtitleGroupNames, getEnabledSubtitleProviders, getSubtitleGroups } from './subtitle-groups'
 
 polyfillConsoleTable()
@@ -282,7 +283,8 @@ async function getSubtitlesFromMovie(
 
     if (!releaseGroup) {
       // TODO: handle how?
-      throw new Error('release group undefined')
+      console.log(`Para la película "${title}" no tiene release group \n`)
+      continue
     }
 
     console.table([{ name: movie.title, year, fileName, resolution, releaseGroup: releaseGroup.name }])
