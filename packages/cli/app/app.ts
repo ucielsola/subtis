@@ -3,9 +3,11 @@ import minimist from 'minimist'
 import { z } from 'zod'
 import { intro, outro, spinner } from '@clack/prompts'
 
+// ui
+import { getMessageFromStatusCode } from '@subtis/ui'
+
 // shared
-import { videoFileNameSchema } from 'shared/movie'
-import { getMessageFromStatusCode } from 'shared/error-messages'
+import { videoFileNameSchema } from '@subtis/shared'
 
 // internals
 import { apiClient } from '../api'

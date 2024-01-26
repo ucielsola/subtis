@@ -2,13 +2,15 @@ import delay from 'delay'
 import invariant from 'tiny-invariant'
 import { Action, ActionPanel, Form, Toast, open, showToast } from '@raycast/api'
 
+// ui
+import { getMessageFromStatusCode } from '@subtis/ui'
+
 // shared
-import { getMessageFromStatusCode } from 'shared/error-messages'
-import { getFilenameFromPath, getVideoFileExtension } from 'shared/movie'
-import { getIsInvariantError, getParsedInvariantMessage } from 'shared/invariant'
+import { getFilenameFromPath, getVideoFileExtension } from '@subtis/shared'
 
 // internals
 import { apiClient } from './api'
+import { getIsInvariantError, getParsedInvariantMessage } from './invariant'
 
 // types
 type Values = {
@@ -41,7 +43,10 @@ export default function Command() {
       // 5. Display failure toast message if subtitle is not found
       if (data === null || 'message' in data) {
         const { title, description: message } = getMessageFromStatusCode(status)
-        return Object.assign(toast, { style: Toast.Style.Failure, title, message })
+        Object.assign(toast, { style: Toast.Style.Failure, title, message })
+
+        // TODO: handle if data is null
+        throw new Error('data is null')
       }
 
       // 6. Update toast messages
@@ -55,7 +60,7 @@ export default function Command() {
       await delay(800)
 
       // 8. Open in browser to automatically begin dowloading subtitle
-      return open(data.subtitleFullLink)
+      open(data.subtitleFullLink)
     }
     catch (error) {
       if (error instanceof Error) {
@@ -65,7 +70,7 @@ export default function Command() {
         toast.title = 'Ups! Nos encontramos con un error'
 
         if (!isInvariantError)
-          return Object.assign(toast, { message: error.message })
+          Object.assign(toast, { message: error.message })
 
         toast.message = getParsedInvariantMessage(error)
       }

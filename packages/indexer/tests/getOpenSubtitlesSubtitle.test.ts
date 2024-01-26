@@ -1,22 +1,28 @@
 import { expect, test } from 'bun:test'
 
 // shared
-import type { MovieData } from 'shared/movie'
+import type { MovieData } from '@subtis/shared'
 
 // internals
-import type { ReleaseGroupNames } from '../release-groups'
+import type { ReleaseGroup } from '../release-groups'
 import { getOpenSubtitlesSubtitle } from '../opensubtitles'
 
 test('should return a subtitle link giving a movie, release group and quality', async () => {
-  const movieData = {
-    name: 'Meg 2 The Trench',
-    searchableMovieName: 'Meg 2 The Trench (2023)',
-    year: 2023,
-    resolution: '1080p',
+  const releaseGroup: ReleaseGroup = {
+    fileAttribute: '',
+    isSupported: false,
+    website: '',
     searchableSubDivXName: 'YTS MX',
     searchableOpenSubtitlesName: 'YTS.MX',
-    releaseGroup: 'YTS-MX' as ReleaseGroupNames,
+    name: 'YTS-MX',
+  }
+  const movieData = {
+    name: 'Meg 2 The Trench',
+    year: 2023,
+    resolution: '1080p',
+    searchableMovieName: 'Meg 2 The Trench (2023)',
     fileNameWithoutExtension: '',
+    releaseGroup,
   } as MovieData
 
   const subtitle = await getOpenSubtitlesSubtitle({ movieData, imdbId: 9224104 })
@@ -31,15 +37,21 @@ test('should return a subtitle link giving a movie, release group and quality', 
 })
 
 test('should return a subtitle link giving a movie, release group and quality', async () => {
+  const releaseGroup: ReleaseGroup = {
+    fileAttribute: '',
+    isSupported: false,
+    website: '',
+    searchableSubDivXName: 'YTS MX',
+    searchableOpenSubtitlesName: 'YTS.MX',
+    name: 'YTS-MX',
+  }
   const movieData = {
     name: 'Junk Head',
     searchableMovieName: 'Junk Head (2017)',
     year: 2017,
     resolution: '1080p',
-    searchableSubDivXName: 'YTS MX',
-    searchableOpenSubtitlesName: 'YTS.MX',
-    releaseGroup: 'YTS-MX' as ReleaseGroupNames,
     fileNameWithoutExtension: '',
+    releaseGroup,
   } as MovieData
 
   const subtitle = await getOpenSubtitlesSubtitle({ movieData, imdbId: 6848928 })

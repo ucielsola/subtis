@@ -11,3 +11,4 @@ bun.lockb
 **/bin/*
 **/bin/subtis
 coverage-ts
+__dump
