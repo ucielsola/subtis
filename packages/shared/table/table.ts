@@ -2,7 +2,6 @@
 import { Console } from 'node:console'
 import { Transform, type TransformCallback } from 'node:stream'
 
-//* ** PATCH TO console.table  */
 const ts = new Transform({
   transform(chunk: unknown, _bufferEncoding: BufferEncoding, cb: TransformCallback) {
     cb(null, chunk)
