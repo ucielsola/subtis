@@ -148,7 +148,14 @@ async function setMovieSubtitlesToDatabase({
 
     // 14. Create short link for subtitle
     const subtitleFullLink = subtitleLinkWithDownloadFileName
-    const subtitleShortLink = await turl.shorten(subtitleLinkWithDownloadFileName)
+
+    let subtitleShortLink
+
+    try {
+      subtitleShortLink = await turl.shorten(subtitleLinkWithDownloadFileName)
+    } catch (error) {
+      subtitleShortLink = ''
+    }
 
     // 13. Get movie by ID
     const { data: movieData } = await supabase.from('Movies').select('*').eq('id', movie.id)
