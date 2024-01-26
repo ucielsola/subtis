@@ -131,14 +131,14 @@ export async function getSubDivXSubtitle({ movieData, page = '1' }: {
   const fileExtension = isRarLinkAlive ? 'rar' : 'zip'
   const subtitleLink = isRarLinkAlive ? subtitleRarLink : subtitleZipLink
 
-  const subtitleSrtFileName = slugify(`${name}-${resolution}-${releaseGroup}-${subtitleGroup}.srt`).toLowerCase()
+  const subtitleSrtFileName = slugify(`${name}-${resolution}-${releaseGroup.name}-${subtitleGroup}.srt`).toLowerCase()
   const downloadFileName = `${fileNameWithoutExtension}.srt`
 
   const subtitleFileNameWithoutExtension = slugify(
-    `${name}-${resolution}-${releaseGroup}-${subtitleGroup}`,
+    `${name}-${resolution}-${releaseGroup.name}-${subtitleGroup}`,
   ).toLowerCase()
   const subtitleCompressedFileName = slugify(
-    `${name}-${resolution}-${releaseGroup}-${subtitleGroup}.${fileExtension}`,
+    `${name}-${resolution}-${releaseGroup.name}-${subtitleGroup}.${fileExtension}`,
   ).toLowerCase()
 
   return {

@@ -28,9 +28,9 @@ describe('getMovieMetadata', () => {
 
     const releaseGroup: ReleaseGroup = {
       name: 'YTS-MX',
-      website: '',
+      fileAttribute: 'YTS.MX',
       isSupported: true,
-      fileAttribute: '',
+      website: 'https://yts.mx',
       searchableSubDivXName: 'YTS MX',
       searchableOpenSubtitlesName: 'YTS.MX',
     }
@@ -49,9 +49,9 @@ describe('getMovieMetadata', () => {
 
     const releaseGroup: ReleaseGroup = {
       name: 'YTS-MX',
-      website: '',
+      fileAttribute: 'YTS.MX',
       isSupported: true,
-      fileAttribute: '',
+      website: 'https://yts.mx',
       searchableSubDivXName: 'YTS MX',
       searchableOpenSubtitlesName: 'YTS.MX',
     }
@@ -70,9 +70,9 @@ describe('getMovieMetadata', () => {
 
     const releaseGroup: ReleaseGroup = {
       name: 'YTS-MX',
-      website: '',
+      fileAttribute: 'YTS.MX',
       isSupported: true,
-      fileAttribute: '',
+      website: 'https://yts.mx',
       searchableSubDivXName: 'YTS MX',
       searchableOpenSubtitlesName: 'YTS.MX',
     }
@@ -91,9 +91,9 @@ describe('getMovieMetadata', () => {
 
     const releaseGroup: ReleaseGroup = {
       name: 'YTS-MX',
-      website: '',
+      fileAttribute: 'YTS.MX',
       isSupported: true,
-      fileAttribute: '',
+      website: 'https://yts.mx',
       searchableSubDivXName: 'YTS MX',
       searchableOpenSubtitlesName: 'YTS.MX',
     }
@@ -112,9 +112,9 @@ describe('getMovieMetadata', () => {
 
     const releaseGroup: ReleaseGroup = {
       name: 'YTS-MX',
-      website: '',
+      fileAttribute: 'YTS.MX',
       isSupported: true,
-      fileAttribute: '',
+      website: 'https://yts.mx',
       searchableSubDivXName: 'YTS MX',
       searchableOpenSubtitlesName: 'YTS.MX',
     }
@@ -135,7 +135,7 @@ describe('getMovieMetadata', () => {
       name: 'CODY',
       website: '',
       isSupported: true,
-      fileAttribute: '',
+      fileAttribute: 'CODY',
       searchableSubDivXName: 'H265-CODY',
       searchableOpenSubtitlesName: 'CODY',
     }
@@ -156,7 +156,7 @@ describe('getMovieMetadata', () => {
       name: 'GalaxyRG',
       website: '',
       isSupported: true,
-      fileAttribute: '',
+      fileAttribute: 'GalaxyRG',
       searchableSubDivXName: 'GalaxyRG',
       searchableOpenSubtitlesName: 'GalaxyRG',
     }
@@ -177,7 +177,7 @@ describe('getMovieMetadata', () => {
       name: 'RiGHTNOW',
       website: '',
       isSupported: true,
-      fileAttribute: '',
+      fileAttribute: 'RiGHTNOW',
       searchableSubDivXName: 'RIGHTNOW',
       searchableOpenSubtitlesName: 'RiGHTNOW',
     }
@@ -211,9 +211,9 @@ describe('getMovieMetadata', () => {
     const result = getMovieMetadata('Avatar (2009) 1080p x264 YTS.MX.mp4')
     const releaseGroup: ReleaseGroup = {
       name: 'YTS-MX',
-      website: '',
+      fileAttribute: 'YTS.MX',
       isSupported: true,
-      fileAttribute: '',
+      website: 'https://yts.mx',
       searchableSubDivXName: 'YTS MX',
       searchableOpenSubtitlesName: 'YTS.MX',
     }
@@ -233,7 +233,7 @@ describe('getMovieMetadata', () => {
       name: 'Avatar',
       year: 2009,
       resolution: '1080p',
-      releaseGroup: 'UNKNOWN',
+      releaseGroup: undefined,
     })
   })
 })

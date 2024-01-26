@@ -1,9 +1,11 @@
 import type { ReleaseGroup } from 'indexer/release-groups'
 import { RELEASE_GROUPS } from 'indexer/release-groups'
 import { P, match } from 'ts-pattern'
+import invariant from 'tiny-invariant'
 import { getMovieName } from '../get-movie-name'
 import { getStringWithoutExtraSpaces } from '../get-string-without-extra-spaces'
 import { getMovieFileNameWithoutExtension } from '../get-movie-file-name-without-extension/get-movie-file-name-without-extension'
+import { VIDEO_FILE_EXTENSIONS } from '..'
 
 // types
 export type MovieData = {
@@ -34,6 +36,11 @@ export function getMovieMetadata(movieFileName: string): MovieData {
     const [rawName, rawAttributes] = movieFileName.split(yearStringToReplace)
     const movieName = getMovieName(rawName)
     const searchableMovieName = getStringWithoutExtraSpaces(`${movieName} (${yearString})`)
+
+    const videoFileExtension = VIDEO_FILE_EXTENSIONS.find(videoFileExtension =>
+      rawAttributes.includes(videoFileExtension),
+    )
+    invariant(videoFileExtension, 'Unsupported file extension')
 
     const resolution = match(rawAttributes)
       .with(P.string.includes('480'), () => '480p')
