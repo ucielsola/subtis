@@ -155,7 +155,8 @@ async function setMovieSubtitlesToDatabase({
 
     try {
       subtitleShortLink = await turl.shorten(subtitleLinkWithDownloadFileName)
-    } catch (error) {
+    }
+    catch (error) {
       subtitleShortLink = ''
     }
 

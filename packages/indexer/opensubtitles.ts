@@ -151,14 +151,14 @@ export async function getOpenSubtitlesSubtitle({ movieData, imdbId }: {
   const subtitleLink = parsedDownloadData.link
   const subtitleGroup = SUBTITLE_GROUPS.OPEN_SUBTITLES.name
 
-  const subtitleSrtFileName = slugify(`${name}-${resolution}-${releaseGroup}-${subtitleGroup}.srt`).toLowerCase()
+  const subtitleSrtFileName = slugify(`${name}-${resolution}-${releaseGroup.name}-${subtitleGroup}.srt`).toLowerCase()
   const downloadFileName = `${fileNameWithoutExtension}.srt`
 
   const subtitleFileNameWithoutExtension = slugify(
-    `${name}-${resolution}-${releaseGroup}-${subtitleGroup}`,
+    `${name}-${resolution}-${releaseGroup.name}-${subtitleGroup}`,
   ).toLowerCase()
   const subtitleCompressedFileName = slugify(
-    `${name}-${resolution}-${releaseGroup}-${subtitleGroup}.${fileExtension}`,
+    `${name}-${resolution}-${releaseGroup.name}-${subtitleGroup}.${fileExtension}`,
   ).toLowerCase()
 
   return {
