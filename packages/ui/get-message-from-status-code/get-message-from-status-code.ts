@@ -1,7 +1,5 @@
 import { match } from 'ts-pattern'
 
-// TODO: replace hardcoded status code with an enum from api
-
 // core
 export function getMessageFromStatusCode(statusCode: number): {
   title: string

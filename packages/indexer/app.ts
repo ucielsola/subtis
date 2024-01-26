@@ -290,8 +290,7 @@ async function getSubtitlesFromMovie(
     const { resolution, releaseGroup } = movieData
 
     if (!releaseGroup) {
-      // TODO: handle how?
-      console.log(`Para la película "${title}" no tiene release group \n`)
+      console.log(`No hay release group soportado para ${videoFile.name} \n`)
       continue
     }
 

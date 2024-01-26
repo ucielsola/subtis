@@ -45,7 +45,6 @@ export default function Command() {
         const { title, description: message } = getMessageFromStatusCode(status)
         Object.assign(toast, { style: Toast.Style.Failure, title, message })
 
-        // TODO: handle if data is null
         throw new Error('data is null')
       }
 

@@ -51,9 +51,20 @@ export function getMovieMetadata(movieFileName: string): MovieData {
       .run()
 
     const fileNameWithoutExtension = getMovieFileNameWithoutExtension(movieFileName)
-    // TODO: this will be able to be validated using the schema validation schema, avoiding this type assertion
+
     const _releaseGroup = Object.values(RELEASE_GROUPS).find(releaseGroupInternal => rawAttributes.includes(releaseGroupInternal.fileAttribute))
     const releaseGroup = _releaseGroup as ReleaseGroup | undefined
+
+    if (!releaseGroup) {
+      const unsupportedReleaseGroup = rawAttributes
+        .split(videoFileExtension)
+        .at(0)
+        ?.split(/\.|\s/g)
+        .at(-1)
+        ?.replace('x264-', '') as string
+
+      console.error(`🛑 Release group ${unsupportedReleaseGroup} no soportado 🛑`)
+    }
 
     return {
       year,
