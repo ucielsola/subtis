@@ -21,10 +21,12 @@ export function getMovieMetadata(movieFileName: string): MovieData {
   const FIRST_MOVIE_RECORDED = 1888
   const currentYear = new Date().getFullYear() + 2
 
+  const parsedMovieFileName = movieFileName.replace(/\s/g, '.')
+
   for (let year = FIRST_MOVIE_RECORDED; year < currentYear; year++) {
     const yearString = String(year)
 
-    const yearStringToReplace = match(movieFileName)
+    const yearStringToReplace = match(parsedMovieFileName)
       .with(P.string.includes(`(${yearString})`), () => `(${yearString})`)
       .with(P.string.includes(yearString), () => yearString)
       .otherwise(() => false)
@@ -33,7 +35,7 @@ export function getMovieMetadata(movieFileName: string): MovieData {
       continue
     }
 
-    const [rawName, rawAttributes] = movieFileName.split(yearStringToReplace)
+    const [rawName, rawAttributes] = parsedMovieFileName.split(yearStringToReplace)
     const movieName = getMovieName(rawName)
     const searchableMovieName = getStringWithoutExtraSpaces(`${movieName} (${yearString})`)
 
@@ -44,13 +46,14 @@ export function getMovieMetadata(movieFileName: string): MovieData {
 
     const resolution = match(rawAttributes)
       .with(P.string.includes('480'), () => '480p')
+      .with(P.string.includes('576'), () => '576p')
       .with(P.string.includes('1080'), () => '1080p')
       .with(P.string.includes('720'), () => '720p')
       .with(P.string.includes('2160'), () => '2160p')
       .with(P.string.includes('3D'), () => '3D')
       .run()
 
-    const fileNameWithoutExtension = getMovieFileNameWithoutExtension(movieFileName)
+    const fileNameWithoutExtension = getMovieFileNameWithoutExtension(parsedMovieFileName)
 
     const _releaseGroup = Object.values(RELEASE_GROUPS).find(releaseGroupInternal => rawAttributes.includes(releaseGroupInternal.fileAttribute))
     const releaseGroup = _releaseGroup as ReleaseGroup | undefined
