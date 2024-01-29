@@ -69,6 +69,14 @@ export const RELEASE_GROUPS = {
     searchableSubDivXName: 'hevc-psa',
     searchableOpenSubtitlesName: 'HEVC-PSA', // TODO: Check in OpenSubtitles if this is correct
   },
+  'AAC': {
+    name: 'AAC',
+    website: '',
+    isSupported: true,
+    fileAttribute: 'AAC',
+    searchableSubDivXName: 'aac',
+    searchableOpenSubtitlesName: 'AAC', // TODO: Check in OpenSubtitles if this is correct
+  },
 } as const
 
 // types
