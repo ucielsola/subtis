@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "^0.5.1",
-    "bun-types": "^1.0.25",
+    "@types/bun": "^1.0.4",
     "supabase": ">=1.136.3",
     "supabase-to-zod": "^1.0.4",
     "typescript": "^5.3.3"

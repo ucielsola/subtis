@@ -24,7 +24,7 @@
     "dev:indexer:node": "cd packages/indexer && npm run dev:node",
     "check:deps": "taze -r",
     "bump:deps": "taze -r -w",
-    "clean:install": "bun pm cache rm && rm -rf bun.lockb && rm -rf node_modules && bun install",
+    "clean:install": "bun pm cache rm && rm -rf bun.lockb node_modules && bun install",
     "update:deps": "bun bump:deps && bun clean:install"
   },
   "devDependencies": {

@@ -1,25 +1,21 @@
 {
   "compilerOptions": {
-
-    "target": "esnext",
-
+    "target": "ESNext",
     "jsx": "react-jsx",
-    // enable latest features
-    "lib": ["esnext"],
+    "lib": ["ESNext"],
     "moduleDetection": "force",
-    "module": "esnext",
-    // if TS 5.x+
+    "module": "ESNext",
     "moduleResolution": "bundler",
-    // add Bun type definitions
-    "types": ["bun-types"],
     "allowImportingTsExtensions": true,
     "allowJs": true,
-
-    // best practices
     "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "useUnknownInCatchVariables": true,
     "noEmit": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+    "verbatimModuleSyntax": true,
     "skipLibCheck": true
   }
 }
