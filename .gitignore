@@ -12,3 +12,4 @@ bun.lockb
 **/bin/subtis
 coverage-ts
 __dump
+*.rar
