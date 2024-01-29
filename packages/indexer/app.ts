@@ -241,7 +241,7 @@ async function getSubtitlesFromMovie(
 
   console.log(`4.${index}) Torrents encontrados para la pelicula "${title}" \n`)
   const subtitleProviderQuery = `${movie.title} ${year}`
-  console.table(torrentsWithoutCineRecordings.map(({ tracker, size, title }) => ({ name: subtitleProviderQuery, title, tracker, size: prettyBytes(size) })))
+  console.table(torrentsWithoutCineRecordings.map(({ tracker, size, title, seeds }) => ({ name: subtitleProviderQuery, title, tracker, size: prettyBytes(size), seeds })))
   clipboard.writeSync(subtitleProviderQuery)
   console.log(`👉 Nombre de película ${subtitleProviderQuery} guardado en el clipboard, para poder pegar directamente en proveedor de subtitulos\n`)
   console.log(`👉 Clickea en el link para chequear en SubDivX ${getSubDivXSearchUrl(subtitleProviderQuery)}`)
@@ -252,8 +252,14 @@ async function getSubtitlesFromMovie(
     console.log(`4.${index}) Procesando torrent`, `"${torrentData.title}"`, '\n')
 
     const engine = torrentStream(torrentData.trackerId)
-    const { files } = await new Promise((resolve) => {
+
+    const { files } = await new Promise((resolve, reject) => {
+      const timeoutId = setTimeout(() => {
+        reject(new Error('Timeout: Tardo más de 10s puede ser por falta de seeds'))
+      }, 10000)
+
       engine.on('torrent', (data) => {
+        clearTimeout(timeoutId)
         resolve(data)
       })
     })
@@ -388,8 +394,14 @@ async function mainIndexer(): Promise<void> {
       console.log('\n')
 
       for await (const [index, movie] of Object.entries(movies)) {
-        // 4. Get subtitles from each movie
-        await getSubtitlesFromMovie(index, movie, releaseGroups, subtitleGroups)
+        try {
+          // 4. Get subtitles from each movie
+          await getSubtitlesFromMovie(index, movie, releaseGroups, subtitleGroups)
+        }
+        catch (error) {
+          console.log('mainIndexer => getSubtitlesFromMovie error =>', error)
+          console.error('Ningún subtítulo encontrado para la película', movie.title)
+        }
       }
     }
   }
