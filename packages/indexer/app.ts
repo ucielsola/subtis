@@ -255,6 +255,7 @@ async function getSubtitlesFromMovie(
 
     const { files } = await new Promise((resolve, reject) => {
       const timeoutId = setTimeout(() => {
+        engine.destroy()
         reject(new Error('Timeout: Tardo más de 10s puede ser por falta de seeds'))
       }, 10000)
 
