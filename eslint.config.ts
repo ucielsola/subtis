@@ -6,6 +6,5 @@ export default antfu({
     'no-nested-ternary': 0,
     'node/prefer-global/process': 0,
     'ts/consistent-type-definitions': 0,
-    'unused-imports/no-unused-imports': 1,
   },
 })
