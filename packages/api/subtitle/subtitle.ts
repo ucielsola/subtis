@@ -60,6 +60,8 @@ export async function getSubtitleFromFileName({
   const subtitle = subtitleSchema.safeParse(data)
   if (!subtitle.success) {
     set.status = 404
+    await supabase.rpc('insert_subtitle_not_found', { file_name: videoFileName.data })
+
     return { message: 'Subtitle not found for file' }
   }
 
