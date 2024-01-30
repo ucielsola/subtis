@@ -19,11 +19,11 @@ export type MovieData = {
 
 export function getMovieMetadata(movieFileName: string): MovieData {
   const FIRST_MOVIE_RECORDED = 1888
-  const currentYear = new Date().getFullYear() + 2
+  const currentYear = new Date().getFullYear()
 
   const parsedMovieFileName = movieFileName.replace(/\s/g, '.')
 
-  for (let year = FIRST_MOVIE_RECORDED; year < currentYear; year++) {
+  for (let year = FIRST_MOVIE_RECORDED; year <= currentYear; year++) {
     const yearString = String(year)
 
     const yearStringToReplace = match(parsedMovieFileName)
