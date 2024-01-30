@@ -253,7 +253,7 @@ async function getSubtitlesFromMovie(
 
     const engine = torrentStream(torrentData.trackerId)
 
-    const { files } = await new Promise((resolve, reject) => {
+    const files = await new Promise((resolve, reject) => {
       const timeoutId = setTimeout(() => {
         engine.destroy()
         reject(new Error('Timeout: Tardo más de 10s puede ser por falta de seeds'))
@@ -261,7 +261,7 @@ async function getSubtitlesFromMovie(
 
       engine.on('torrent', (data) => {
         clearTimeout(timeoutId)
-        resolve(data)
+        resolve(data.files)
       })
     })
 
@@ -273,7 +273,9 @@ async function getSubtitlesFromMovie(
     }
 
     // 6. Find video file
-    const videoFile = files.find((file) => {
+    const filesSortedByLength = files.toSorted((fileA, fileB) => fileB.length - fileA.length)
+
+    const videoFile = filesSortedByLength.find((file) => {
       return VIDEO_FILE_EXTENSIONS.some((videoFileExtension) => {
         return file.name.endsWith(videoFileExtension)
       })
