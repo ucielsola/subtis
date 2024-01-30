@@ -395,6 +395,14 @@ async function mainIndexer(): Promise<void> {
       console.log('\n')
 
       for await (const [index, movie] of Object.entries(movies)) {
+        const value = await confirm({
+          message: `¿Desea skippear la película ${movie.title}?`,
+        })
+
+        if (value === true) {
+          continue
+        }
+
         try {
           // 4. Get subtitles from each movie
           await getSubtitlesFromMovie(index, movie, releaseGroups, subtitleGroups)
