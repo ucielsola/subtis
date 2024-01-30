@@ -21,6 +21,23 @@ describe('API | /trending', () => {
 
     expect(data).toEqual([
       {
+        id: 1391,
+        subtitleShortLink: 'https://tinyurl.com/ykzfmnhu',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/napoleon-2160p-object-object-subdivx.srt?download=Napoleon.2023.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.srt',
+        resolution: '2160p',
+        fileName: 'Napoleon.2023.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.mkv',
+        Movies: {
+          name: 'Napoleon',
+          year: 2023,
+        },
+        ReleaseGroups: {
+          name: 'FLUX',
+        },
+        SubtitleGroups: {
+          name: 'SubDivX',
+        },
+      },
+      {
         id: 1380,
         subtitleShortLink: 'https://tinyurl.com/yto5xcgr',
         subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/silent-night-1080p-galaxyrg-subdivx.srt?download=Silent.Night.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt',
@@ -28,23 +45,6 @@ describe('API | /trending', () => {
         fileName: 'Silent.Night.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv',
         Movies: {
           name: 'Silent Night',
-          year: 2023,
-        },
-        ReleaseGroups: {
-          name: 'GalaxyRG',
-        },
-        SubtitleGroups: {
-          name: 'SubDivX',
-        },
-      },
-      {
-        id: 1374,
-        subtitleShortLink: 'https://tinyurl.com/yp8eg3mp',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/rebel-moon-part-one-a-child-of-fire-1080p-galaxyrg-subdivx.srt?download=Rebel.Moon.Part.One.A.Child.of.Fire.2023.1080p.NF.WEBRip.1600MB.DD5.1.x264-GalaxyRG.srt',
-        resolution: '1080p',
-        fileName: 'Rebel.Moon.Part.One.A.Child.of.Fire.2023.1080p.NF.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv',
-        Movies: {
-          name: 'Rebel Moon - Part One: A Child of Fire',
           year: 2023,
         },
         ReleaseGroups: {

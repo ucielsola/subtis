@@ -143,7 +143,7 @@ describe('getMovieMetadata', () => {
       name: 'The Super Mario Bros Movie',
       resolution: '1080p',
       searchableMovieName: 'The Super Mario Bros Movie (2023)',
-      fileNameWithoutExtension: 'The Super Mario Bros Movie 2023 1080p WEBRip H265-CODY',
+      fileNameWithoutExtension: 'The.Super.Mario.Bros.Movie.2023.1080p.WEBRip.H265-CODY',
       year: 2023,
       releaseGroup,
     })
@@ -221,7 +221,7 @@ describe('getMovieMetadata', () => {
       name: 'Avatar',
       resolution: '1080p',
       searchableMovieName: 'Avatar (2009)',
-      fileNameWithoutExtension: 'Avatar (2009) 1080p x264 YTS.MX',
+      fileNameWithoutExtension: 'Avatar.(2009).1080p.x264.YTS.MX',
       year: 2009,
       releaseGroup,
     })
