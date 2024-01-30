@@ -58,9 +58,14 @@ bun run test:watch
 
 If there's a database schema update, we should run:
 
-3. Create database type definitions and zod schemas
+1. Login to Supabase (if you haven't already)
 ```bash
-bun run db:generate
+cd packages/db && bunx supabase login
+```
+
+2. Create database type definitions and zod schemas
+```bash
+bun run generate
 ```
 
 ## Access Database
