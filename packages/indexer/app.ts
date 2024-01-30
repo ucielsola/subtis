@@ -236,12 +236,12 @@ async function getSubtitlesFromMovie(
   })
 
   const torrentsWithoutCineRecordings = torrents.sort((torrentA, torrentB) => torrentB.seeds - torrentA.seeds).slice(0, TOTAL_MOVIES_TO_SEARCH).filter(({ title }) =>
-    !/hq-cam|telesync|hdts/gi.test(title),
+    !/hq-cam|telesync|hdts|hdcam/gi.test(title),
   )
 
   console.log(`4.${index}) Torrents encontrados para la pelicula "${title}" \n`)
   const subtitleProviderQuery = `${movie.title} ${year}`
-  console.table(torrentsWithoutCineRecordings.map(({ tracker, size, title, seeds }) => ({ name: subtitleProviderQuery, title, tracker, size: prettyBytes(size), seeds })))
+  console.table(torrentsWithoutCineRecordings.map(({ tracker, size, title, seeds }) => ({ name: subtitleProviderQuery, title, tracker, size: prettyBytes(size ?? 0), seeds })))
   clipboard.writeSync(subtitleProviderQuery)
   console.log(`👉 Nombre de película ${subtitleProviderQuery} guardado en el clipboard, para poder pegar directamente en proveedor de subtitulos\n`)
   console.log(`👉 Clickea en el link para chequear en SubDivX ${getSubDivXSearchUrl(subtitleProviderQuery)}`)
