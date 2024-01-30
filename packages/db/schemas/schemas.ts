@@ -1,5 +1,6 @@
 import { z } from 'zod'
 
+// internals
 import type { Json } from './../types/types'
 
 export const jsonSchema: z.ZodSchema<Json> = z.lazy(() =>
@@ -138,4 +139,22 @@ export const subtitlesUpdateSchema = z.object({
   subtitleFullLink: z.string().optional(),
   subtitleGroupId: z.number().optional(),
   subtitleShortLink: z.string().optional(),
+})
+
+export const subtitlesNotFoundRowSchema = z.object({
+  created_at: z.string(),
+  fileName: z.string().nullable(),
+  id: z.number(),
+})
+
+export const subtitlesNotFoundInsertSchema = z.object({
+  created_at: z.string().optional(),
+  fileName: z.string().optional().nullable(),
+  id: z.number().optional(),
+})
+
+export const subtitlesNotFoundUpdateSchema = z.object({
+  created_at: z.string().optional(),
+  fileName: z.string().optional().nullable(),
+  id: z.number().optional(),
 })

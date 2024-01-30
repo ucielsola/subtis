@@ -157,11 +157,35 @@ export type Database = {
           },
         ]
       }
+      SubtitlesNotFound: {
+        Row: {
+          created_at: string
+          fileName: string | null
+          id: number
+        }
+        Insert: {
+          created_at?: string
+          fileName?: string | null
+          id?: number
+        }
+        Update: {
+          created_at?: string
+          fileName?: string | null
+          id?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      insert_subtitle_not_found: {
+        Args: {
+          file_name: string
+        }
+        Returns: undefined
+      }
       update_subtitle_info: {
         Args: {
           file_name: string
