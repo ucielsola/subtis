@@ -86,12 +86,16 @@ export const tmdbMovieSchema = z.object({
   vote_count: z.number(),
 })
 
-function generateTmdbDiscoverMovieUrl(page: number, year: number) {
+function generateTmdbDiscoverMovieUrl(page: number, year: number, isDebugging: boolean) {
+  if (isDebugging) {
+    return `https://api.themoviedb.org/3/discover/movie?language=en-US&page=${page}`
+  }
+
   return `https://api.themoviedb.org/3/discover/movie?language=en-US&page=${page}&primary_release_date.gte=${dayjs(`${year}`).startOf('year').format('YYYY-MM-DD')}&primary_release_date.lte=${dayjs(`${year}`).endOf('year').format('YYYY-MM-DD')}&sort_by=primary_release_date.asc&region=US&with_runtime.gte=60`
 }
 
-export async function getTmdbMoviesTotalPagesArray(year: number): Promise<{ totalPages: number[], totalResults: number }> {
-  const url = generateTmdbDiscoverMovieUrl(1, year)
+export async function getTmdbMoviesTotalPagesArray(year: number, isDebugging: boolean): Promise<{ totalPages: number[], totalResults: number }> {
+  const url = generateTmdbDiscoverMovieUrl(1, year, isDebugging)
   const options = {
     method: 'GET',
     headers: {
@@ -110,8 +114,8 @@ export async function getTmdbMoviesTotalPagesArray(year: number): Promise<{ tota
 }
 
 const tmdbApiEndpoints = {
-  discoverMovies: (page: number, year: number) => {
-    return generateTmdbDiscoverMovieUrl(page, year)
+  discoverMovies: (page: number, year: number, isDebugging: boolean) => {
+    return generateTmdbDiscoverMovieUrl(page, year, isDebugging)
   },
   movieDetail: (id: number) => {
     return `https://api.themoviedb.org/3/movie/${id}`
@@ -133,11 +137,11 @@ export type TmdbMovie = {
   rating: number
 }
 
-export async function getMoviesFromTmdb(page: number, year: number): Promise<TmdbMovie[]> {
+export async function getMoviesFromTmdb(page: number, year: number, isDebugging: boolean): Promise<TmdbMovie[]> {
   const movies: TmdbMovie[] = []
 
   // 1. Get movies for current page
-  const url = tmdbApiEndpoints.discoverMovies(page, year)
+  const url = tmdbApiEndpoints.discoverMovies(page, year, isDebugging)
 
   const response = await fetch(url, TMDB_OPTIONS)
   const data = await response.json()

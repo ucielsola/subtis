@@ -214,6 +214,7 @@ async function getSubtitlesFromMovie(
   movie: TmdbMovie,
   releaseGroups: ReleaseGroupMap,
   subtitleGroups: SubtitleGroupMap,
+  isDebugging: boolean,
 ) {
   // 0. Create necessary folders if they do not exists
   const folders = ['subs', 'subtitles', 'torrents']
@@ -313,10 +314,12 @@ async function getSubtitlesFromMovie(
 
     if (releaseGroup.isSupported === false) {
       console.log('\n')
-      await confirm({
-        message: `¿Desea continuar? El Release Group ${releaseGroup.name} no es soportado, se debería de agregar al indexador`,
-      })
-      console.log('\n')
+      if (isDebugging) {
+        await confirm({
+          message: `¿Desea continuar? El Release Group ${releaseGroup.name} no es soportado, se debería de agregar al indexador`,
+        })
+        console.log('\n')
+      }
       continue
     }
 
@@ -371,7 +374,10 @@ async function getSubtitlesFromMovie(
       }
     }
 
-    await confirm({ message: `¿Desea continuar?` })
+    if (isDebugging) {
+      await confirm({ message: `¿Desea continuar?` })
+    }
+
     console.log('\n------------------------------\n')
   }
 
@@ -380,7 +386,7 @@ async function getSubtitlesFromMovie(
 }
 
 // core
-async function mainIndexer(moviesYear: number): Promise<void> {
+async function mainIndexer(moviesYear: number, isDebugging: boolean): Promise<void> {
   try {
     // 0. Activate ThePirateBay provider
     await tg.activate('ThePirateBay')
@@ -390,7 +396,7 @@ async function mainIndexer(moviesYear: number): Promise<void> {
     const subtitleGroups = await getSubtitleGroups(supabase)
 
     // 2. Get all movie pages from TMDB
-    const { totalPages, totalResults } = await getTmdbMoviesTotalPagesArray(moviesYear)
+    const { totalPages, totalResults } = await getTmdbMoviesTotalPagesArray(moviesYear, isDebugging)
     console.log(`\n1.1) Con un total de ${totalResults} películas en el año ${moviesYear}`)
     console.log(`\n1.2) ${totalPages.at(-1)} páginas (con ${20} pelis c/u), con un total de ${totalResults} películas en el año ${moviesYear}`, '\n')
 
@@ -398,24 +404,26 @@ async function mainIndexer(moviesYear: number): Promise<void> {
       console.log(`2) Buscando en página ${tmbdMoviesPage} de TMDB \n`)
 
       // 3. Get movies from TMDB
-      const movies = await getMoviesFromTmdb(tmbdMoviesPage, moviesYear)
+      const movies = await getMoviesFromTmdb(tmbdMoviesPage, moviesYear, isDebugging)
       console.log(`3) Películas encontradas en página ${tmbdMoviesPage} \n`)
 
       console.table(movies)
       console.log('\n')
 
       for await (const [index, movie] of Object.entries(movies)) {
-        const value = await confirm({
-          message: `¿Desea skippear la película ${movie.title}?`,
-        })
+        if (isDebugging) {
+          const value = await confirm({
+            message: `¿Desea skippear la película ${movie.title}?`,
+          })
 
-        if (value === true) {
-          continue
+          if (value === true) {
+            continue
+          }
         }
 
         try {
           // 4. Get subtitles from each movie
-          await getSubtitlesFromMovie(index, movie, releaseGroups, subtitleGroups)
+          await getSubtitlesFromMovie(index, movie, releaseGroups, subtitleGroups, isDebugging)
         }
         catch (error) {
           console.log('mainIndexer => getSubtitlesFromMovie error =>', error)
@@ -430,5 +438,5 @@ async function mainIndexer(moviesYear: number): Promise<void> {
   }
 }
 
-mainIndexer(2023)
+mainIndexer(2023, true)
 saveReleaseGroupsToDb(supabase)
