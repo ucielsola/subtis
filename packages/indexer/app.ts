@@ -233,11 +233,17 @@ async function getSubtitlesFromMovie(
 
   const torrents = await tg.search(`${movie.title} ${movie.year}`, {
     groupByTracker: false,
+
   })
 
   const torrentsWithoutCineRecordings = torrents.sort((torrentA, torrentB) => torrentB.seeds - torrentA.seeds).slice(0, TOTAL_MOVIES_TO_SEARCH).filter(({ title }) =>
     !/hq-cam|telesync|hdts|hdcam/gi.test(title),
   )
+
+  if (!torrentsWithoutCineRecordings.length) {
+    console.log(`4.${index}) No se encontraron torrents para la película "${title}" \n`)
+    return
+  }
 
   console.log(`4.${index}) Torrents encontrados para la pelicula "${title}" \n`)
   const subtitleProviderQuery = `${movie.title} ${year}`
