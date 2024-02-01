@@ -1,4 +1,5 @@
 import z from 'zod'
+import dayjs from 'dayjs'
 
 // internals
 import { getNumbersArray } from './utils'
@@ -17,7 +18,7 @@ export const tmdbDiscoverSchema = z.object({
       original_title: z.string(),
       overview: z.string(),
       popularity: z.number(),
-      poster_path: z.string(),
+      poster_path: z.string().nullable(),
       release_date: z.string(),
       title: z.string(),
       video: z.boolean(),
@@ -44,12 +45,12 @@ export const tmdbMovieSchema = z.object({
   genres: z.array(z.object({ id: z.number(), name: z.string() })),
   homepage: z.string(),
   id: z.number(),
-  imdb_id: z.string(),
+  imdb_id: z.string().nullable(),
   original_language: z.string(),
   original_title: z.string(),
   overview: z.string(),
   popularity: z.number(),
-  poster_path: z.string(),
+  poster_path: z.string().nullable(),
   production_companies: z.array(
     z.union([
       z.object({
@@ -85,8 +86,12 @@ export const tmdbMovieSchema = z.object({
   vote_count: z.number(),
 })
 
-export async function getTmdbMoviesTotalPagesArray(): Promise<number[]> {
-  const url = 'https://api.themoviedb.org/3/discover/movie?language=en-US&page=1&language=en-US'
+function generateTmdbDiscoverMovieUrl(page: number, year: number) {
+  return `https://api.themoviedb.org/3/discover/movie?language=en-US&page=${page}&primary_release_date.gte=${dayjs(`${year}`).startOf('year').format('YYYY-MM-DD')}&primary_release_date.lte=${dayjs(`${year}`).endOf('year').format('YYYY-MM-DD')}&sort_by=primary_release_date.asc&region=US&with_runtime.gte=60`
+}
+
+export async function getTmdbMoviesTotalPagesArray(year: number): Promise<{ totalPages: number[], totalResults: number }> {
+  const url = generateTmdbDiscoverMovieUrl(1, year)
   const options = {
     method: 'GET',
     headers: {
@@ -99,12 +104,14 @@ export async function getTmdbMoviesTotalPagesArray(): Promise<number[]> {
   const data = await response.json()
 
   const validatedData = tmdbDiscoverSchema.parse(data)
-  return getNumbersArray(validatedData.total_pages)
+  const totalPages = getNumbersArray(validatedData.total_pages)
+
+  return { totalPages, totalResults: validatedData.total_results }
 }
 
 const tmdbApiEndpoints = {
-  discoverMovies: (page: number) => {
-    return `https://api.themoviedb.org/3/discover/movie?language=en-US&page=${page}`
+  discoverMovies: (page: number, year: number) => {
+    return generateTmdbDiscoverMovieUrl(page, year)
   },
   movieDetail: (id: number) => {
     return `https://api.themoviedb.org/3/movie/${id}`
@@ -126,11 +133,11 @@ export type TmdbMovie = {
   rating: number
 }
 
-export async function getMoviesFromTmdb(page: number): Promise<TmdbMovie[]> {
+export async function getMoviesFromTmdb(page: number, year: number): Promise<TmdbMovie[]> {
   const movies: TmdbMovie[] = []
 
   // 1. Get movies for current page
-  const url = tmdbApiEndpoints.discoverMovies(page)
+  const url = tmdbApiEndpoints.discoverMovies(page, year)
 
   const response = await fetch(url, TMDB_OPTIONS)
   const data = await response.json()
@@ -148,7 +155,7 @@ export async function getMoviesFromTmdb(page: number): Promise<TmdbMovie[]> {
     const { imdb_id } = tmdbMovieSchema.parse(data)
 
     // 4. Parse raw imdb_id
-    const imdbId = getStripedImdbId(imdb_id)
+    const imdbId = getStripedImdbId(imdb_id ?? '')
 
     // 5. Get year from release date
     const year = Number(release_date.split('-')[0])
@@ -158,6 +165,8 @@ export async function getMoviesFromTmdb(page: number): Promise<TmdbMovie[]> {
       title,
       imdbId,
       rating,
+      release_date,
+      imdbLink: imdbId ? `https://www.imdb.com/title/tt${imdbId}` : '-',
     }
 
     movies.push(movieData)
