@@ -373,8 +373,8 @@ async function getSubtitlesFromMovie(
   console.log('------------------------------ \n')
 }
 
-// core -> NEW FLOW : TMDB -> Torrent-search-api -> Indexer -> DB
-async function mainIndexer(): Promise<void> {
+// core
+async function mainIndexer(moviesYear: number): Promise<void> {
   try {
     // 0. Activate ThePirateBay provider
     await tg.activate('ThePirateBay')
@@ -384,15 +384,17 @@ async function mainIndexer(): Promise<void> {
     const subtitleGroups = await getSubtitleGroups(supabase)
 
     // 2. Get all movie pages from TMDB
-    const totalPagesArray = await getTmdbMoviesTotalPagesArray()
-    console.log(`\n1) Total de páginas (con ${20} pelis c/u) de TMDB`, totalPagesArray.at(-1), '\n')
+    const { totalPages, totalResults } = await getTmdbMoviesTotalPagesArray(moviesYear)
+    console.log(`\n1.1) Con un total de ${totalResults} películas en el año ${moviesYear}`)
+    console.log(`\n1.2) ${totalPages.at(-1)} páginas (con ${20} pelis c/u), con un total de ${totalResults} películas en el año ${moviesYear}`, '\n')
 
-    for await (const tmbdMoviesPage of totalPagesArray) {
+    for await (const tmbdMoviesPage of totalPages) {
       console.log(`2) Buscando en página ${tmbdMoviesPage} de TMDB \n`)
 
       // 3. Get movies from TMDB
-      const movies = await getMoviesFromTmdb(tmbdMoviesPage)
+      const movies = await getMoviesFromTmdb(tmbdMoviesPage, moviesYear)
       console.log(`3) Películas encontradas en página ${tmbdMoviesPage} \n`)
+
       console.table(movies)
       console.log('\n')
 
@@ -422,5 +424,5 @@ async function mainIndexer(): Promise<void> {
   }
 }
 
-mainIndexer()
+mainIndexer(2023)
 saveReleaseGroupsToDb(supabase)
