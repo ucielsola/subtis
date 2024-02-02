@@ -13,7 +13,7 @@ import { errorSchema } from '../shared'
 
 // schemas
 export const subtitleSchema
-  = subtitlesRowSchema.pick({ id: true, subtitleShortLink: true, subtitleFullLink: true, resolution: true, fileName: true }).extend({
+  = subtitlesRowSchema.pick({ fileName: true, id: true, resolution: true, subtitleFullLink: true, subtitleShortLink: true }).extend({
     Movies: moviesRowSchema.pick({ name: true, year: true }),
     ReleaseGroups: releaseGroupsRowSchema.pick({ name: true }),
     SubtitleGroups: subtitleGroupsRowSchema.pick({ name: true }),
@@ -30,11 +30,11 @@ setInterval(() => cache.clear(), ms('1d'))
 
 // core
 export async function getSubtitleFromFileName({
-  set,
   body,
+  set,
 }: {
-  set: Context['set']
   body: { fileName: string }
+  set: Context['set']
 }): Promise<Response> {
   const videoFileName = videoFileNameSchema.safeParse(body.fileName)
   if (!videoFileName.success) {

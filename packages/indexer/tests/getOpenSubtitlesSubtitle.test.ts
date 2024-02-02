@@ -11,21 +11,21 @@ test('should return a subtitle link giving a movie, release group and quality', 
   const releaseGroup: ReleaseGroup = {
     fileAttribute: '',
     isSupported: false,
-    website: '',
-    searchableSubDivXName: 'YTS MX',
-    searchableOpenSubtitlesName: 'YTS.MX',
     name: 'YTS-MX',
+    searchableOpenSubtitlesName: 'YTS.MX',
+    searchableSubDivXName: 'YTS MX',
+    website: '',
   }
   const movieData = {
+    fileNameWithoutExtension: '',
     name: 'Meg 2 The Trench',
-    year: 2023,
+    releaseGroup,
     resolution: '1080p',
     searchableMovieName: 'Meg 2 The Trench (2023)',
-    fileNameWithoutExtension: '',
-    releaseGroup,
+    year: 2023,
   } as MovieData
 
-  const subtitle = await getOpenSubtitlesSubtitle({ movieData, imdbId: 9224104 })
+  const subtitle = await getOpenSubtitlesSubtitle({ imdbId: 9224104, movieData })
 
   expect(subtitle.subtitleLink).toBeTypeOf('string')
 
@@ -40,21 +40,21 @@ test('should return a subtitle link giving a movie, release group and quality', 
   const releaseGroup: ReleaseGroup = {
     fileAttribute: '',
     isSupported: false,
-    website: '',
-    searchableSubDivXName: 'YTS MX',
-    searchableOpenSubtitlesName: 'YTS.MX',
     name: 'YTS-MX',
+    searchableOpenSubtitlesName: 'YTS.MX',
+    searchableSubDivXName: 'YTS MX',
+    website: '',
   }
   const movieData = {
+    fileNameWithoutExtension: '',
     name: 'Junk Head',
+    releaseGroup,
+    resolution: '1080p',
     searchableMovieName: 'Junk Head (2017)',
     year: 2017,
-    resolution: '1080p',
-    fileNameWithoutExtension: '',
-    releaseGroup,
   } as MovieData
 
-  const subtitle = await getOpenSubtitlesSubtitle({ movieData, imdbId: 6848928 })
+  const subtitle = await getOpenSubtitlesSubtitle({ imdbId: 6848928, movieData })
 
   expect(subtitle.subtitleLink).toBeTypeOf('string')
 

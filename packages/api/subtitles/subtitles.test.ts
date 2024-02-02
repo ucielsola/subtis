@@ -13,9 +13,9 @@ describe('API | /subtitles', () => {
     const movieId = '14998742'
 
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ movieId }),
+      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
     })
 
     const response = await app.handle(request)
@@ -23,45 +23,23 @@ describe('API | /subtitles', () => {
 
     expect(data).toEqual([
       {
-        id: 1376,
-        subtitleShortLink: 'https://tinyurl.com/yotkzhod',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/rebel-moon-part-one-a-child-of-fire-1080p-galaxyrg-subdivx.srt?download=Rebel.Moon.Part.One.A.Child.of.Fire.2023.1080p.NF.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.srt',
-        resolution: '1080p',
+        Movies: {
+          name: 'Rebel Moon - Part One: A Child of Fire',
+          year: 2023,
+        },
+        ReleaseGroups: {
+          name: 'GalaxyRG',
+        },
+        SubtitleGroups: {
+          name: 'SubDivX',
+        },
         fileName: 'Rebel.Moon.Part.One.A.Child.of.Fire.2023.1080p.NF.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.mkv',
-        Movies: {
-          name: 'Rebel Moon - Part One: A Child of Fire',
-          year: 2023,
-        },
-        ReleaseGroups: {
-          name: 'GalaxyRG',
-        },
-        SubtitleGroups: {
-          name: 'SubDivX',
-        },
-      },
-      {
-        id: 1374,
-        subtitleShortLink: 'https://tinyurl.com/yp8eg3mp',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/rebel-moon-part-one-a-child-of-fire-1080p-galaxyrg-subdivx.srt?download=Rebel.Moon.Part.One.A.Child.of.Fire.2023.1080p.NF.WEBRip.1600MB.DD5.1.x264-GalaxyRG.srt',
+        id: 1376,
         resolution: '1080p',
-        fileName: 'Rebel.Moon.Part.One.A.Child.of.Fire.2023.1080p.NF.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv',
-        Movies: {
-          name: 'Rebel Moon - Part One: A Child of Fire',
-          year: 2023,
-        },
-        ReleaseGroups: {
-          name: 'GalaxyRG',
-        },
-        SubtitleGroups: {
-          name: 'SubDivX',
-        },
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/rebel-moon-part-one-a-child-of-fire-1080p-galaxyrg-subdivx.srt?download=Rebel.Moon.Part.One.A.Child.of.Fire.2023.1080p.NF.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.srt',
+        subtitleShortLink: 'https://tinyurl.com/yotkzhod',
       },
       {
-        id: 1375,
-        subtitleShortLink: 'https://tinyurl.com/ytydb3l3',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/rebel-moon-part-one-a-child-of-fire-720p-galaxyrg-subdivx.srt?download=Rebel.Moon.Part.One.A.Child.of.Fire.2023.720p.NF.WEBRip.900MB.x264-GalaxyRG.srt',
-        resolution: '720p',
-        fileName: 'Rebel.Moon.Part.One.A.Child.of.Fire.2023.720p.NF.WEBRip.900MB.x264-GalaxyRG.mkv',
         Movies: {
           name: 'Rebel Moon - Part One: A Child of Fire',
           year: 2023,
@@ -72,15 +50,37 @@ describe('API | /subtitles', () => {
         SubtitleGroups: {
           name: 'SubDivX',
         },
+        fileName: 'Rebel.Moon.Part.One.A.Child.of.Fire.2023.1080p.NF.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv',
+        id: 1374,
+        resolution: '1080p',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/rebel-moon-part-one-a-child-of-fire-1080p-galaxyrg-subdivx.srt?download=Rebel.Moon.Part.One.A.Child.of.Fire.2023.1080p.NF.WEBRip.1600MB.DD5.1.x264-GalaxyRG.srt',
+        subtitleShortLink: 'https://tinyurl.com/yp8eg3mp',
+      },
+      {
+        Movies: {
+          name: 'Rebel Moon - Part One: A Child of Fire',
+          year: 2023,
+        },
+        ReleaseGroups: {
+          name: 'GalaxyRG',
+        },
+        SubtitleGroups: {
+          name: 'SubDivX',
+        },
+        fileName: 'Rebel.Moon.Part.One.A.Child.of.Fire.2023.720p.NF.WEBRip.900MB.x264-GalaxyRG.mkv',
+        id: 1375,
+        resolution: '720p',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/rebel-moon-part-one-a-child-of-fire-720p-galaxyrg-subdivx.srt?download=Rebel.Moon.Part.One.A.Child.of.Fire.2023.720p.NF.WEBRip.900MB.x264-GalaxyRG.srt',
+        subtitleShortLink: 'https://tinyurl.com/ytydb3l3',
       },
     ])
   })
 
   it('return a response for an 404 error for a non existant movie id', async () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ movieId: '17913a50' }),
+      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
     })
 
     const response = await app.handle(request)
@@ -94,9 +94,9 @@ describe('API | /subtitles', () => {
 
   it('return a response for an 400 error for a bad payload', async () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ movie: '123' }),
+      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
     })
 
     const response = await app.handle(request)
@@ -104,12 +104,12 @@ describe('API | /subtitles', () => {
 
     expect(response.status).toBe(400)
     expect(data).toMatchObject({
-      type: 'body',
       at: 'movieId',
-      message: 'Required property',
       expected: {
         movieId: '',
       },
+      message: 'Required property',
+      type: 'body',
     },
     )
   })

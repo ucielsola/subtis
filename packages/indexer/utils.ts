@@ -13,14 +13,14 @@ export function getRandomDelay(
   min = 5,
   max = 15,
 ): {
-    seconds: number
     miliseconds: number
+    seconds: number
   } {
   const seconds = Math.floor(Math.random() * (max - min + 1) + min)
-  return { seconds, miliseconds: seconds * 1000 }
+  return { miliseconds: seconds * 1000, seconds }
 }
 
-export function getSubtitleAuthor(subtitleFile: Buffer): string | null {
+export function getSubtitleAuthor(subtitleFile: Buffer): null | string {
   let author: null | string = null
   const subtitleString = subtitleFile.toString('utf8')
 

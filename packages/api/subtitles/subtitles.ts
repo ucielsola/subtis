@@ -19,11 +19,11 @@ type Response = z.infer<typeof responseSchema>
 
 // core
 export async function getSubtitlesFromMovieId({
-  set,
   body,
+  set,
 }: {
-  set: Context['set']
   body: { movieId: string }
+  set: Context['set']
 }): Promise<Response> {
   const { movieId } = body
 

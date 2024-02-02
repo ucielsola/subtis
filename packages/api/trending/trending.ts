@@ -19,11 +19,11 @@ type Response = z.infer<typeof responseSchema>
 
 // core
 export async function getTrendingSubtitles({
-  set,
   body,
+  set,
 }: {
-  set: Context['set']
   body: { limit: number }
+  set: Context['set']
 }): Promise<Response | null> {
   const { limit } = body
 

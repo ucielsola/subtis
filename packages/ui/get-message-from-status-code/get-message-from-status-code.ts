@@ -2,24 +2,24 @@ import { match } from 'ts-pattern'
 
 // core
 export function getMessageFromStatusCode(statusCode: number): {
-  title: string
   description: string
+  title: string
 } {
   return match(statusCode)
     .with(415, () => ({
-      title: 'Extensión de archivo no soportada',
       description: 'Prueba con formatos como MKV, MP4, o AVI',
+      title: 'Extensión de archivo no soportada',
     }))
     .with(404, () => ({
-      title: 'Subtitulo no encontrado',
       description: 'Nos pondremos a buscarlo',
+      title: 'Subtitulo no encontrado',
     }))
     .with(500, () => ({
-      title: 'Error Inesperado',
       description: 'Estamos haciendo arreglos del servicio',
+      title: 'Error Inesperado',
     }))
     .otherwise(() => ({
-      title: 'Error desconocido',
       description: 'Estamos haciendo arreglos del servicio',
+      title: 'Error desconocido',
     }))
 }

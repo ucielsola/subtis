@@ -2,19 +2,21 @@ import type { ReleaseGroup } from 'indexer/release-groups'
 import { RELEASE_GROUPS } from 'indexer/release-groups'
 import { P, match } from 'ts-pattern'
 import invariant from 'tiny-invariant'
+
+// internals
+import { VIDEO_FILE_EXTENSIONS } from '..'
 import { getMovieName } from '../get-movie-name'
 import { getStringWithoutExtraSpaces } from '../get-string-without-extra-spaces'
 import { getMovieFileNameWithoutExtension } from '../get-movie-file-name-without-extension/get-movie-file-name-without-extension'
-import { VIDEO_FILE_EXTENSIONS } from '..'
 
 // types
 export type MovieData = {
+  fileNameWithoutExtension: string
   name: string
-  year: number
+  releaseGroup: ReleaseGroup | undefined
   resolution: string
   searchableMovieName: string
-  fileNameWithoutExtension: string
-  releaseGroup: ReleaseGroup | undefined
+  year: number
 }
 
 export function getMovieMetadata(movieFileName: string): MovieData {
@@ -36,6 +38,8 @@ export function getMovieMetadata(movieFileName: string): MovieData {
     }
 
     const [rawName, rawAttributes] = parsedMovieFileName.split(yearStringToReplace)
+    const parsedRawAttributes = rawAttributes.includes('YTS') ? rawAttributes.replace('AAC', '') : rawAttributes
+
     const movieName = getMovieName(rawName)
     const searchableMovieName = getStringWithoutExtraSpaces(`${movieName} (${yearString})`)
 
@@ -55,7 +59,9 @@ export function getMovieMetadata(movieFileName: string): MovieData {
 
     const fileNameWithoutExtension = getMovieFileNameWithoutExtension(parsedMovieFileName)
 
-    const _releaseGroup = Object.values(RELEASE_GROUPS).find(releaseGroupInternal => rawAttributes.includes(releaseGroupInternal.fileAttribute))
+    const _releaseGroup = Object.values(RELEASE_GROUPS).find((releaseGroupInternal) => {
+      return parsedRawAttributes.includes(releaseGroupInternal.fileAttribute)
+    })
     const releaseGroup = _releaseGroup as ReleaseGroup | undefined
 
     if (!releaseGroup) {
@@ -70,12 +76,12 @@ export function getMovieMetadata(movieFileName: string): MovieData {
     }
 
     return {
-      year,
-      resolution,
-      name: movieName,
-      searchableMovieName,
       fileNameWithoutExtension,
+      name: movieName,
       releaseGroup,
+      resolution,
+      searchableMovieName,
+      year,
     }
   }
 

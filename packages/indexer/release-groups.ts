@@ -5,92 +5,92 @@ import type { SupabaseClient } from '@subtis/db'
 
 // constants
 export const RELEASE_GROUPS = {
-  'YTS-MX': {
-    name: 'YTS-MX',
-    fileAttribute: 'YTS.MX',
+  'AAC': {
+    fileAttribute: 'AAC',
     isSupported: true,
-    website: 'https://yts.mx',
-    searchableSubDivXName: 'YTS MX',
-    searchableOpenSubtitlesName: 'YTS.MX',
+    name: 'AAC',
+    searchableOpenSubtitlesName: 'AAC', // TODO: Check in OpenSubtitles if this is correct
+    searchableSubDivXName: 'aac',
+    website: '',
   },
   'CODY': {
-    name: 'CODY',
-    website: '',
-    isSupported: true,
     fileAttribute: 'CODY',
-    searchableSubDivXName: 'H265-CODY',
+    isSupported: true,
+    name: 'CODY',
     searchableOpenSubtitlesName: 'CODY',
-  },
-  'GalaxyRG': {
-    name: 'GalaxyRG',
+    searchableSubDivXName: 'H265-CODY',
     website: '',
-    isSupported: true,
-    fileAttribute: 'GalaxyRG',
-    searchableSubDivXName: 'GalaxyRG',
-    searchableOpenSubtitlesName: 'GalaxyRG',
-  },
-  'RiGHTNOW': {
-    name: 'RiGHTNOW',
-    website: '',
-    isSupported: true,
-    fileAttribute: 'RiGHTNOW',
-    searchableSubDivXName: 'RIGHTNOW',
-    searchableOpenSubtitlesName: 'RiGHTNOW',
-  },
-  'FLUX': {
-    name: 'FLUX',
-    website: '',
-    isSupported: true,
-    fileAttribute: 'FLUX',
-    searchableSubDivXName: 'FLUX',
-    searchableOpenSubtitlesName: 'FLUX',
   },
   'EDITH': {
-    name: 'EDITH',
-    website: '',
-    isSupported: true,
     fileAttribute: 'h264-EDITH',
-    searchableSubDivXName: 'edith',
+    isSupported: true,
+    name: 'EDITH',
     searchableOpenSubtitlesName: 'EDITH', // TODO: Check in OpenSubtitles if this is correct
+    searchableSubDivXName: 'edith',
+    website: '',
+  },
+  'FLUX': {
+    fileAttribute: 'FLUX',
+    isSupported: true,
+    name: 'FLUX',
+    searchableOpenSubtitlesName: 'FLUX',
+    searchableSubDivXName: 'FLUX',
+    website: '',
+  },
+  'GalaxyRG': {
+    fileAttribute: 'GalaxyRG',
+    isSupported: true,
+    name: 'GalaxyRG',
+    searchableOpenSubtitlesName: 'GalaxyRG',
+    searchableSubDivXName: 'GalaxyRG',
+    website: '',
   },
   'HEVC-CMRG': {
-    name: 'HEVC-CMRG',
-    website: '',
-    isSupported: true,
     fileAttribute: 'HEVC-CMRG',
-    searchableSubDivXName: 'cmrg',
+    isSupported: true,
+    name: 'HEVC-CMRG',
     searchableOpenSubtitlesName: 'HEVC-CMRG', // TODO: Check in OpenSubtitles if this is correct
+    searchableSubDivXName: 'cmrg',
+    website: '',
   },
   'HEVC-PSA': {
-    name: 'HEVC-PSA',
-    website: '',
-    isSupported: true,
     fileAttribute: 'HEVC-PSA',
-    searchableSubDivXName: 'hevc-psa',
-    searchableOpenSubtitlesName: 'HEVC-PSA', // TODO: Check in OpenSubtitles if this is correct
-  },
-  'AAC': {
-    name: 'AAC',
-    website: '',
     isSupported: true,
-    fileAttribute: 'AAC',
-    searchableSubDivXName: 'aac',
-    searchableOpenSubtitlesName: 'AAC', // TODO: Check in OpenSubtitles if this is correct
+    name: 'HEVC-PSA',
+    searchableOpenSubtitlesName: 'HEVC-PSA', // TODO: Check in OpenSubtitles if this is correct
+    searchableSubDivXName: 'hevc-psa',
+    website: '',
+  },
+  'RiGHTNOW': {
+    fileAttribute: 'RiGHTNOW',
+    isSupported: true,
+    name: 'RiGHTNOW',
+    searchableOpenSubtitlesName: 'RiGHTNOW',
+    searchableSubDivXName: 'RIGHTNOW',
+    website: '',
+  },
+  'YTS-MX': {
+    fileAttribute: 'YTS.MX',
+    isSupported: true,
+    name: 'YTS-MX',
+    searchableOpenSubtitlesName: 'YTS.MX',
+    searchableSubDivXName: 'YTS MX',
+    website: 'https://yts.mx',
   },
 } as const
 
 // types
 export type ReleaseGroup = {
-  name: string
-  website: string
-  isSupported: boolean
   fileAttribute: string
-  searchableSubDivXName: string
+  isSupported: boolean
+  name: string
   searchableOpenSubtitlesName: string
+  searchableSubDivXName: string
+  website: string
 }
 
 export type ReleaseGroupMap = {
-  [key in ReleaseGroupNames]: ReleaseGroup & { id: number, created_at: string };
+  [key in ReleaseGroupNames]: ReleaseGroup & { created_at: string, id: number };
 }
 
 export type ReleaseGroupNames = (typeof RELEASE_GROUPS)[keyof typeof RELEASE_GROUPS]['name']

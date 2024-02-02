@@ -1,182 +1,17 @@
 export type Json =
-  | string
-  | number
-  | boolean
-  | null
   | { [key: string]: Json | undefined }
   | Json[]
+  | boolean
+  | null
+  | number
+  | string
 
 export type Database = {
   public: {
-    Tables: {
-      Movies: {
-        Row: {
-          created_at: string
-          id: number
-          name: string
-          rating: number
-          year: number
-        }
-        Insert: {
-          created_at?: string
-          id: number
-          name: string
-          rating: number
-          year: number
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          name?: string
-          rating?: number
-          year?: number
-        }
-        Relationships: []
-      }
-      ReleaseGroups: {
-        Row: {
-          created_at: string
-          fileAttribute: string
-          id: number
-          isSupported: boolean | null
-          name: string
-          searchableOpenSubtitlesName: string | null
-          searchableSubDivXName: string
-          website: string
-        }
-        Insert: {
-          created_at?: string
-          fileAttribute: string
-          id?: number
-          isSupported?: boolean | null
-          name: string
-          searchableOpenSubtitlesName?: string | null
-          searchableSubDivXName: string
-          website: string
-        }
-        Update: {
-          created_at?: string
-          fileAttribute?: string
-          id?: number
-          isSupported?: boolean | null
-          name?: string
-          searchableOpenSubtitlesName?: string | null
-          searchableSubDivXName?: string
-          website?: string
-        }
-        Relationships: []
-      }
-      SubtitleGroups: {
-        Row: {
-          created_at: string
-          id: number
-          name: string
-          website: string
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-          name: string
-          website: string
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          name?: string
-          website?: string
-        }
-        Relationships: []
-      }
-      Subtitles: {
-        Row: {
-          author: string | null
-          created_at: string
-          fileExtension: string
-          fileName: string
-          id: number
-          lastQueriedAt: string | null
-          movieId: number | null
-          queriedTimes: number | null
-          releaseGroupId: number
-          resolution: string
-          subtitleFullLink: string
-          subtitleGroupId: number
-          subtitleShortLink: string
-        }
-        Insert: {
-          author?: string | null
-          created_at?: string
-          fileExtension: string
-          fileName: string
-          id?: number
-          lastQueriedAt?: string | null
-          movieId?: number | null
-          queriedTimes?: number | null
-          releaseGroupId: number
-          resolution: string
-          subtitleFullLink: string
-          subtitleGroupId: number
-          subtitleShortLink: string
-        }
-        Update: {
-          author?: string | null
-          created_at?: string
-          fileExtension?: string
-          fileName?: string
-          id?: number
-          lastQueriedAt?: string | null
-          movieId?: number | null
-          queriedTimes?: number | null
-          releaseGroupId?: number
-          resolution?: string
-          subtitleFullLink?: string
-          subtitleGroupId?: number
-          subtitleShortLink?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'Subtitles_movieId_fkey'
-            columns: ['movieId']
-            isOneToOne: false
-            referencedRelation: 'Movies'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'Subtitles_releaseGroupId_fkey'
-            columns: ['releaseGroupId']
-            isOneToOne: false
-            referencedRelation: 'ReleaseGroups'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'Subtitles_subtitleGroupId_fkey'
-            columns: ['subtitleGroupId']
-            isOneToOne: false
-            referencedRelation: 'SubtitleGroups'
-            referencedColumns: ['id']
-          },
-        ]
-      }
-      SubtitlesNotFound: {
-        Row: {
-          created_at: string
-          fileName: string | null
-          id: number
-        }
-        Insert: {
-          created_at?: string
-          fileName?: string | null
-          id?: number
-        }
-        Update: {
-          created_at?: string
-          fileName?: string | null
-          id?: number
-        }
-        Relationships: []
-      }
+    CompositeTypes: {
+      [_ in never]: never
     }
-    Views: {
+    Enums: {
       [_ in never]: never
     }
     Functions: {
@@ -193,10 +28,175 @@ export type Database = {
         Returns: undefined
       }
     }
-    Enums: {
-      [_ in never]: never
+    Tables: {
+      Movies: {
+        Insert: {
+          created_at?: string
+          id: number
+          name: string
+          rating: number
+          year: number
+        }
+        Relationships: []
+        Row: {
+          created_at: string
+          id: number
+          name: string
+          rating: number
+          year: number
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          name?: string
+          rating?: number
+          year?: number
+        }
+      }
+      ReleaseGroups: {
+        Insert: {
+          created_at?: string
+          fileAttribute: string
+          id?: number
+          isSupported?: boolean | null
+          name: string
+          searchableOpenSubtitlesName?: null | string
+          searchableSubDivXName: string
+          website: string
+        }
+        Relationships: []
+        Row: {
+          created_at: string
+          fileAttribute: string
+          id: number
+          isSupported: boolean | null
+          name: string
+          searchableOpenSubtitlesName: null | string
+          searchableSubDivXName: string
+          website: string
+        }
+        Update: {
+          created_at?: string
+          fileAttribute?: string
+          id?: number
+          isSupported?: boolean | null
+          name?: string
+          searchableOpenSubtitlesName?: null | string
+          searchableSubDivXName?: string
+          website?: string
+        }
+      }
+      SubtitleGroups: {
+        Insert: {
+          created_at?: string
+          id?: number
+          name: string
+          website: string
+        }
+        Relationships: []
+        Row: {
+          created_at: string
+          id: number
+          name: string
+          website: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          name?: string
+          website?: string
+        }
+      }
+      Subtitles: {
+        Insert: {
+          author?: null | string
+          created_at?: string
+          fileExtension: string
+          fileName: string
+          id?: number
+          lastQueriedAt?: null | string
+          movieId?: null | number
+          queriedTimes?: null | number
+          releaseGroupId: number
+          resolution: string
+          subtitleFullLink: string
+          subtitleGroupId: number
+          subtitleShortLink: string
+        }
+        Relationships: [
+          {
+            columns: ['movieId']
+            foreignKeyName: 'Subtitles_movieId_fkey'
+            isOneToOne: false
+            referencedColumns: ['id']
+            referencedRelation: 'Movies'
+          },
+          {
+            columns: ['releaseGroupId']
+            foreignKeyName: 'Subtitles_releaseGroupId_fkey'
+            isOneToOne: false
+            referencedColumns: ['id']
+            referencedRelation: 'ReleaseGroups'
+          },
+          {
+            columns: ['subtitleGroupId']
+            foreignKeyName: 'Subtitles_subtitleGroupId_fkey'
+            isOneToOne: false
+            referencedColumns: ['id']
+            referencedRelation: 'SubtitleGroups'
+          },
+        ]
+        Row: {
+          author: null | string
+          created_at: string
+          fileExtension: string
+          fileName: string
+          id: number
+          lastQueriedAt: null | string
+          movieId: null | number
+          queriedTimes: null | number
+          releaseGroupId: number
+          resolution: string
+          subtitleFullLink: string
+          subtitleGroupId: number
+          subtitleShortLink: string
+        }
+        Update: {
+          author?: null | string
+          created_at?: string
+          fileExtension?: string
+          fileName?: string
+          id?: number
+          lastQueriedAt?: null | string
+          movieId?: null | number
+          queriedTimes?: null | number
+          releaseGroupId?: number
+          resolution?: string
+          subtitleFullLink?: string
+          subtitleGroupId?: number
+          subtitleShortLink?: string
+        }
+      }
+      SubtitlesNotFound: {
+        Insert: {
+          created_at?: string
+          fileName?: null | string
+          id?: number
+        }
+        Relationships: []
+        Row: {
+          created_at: string
+          fileName: null | string
+          id: number
+        }
+        Update: {
+          created_at?: string
+          fileName?: null | string
+          id?: number
+        }
+      }
     }
-    CompositeTypes: {
+    Views: {
       [_ in never]: never
     }
   }
@@ -204,8 +204,8 @@ export type Database = {
 
 export type Tables<
   PublicTableNameOrOptions extends
-  | keyof (Database['public']['Tables'] & Database['public']['Views'])
-  | { schema: keyof Database },
+  | { schema: keyof Database }
+  | keyof (Database['public']['Tables'] & Database['public']['Views']),
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof (Database[PublicTableNameOrOptions['schema']]['Tables'] &
     Database[PublicTableNameOrOptions['schema']]['Views'])
@@ -229,8 +229,8 @@ export type Tables<
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
-  | keyof Database['public']['Tables']
-  | { schema: keyof Database },
+  | { schema: keyof Database }
+  | keyof Database['public']['Tables'],
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
     : never = never,
@@ -250,8 +250,8 @@ export type TablesInsert<
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
-  | keyof Database['public']['Tables']
-  | { schema: keyof Database },
+  | { schema: keyof Database }
+  | keyof Database['public']['Tables'],
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
     : never = never,
@@ -271,8 +271,8 @@ export type TablesUpdate<
 
 export type Enums<
   PublicEnumNameOrOptions extends
-  | keyof Database['public']['Enums']
-  | { schema: keyof Database },
+  | { schema: keyof Database }
+  | keyof Database['public']['Enums'],
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicEnumNameOrOptions['schema']]['Enums']
     : never = never,

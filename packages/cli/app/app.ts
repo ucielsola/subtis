@@ -62,7 +62,7 @@ export async function runCli(): Promise<void> {
 
     const { data, status } = await apiClient.v1.subtitle.post({ fileName })
     if (data === null || 'message' in data) {
-      const { title, description } = getMessageFromStatusCode(status)
+      const { description, title } = getMessageFromStatusCode(status)
       loader.stop(`😥 ${title}`)
       return outro(`⛏ ${description}`)
     }

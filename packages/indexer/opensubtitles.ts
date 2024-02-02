@@ -20,95 +20,95 @@ function getOpenSubtitlesApiKey(): string {
 }
 
 function getOpenSubtitlesHeaders(): {
-  'Content-Type': 'application/json'
   'Api-Key': string
+  'Content-Type': 'application/json'
 } {
   return {
-    'Content-Type': 'application/json',
     'Api-Key': getOpenSubtitlesApiKey(),
+    'Content-Type': 'application/json',
   }
 }
 
 // schemas
 const subtitleDataSchema = z.object({
-  id: z.string(),
-  type: z.string(),
   attributes: z.object({
-    subtitle_id: z.string(),
-    language: z.string(),
-    download_count: z.number(),
-    new_download_count: z.number(),
-    hearing_impaired: z.boolean(),
-    hd: z.boolean(),
-    fps: z.number(),
-    votes: z.number(),
-    ratings: z.number(),
-    from_trusted: z.boolean().nullable(),
-    foreign_parts_only: z.boolean(),
-    upload_date: z.string(),
     ai_translated: z.boolean(),
-    machine_translated: z.boolean(),
-    release: z.string(),
     comments: z.string(),
+    download_count: z.number(),
+    feature_details: z.object({
+      feature_id: z.number(),
+      feature_type: z.string(),
+      imdb_id: z.number(),
+      movie_name: z.string(),
+      title: z.string(),
+      tmdb_id: z.number(),
+      year: z.number(),
+    }),
+    files: z.array(
+      z.object({
+        cd_number: z.number(),
+        file_id: z.number(),
+        file_name: z.string(),
+      }),
+    ),
+    foreign_parts_only: z.boolean(),
+    fps: z.number(),
+    from_trusted: z.boolean().nullable(),
+    hd: z.boolean(),
+    hearing_impaired: z.boolean(),
+    language: z.string(),
     legacy_subtitle_id: z.number().nullable(),
+    machine_translated: z.boolean(),
+    new_download_count: z.number(),
+    ratings: z.number(),
+    related_links: z.array(
+      z.object({
+        img_url: z.string(),
+        label: z.string(),
+        url: z.string(),
+      }),
+    ),
+    release: z.string(),
+    subtitle_id: z.string(),
+    upload_date: z.string(),
     uploader: z.object({
       name: z.string(),
       rank: z.string(),
       uploader_id: z.number().nullable(),
     }),
-    feature_details: z.object({
-      feature_id: z.number(),
-      feature_type: z.string(),
-      year: z.number(),
-      title: z.string(),
-      movie_name: z.string(),
-      imdb_id: z.number(),
-      tmdb_id: z.number(),
-    }),
-    related_links: z.array(
-      z.object({
-        label: z.string(),
-        url: z.string(),
-        img_url: z.string(),
-      }),
-    ),
-    files: z.array(
-      z.object({
-        file_id: z.number(),
-        cd_number: z.number(),
-        file_name: z.string(),
-      }),
-    ),
+    votes: z.number(),
   }),
+  id: z.string(),
+  type: z.string(),
 })
 
 const subtitlesSchema = z.object({
-  total_pages: z.number(),
-  total_count: z.number(),
-  per_page: z.number(),
-  page: z.number(),
   data: z.array(subtitleDataSchema),
+  page: z.number(),
+  per_page: z.number(),
+  total_count: z.number(),
+  total_pages: z.number(),
 })
 
 const downloadSchema = z.object({
-  link: z.string(),
   file_name: z.string(),
-  requests: z.number(),
-  remaining: z.number(),
+  link: z.string(),
   message: z.string(),
+  remaining: z.number(),
+  requests: z.number(),
   reset_time: z.string(),
   reset_time_utc: z.string(),
-  uk: z.string(),
-  uid: z.number(),
   ts: z.number(),
+  uid: z.number(),
+  uk: z.string(),
 })
 
 // core
-export async function getOpenSubtitlesSubtitle({ movieData, imdbId }: {
-  movieData: MovieData
+export async function getOpenSubtitlesSubtitle({ imdbId, movieData }: {
   imdbId: number
+  movieData: MovieData
 }): Promise<SubtitleData> {
-  const { name, resolution, releaseGroup, fileNameWithoutExtension } = movieData
+  const { fileNameWithoutExtension, name, releaseGroup, resolution } = movieData
   if (!releaseGroup) {
     throw new Error('release group undefined')
   }
@@ -138,9 +138,9 @@ export async function getOpenSubtitlesSubtitle({ movieData, imdbId }: {
   const { file_id } = files[0]
 
   const downloadResponse = await fetch(`${OPEN_SUBTITLES_BASE_URL}/download`, {
-    method: 'POST',
     body: JSON.stringify({ file_id }),
     headers: getOpenSubtitlesHeaders(),
+    method: 'POST',
   })
   const downloadData = await downloadResponse.json()
 
@@ -162,12 +162,12 @@ export async function getOpenSubtitlesSubtitle({ movieData, imdbId }: {
   ).toLowerCase()
 
   return {
-    fileExtension,
-    subtitleLink,
-    subtitleGroup,
     downloadFileName,
-    subtitleSrtFileName,
+    fileExtension,
     subtitleCompressedFileName,
     subtitleFileNameWithoutExtension,
+    subtitleGroup,
+    subtitleLink,
+    subtitleSrtFileName,
   }
 }

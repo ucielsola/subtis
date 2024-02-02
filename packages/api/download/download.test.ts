@@ -21,9 +21,9 @@ describe('API | /download', () => {
 
   it('return a ok response for a specific movie', async () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/download`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ fileName: 'Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv' }),
+      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
     })
 
     const response = await app.handle(request)
@@ -35,9 +35,9 @@ describe('API | /download', () => {
 
   it('return a response for an 415 error for non supported file extensions', async () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitle`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ fileName: 'Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mp3' }),
+      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
     })
 
     const response = await app.handle(request)
@@ -52,9 +52,9 @@ describe('API | /download', () => {
 
   it('return a response for an 400 error for a bad payload', async () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/download`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ file: '123' }),
+      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
     })
 
     const response = await app.handle(request)
@@ -63,12 +63,12 @@ describe('API | /download', () => {
     expect(supabaseSpy).not.toHaveBeenCalled()
     expect(response.status).toBe(400)
     expect(data).toMatchObject({
-      type: 'body',
       at: 'fileName',
-      message: 'Required property',
       expected: {
         fileName: '',
       },
+      message: 'Required property',
+      type: 'body',
     },
     )
   })

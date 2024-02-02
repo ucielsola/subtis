@@ -9,21 +9,21 @@ import { getOpenSubtitlesSubtitle } from './opensubtitles'
 
 // constants
 export const SUBTITLE_GROUPS = {
-  SUBDIVX: {
-    name: 'SubDivX',
-    website: 'https://subdivx.com',
-  },
   OPEN_SUBTITLES: {
     name: 'OpenSubtitles',
     website: 'https://www.opensubtitles.org',
+  },
+  SUBDIVX: {
+    name: 'SubDivX',
+    website: 'https://subdivx.com',
   },
 } as const
 
 export const SUBTITLE_GROUPS_ARRAY = Object.values(SUBTITLE_GROUPS)
 
 const SUBTITLE_GROUPS_GETTERS = {
-  SubDivX: getSubDivXSubtitle,
   OpenSubtitles: getOpenSubtitlesSubtitle,
+  SubDivX: getSubDivXSubtitle,
 } as const
 
 // types
@@ -34,8 +34,8 @@ export type SubtitleGroup = {
 
 export type SubtitleGroupMap = {
   [key in SubtitleGroupNames]: SubtitleGroup & {
-    id: number
     created_at: string
+    id: number
   };
 }
 

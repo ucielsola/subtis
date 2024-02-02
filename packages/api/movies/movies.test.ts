@@ -11,9 +11,9 @@ describe('API | /movies', () => {
 
   it('return a movies response for a movie name query', async () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ movieName: 'Rebel' }),
+      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
     })
 
     const response = await app.handle(request)
@@ -30,9 +30,9 @@ describe('API | /movies', () => {
 
   it('return a movies response for a movie name query with fuzzy search', async () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ movieName: 'one' }),
+      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
     })
 
     const response = await app.handle(request)
@@ -49,9 +49,9 @@ describe('API | /movies', () => {
 
   it('return a movies response for a movie name query with lowercase', async () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ movieName: 'rebel' }),
+      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
     })
 
     const response = await app.handle(request)
@@ -68,9 +68,9 @@ describe('API | /movies', () => {
 
   it('return a response for an 404 error for a non existant movie name', async () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ movieName: 'zxsa' }),
+      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
     })
 
     const response = await app.handle(request)
@@ -84,9 +84,9 @@ describe('API | /movies', () => {
 
   it('return a response for an 400 error for a bad payload', async () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ movie: 'zxsa' }),
+      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
     })
 
     const response = await app.handle(request)
@@ -94,12 +94,12 @@ describe('API | /movies', () => {
 
     expect(response.status).toBe(400)
     expect(data).toMatchObject({
-      type: 'body',
       at: 'movieName',
-      message: 'Required property',
       expected: {
         movieName: '',
       },
+      message: 'Required property',
+      type: 'body',
     })
   })
 })

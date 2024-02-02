@@ -19,11 +19,11 @@ type Response = z.infer<typeof responseSchema>
 
 // core
 export async function getDownloadFromFileName({
-  set,
   body,
+  set,
 }: {
-  set: Context['set']
   body: { fileName: string }
+  set: Context['set']
 }): Promise<Response> {
   const videoFileName = videoFileNameSchema.safeParse(body.fileName)
   if (!videoFileName.success) {

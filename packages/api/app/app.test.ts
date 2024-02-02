@@ -13,43 +13,43 @@ describe('API | runApi', () => {
   })
 
   it('returns all defined routes', () => {
-    const apiRoutes = api.routes.map(({ path, method }) => ({ path, method }))
+    const apiRoutes = api.routes.map(({ method, path }) => ({ method, path }))
     expect(apiRoutes).toEqual([
       {
+        method: 'OPTIONS',
         path: '/',
-        method: 'OPTIONS',
       },
       {
+        method: 'OPTIONS',
         path: '/*',
-        method: 'OPTIONS',
       },
       {
+        method: 'GET',
         path: '/v1/docs',
-        method: 'GET',
       },
       {
+        method: 'GET',
         path: '/v1/docs/json',
-        method: 'GET',
       },
       {
+        method: 'POST',
         path: '/v1/movies',
-        method: 'POST',
       },
       {
+        method: 'POST',
         path: '/v1/download',
-        method: 'POST',
       },
       {
+        method: 'POST',
         path: '/v1/subtitle',
-        method: 'POST',
       },
       {
+        method: 'POST',
         path: '/v1/subtitles',
-        method: 'POST',
       },
       {
-        path: '/v1/trending',
         method: 'POST',
+        path: '/v1/trending',
       },
     ])
   })

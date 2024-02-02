@@ -17,11 +17,11 @@ type Response = z.infer<typeof responseSchema>
 
 // core
 export async function getMoviesFromMovieId({
-  set,
   body,
+  set,
 }: {
-  set: Context['set']
   body: { movieName: string }
+  set: Context['set']
 }): Promise<Response> {
   const { movieName } = body
 

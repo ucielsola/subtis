@@ -20,27 +20,27 @@ export function getSubDivXSearchParams(
   movieName: string,
   page = '1',
 ): {
-    pg: string
-    buscar2: string
     accion: string
+    buscar2: string
     masdesc: string
+    oxdown: string
+    pg: string
     realiza_b: string
     subtitulos: string
-    oxdown: string
   } {
   return {
-    pg: page,
-    buscar2: movieName,
     accion: '5',
+    buscar2: movieName,
     masdesc: '',
+    oxdown: '1',
+    pg: page,
     realiza_b: '1',
     subtitulos: '1',
-    oxdown: '1',
   }
 }
 
 export function getSubDivXSearchUrl(movieName: string): string {
-  const urlSearchParams = new URLSearchParams({ buscar2: movieName, accion: '5' })
+  const urlSearchParams = new URLSearchParams({ accion: '5', buscar2: movieName })
   return `${SUBDIVX_BASE_URL}/index.php?${urlSearchParams}`
 }
 
@@ -49,9 +49,9 @@ export async function getSubDivXSearchPageHtml(movieName: string, page = '1'): P
   const urlSearchParams = new URLSearchParams(searchParams)
 
   const response = await fetch(`${SUBDIVX_BASE_URL}/index.php`, {
-    method: 'POST',
     body: urlSearchParams,
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    method: 'POST',
   })
 
   const html = await response.text()
@@ -79,7 +79,7 @@ export async function getSubDivXSubtitle({ movieData, page = '1' }: {
   movieData: MovieData
   page?: string
 }): Promise<SubtitleData> {
-  const { name, resolution, releaseGroup, searchableMovieName, fileNameWithoutExtension }
+  const { fileNameWithoutExtension, name, releaseGroup, resolution, searchableMovieName }
     = movieData
   if (!releaseGroup) {
     throw new Error('release group undefined')
@@ -142,12 +142,12 @@ export async function getSubDivXSubtitle({ movieData, page = '1' }: {
   ).toLowerCase()
 
   return {
-    fileExtension,
-    subtitleLink,
-    subtitleGroup,
     downloadFileName,
-    subtitleSrtFileName,
+    fileExtension,
     subtitleCompressedFileName,
     subtitleFileNameWithoutExtension,
+    subtitleGroup,
+    subtitleLink,
+    subtitleSrtFileName,
   }
 }

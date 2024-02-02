@@ -35,10 +35,10 @@ export const tmdbMovieSchema = z.object({
   backdrop_path: z.string().nullable(),
   belongs_to_collection: z
     .object({
+      backdrop_path: z.string().nullable(),
       id: z.number(),
       name: z.string(),
       poster_path: z.string().nullable(),
-      backdrop_path: z.string().nullable(),
     })
     .nullable(),
   budget: z.number(),
@@ -97,11 +97,11 @@ function generateTmdbDiscoverMovieUrl(page: number, year: number, isDebugging: b
 export async function getTmdbMoviesTotalPagesArray(year: number, isDebugging: boolean): Promise<{ totalPages: number[], totalResults: number }> {
   const url = generateTmdbDiscoverMovieUrl(1, year, isDebugging)
   const options = {
-    method: 'GET',
     headers: {
       Accept: 'application/json',
       Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
     },
+    method: 'GET',
   }
 
   const response = await fetch(url, options)
@@ -123,18 +123,18 @@ const tmdbApiEndpoints = {
 }
 
 const TMDB_OPTIONS = {
-  method: 'GET',
   headers: {
-    accept: 'application/json',
     Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
+    accept: 'application/json',
   },
+  method: 'GET',
 }
 
 export type TmdbMovie = {
-  year: number
-  title: string
   imdbId: number
   rating: number
+  title: string
+  year: number
 }
 
 export async function getMoviesFromTmdb(page: number, year: number, isDebugging: boolean): Promise<TmdbMovie[]> {
@@ -165,12 +165,12 @@ export async function getMoviesFromTmdb(page: number, year: number, isDebugging:
     const year = Number(release_date.split('-')[0])
 
     const movieData = {
-      year,
-      title,
       imdbId,
+      imdbLink: imdbId ? `https://www.imdb.com/title/tt${imdbId}` : '-',
       rating,
       release_date,
-      imdbLink: imdbId ? `https://www.imdb.com/title/tt${imdbId}` : '-',
+      title,
+      year,
     }
 
     movies.push(movieData)

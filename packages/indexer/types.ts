@@ -2,11 +2,11 @@
 import type { SubtitleGroupNames } from './subtitle-groups'
 
 export type SubtitleData = {
-  subtitleLink: string
   downloadFileName: string
-  subtitleSrtFileName: string
-  subtitleGroup: SubtitleGroupNames
+  fileExtension: 'rar' | 'srt' | 'zip'
   subtitleCompressedFileName: string
   subtitleFileNameWithoutExtension: string
-  fileExtension: 'rar' | 'zip' | 'srt'
+  subtitleGroup: SubtitleGroupNames
+  subtitleLink: string
+  subtitleSrtFileName: string
 }

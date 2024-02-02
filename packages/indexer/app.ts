@@ -34,34 +34,34 @@ polyfillConsoleTable()
 
 // utils
 async function setMovieSubtitlesToDatabase({
-  subtitle,
-  movie,
   fileName,
-  resolution,
   fileNameExtension,
+  movie,
   releaseGroup,
-  subtitleGroup,
   releaseGroups,
+  resolution,
+  subtitle,
+  subtitleGroup,
   subtitleGroups,
 }: {
-  subtitle: SubtitleData
-  movie: Pick<Movie, 'id' | 'name' | 'year' | 'rating'>
   fileName: string
-  resolution: string
   fileNameExtension: string
+  movie: Pick<Movie, 'id' | 'name' | 'rating' | 'year'>
   releaseGroup: ReleaseGroupNames
-  subtitleGroup: SubtitleGroupNames
   releaseGroups: ReleaseGroupMap
+  resolution: string
+  subtitle: SubtitleData
+  subtitleGroup: SubtitleGroupNames
   subtitleGroups: SubtitleGroupMap
 }): Promise<void> {
   try {
     const {
-      subtitleLink,
-      fileExtension,
       downloadFileName,
-      subtitleSrtFileName,
+      fileExtension,
       subtitleCompressedFileName,
       subtitleFileNameWithoutExtension,
+      subtitleLink,
+      subtitleSrtFileName,
     } = subtitle
 
     // 1. Download subtitle to fs if file is compressed
@@ -86,9 +86,9 @@ async function setMovieSubtitlesToDatabase({
       .with('rar', async () => {
         await unrar.uncompress({
           command: 'e',
-          switches: ['-o+', '-idcd'],
-          src: subtitleAbsolutePath,
           dest: extractedSubtitlePath,
+          src: subtitleAbsolutePath,
+          switches: ['-o+', '-idcd'],
         })
       })
       .with('zip', async () => {
@@ -103,7 +103,7 @@ async function setMovieSubtitlesToDatabase({
 
     let srtFileToUpload: unknown
 
-    if (['zip', 'rar'].includes(fileExtension)) {
+    if (['rar', 'zip'].includes(fileExtension)) {
       const extractedSubtitleFiles = fs.readdirSync(extractedSubtitlePath)
 
       const srtFile = extractedSubtitleFiles.find(file => path.extname(file).toLowerCase() === '.srt')
@@ -133,8 +133,8 @@ async function setMovieSubtitlesToDatabase({
 
     // 10. Upload SRT file to Supabase storage
     await supabase.storage.from('subtitles').upload(subtitleSrtFileName, srtFileToUploadBuffer, {
-      upsert: true,
       contentType: 'text/plain;charset=UTF-8',
+      upsert: true,
     })
 
     // 11. Remove files and folders from fs to avoid collition with others subtitle groups
@@ -176,14 +176,14 @@ async function setMovieSubtitlesToDatabase({
     // 16. Save subtitle to Supabase
     await supabase.from('Subtitles').insert({
       author,
-      fileName,
-      resolution,
-      releaseGroupId,
-      subtitleGroupId,
-      subtitleFullLink,
-      subtitleShortLink,
-      movieId: movie.id,
       fileExtension: fileNameExtension,
+      fileName,
+      movieId: movie.id,
+      releaseGroupId,
+      resolution,
+      subtitleFullLink,
+      subtitleGroupId,
+      subtitleShortLink,
     })
 
     // play sound when a subtitle was found
@@ -194,11 +194,11 @@ async function setMovieSubtitlesToDatabase({
 
     console.table(
       [{
-        movie: movie.name,
-        resolution,
-        releaseGroup,
-        subtitleGroup,
         imdbLink: getImdbLink(movie.id),
+        movie: movie.name,
+        releaseGroup,
+        resolution,
+        subtitleGroup,
         subtitleLink: `${subtitleLink.slice(0, 100)}...`,
       }],
     )
@@ -227,7 +227,7 @@ async function getSubtitlesFromMovie(
     }
   })
 
-  const { year, rating, imdbId, title } = movie
+  const { imdbId, rating, title, year } = movie
 
   // 1. Get first 5 movie torrents from ThePirateBay
   const TOTAL_MOVIES_TO_SEARCH = 5
@@ -248,7 +248,7 @@ async function getSubtitlesFromMovie(
 
   console.log(`4.${index}) Torrents encontrados para la pelicula "${title}" \n`)
   const subtitleProviderQuery = `${movie.title} ${year}`
-  console.table(torrentsWithoutCineRecordings.map(({ tracker, size, title, seeds }) => ({ name: subtitleProviderQuery, title, tracker, size: prettyBytes(size ?? 0), seeds })))
+  console.table(torrentsWithoutCineRecordings.map(({ seeds, size, title, tracker }) => ({ name: subtitleProviderQuery, seeds, size: prettyBytes(size ?? 0), title, tracker })))
   clipboard.writeSync(subtitleProviderQuery)
   console.log(`👉 Nombre de película ${subtitleProviderQuery} guardado en el clipboard, para poder pegar directamente en proveedor de subtitulos\n`)
   console.log(`👉 Clickea en el link para chequear en SubDivX ${getSubDivXSearchUrl(subtitleProviderQuery)}`)
@@ -303,14 +303,14 @@ async function getSubtitlesFromMovie(
       continue
     }
 
-    const { resolution, releaseGroup } = movieData
+    const { releaseGroup, resolution } = movieData
 
     if (!releaseGroup) {
       console.log(`No hay release group soportado para ${videoFile.name} \n`)
       continue
     }
 
-    console.table([{ name: movie.title, year, fileName, resolution, releaseGroup: releaseGroup.name }])
+    console.table([{ fileName, name: movie.title, releaseGroup: releaseGroup.name, resolution, year }])
 
     if (releaseGroup.isSupported === false) {
       console.log('\n')
@@ -328,12 +328,12 @@ async function getSubtitlesFromMovie(
     const enabledSubtitleProviders = getEnabledSubtitleProviders(subtitleGroups, ['SubDivX'])
 
     for await (const [indexSubtitleProvider, enabledSubtitleProvider] of Object.entries(enabledSubtitleProviders)) {
-      const { id, name, getSubtitleFromProvider } = enabledSubtitleProvider
+      const { getSubtitleFromProvider, id, name } = enabledSubtitleProvider
 
       try {
         console.log(`4.${index}.${indexSubtitleProvider}) Buscando subtítulo en ${name}`)
 
-        const subtitle = await getSubtitleFromProvider({ movieData, imdbId })
+        const subtitle = await getSubtitleFromProvider({ imdbId, movieData })
 
         // 10. Check if subtitle already exists in DB
         if (subtitle) {
@@ -353,19 +353,19 @@ async function getSubtitlesFromMovie(
         console.log(`4.${index}.${indexSubtitleProvider}) Subtítulo encontrado para ${subtitleGroup}`)
 
         await setMovieSubtitlesToDatabase({
-          subtitle,
-          subtitleGroup,
-          movie: {
-            year,
-            rating,
-            id: imdbId,
-            name: title,
-          },
-          resolution,
           fileName,
           fileNameExtension,
+          movie: {
+            id: imdbId,
+            name: title,
+            rating,
+            year,
+          },
           releaseGroup: releaseGroup.name as ReleaseGroupNames,
           releaseGroups,
+          resolution,
+          subtitle,
+          subtitleGroup,
           subtitleGroups,
         })
       }

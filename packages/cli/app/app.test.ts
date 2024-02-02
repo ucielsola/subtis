@@ -133,7 +133,7 @@ describe('CLI', async () => {
     processes.forEach(async (process) => {
       const text = await new Response(process.stdout).text()
 
-      const { title, description } = getMessageFromStatusCode(404)
+      const { description, title } = getMessageFromStatusCode(404)
 
       expect(text).toInclude('👋 Hola, soy Subtis')
       expect(text).toInclude(`😥 ${title}`)

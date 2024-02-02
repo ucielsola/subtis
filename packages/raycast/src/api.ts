@@ -8,7 +8,7 @@ Object.assign(globalThis, { fetch })
 
 // helpers
 export const apiClient = getApiClient({
-  isProduction: true,
-  apiBaseUrlProduction: 'http://localhost:8080',
   apiBaseUrlDevelopment: 'http://localhost:8080',
+  apiBaseUrlProduction: 'http://localhost:8080',
+  isProduction: true,
 })

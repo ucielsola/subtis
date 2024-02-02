@@ -321,7 +321,7 @@ describe('jsonSchema', () => {
   })
 
   it('should validate a nested structure', () => {
-    expect(jsonSchema.safeParse({ nested: { key: [1, 2, null], flag: true } }).success).toBeTruthy()
+    expect(jsonSchema.safeParse({ nested: { flag: true, key: [1, 2, null] } }).success).toBeTruthy()
   })
 
   it('should invalidate an undefined value', () => {

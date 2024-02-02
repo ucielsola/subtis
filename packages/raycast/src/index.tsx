@@ -42,17 +42,17 @@ export default function Command() {
 
       // 5. Display failure toast message if subtitle is not found
       if (data === null || 'message' in data) {
-        const { title, description: message } = getMessageFromStatusCode(status)
-        Object.assign(toast, { style: Toast.Style.Failure, title, message })
+        const { description: message, title } = getMessageFromStatusCode(status)
+        Object.assign(toast, { message, style: Toast.Style.Failure, title })
 
         throw new Error('data is null')
       }
 
       // 6. Update toast messages
       Object.assign(toast, {
+        message: 'Descargando subtitulo...',
         style: Toast.Style.Success,
         title: 'Subtitulo encontrado!',
-        message: 'Descargando subtitulo...',
       })
 
       // 7. Add small delay to be able to read toast message
@@ -84,7 +84,7 @@ export default function Command() {
         </ActionPanel>
       )}
     >
-      <Form.FilePicker id="filePicker" title="Buscar subtitulo para" allowMultipleSelection={false} />
+      <Form.FilePicker allowMultipleSelection={false} id="filePicker" title="Buscar subtitulo para" />
     </Form>
   )
 }

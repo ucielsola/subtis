@@ -6,17 +6,17 @@ import type { App } from '@subtis/api'
 
 // types
 type ApiBaseUrlConfig = {
-  isProduction: boolean
-  apiBaseUrlProduction?: string
   apiBaseUrlDevelopment?: string
+  apiBaseUrlProduction?: string
+  isProduction: boolean
 }
 
 // utils
 function getApiBaseUrl(apiBaseUrlConfig: ApiBaseUrlConfig): string {
   const schema = z.object({
-    isProduction: z.boolean(),
-    apiBaseUrlProduction: z.string(),
     apiBaseUrlDevelopment: z.string(),
+    apiBaseUrlProduction: z.string(),
+    isProduction: z.boolean(),
   })
 
   const apiBaseUrlConfigParsed = schema.parse(apiBaseUrlConfig)
