@@ -26,7 +26,7 @@ export async function getRecentSubtitles({
   set: Context['set']
 }): Promise<Response | null> {
   const { limit } = body
-  const currentYear = new Date().getFullYear()
+  const currentYear = new Date().getFullYear() - 1
 
   const { data } = await supabase
     .from('Subtitles')

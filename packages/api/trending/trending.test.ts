@@ -39,8 +39,8 @@ describe('API | /subtitles/trending', () => {
       },
       {
         Movies: {
-          name: 'Badland Hunters',
-          year: 2024,
+          name: 'The Marvels',
+          year: 2023,
         },
         ReleaseGroups: {
           name: 'YTS-MX',
@@ -48,11 +48,11 @@ describe('API | /subtitles/trending', () => {
         SubtitleGroups: {
           name: 'SubDivX',
         },
-        fileName: 'Badland.Hunters.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4',
-        id: 1482,
+        fileName: 'The.Marvels.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4',
+        id: 1479,
         resolution: '1080p',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/badland-hunters-1080p-yts-mx-subdivx.srt?download=Badland.Hunters.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt',
-        subtitleShortLink: 'https://tinyurl.com/yq4qk9p3',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-marvels-1080p-yts-mx-subdivx.srt?download=The.Marvels.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt',
+        subtitleShortLink: 'https://tinyurl.com/yww7dhue',
       },
     ])
   })

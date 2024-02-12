@@ -22,25 +22,8 @@ describe('API | /subtitles/recents', () => {
     expect(data).toEqual([
       {
         Movies: {
-          name: 'Sixty Minutes',
-          year: 2024,
-        },
-        ReleaseGroups: {
-          name: 'EDITH',
-        },
-        SubtitleGroups: {
-          name: 'SubDivX',
-        },
-        fileName: 'Sixty.Minutes.2024.1080p.WEB.h264-EDITH.mkv',
-        id: 1485,
-        resolution: '1080p',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/sixty-minutes-1080p-edith-subdivx.srt?download=Sixty.Minutes.2024.1080p.WEB.h264-EDITH.srt',
-        subtitleShortLink: 'https://tinyurl.com/yvn4rduh',
-      },
-      {
-        Movies: {
-          name: 'Badland Hunters',
-          year: 2024,
+          name: 'Rebel Moon - Part One: A Child of Fire',
+          year: 2023,
         },
         ReleaseGroups: {
           name: 'GalaxyRG',
@@ -48,11 +31,28 @@ describe('API | /subtitles/recents', () => {
         SubtitleGroups: {
           name: 'SubDivX',
         },
-        fileName: 'Badland.Hunters.2024.KOREAN.1080p.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.mkv',
-        id: 1484,
+        fileName: 'Rebel.Moon.Part.One.A.Child.of.Fire.2023.1080p.NF.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.mkv',
+        id: 1513,
         resolution: '1080p',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/badland-hunters-1080p-galaxyrg-subdivx.srt?download=Badland.Hunters.2024.KOREAN.1080p.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.srt',
-        subtitleShortLink: 'https://tinyurl.com/ywmxdczg',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/rebel-moon-part-one-a-child-of-fire-1080p-galaxyrg-subdivx.srt?download=Rebel.Moon.Part.One.A.Child.of.Fire.2023.1080p.NF.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.srt',
+        subtitleShortLink: 'https://tinyurl.com/yotkzhod',
+      },
+      {
+        Movies: {
+          name: 'Rebel Moon - Part One: A Child of Fire',
+          year: 2023,
+        },
+        ReleaseGroups: {
+          name: 'GalaxyRG',
+        },
+        SubtitleGroups: {
+          name: 'SubDivX',
+        },
+        fileName: 'Rebel.Moon.Part.One.A.Child.of.Fire.2023.720p.NF.WEBRip.900MB.x264-GalaxyRG.mkv',
+        id: 1512,
+        resolution: '720p',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/rebel-moon-part-one-a-child-of-fire-720p-galaxyrg-subdivx.srt?download=Rebel.Moon.Part.One.A.Child.of.Fire.2023.720p.NF.WEBRip.900MB.x264-GalaxyRG.srt',
+        subtitleShortLink: 'https://tinyurl.com/ytydb3l3',
       },
     ])
   })
