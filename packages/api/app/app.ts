@@ -5,7 +5,15 @@ import { swagger } from '@elysiajs/swagger'
 import { rateLimit } from 'elysia-rate-limit'
 
 // internals
-import { getDownloadFromFileName, getMoviesFromMovieTitle, getSubtitleFromFileName, getSubtitlesFromMovieId, getTrendingSubtitles, listener } from '../index'
+import {
+  getDownloadFromFileName,
+  getMoviesFromMovieTitle,
+  getRecentSubtitles,
+  getSubtitleFromFileName,
+  getSubtitlesFromMovieId,
+  getTrendingSubtitles,
+  listener,
+} from '../index'
 
 // core
 export function runApi(displayListenLog: boolean = false, port: number = 8080) {
@@ -17,6 +25,7 @@ export function runApi(displayListenLog: boolean = false, port: number = 8080) {
     .group('/v1/subtitles', (app) => {
       return app
         .post('/movie', getSubtitlesFromMovieId, { body: t.Object({ movieId: t.String() }) })
+        .post('/recents', getRecentSubtitles, { body: t.Object({ limit: t.Number({ min: 1 }) }) })
         .post('/trending', getTrendingSubtitles, { body: t.Object({ limit: t.Number({ min: 1 }) }) })
         .post('/file', getSubtitleFromFileName, { body: t.Object({ bytes: t.String(), fileName: t.String() }) })
     })

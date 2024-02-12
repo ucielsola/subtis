@@ -19,10 +19,11 @@ describe('API | /subtitles/file', () => {
   })
 
   it('return a response for an existant subtitle', async () => {
+    const bytes = '2071378947'
     const fileName = 'The.Marvels.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4'
 
     const request = new Request(`${Bun.env['PUBLIC_API_BASE_URL_DEVELOPMENT']}/v1/subtitles/file`, {
-      body: JSON.stringify({ fileName }),
+      body: JSON.stringify({ bytes, fileName }),
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
     })
@@ -45,7 +46,7 @@ describe('API | /subtitles/file', () => {
         name: 'SubDivX',
       },
       fileName: 'The.Marvels.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4',
-      id: 1472,
+      id: 1479,
       resolution: '1080p',
       subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-marvels-1080p-yts-mx-subdivx.srt?download=The.Marvels.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt',
       subtitleShortLink: 'https://tinyurl.com/yww7dhue',
@@ -54,7 +55,7 @@ describe('API | /subtitles/file', () => {
 
   it('return a response for an 415 error for non supported file extensions', async () => {
     const request = new Request(`${Bun.env['PUBLIC_API_BASE_URL_DEVELOPMENT']}/v1/subtitles/file`, {
-      body: JSON.stringify({ fileName: 'The.Marvels.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3' }),
+      body: JSON.stringify({ bytes: '2', fileName: 'The.Equalizer.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3' }),
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
     })
@@ -71,9 +72,45 @@ describe('API | /subtitles/file', () => {
     })
   })
 
-  it('return a response for an 404 error for a non existant subtitle', async () => {
+  it('return a response for an 404 error for a file with changed name but with correct bytes', async () => {
+    const bytes = '2071378947'
+
     const request = new Request(`${Bun.env['PUBLIC_API_BASE_URL_DEVELOPMENT']}/v1/subtitles/file`, {
-      body: JSON.stringify({ fileName: 'The.Marvels.2021.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4' }),
+      body: JSON.stringify({ bytes, fileName: 'The.Marvels.2021.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4' }),
+      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
+    })
+
+    const response = await app.handle(request)
+    const data = await response.json()
+
+    expect(cacheGetSpy).toHaveBeenCalled()
+
+    expect(response.status).toBe(200)
+    expect(data).toEqual({
+      Movies: {
+        name: 'The Marvels',
+        year: 2023,
+      },
+      ReleaseGroups: {
+        name: 'YTS-MX',
+      },
+      SubtitleGroups: {
+        name: 'SubDivX',
+      },
+      fileName: 'The.Marvels.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4',
+      id: 1479,
+      resolution: '1080p',
+      subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-marvels-1080p-yts-mx-subdivx.srt?download=The.Marvels.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt',
+      subtitleShortLink: 'https://tinyurl.com/yww7dhue',
+    })
+  })
+
+  it('return a response for an 404 error for a non existant subtitle', async () => {
+    const bytes = '2071378941'
+
+    const request = new Request(`${Bun.env['PUBLIC_API_BASE_URL_DEVELOPMENT']}/v1/subtitles/file`, {
+      body: JSON.stringify({ bytes, fileName: 'The.Marvels.2021.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4' }),
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
     })
@@ -104,8 +141,8 @@ describe('API | /subtitles/file', () => {
 
     expect(response.status).toBe(400)
     expect(data).toMatchObject({
-      at: 'fileName',
       expected: {
+        bytes: '',
         fileName: '',
       },
       message: 'Required property',

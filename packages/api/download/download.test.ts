@@ -21,7 +21,7 @@ describe('API | /download', () => {
 
   it('return a ok response for a specific movie', async () => {
     const request = new Request(`${Bun.env['PUBLIC_API_BASE_URL_DEVELOPMENT']}/v1/metrics/download`, {
-      body: JSON.stringify({ fileName: 'Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4' }),
+      body: JSON.stringify({ bytes: '', fileName: 'Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4' }),
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
     })
@@ -35,7 +35,7 @@ describe('API | /download', () => {
 
   it('return a response for an 415 error for non supported file extensions', async () => {
     const request = new Request(`${Bun.env['PUBLIC_API_BASE_URL_DEVELOPMENT']}/v1/subtitles/file`, {
-      body: JSON.stringify({ fileName: 'Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3' }),
+      body: JSON.stringify({ bytes: '', fileName: 'Wonk.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3' }),
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
     })

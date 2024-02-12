@@ -34,27 +34,10 @@ describe('API | /subtitles/movie', () => {
           name: 'SubDivX',
         },
         fileName: 'Wonka.2023.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv',
-        id: 1469,
+        id: 1476,
         resolution: '1080p',
         subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-1080p-galaxyrg-subdivx.srt?download=Wonka.2023.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt',
         subtitleShortLink: 'https://tinyurl.com/yp6zuhc5',
-      },
-      {
-        Movies: {
-          name: 'Wonka',
-          year: 2023,
-        },
-        ReleaseGroups: {
-          name: 'FLUX',
-        },
-        SubtitleGroups: {
-          name: 'SubDivX',
-        },
-        fileName: 'Wonka.2023.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.mkv',
-        id: 1470,
-        resolution: '2160p',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-2160p-flux-subdivx.srt?download=Wonka.2023.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.srt',
-        subtitleShortLink: 'https://tinyurl.com/ylj2estx',
       },
       {
         Movies: {
@@ -68,10 +51,27 @@ describe('API | /subtitles/movie', () => {
           name: 'SubDivX',
         },
         fileName: 'Wonka.2023.720p.WEBRip.800MB.x264-GalaxyRG.mkv',
-        id: 1471,
+        id: 1477,
         resolution: '720p',
         subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-720p-galaxyrg-subdivx.srt?download=Wonka.2023.720p.WEBRip.800MB.x264-GalaxyRG.srt',
         subtitleShortLink: 'https://tinyurl.com/ywepv8cn',
+      },
+      {
+        Movies: {
+          name: 'Wonka',
+          year: 2023,
+        },
+        ReleaseGroups: {
+          name: 'FLUX',
+        },
+        SubtitleGroups: {
+          name: 'SubDivX',
+        },
+        fileName: 'Wonka.2023.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.mkv',
+        id: 1478,
+        resolution: '2160p',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-2160p-flux-subdivx.srt?download=Wonka.2023.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.srt',
+        subtitleShortLink: 'https://tinyurl.com/ylj2estx',
       },
       {
         Movies: {
@@ -85,7 +85,7 @@ describe('API | /subtitles/movie', () => {
           name: 'SubDivX',
         },
         fileName: 'Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4',
-        id: 1468,
+        id: 1475,
         resolution: '1080p',
         subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-1080p-yts-mx-subdivx.srt?download=Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt',
         subtitleShortLink: 'https://tinyurl.com/2x7w48uv',

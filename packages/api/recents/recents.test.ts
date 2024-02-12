@@ -6,11 +6,11 @@ import { runApi } from '../app'
 // constants
 const app = runApi()
 
-describe('API | /subtitles/trending', () => {
+describe('API | /subtitles/recents', () => {
   afterAll(() => app.stop())
 
   it('return the last two trending subtitles', async () => {
-    const request = new Request(`${Bun.env['PUBLIC_API_BASE_URL_DEVELOPMENT']}/v1/subtitles/trending`, {
+    const request = new Request(`${Bun.env['PUBLIC_API_BASE_URL_DEVELOPMENT']}/v1/subtitles/recents`, {
       body: JSON.stringify({ limit: 2 }),
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
@@ -22,20 +22,20 @@ describe('API | /subtitles/trending', () => {
     expect(data).toEqual([
       {
         Movies: {
-          name: 'Wonka',
-          year: 2023,
+          name: 'Sixty Minutes',
+          year: 2024,
         },
         ReleaseGroups: {
-          name: 'YTS-MX',
+          name: 'EDITH',
         },
         SubtitleGroups: {
           name: 'SubDivX',
         },
-        fileName: 'Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4',
-        id: 1475,
+        fileName: 'Sixty.Minutes.2024.1080p.WEB.h264-EDITH.mkv',
+        id: 1485,
         resolution: '1080p',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-1080p-yts-mx-subdivx.srt?download=Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt',
-        subtitleShortLink: 'https://tinyurl.com/2x7w48uv',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/sixty-minutes-1080p-edith-subdivx.srt?download=Sixty.Minutes.2024.1080p.WEB.h264-EDITH.srt',
+        subtitleShortLink: 'https://tinyurl.com/yvn4rduh',
       },
       {
         Movies: {
@@ -43,16 +43,16 @@ describe('API | /subtitles/trending', () => {
           year: 2024,
         },
         ReleaseGroups: {
-          name: 'YTS-MX',
+          name: 'GalaxyRG',
         },
         SubtitleGroups: {
           name: 'SubDivX',
         },
-        fileName: 'Badland.Hunters.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4',
-        id: 1482,
+        fileName: 'Badland.Hunters.2024.KOREAN.1080p.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.mkv',
+        id: 1484,
         resolution: '1080p',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/badland-hunters-1080p-yts-mx-subdivx.srt?download=Badland.Hunters.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt',
-        subtitleShortLink: 'https://tinyurl.com/yq4qk9p3',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/badland-hunters-1080p-galaxyrg-subdivx.srt?download=Badland.Hunters.2024.KOREAN.1080p.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.srt',
+        subtitleShortLink: 'https://tinyurl.com/ywmxdczg',
       },
     ])
   })
