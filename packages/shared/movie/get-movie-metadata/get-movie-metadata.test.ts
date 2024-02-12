@@ -30,8 +30,8 @@ describe('getMovieMetadata', () => {
       fileAttribute: 'YTS.MX',
       isSupported: true,
       name: 'YTS-MX',
-      searchableOpenSubtitlesName: 'YTS.MX',
-      searchableSubDivXName: 'YTS MX',
+      searchableOpenSubtitlesName: ['YTS.MX'],
+      searchableSubDivXName: ['YTS MX', 'YTS.MX'],
       website: 'https://yts.mx',
     }
     expect(data).toEqual({
@@ -51,8 +51,8 @@ describe('getMovieMetadata', () => {
       fileAttribute: 'YTS.MX',
       isSupported: true,
       name: 'YTS-MX',
-      searchableOpenSubtitlesName: 'YTS.MX',
-      searchableSubDivXName: 'YTS MX',
+      searchableOpenSubtitlesName: ['YTS.MX'],
+      searchableSubDivXName: ['YTS MX', 'YTS.MX'],
       website: 'https://yts.mx',
     }
     expect(data).toEqual({
@@ -72,8 +72,8 @@ describe('getMovieMetadata', () => {
       fileAttribute: 'YTS.MX',
       isSupported: true,
       name: 'YTS-MX',
-      searchableOpenSubtitlesName: 'YTS.MX',
-      searchableSubDivXName: 'YTS MX',
+      searchableOpenSubtitlesName: ['YTS.MX'],
+      searchableSubDivXName: ['YTS MX', 'YTS.MX'],
       website: 'https://yts.mx',
     }
     expect(data).toEqual({
@@ -93,8 +93,8 @@ describe('getMovieMetadata', () => {
       fileAttribute: 'YTS.MX',
       isSupported: true,
       name: 'YTS-MX',
-      searchableOpenSubtitlesName: 'YTS.MX',
-      searchableSubDivXName: 'YTS MX',
+      searchableOpenSubtitlesName: ['YTS.MX'],
+      searchableSubDivXName: ['YTS MX', 'YTS.MX'],
       website: 'https://yts.mx',
     }
     expect(data).toEqual({
@@ -114,8 +114,8 @@ describe('getMovieMetadata', () => {
       fileAttribute: 'YTS.MX',
       isSupported: true,
       name: 'YTS-MX',
-      searchableOpenSubtitlesName: 'YTS.MX',
-      searchableSubDivXName: 'YTS MX',
+      searchableOpenSubtitlesName: ['YTS.MX'],
+      searchableSubDivXName: ['YTS MX', 'YTS.MX'],
       website: 'https://yts.mx',
     }
     expect(data).toEqual({
@@ -135,8 +135,8 @@ describe('getMovieMetadata', () => {
       fileAttribute: 'CODY',
       isSupported: true,
       name: 'CODY',
-      searchableOpenSubtitlesName: 'CODY',
-      searchableSubDivXName: 'H265-CODY',
+      searchableOpenSubtitlesName: ['CODY'],
+      searchableSubDivXName: ['H265-CODY'],
       website: '',
     }
     expect(data).toEqual({
@@ -156,8 +156,8 @@ describe('getMovieMetadata', () => {
       fileAttribute: 'GalaxyRG',
       isSupported: true,
       name: 'GalaxyRG',
-      searchableOpenSubtitlesName: 'GalaxyRG',
-      searchableSubDivXName: 'GalaxyRG',
+      searchableOpenSubtitlesName: ['GalaxyRG'],
+      searchableSubDivXName: ['GalaxyRG'],
       website: '',
     }
     expect(data).toEqual({
@@ -177,8 +177,8 @@ describe('getMovieMetadata', () => {
       fileAttribute: 'RiGHTNOW',
       isSupported: true,
       name: 'RiGHTNOW',
-      searchableOpenSubtitlesName: 'RiGHTNOW',
-      searchableSubDivXName: 'RIGHTNOW',
+      searchableOpenSubtitlesName: ['RiGHTNOW'],
+      searchableSubDivXName: ['RIGHTNOW'],
       website: '',
     }
     expect(data).toEqual({
@@ -191,30 +191,14 @@ describe('getMovieMetadata', () => {
     })
   })
 
-  // test('Come Fly With Me | 2023 | BONE | (Unsupported release group)', () => {
-  //   const data = getMovieMetadata('Come Fly With Me 2023 720p HDRip x264 BONE.mkv')
-
-  //   expect(data).toEqual({
-  //     name: 'Come Fly With Me',
-  //     releaseGroup: 'BONE',
-  //     resolution: '720p',
-  //     searchableMovieName: 'Come Fly With Me (2023)',
-  //     searchableSubDivXName: 'BONE',
-  //     isReleaseGroupSupported: false,
-  //     searchableOpenSubtitlesName: 'BONE',
-  //     fileNameWithoutExtension: 'Come Fly With Me 2023 720p HDRip x264 BONE',
-  //     year: 2023,
-  //   })
-  // })
-
   test('should correctly parse a movie string with year and resolution', () => {
     const result = getMovieMetadata('Avatar (2009) 1080p x264 YTS.MX.mp4')
     const releaseGroup: ReleaseGroup = {
       fileAttribute: 'YTS.MX',
       isSupported: true,
       name: 'YTS-MX',
-      searchableOpenSubtitlesName: 'YTS.MX',
-      searchableSubDivXName: 'YTS MX',
+      searchableOpenSubtitlesName: ['YTS.MX'],
+      searchableSubDivXName: ['YTS MX', 'YTS.MX'],
       website: 'https://yts.mx',
     }
     expect(result).toEqual({
