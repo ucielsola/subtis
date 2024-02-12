@@ -24,14 +24,6 @@ El subtítulo que estabas buscando!
 curl -fsSL https://bun.sh/install | bash
 ```
 
-If there's any specific issue with the latest version install the v1.0.11 stable that it works mainly with the indexer
-
-```bash
-curl -fsSL https://bun.sh/install | bash -s "bun-v1.0.11"
-```
-
-_At least until [Brotly](https://github.com/oven-sh/bun/issues/267) is fully supported on Bun._
-
 2. Install project dependencies
 
 ```bash
