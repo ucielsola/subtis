@@ -52,7 +52,7 @@ export async function getSubDivXSubtitle({ movieData }: {
     throw new Error('release group undefined')
   }
 
-  const response = await fetch('https://www.subdivx.com/inc/ajax.php', {
+  const response = await fetch(`${SUBDIVX_BASE_URL}/inc/ajax.php`, {
     body: `tabla=resultados&filtros=&buscar=${searchableMovieName}`,
     headers: { 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8' },
     method: 'POST',
