@@ -9,72 +9,72 @@ export const RELEASE_GROUPS = {
     fileAttribute: 'AAC',
     isSupported: true,
     name: 'AAC',
-    searchableOpenSubtitlesName: 'AAC', // TODO: Check in OpenSubtitles if this is correct
-    searchableSubDivXName: 'aac',
+    searchableOpenSubtitlesName: ['AAC'],
+    searchableSubDivXName: ['aac'],
     website: '',
   },
   'CODY': {
     fileAttribute: 'CODY',
     isSupported: true,
     name: 'CODY',
-    searchableOpenSubtitlesName: 'CODY',
-    searchableSubDivXName: 'H265-CODY',
+    searchableOpenSubtitlesName: ['CODY'],
+    searchableSubDivXName: ['H265-CODY'],
     website: '',
   },
   'EDITH': {
     fileAttribute: 'h264-EDITH',
     isSupported: true,
     name: 'EDITH',
-    searchableOpenSubtitlesName: 'EDITH', // TODO: Check in OpenSubtitles if this is correct
-    searchableSubDivXName: 'edith',
+    searchableOpenSubtitlesName: ['EDITH'],
+    searchableSubDivXName: ['edith'],
     website: '',
   },
   'FLUX': {
     fileAttribute: 'FLUX',
     isSupported: true,
     name: 'FLUX',
-    searchableOpenSubtitlesName: 'FLUX',
-    searchableSubDivXName: 'FLUX',
+    searchableOpenSubtitlesName: ['FLUX'],
+    searchableSubDivXName: ['FLUX'],
     website: '',
   },
   'GalaxyRG': {
     fileAttribute: 'GalaxyRG',
     isSupported: true,
     name: 'GalaxyRG',
-    searchableOpenSubtitlesName: 'GalaxyRG',
-    searchableSubDivXName: 'GalaxyRG',
+    searchableOpenSubtitlesName: ['GalaxyRG'],
+    searchableSubDivXName: ['GalaxyRG'],
     website: '',
   },
   'HEVC-CMRG': {
     fileAttribute: 'HEVC-CMRG',
     isSupported: true,
     name: 'HEVC-CMRG',
-    searchableOpenSubtitlesName: 'HEVC-CMRG', // TODO: Check in OpenSubtitles if this is correct
-    searchableSubDivXName: 'cmrg',
+    searchableOpenSubtitlesName: ['HEVC-CMRG'],
+    searchableSubDivXName: ['cmrg'],
     website: '',
   },
   'HEVC-PSA': {
     fileAttribute: 'HEVC-PSA',
     isSupported: true,
     name: 'HEVC-PSA',
-    searchableOpenSubtitlesName: 'HEVC-PSA', // TODO: Check in OpenSubtitles if this is correct
-    searchableSubDivXName: 'hevc-psa',
+    searchableOpenSubtitlesName: ['HEVC-PSA'],
+    searchableSubDivXName: ['hevc-psa'],
     website: '',
   },
   'RiGHTNOW': {
     fileAttribute: 'RiGHTNOW',
     isSupported: true,
     name: 'RiGHTNOW',
-    searchableOpenSubtitlesName: 'RiGHTNOW',
-    searchableSubDivXName: 'RIGHTNOW',
+    searchableOpenSubtitlesName: ['RiGHTNOW'],
+    searchableSubDivXName: ['RIGHTNOW'],
     website: '',
   },
   'YTS-MX': {
     fileAttribute: 'YTS.MX',
     isSupported: true,
     name: 'YTS-MX',
-    searchableOpenSubtitlesName: 'YTS.MX',
-    searchableSubDivXName: 'YTS MX',
+    searchableOpenSubtitlesName: ['YTS.MX'],
+    searchableSubDivXName: ['YTS MX', 'YTS.MX'],
     website: 'https://yts.mx',
   },
 } as const
@@ -84,8 +84,8 @@ export type ReleaseGroup = {
   fileAttribute: string
   isSupported: boolean
   name: string
-  searchableOpenSubtitlesName: string
-  searchableSubDivXName: string
+  searchableOpenSubtitlesName: string[]
+  searchableSubDivXName: string[]
   website: string
 }
 
