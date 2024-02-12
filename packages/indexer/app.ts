@@ -25,10 +25,9 @@ import { z } from 'zod'
 import { getImdbLink } from './imdb'
 import { getSubtitleAuthor } from './utils'
 import type { SubtitleData } from './types'
-import { getSubDivXSearchUrl } from './subdivx'
 import { type TmdbMovie, getMoviesFromTmdb, getTmdbMoviesTotalPagesArray } from './tmdb'
 import { type ReleaseGroupMap, type ReleaseGroupNames, getReleaseGroups, saveReleaseGroupsToDb } from './release-groups'
-import { type SubtitleGroupMap, type SubtitleGroupNames, getEnabledSubtitleProviders, getSubtitleGroups } from './subtitle-groups'
+import { type SubtitleGroupMap, type SubtitleGroupNames, getEnabledSubtitleProviders, getSubtitleGroups, saveSubtitleGroupsToDb } from './subtitle-groups'
 
 polyfillConsoleTable()
 
@@ -251,7 +250,6 @@ async function getSubtitlesFromMovie(
   console.table(torrentsWithoutCineRecordings.map(({ seeds, size, title, tracker }) => ({ name: subtitleProviderQuery, seeds, size: prettyBytes(size ?? 0), title, tracker })))
   clipboard.writeSync(subtitleProviderQuery)
   console.log(`👉 Nombre de película ${subtitleProviderQuery} guardado en el clipboard, para poder pegar directamente en proveedor de subtitulos\n`)
-  console.log(`👉 Clickea en el link para chequear en SubDivX ${getSubDivXSearchUrl(subtitleProviderQuery)}`)
   console.log('\n')
 
   // 2. Iterate over each torrent
@@ -440,3 +438,4 @@ async function mainIndexer(moviesYear: number, isDebugging: boolean): Promise<vo
 
 mainIndexer(2023, true)
 saveReleaseGroupsToDb(supabase)
+saveSubtitleGroupsToDb(supabase)
