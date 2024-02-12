@@ -232,8 +232,8 @@ async function getSubtitlesFromMovie(
 
   const { imdbId, rating, title, year } = movie
 
-  // 1. Get first 5 movie torrents from ThePirateBay
-  const TOTAL_MOVIES_TO_SEARCH = 5
+  // 1. Get first 10 movie torrents from ThePirateBay
+  const TOTAL_MOVIES_TO_SEARCH = 10
 
   const torrents = await tg.search(`${movie.title} ${movie.year}`, {
     groupByTracker: false,
