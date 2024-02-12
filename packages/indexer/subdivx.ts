@@ -52,8 +52,6 @@ export async function getSubDivXSubtitle({ movieData }: {
     throw new Error('release group undefined')
   }
 
-  const lowerCaseSearchableMovieName = searchableMovieName.toLowerCase()
-
   const response = await fetch('https://www.subdivx.com/inc/ajax.php', {
     body: `tabla=resultados&filtros=&buscar=${searchableMovieName}`,
     headers: { 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8' },
@@ -64,16 +62,14 @@ export async function getSubDivXSubtitle({ movieData }: {
   const subtitles = subdivxSchema.parse(data)
 
   const subtitle = subtitles.aaData.find((subtitle) => {
-    const movieTitle = subtitle.titulo.toLowerCase()
     const movieDescription = subtitle.descripcion.toLowerCase()
 
-    const hasMovieTitle = movieTitle.includes(lowerCaseSearchableMovieName)
     const hasMovieResolution = movieDescription.includes(resolution)
     const hasReleaseGroup = releaseGroup.searchableSubDivXName.some((searchableSubDivXName) => {
       return movieDescription.includes(searchableSubDivXName.toLowerCase())
     })
 
-    return hasMovieTitle && hasMovieResolution && hasReleaseGroup
+    return hasMovieResolution && hasReleaseGroup
   })
 
   invariant(subtitle, `[${SUBDIVX_BREADCRUMB_ERROR}]: Subtitle doesn't exists`)
