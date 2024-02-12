@@ -45,9 +45,17 @@ type SubtitleGroupKeys = keyof typeof SUBTITLE_GROUPS
 
 // utils
 export async function saveSubtitleGroupsToDb(supabaseClient: SupabaseClient): Promise<void> {
+  const { data } = await supabaseClient.from('SubtitleGroups').select('*')
+
   for (const subtitleGroupKey in SUBTITLE_GROUPS) {
-    const { name, website } = SUBTITLE_GROUPS[subtitleGroupKey as SubtitleGroupKeys]
-    await supabaseClient.from('SubtitleGroups').insert({ name, website })
+    const subtitleGroup = SUBTITLE_GROUPS[subtitleGroupKey as SubtitleGroupKeys]
+
+    const subtitleGroupExists = data?.find(subtitleGrouInDb => subtitleGrouInDb.name === subtitleGroup.name)
+    if (subtitleGroupExists) {
+      continue
+    }
+
+    await supabaseClient.from('SubtitleGroups').insert(subtitleGroup)
   }
 }
 
