@@ -40,7 +40,7 @@
           "testScript": "",
           "body": {
             "contentType": "application/json",
-            "body": "{\n  \"movieName\": \"flower\"\n}"
+            "body": "{\n  \"movieTitle\": \"wonka\"\n}"
           }
         }
       ],
@@ -52,13 +52,13 @@
     },
     {
       "v": 2,
-      "name": "Subtitle",
+      "name": "Subtitle by file",
       "folders": [],
       "requests": [
         {
           "v": "1",
-          "endpoint": "http://localhost:8080/v1/subtitle",
-          "name": "/v1/subtitle | Found",
+          "endpoint": "http://localhost:8080/v1/subtitles/file",
+          "name": "/v1/subtitles/file | Found",
           "params": [],
           "headers": [],
           "method": "POST",
@@ -70,13 +70,13 @@
           "testScript": "",
           "body": {
             "contentType": "application/json",
-            "body": "{\n  \"fileName\": \"Chicken.Run.Dawn.of.the.Nugget.2023.1080p.NF.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv\"\n}"
+            "body": "{\n  \"fileName\": \"The.Marvels.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\",\n  \"bytes\": \"2071378947\"\n}"
           }
         },
         {
           "v": "1",
-          "endpoint": "http://localhost:8080/v1/subtitle",
-          "name": "/v1/subtitle | Not Found",
+          "endpoint": "http://localhost:8080/v1/subtitles/file",
+          "name": "/v1/subtitles/file | Not Found",
           "params": [],
           "headers": [],
           "method": "POST",
@@ -93,8 +93,8 @@
         },
         {
           "v": "1",
-          "endpoint": "http://localhost:8080/v1/subtitle",
-          "name": "/v1/subtitle | Extension Not Supported",
+          "endpoint": "http://localhost:8080/v1/subtitles/file",
+          "name": "/v1/subtitles/file | Extension Not Supported",
           "params": [],
           "headers": [],
           "method": "POST",
@@ -118,13 +118,13 @@
     },
     {
       "v": 2,
-      "name": "Subtitles",
+      "name": "Subtitles by movie",
       "folders": [],
       "requests": [
         {
           "v": "1",
-          "endpoint": "http://localhost:8080/v1/subtitles",
-          "name": "/v1/subtitles | Found",
+          "endpoint": "http://localhost:8080/v1/subtitles/movie",
+          "name": "/v1/subtitles/movie | Found",
           "params": [],
           "headers": [],
           "method": "POST",
@@ -136,13 +136,13 @@
           "testScript": "",
           "body": {
             "contentType": "application/json",
-            "body": "{\n  \"movieId\": \"5537002\"\n}"
+            "body": "{\n  \"movieId\": \"6166392\"\n}"
           }
         },
         {
           "v": "1",
-          "endpoint": "http://localhost:8080/v1/subtitles",
-          "name": "/v1/subtitles | Not Found",
+          "endpoint": "http://localhost:8080/v1/subtitles/movie",
+          "name": "/v1/subtitles/movie | Not Found",
           "params": [],
           "headers": [],
           "method": "POST",
@@ -166,13 +166,13 @@
     },
     {
       "v": 2,
-      "name": "Trending",
+      "name": "Subtitles by trending",
       "folders": [],
       "requests": [
         {
           "v": "1",
           "endpoint": "http://localhost:8080/v1/trending",
-          "name": "/v1/trending | Found",
+          "name": "/v1/subtitles/trending | Found",
           "params": [],
           "headers": [],
           "method": "POST",
@@ -215,6 +215,36 @@
           "body": {
             "contentType": "application/json",
             "body": "{\n  \"fileName\": \"Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv\"\n}"
+          }
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": []
+    },
+    {
+      "v": 2,
+      "name": "Metrics",
+      "folders": [],
+      "requests": [
+        {
+          "v": "1",
+          "endpoint": "http://localhost:8080/v1/metrics/download",
+          "name": "/v1/metrics/download | Found",
+          "params": [],
+          "headers": [],
+          "method": "POST",
+          "auth": {
+            "authType": "none",
+            "authActive": true
+          },
+          "preRequestScript": "",
+          "testScript": "",
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"fileName\": \"Napoleon.2023.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.mkv\"\n}"
           }
         }
       ],
