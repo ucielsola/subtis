@@ -52,7 +52,7 @@ export async function getSubtitleFromFileName({
   const { data } = await supabase
     .from('Subtitles')
     .select(
-      'id, subtitleShortLink, subtitleFullLink, resolution, fileName, Movies ( name, year ), ReleaseGroups ( name ), SubtitleGroups ( name )',
+      'id, subtitleShortLink, subtitleFullLink, resolution, fileName, bytes, Movies ( name, year ), ReleaseGroups ( name ), SubtitleGroups ( name )',
     )
     .eq('fileName', videoFileName.data)
     .order('subtitleGroupId', { ascending: false })
@@ -66,7 +66,7 @@ export async function getSubtitleFromFileName({
     const { data } = await supabase
       .from('Subtitles')
       .select(
-        'id, subtitleShortLink, subtitleFullLink, resolution, fileName, Movies ( name, year ), ReleaseGroups ( name ), SubtitleGroups ( name )',
+        'id, subtitleShortLink, subtitleFullLink, resolution, fileName, bytes, Movies ( name, year ), ReleaseGroups ( name ), SubtitleGroups ( name )',
       )
       .eq('bytes', bytes)
       .order('subtitleGroupId', { ascending: false })
