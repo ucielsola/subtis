@@ -106,7 +106,7 @@
           "testScript": "",
           "body": {
             "contentType": "application/json",
-            "body": "{\n  \"fileName\": \"The.Equalizer.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3\"\n}"
+            "body": "{\n  \"fileName\": \"The.Equalizer.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3\",\n  \"bytes\": \"2\"\n}"
           }
         }
       ],
@@ -166,12 +166,42 @@
     },
     {
       "v": 2,
+      "name": "Subtitles by recents",
+      "folders": [],
+      "requests": [
+        {
+          "v": "1",
+          "endpoint": "http://localhost:8080/v1/subtitles/recents",
+          "name": "/v1/subtitles/recents | Found",
+          "params": [],
+          "headers": [],
+          "method": "POST",
+          "auth": {
+            "authType": "none",
+            "authActive": true
+          },
+          "preRequestScript": "",
+          "testScript": "",
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"limit\": 2\n}"
+          }
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": []
+    },
+    {
+      "v": 2,
       "name": "Subtitles by trending",
       "folders": [],
       "requests": [
         {
           "v": "1",
-          "endpoint": "http://localhost:8080/v1/trending",
+          "endpoint": "http://localhost:8080/v1/subtitles/trending",
           "name": "/v1/subtitles/trending | Found",
           "params": [],
           "headers": [],
@@ -184,7 +214,7 @@
           "testScript": "",
           "body": {
             "contentType": "application/json",
-            "body": "{\n  \"limit\": 4\n}"
+            "body": "{\n  \"limit\": 2\n}"
           }
         }
       ],
