@@ -45,6 +45,22 @@ export const RELEASE_GROUPS = {
     searchableSubDivXName: ['GalaxyRG'],
     website: '',
   },
+  'H264-ETHEL': {
+    fileAttribute: 'h264-ETHEL',
+    isSupported: true,
+    name: 'ETHEL',
+    searchableOpenSubtitlesName: ['ETHEL'],
+    searchableSubDivXName: ['H264-ETHEL'],
+    website: '',
+  },
+  'H265-ETHEL': {
+    fileAttribute: 'h265-ETHEL',
+    isSupported: true,
+    name: 'ETHEL',
+    searchableOpenSubtitlesName: ['ETHEL'],
+    searchableSubDivXName: ['H265-ETHEL'],
+    website: '',
+  },
   'HEVC-CMRG': {
     fileAttribute: 'HEVC-CMRG',
     isSupported: true,
@@ -74,7 +90,7 @@ export const RELEASE_GROUPS = {
     isSupported: true,
     name: 'YTS-MX',
     searchableOpenSubtitlesName: ['YTS.MX'],
-    searchableSubDivXName: ['YTS MX', 'YTS.MX', 'YTS'],
+    searchableSubDivXName: ['YTS MX', 'YTS.MX'],
     website: 'https://yts.mx',
   },
 } as const
