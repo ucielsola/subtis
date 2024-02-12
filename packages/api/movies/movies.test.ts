@@ -11,7 +11,7 @@ describe('API | /movies', () => {
 
   it('return a movies response for a movie name query', async () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
-      body: JSON.stringify({ movieTitle: 'Rebel' }),
+      body: JSON.stringify({ movieTitle: 'Wonka' }),
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
     })
@@ -21,8 +21,8 @@ describe('API | /movies', () => {
 
     expect(data).toEqual([
       {
-        id: 14998742,
-        name: 'Rebel Moon - Part One: A Child of Fire',
+        id: 6166392,
+        name: 'Wonka',
         year: 2023,
       },
     ])
@@ -30,7 +30,7 @@ describe('API | /movies', () => {
 
   it('return a movies response for a movie name query with fuzzy search', async () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
-      body: JSON.stringify({ movieTitle: 'one' }),
+      body: JSON.stringify({ movieTitle: 'nka' }),
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
     })
@@ -40,8 +40,8 @@ describe('API | /movies', () => {
 
     expect(data).toEqual([
       {
-        id: 14998742,
-        name: 'Rebel Moon - Part One: A Child of Fire',
+        id: 6166392,
+        name: 'Wonka',
         year: 2023,
       },
     ])
@@ -49,7 +49,7 @@ describe('API | /movies', () => {
 
   it('return a movies response for a movie name query with lowercase', async () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
-      body: JSON.stringify({ movieTitle: 'rebel' }),
+      body: JSON.stringify({ movieTitle: 'wonka' }),
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
     })
@@ -59,8 +59,8 @@ describe('API | /movies', () => {
 
     expect(data).toEqual([
       {
-        id: 14998742,
-        name: 'Rebel Moon - Part One: A Child of Fire',
+        id: 6166392,
+        name: 'Wonka',
         year: 2023,
       },
     ])

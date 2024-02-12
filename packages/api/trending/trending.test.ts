@@ -22,7 +22,24 @@ describe('API | /subtitles/trending', () => {
     expect(data).toEqual([
       {
         Movies: {
-          name: 'Napoleon',
+          name: 'Wonka',
+          year: 2023,
+        },
+        ReleaseGroups: {
+          name: 'YTS-MX',
+        },
+        SubtitleGroups: {
+          name: 'SubDivX',
+        },
+        fileName: 'Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4',
+        id: 1468,
+        resolution: '1080p',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-1080p-yts-mx-subdivx.srt?download=Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt',
+        subtitleShortLink: 'https://tinyurl.com/2x7w48uv',
+      },
+      {
+        Movies: {
+          name: 'Wonka',
           year: 2023,
         },
         ReleaseGroups: {
@@ -31,28 +48,11 @@ describe('API | /subtitles/trending', () => {
         SubtitleGroups: {
           name: 'SubDivX',
         },
-        fileName: 'Napoleon.2023.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.mkv',
-        id: 1391,
+        fileName: 'Wonka.2023.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.mkv',
+        id: 1470,
         resolution: '2160p',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/napoleon-2160p-object-object-subdivx.srt?download=Napoleon.2023.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.srt',
-        subtitleShortLink: 'https://tinyurl.com/ykzfmnhu',
-      },
-      {
-        Movies: {
-          name: 'Silent Night',
-          year: 2023,
-        },
-        ReleaseGroups: {
-          name: 'GalaxyRG',
-        },
-        SubtitleGroups: {
-          name: 'SubDivX',
-        },
-        fileName: 'Silent.Night.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv',
-        id: 1380,
-        resolution: '1080p',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/silent-night-1080p-galaxyrg-subdivx.srt?download=Silent.Night.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt',
-        subtitleShortLink: 'https://tinyurl.com/yto5xcgr',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-2160p-flux-subdivx.srt?download=Wonka.2023.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.srt',
+        subtitleShortLink: 'https://tinyurl.com/ylj2estx',
       },
     ])
   })
