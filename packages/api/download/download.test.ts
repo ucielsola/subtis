@@ -12,7 +12,7 @@ const app = runApi()
 // mocks
 const supabaseSpy = spyOn(supabase, 'rpc')
 
-describe('API | /download', () => {
+describe('API | /metrics/download', () => {
   afterAll(() => app.stop())
 
   beforeEach(() => {
@@ -21,7 +21,7 @@ describe('API | /download', () => {
 
   it('return a ok response for a specific movie', async () => {
     const request = new Request(`${Bun.env['PUBLIC_API_BASE_URL_DEVELOPMENT']}/v1/metrics/download`, {
-      body: JSON.stringify({ bytes: '', fileName: 'Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4' }),
+      body: JSON.stringify({ fileName: 'Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4' }),
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
     })
@@ -29,13 +29,13 @@ describe('API | /download', () => {
     const response = await app.handle(request)
     const data = await response.json()
 
-    expect(supabaseSpy).toHaveBeenCalled()
+    expect(supabaseSpy).toHaveBeenCalledWith('update_subtitle_info', { file_name: 'Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4' })
     expect(data).toEqual({ ok: true })
   })
 
   it('return a response for an 415 error for non supported file extensions', async () => {
-    const request = new Request(`${Bun.env['PUBLIC_API_BASE_URL_DEVELOPMENT']}/v1/subtitles/file`, {
-      body: JSON.stringify({ bytes: '', fileName: 'Wonk.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3' }),
+    const request = new Request(`${Bun.env['PUBLIC_API_BASE_URL_DEVELOPMENT']}/v1/metrics/download`, {
+      body: JSON.stringify({ fileName: 'Wonk.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3' }),
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
     })
@@ -63,7 +63,6 @@ describe('API | /download', () => {
     expect(supabaseSpy).not.toHaveBeenCalled()
     expect(response.status).toBe(400)
     expect(data).toMatchObject({
-      at: 'fileName',
       expected: {
         fileName: '',
       },
