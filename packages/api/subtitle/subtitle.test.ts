@@ -9,7 +9,7 @@ const app = runApi()
 const cacheGetSpy = spyOn(cache, 'get')
 const cacheSetSpy = spyOn(cache, 'set')
 
-describe('API | /subtitle', () => {
+describe('API | /subtitles/file', () => {
   afterAll(() => app.stop())
 
   beforeEach(() => {
@@ -21,7 +21,7 @@ describe('API | /subtitle', () => {
   it('return a response for an existant subtitle', async () => {
     const fileName = 'Rebel.Moon.Part.One.A.Child.of.Fire.2023.1080p.NF.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv'
 
-    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitle`, {
+    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file`, {
       body: JSON.stringify({ fileName }),
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
@@ -53,7 +53,7 @@ describe('API | /subtitle', () => {
   })
 
   it('return a response for an 415 error for non supported file extensions', async () => {
-    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitle`, {
+    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file`, {
       body: JSON.stringify({ fileName: 'The.Equalizer.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3' }),
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
@@ -72,7 +72,7 @@ describe('API | /subtitle', () => {
   })
 
   it('return a response for an 404 error for a non existant subtitle', async () => {
-    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitle`, {
+    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file`, {
       body: JSON.stringify({ fileName: 'The.Matrix.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4' }),
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
@@ -90,7 +90,7 @@ describe('API | /subtitle', () => {
   })
 
   it('return a response for an 400 error for a bad payload', async () => {
-    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitle`, {
+    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file`, {
       body: JSON.stringify({ file: 'the' }),
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',

@@ -11,7 +11,7 @@ describe('API | /movies', () => {
 
   it('return a movies response for a movie name query', async () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
-      body: JSON.stringify({ movieName: 'Rebel' }),
+      body: JSON.stringify({ movieTitle: 'Rebel' }),
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
     })
@@ -30,7 +30,7 @@ describe('API | /movies', () => {
 
   it('return a movies response for a movie name query with fuzzy search', async () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
-      body: JSON.stringify({ movieName: 'one' }),
+      body: JSON.stringify({ movieTitle: 'one' }),
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
     })
@@ -49,7 +49,7 @@ describe('API | /movies', () => {
 
   it('return a movies response for a movie name query with lowercase', async () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
-      body: JSON.stringify({ movieName: 'rebel' }),
+      body: JSON.stringify({ movieTitle: 'rebel' }),
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
     })
@@ -68,7 +68,7 @@ describe('API | /movies', () => {
 
   it('return a response for an 404 error for a non existant movie name', async () => {
     const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies`, {
-      body: JSON.stringify({ movieName: 'zxsa' }),
+      body: JSON.stringify({ movieTitle: 'zxsa' }),
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
     })
@@ -94,9 +94,9 @@ describe('API | /movies', () => {
 
     expect(response.status).toBe(400)
     expect(data).toMatchObject({
-      at: 'movieName',
+      at: 'movieTitle',
       expected: {
-        movieName: '',
+        movieTitle: '',
       },
       message: 'Required property',
       type: 'body',

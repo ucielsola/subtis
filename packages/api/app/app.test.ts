@@ -33,23 +33,23 @@ describe('API | runApi', () => {
       },
       {
         method: 'POST',
+        path: '/v1/subtitles/file',
+      },
+      {
+        method: 'POST',
+        path: '/v1/subtitles/movie',
+      },
+      {
+        method: 'POST',
+        path: '/v1/subtitles/trending',
+      },
+      {
+        method: 'POST',
+        path: '/v1/metrics/download',
+      },
+      {
+        method: 'POST',
         path: '/v1/movies',
-      },
-      {
-        method: 'POST',
-        path: '/v1/download',
-      },
-      {
-        method: 'POST',
-        path: '/v1/subtitle',
-      },
-      {
-        method: 'POST',
-        path: '/v1/subtitles',
-      },
-      {
-        method: 'POST',
-        path: '/v1/trending',
       },
     ])
   })
