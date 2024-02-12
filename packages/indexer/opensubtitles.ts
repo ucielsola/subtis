@@ -15,7 +15,7 @@ const OPEN_SUBTITLES_BASE_URL = 'https://api.opensubtitles.com/api/v1' as const
 
 // utils
 function getOpenSubtitlesApiKey(): string {
-  const openSubtitlesApiKey = Bun.env.OPEN_SUBTITLES_API_KEY
+  const openSubtitlesApiKey = Bun.env['OPEN_SUBTITLES_API_KEY']
   return z.string().parse(openSubtitlesApiKey)
 }
 

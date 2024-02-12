@@ -13,7 +13,7 @@ export function runApi(displayListenLog: boolean = false, port: number = 8080) {
     .use(cors())
     .use(helmet())
     .use(swagger({ path: '/v1/docs' }))
-    .use(rateLimit({ skip: () => Bun.env.NODE_ENV !== 'production' }))
+    .use(rateLimit({ skip: () => Bun.env['NODE_ENV'] !== 'production' }))
     .group('/v1/subtitles', (app) => {
       return app
         .post('/file', getSubtitleFromFileName, { body: t.Object({ fileName: t.String() }) })

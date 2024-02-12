@@ -6,6 +6,7 @@ declare module 'bun' {
     OPEN_SUBTITLES_API_KEY: string
     PUBLIC_API_BASE_URL_DEVELOPMENT: string
     PUBLIC_API_BASE_URL_PRODUCTION: string
+    PWD: string
     SUPABASE_API_KEY: string
     SUPABASE_BASE_URL: string
     TMDB_API_KEY: string

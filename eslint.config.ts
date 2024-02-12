@@ -6,6 +6,7 @@ const compat = new FlatCompat()
 export default antfu({
   rules: {
     'curly': 0,
+    'dot-notation': 0,
     'no-nested-ternary': 0,
     'node/prefer-global/buffer': 0,
     'node/prefer-global/process': 0,

@@ -21,7 +21,7 @@ describe('API | /subtitles/file', () => {
   it('return a response for an existant subtitle', async () => {
     const fileName = 'The.Marvels.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4'
 
-    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file`, {
+    const request = new Request(`${Bun.env['PUBLIC_API_BASE_URL_DEVELOPMENT']}/v1/subtitles/file`, {
       body: JSON.stringify({ fileName }),
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
@@ -53,7 +53,7 @@ describe('API | /subtitles/file', () => {
   })
 
   it('return a response for an 415 error for non supported file extensions', async () => {
-    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file`, {
+    const request = new Request(`${Bun.env['PUBLIC_API_BASE_URL_DEVELOPMENT']}/v1/subtitles/file`, {
       body: JSON.stringify({ fileName: 'The.Marvels.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3' }),
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
@@ -72,7 +72,7 @@ describe('API | /subtitles/file', () => {
   })
 
   it('return a response for an 404 error for a non existant subtitle', async () => {
-    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file`, {
+    const request = new Request(`${Bun.env['PUBLIC_API_BASE_URL_DEVELOPMENT']}/v1/subtitles/file`, {
       body: JSON.stringify({ fileName: 'The.Marvels.2021.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4' }),
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
@@ -90,7 +90,7 @@ describe('API | /subtitles/file', () => {
   })
 
   it('return a response for an 400 error for a bad payload', async () => {
-    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file`, {
+    const request = new Request(`${Bun.env['PUBLIC_API_BASE_URL_DEVELOPMENT']}/v1/subtitles/file`, {
       body: JSON.stringify({ file: 'the' }),
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',

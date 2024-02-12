@@ -10,7 +10,7 @@ describe('API | /subtitles/trending', () => {
   afterAll(() => app.stop())
 
   it('return the last two trending subtitles', async () => {
-    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/trending`, {
+    const request = new Request(`${Bun.env['PUBLIC_API_BASE_URL_DEVELOPMENT']}/v1/subtitles/trending`, {
       body: JSON.stringify({ limit: 2 }),
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
@@ -58,7 +58,7 @@ describe('API | /subtitles/trending', () => {
   })
 
   it('return a response for an 400 error for a bad payload', async () => {
-    const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/trending`, {
+    const request = new Request(`${Bun.env['PUBLIC_API_BASE_URL_DEVELOPMENT']}/v1/subtitles/trending`, {
       body: JSON.stringify({ lim: '123' }),
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
