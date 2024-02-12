@@ -45,8 +45,8 @@ export const releaseGroupsRowSchema = z.object({
   id: z.number(),
   isSupported: z.boolean().nullable(),
   name: z.string(),
-  searchableOpenSubtitlesName: z.string().nullable(),
-  searchableSubDivXName: z.string(),
+  searchableOpenSubtitlesName: z.array(z.string()).nullable(),
+  searchableSubDivXName: z.array(z.string()),
   website: z.string(),
 })
 
@@ -56,8 +56,8 @@ export const releaseGroupsInsertSchema = z.object({
   id: z.number().optional(),
   isSupported: z.boolean().optional().nullable(),
   name: z.string(),
-  searchableOpenSubtitlesName: z.string().optional().nullable(),
-  searchableSubDivXName: z.string(),
+  searchableOpenSubtitlesName: z.array(z.string()).optional().nullable(),
+  searchableSubDivXName: z.array(z.string()),
   website: z.string(),
 })
 
@@ -67,8 +67,8 @@ export const releaseGroupsUpdateSchema = z.object({
   id: z.number().optional(),
   isSupported: z.boolean().optional().nullable(),
   name: z.string().optional(),
-  searchableOpenSubtitlesName: z.string().optional().nullable(),
-  searchableSubDivXName: z.string().optional(),
+  searchableOpenSubtitlesName: z.array(z.string()).nullable(),
+  searchableSubDivXName: z.array(z.string()).optional(),
   website: z.string().optional(),
 })
 

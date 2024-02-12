@@ -60,8 +60,8 @@ export type Database = {
           id?: number
           isSupported?: boolean | null
           name: string
-          searchableOpenSubtitlesName?: null | string
-          searchableSubDivXName: string
+          searchableOpenSubtitlesName?: null | string[]
+          searchableSubDivXName: string[]
           website: string
         }
         Relationships: []
@@ -71,8 +71,8 @@ export type Database = {
           id: number
           isSupported: boolean | null
           name: string
-          searchableOpenSubtitlesName: null | string
-          searchableSubDivXName: string
+          searchableOpenSubtitlesName: null | string[]
+          searchableSubDivXName: string[]
           website: string
         }
         Update: {
@@ -81,8 +81,8 @@ export type Database = {
           id?: number
           isSupported?: boolean | null
           name?: string
-          searchableOpenSubtitlesName?: null | string
-          searchableSubDivXName?: string
+          searchableOpenSubtitlesName?: null | string[]
+          searchableSubDivXName?: string[]
           website?: string
         }
       }
@@ -180,18 +180,18 @@ export type Database = {
       SubtitlesNotFound: {
         Insert: {
           created_at?: string
-          fileName?: null | string
+          fileName: string
           id?: number
         }
         Relationships: []
         Row: {
           created_at: string
-          fileName: null | string
+          fileName: string
           id: number
         }
         Update: {
           created_at?: string
-          fileName?: null | string
+          fileName?: string
           id?: number
         }
       }
