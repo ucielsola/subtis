@@ -77,6 +77,14 @@ export const RELEASE_GROUPS = {
     searchableSubDivXName: ['hevc-psa'],
     website: '',
   },
+  'LAMA': {
+    fileAttribute: 'x264-LAMA',
+    isSupported: true,
+    name: 'LAMA',
+    searchableOpenSubtitlesName: ['LAMA'],
+    searchableSubDivXName: ['LAMA'],
+    website: '',
+  },
   'RiGHTNOW': {
     fileAttribute: 'RiGHTNOW',
     isSupported: true,
