@@ -74,7 +74,7 @@ export const RELEASE_GROUPS = {
     isSupported: true,
     name: 'YTS-MX',
     searchableOpenSubtitlesName: ['YTS.MX'],
-    searchableSubDivXName: ['YTS MX', 'YTS.MX'],
+    searchableSubDivXName: ['YTS MX', 'YTS.MX', 'YTS'],
     website: 'https://yts.mx',
   },
 } as const
