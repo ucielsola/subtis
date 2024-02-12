@@ -1,4 +1,4 @@
-import { JSDOM } from 'jsdom'
+import { z } from 'zod'
 import slugify from 'slugify'
 import invariant from 'tiny-invariant'
 
@@ -14,113 +14,72 @@ import { SUBTITLE_GROUPS } from './subtitle-groups'
 const SUBDIVX_BASE_URL = 'https://subdivx.com' as const
 const SUBDIVX_BREADCRUMB_ERROR = 'SUBDIVX_ERROR' as const
 
-// utils
+// schemas
+const subdivxSubtitleSchema = z.object({
+  calificacion: z.string(),
+  cds: z.number(),
+  comentarios: z.number(),
+  descargas: z.number(),
+  descripcion: z.string(),
+  eliminado: z.union([z.literal(0), z.literal(1)]),
+  fecha: z.string(),
+  formato: z.string(),
+  fotos: z.string(),
+  framerate: z.string(),
+  id: z.number(),
+  idmoderador: z.number(),
+  nick: z.string(),
+  promedio: z.string(),
+  titulo: z.string(),
+})
 
-export function getSubDivXSearchParams(
-  movieName: string,
-  page = '1',
-): {
-    accion: string
-    buscar2: string
-    masdesc: string
-    oxdown: string
-    pg: string
-    realiza_b: string
-    subtitulos: string
-  } {
-  return {
-    accion: '5',
-    buscar2: movieName,
-    masdesc: '',
-    oxdown: '1',
-    pg: page,
-    realiza_b: '1',
-    subtitulos: '1',
-  }
-}
-
-export function getSubDivXSearchUrl(movieName: string): string {
-  const urlSearchParams = new URLSearchParams({ accion: '5', buscar2: movieName })
-  return `${SUBDIVX_BASE_URL}/index.php?${urlSearchParams}`
-}
-
-export async function getSubDivXSearchPageHtml(movieName: string, page = '1'): Promise<string> {
-  const searchParams = getSubDivXSearchParams(movieName, page)
-  const urlSearchParams = new URLSearchParams(searchParams)
-
-  const response = await fetch(`${SUBDIVX_BASE_URL}/index.php`, {
-    body: urlSearchParams,
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    method: 'POST',
-  })
-
-  const html = await response.text()
-  return html
-}
-
-export async function getSubDivXSubtitleDownloadLink(subtitlePage: string): Promise<string> {
-  const response = await fetch(subtitlePage)
-  const html = await response.text()
-
-  const dom = new JSDOM(html)
-  const document = dom.window.document
-
-  const anchor = document.querySelector('.link1')
-  invariant(anchor, `[${SUBDIVX_BREADCRUMB_ERROR}]: Link should be defined`)
-
-  const href = anchor.getAttribute('href')
-  const subtitleLink = `${SUBDIVX_BASE_URL}/${href}`
-
-  return subtitleLink
-}
+const subdivxSchema = z.object({
+  aaData: z.array(subdivxSubtitleSchema),
+  iTotalDisplayRecords: z.number(),
+  iTotalRecords: z.number(),
+  sEcho: z.string(),
+})
 
 // core
-export async function getSubDivXSubtitle({ movieData, page = '1' }: {
+export async function getSubDivXSubtitle({ movieData }: {
   movieData: MovieData
   page?: string
 }): Promise<SubtitleData> {
   const { fileNameWithoutExtension, name, releaseGroup, resolution, searchableMovieName }
-    = movieData
+  = movieData
+
   if (!releaseGroup) {
     throw new Error('release group undefined')
   }
-  const { searchableSubDivXName } = releaseGroup
 
-  const subtitlePageHtml = await getSubDivXSearchPageHtml(searchableMovieName, page)
+  const lowerCaseSearchableMovieName = searchableMovieName.toLowerCase()
 
-  const dom = new JSDOM(subtitlePageHtml)
-  const document = dom.window.document
-
-  const allSubtitlesElements = [...document.querySelectorAll('#buscador_detalle')]
-  invariant(allSubtitlesElements.length > 0, `[${SUBDIVX_BREADCRUMB_ERROR}]: There should be at least one subtitle`)
-
-  const value = allSubtitlesElements.find((element) => {
-    const movieDetail = element.textContent?.toLowerCase()
-    return movieDetail?.includes(searchableSubDivXName.toLowerCase()) && movieDetail?.includes(resolution)
+  const response = await fetch('https://www.subdivx.com/inc/ajax.php', {
+    body: `tabla=resultados&filtros=&buscar=${searchableMovieName}`,
+    headers: { 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+    method: 'POST',
   })
 
-  const previousSibling = value?.previousSibling as Element
-  invariant(previousSibling, `[${SUBDIVX_BREADCRUMB_ERROR}]: Subtitle Element should exist`)
+  const data = await response.json()
+  const subtitles = subdivxSchema.parse(data)
 
-  if (allSubtitlesElements.length > 90) {
-    // Iterate to next pages until find the subtitle or no more results
-    // The recursion will break loop on line 185
-    return getSubDivXSubtitle({ movieData, page: String(Number(page) + 1) })
-  }
+  const subtitle = subtitles.aaData.find((subtitle) => {
+    const movieTitle = subtitle.titulo.toLowerCase()
+    const movieDescription = subtitle.descripcion.toLowerCase()
 
-  const hrefElement = previousSibling.querySelector('.titulo_menu_izq')
-  invariant(hrefElement, `[${SUBDIVX_BREADCRUMB_ERROR}]: Anchor element should be defined`)
+    const hasMovieTitle = movieTitle.includes(lowerCaseSearchableMovieName)
+    const hasMovieResolution = movieDescription.includes(resolution)
+    const hasReleaseGroup = releaseGroup.searchableSubDivXName.some((searchableSubDivXName) => {
+      return movieDescription.includes(searchableSubDivXName.toLowerCase())
+    })
 
-  const subtitleHref = hrefElement.getAttribute('href')
-  invariant(subtitleHref, `[${SUBDIVX_BREADCRUMB_ERROR}]: Subtitle page link should be defined`)
+    return hasMovieTitle && hasMovieResolution && hasReleaseGroup
+  })
 
-  const subtitleDownloadLink = await getSubDivXSubtitleDownloadLink(subtitleHref)
+  invariant(subtitle, `[${SUBDIVX_BREADCRUMB_ERROR}]: Subtitle doesn't exists`)
 
-  // compressed file link
-  const subtitleId = new URL(subtitleDownloadLink).searchParams.get('id')
-
-  const subtitleRarLink = `${SUBDIVX_BASE_URL}/sub9/${subtitleId}.rar`
-  const subtitleZipLink = `${SUBDIVX_BASE_URL}/sub9/${subtitleId}.zip`
+  const subtitleRarLink = `${SUBDIVX_BASE_URL}/sub9/${subtitle.id}.rar`
+  const subtitleZipLink = `${SUBDIVX_BASE_URL}/sub9/${subtitle.id}.zip`
 
   const isRarLinkAlive = await getIsLinkAlive(subtitleRarLink)
   const isZipLinkAlive = await getIsLinkAlive(subtitleZipLink)
