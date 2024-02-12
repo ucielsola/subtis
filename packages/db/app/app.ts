@@ -26,7 +26,12 @@ function getSupabaseClient() {
 
 // types
 export type SupabaseClient = ReturnType<typeof getSupabaseClient>
+
+// models
 export type Movie = Database['public']['Tables']['Movies']['Row']
+export type ReleaseGroup = Database['public']['Tables']['ReleaseGroups']['Row']
+export type Subtitle = Database['public']['Tables']['Subtitles']['Row']
+export type SubtitleGroup = Database['public']['Tables']['SubtitleGroups']['Row']
 
 // constants
 export const supabase = getSupabaseClient()
