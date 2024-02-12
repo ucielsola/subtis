@@ -16,13 +16,13 @@ const SUBDIVX_BREADCRUMB_ERROR = 'SUBDIVX_ERROR' as const
 
 // schemas
 const subdivxSubtitleSchema = z.object({
-  calificacion: z.string(),
+  calificacion: z.string().optional(),
   cds: z.number(),
   comentarios: z.number(),
   descargas: z.number(),
   descripcion: z.string(),
   eliminado: z.union([z.literal(0), z.literal(1)]),
-  fecha: z.string(),
+  fecha: z.string().optional(),
   formato: z.string(),
   fotos: z.string(),
   framerate: z.string(),
@@ -46,7 +46,7 @@ export async function getSubDivXSubtitle({ movieData }: {
   page?: string
 }): Promise<SubtitleData> {
   const { fileNameWithoutExtension, name, releaseGroup, resolution, searchableMovieName }
-  = movieData
+      = movieData
 
   if (!releaseGroup) {
     throw new Error('release group undefined')
@@ -90,10 +90,10 @@ export async function getSubDivXSubtitle({ movieData }: {
   const downloadFileName = `${fileNameWithoutExtension}.srt`
 
   const subtitleFileNameWithoutExtension = slugify(
-    `${name}-${resolution}-${releaseGroup.name}-${subtitleGroup}`,
+      `${name}-${resolution}-${releaseGroup.name}-${subtitleGroup}`,
   ).toLowerCase()
   const subtitleCompressedFileName = slugify(
-    `${name}-${resolution}-${releaseGroup.name}-${subtitleGroup}.${fileExtension}`,
+      `${name}-${resolution}-${releaseGroup.name}-${subtitleGroup}.${fileExtension}`,
   ).toLowerCase()
 
   return {
