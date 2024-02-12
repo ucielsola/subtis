@@ -110,6 +110,7 @@ export type Database = {
       Subtitles: {
         Insert: {
           author?: null | string
+          bytes: string
           created_at?: string
           fileExtension: string
           fileName: string
@@ -148,6 +149,7 @@ export type Database = {
         ]
         Row: {
           author: null | string
+          bytes: string
           created_at: string
           fileExtension: string
           fileName: string
@@ -163,6 +165,7 @@ export type Database = {
         }
         Update: {
           author?: null | string
+          bytes?: string
           created_at?: string
           fileExtension?: string
           fileName?: string

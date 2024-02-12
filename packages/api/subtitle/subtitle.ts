@@ -33,16 +33,18 @@ export async function getSubtitleFromFileName({
   body,
   set,
 }: {
-  body: { fileName: string }
+  body: { bytes: string, fileName: string }
   set: Context['set']
 }): Promise<Response> {
-  const videoFileName = videoFileNameSchema.safeParse(body.fileName)
+  const { bytes, fileName } = body
+
+  const videoFileName = videoFileNameSchema.safeParse(fileName)
   if (!videoFileName.success) {
     set.status = 415
     return { message: videoFileName.error.issues[0].message }
   }
 
-  const cachedSubtitle = cache.get(videoFileName.data)
+  const cachedSubtitle = cache.get(videoFileName.data) || cache.get(bytes)
   if (cachedSubtitle) {
     return cachedSubtitle
   }
@@ -56,15 +58,33 @@ export async function getSubtitleFromFileName({
     .order('subtitleGroupId', { ascending: false })
     .single()
 
-  const subtitle = subtitleSchema.safeParse(data)
-  if (!subtitle.success) {
-    set.status = 404
+  const subtitleByFileName = subtitleSchema.safeParse(data)
+
+  if (!subtitleByFileName.success) {
     await supabase.rpc('insert_subtitle_not_found', { file_name: videoFileName.data })
 
-    return { message: 'Subtitle not found for file' }
+    const { data } = await supabase
+      .from('Subtitles')
+      .select(
+        'id, subtitleShortLink, subtitleFullLink, resolution, fileName, Movies ( name, year ), ReleaseGroups ( name ), SubtitleGroups ( name )',
+      )
+      .eq('bytes', bytes)
+      .order('subtitleGroupId', { ascending: false })
+      .single()
+
+    const subtitleByBytes = subtitleSchema.safeParse(data)
+
+    if (!subtitleByBytes.success) {
+      set.status = 404
+      return { message: 'Subtitle not found for file' }
+    }
+
+    cache.set(videoFileName.data, subtitleByBytes.data)
+
+    return subtitleByBytes.data
   }
 
-  cache.set(videoFileName.data, subtitle.data)
+  cache.set(videoFileName.data, subtitleByFileName.data)
 
-  return subtitle.data
+  return subtitleByFileName.data
 }

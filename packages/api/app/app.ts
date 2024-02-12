@@ -16,9 +16,9 @@ export function runApi(displayListenLog: boolean = false, port: number = 8080) {
     .use(rateLimit({ skip: () => Bun.env['NODE_ENV'] !== 'production' }))
     .group('/v1/subtitles', (app) => {
       return app
-        .post('/file', getSubtitleFromFileName, { body: t.Object({ fileName: t.String() }) })
         .post('/movie', getSubtitlesFromMovieId, { body: t.Object({ movieId: t.String() }) })
         .post('/trending', getTrendingSubtitles, { body: t.Object({ limit: t.Number({ min: 1 }) }) })
+        .post('/file', getSubtitleFromFileName, { body: t.Object({ bytes: t.String(), fileName: t.String() }) })
     })
     .group('/v1/metrics', (app) => {
       return app

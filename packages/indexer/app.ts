@@ -18,6 +18,7 @@ import { type Movie, supabase } from '@subtis/db'
 import { VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieMetadata } from '@subtis/shared'
 
 import tg from 'torrent-grabber'
+import type { File } from 'torrent-stream'
 import torrentStream from 'torrent-stream'
 
 // internals
@@ -31,8 +32,7 @@ import { type SubtitleGroupMap, type SubtitleGroupNames, getEnabledSubtitleProvi
 
 // utils
 async function setMovieSubtitlesToDatabase({
-  fileName,
-  fileNameExtension,
+  file,
   movie,
   releaseGroup,
   releaseGroups,
@@ -41,8 +41,11 @@ async function setMovieSubtitlesToDatabase({
   subtitleGroup,
   subtitleGroups,
 }: {
-  fileName: string
-  fileNameExtension: string
+  file: {
+    bytes: number
+    fileName: string
+    fileNameExtension: string
+  }
   movie: Pick<Movie, 'id' | 'name' | 'rating' | 'year'>
   releaseGroup: ReleaseGroupNames
   releaseGroups: ReleaseGroupMap
@@ -170,9 +173,12 @@ async function setMovieSubtitlesToDatabase({
     const { id: releaseGroupId } = releaseGroups[releaseGroup]
     const { id: subtitleGroupId } = subtitleGroups[subtitleGroup]
 
+    const { bytes, fileName, fileNameExtension } = file
+
     // 16. Save subtitle to Supabase
     await supabase.from('Subtitles').insert({
       author,
+      bytes: String(bytes),
       fileExtension: fileNameExtension,
       fileName,
       movieId: movie.id,
@@ -256,7 +262,7 @@ async function getSubtitlesFromMovie(
 
     const engine = torrentStream(torrentData.trackerId)
 
-    const files = await new Promise((resolve, reject) => {
+    const files = await new Promise<File[]>((resolve, reject) => {
       const timeoutId = setTimeout(() => {
         engine.destroy()
         reject(new Error('Timeout: Tardo más de 10s puede ser por falta de seeds'))
@@ -290,7 +296,7 @@ async function getSubtitlesFromMovie(
     }
 
     // 8. Get movie data from video file name
-    const fileName = videoFile.name
+    const { length: bytes, name: fileName } = videoFile
     const fileNameExtension = getMovieFileNameExtension(fileName)
     const movieData = getMovieMetadata(fileName)
 
@@ -349,8 +355,11 @@ async function getSubtitlesFromMovie(
         console.log(`4.${index}.${indexSubtitleProvider}) Subtítulo encontrado para ${subtitleGroup}`)
 
         await setMovieSubtitlesToDatabase({
-          fileName,
-          fileNameExtension,
+          file: {
+            bytes,
+            fileName,
+            fileNameExtension,
+          },
           movie: {
             id: imdbId,
             name: title,
