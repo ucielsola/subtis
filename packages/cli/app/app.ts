@@ -60,7 +60,7 @@ export async function runCli(): Promise<void> {
 
     loader.start('🔎 Buscando subtitulos')
 
-    const { data, status } = await apiClient.v1.subtitle.post({ fileName })
+    const { data, status } = await apiClient.v1.subtitles.file.post({ fileName })
     if (data === null || 'message' in data) {
       const { description, title } = getMessageFromStatusCode(status)
       loader.stop(`😥 ${title}`)

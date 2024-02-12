@@ -42,7 +42,6 @@ export async function getSubtitleFromFileName({
     return { message: videoFileName.error.issues[0].message }
   }
 
-  // get subtitle from cache
   const cachedSubtitle = cache.get(videoFileName.data)
   if (cachedSubtitle) {
     return cachedSubtitle
@@ -65,7 +64,6 @@ export async function getSubtitleFromFileName({
     return { message: 'Subtitle not found for file' }
   }
 
-  // update cache
   cache.set(videoFileName.data, subtitle.data)
 
   return subtitle.data

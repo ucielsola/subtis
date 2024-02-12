@@ -16,27 +16,27 @@ const responseSchema = z.union([moviesSchema, errorSchema])
 type Response = z.infer<typeof responseSchema>
 
 // core
-export async function getMoviesFromMovieId({
+export async function getMoviesFromMovieTitle({
   body,
   set,
 }: {
-  body: { movieName: string }
+  body: { movieTitle: string }
   set: Context['set']
 }): Promise<Response> {
-  const { movieName } = body
+  const { movieTitle } = body
 
   const { data } = await supabase
     .from('Movies')
     .select(
       'id, name, year',
     )
-    .ilike('name', `%${movieName}%`)
+    .ilike('name', `%${movieTitle}%`)
     .limit(10)
 
   const movies = moviesSchema.safeParse(data)
   if (!movies.success) {
     set.status = 404
-    return { message: `Movies not found for query ${movieName}` }
+    return { message: `Movies not found for query ${movieTitle}` }
   }
 
   return movies.data
