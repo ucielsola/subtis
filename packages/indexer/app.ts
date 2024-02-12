@@ -15,7 +15,7 @@ import prettyBytes from 'pretty-bytes'
 import { confirm } from '@clack/prompts'
 
 import { type Movie, supabase } from '@subtis/db'
-import { VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieMetadata, polyfillConsoleTable } from '@subtis/shared'
+import { VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieMetadata } from '@subtis/shared'
 
 import tg from 'torrent-grabber'
 import torrentStream from 'torrent-stream'
@@ -28,8 +28,6 @@ import type { SubtitleData } from './types'
 import { type TmdbMovie, getMoviesFromTmdb, getTmdbMoviesTotalPagesArray } from './tmdb'
 import { type ReleaseGroupMap, type ReleaseGroupNames, getReleaseGroups, saveReleaseGroupsToDb } from './release-groups'
 import { type SubtitleGroupMap, type SubtitleGroupNames, getEnabledSubtitleProviders, getSubtitleGroups, saveSubtitleGroupsToDb } from './subtitle-groups'
-
-polyfillConsoleTable()
 
 // utils
 async function setMovieSubtitlesToDatabase({
@@ -100,7 +98,7 @@ async function setMovieSubtitlesToDatabase({
       })
       .exhaustive()
 
-    let srtFileToUpload: unknown
+    let srtFileToUpload: Buffer | unknown
 
     if (['rar', 'zip'].includes(fileExtension)) {
       const extractedSubtitleFiles = fs.readdirSync(extractedSubtitlePath)

@@ -59,10 +59,9 @@ export function getMovieMetadata(movieFileName: string): MovieData {
 
     const fileNameWithoutExtension = getMovieFileNameWithoutExtension(parsedMovieFileName)
 
-    const _releaseGroup = Object.values(RELEASE_GROUPS).find((releaseGroupInternal) => {
+    const releaseGroup = Object.values(RELEASE_GROUPS).find((releaseGroupInternal) => {
       return parsedRawAttributes.includes(releaseGroupInternal.fileAttribute)
     })
-    const releaseGroup = _releaseGroup as ReleaseGroup | undefined
 
     if (!releaseGroup) {
       const unsupportedReleaseGroup = rawAttributes
@@ -78,7 +77,7 @@ export function getMovieMetadata(movieFileName: string): MovieData {
     return {
       fileNameWithoutExtension,
       name: movieName,
-      releaseGroup,
+      releaseGroup: releaseGroup as unknown as ReleaseGroup,
       resolution,
       searchableMovieName,
       year,

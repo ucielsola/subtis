@@ -29,7 +29,6 @@ describe('API | /subtitles/file', () => {
 
     const response = await app.handle(request)
     const data = await response.json()
-    console.log('\n ~ it ~ data:', data)
 
     expect(cacheGetSpy).toHaveBeenCalled()
     expect(cacheSetSpy).toHaveBeenCalled()
