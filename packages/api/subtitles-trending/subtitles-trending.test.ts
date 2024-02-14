@@ -32,27 +32,27 @@ describe('API | /subtitles/trending', () => {
           name: 'SubDivX',
         },
         fileName: 'Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4',
-        id: 1475,
+        id: 1518,
         resolution: '1080p',
         subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-1080p-yts-mx-subdivx.srt?download=Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt',
         subtitleShortLink: 'https://tinyurl.com/2x7w48uv',
       },
       {
         Movies: {
-          name: 'The Marvels',
-          year: 2023,
+          name: 'Badland Hunters',
+          year: 2024,
         },
         ReleaseGroups: {
-          name: 'YTS-MX',
+          name: 'GalaxyRG',
         },
         SubtitleGroups: {
           name: 'SubDivX',
         },
-        fileName: 'The.Marvels.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4',
-        id: 1479,
-        resolution: '1080p',
-        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-marvels-1080p-yts-mx-subdivx.srt?download=The.Marvels.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt',
-        subtitleShortLink: 'https://tinyurl.com/yww7dhue',
+        fileName: 'Badland.Hunters.2024.KOREAN.720p.WEBRip.800MB.x264-GalaxyRG.mkv',
+        id: 1516,
+        resolution: '720p',
+        subtitleFullLink: 'https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/badland-hunters-720p-galaxyrg-subdivx.srt?download=Badland.Hunters.2024.KOREAN.720p.WEBRip.800MB.x264-GalaxyRG.srt',
+        subtitleShortLink: 'https://tinyurl.com/yvjxyu7p',
       },
     ])
   })

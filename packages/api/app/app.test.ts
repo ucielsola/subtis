@@ -37,10 +37,6 @@ describe('API | runApi', () => {
       },
       {
         method: 'POST',
-        path: '/v1/subtitles/recents',
-      },
-      {
-        method: 'POST',
         path: '/v1/subtitles/trending',
       },
       {
@@ -49,11 +45,15 @@ describe('API | runApi', () => {
       },
       {
         method: 'POST',
-        path: '/v1/metrics/download',
+        path: '/v1/movies/title',
       },
       {
         method: 'POST',
-        path: '/v1/movies',
+        path: '/v1/movies/recent',
+      },
+      {
+        method: 'POST',
+        path: '/v1/metrics/download',
       },
     ])
   })

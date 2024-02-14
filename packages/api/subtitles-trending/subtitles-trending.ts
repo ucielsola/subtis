@@ -6,7 +6,7 @@ import { supabase } from '@subtis/db'
 
 // internals
 import { errorSchema } from '../shared'
-import { subtitleSchema } from '../subtitle'
+import { subtitleSchema } from '../subtitles-file'
 
 // schemas
 const trendingSubtitlesSchema = z
