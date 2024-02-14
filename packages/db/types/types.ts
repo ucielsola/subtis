@@ -35,6 +35,7 @@ export type Database = {
           id: number
           name: string
           rating: number
+          release_date: string
           year: number
         }
         Relationships: []
@@ -43,6 +44,7 @@ export type Database = {
           id: number
           name: string
           rating: number
+          release_date: string
           year: number
         }
         Update: {
@@ -50,6 +52,7 @@ export type Database = {
           id?: number
           name?: string
           rating?: number
+          release_date?: string
           year?: number
         }
       }

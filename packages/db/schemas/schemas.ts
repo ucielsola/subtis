@@ -20,6 +20,7 @@ export const moviesRowSchema = z.object({
   id: z.number(),
   name: z.string(),
   rating: z.number(),
+  release_date: z.string(),
   year: z.number(),
 })
 
@@ -28,6 +29,7 @@ export const moviesInsertSchema = z.object({
   id: z.number(),
   name: z.string(),
   rating: z.number(),
+  release_date: z.string(),
   year: z.number(),
 })
 
@@ -36,6 +38,7 @@ export const moviesUpdateSchema = z.object({
   id: z.number().optional(),
   name: z.string().optional(),
   rating: z.number().optional(),
+  release_date: z.string().optional(),
   year: z.number().optional(),
 })
 

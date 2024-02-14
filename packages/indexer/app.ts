@@ -46,7 +46,7 @@ async function setMovieSubtitlesToDatabase({
     fileName: string
     fileNameExtension: string
   }
-  movie: Pick<Movie, 'id' | 'name' | 'rating' | 'year'>
+  movie: Pick<Movie, 'id' | 'name' | 'rating' | 'release_date' | 'year'>
   releaseGroup: ReleaseGroupNames
   releaseGroups: ReleaseGroupMap
   resolution: string
@@ -230,7 +230,7 @@ async function getSubtitlesFromMovie(
     }
   })
 
-  const { imdbId, rating, title, year } = movie
+  const { imdbId, rating, release_date, title, year } = movie
 
   // 1. Get first 10 movie torrents from ThePirateBay
   const TOTAL_MOVIES_TO_SEARCH = 10
@@ -364,6 +364,7 @@ async function getSubtitlesFromMovie(
             id: imdbId,
             name: title,
             rating,
+            release_date,
             year,
           },
           releaseGroup: releaseGroup.name as ReleaseGroupNames,

@@ -132,7 +132,9 @@ const TMDB_OPTIONS = {
 
 export type TmdbMovie = {
   imdbId: number
+  imdbLink: string
   rating: number
+  release_date: string
   title: string
   year: number
 }
