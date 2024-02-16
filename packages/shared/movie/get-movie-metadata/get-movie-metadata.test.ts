@@ -27,7 +27,7 @@ describe('getMovieMetadata', () => {
     const data = getMovieMetadata('The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4')
 
     const releaseGroup: ReleaseGroup = {
-      fileAttribute: 'YTS.MX',
+      fileAttributes: ['YTS.MX'],
       isSupported: true,
       name: 'YTS-MX',
       searchableOpenSubtitlesName: ['YTS.MX'],
@@ -48,7 +48,7 @@ describe('getMovieMetadata', () => {
     const data = getMovieMetadata('The.Super.Mario.Bros..Movie.2023.720p.BluRay.x264.AAC5.1-[YTS.MX].mp4')
 
     const releaseGroup: ReleaseGroup = {
-      fileAttribute: 'YTS.MX',
+      fileAttributes: ['YTS.MX'],
       isSupported: true,
       name: 'YTS-MX',
       searchableOpenSubtitlesName: ['YTS.MX'],
@@ -69,7 +69,7 @@ describe('getMovieMetadata', () => {
     const data = getMovieMetadata('The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4')
 
     const releaseGroup: ReleaseGroup = {
-      fileAttribute: 'YTS.MX',
+      fileAttributes: ['YTS.MX'],
       isSupported: true,
       name: 'YTS-MX',
       searchableOpenSubtitlesName: ['YTS.MX'],
@@ -90,7 +90,7 @@ describe('getMovieMetadata', () => {
     const data = getMovieMetadata('The.Super.Mario.Bros..Movie.2023.2160p.BluRay.x264.AAC5.1-[YTS.MX].mp4')
 
     const releaseGroup: ReleaseGroup = {
-      fileAttribute: 'YTS.MX',
+      fileAttributes: ['YTS.MX'],
       isSupported: true,
       name: 'YTS-MX',
       searchableOpenSubtitlesName: ['YTS.MX'],
@@ -111,7 +111,7 @@ describe('getMovieMetadata', () => {
     const data = getMovieMetadata('The.Super.Mario.Bros..Movie.2023.3D.BluRay.x264.AAC5.1-[YTS.MX].mp4')
 
     const releaseGroup: ReleaseGroup = {
-      fileAttribute: 'YTS.MX',
+      fileAttributes: ['YTS.MX'],
       isSupported: true,
       name: 'YTS-MX',
       searchableOpenSubtitlesName: ['YTS.MX'],
@@ -132,7 +132,7 @@ describe('getMovieMetadata', () => {
     const data = getMovieMetadata('The Super Mario Bros Movie 2023 1080p WEBRip H265-CODY.mkv')
 
     const releaseGroup: ReleaseGroup = {
-      fileAttribute: 'CODY',
+      fileAttributes: 'CODY',
       isSupported: true,
       name: 'CODY',
       searchableOpenSubtitlesName: ['CODY'],
@@ -153,7 +153,7 @@ describe('getMovieMetadata', () => {
     const data = getMovieMetadata('Evil.Dead.Rise.2023.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv')
 
     const releaseGroup: ReleaseGroup = {
-      fileAttribute: 'GalaxyRG',
+      fileAttributes: ['GalaxyRG'],
       isSupported: true,
       name: 'GalaxyRG',
       searchableOpenSubtitlesName: ['GalaxyRG'],
@@ -174,7 +174,7 @@ describe('getMovieMetadata', () => {
     const data = getMovieMetadata('The.Flash.2023.1080p.WEB-DL.H.264-RiGHTNOW.mkv')
 
     const releaseGroup: ReleaseGroup = {
-      fileAttribute: 'RiGHTNOW',
+      fileAttributes: ['RiGHTNOW'],
       isSupported: true,
       name: 'RiGHTNOW',
       searchableOpenSubtitlesName: ['RiGHTNOW'],
@@ -194,7 +194,7 @@ describe('getMovieMetadata', () => {
   test('should correctly parse a movie string with year and resolution', () => {
     const result = getMovieMetadata('Avatar (2009) 1080p x264 YTS.MX.mp4')
     const releaseGroup: ReleaseGroup = {
-      fileAttribute: 'YTS.MX',
+      fileAttributes: ['YTS.MX'],
       isSupported: true,
       name: 'YTS-MX',
       searchableOpenSubtitlesName: ['YTS.MX'],

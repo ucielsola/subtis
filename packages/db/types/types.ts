@@ -59,7 +59,7 @@ export type Database = {
       ReleaseGroups: {
         Insert: {
           created_at?: string
-          fileAttribute: string
+          fileAttributes: string[]
           id?: number
           isSupported?: boolean | null
           name: string
@@ -70,7 +70,7 @@ export type Database = {
         Relationships: []
         Row: {
           created_at: string
-          fileAttribute: string
+          fileAttributes: string[]
           id: number
           isSupported: boolean | null
           name: string
@@ -80,7 +80,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
-          fileAttribute?: string
+          fileAttributes?: string[]
           id?: number
           isSupported?: boolean | null
           name?: string

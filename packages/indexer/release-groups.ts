@@ -6,7 +6,7 @@ import type { SupabaseClient } from '@subtis/db'
 // constants
 export const RELEASE_GROUPS = {
   'AAC': {
-    fileAttribute: 'AAC',
+    fileAttributes: ['AAC'],
     isSupported: true,
     name: 'AAC',
     searchableOpenSubtitlesName: ['AAC'],
@@ -14,7 +14,7 @@ export const RELEASE_GROUPS = {
     website: '',
   },
   'CODY': {
-    fileAttribute: 'CODY',
+    fileAttributes: ['CODY'],
     isSupported: true,
     name: 'CODY',
     searchableOpenSubtitlesName: ['CODY'],
@@ -22,7 +22,7 @@ export const RELEASE_GROUPS = {
     website: '',
   },
   'EDITH': {
-    fileAttribute: 'h264-EDITH',
+    fileAttributes: ['h264-EDITH'],
     isSupported: true,
     name: 'EDITH',
     searchableOpenSubtitlesName: ['EDITH'],
@@ -30,7 +30,7 @@ export const RELEASE_GROUPS = {
     website: '',
   },
   'ETHEL': {
-    fileAttribute: 'h265-ETHEL',
+    fileAttributes: ['h265-ETHEL'],
     isSupported: true,
     name: 'ETHEL',
     searchableOpenSubtitlesName: ['ETHEL'],
@@ -38,15 +38,15 @@ export const RELEASE_GROUPS = {
     website: '',
   },
   'FLUX': {
-    fileAttribute: 'FLUX',
+    fileAttributes: ['FLUX', '265-Flux'],
     isSupported: true,
     name: 'FLUX',
     searchableOpenSubtitlesName: ['FLUX'],
-    searchableSubDivXName: ['FLUX'],
+    searchableSubDivXName: ['FLUX', '265-FLUX'],
     website: '',
   },
   'FLUX8': {
-    fileAttribute: 'FLUX8',
+    fileAttributes: ['FLUX8'],
     isSupported: true,
     name: 'FLUX8',
     searchableOpenSubtitlesName: ['FLUX8'],
@@ -54,7 +54,7 @@ export const RELEASE_GROUPS = {
     website: '',
   },
   'GalaxyRG': {
-    fileAttribute: 'GalaxyRG',
+    fileAttributes: ['GalaxyRG'],
     isSupported: true,
     name: 'GalaxyRG',
     searchableOpenSubtitlesName: ['GalaxyRG'],
@@ -62,7 +62,7 @@ export const RELEASE_GROUPS = {
     website: '',
   },
   'HEVC-CMRG': {
-    fileAttribute: 'HEVC-CMRG',
+    fileAttributes: ['HEVC-CMRG'],
     isSupported: true,
     name: 'HEVC-CMRG',
     searchableOpenSubtitlesName: ['HEVC-CMRG'],
@@ -70,7 +70,7 @@ export const RELEASE_GROUPS = {
     website: '',
   },
   'HEVC-PSA': {
-    fileAttribute: 'HEVC-PSA',
+    fileAttributes: ['HEVC-PSA'],
     isSupported: true,
     name: 'HEVC-PSA',
     searchableOpenSubtitlesName: ['HEVC-PSA'],
@@ -78,7 +78,7 @@ export const RELEASE_GROUPS = {
     website: '',
   },
   'KBOX': {
-    fileAttribute: 'h264-kbox',
+    fileAttributes: ['h264-kbox', 'h265-kbox'],
     isSupported: true,
     name: 'KBOX',
     searchableOpenSubtitlesName: ['KBOX'],
@@ -86,7 +86,7 @@ export const RELEASE_GROUPS = {
     website: '',
   },
   'LAMA': {
-    fileAttribute: 'x264-LAMA',
+    fileAttributes: ['x264-LAMA'],
     isSupported: true,
     name: 'LAMA',
     searchableOpenSubtitlesName: ['LAMA'],
@@ -94,7 +94,7 @@ export const RELEASE_GROUPS = {
     website: '',
   },
   'RiGHTNOW': {
-    fileAttribute: 'RiGHTNOW',
+    fileAttributes: ['RiGHTNOW'],
     isSupported: true,
     name: 'RiGHTNOW',
     searchableOpenSubtitlesName: ['RiGHTNOW'],
@@ -102,7 +102,7 @@ export const RELEASE_GROUPS = {
     website: '',
   },
   'YTS-MX': {
-    fileAttribute: 'YTS.MX',
+    fileAttributes: ['YTS.MX'],
     isSupported: true,
     name: 'YTS-MX',
     searchableOpenSubtitlesName: ['YTS.MX'],
@@ -113,7 +113,7 @@ export const RELEASE_GROUPS = {
 
 // types
 export type ReleaseGroup = {
-  fileAttribute: string
+  fileAttributes: string[]
   isSupported: boolean
   name: string
   searchableOpenSubtitlesName: string[]

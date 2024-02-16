@@ -60,7 +60,7 @@ export function getMovieMetadata(movieFileName: string): MovieData {
     const fileNameWithoutExtension = getMovieFileNameWithoutExtension(parsedMovieFileName)
 
     const releaseGroup = Object.values(RELEASE_GROUPS).find((releaseGroupInternal) => {
-      return parsedRawAttributes.includes(releaseGroupInternal.fileAttribute)
+      return releaseGroupInternal.fileAttributes.some(attribute => parsedRawAttributes.includes(attribute))
     })
 
     if (!releaseGroup) {
