@@ -38,7 +38,9 @@ export function getMovieMetadata(movieFileName: string): MovieData {
     }
 
     const [rawName, rawAttributes] = parsedMovieFileName.split(yearStringToReplace)
-    const parsedRawAttributes = rawAttributes.includes('YTS') ? rawAttributes.replace('AAC', '') : rawAttributes
+
+    const lowerCaseRawAttributes = rawAttributes.toLowerCase()
+    const parsedRawAttributes = lowerCaseRawAttributes.includes('YTS') ? lowerCaseRawAttributes.replace('AAC', '') : lowerCaseRawAttributes
 
     const movieName = getMovieName(rawName)
     const searchableMovieName = getStringWithoutExtraSpaces(`${movieName} (${yearString})`)
@@ -60,7 +62,7 @@ export function getMovieMetadata(movieFileName: string): MovieData {
     const fileNameWithoutExtension = getMovieFileNameWithoutExtension(parsedMovieFileName)
 
     const releaseGroup = Object.values(RELEASE_GROUPS).find((releaseGroupInternal) => {
-      return releaseGroupInternal.fileAttributes.some(attribute => parsedRawAttributes.includes(attribute))
+      return releaseGroupInternal.fileAttributes.some(attribute => parsedRawAttributes.includes(attribute.toLowerCase()))
     })
 
     if (!releaseGroup) {
