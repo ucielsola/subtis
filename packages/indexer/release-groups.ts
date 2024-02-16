@@ -5,16 +5,33 @@ import type { SupabaseClient } from '@subtis/db'
 
 // constants
 export const RELEASE_GROUPS = {
-  'AAC': {
-    fileAttribute: 'AAC',
+  // 'AAC': {
+  //   fileAttributes: ['AAC'],
+  //   isSupported: true,
+  //   name: 'AAC',
+  //   searchableOpenSubtitlesName: ['AAC'],
+  //   searchableSubDivXName: ['aac'],
+  //   website: '',
+  // },
+
+  'AOC': {
+    fileAttributes: ['H264-AOC', 'H265-AOC', 'x264-AOC', 'x265-AOC'],
     isSupported: true,
-    name: 'AAC',
-    searchableOpenSubtitlesName: ['AAC'],
-    searchableSubDivXName: ['aac'],
+    name: 'AOC',
+    searchableOpenSubtitlesName: ['AOC'],
+    searchableSubDivXName: ['AOC'],
+    website: '',
+  },
+  'AccomplishedYak': {
+    fileAttributes: ['H264-AccomplishedYak', 'H265-AccomplishedYak', 'x264-AccomplishedYak', 'x265-AccomplishedYak'],
+    isSupported: true,
+    name: 'AccomplishedYak',
+    searchableOpenSubtitlesName: ['AccomplishedYak'],
+    searchableSubDivXName: ['AccomplishedYak'],
     website: '',
   },
   'CODY': {
-    fileAttribute: 'CODY',
+    fileAttributes: ['CODY'],
     isSupported: true,
     name: 'CODY',
     searchableOpenSubtitlesName: ['CODY'],
@@ -22,7 +39,7 @@ export const RELEASE_GROUPS = {
     website: '',
   },
   'EDITH': {
-    fileAttribute: 'h264-EDITH',
+    fileAttributes: ['h264-EDITH'],
     isSupported: true,
     name: 'EDITH',
     searchableOpenSubtitlesName: ['EDITH'],
@@ -30,23 +47,31 @@ export const RELEASE_GROUPS = {
     website: '',
   },
   'ETHEL': {
-    fileAttribute: 'h265-ETHEL',
+    fileAttributes: ['h265-ETHEL'],
     isSupported: true,
     name: 'ETHEL',
     searchableOpenSubtitlesName: ['ETHEL'],
     searchableSubDivXName: ['H265-ETHEL'],
     website: '',
   },
+  'EniaHD': {
+    fileAttributes: ['264-EniaHD', '265-EniaHD', 'x264-EniaHD', 'x265-EniaHD'],
+    isSupported: true,
+    name: 'EniaHD',
+    searchableOpenSubtitlesName: ['EniaHD'],
+    searchableSubDivXName: ['EniaHD'],
+    website: '',
+  },
   'FLUX': {
-    fileAttribute: 'FLUX',
+    fileAttributes: ['FLUX', '265-Flux'],
     isSupported: true,
     name: 'FLUX',
     searchableOpenSubtitlesName: ['FLUX'],
-    searchableSubDivXName: ['FLUX'],
+    searchableSubDivXName: ['FLUX', '265-FLUX'],
     website: '',
   },
   'FLUX8': {
-    fileAttribute: 'FLUX8',
+    fileAttributes: ['FLUX8'],
     isSupported: true,
     name: 'FLUX8',
     searchableOpenSubtitlesName: ['FLUX8'],
@@ -54,15 +79,23 @@ export const RELEASE_GROUPS = {
     website: '',
   },
   'GalaxyRG': {
-    fileAttribute: 'GalaxyRG',
+    fileAttributes: ['GalaxyRG'],
     isSupported: true,
     name: 'GalaxyRG',
     searchableOpenSubtitlesName: ['GalaxyRG'],
     searchableSubDivXName: ['GalaxyRG'],
     website: '',
   },
+  'HDRip-C1NEM4': {
+    fileAttributes: ['HDRip-C1NEM4'],
+    isSupported: true,
+    name: 'HDRip-C1NEM4',
+    searchableOpenSubtitlesName: ['HDRip-C1NEM4'],
+    searchableSubDivXName: ['HDRip-C1NEM4'],
+    website: '',
+  },
   'HEVC-CMRG': {
-    fileAttribute: 'HEVC-CMRG',
+    fileAttributes: ['HEVC-CMRG'],
     isSupported: true,
     name: 'HEVC-CMRG',
     searchableOpenSubtitlesName: ['HEVC-CMRG'],
@@ -70,23 +103,39 @@ export const RELEASE_GROUPS = {
     website: '',
   },
   'HEVC-PSA': {
-    fileAttribute: 'HEVC-PSA',
+    fileAttributes: ['HEVC-PSA'],
     isSupported: true,
     name: 'HEVC-PSA',
     searchableOpenSubtitlesName: ['HEVC-PSA'],
     searchableSubDivXName: ['hevc-psa'],
     website: '',
   },
+  'KBOX': {
+    fileAttributes: ['h264-kbox', 'h265-kbox'],
+    isSupported: true,
+    name: 'KBOX',
+    searchableOpenSubtitlesName: ['KBOX'],
+    searchableSubDivXName: ['KBOX'],
+    website: '',
+  },
   'LAMA': {
-    fileAttribute: 'x264-LAMA',
+    fileAttributes: ['x264-LAMA'],
     isSupported: true,
     name: 'LAMA',
     searchableOpenSubtitlesName: ['LAMA'],
     searchableSubDivXName: ['LAMA'],
     website: '',
   },
+  'LiLKiM': {
+    fileAttributes: ['h265-lilkim', 'h264-lilkim'],
+    isSupported: true,
+    name: 'LiLKiM',
+    searchableOpenSubtitlesName: ['LiLKiM'],
+    searchableSubDivXName: ['LiLKiM'],
+    website: '',
+  },
   'RiGHTNOW': {
-    fileAttribute: 'RiGHTNOW',
+    fileAttributes: ['RiGHTNOW'],
     isSupported: true,
     name: 'RiGHTNOW',
     searchableOpenSubtitlesName: ['RiGHTNOW'],
@@ -94,18 +143,18 @@ export const RELEASE_GROUPS = {
     website: '',
   },
   'YTS-MX': {
-    fileAttribute: 'YTS.MX',
+    fileAttributes: ['YTS.MX'],
     isSupported: true,
     name: 'YTS-MX',
     searchableOpenSubtitlesName: ['YTS.MX'],
-    searchableSubDivXName: ['YTS MX', 'YTS.MX'],
+    searchableSubDivXName: ['YTS MX', 'YTS.MX', 'YTS'],
     website: 'https://yts.mx',
   },
 } as const
 
 // types
 export type ReleaseGroup = {
-  fileAttribute: string
+  fileAttributes: string[]
   isSupported: boolean
   name: string
   searchableOpenSubtitlesName: string[]

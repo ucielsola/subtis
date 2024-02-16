@@ -9,11 +9,11 @@ import { getOpenSubtitlesSubtitle } from '../opensubtitles'
 
 test('should return a subtitle link giving a movie, release group and quality', async () => {
   const releaseGroup: ReleaseGroup = {
-    fileAttribute: '',
+    fileAttributes: [''],
     isSupported: false,
     name: 'YTS-MX',
-    searchableOpenSubtitlesName: 'YTS.MX',
-    searchableSubDivXName: 'YTS MX',
+    searchableOpenSubtitlesName: ['YTS.MX'],
+    searchableSubDivXName: ['YTS MX'],
     website: '',
   }
   const movieData = {
@@ -38,11 +38,11 @@ test('should return a subtitle link giving a movie, release group and quality', 
 
 test('should return a subtitle link giving a movie, release group and quality', async () => {
   const releaseGroup: ReleaseGroup = {
-    fileAttribute: '',
+    fileAttributes: [''],
     isSupported: false,
     name: 'YTS-MX',
-    searchableOpenSubtitlesName: 'YTS.MX',
-    searchableSubDivXName: 'YTS MX',
+    searchableOpenSubtitlesName: ['YTS.MX'],
+    searchableSubDivXName: ['YTS MX'],
     website: '',
   }
   const movieData = {

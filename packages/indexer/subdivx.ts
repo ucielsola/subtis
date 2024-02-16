@@ -61,6 +61,17 @@ export async function getSubDivXSubtitle({ movieData }: {
   const data = await response.json()
   const subtitles = subdivxSchema.parse(data)
 
+  // TODO: Usar este codigo si el indexador descarga subtitulos de español españa por sobre español latino
+  // const sortedSubtitlesByDownloadsAndComments = subtitles.aaData.sort((a, b) => {
+  //   const aDownloads = a.descargas
+  //   const bDownloads = b.descargas
+
+  //   const aComments = a.comentarios
+  //   const bComments = b.comentarios
+
+  //   return bDownloads - aDownloads || bComments - aComments
+  // })
+
   const subtitle = subtitles.aaData.find((subtitle) => {
     const movieDescription = subtitle.descripcion.toLowerCase()
 
