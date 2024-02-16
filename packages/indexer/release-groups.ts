@@ -77,6 +77,14 @@ export const RELEASE_GROUPS = {
     searchableSubDivXName: ['hevc-psa'],
     website: '',
   },
+  'KBOX': {
+    fileAttribute: 'h264-kbox',
+    isSupported: true,
+    name: 'KBOX',
+    searchableOpenSubtitlesName: ['KBOX'],
+    searchableSubDivXName: ['KBOX'],
+    website: '',
+  },
   'LAMA': {
     fileAttribute: 'x264-LAMA',
     isSupported: true,
