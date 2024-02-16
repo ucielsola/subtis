@@ -13,6 +13,23 @@ export const RELEASE_GROUPS = {
   //   searchableSubDivXName: ['aac'],
   //   website: '',
   // },
+
+  'AOC': {
+    fileAttributes: ['H264-AOC', 'H265-AOC', 'x264-AOC', 'x265-AOC'],
+    isSupported: true,
+    name: 'AOC',
+    searchableOpenSubtitlesName: ['AOC'],
+    searchableSubDivXName: ['AOC'],
+    website: '',
+  },
+  'AccomplishedYak': {
+    fileAttributes: ['H264-AccomplishedYak', 'H265-AccomplishedYak', 'x264-AccomplishedYak', 'x265-AccomplishedYak'],
+    isSupported: true,
+    name: 'AccomplishedYak',
+    searchableOpenSubtitlesName: ['AccomplishedYak'],
+    searchableSubDivXName: ['AccomplishedYak'],
+    website: '',
+  },
   'CODY': {
     fileAttributes: ['CODY'],
     isSupported: true,
