@@ -93,6 +93,14 @@ export const RELEASE_GROUPS = {
     searchableSubDivXName: ['LAMA'],
     website: '',
   },
+  'LiLKiM': {
+    fileAttributes: ['h265-lilkim', 'h264-lilkim'],
+    isSupported: true,
+    name: 'LiLKiM',
+    searchableOpenSubtitlesName: ['LiLKiM'],
+    searchableSubDivXName: ['LiLKiM'],
+    website: '',
+  },
   'RiGHTNOW': {
     fileAttributes: ['RiGHTNOW'],
     isSupported: true,
