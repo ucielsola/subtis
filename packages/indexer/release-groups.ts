@@ -5,14 +5,14 @@ import type { SupabaseClient } from '@subtis/db'
 
 // constants
 export const RELEASE_GROUPS = {
-  'AAC': {
-    fileAttributes: ['AAC'],
-    isSupported: true,
-    name: 'AAC',
-    searchableOpenSubtitlesName: ['AAC'],
-    searchableSubDivXName: ['aac'],
-    website: '',
-  },
+  // 'AAC': {
+  //   fileAttributes: ['AAC'],
+  //   isSupported: true,
+  //   name: 'AAC',
+  //   searchableOpenSubtitlesName: ['AAC'],
+  //   searchableSubDivXName: ['aac'],
+  //   website: '',
+  // },
   'CODY': {
     fileAttributes: ['CODY'],
     isSupported: true,
@@ -106,7 +106,7 @@ export const RELEASE_GROUPS = {
     isSupported: true,
     name: 'YTS-MX',
     searchableOpenSubtitlesName: ['YTS.MX'],
-    searchableSubDivXName: ['YTS MX', 'YTS.MX'],
+    searchableSubDivXName: ['YTS MX', 'YTS.MX', 'YTS'],
     website: 'https://yts.mx',
   },
 } as const
