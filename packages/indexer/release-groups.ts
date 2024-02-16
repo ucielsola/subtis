@@ -54,6 +54,14 @@ export const RELEASE_GROUPS = {
     searchableSubDivXName: ['H265-ETHEL'],
     website: '',
   },
+  'EniaHD': {
+    fileAttributes: ['264-EniaHD', '265-EniaHD', 'x264-EniaHD', 'x265-EniaHD'],
+    isSupported: true,
+    name: 'EniaHD',
+    searchableOpenSubtitlesName: ['EniaHD'],
+    searchableSubDivXName: ['EniaHD'],
+    website: '',
+  },
   'FLUX': {
     fileAttributes: ['FLUX', '265-Flux'],
     isSupported: true,
