@@ -240,8 +240,10 @@ async function getSubtitlesFromMovie(
 
   })
 
+  const cinemaRecordingsRegex = /hq-cam|telesync|hdts|hdcam/gi
+
   const torrentsWithoutCineRecordings = torrents.sort((torrentA, torrentB) => torrentB.seeds - torrentA.seeds).slice(0, TOTAL_MOVIES_TO_SEARCH).filter(({ title }) =>
-    !/hq-cam|telesync|hdts|hdcam/gi.test(title),
+    !cinemaRecordingsRegex.test(title),
   )
 
   if (!torrentsWithoutCineRecordings.length) {
