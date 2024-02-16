@@ -61,6 +61,14 @@ export const RELEASE_GROUPS = {
     searchableSubDivXName: ['GalaxyRG'],
     website: '',
   },
+  'HDRip-C1NEM4': {
+    fileAttributes: ['HDRip-C1NEM4'],
+    isSupported: true,
+    name: 'HDRip-C1NEM4',
+    searchableOpenSubtitlesName: ['HDRip-C1NEM4'],
+    searchableSubDivXName: ['HDRip-C1NEM4'],
+    website: '',
+  },
   'HEVC-CMRG': {
     fileAttributes: ['HEVC-CMRG'],
     isSupported: true,
