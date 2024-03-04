@@ -50,6 +50,14 @@ export const RELEASE_GROUPS = {
 		searchableSubDivXName: ["H265-ETHEL"],
 		website: "",
 	},
+	PiGNUS: {
+		fileAttributes: ["x264-pignus"],
+		isSupported: true,
+		name: "PiGNUS",
+		searchableOpenSubtitlesName: ["PiGNUS"],
+		searchableSubDivXName: ["PiGNUS"],
+		website: "",
+	},
 	EniaHD: {
 		fileAttributes: ["264-EniaHD", "265-EniaHD", "x264-EniaHD", "x265-EniaHD"],
 		isSupported: true,
