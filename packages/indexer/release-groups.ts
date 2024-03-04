@@ -50,6 +50,14 @@ export const RELEASE_GROUPS = {
 		searchableSubDivXName: ["H265-ETHEL"],
 		website: "",
 	},
+	SHITBOX: {
+		fileAttributes: ["x264-SHITBOX", "0-SHITBOX","1-SHITBOX"],
+		isSupported: true,
+		name: "ETHEL",
+		searchableOpenSubtitlesName: ["SHITBOX"],
+		searchableSubDivXName: ["SHITBOX"],
+		website: "",
+	},
 	PiGNUS: {
 		fileAttributes: ["x264-pignus"],
 		isSupported: true,
