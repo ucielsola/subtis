@@ -34,19 +34,18 @@ describe("getMovieMetadata", () => {
 			"The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4",
 		);
 
-		const releaseGroup: ReleaseGroup = {
-			fileAttributes: ["YTS.MX"],
-			isSupported: true,
-			name: "YTS-MX",
-			searchableOpenSubtitlesName: ["YTS.MX"],
-			searchableSubDivXName: ["YTS MX", "YTS.MX"],
-			website: "https://yts.mx",
-		};
 		expect(data).toEqual({
 			fileNameWithoutExtension:
 				"The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX]",
 			name: "The Super Mario Bros Movie",
-			releaseGroup,
+			releaseGroup: {
+				fileAttributes: ["YTS.MX"],
+				isSupported: true,
+				name: "YTS-MX",
+				searchableOpenSubtitlesName: ["YTS.MX"],
+				searchableSubDivXName: ["YTS MX", "YTS.MX", "YTS"],
+				website: "https://yts.mx",
+			},
 			resolution: "1080p",
 			searchableMovieName: "The Super Mario Bros Movie (2023)",
 			year: 2023,
@@ -58,19 +57,18 @@ describe("getMovieMetadata", () => {
 			"The.Super.Mario.Bros..Movie.2023.720p.BluRay.x264.AAC5.1-[YTS.MX].mp4",
 		);
 
-		const releaseGroup: ReleaseGroup = {
-			fileAttributes: ["YTS.MX"],
-			isSupported: true,
-			name: "YTS-MX",
-			searchableOpenSubtitlesName: ["YTS.MX"],
-			searchableSubDivXName: ["YTS MX", "YTS.MX"],
-			website: "https://yts.mx",
-		};
 		expect(data).toEqual({
 			fileNameWithoutExtension:
 				"The.Super.Mario.Bros..Movie.2023.720p.BluRay.x264.AAC5.1-[YTS.MX]",
 			name: "The Super Mario Bros Movie",
-			releaseGroup,
+			releaseGroup: {
+				fileAttributes: ["YTS.MX"],
+				isSupported: true,
+				name: "YTS-MX",
+				searchableOpenSubtitlesName: ["YTS.MX"],
+				searchableSubDivXName: ["YTS MX", "YTS.MX", "YTS"],
+				website: "https://yts.mx",
+			},
 			resolution: "720p",
 			searchableMovieName: "The Super Mario Bros Movie (2023)",
 			year: 2023,
@@ -82,19 +80,18 @@ describe("getMovieMetadata", () => {
 			"The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4",
 		);
 
-		const releaseGroup: ReleaseGroup = {
-			fileAttributes: ["YTS.MX"],
-			isSupported: true,
-			name: "YTS-MX",
-			searchableOpenSubtitlesName: ["YTS.MX"],
-			searchableSubDivXName: ["YTS MX", "YTS.MX"],
-			website: "https://yts.mx",
-		};
 		expect(data).toEqual({
 			fileNameWithoutExtension:
 				"The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX]",
 			name: "The Super Mario Bros Movie",
-			releaseGroup,
+			releaseGroup: {
+				fileAttributes: ["YTS.MX"],
+				isSupported: true,
+				name: "YTS-MX",
+				searchableOpenSubtitlesName: ["YTS.MX"],
+				searchableSubDivXName: ["YTS MX", "YTS.MX", "YTS"],
+				website: "https://yts.mx",
+			},
 			resolution: "1080p",
 			searchableMovieName: "The Super Mario Bros Movie (2023)",
 			year: 2023,
@@ -106,19 +103,18 @@ describe("getMovieMetadata", () => {
 			"The.Super.Mario.Bros..Movie.2023.2160p.BluRay.x264.AAC5.1-[YTS.MX].mp4",
 		);
 
-		const releaseGroup: ReleaseGroup = {
-			fileAttributes: ["YTS.MX"],
-			isSupported: true,
-			name: "YTS-MX",
-			searchableOpenSubtitlesName: ["YTS.MX"],
-			searchableSubDivXName: ["YTS MX", "YTS.MX"],
-			website: "https://yts.mx",
-		};
 		expect(data).toEqual({
 			fileNameWithoutExtension:
 				"The.Super.Mario.Bros..Movie.2023.2160p.BluRay.x264.AAC5.1-[YTS.MX]",
 			name: "The Super Mario Bros Movie",
-			releaseGroup,
+			releaseGroup: {
+				fileAttributes: ["YTS.MX"],
+				isSupported: true,
+				name: "YTS-MX",
+				searchableOpenSubtitlesName: ["YTS.MX"],
+				searchableSubDivXName: ["YTS MX", "YTS.MX", "YTS"],
+				website: "https://yts.mx",
+			},
 			resolution: "2160p",
 			searchableMovieName: "The Super Mario Bros Movie (2023)",
 			year: 2023,
@@ -130,19 +126,18 @@ describe("getMovieMetadata", () => {
 			"The.Super.Mario.Bros..Movie.2023.3D.BluRay.x264.AAC5.1-[YTS.MX].mp4",
 		);
 
-		const releaseGroup: ReleaseGroup = {
-			fileAttributes: ["YTS.MX"],
-			isSupported: true,
-			name: "YTS-MX",
-			searchableOpenSubtitlesName: ["YTS.MX"],
-			searchableSubDivXName: ["YTS MX", "YTS.MX"],
-			website: "https://yts.mx",
-		};
 		expect(data).toEqual({
 			fileNameWithoutExtension:
 				"The.Super.Mario.Bros..Movie.2023.3D.BluRay.x264.AAC5.1-[YTS.MX]",
 			name: "The Super Mario Bros Movie",
-			releaseGroup,
+			releaseGroup: {
+				fileAttributes: ["YTS.MX"],
+				isSupported: true,
+				name: "YTS-MX",
+				searchableOpenSubtitlesName: ["YTS.MX"],
+				searchableSubDivXName: ["YTS MX", "YTS.MX", "YTS"],
+				website: "https://yts.mx",
+			},
 			resolution: "3D",
 			searchableMovieName: "The Super Mario Bros Movie (2023)",
 			year: 2023,
@@ -154,19 +149,18 @@ describe("getMovieMetadata", () => {
 			"The Super Mario Bros Movie 2023 1080p WEBRip H265-CODY.mkv",
 		);
 
-		const releaseGroup: ReleaseGroup = {
-			fileAttributes: "CODY",
-			isSupported: true,
-			name: "CODY",
-			searchableOpenSubtitlesName: ["CODY"],
-			searchableSubDivXName: ["H265-CODY"],
-			website: "",
-		};
 		expect(data).toEqual({
 			fileNameWithoutExtension:
 				"The.Super.Mario.Bros.Movie.2023.1080p.WEBRip.H265-CODY",
 			name: "The Super Mario Bros Movie",
-			releaseGroup,
+			releaseGroup: {
+				fileAttributes: ["CODY"],
+				isSupported: true,
+				name: "CODY",
+				searchableOpenSubtitlesName: ["CODY"],
+				searchableSubDivXName: ["H265-CODY"],
+				website: "",
+			},
 			resolution: "1080p",
 			searchableMovieName: "The Super Mario Bros Movie (2023)",
 			year: 2023,
@@ -222,18 +216,18 @@ describe("getMovieMetadata", () => {
 
 	test("should correctly parse a movie string with year and resolution", () => {
 		const result = getMovieMetadata("Avatar (2009) 1080p x264 YTS.MX.mp4");
-		const releaseGroup: ReleaseGroup = {
-			fileAttributes: ["YTS.MX"],
-			isSupported: true,
-			name: "YTS-MX",
-			searchableOpenSubtitlesName: ["YTS.MX"],
-			searchableSubDivXName: ["YTS MX", "YTS.MX"],
-			website: "https://yts.mx",
-		};
+
 		expect(result).toEqual({
 			fileNameWithoutExtension: "Avatar.(2009).1080p.x264.YTS.MX",
 			name: "Avatar",
-			releaseGroup,
+			releaseGroup: {
+				fileAttributes: ["YTS.MX"],
+				isSupported: true,
+				name: "YTS-MX",
+				searchableOpenSubtitlesName: ["YTS.MX"],
+				searchableSubDivXName: ["YTS MX", "YTS.MX", "YTS"],
+				website: "https://yts.mx",
+			},
 			resolution: "1080p",
 			searchableMovieName: "Avatar (2009)",
 			year: 2009,

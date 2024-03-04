@@ -5,15 +5,6 @@ import type { SupabaseClient } from "@subtis/db";
 
 // constants
 export const RELEASE_GROUPS = {
-	// 'AAC': {
-	//   fileAttributes: ['AAC'],
-	//   isSupported: true,
-	//   name: 'AAC',
-	//   searchableOpenSubtitlesName: ['AAC'],
-	//   searchableSubDivXName: ['aac'],
-	//   website: '',
-	// },
-
 	AOC: {
 		fileAttributes: ["H264-AOC", "H265-AOC", "x264-AOC", "x265-AOC"],
 		isSupported: true,

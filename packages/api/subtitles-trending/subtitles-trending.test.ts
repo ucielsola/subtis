@@ -24,6 +24,12 @@ describe("API | /subtitles/trending", () => {
 
 		expect(data).toEqual([
 			{
+				fileName: "Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
+				id: 1886,
+				resolution: "1080p",
+				subtitleFullLink:
+					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-1080p-yts-mx-subdivx.srt?download=Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
+				subtitleShortLink: "https://tinyurl.com/2x7w48uv",
 				Movies: {
 					name: "Wonka",
 					year: 2023,
@@ -34,31 +40,24 @@ describe("API | /subtitles/trending", () => {
 				SubtitleGroups: {
 					name: "SubDivX",
 				},
-				fileName: "Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
-				id: 1518,
-				resolution: "1080p",
-				subtitleFullLink:
-					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-1080p-yts-mx-subdivx.srt?download=Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
-				subtitleShortLink: "https://tinyurl.com/2x7w48uv",
 			},
 			{
+				fileName: "badland.hunters.2024.1080p.web.h264-kbox.mkv",
+				id: 1774,
+				resolution: "1080p",
+				subtitleFullLink:
+					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/badland-hunters-1080p-kbox-subdivx.srt?download=badland.hunters.2024.1080p.web.h264-kbox.srt",
+				subtitleShortLink: "https://tinyurl.com/2dd5zee3",
 				Movies: {
 					name: "Badland Hunters",
 					year: 2024,
 				},
 				ReleaseGroups: {
-					name: "GalaxyRG",
+					name: "KBOX",
 				},
 				SubtitleGroups: {
 					name: "SubDivX",
 				},
-				fileName:
-					"Badland.Hunters.2024.KOREAN.720p.WEBRip.800MB.x264-GalaxyRG.mkv",
-				id: 1516,
-				resolution: "720p",
-				subtitleFullLink:
-					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/badland-hunters-720p-galaxyrg-subdivx.srt?download=Badland.Hunters.2024.KOREAN.720p.WEBRip.800MB.x264-GalaxyRG.srt",
-				subtitleShortLink: "https://tinyurl.com/yvjxyu7p",
 			},
 		]);
 	});

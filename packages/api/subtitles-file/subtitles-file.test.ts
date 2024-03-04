@@ -38,6 +38,12 @@ describe("API | /subtitles/file", () => {
 		expect(cacheSetSpy).toHaveBeenCalled();
 		expect(cache.size).toBe(1);
 		expect(data).toEqual({
+			fileName: "Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
+			id: 1886,
+			resolution: "1080p",
+			subtitleFullLink:
+				"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-1080p-yts-mx-subdivx.srt?download=Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
+			subtitleShortLink: "https://tinyurl.com/2x7w48uv",
 			Movies: {
 				name: "Wonka",
 				year: 2023,
@@ -48,12 +54,6 @@ describe("API | /subtitles/file", () => {
 			SubtitleGroups: {
 				name: "SubDivX",
 			},
-			fileName: "Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
-			id: 1518,
-			resolution: "1080p",
-			subtitleFullLink:
-				"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-1080p-yts-mx-subdivx.srt?download=Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
-			subtitleShortLink: "https://tinyurl.com/2x7w48uv",
 		});
 	});
 
@@ -83,8 +83,8 @@ describe("API | /subtitles/file", () => {
 		});
 	});
 
-	it("return a response for an 404 error for a file with changed name but with correct bytes", async () => {
-		const bytes = "2300545774";
+	it("return a response for an 200 for a file with changed name but with correct bytes", async () => {
+		const bytes = "840664126";
 		const fileName = "Wonka.2023.mp4";
 
 		const request = new Request(
@@ -103,22 +103,22 @@ describe("API | /subtitles/file", () => {
 
 		expect(response.status).toBe(200);
 		expect(data).toEqual({
+			fileName: "Wonka.2023.720p.WEBRip.800MB.x264-GalaxyRG.mkv",
+			id: 1778,
+			resolution: "720p",
+			subtitleFullLink:
+				"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-720p-galaxyrg-subdivx.srt?download=Wonka.2023.720p.WEBRip.800MB.x264-GalaxyRG.srt",
+			subtitleShortLink: "https://tinyurl.com/ywepv8cn",
 			Movies: {
 				name: "Wonka",
 				year: 2023,
 			},
 			ReleaseGroups: {
-				name: "YTS-MX",
+				name: "GalaxyRG",
 			},
 			SubtitleGroups: {
 				name: "SubDivX",
 			},
-			fileName: "Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
-			id: 1518,
-			resolution: "1080p",
-			subtitleFullLink:
-				"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-1080p-yts-mx-subdivx.srt?download=Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
-			subtitleShortLink: "https://tinyurl.com/2x7w48uv",
 		});
 	});
 

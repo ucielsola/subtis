@@ -24,18 +24,18 @@ describe("API | /movies/recent", () => {
 
 		expect(data).toEqual([
 			{
-				id: 29722855,
-				name: "Badland Hunters",
-				rating: 6.735,
-				release_date: "2024-01-26",
+				id: 16368898,
+				name: "Lights Out",
+				rating: 6.971,
+				release_date: "2024-02-16",
 				year: 2024,
 			},
 			{
-				id: 9663764,
-				name: "Aquaman and the Lost Kingdom",
-				rating: 6.906,
-				release_date: "2023-12-20",
-				year: 2023,
+				id: 28066777,
+				name: "Orion and the Dark",
+				rating: 6.713,
+				release_date: "2024-02-02",
+				year: 2024,
 			},
 		]);
 	});

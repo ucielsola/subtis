@@ -25,12 +25,12 @@ describe("CLI", async () => {
 			"bun",
 			import.meta.resolveSync("../run.ts"),
 			"--file",
-			"Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv",
+			"Wonka.2023.720p.WEBRip.800MB.x264-GalaxyRG.mkv",
 		]);
 		const binaryProcess = Bun.spawn([
 			`${Bun.env.PWD}/packages/cli/bin/subtis`,
 			"--file",
-			"Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv",
+			"Wonka.2023.720p.WEBRip.800MB.x264-GalaxyRG.mkv",
 		]);
 
 		const processes = [developmentProcess, binaryProcess];
@@ -39,10 +39,10 @@ describe("CLI", async () => {
 
 			expect(text).toInclude("👋 Hola, soy Subtis");
 			expect(text).toInclude(
-				"🥳 Descarga tu subtítulo en https://tinyurl.com/yuo4llr2",
+				"🥳 Descarga tu subtítulo en https://tinyurl.com/ywepv8cn",
 			);
 			expect(text).toInclude(
-				"🍿 Disfruta de Killers of the Flower Moon (2023) en 1080p subtitulada",
+				"🍿 Disfruta de Killers of the Wonka (2023) en 1080p subtitulada",
 			);
 		}
 	});
@@ -52,12 +52,12 @@ describe("CLI", async () => {
 			"bun",
 			import.meta.resolveSync("../run.ts"),
 			"-f",
-			"Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv",
+			"Wonka.2023.720p.WEBRip.800MB.x264-GalaxyRG.mkv",
 		]);
 		const binaryProcess = Bun.spawn([
 			`${Bun.env.PWD}/packages/cli/bin/subtis`,
 			"-f",
-			"Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv",
+			"Wonka.2023.720p.WEBRip.800MB.x264-GalaxyRG.mkv",
 		]);
 
 		const processes = [developmentProcess, binaryProcess];
@@ -67,10 +67,10 @@ describe("CLI", async () => {
 
 			expect(text).toInclude("👋 Hola, soy Subtis");
 			expect(text).toInclude(
-				"🥳 Descarga tu subtítulo en https://tinyurl.com/yuo4llr2",
+				"🥳 Descarga tu subtítulo en https://tinyurl.com/ywepv8cn",
 			);
 			expect(text).toInclude(
-				"🍿 Disfruta de Killers of the Flower Moon (2023) en 1080p subtitulada",
+				"🍿 Disfruta de Killers of the Wonka (2023) en 1080p subtitulada",
 			);
 		}
 	});
