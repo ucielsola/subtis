@@ -1,3 +1,3 @@
-import { runCli } from '.'
+import { runCli } from ".";
 
-runCli()
+runCli();

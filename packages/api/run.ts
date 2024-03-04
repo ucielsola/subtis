@@ -1,3 +1,3 @@
-import { runApi } from '.'
+import { runApi } from ".";
 
-runApi(true)
+runApi(true);

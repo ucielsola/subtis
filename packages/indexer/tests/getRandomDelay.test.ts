@@ -1,13 +1,13 @@
-import { expect, test } from 'bun:test'
+import { expect, test } from "bun:test";
 
 // internals
-import { getRandomDelay } from '../utils'
+import { getRandomDelay } from "../utils";
 
-test('should return an array of 1 number', () => {
-  const { miliseconds, seconds } = getRandomDelay()
+test("should return an array of 1 number", () => {
+	const { miliseconds, seconds } = getRandomDelay();
 
-  expect(miliseconds).toBe(seconds * 1000)
+	expect(miliseconds).toBe(seconds * 1000);
 
-  expect(miliseconds).toBeTypeOf('number')
-  expect(seconds).toBeTypeOf('number')
-})
+	expect(miliseconds).toBeTypeOf("number");
+	expect(seconds).toBeTypeOf("number");
+});

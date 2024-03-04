@@ -1,143 +1,193 @@
-import { beforeAll, describe, expect, it } from 'bun:test'
+import { beforeAll, describe, expect, it } from "bun:test";
 
 // api
-import { runApi } from '@subtis/api'
+import { runApi } from "@subtis/api";
 
 // ui
-import { getMessageFromStatusCode } from '@subtis/ui'
+import { getMessageFromStatusCode } from "@subtis/ui";
 
-describe('CLI', async () => {
-  beforeAll(async () => {
-    runApi(false, 8081)
+describe("CLI", async () => {
+	beforeAll(async () => {
+		runApi(false, 8081);
 
-    Bun.spawn([
-      'bun',
-      'build',
-      import.meta.resolveSync('../run.ts'),
-      '--compile',
-      '--outfile',
-      `${import.meta.dir.slice(0, -4)}/bin/subtis`,
-    ])
-  })
+		Bun.spawn([
+			"bun",
+			"build",
+			import.meta.resolveSync("../run.ts"),
+			"--compile",
+			"--outfile",
+			`${import.meta.dir.slice(0, -4)}/bin/subtis`,
+		]);
+	});
 
-  it('returns a message with a subtitle link with --file parameter', async () => {
-    const developmentProcess = Bun.spawn([
-      'bun',
-      import.meta.resolveSync('../run.ts'),
-      '--file',
-      'Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv',
-    ])
-    const binaryProcess = Bun.spawn([
-      `${Bun.env['PWD']}/packages/cli/bin/subtis`,
-      '--file',
-      'Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv',
-    ])
+	it("returns a message with a subtitle link with --file parameter", async () => {
+		const developmentProcess = Bun.spawn([
+			"bun",
+			import.meta.resolveSync("../run.ts"),
+			"--file",
+			"Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv",
+		]);
+		const binaryProcess = Bun.spawn([
+			`${Bun.env.PWD}/packages/cli/bin/subtis`,
+			"--file",
+			"Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv",
+		]);
 
-    const processes = [developmentProcess, binaryProcess]
-    processes.forEach(async (process) => {
-      const text = await new Response(process.stdout).text()
+		const processes = [developmentProcess, binaryProcess];
+		for await (const process of processes) {
+			const text = await new Response(process.stdout).text();
 
-      expect(text).toInclude('👋 Hola, soy Subtis')
-      expect(text).toInclude('🥳 Descarga tu subtítulo en https://tinyurl.com/yuo4llr2')
-      expect(text).toInclude('🍿 Disfruta de Killers of the Flower Moon (2023) en 1080p subtitulada')
-    })
-  })
+			expect(text).toInclude("👋 Hola, soy Subtis");
+			expect(text).toInclude(
+				"🥳 Descarga tu subtítulo en https://tinyurl.com/yuo4llr2",
+			);
+			expect(text).toInclude(
+				"🍿 Disfruta de Killers of the Flower Moon (2023) en 1080p subtitulada",
+			);
+		}
+	});
 
-  it('returns a message with a subtitle link with -f parameter', async () => {
-    const developmentProcess = Bun.spawn([
-      'bun',
-      import.meta.resolveSync('../run.ts'),
-      '-f',
-      'Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv',
-    ])
-    const binaryProcess = Bun.spawn([
-      `${Bun.env['PWD']}/packages/cli/bin/subtis`,
-      '-f',
-      'Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv',
-    ])
+	it("returns a message with a subtitle link with -f parameter", async () => {
+		const developmentProcess = Bun.spawn([
+			"bun",
+			import.meta.resolveSync("../run.ts"),
+			"-f",
+			"Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv",
+		]);
+		const binaryProcess = Bun.spawn([
+			`${Bun.env.PWD}/packages/cli/bin/subtis`,
+			"-f",
+			"Killers.Of.The.Flower.Moon.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv",
+		]);
 
-    const processes = [developmentProcess, binaryProcess]
-    processes.forEach(async (process) => {
-      const text = await new Response(process.stdout).text()
+		const processes = [developmentProcess, binaryProcess];
 
-      expect(text).toInclude('👋 Hola, soy Subtis')
-      expect(text).toInclude('🥳 Descarga tu subtítulo en https://tinyurl.com/yuo4llr2')
-      expect(text).toInclude('🍿 Disfruta de Killers of the Flower Moon (2023) en 1080p subtitulada')
-    })
-  })
+		for await (const process of processes) {
+			const text = await new Response(process.stdout).text();
 
-  it('returns a message when none parameters is given', async () => {
-    const developmentProcess = Bun.spawn(['bun', import.meta.resolveSync('../run.ts')])
-    const binaryProcess = Bun.spawn([`${Bun.env['PWD']}/packages/cli/bin/subtis`])
+			expect(text).toInclude("👋 Hola, soy Subtis");
+			expect(text).toInclude(
+				"🥳 Descarga tu subtítulo en https://tinyurl.com/yuo4llr2",
+			);
+			expect(text).toInclude(
+				"🍿 Disfruta de Killers of the Flower Moon (2023) en 1080p subtitulada",
+			);
+		}
+	});
 
-    const processes = [developmentProcess, binaryProcess]
-    processes.forEach(async (process) => {
-      const text = await new Response(process.stdout).text()
+	it("returns a message when none parameters is given", async () => {
+		const developmentProcess = Bun.spawn([
+			"bun",
+			import.meta.resolveSync("../run.ts"),
+		]);
+		const binaryProcess = Bun.spawn([`${Bun.env.PWD}/packages/cli/bin/subtis`]);
 
-      expect(text).toInclude('👋 Hola, soy Subtis')
-      expect(text).toInclude('🤔 Debe proporcionar --file [archivo] o bien -f [archivo]')
-    })
-  })
+		const processes = [developmentProcess, binaryProcess];
 
-  it('returns a message when -f parameter is given without a file path', async () => {
-    const developmentProcess = Bun.spawn(['bun', import.meta.resolveSync('../run.ts'), '-f'])
-    const binaryProcess = Bun.spawn([`${Bun.env['PWD']}/packages/cli/bin/subtis`, '-f'])
+		for await (const process of processes) {
+			const text = await new Response(process.stdout).text();
 
-    const processes = [developmentProcess, binaryProcess]
-    processes.forEach(async (process) => {
-      const text = await new Response(process.stdout).text()
-      expect(text).toInclude('👋 Hola, soy Subtis')
-      expect(text).toInclude('🤔 El valor de -f debe ser una ruta de archivo válida')
-    })
-  })
+			expect(text).toInclude("👋 Hola, soy Subtis");
+			expect(text).toInclude(
+				"🤔 Debe proporcionar --file [archivo] o bien -f [archivo]",
+			);
+		}
+	});
 
-  it('returns a message when --file parameter is given without a file path', async () => {
-    const developmentProcess = Bun.spawn(['bun', import.meta.resolveSync('../run.ts'), '--file'])
-    const binaryProcess = Bun.spawn([`${Bun.env['PWD']}/packages/cli/bin/subtis`, '--file'])
+	it("returns a message when -f parameter is given without a file path", async () => {
+		const developmentProcess = Bun.spawn([
+			"bun",
+			import.meta.resolveSync("../run.ts"),
+			"-f",
+		]);
+		const binaryProcess = Bun.spawn([
+			`${Bun.env.PWD}/packages/cli/bin/subtis`,
+			"-f",
+		]);
 
-    const processes = [developmentProcess, binaryProcess]
-    processes.forEach(async (process) => {
-      const text = await new Response(process.stdout).text()
-      expect(text).toInclude('👋 Hola, soy Subtis')
-      expect(text).toInclude('🤔 El valor de --file debe ser una ruta de archivo válida')
-    })
-  })
+		const processes = [developmentProcess, binaryProcess];
 
-  it('returns a message when extension is not supported', async () => {
-    const developmentProcess = Bun.spawn([
-      'bun',
-      import.meta.resolveSync('../run.ts'),
-      '--file',
-      'Trolls.Band.Together.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mp3',
-    ])
-    const binaryProcess = Bun.spawn([
-      `${Bun.env['PWD']}/packages/cli/bin/subtis`,
-      '--file',
-      'Trolls.Band.Together.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mp3',
-    ])
+		for await (const process of processes) {
+			const text = await new Response(process.stdout).text();
 
-    const processes = [developmentProcess, binaryProcess]
-    processes.forEach(async (process) => {
-      const text = await new Response(process.stdout).text()
+			expect(text).toInclude("👋 Hola, soy Subtis");
+			expect(text).toInclude(
+				"🤔 El valor de -f debe ser una ruta de archivo válida",
+			);
+		}
+	});
 
-      expect(text).toInclude('👋 Hola, soy Subtis')
-      expect(text).toInclude('🤔 Extensión de video no soportada. Prueba con otro archivo')
-    })
-  })
+	it("returns a message when --file parameter is given without a file path", async () => {
+		const developmentProcess = Bun.spawn([
+			"bun",
+			import.meta.resolveSync("../run.ts"),
+			"--file",
+		]);
+		const binaryProcess = Bun.spawn([
+			`${Bun.env.PWD}/packages/cli/bin/subtis`,
+			"--file",
+		]);
 
-  it('returns a message when subtitle is not found', async () => {
-    const developmentProcess = Bun.spawn(['bun', import.meta.resolveSync('../run.ts'), '--file', 'The.Matrix.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4'])
-    const binaryProcess = Bun.spawn([`${Bun.env['PWD']}/packages/cli/bin/subtis`, '--file', 'The.Matrix.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4'])
+		const processes = [developmentProcess, binaryProcess];
 
-    const processes = [developmentProcess, binaryProcess]
-    processes.forEach(async (process) => {
-      const text = await new Response(process.stdout).text()
+		for await (const process of processes) {
+			const text = await new Response(process.stdout).text();
 
-      const { description, title } = getMessageFromStatusCode(404)
+			expect(text).toInclude("👋 Hola, soy Subtis");
+			expect(text).toInclude(
+				"🤔 El valor de --file debe ser una ruta de archivo válida",
+			);
+		}
+	});
 
-      expect(text).toInclude('👋 Hola, soy Subtis')
-      expect(text).toInclude(`😥 ${title}`)
-      expect(text).toInclude(`⛏ ${description}`)
-    })
-  })
-})
+	it("returns a message when extension is not supported", async () => {
+		const developmentProcess = Bun.spawn([
+			"bun",
+			import.meta.resolveSync("../run.ts"),
+			"--file",
+			"Trolls.Band.Together.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mp3",
+		]);
+		const binaryProcess = Bun.spawn([
+			`${Bun.env.PWD}/packages/cli/bin/subtis`,
+			"--file",
+			"Trolls.Band.Together.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mp3",
+		]);
+
+		const processes = [developmentProcess, binaryProcess];
+
+		for await (const process of processes) {
+			const text = await new Response(process.stdout).text();
+
+			expect(text).toInclude("👋 Hola, soy Subtis");
+			expect(text).toInclude(
+				"🤔 Extensión de video no soportada. Prueba con otro archivo",
+			);
+		}
+	});
+
+	it("returns a message when subtitle is not found", async () => {
+		const developmentProcess = Bun.spawn([
+			"bun",
+			import.meta.resolveSync("../run.ts"),
+			"--file",
+			"The.Matrix.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
+		]);
+		const binaryProcess = Bun.spawn([
+			`${Bun.env.PWD}/packages/cli/bin/subtis`,
+			"--file",
+			"The.Matrix.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
+		]);
+
+		const processes = [developmentProcess, binaryProcess];
+
+		for await (const process of processes) {
+			const text = await new Response(process.stdout).text();
+
+			const { description, title } = getMessageFromStatusCode(404);
+
+			expect(text).toInclude("👋 Hola, soy Subtis");
+			expect(text).toInclude(`😥 ${title}`);
+			expect(text).toInclude(`⛏ ${description}`);
+		}
+	});
+});

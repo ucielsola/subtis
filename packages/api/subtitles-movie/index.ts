@@ -1,1 +1,1 @@
-export * from './subtitles-movie'
+export * from "./subtitles-movie";

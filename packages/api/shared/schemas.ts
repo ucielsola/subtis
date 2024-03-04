@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from "zod";
 
 // schemas
-export const errorSchema = z.object({ message: z.string() })
+export const errorSchema = z.object({ message: z.string() });

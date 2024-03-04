@@ -1,1 +1,1 @@
-export * from './subtitles-trending'
+export * from "./subtitles-trending";

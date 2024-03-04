@@ -1,1 +1,1 @@
-export * from './get-message-from-status-code'
+export * from "./get-message-from-status-code";

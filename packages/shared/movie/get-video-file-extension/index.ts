@@ -1,1 +1,1 @@
-export * from './get-video-file-extension'
+export * from "./get-video-file-extension";

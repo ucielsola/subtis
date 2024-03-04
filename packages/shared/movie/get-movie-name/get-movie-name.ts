@@ -1,5 +1,5 @@
-import { getStringWithoutExtraSpaces } from '..'
+import { getStringWithoutExtraSpaces } from "..";
 
 export function getMovieName(name: string): string {
-  return getStringWithoutExtraSpaces(name.replaceAll('.', ' ')).trim()
+	return getStringWithoutExtraSpaces(name.replaceAll(".", " ")).trim();
 }

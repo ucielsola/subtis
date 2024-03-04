@@ -1,1 +1,1 @@
-export * from './get-string-without-extra-spaces'
+export * from "./get-string-without-extra-spaces";

@@ -1,31 +1,31 @@
-import { z } from 'zod'
-import { edenTreaty } from '@elysiajs/eden'
+import { edenTreaty } from "@elysiajs/eden";
+import { z } from "zod";
 
 // api
-import type { App } from '@subtis/api'
+import type { App } from "@subtis/api";
 
 // types
 type ApiBaseUrlConfig = {
-  apiBaseUrlDevelopment?: string
-  apiBaseUrlProduction?: string
-  isProduction: boolean
-}
+	apiBaseUrlDevelopment?: string;
+	apiBaseUrlProduction?: string;
+	isProduction: boolean;
+};
 
 // utils
 function getApiBaseUrl(apiBaseUrlConfig: ApiBaseUrlConfig): string {
-  const schema = z.object({
-    apiBaseUrlDevelopment: z.string(),
-    apiBaseUrlProduction: z.string(),
-    isProduction: z.boolean(),
-  })
+	const schema = z.object({
+		apiBaseUrlDevelopment: z.string(),
+		apiBaseUrlProduction: z.string(),
+		isProduction: z.boolean(),
+	});
 
-  const apiBaseUrlConfigParsed = schema.parse(apiBaseUrlConfig)
-  return apiBaseUrlConfigParsed.isProduction
-    ? apiBaseUrlConfigParsed.apiBaseUrlProduction
-    : apiBaseUrlConfigParsed.apiBaseUrlDevelopment
+	const apiBaseUrlConfigParsed = schema.parse(apiBaseUrlConfig);
+	return apiBaseUrlConfigParsed.isProduction
+		? apiBaseUrlConfigParsed.apiBaseUrlProduction
+		: apiBaseUrlConfigParsed.apiBaseUrlDevelopment;
 }
 
 export function getApiClient(apiBaseUrlConfig: ApiBaseUrlConfig) {
-  const apiBaseUrl = getApiBaseUrl(apiBaseUrlConfig)
-  return edenTreaty<App>(apiBaseUrl)
+	const apiBaseUrl = getApiBaseUrl(apiBaseUrlConfig);
+	return edenTreaty<App>(apiBaseUrl);
 }

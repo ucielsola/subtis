@@ -1,1 +1,1 @@
-export * from './get-movie-metadata'
+export * from "./get-movie-metadata";
