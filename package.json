@@ -28,7 +28,7 @@
     "update:deps": "bun bump:deps && bun clean:install"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.6.4",
+    "@antfu/eslint-config": "^2.7.0",
     "@types/eslint__eslintrc": "^2.1.1",
     "eslint-plugin-perfectionist": "^2.5.0",
     "eslint": "npm:eslint-ts-patch",
