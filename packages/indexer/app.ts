@@ -297,7 +297,7 @@ async function getSubtitlesFromMovie(
 		groupByTracker: false,
 	});
 
-	const cinemaRecordingsRegex = /hq-cam|telesync|hdts|hdcam/gi;
+	const cinemaRecordingsRegex = /hq-cam|telesync|hdts|hdcam|c1nem4/gi;
 
 	const torrentsWithoutCineRecordings = torrents
 		.sort((torrentA, torrentB) => torrentB.seeds - torrentA.seeds)
