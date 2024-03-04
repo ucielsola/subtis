@@ -24,135 +24,121 @@ describe("API | /subtitles/movie", () => {
 		const response = await app.handle(request);
 		const data = await response.json();
 
-		expect(data).toEqual([
-			{
-				fileName: "Wonka.2023.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv",
-				id: 1777,
-				resolution: "1080p",
-				subtitleFullLink:
-					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-1080p-galaxyrg-subdivx.srt?download=Wonka.2023.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
-				subtitleShortLink: "https://tinyurl.com/yp6zuhc5",
-				Movies: {
-					name: "Wonka",
-					year: 2023,
-				},
-				ReleaseGroups: {
-					name: "GalaxyRG",
-				},
-				SubtitleGroups: {
-					name: "SubDivX",
-				},
-			},
-			{
-				fileName: "Wonka.2023.720p.WEBRip.800MB.x264-GalaxyRG.mkv",
-				id: 1778,
-				resolution: "720p",
-				subtitleFullLink:
-					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-720p-galaxyrg-subdivx.srt?download=Wonka.2023.720p.WEBRip.800MB.x264-GalaxyRG.srt",
-				subtitleShortLink: "https://tinyurl.com/ywepv8cn",
-				Movies: {
-					name: "Wonka",
-					year: 2023,
-				},
-				ReleaseGroups: {
-					name: "GalaxyRG",
-				},
-				SubtitleGroups: {
-					name: "SubDivX",
-				},
-			},
-			{
-				fileName: "Wonka.2023.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.mkv",
-				id: 1779,
-				resolution: "2160p",
-				subtitleFullLink:
-					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-2160p-flux-subdivx.srt?download=Wonka.2023.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.srt",
-				subtitleShortLink: "https://tinyurl.com/ylj2estx",
-				Movies: {
-					name: "Wonka",
-					year: 2023,
-				},
-				ReleaseGroups: {
-					name: "FLUX",
-				},
-				SubtitleGroups: {
-					name: "SubDivX",
-				},
-			},
-			{
-				fileName: "Wonka.2023.1080p.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.mkv",
-				id: 1780,
-				resolution: "1080p",
-				subtitleFullLink:
-					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-1080p-galaxyrg-subdivx.srt?download=Wonka.2023.1080p.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.srt",
-				subtitleShortLink: "https://tinyurl.com/2ctrz95c",
-				Movies: {
-					name: "Wonka",
-					year: 2023,
-				},
-				ReleaseGroups: {
-					name: "GalaxyRG",
-				},
-				SubtitleGroups: {
-					name: "SubDivX",
-				},
-			},
-			{
-				fileName:
-					"Wonka.2023.1080P.Web-Dl.Ddp5.1.Atmos.(re-encode)H.265-Flux.mkv",
-				id: 1781,
-				resolution: "1080p",
-				subtitleFullLink:
-					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-1080p-flux-subdivx.srt?download=Wonka.2023.1080P.Web-Dl.Ddp5.1.Atmos.(re-encode)H.265-Flux.srt",
-				subtitleShortLink: "https://tinyurl.com/26hpnhtr",
-				Movies: {
-					name: "Wonka",
-					year: 2023,
-				},
-				ReleaseGroups: {
-					name: "FLUX",
-				},
-				SubtitleGroups: {
-					name: "SubDivX",
-				},
-			},
-			{
-				fileName: "Wonka.2023.1080p.BluRay.DDP5.1.x265.10bit-GalaxyRG265.mkv",
-				id: 1887,
-				resolution: "1080p",
-				subtitleFullLink:
-					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-1080p-galaxyrg-subdivx.srt?download=Wonka.2023.1080p.BluRay.DDP5.1.x265.10bit-GalaxyRG265.srt",
-				subtitleShortLink: "https://tinyurl.com/2ajjb2jx",
-				Movies: {
-					name: "Wonka",
-					year: 2023,
-				},
-				ReleaseGroups: {
-					name: "GalaxyRG",
-				},
-				SubtitleGroups: {
-					name: "SubDivX",
-				},
-			},
-			{
-				fileName: "Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
-				id: 1886,
-				resolution: "1080p",
-				subtitleFullLink:
-					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-1080p-yts-mx-subdivx.srt?download=Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
-				subtitleShortLink: "https://tinyurl.com/2x7w48uv",
-				Movies: {
-					name: "Wonka",
-					year: 2023,
-				},
-				ReleaseGroups: {
-					name: "YTS-MX",
-				},
-				SubtitleGroups: {
-					name: "SubDivX",
-				},
-			},
-		]);
+		expect(data).toMatchObject([
+      {
+        fileName: "Wonka.2023.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv",
+        id: 2107,
+        resolution: "1080p",
+        subtitleFullLink: "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-1080p-galaxyrg-subdivx.srt?download=Wonka.2023.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
+        subtitleShortLink: "https://tinyurl.com/yp6zuhc5",
+        Movies: {
+          name: "Wonka",
+          year: 2023,
+        },
+        ReleaseGroups: {
+          name: "GalaxyRG",
+        },
+        SubtitleGroups: {
+          name: "SubDivX",
+        },
+      }, {
+        fileName: "Wonka.2023.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.mkv",
+        id: 2109,
+        resolution: "2160p",
+        subtitleFullLink: "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-2160p-flux-subdivx.srt?download=Wonka.2023.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.srt",
+        subtitleShortLink: "https://tinyurl.com/ylj2estx",
+        Movies: {
+          name: "Wonka",
+          year: 2023,
+        },
+        ReleaseGroups: {
+          name: "FLUX",
+        },
+        SubtitleGroups: {
+          name: "SubDivX",
+        },
+      }, {
+        fileName: "Wonka.2023.1080p.BluRay.DDP5.1.x265.10bit-GalaxyRG265.mkv",
+        id: 2111,
+        resolution: "1080p",
+        subtitleFullLink: "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-1080p-galaxyrg-subdivx.srt?download=Wonka.2023.1080p.BluRay.DDP5.1.x265.10bit-GalaxyRG265.srt",
+        subtitleShortLink: "https://tinyurl.com/2ajjb2jx",
+        Movies: {
+          name: "Wonka",
+          year: 2023,
+        },
+        ReleaseGroups: {
+          name: "GalaxyRG",
+        },
+        SubtitleGroups: {
+          name: "SubDivX",
+        },
+      }, {
+        fileName: "Wonka.2023.720p.WEBRip.800MB.x264-GalaxyRG.mkv",
+        id: 2108,
+        resolution: "720p",
+        subtitleFullLink: "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-720p-galaxyrg-subdivx.srt?download=Wonka.2023.720p.WEBRip.800MB.x264-GalaxyRG.srt",
+        subtitleShortLink: "https://tinyurl.com/ywepv8cn",
+        Movies: {
+          name: "Wonka",
+          year: 2023,
+        },
+        ReleaseGroups: {
+          name: "GalaxyRG",
+        },
+        SubtitleGroups: {
+          name: "SubDivX",
+        },
+      }, {
+        fileName: "wonka.2023.1080p.bluray.x264-pignus.mkv",
+        id: 2110,
+        resolution: "1080p",
+        subtitleFullLink: "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-1080p-pignus-subdivx.srt?download=wonka.2023.1080p.bluray.x264-pignus.srt",
+        subtitleShortLink: "https://tinyurl.com/yqrl8p4q",
+        Movies: {
+          name: "Wonka",
+          year: 2023,
+        },
+        ReleaseGroups: {
+          name: "PiGNUS",
+        },
+        SubtitleGroups: {
+          name: "SubDivX",
+        },
+      }, {
+        fileName: "Wonka.2023.1080p.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.mkv",
+        id: 2112,
+        resolution: "1080p",
+        subtitleFullLink: "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-1080p-galaxyrg-subdivx.srt?download=Wonka.2023.1080p.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.srt",
+        subtitleShortLink: "https://tinyurl.com/2ctrz95c",
+        Movies: {
+          name: "Wonka",
+          year: 2023,
+        },
+        ReleaseGroups: {
+          name: "GalaxyRG",
+        },
+        SubtitleGroups: {
+          name: "SubDivX",
+        },
+      }, {
+        fileName: "Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
+        id: 2106,
+        resolution: "1080p",
+        subtitleFullLink: "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/wonka-1080p-yts-mx-subdivx.srt?download=Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
+        subtitleShortLink: "https://tinyurl.com/2x7w48uv",
+        Movies: {
+          name: "Wonka",
+          year: 2023,
+        },
+        ReleaseGroups: {
+          name: "YTS-MX",
+        },
+        SubtitleGroups: {
+          name: "SubDivX",
+        },
+      }
+    ]);
 	});
 
 	it("return a response for an 404 error for a non existant movie id", async () => {

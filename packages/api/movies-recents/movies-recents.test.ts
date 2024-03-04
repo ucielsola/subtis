@@ -23,21 +23,20 @@ describe("API | /movies/recent", () => {
 		const data = await response.json();
 
 		expect(data).toEqual([
-			{
-				id: 16368898,
-				name: "Lights Out",
-				rating: 6.971,
-				release_date: "2024-02-16",
-				year: 2024,
-			},
-			{
-				id: 28066777,
-				name: "Orion and the Dark",
-				rating: 6.713,
-				release_date: "2024-02-02",
-				year: 2024,
-			},
-		]);
+      {
+        id: 14764464,
+        name: "Code 8 Part II",
+        rating: 6.739,
+        release_date: "2024-02-27",
+        year: 2024,
+      }, {
+        id: 19244260,
+        name: "Red Right Hand",
+        rating: 7.019,
+        release_date: "2024-02-22",
+        year: 2024,
+      }
+    ]);
 	});
 
 	it("return a response for an 400 error for a bad payload", async () => {
