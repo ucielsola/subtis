@@ -130,6 +130,14 @@ export const RELEASE_GROUPS = {
 		searchableSubDivXName: ["H264-BYNDR"],
 		website: "",
   },
+  RABiDS: {
+		fileAttributes: ["H264-RABiDS"],
+		isSupported: true,
+		name: "RABiDS",
+		searchableOpenSubtitlesName: ["RABiDS"],
+		searchableSubDivXName: ["RABiDS"],
+		website: "",
+  },
 	SLOT: {
 		fileAttributes: ["h264-slot", "h265-slot"],
 		isSupported: true,
