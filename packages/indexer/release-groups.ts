@@ -114,6 +114,14 @@ export const RELEASE_GROUPS = {
 		searchableSubDivXName: ["hevc-psa"],
 		website: "",
 	},
+	"HEVC-EVO": {
+		fileAttributes: ["HEVC-EVO"],
+		isSupported: true,
+		name: "HEVC-EVO",
+		searchableOpenSubtitlesName: ["HEVC-EVO"],
+		searchableSubDivXName: ["HEVC-EVO"],
+		website: "",
+	},
 	KBOX: {
 		fileAttributes: ["h264-kbox", "h265-kbox"],
 		isSupported: true,
