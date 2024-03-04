@@ -8,7 +8,8 @@
   "scripts": {
     "test": "bun test",
     "check": "biome check --apply .",
-    "lint": "biome lint --apply .",
+    "lint": "biome lint .",
+    "lint:apply": "biome lint --apply .",
     "format": "biome format --write .",
     "test:watch": "bun test --watch",
     "test:coverage": "bun test --coverage packages/api packages/cli packages/db packages/shared packages/ui",
