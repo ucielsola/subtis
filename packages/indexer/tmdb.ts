@@ -93,9 +93,9 @@ function generateTmdbDiscoverMovieUrl(
 	year: number,
 	isDebugging: boolean,
 ) {
-	if (isDebugging) {
+	// if (!isDebugging) {
 		return `https://api.themoviedb.org/3/discover/movie?language=en-US&page=${page}`;
-	}
+	// }
 
 	return `https://api.themoviedb.org/3/discover/movie?language=en-US&page=${page}&primary_release_date.gte=${dayjs(
 		`${year}`,

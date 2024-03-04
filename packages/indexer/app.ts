@@ -346,9 +346,9 @@ async function getSubtitlesFromMovie(
 			const timeoutId = setTimeout(() => {
 				engine.destroy();
 				reject(
-					new Error("Timeout: Tardo más de 10s puede ser por falta de seeds"),
+					new Error("Timeout: Tardo más de 30s puede ser por falta de seeds"),
 				);
-			}, 10000);
+			}, 30000);
 
 			engine.on("torrent", (data) => {
 				clearTimeout(timeoutId);
@@ -575,6 +575,6 @@ async function mainIndexer(
 	}
 }
 
-mainIndexer(2023, true);
+mainIndexer(2023, false);
 saveReleaseGroupsToDb(supabase);
 saveSubtitleGroupsToDb(supabase);
