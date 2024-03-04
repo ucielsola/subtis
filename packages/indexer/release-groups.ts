@@ -122,6 +122,14 @@ export const RELEASE_GROUPS = {
 		searchableSubDivXName: ["KBOX"],
 		website: "",
 	},
+  BYNDR: {
+		fileAttributes: ["264-BYNDR",],
+		isSupported: true,
+		name: "BYNDR",
+		searchableOpenSubtitlesName: ["H264-BYNDR"],
+		searchableSubDivXName: ["H264-BYNDR"],
+		website: "",
+  },
 	SLOT: {
 		fileAttributes: ["h264-slot", "h265-slot"],
 		isSupported: true,
