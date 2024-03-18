@@ -5,11 +5,13 @@ El subtítulo que estabas buscando!
 ## Packages
 
 - Server-side
+
   - [DB](/packages/db/)
   - [API](/packages/api/)
   - [Indexer](/packages/indexer/)
 
 - Client-side
+
   - [CLI](/packages/cli/)
   - [Raycast](/packages/raycast/)
 
@@ -46,16 +48,18 @@ bun dev:indexer
 bun run test:watch
 ```
 
-## Updating Database
+## Updating Database Types and Schemas
 
 If there's a database schema update, we should run:
 
 1. Login to Supabase (if you haven't already)
+
 ```bash
 cd packages/db && bunx supabase login
 ```
 
 2. Create database type definitions and zod schemas
+
 ```bash
 bun run generate
 ```

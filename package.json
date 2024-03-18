@@ -2,9 +2,7 @@
   "name": "@subtis/source",
   "type": "module",
   "license": "MIT",
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": ["packages/*"],
   "scripts": {
     "test": "bun test",
     "check": "biome check --apply .",
@@ -24,6 +22,7 @@
     "dev:raycast:only": "cd packages/raycast && bun dev",
     "dev:raycast": "run-p dev:api dev:raycast:only",
     "dev:indexer:node": "cd packages/indexer && npm run dev:node",
+    "prod:indexer:node": "cd packages/indexer && npm run prod:node",
     "check:deps": "taze -r",
     "bump:deps": "taze -r -w",
     "clean:install": "bun pm cache rm && rm -rf bun.lockb node_modules && bun install",

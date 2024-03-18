@@ -5,7 +5,8 @@
   "main": "app.ts",
   "scripts": {
     "dev": "bun --watch app.ts",
-    "dev:node": "npx tsx --env-file .env --watch app.ts"
+    "dev:node": "npx tsx --env-file .env.development --watch app.ts",
+    "prod:node": "NODE_ENV=production npx tsx --env-file .env.production app.ts"
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",

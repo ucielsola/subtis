@@ -13,3 +13,4 @@ bun.lockb
 coverage-ts
 __dump
 *.rar
+.env*
