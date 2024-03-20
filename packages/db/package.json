@@ -11,15 +11,15 @@
     "generate": "bun run supabase:type:definitions && bun run supabase:schemas"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.39.7",
+    "@supabase/supabase-js": "^2.39.8",
     "zod": "^3.22.4"
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "^0.5.1",
-    "@types/bun": "^1.0.8",
-    "supabase": ">=1.145.4",
+    "@types/bun": "^1.0.10",
+    "supabase": ">=1.150.0",
     "supabase-to-zod": "^1.0.5",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.3"
   },
   "trustedDependencies": [
     "supabase"
