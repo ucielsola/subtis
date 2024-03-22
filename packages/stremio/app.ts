@@ -1,18 +1,19 @@
-const { z } = require("zod");
-const { addonBuilder, serveHTTP } = require("stremio-addon-sdk");
+import { z } from "zod";
+import { addonBuilder, serveHTTP } from "stremio-addon-sdk";
 
-// handler types
-type SubtitlesArguments = {
-	type: string;
-	id: string;
-	extra: {
-		videoHash: string;
-		videoSize: string;
-		filename: string;
-	};
-};
+// subtis
+import { getApiClient } from "@subtis/ui";
 
-// handler schemas
+// constants
+const isProduction = process.env.NODE_ENV === "production";
+
+const apiClient = getApiClient({
+	isProduction,
+	apiBaseUrlProduction: isProduction ? "" : "http://localhost:8080",
+	apiBaseUrlDevelopment: isProduction ? "" : "http://localhost:8080",
+});
+
+// schemas
 const subtitleSchema = z.object({
 	fileName: z.string(),
 	id: z.number(),
@@ -31,52 +32,41 @@ const subtitleSchema = z.object({
 	}),
 });
 
-// handler core
-async function getMovieSubtitle(args: SubtitlesArguments) {
-	console.log("\n ~ getMovieSubtitle ~ args:", args.extra);
-
-	if (args.type === "movie") {
-		const { filename: fileName, videoSize: bytes } = args.extra;
-
-		const response = await fetch("http://localhost:8080/v1/subtitles/file", {
-			method: "POST",
-			body: JSON.stringify({ fileName, bytes }),
-			headers: { "Content-Type": "application/json" },
-		});
-		const data = await response.json();
-
-		// TODO: check why I've no type returns
-		const subtitleRaw = subtitleSchema.parse(data);
-
-		const subtitle = {
-			lang: "spa",
-			id: subtitleRaw.id,
-			url: subtitleRaw.subtitleFullLink,
-		};
-
-    // TODO: Seems like broken encoding it's due to Supabase response https://github.com/Stremio/stremio-addon-sdk/issues/265
-		console.log('\n ~ getMovieSubtitle ~ subtitle:', [subtitle])
-
-		return Promise.resolve({ subtitles: [subtitle] });
-	}
-
-		return Promise.resolve({ subtitles: [] });
-
-}
-
 // addon
 const builder = new addonBuilder({
 	id: "org.subtis",
 	version: "0.0.1",
 	name: "Subtis",
+	description: "Subtis es un buscador de subtitulos para tus películas",
 	catalogs: [],
 	resources: ["subtitles"],
 	types: ["movie"],
-	idPrefixes: ["tt"],
+	logo: "", // TODO: Add subtis logo URL
 });
 
-// docs https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/requests/defineSubtitlesHandler.md
-builder.defineSubtitlesHandler(getMovieSubtitle);
+// @ts-expect-error mismatch between type definitions and data received
+builder.defineSubtitlesHandler(async function getMovieSubtitle(args) {
+	if (args.type !== "movie") {
+		return Promise.resolve({ subtitles: [] });
+	}
 
-// TODO: Set environment variable here
-serveHTTP(builder.getInterface(), { port: process.env.PORT || 8081 });
+	// @ts-expect-error mismatch between type definitions and data received
+	const { filename: fileName, videoSize: bytes } = args.extra;
+
+	const { data } = await apiClient.v1.subtitles.file.post({ fileName, bytes, });
+	const subtitleRaw = subtitleSchema.parse(data);
+
+	const subtitles = [
+		{
+			lang: "spa",
+			id: subtitleRaw.id,
+			url: subtitleRaw.subtitleFullLink,
+		},
+	];
+	const withCacheMaxAge = isProduction ? {} : { cacheMaxAge: 0 };
+  console.log(subtitles);
+
+	return Promise.resolve({ subtitles, ...withCacheMaxAge });
+});
+
+serveHTTP(builder.getInterface(), { port: 8081 });
