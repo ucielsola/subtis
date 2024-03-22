@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 
 // indexer
-import type { ReleaseGroup } from "indexer/release-groups";
+import type { ReleaseGroup } from "@subtis/indexer/release-groups";
 
 // shared
 import { getMovieMetadata } from "./get-movie-metadata";
