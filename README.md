@@ -14,8 +14,10 @@ El subtítulo que estabas buscando!
 
   - [CLI](/packages/cli/)
   - [Raycast](/packages/raycast/)
+  - [Stremio](/packages/stremio/)
 
 - Cross packages
+  - [UI](/packages/ui/)
   - [Shared](/packages/shared/)
 
 ## Development
