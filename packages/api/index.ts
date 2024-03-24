@@ -5,4 +5,5 @@ export * from "./shared";
 export * from "./subtitles-file";
 export * from "./subtitles-movie";
 export * from "./subtitles-trending";
+export * from "./stremio-subtitle";
 export * from "./movies-recents";
