@@ -32,17 +32,20 @@ curl -fsSL https://bun.sh/install | bash
 bun install
 ```
 
-3. Run any of the desired packages
+3. Copy and paste environment variables from 1Password
+
+4. Run any of the desired packages
 
 ```bash
 bun dev:api
 bun dev:web
 bun dev:cli
 bun dev:raycast
+bun dev:stremio
 bun dev:indexer
 ```
 
-4. Test your code in watch mode
+5. Test your code in watch mode
 
 ```bash
 bun run test:watch
@@ -68,13 +71,9 @@ bun run generate
 
 Request access to Supabase team with the developer email.
 
-## Linting on VSCode
-
-If you want to have lint in auto-save follow the official [VSCode Support](https://github.com/antfu/eslint-config#vs-code-support-auto-fix) guide from the ESLint config we use.
-
 ## API Playground
 
-Import [docs/collection.json](/docs/collection.json) into your preferred HTTP client like Hoppscotch, Postman or Insomnia, to quickly play with all API endpoints and different scenarios.
+Import [docs/collection.json](/docs/collection.json) into your preferred HTTP client like Hoppscotch (recommended), Postman or Insomnia, to quickly play with all API endpoints and different scenarios.
 
 ## Diagrams
 
