@@ -20,16 +20,13 @@ describe("API | /metrics/download", () => {
 	});
 
 	it("return a ok response for a specific movie", async () => {
-		const request = new Request(
-			`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/metrics/download`,
-			{
-				body: JSON.stringify({
-					fileName: "Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
-				}),
-				headers: { "Content-Type": "application/json" },
-				method: "POST",
-			},
-		);
+		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/metrics/download`, {
+			body: JSON.stringify({
+				fileName: "Wonka.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
+			}),
+			headers: { "Content-Type": "application/json" },
+			method: "POST",
+		});
 
 		const response = await app.handle(request);
 		const data = await response.json();
@@ -41,16 +38,13 @@ describe("API | /metrics/download", () => {
 	});
 
 	it("return a response for an 415 error for non supported file extensions", async () => {
-		const request = new Request(
-			`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/metrics/download`,
-			{
-				body: JSON.stringify({
-					fileName: "Wonk.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3",
-				}),
-				headers: { "Content-Type": "application/json" },
-				method: "POST",
-			},
-		);
+		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/metrics/download`, {
+			body: JSON.stringify({
+				fileName: "Wonk.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3",
+			}),
+			headers: { "Content-Type": "application/json" },
+			method: "POST",
+		});
 
 		const response = await app.handle(request);
 		const data = await response.json();
@@ -63,14 +57,11 @@ describe("API | /metrics/download", () => {
 	});
 
 	it("return a response for an 400 error for a bad payload", async () => {
-		const request = new Request(
-			`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/metrics/download`,
-			{
-				body: JSON.stringify({ file: "123" }),
-				headers: { "Content-Type": "application/json" },
-				method: "POST",
-			},
-		);
+		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/metrics/download`, {
+			body: JSON.stringify({ file: "123" }),
+			headers: { "Content-Type": "application/json" },
+			method: "POST",
+		});
 
 		const response = await app.handle(request);
 		const data = await response.json();

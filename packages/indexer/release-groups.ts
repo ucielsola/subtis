@@ -5,220 +5,220 @@ import type { SupabaseClient } from "@subtis/db";
 
 // constants
 export const RELEASE_GROUPS = {
-  AOC: {
-    fileAttributes: ["H264-AOC", "H265-AOC", "x264-AOC", "x265-AOC"],
-    isSupported: true,
-    name: "AOC",
-    searchableOpenSubtitlesName: ["AOC"],
-    searchableSubDivXName: ["AOC"],
-    website: "",
-  },
-  AccomplishedYak: {
-    fileAttributes: ["H264-AccomplishedYak", "H265-AccomplishedYak", "x264-AccomplishedYak", "x265-AccomplishedYak"],
-    isSupported: true,
-    name: "AccomplishedYak",
-    searchableOpenSubtitlesName: ["AccomplishedYak"],
-    searchableSubDivXName: ["AccomplishedYak"],
-    website: "",
-  },
-  CODY: {
-    fileAttributes: ["CODY"],
-    isSupported: true,
-    name: "CODY",
-    searchableOpenSubtitlesName: ["CODY"],
-    searchableSubDivXName: ["H265-CODY"],
-    website: "",
-  },
-  EDITH: {
-    fileAttributes: ["h264-EDITH"],
-    isSupported: true,
-    name: "EDITH",
-    searchableOpenSubtitlesName: ["EDITH"],
-    searchableSubDivXName: ["edith"],
-    website: "",
-  },
-  ETHEL: {
-    fileAttributes: ["h265-ETHEL"],
-    isSupported: true,
-    name: "ETHEL",
-    searchableOpenSubtitlesName: ["ETHEL"],
-    searchableSubDivXName: ["H265-ETHEL"],
-    website: "",
-  },
-  SHITBOX: {
-    fileAttributes: ["x264-SHITBOX", "0-SHITBOX", "1-SHITBOX"],
-    isSupported: true,
-    name: "ETHEL",
-    searchableOpenSubtitlesName: ["SHITBOX"],
-    searchableSubDivXName: ["SHITBOX"],
-    website: "",
-  },
-  PiGNUS: {
-    fileAttributes: ["x264-pignus"],
-    isSupported: true,
-    name: "PiGNUS",
-    searchableOpenSubtitlesName: ["PiGNUS"],
-    searchableSubDivXName: ["PiGNUS"],
-    website: "",
-  },
-  EniaHD: {
-    fileAttributes: ["264-EniaHD", "265-EniaHD", "x264-EniaHD", "x265-EniaHD"],
-    isSupported: true,
-    name: "EniaHD",
-    searchableOpenSubtitlesName: ["EniaHD"],
-    searchableSubDivXName: ["EniaHD"],
-    website: "",
-  },
-  APEX: {
-    fileAttributes: ["264-APEX", "265-APEX"],
-    isSupported: true,
-    name: "APEX",
-    searchableOpenSubtitlesName: ["APEX"],
-    searchableSubDivXName: ["APEX", "265-APEX", "264-APEX"],
-    website: "",
-  },
-  FLUX: {
-    fileAttributes: ["FLUX", "265-Flux", "264-Flux"],
-    isSupported: true,
-    name: "FLUX",
-    searchableOpenSubtitlesName: ["FLUX"],
-    searchableSubDivXName: ["FLUX", "265-FLUX", "264-FLUX"],
-    website: "",
-  },
-  FLUX8: {
-    fileAttributes: ["FLUX8"],
-    isSupported: true,
-    name: "FLUX8",
-    searchableOpenSubtitlesName: ["FLUX8"],
-    searchableSubDivXName: ["FLUX8"],
-    website: "",
-  },
-  GalaxyRG: {
-    fileAttributes: ["GalaxyRG"],
-    isSupported: true,
-    name: "GalaxyRG",
-    searchableOpenSubtitlesName: ["GalaxyRG"],
-    searchableSubDivXName: ["GalaxyRG"],
-    website: "",
-  },
-  "HDRip-C1NEM4": {
-    fileAttributes: ["HDRip-C1NEM4"],
-    isSupported: true,
-    name: "HDRip-C1NEM4",
-    searchableOpenSubtitlesName: ["HDRip-C1NEM4"],
-    searchableSubDivXName: ["HDRip-C1NEM4"],
-    website: "",
-  },
-  "HEVC-CMRG": {
-    fileAttributes: ["HEVC-CMRG"],
-    isSupported: true,
-    name: "HEVC-CMRG",
-    searchableOpenSubtitlesName: ["HEVC-CMRG"],
-    searchableSubDivXName: ["cmrg"],
-    website: "",
-  },
-  "HEVC-PSA": {
-    fileAttributes: ["HEVC-PSA"],
-    isSupported: true,
-    name: "HEVC-PSA",
-    searchableOpenSubtitlesName: ["HEVC-PSA"],
-    searchableSubDivXName: ["hevc-psa"],
-    website: "",
-  },
-  "HEVC-EVO": {
-    fileAttributes: ["HEVC-EVO"],
-    isSupported: true,
-    name: "HEVC-EVO",
-    searchableOpenSubtitlesName: ["HEVC-EVO"],
-    searchableSubDivXName: ["HEVC-EVO"],
-    website: "",
-  },
-  KBOX: {
-    fileAttributes: ["h264-kbox", "h265-kbox"],
-    isSupported: true,
-    name: "KBOX",
-    searchableOpenSubtitlesName: ["KBOX"],
-    searchableSubDivXName: ["KBOX"],
-    website: "",
-  },
-  BYNDR: {
-    fileAttributes: ["264-BYNDR"],
-    isSupported: true,
-    name: "BYNDR",
-    searchableOpenSubtitlesName: ["H264-BYNDR"],
-    searchableSubDivXName: ["H264-BYNDR"],
-    website: "",
-  },
-  RABiDS: {
-    fileAttributes: ["H264-RABiDS"],
-    isSupported: true,
-    name: "RABiDS",
-    searchableOpenSubtitlesName: ["RABiDS"],
-    searchableSubDivXName: ["RABiDS"],
-    website: "",
-  },
-  SLOT: {
-    fileAttributes: ["h264-slot", "h265-slot"],
-    isSupported: true,
-    name: "SLOT",
-    searchableOpenSubtitlesName: ["SLOT"],
-    searchableSubDivXName: ["SLOT"],
-    website: "",
-  },
-  KNiVES: {
-    fileAttributes: ["KNiVES"],
-    isSupported: true,
-    name: "KNiVES",
-    searchableOpenSubtitlesName: ["KNiVES"],
-    searchableSubDivXName: ["KNiVES"],
-    website: "",
-  },
-  LAMA: {
-    fileAttributes: ["x264-LAMA"],
-    isSupported: true,
-    name: "LAMA",
-    searchableOpenSubtitlesName: ["LAMA"],
-    searchableSubDivXName: ["LAMA"],
-    website: "",
-  },
-  LiLKiM: {
-    fileAttributes: ["h265-lilkim", "h264-lilkim"],
-    isSupported: true,
-    name: "LiLKiM",
-    searchableOpenSubtitlesName: ["LiLKiM"],
-    searchableSubDivXName: ["LiLKiM"],
-    website: "",
-  },
-  RiGHTNOW: {
-    fileAttributes: ["RiGHTNOW"],
-    isSupported: true,
-    name: "RiGHTNOW",
-    searchableOpenSubtitlesName: ["RiGHTNOW"],
-    searchableSubDivXName: ["RIGHTNOW"],
-    website: "",
-  },
-  "YTS-MX": {
-    fileAttributes: ["YTS.MX"],
-    isSupported: true,
-    name: "YTS-MX",
-    searchableOpenSubtitlesName: ["YTS.MX"],
-    searchableSubDivXName: ["YTS MX", "YTS.MX", "YTS"],
-    website: "https://yts.mx",
-  },
+	AOC: {
+		fileAttributes: ["H264-AOC", "H265-AOC", "x264-AOC", "x265-AOC"],
+		isSupported: true,
+		name: "AOC",
+		searchableOpenSubtitlesName: ["AOC"],
+		searchableSubDivXName: ["AOC"],
+		website: "",
+	},
+	AccomplishedYak: {
+		fileAttributes: ["H264-AccomplishedYak", "H265-AccomplishedYak", "x264-AccomplishedYak", "x265-AccomplishedYak"],
+		isSupported: true,
+		name: "AccomplishedYak",
+		searchableOpenSubtitlesName: ["AccomplishedYak"],
+		searchableSubDivXName: ["AccomplishedYak"],
+		website: "",
+	},
+	CODY: {
+		fileAttributes: ["CODY"],
+		isSupported: true,
+		name: "CODY",
+		searchableOpenSubtitlesName: ["CODY"],
+		searchableSubDivXName: ["H265-CODY"],
+		website: "",
+	},
+	EDITH: {
+		fileAttributes: ["h264-EDITH"],
+		isSupported: true,
+		name: "EDITH",
+		searchableOpenSubtitlesName: ["EDITH"],
+		searchableSubDivXName: ["edith"],
+		website: "",
+	},
+	ETHEL: {
+		fileAttributes: ["h265-ETHEL"],
+		isSupported: true,
+		name: "ETHEL",
+		searchableOpenSubtitlesName: ["ETHEL"],
+		searchableSubDivXName: ["H265-ETHEL"],
+		website: "",
+	},
+	SHITBOX: {
+		fileAttributes: ["x264-SHITBOX", "0-SHITBOX", "1-SHITBOX"],
+		isSupported: true,
+		name: "ETHEL",
+		searchableOpenSubtitlesName: ["SHITBOX"],
+		searchableSubDivXName: ["SHITBOX"],
+		website: "",
+	},
+	PiGNUS: {
+		fileAttributes: ["x264-pignus"],
+		isSupported: true,
+		name: "PiGNUS",
+		searchableOpenSubtitlesName: ["PiGNUS"],
+		searchableSubDivXName: ["PiGNUS"],
+		website: "",
+	},
+	EniaHD: {
+		fileAttributes: ["264-EniaHD", "265-EniaHD", "x264-EniaHD", "x265-EniaHD"],
+		isSupported: true,
+		name: "EniaHD",
+		searchableOpenSubtitlesName: ["EniaHD"],
+		searchableSubDivXName: ["EniaHD"],
+		website: "",
+	},
+	APEX: {
+		fileAttributes: ["264-APEX", "265-APEX"],
+		isSupported: true,
+		name: "APEX",
+		searchableOpenSubtitlesName: ["APEX"],
+		searchableSubDivXName: ["APEX", "265-APEX", "264-APEX"],
+		website: "",
+	},
+	FLUX: {
+		fileAttributes: ["FLUX", "265-Flux", "264-Flux"],
+		isSupported: true,
+		name: "FLUX",
+		searchableOpenSubtitlesName: ["FLUX"],
+		searchableSubDivXName: ["FLUX", "265-FLUX", "264-FLUX"],
+		website: "",
+	},
+	FLUX8: {
+		fileAttributes: ["FLUX8"],
+		isSupported: true,
+		name: "FLUX8",
+		searchableOpenSubtitlesName: ["FLUX8"],
+		searchableSubDivXName: ["FLUX8"],
+		website: "",
+	},
+	GalaxyRG: {
+		fileAttributes: ["GalaxyRG"],
+		isSupported: true,
+		name: "GalaxyRG",
+		searchableOpenSubtitlesName: ["GalaxyRG"],
+		searchableSubDivXName: ["GalaxyRG"],
+		website: "",
+	},
+	"HDRip-C1NEM4": {
+		fileAttributes: ["HDRip-C1NEM4"],
+		isSupported: true,
+		name: "HDRip-C1NEM4",
+		searchableOpenSubtitlesName: ["HDRip-C1NEM4"],
+		searchableSubDivXName: ["HDRip-C1NEM4"],
+		website: "",
+	},
+	"HEVC-CMRG": {
+		fileAttributes: ["HEVC-CMRG"],
+		isSupported: true,
+		name: "HEVC-CMRG",
+		searchableOpenSubtitlesName: ["HEVC-CMRG"],
+		searchableSubDivXName: ["cmrg"],
+		website: "",
+	},
+	"HEVC-PSA": {
+		fileAttributes: ["HEVC-PSA"],
+		isSupported: true,
+		name: "HEVC-PSA",
+		searchableOpenSubtitlesName: ["HEVC-PSA"],
+		searchableSubDivXName: ["hevc-psa"],
+		website: "",
+	},
+	"HEVC-EVO": {
+		fileAttributes: ["HEVC-EVO"],
+		isSupported: true,
+		name: "HEVC-EVO",
+		searchableOpenSubtitlesName: ["HEVC-EVO"],
+		searchableSubDivXName: ["HEVC-EVO"],
+		website: "",
+	},
+	KBOX: {
+		fileAttributes: ["h264-kbox", "h265-kbox"],
+		isSupported: true,
+		name: "KBOX",
+		searchableOpenSubtitlesName: ["KBOX"],
+		searchableSubDivXName: ["KBOX"],
+		website: "",
+	},
+	BYNDR: {
+		fileAttributes: ["264-BYNDR"],
+		isSupported: true,
+		name: "BYNDR",
+		searchableOpenSubtitlesName: ["H264-BYNDR"],
+		searchableSubDivXName: ["H264-BYNDR"],
+		website: "",
+	},
+	RABiDS: {
+		fileAttributes: ["H264-RABiDS"],
+		isSupported: true,
+		name: "RABiDS",
+		searchableOpenSubtitlesName: ["RABiDS"],
+		searchableSubDivXName: ["RABiDS"],
+		website: "",
+	},
+	SLOT: {
+		fileAttributes: ["h264-slot", "h265-slot"],
+		isSupported: true,
+		name: "SLOT",
+		searchableOpenSubtitlesName: ["SLOT"],
+		searchableSubDivXName: ["SLOT"],
+		website: "",
+	},
+	KNiVES: {
+		fileAttributes: ["KNiVES"],
+		isSupported: true,
+		name: "KNiVES",
+		searchableOpenSubtitlesName: ["KNiVES"],
+		searchableSubDivXName: ["KNiVES"],
+		website: "",
+	},
+	LAMA: {
+		fileAttributes: ["x264-LAMA"],
+		isSupported: true,
+		name: "LAMA",
+		searchableOpenSubtitlesName: ["LAMA"],
+		searchableSubDivXName: ["LAMA"],
+		website: "",
+	},
+	LiLKiM: {
+		fileAttributes: ["h265-lilkim", "h264-lilkim"],
+		isSupported: true,
+		name: "LiLKiM",
+		searchableOpenSubtitlesName: ["LiLKiM"],
+		searchableSubDivXName: ["LiLKiM"],
+		website: "",
+	},
+	RiGHTNOW: {
+		fileAttributes: ["RiGHTNOW"],
+		isSupported: true,
+		name: "RiGHTNOW",
+		searchableOpenSubtitlesName: ["RiGHTNOW"],
+		searchableSubDivXName: ["RIGHTNOW"],
+		website: "",
+	},
+	"YTS-MX": {
+		fileAttributes: ["YTS.MX"],
+		isSupported: true,
+		name: "YTS-MX",
+		searchableOpenSubtitlesName: ["YTS.MX"],
+		searchableSubDivXName: ["YTS MX", "YTS.MX", "YTS"],
+		website: "https://yts.mx",
+	},
 } as const;
 
 // types
 export type ReleaseGroup = {
-  fileAttributes: string[];
-  isSupported: boolean;
-  name: string;
-  searchableOpenSubtitlesName: string[];
-  searchableSubDivXName: string[];
-  website: string;
+	fileAttributes: string[];
+	isSupported: boolean;
+	name: string;
+	searchableOpenSubtitlesName: string[];
+	searchableSubDivXName: string[];
+	website: string;
 };
 
 export type ReleaseGroupMap = {
-  [key in ReleaseGroupNames]: ReleaseGroup & { created_at: string; id: number };
+	[key in ReleaseGroupNames]: ReleaseGroup & { created_at: string; id: number };
 };
 
 export type ReleaseGroupNames = (typeof RELEASE_GROUPS)[keyof typeof RELEASE_GROUPS]["name"];
@@ -227,27 +227,27 @@ export type ReleaseGroupKeys = keyof typeof RELEASE_GROUPS;
 
 // utils
 export async function saveReleaseGroupsToDb(supabaseClient: SupabaseClient): Promise<void> {
-  const { data } = await supabaseClient.from("ReleaseGroups").select("*");
+	const { data } = await supabaseClient.from("ReleaseGroups").select("*");
 
-  for (const releaseGroupKey in RELEASE_GROUPS) {
-    const releaseGroup = RELEASE_GROUPS[releaseGroupKey as ReleaseGroupKeys];
+	for (const releaseGroupKey in RELEASE_GROUPS) {
+		const releaseGroup = RELEASE_GROUPS[releaseGroupKey as ReleaseGroupKeys];
 
-    const releaseGroupExists = data?.find((releaseGroupInDb) => releaseGroupInDb.name === releaseGroup.name);
-    if (releaseGroupExists) {
-      continue;
-    }
+		const releaseGroupExists = data?.find((releaseGroupInDb) => releaseGroupInDb.name === releaseGroup.name);
+		if (releaseGroupExists) {
+			continue;
+		}
 
-    const data2 = await supabaseClient.from("ReleaseGroups").insert(releaseGroup);
-    console.log(data2);
-  }
+		const data2 = await supabaseClient.from("ReleaseGroups").insert(releaseGroup);
+		console.log(data2);
+	}
 }
 
 // core
 export async function getReleaseGroups(supabaseClient: SupabaseClient): Promise<ReleaseGroupMap> {
-  const { data } = await supabaseClient.from("ReleaseGroups").select("*");
-  invariant(data, "ReleaseGroups not found in database");
+	const { data } = await supabaseClient.from("ReleaseGroups").select("*");
+	invariant(data, "ReleaseGroups not found in database");
 
-  const releaseGroups = data.reduce((acc, releaseGroup) => ({ ...acc, [releaseGroup.name]: releaseGroup }), {});
+	const releaseGroups = data.reduce((acc, releaseGroup) => ({ ...acc, [releaseGroup.name]: releaseGroup }), {});
 
-  return releaseGroups as ReleaseGroupMap;
+	return releaseGroups as ReleaseGroupMap;
 }

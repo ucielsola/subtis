@@ -34,15 +34,9 @@ test("should return a subtitle link giving a movie, release group and quality", 
 
 	expect(subtitle.fileExtension).toBe("srt");
 	expect(subtitle.subtitleGroup).toBe("OpenSubtitles");
-	expect(subtitle.subtitleSrtFileName).toBe(
-		"meg-2-the-trench-1080p-yts-mx-opensubtitles.srt",
-	);
-	expect(subtitle.subtitleCompressedFileName).toBe(
-		"meg-2-the-trench-1080p-yts-mx-opensubtitles.srt",
-	);
-	expect(subtitle.subtitleFileNameWithoutExtension).toBe(
-		"meg-2-the-trench-1080p-yts-mx-opensubtitles",
-	);
+	expect(subtitle.subtitleSrtFileName).toBe("meg-2-the-trench-1080p-yts-mx-opensubtitles.srt");
+	expect(subtitle.subtitleCompressedFileName).toBe("meg-2-the-trench-1080p-yts-mx-opensubtitles.srt");
+	expect(subtitle.subtitleFileNameWithoutExtension).toBe("meg-2-the-trench-1080p-yts-mx-opensubtitles");
 });
 
 test("should return a subtitle link giving a movie, release group and quality", async () => {
@@ -72,13 +66,7 @@ test("should return a subtitle link giving a movie, release group and quality", 
 
 	expect(subtitle.fileExtension).toBe("srt");
 	expect(subtitle.subtitleGroup).toBe("OpenSubtitles");
-	expect(subtitle.subtitleSrtFileName).toBe(
-		"junk-head-1080p-yts-mx-opensubtitles.srt",
-	);
-	expect(subtitle.subtitleCompressedFileName).toBe(
-		"junk-head-1080p-yts-mx-opensubtitles.srt",
-	);
-	expect(subtitle.subtitleFileNameWithoutExtension).toBe(
-		"junk-head-1080p-yts-mx-opensubtitles",
-	);
+	expect(subtitle.subtitleSrtFileName).toBe("junk-head-1080p-yts-mx-opensubtitles.srt");
+	expect(subtitle.subtitleCompressedFileName).toBe("junk-head-1080p-yts-mx-opensubtitles.srt");
+	expect(subtitle.subtitleFileNameWithoutExtension).toBe("junk-head-1080p-yts-mx-opensubtitles");
 });

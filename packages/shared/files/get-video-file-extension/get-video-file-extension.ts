@@ -38,7 +38,5 @@ export const videoFileExtensionSchema = z.union(
 );
 
 export function getVideoFileExtension(fileName: string): string | undefined {
-	return VIDEO_FILE_EXTENSIONS.find((videoFileExtension) =>
-		fileName.endsWith(videoFileExtension),
-	);
+	return VIDEO_FILE_EXTENSIONS.find((videoFileExtension) => fileName.endsWith(videoFileExtension));
 }

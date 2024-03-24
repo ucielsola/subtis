@@ -5,9 +5,9 @@ import { P, match } from "ts-pattern";
 
 // internals
 import { VIDEO_FILE_EXTENSIONS } from "..";
+import { getStringWithoutExtraSpaces } from "../../strings/get-string-without-extra-spaces";
 import { getMovieFileNameWithoutExtension } from "../get-movie-file-name-without-extension/get-movie-file-name-without-extension";
 import { getMovieName } from "../get-movie-name";
-import { getStringWithoutExtraSpaces } from "../../strings/get-string-without-extra-spaces";
 
 // types
 export type MovieData = {
@@ -37,8 +37,7 @@ export function getMovieMetadata(movieFileName: string): MovieData {
 			continue;
 		}
 
-		const [rawName, rawAttributes] =
-			parsedMovieFileName.split(yearStringToReplace);
+		const [rawName, rawAttributes] = parsedMovieFileName.split(yearStringToReplace);
 
 		const lowerCaseRawAttributes = rawAttributes.toLowerCase();
 		const parsedRawAttributes = lowerCaseRawAttributes.includes("YTS")
@@ -46,12 +45,10 @@ export function getMovieMetadata(movieFileName: string): MovieData {
 			: lowerCaseRawAttributes;
 
 		const movieName = getMovieName(rawName);
-		const searchableMovieName = getStringWithoutExtraSpaces(
-			`${movieName} (${yearString})`,
-		);
+		const searchableMovieName = getStringWithoutExtraSpaces(`${movieName} (${yearString})`);
 
-		const videoFileExtension = VIDEO_FILE_EXTENSIONS.find(
-			(videoFileExtension) => rawAttributes.includes(videoFileExtension),
+		const videoFileExtension = VIDEO_FILE_EXTENSIONS.find((videoFileExtension) =>
+			rawAttributes.includes(videoFileExtension),
 		);
 		invariant(videoFileExtension, "Unsupported file extension");
 
@@ -64,16 +61,13 @@ export function getMovieMetadata(movieFileName: string): MovieData {
 			.with(P.string.includes("3D"), () => "3D")
 			.run();
 
-		const fileNameWithoutExtension =
-			getMovieFileNameWithoutExtension(parsedMovieFileName);
+		const fileNameWithoutExtension = getMovieFileNameWithoutExtension(parsedMovieFileName);
 
-		const releaseGroup = Object.values(RELEASE_GROUPS).find(
-			(releaseGroupInternal) => {
-				return releaseGroupInternal.fileAttributes.some((attribute) =>
-					parsedRawAttributes.includes(attribute.toLowerCase()),
-				);
-			},
-		);
+		const releaseGroup = Object.values(RELEASE_GROUPS).find((releaseGroupInternal) => {
+			return releaseGroupInternal.fileAttributes.some((attribute) =>
+				parsedRawAttributes.includes(attribute.toLowerCase()),
+			);
+		});
 
 		if (!releaseGroup) {
 			const unsupportedReleaseGroup = rawAttributes
@@ -83,9 +77,7 @@ export function getMovieMetadata(movieFileName: string): MovieData {
 				.at(-1)
 				?.replace("x264-", "") as string;
 
-			console.error(
-				`🛑 Release group ${unsupportedReleaseGroup} no soportado 🛑`,
-			);
+			console.error(`🛑 Release group ${unsupportedReleaseGroup} no soportado 🛑`);
 		}
 
 		return {

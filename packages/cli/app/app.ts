@@ -53,15 +53,9 @@ export async function runCli(): Promise<void> {
 		}
 		const cliArguments = cliArgumentsResult.data;
 
-		const fileNameResult = videoFileNameSchema.safeParse(
-			"file" in cliArguments ? cliArguments.file : cliArguments.f,
-		);
+		const fileNameResult = videoFileNameSchema.safeParse("file" in cliArguments ? cliArguments.file : cliArguments.f);
 		if (!fileNameResult.success) {
-			return outro(
-				chalk.yellow(
-					"🤔 Extensión de video no soportada. Prueba con otro archivo",
-				),
-			);
+			return outro(chalk.yellow("🤔 Extensión de video no soportada. Prueba con otro archivo"));
 		}
 		const fileName = fileNameResult.data;
 
@@ -77,19 +71,13 @@ export async function runCli(): Promise<void> {
 			return outro(`⛏ ${description}`);
 		}
 
-		loader.stop(
-			`🥳 Descarga tu subtítulo en ${chalk.blue(data.subtitleShortLink)}`,
-		);
+		loader.stop(`🥳 Descarga tu subtítulo en ${chalk.blue(data.subtitleShortLink)}`);
 
 		const {
 			Movies: { name, year },
 			resolution,
 		} = data;
-		outro(
-			`🍿 Disfruta de ${chalk.bold(`${name} (${year})`)} en ${chalk.italic(
-				resolution,
-			)} subtitulada`,
-		);
+		outro(`🍿 Disfruta de ${chalk.bold(`${name} (${year})`)} en ${chalk.italic(resolution)} subtitulada`);
 	} catch (error) {
 		if (error instanceof Error) {
 			outro(chalk.red(`🔴 ${error.message}`));

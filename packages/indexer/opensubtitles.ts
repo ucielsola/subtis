@@ -112,8 +112,7 @@ export async function getOpenSubtitlesSubtitle({
 	movieData: MovieData;
 }): Promise<SubtitleData> {
 	try {
-		const { fileNameWithoutExtension, name, releaseGroup, resolution } =
-			movieData;
+		const { fileNameWithoutExtension, name, releaseGroup, resolution } = movieData;
 		if (!releaseGroup) {
 			throw new Error("release group undefined");
 		}
@@ -124,56 +123,39 @@ export async function getOpenSubtitlesSubtitle({
 			`[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: imdbId should not start with 'tt'`,
 		);
 
-		const response = await fetch(
-			`${OPEN_SUBTITLES_BASE_URL}/subtitles?imdb_id=${imdbId}&languages=es`,
-			{
-				headers: getOpenSubtitlesHeaders(),
-			},
-		);
+		const response = await fetch(`${OPEN_SUBTITLES_BASE_URL}/subtitles?imdb_id=${imdbId}&languages=es`, {
+			headers: getOpenSubtitlesHeaders(),
+		});
 		const data = await response.json();
 
 		const parsedData = subtitlesSchema.parse(data);
-		invariant(
-			parsedData.data,
-			`[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: No subtitles data found`,
-		);
+		invariant(parsedData.data, `[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: No subtitles data found`);
 
 		const firstResult = parsedData.data.find((subtitle) => {
 			const release = subtitle.attributes.release.toLowerCase();
 
 			const hasMovieResolution = release.includes(resolution);
-			const hasReleaseGroup = releaseGroup.searchableOpenSubtitlesName.some(
-				(searchableSubDivXName) => {
-					return release.includes(searchableSubDivXName.toLowerCase());
-				},
-			);
+			const hasReleaseGroup = releaseGroup.searchableOpenSubtitlesName.some((searchableSubDivXName) => {
+				return release.includes(searchableSubDivXName.toLowerCase());
+			});
 
 			return hasMovieResolution && hasReleaseGroup;
 		});
 
-		invariant(
-			firstResult,
-			`[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: No subtitle data found`,
-		);
+		invariant(firstResult, `[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: No subtitle data found`);
 
 		const { files } = firstResult.attributes;
 		const { file_id } = files[0];
 
-		const downloadResponse = await fetch(
-			`${OPEN_SUBTITLES_BASE_URL}/download`,
-			{
-				body: JSON.stringify({ file_id }),
-				headers: getOpenSubtitlesHeaders(),
-				method: "POST",
-			},
-		);
+		const downloadResponse = await fetch(`${OPEN_SUBTITLES_BASE_URL}/download`, {
+			body: JSON.stringify({ file_id }),
+			headers: getOpenSubtitlesHeaders(),
+			method: "POST",
+		});
 		const downloadData = await downloadResponse.json();
 
 		const parsedDownloadData = downloadSchema.parse(downloadData);
-		invariant(
-			parsedDownloadData.link,
-			`[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: No download subtitle link found`,
-		);
+		invariant(parsedDownloadData.link, `[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: No download subtitle link found`);
 
 		const fileExtension = "srt";
 		const subtitleLink = parsedDownloadData.link;

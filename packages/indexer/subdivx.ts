@@ -47,13 +47,7 @@ export async function getSubDivXSubtitle({
 	movieData: MovieData;
 	page?: string;
 }): Promise<SubtitleData> {
-	const {
-		fileNameWithoutExtension,
-		name,
-		releaseGroup,
-		resolution,
-		searchableMovieName,
-	} = movieData;
+	const { fileNameWithoutExtension, name, releaseGroup, resolution, searchableMovieName } = movieData;
 
 	if (!releaseGroup) {
 		throw new Error("release group undefined");
@@ -85,11 +79,9 @@ export async function getSubDivXSubtitle({
 		const movieDescription = subtitle.descripcion.toLowerCase();
 
 		const hasMovieResolution = movieDescription.includes(resolution);
-		const hasReleaseGroup = releaseGroup.searchableSubDivXName.some(
-			(searchableSubDivXName) => {
-				return movieDescription.includes(searchableSubDivXName.toLowerCase());
-			},
-		);
+		const hasReleaseGroup = releaseGroup.searchableSubDivXName.some((searchableSubDivXName) => {
+			return movieDescription.includes(searchableSubDivXName.toLowerCase());
+		});
 
 		return hasMovieResolution && hasReleaseGroup;
 	});
@@ -102,18 +94,13 @@ export async function getSubDivXSubtitle({
 	const isRarLinkAlive = await getIsLinkAlive(subtitleRarLink);
 	const isZipLinkAlive = await getIsLinkAlive(subtitleZipLink);
 
-	invariant(
-		isRarLinkAlive || isZipLinkAlive,
-		`[${SUBDIVX_BREADCRUMB_ERROR}]: Subtitle link should be alive`,
-	);
+	invariant(isRarLinkAlive || isZipLinkAlive, `[${SUBDIVX_BREADCRUMB_ERROR}]: Subtitle link should be alive`);
 
 	const subtitleGroup = SUBTITLE_GROUPS.SUBDIVX.name;
 	const fileExtension = isRarLinkAlive ? "rar" : "zip";
 	const subtitleLink = isRarLinkAlive ? subtitleRarLink : subtitleZipLink;
 
-	const subtitleSrtFileName = slugify(
-		`${name}-${resolution}-${releaseGroup.name}-${subtitleGroup}.srt`,
-	).toLowerCase();
+	const subtitleSrtFileName = slugify(`${name}-${resolution}-${releaseGroup.name}-${subtitleGroup}.srt`).toLowerCase();
 	const downloadFileName = `${fileNameWithoutExtension}.srt`;
 
 	const subtitleFileNameWithoutExtension = slugify(

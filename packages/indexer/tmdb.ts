@@ -67,9 +67,7 @@ export const tmdbMovieSchema = z.object({
 			}),
 		]),
 	),
-	production_countries: z.array(
-		z.object({ iso_3166_1: z.string(), name: z.string() }),
-	),
+	production_countries: z.array(z.object({ iso_3166_1: z.string(), name: z.string() })),
 	release_date: z.string(),
 	revenue: z.number(),
 	runtime: z.number(),
@@ -88,14 +86,10 @@ export const tmdbMovieSchema = z.object({
 	vote_count: z.number(),
 });
 
-function generateTmdbDiscoverMovieUrl(
-	page: number,
-	year: number,
-	isDebugging: boolean,
-) {
-	// if (!isDebugging) {
+function generateTmdbDiscoverMovieUrl(page: number, year: number, isDebugging: boolean) {
+	if (isDebugging) {
 		return `https://api.themoviedb.org/3/discover/movie?language=en-US&page=${page}`;
-	// }
+	}
 
 	return `https://api.themoviedb.org/3/discover/movie?language=en-US&page=${page}&primary_release_date.gte=${dayjs(
 		`${year}`,
@@ -103,9 +97,7 @@ function generateTmdbDiscoverMovieUrl(
 		.startOf("year")
 		.format("YYYY-MM-DD")}&primary_release_date.lte=${dayjs(`${year}`)
 		.endOf("year")
-		.format(
-			"YYYY-MM-DD",
-		)}&sort_by=primary_release_date.asc&region=US&with_runtime.gte=60`;
+		.format("YYYY-MM-DD")}&sort_by=primary_release_date.asc&region=US&with_runtime.gte=60`;
 }
 
 export async function getTmdbMoviesTotalPagesArray(
@@ -156,11 +148,7 @@ export type TmdbMovie = {
 	year: number;
 };
 
-export async function getMoviesFromTmdb(
-	page: number,
-	year: number,
-	isDebugging: boolean,
-): Promise<TmdbMovie[]> {
+export async function getMoviesFromTmdb(page: number, year: number, isDebugging: boolean): Promise<TmdbMovie[]> {
 	const movies: TmdbMovie[] = [];
 
 	// 1. Get movies for current page

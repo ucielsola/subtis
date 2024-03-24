@@ -5,10 +5,8 @@ import { getFilenameFromPath } from "./get-filename-from-path";
 
 describe("getFilenameFromPath", () => {
 	test("should return the correct filename from a Windows path", () => {
-		const path =
-			"C:\\fakepath\\The.Equalizer.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4";
-		const expected =
-			"The.Equalizer.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4";
+		const path = "C:\\fakepath\\The.Equalizer.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4";
+		const expected = "The.Equalizer.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4";
 		const result = getFilenameFromPath(path);
 
 		expect(result).toBe(expected);

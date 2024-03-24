@@ -9,10 +9,10 @@ import {
 	getDownloadFromFileName,
 	getMoviesFromMovieTitle,
 	getRecentMovies,
+	getStremioSubtitleFromFileName,
 	getSubtitleFromFileName,
 	getSubtitlesFromMovieId,
 	getTrendingSubtitles,
-	getStremioSubtitleFromFileName,
 	listener,
 } from "../index";
 
@@ -45,13 +45,9 @@ export function runApi(displayListenLog = false, port = 8080) {
 				});
 		})
 		.group("/v1/integrations", (app) => {
-			return app.get(
-				"/stremio/:bytes/:fileName",
-				getStremioSubtitleFromFileName,
-				{
-					params: t.Object({ bytes: t.String(), fileName: t.String() }),
-				},
-			);
+			return app.get("/stremio/:bytes/:fileName", getStremioSubtitleFromFileName, {
+				params: t.Object({ bytes: t.String(), fileName: t.String() }),
+			});
 		})
 		.group("/v1/metrics", (app) => {
 			return app.post("/download", getDownloadFromFileName, {

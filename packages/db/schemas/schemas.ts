@@ -5,13 +5,7 @@ import type { Json } from "./../types/types";
 
 export const jsonSchema: z.ZodSchema<Json> = z.lazy(() =>
 	z
-		.union([
-			z.string(),
-			z.number(),
-			z.boolean(),
-			z.record(z.union([jsonSchema, z.undefined()])),
-			z.array(jsonSchema),
-		])
+		.union([z.string(), z.number(), z.boolean(), z.record(z.union([jsonSchema, z.undefined()])), z.array(jsonSchema)])
 		.nullable(),
 );
 

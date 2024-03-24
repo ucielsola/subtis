@@ -1,11 +1,4 @@
-import {
-	Action,
-	ActionPanel,
-	Form,
-	Toast,
-	open,
-	showToast,
-} from "@raycast/api";
+import { Action, ActionPanel, Form, Toast, open, showToast } from "@raycast/api";
 import delay from "delay";
 import invariant from "tiny-invariant";
 
@@ -52,8 +45,7 @@ export default function Command() {
 
 			// 5. Display failure toast message if subtitle is not found
 			if (data === null || "message" in data) {
-				const { description: message, title } =
-					getMessageFromStatusCode(status);
+				const { description: message, title } = getMessageFromStatusCode(status);
 				Object.assign(toast, { message, style: Toast.Style.Failure, title });
 
 				throw new Error("data is null");
@@ -93,11 +85,7 @@ export default function Command() {
 				</ActionPanel>
 			}
 		>
-			<Form.FilePicker
-				allowMultipleSelection={false}
-				id="filePicker"
-				title="Buscar subtitulo para"
-			/>
+			<Form.FilePicker allowMultipleSelection={false} id="filePicker" title="Buscar subtitulo para" />
 		</Form>
 	);
 }

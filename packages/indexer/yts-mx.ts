@@ -100,10 +100,7 @@ export async function getYtsMxTotalMoviesAndPages(limit = 50): Promise<{
 	return { totalMovies, totalPages, totalPagesArray };
 }
 
-export async function getYtsMxMovieList(
-	page = 1,
-	limit = 50,
-): Promise<YtsMxMovieList[]> {
+export async function getYtsMxMovieList(page = 1, limit = 50): Promise<YtsMxMovieList[]> {
 	const response = await fetch(ytsApiEndpoints.movieList(page, limit));
 	const data = await response.json();
 

@@ -38,12 +38,8 @@ describe("CLI", async () => {
 			const text = await new Response(process.stdout).text();
 
 			expect(text).toInclude("👋 Hola, soy Subtis");
-			expect(text).toInclude(
-				"🥳 Descarga tu subtítulo en https://tinyurl.com/ywepv8cn",
-			);
-			expect(text).toInclude(
-				"🍿 Disfruta de Killers of the Wonka (2023) en 1080p subtitulada",
-			);
+			expect(text).toInclude("🥳 Descarga tu subtítulo en https://tinyurl.com/ywepv8cn");
+			expect(text).toInclude("🍿 Disfruta de Killers of the Wonka (2023) en 1080p subtitulada");
 		}
 	});
 
@@ -66,20 +62,13 @@ describe("CLI", async () => {
 			const text = await new Response(process.stdout).text();
 
 			expect(text).toInclude("👋 Hola, soy Subtis");
-			expect(text).toInclude(
-				"🥳 Descarga tu subtítulo en https://tinyurl.com/ywepv8cn",
-			);
-			expect(text).toInclude(
-				"🍿 Disfruta de Killers of the Wonka (2023) en 1080p subtitulada",
-			);
+			expect(text).toInclude("🥳 Descarga tu subtítulo en https://tinyurl.com/ywepv8cn");
+			expect(text).toInclude("🍿 Disfruta de Killers of the Wonka (2023) en 1080p subtitulada");
 		}
 	});
 
 	it("returns a message when none parameters is given", async () => {
-		const developmentProcess = Bun.spawn([
-			"bun",
-			import.meta.resolveSync("../run.ts"),
-		]);
+		const developmentProcess = Bun.spawn(["bun", import.meta.resolveSync("../run.ts")]);
 		const binaryProcess = Bun.spawn([`${Bun.env.PWD}/packages/cli/bin/subtis`]);
 
 		const processes = [developmentProcess, binaryProcess];
@@ -88,22 +77,13 @@ describe("CLI", async () => {
 			const text = await new Response(process.stdout).text();
 
 			expect(text).toInclude("👋 Hola, soy Subtis");
-			expect(text).toInclude(
-				"🤔 Debe proporcionar --file [archivo] o bien -f [archivo]",
-			);
+			expect(text).toInclude("🤔 Debe proporcionar --file [archivo] o bien -f [archivo]");
 		}
 	});
 
 	it("returns a message when -f parameter is given without a file path", async () => {
-		const developmentProcess = Bun.spawn([
-			"bun",
-			import.meta.resolveSync("../run.ts"),
-			"-f",
-		]);
-		const binaryProcess = Bun.spawn([
-			`${Bun.env.PWD}/packages/cli/bin/subtis`,
-			"-f",
-		]);
+		const developmentProcess = Bun.spawn(["bun", import.meta.resolveSync("../run.ts"), "-f"]);
+		const binaryProcess = Bun.spawn([`${Bun.env.PWD}/packages/cli/bin/subtis`, "-f"]);
 
 		const processes = [developmentProcess, binaryProcess];
 
@@ -111,22 +91,13 @@ describe("CLI", async () => {
 			const text = await new Response(process.stdout).text();
 
 			expect(text).toInclude("👋 Hola, soy Subtis");
-			expect(text).toInclude(
-				"🤔 El valor de -f debe ser una ruta de archivo válida",
-			);
+			expect(text).toInclude("🤔 El valor de -f debe ser una ruta de archivo válida");
 		}
 	});
 
 	it("returns a message when --file parameter is given without a file path", async () => {
-		const developmentProcess = Bun.spawn([
-			"bun",
-			import.meta.resolveSync("../run.ts"),
-			"--file",
-		]);
-		const binaryProcess = Bun.spawn([
-			`${Bun.env.PWD}/packages/cli/bin/subtis`,
-			"--file",
-		]);
+		const developmentProcess = Bun.spawn(["bun", import.meta.resolveSync("../run.ts"), "--file"]);
+		const binaryProcess = Bun.spawn([`${Bun.env.PWD}/packages/cli/bin/subtis`, "--file"]);
 
 		const processes = [developmentProcess, binaryProcess];
 
@@ -134,9 +105,7 @@ describe("CLI", async () => {
 			const text = await new Response(process.stdout).text();
 
 			expect(text).toInclude("👋 Hola, soy Subtis");
-			expect(text).toInclude(
-				"🤔 El valor de --file debe ser una ruta de archivo válida",
-			);
+			expect(text).toInclude("🤔 El valor de --file debe ser una ruta de archivo válida");
 		}
 	});
 
@@ -159,9 +128,7 @@ describe("CLI", async () => {
 			const text = await new Response(process.stdout).text();
 
 			expect(text).toInclude("👋 Hola, soy Subtis");
-			expect(text).toInclude(
-				"🤔 Extensión de video no soportada. Prueba con otro archivo",
-			);
+			expect(text).toInclude("🤔 Extensión de video no soportada. Prueba con otro archivo");
 		}
 	});
 

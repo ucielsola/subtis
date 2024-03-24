@@ -9,34 +9,25 @@ import { getMovieMetadata } from "./get-movie-metadata";
 describe("getMovieMetadata", () => {
 	test("Unsupported year movie", () => {
 		expect(() => {
-			getMovieMetadata(
-				"The.Super.Mario.Bros..Movie.1788.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4",
-			);
+			getMovieMetadata("The.Super.Mario.Bros..Movie.1788.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4");
 		}).toThrow("Unsupported year movie");
 	});
 
 	test("Unsupported file extension", () => {
 		expect(() => {
-			getMovieMetadata(
-				"The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX].zip",
-			);
+			getMovieMetadata("The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX].zip");
 		}).toThrow("Unsupported file extension");
 	});
 
 	test("No file extension", () => {
-		expect(() => getMovieMetadata("Avatar (2009) 1080p YTS.MX")).toThrow(
-			"Unsupported file extension",
-		);
+		expect(() => getMovieMetadata("Avatar (2009) 1080p YTS.MX")).toThrow("Unsupported file extension");
 	});
 
 	test("The Super Mario Bros | 2023 | YTS-MX | (in 1080p)", () => {
-		const data = getMovieMetadata(
-			"The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4",
-		);
+		const data = getMovieMetadata("The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4");
 
 		expect(data).toEqual({
-			fileNameWithoutExtension:
-				"The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX]",
+			fileNameWithoutExtension: "The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX]",
 			name: "The Super Mario Bros Movie",
 			releaseGroup: {
 				fileAttributes: ["YTS.MX"],
@@ -53,13 +44,10 @@ describe("getMovieMetadata", () => {
 	});
 
 	test("The Super Mario Bros | 2023 | YTS-MX | (in 720p)", () => {
-		const data = getMovieMetadata(
-			"The.Super.Mario.Bros..Movie.2023.720p.BluRay.x264.AAC5.1-[YTS.MX].mp4",
-		);
+		const data = getMovieMetadata("The.Super.Mario.Bros..Movie.2023.720p.BluRay.x264.AAC5.1-[YTS.MX].mp4");
 
 		expect(data).toEqual({
-			fileNameWithoutExtension:
-				"The.Super.Mario.Bros..Movie.2023.720p.BluRay.x264.AAC5.1-[YTS.MX]",
+			fileNameWithoutExtension: "The.Super.Mario.Bros..Movie.2023.720p.BluRay.x264.AAC5.1-[YTS.MX]",
 			name: "The Super Mario Bros Movie",
 			releaseGroup: {
 				fileAttributes: ["YTS.MX"],
@@ -76,13 +64,10 @@ describe("getMovieMetadata", () => {
 	});
 
 	test("The Super Mario Bros | 2023 | YTS-MX | (in 1080p)", () => {
-		const data = getMovieMetadata(
-			"The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4",
-		);
+		const data = getMovieMetadata("The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4");
 
 		expect(data).toEqual({
-			fileNameWithoutExtension:
-				"The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX]",
+			fileNameWithoutExtension: "The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX]",
 			name: "The Super Mario Bros Movie",
 			releaseGroup: {
 				fileAttributes: ["YTS.MX"],
@@ -99,13 +84,10 @@ describe("getMovieMetadata", () => {
 	});
 
 	test("The Super Mario Bros | 2023 | YTS-MX | (in 2160p)", () => {
-		const data = getMovieMetadata(
-			"The.Super.Mario.Bros..Movie.2023.2160p.BluRay.x264.AAC5.1-[YTS.MX].mp4",
-		);
+		const data = getMovieMetadata("The.Super.Mario.Bros..Movie.2023.2160p.BluRay.x264.AAC5.1-[YTS.MX].mp4");
 
 		expect(data).toEqual({
-			fileNameWithoutExtension:
-				"The.Super.Mario.Bros..Movie.2023.2160p.BluRay.x264.AAC5.1-[YTS.MX]",
+			fileNameWithoutExtension: "The.Super.Mario.Bros..Movie.2023.2160p.BluRay.x264.AAC5.1-[YTS.MX]",
 			name: "The Super Mario Bros Movie",
 			releaseGroup: {
 				fileAttributes: ["YTS.MX"],
@@ -122,13 +104,10 @@ describe("getMovieMetadata", () => {
 	});
 
 	test("The Super Mario Bros | 2023 | YTS-MX | (in 3D)", () => {
-		const data = getMovieMetadata(
-			"The.Super.Mario.Bros..Movie.2023.3D.BluRay.x264.AAC5.1-[YTS.MX].mp4",
-		);
+		const data = getMovieMetadata("The.Super.Mario.Bros..Movie.2023.3D.BluRay.x264.AAC5.1-[YTS.MX].mp4");
 
 		expect(data).toEqual({
-			fileNameWithoutExtension:
-				"The.Super.Mario.Bros..Movie.2023.3D.BluRay.x264.AAC5.1-[YTS.MX]",
+			fileNameWithoutExtension: "The.Super.Mario.Bros..Movie.2023.3D.BluRay.x264.AAC5.1-[YTS.MX]",
 			name: "The Super Mario Bros Movie",
 			releaseGroup: {
 				fileAttributes: ["YTS.MX"],
@@ -145,13 +124,10 @@ describe("getMovieMetadata", () => {
 	});
 
 	test("The Super Mario Bros | 2023 | CODY", () => {
-		const data = getMovieMetadata(
-			"The Super Mario Bros Movie 2023 1080p WEBRip H265-CODY.mkv",
-		);
+		const data = getMovieMetadata("The Super Mario Bros Movie 2023 1080p WEBRip H265-CODY.mkv");
 
 		expect(data).toEqual({
-			fileNameWithoutExtension:
-				"The.Super.Mario.Bros.Movie.2023.1080p.WEBRip.H265-CODY",
+			fileNameWithoutExtension: "The.Super.Mario.Bros.Movie.2023.1080p.WEBRip.H265-CODY",
 			name: "The Super Mario Bros Movie",
 			releaseGroup: {
 				fileAttributes: ["CODY"],
@@ -168,9 +144,7 @@ describe("getMovieMetadata", () => {
 	});
 
 	test("Evil Dead Rise | 2023 | GalaxyRG", () => {
-		const data = getMovieMetadata(
-			"Evil.Dead.Rise.2023.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv",
-		);
+		const data = getMovieMetadata("Evil.Dead.Rise.2023.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv");
 
 		const releaseGroup: ReleaseGroup = {
 			fileAttributes: ["GalaxyRG"],
@@ -181,8 +155,7 @@ describe("getMovieMetadata", () => {
 			website: "",
 		};
 		expect(data).toEqual({
-			fileNameWithoutExtension:
-				"Evil.Dead.Rise.2023.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG",
+			fileNameWithoutExtension: "Evil.Dead.Rise.2023.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG",
 			name: "Evil Dead Rise",
 			releaseGroup,
 			resolution: "1080p",
@@ -192,9 +165,7 @@ describe("getMovieMetadata", () => {
 	});
 
 	test("The Flash | 2023 | RiGHTNOW", () => {
-		const data = getMovieMetadata(
-			"The.Flash.2023.1080p.WEB-DL.H.264-RiGHTNOW.mkv",
-		);
+		const data = getMovieMetadata("The.Flash.2023.1080p.WEB-DL.H.264-RiGHTNOW.mkv");
 
 		const releaseGroup: ReleaseGroup = {
 			fileAttributes: ["RiGHTNOW"],

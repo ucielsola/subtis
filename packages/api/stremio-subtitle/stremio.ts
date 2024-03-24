@@ -1,5 +1,5 @@
-import { z } from "zod";
 import type { Context } from "elysia";
+import { z } from "zod";
 
 // db
 import { subtitlesRowSchema, supabase } from "@subtis/db";
@@ -18,7 +18,7 @@ async function getSubtitleText(subtitleLink: string): Promise<string> {
 	const decoder = new TextDecoder("iso-8859-1");
 	const subtitle = decoder.decode(buffer);
 
-  return subtitle
+	return subtitle;
 }
 
 // schemas
@@ -74,12 +74,12 @@ export async function getStremioSubtitleFromFileName({
 			return { message: "Subtitle not found for file" };
 		}
 
-    const subtitle = await getSubtitleText(subtitleByBytes.data.subtitleFullLink);
+		const subtitle = await getSubtitleText(subtitleByBytes.data.subtitleFullLink);
 
 		return subtitle;
 	}
 
-  const subtitle = await getSubtitleText(subtitleByFileName.data.subtitleFullLink);
+	const subtitle = await getSubtitleText(subtitleByFileName.data.subtitleFullLink);
 
 	return subtitle;
 }

@@ -10,9 +10,7 @@ describe("getMovieName", () => {
 	});
 
 	test('should return a movie name without dots and any extra spaces for "Barbra.The.Music....The.Memries....The.Magic."', async () => {
-		const numbersArray = getMovieName(
-			"Barbra.The.Music....The.Memries....The.Magic.",
-		);
+		const numbersArray = getMovieName("Barbra.The.Music....The.Memries....The.Magic.");
 		expect(numbersArray).toBe("Barbra The Music The Memries The Magic");
 	});
 });

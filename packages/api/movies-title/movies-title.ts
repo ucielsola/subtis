@@ -25,11 +25,7 @@ export async function getMoviesFromMovieTitle({
 }): Promise<Response> {
 	const { movieTitle } = body;
 
-	const { data } = await supabase
-		.from("Movies")
-		.select("id, name, year")
-		.ilike("name", `%${movieTitle}%`)
-		.limit(10);
+	const { data } = await supabase.from("Movies").select("id, name, year").ilike("name", `%${movieTitle}%`).limit(10);
 
 	const movies = moviesSchema.safeParse(data);
 	if (!movies.success) {
