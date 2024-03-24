@@ -4,7 +4,7 @@ import { z } from "zod";
 import {
 	getVideoFileExtension,
 	videoFileExtensionSchema,
-} from "../get-video-file-extension/get-video-file-extension";
+} from "../../files/get-video-file-extension/get-video-file-extension";
 
 export const videoFileNameSchema = z.string().refine(
 	(input) => {

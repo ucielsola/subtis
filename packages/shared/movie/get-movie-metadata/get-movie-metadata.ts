@@ -7,7 +7,7 @@ import { P, match } from "ts-pattern";
 import { VIDEO_FILE_EXTENSIONS } from "..";
 import { getMovieFileNameWithoutExtension } from "../get-movie-file-name-without-extension/get-movie-file-name-without-extension";
 import { getMovieName } from "../get-movie-name";
-import { getStringWithoutExtraSpaces } from "../get-string-without-extra-spaces";
+import { getStringWithoutExtraSpaces } from "../../strings/get-string-without-extra-spaces";
 
 // types
 export type MovieData = {
