@@ -7,8 +7,7 @@
     "dev": "bun run --watch app.ts"
   },
   "dependencies": {
-    "stremio-addon-sdk": "^1.6.10",
-    "zod": "^3.22.4"
+    "stremio-addon-sdk": "^1.6.10"
   },
   "devDependencies": {
     "@types/bun": "latest",
