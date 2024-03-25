@@ -14,3 +14,4 @@ coverage-ts
 __dump
 *.rar
 .env*
+*.bun-build

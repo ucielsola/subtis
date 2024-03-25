@@ -11,7 +11,7 @@
     "generate": "bun run supabase:type:definitions && bun run supabase:schemas"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.39.8",
+    "@supabase/supabase-js": "^2.40.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {

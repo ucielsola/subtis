@@ -31,7 +31,7 @@
     "@raycast/eslint-config": "1.0.8",
     "@types/bun": "^1.0.10",
     "@types/node": "20.11.30",
-    "@types/react": "18.2.69",
+    "@types/react": "18.2.70",
     "typescript": "^5.4.3"
   }
 }
