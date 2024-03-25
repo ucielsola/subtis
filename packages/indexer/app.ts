@@ -255,12 +255,13 @@ async function getSubtitlesFromMovie(
 		groupByTracker: false,
 	});
 
-	const cinemaRecordingsRegex = /hq-cam|telesync|hdts|hdcam|c1nem4/gi;
+	const cinemaRecordingsRegex = /\b(hdcam|hq-cam|telesync|hdts|c1nem4)\b/gi;
 
-	const torrentsWithoutCineRecordings = torrents
-		.sort((torrentA, torrentB) => torrentB.seeds - torrentA.seeds)
-		.slice(0, TOTAL_MOVIES_TO_SEARCH)
-		.filter(({ title }) => !cinemaRecordingsRegex.test(title));
+	const torrentsSorted = torrents
+		.toSorted((torrentA, torrentB) => torrentB.seeds - torrentA.seeds)
+		.slice(0, TOTAL_MOVIES_TO_SEARCH);
+
+  const torrentsWithoutCineRecordings = torrentsSorted.filter((torrent) => !torrent.title.match(cinemaRecordingsRegex));
 
 	if (!torrentsWithoutCineRecordings.length) {
 		console.log(`4.${index}) No se encontraron torrents para la película "${title}" \n`);
