@@ -35,7 +35,7 @@ builder.defineSubtitlesHandler(async function getMovieSubtitle(args) {
 
 	const subtitle = {
 		lang: "spa",
-		id: "Subtis | Subtitulo en Español",
+		id: ": Subtis | Subtitulo en Español",
 		url: `${API_BASE_URL}/v1/integrations/stremio/${bytes}/${fileName}`,
 	};
 

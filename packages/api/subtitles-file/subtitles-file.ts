@@ -68,7 +68,6 @@ export async function getSubtitleFromFileName({
 			"id, subtitleShortLink, subtitleFullLink, resolution, fileName, bytes, Movies ( name, year, poster ), ReleaseGroups ( name ), SubtitleGroups ( name )",
 		)
 		.eq("fileName", videoFileName.data)
-		.order("subtitleGroupId", { ascending: false })
 		.single();
 
 	const subtitleByFileName = subtitleSchema.safeParse(data);
@@ -84,7 +83,6 @@ export async function getSubtitleFromFileName({
 				"id, subtitleShortLink, subtitleFullLink, resolution, fileName, bytes, Movies ( name, year ), ReleaseGroups ( name ), SubtitleGroups ( name )",
 			)
 			.eq("bytes", bytes)
-			.order("subtitleGroupId", { ascending: false })
 			.single();
 
 		const subtitleByBytes = subtitleSchema.safeParse(data);

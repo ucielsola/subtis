@@ -50,7 +50,6 @@ export async function getStremioSubtitleFromFileName({
 		.from("Subtitles")
 		.select("subtitleFullLink")
 		.eq("fileName", videoFileName.data)
-		.order("subtitleGroupId", { ascending: false })
 		.single();
 
 	const subtitleByFileName = subtitleSchema.safeParse(data);
@@ -60,12 +59,7 @@ export async function getStremioSubtitleFromFileName({
 			file_name: videoFileName.data,
 		});
 
-		const { data } = await supabase
-			.from("Subtitles")
-			.select("subtitleFullLink")
-			.eq("bytes", bytes)
-			.order("subtitleGroupId", { ascending: false })
-			.single();
+		const { data } = await supabase.from("Subtitles").select("subtitleFullLink").eq("bytes", bytes).single();
 
 		const subtitleByBytes = subtitleSchema.safeParse(data);
 
