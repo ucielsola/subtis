@@ -237,8 +237,7 @@ export async function saveReleaseGroupsToDb(supabaseClient: SupabaseClient): Pro
 			continue;
 		}
 
-		const data2 = await supabaseClient.from("ReleaseGroups").insert(releaseGroup);
-		console.log(data2);
+		await supabaseClient.from("ReleaseGroups").insert(releaseGroup);
 	}
 }
 

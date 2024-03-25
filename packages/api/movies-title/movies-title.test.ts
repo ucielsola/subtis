@@ -11,7 +11,7 @@ describe("API | /movies/title", () => {
 
 	it("return a movies response for a movie name query", async () => {
 		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies/title`, {
-			body: JSON.stringify({ movieTitle: "Wonka" }),
+			body: JSON.stringify({ movieTitle: "Mad" }),
 			headers: { "Content-Type": "application/json" },
 			method: "POST",
 		});
@@ -21,16 +21,16 @@ describe("API | /movies/title", () => {
 
 		expect(data).toEqual([
 			{
-				id: 6166392,
-				name: "Wonka",
-				year: 2023,
+				id: 11057302,
+				name: "Madame Web",
+				year: 2024,
 			},
 		]);
 	});
 
 	it("return a movies response for a movie name query with fuzzy search", async () => {
 		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies/title`, {
-			body: JSON.stringify({ movieTitle: "nka" }),
+			body: JSON.stringify({ movieTitle: "ame" }),
 			headers: { "Content-Type": "application/json" },
 			method: "POST",
 		});
@@ -40,16 +40,16 @@ describe("API | /movies/title", () => {
 
 		expect(data).toEqual([
 			{
-				id: 6166392,
-				name: "Wonka",
-				year: 2023,
+				id: 11057302,
+				name: "Madame Web",
+				year: 2024,
 			},
 		]);
 	});
 
 	it("return a movies response for a movie name query with lowercase", async () => {
 		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies/title`, {
-			body: JSON.stringify({ movieTitle: "wonka" }),
+			body: JSON.stringify({ movieTitle: "madame" }),
 			headers: { "Content-Type": "application/json" },
 			method: "POST",
 		});
@@ -59,9 +59,9 @@ describe("API | /movies/title", () => {
 
 		expect(data).toEqual([
 			{
-				id: 6166392,
-				name: "Wonka",
-				year: 2023,
+				id: 11057302,
+				name: "Madame Web",
+				year: 2024,
 			},
 		]);
 	});
@@ -82,7 +82,7 @@ describe("API | /movies/title", () => {
 		});
 	});
 
-	it("return a response for an 400 error for a bad payload", async () => {
+	it("return a response for an 422 error for a bad payload", async () => {
 		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies/title`, {
 			body: JSON.stringify({ movie: "zxsa" }),
 			headers: { "Content-Type": "application/json" },
@@ -92,14 +92,13 @@ describe("API | /movies/title", () => {
 		const response = await app.handle(request);
 		const data = await response.json();
 
-		expect(response.status).toBe(400);
+		expect(response.status).toBe(422);
 		expect(data).toMatchObject({
-			at: "movieTitle",
 			expected: {
 				movieTitle: "",
 			},
 			message: "Required property",
-			type: "body",
+			type: "validation",
 		});
 	});
 });

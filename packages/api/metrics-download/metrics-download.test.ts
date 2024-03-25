@@ -56,7 +56,7 @@ describe("API | /metrics/download", () => {
 		});
 	});
 
-	it("return a response for an 400 error for a bad payload", async () => {
+	it("return a response for an 422 error for a bad payload", async () => {
 		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/metrics/download`, {
 			body: JSON.stringify({ file: "123" }),
 			headers: { "Content-Type": "application/json" },
@@ -67,13 +67,13 @@ describe("API | /metrics/download", () => {
 		const data = await response.json();
 
 		expect(supabaseSpy).not.toHaveBeenCalled();
-		expect(response.status).toBe(400);
+		expect(response.status).toBe(422);
 		expect(data).toMatchObject({
 			expected: {
 				fileName: "",
 			},
 			message: "Required property",
-			type: "body",
+			type: "validation",
 		});
 	});
 });
