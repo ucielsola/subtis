@@ -1,6 +1,7 @@
 import { intro, outro, spinner } from "@clack/prompts";
 import chalk from "chalk";
 import minimist from "minimist";
+import terminalImage from "terminal-image";
 import { z } from "zod";
 
 // ui
@@ -74,10 +75,19 @@ export async function runCli(): Promise<void> {
 		loader.stop(`🥳 Descarga tu subtítulo en ${chalk.blue(data.subtitleShortLink)}`);
 
 		const {
-			Movies: { name, year },
 			resolution,
+			Movies: { name, year, poster },
 		} = data;
 		outro(`🍿 Disfruta de ${chalk.bold(`${name} (${year})`)} en ${chalk.italic(resolution)} subtitulada`);
+
+		if (poster) {
+			const response = await fetch(poster);
+			const arrayBuffer = await response.arrayBuffer();
+
+			const body = Buffer.from(arrayBuffer);
+			const image = await terminalImage.buffer(body, { width: "30%", height: "30%" });
+			console.log(image);
+		}
 	} catch (error) {
 		if (error instanceof Error) {
 			outro(chalk.red(`🔴 ${error.message}`));

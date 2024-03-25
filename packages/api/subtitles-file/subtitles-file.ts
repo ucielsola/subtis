@@ -27,9 +27,9 @@ export const subtitleSchema = subtitlesRowSchema
 		subtitleShortLink: true,
 	})
 	.extend({
-		Movies: moviesRowSchema.pick({ name: true, year: true }),
 		ReleaseGroups: releaseGroupsRowSchema.pick({ name: true }),
 		SubtitleGroups: subtitleGroupsRowSchema.pick({ name: true }),
+		Movies: moviesRowSchema.pick({ name: true, year: true, poster: true }),
 	});
 const responseSchema = z.union([subtitleSchema, errorSchema]);
 
@@ -65,7 +65,7 @@ export async function getSubtitleFromFileName({
 	const { data } = await supabase
 		.from("Subtitles")
 		.select(
-			"id, subtitleShortLink, subtitleFullLink, resolution, fileName, bytes, Movies ( name, year ), ReleaseGroups ( name ), SubtitleGroups ( name )",
+			"id, subtitleShortLink, subtitleFullLink, resolution, fileName, bytes, Movies ( name, year, poster ), ReleaseGroups ( name ), SubtitleGroups ( name )",
 		)
 		.eq("fileName", videoFileName.data)
 		.order("subtitleGroupId", { ascending: false })

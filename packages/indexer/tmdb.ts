@@ -155,7 +155,7 @@ function generateTmdbImageUrl(path: string | null): string | null {
 		return null;
 	}
 
-	return `https://image.tmdb.org/t/p/original/${path}`;
+	return `https://image.tmdb.org/t/p/original${path}`;
 }
 
 export async function getMoviesFromTmdb(page: number, year: number, isDebugging: boolean): Promise<TmdbMovie[]> {
