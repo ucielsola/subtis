@@ -10,27 +10,33 @@ export const jsonSchema: z.ZodSchema<Json> = z.lazy(() =>
 );
 
 export const moviesRowSchema = z.object({
+	backdrop: z.string().nullable(),
 	created_at: z.string(),
 	id: z.number(),
 	name: z.string(),
+	poster: z.string().nullable(),
 	rating: z.number(),
 	release_date: z.string(),
 	year: z.number(),
 });
 
 export const moviesInsertSchema = z.object({
+	backdrop: z.string().optional().nullable(),
 	created_at: z.string().optional(),
 	id: z.number(),
 	name: z.string(),
+	poster: z.string().optional().nullable(),
 	rating: z.number(),
 	release_date: z.string(),
 	year: z.number(),
 });
 
 export const moviesUpdateSchema = z.object({
+	backdrop: z.string().optional().nullable(),
 	created_at: z.string().optional(),
 	id: z.number().optional(),
 	name: z.string().optional(),
+	poster: z.string().optional().nullable(),
 	rating: z.number().optional(),
 	release_date: z.string().optional(),
 	year: z.number().optional(),
@@ -38,7 +44,7 @@ export const moviesUpdateSchema = z.object({
 
 export const releaseGroupsRowSchema = z.object({
 	created_at: z.string(),
-	fileAttribute: z.string(),
+	fileAttributes: z.array(z.string()),
 	id: z.number(),
 	isSupported: z.boolean().nullable(),
 	name: z.string(),
@@ -49,7 +55,7 @@ export const releaseGroupsRowSchema = z.object({
 
 export const releaseGroupsInsertSchema = z.object({
 	created_at: z.string().optional(),
-	fileAttribute: z.string(),
+	fileAttributes: z.array(z.string()),
 	id: z.number().optional(),
 	isSupported: z.boolean().optional().nullable(),
 	name: z.string(),
@@ -60,11 +66,11 @@ export const releaseGroupsInsertSchema = z.object({
 
 export const releaseGroupsUpdateSchema = z.object({
 	created_at: z.string().optional(),
-	fileAttribute: z.string().optional(),
+	fileAttributes: z.array(z.string()).optional(),
 	id: z.number().optional(),
 	isSupported: z.boolean().optional().nullable(),
 	name: z.string().optional(),
-	searchableOpenSubtitlesName: z.array(z.string()).nullable(),
+	searchableOpenSubtitlesName: z.array(z.string()).optional().nullable(),
 	searchableSubDivXName: z.array(z.string()).optional(),
 	website: z.string().optional(),
 });
@@ -143,18 +149,18 @@ export const subtitlesUpdateSchema = z.object({
 
 export const subtitlesNotFoundRowSchema = z.object({
 	created_at: z.string(),
-	fileName: z.string().nullable(),
+	fileName: z.string(),
 	id: z.number(),
 });
 
 export const subtitlesNotFoundInsertSchema = z.object({
 	created_at: z.string().optional(),
-	fileName: z.string().optional().nullable(),
+	fileName: z.string(),
 	id: z.number().optional(),
 });
 
 export const subtitlesNotFoundUpdateSchema = z.object({
 	created_at: z.string().optional(),
-	fileName: z.string().optional().nullable(),
+	fileName: z.string().optional(),
 	id: z.number().optional(),
 });

@@ -146,7 +146,17 @@ export type TmdbMovie = {
 	release_date: string;
 	title: string;
 	year: number;
+	poster: string | null;
+	backdrop: string | null;
 };
+
+function generateTmdbImageUrl(path: string | null): string | null {
+	if (!path) {
+		return null;
+	}
+
+	return `https://image.tmdb.org/t/p/original/${path}`;
+}
 
 export async function getMoviesFromTmdb(page: number, year: number, isDebugging: boolean): Promise<TmdbMovie[]> {
 	const movies: TmdbMovie[] = [];
@@ -160,7 +170,14 @@ export async function getMoviesFromTmdb(page: number, year: number, isDebugging:
 
 	// 2. Iterate movies for current page
 	for await (const movie of validatedData.results) {
-		const { id, release_date, title, vote_average: rating } = movie;
+		const {
+			id,
+			release_date,
+			title,
+			vote_average: rating,
+			poster_path: posterPath,
+			backdrop_path: backdropPath,
+		} = movie;
 
 		// 3. Get IMDB ID from TMDB movie detail
 		const url2 = tmdbApiEndpoints.movieDetail(id);
@@ -182,6 +199,8 @@ export async function getMoviesFromTmdb(page: number, year: number, isDebugging:
 			release_date,
 			title,
 			year,
+			poster: generateTmdbImageUrl(posterPath),
+			backdrop: generateTmdbImageUrl(backdropPath),
 		};
 
 		movies.push(movieData);

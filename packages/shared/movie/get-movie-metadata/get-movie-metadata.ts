@@ -4,7 +4,7 @@ import invariant from "tiny-invariant";
 import { P, match } from "ts-pattern";
 
 // internals
-import { VIDEO_FILE_EXTENSIONS } from "..";
+import { VIDEO_FILE_EXTENSIONS } from "../../files";
 import { getStringWithoutExtraSpaces } from "../../strings/get-string-without-extra-spaces";
 import { getMovieFileNameWithoutExtension } from "../get-movie-file-name-without-extension/get-movie-file-name-without-extension";
 import { getMovieName } from "../get-movie-name";
