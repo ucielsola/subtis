@@ -25,12 +25,12 @@ describe("CLI", async () => {
 			"bun",
 			import.meta.resolveSync("../run.ts"),
 			"--file",
-			"Wonka.2023.720p.WEBRip.800MB.x264-GalaxyRG.mkv",
+			"Madame.Web.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
 		const binaryProcess = Bun.spawn([
 			`${Bun.env.PWD}/packages/cli/bin/subtis`,
 			"--file",
-			"Wonka.2023.720p.WEBRip.800MB.x264-GalaxyRG.mkv",
+			"Madame.Web.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
 
 		const processes = [developmentProcess, binaryProcess];
@@ -38,8 +38,8 @@ describe("CLI", async () => {
 			const text = await new Response(process.stdout).text();
 
 			expect(text).toInclude("👋 Hola, soy Subtis");
-			expect(text).toInclude("🥳 Descarga tu subtítulo en https://tinyurl.com/ywepv8cn");
-			expect(text).toInclude("🍿 Disfruta de Killers of the Wonka (2023) en 1080p subtitulada");
+			expect(text).toInclude("🥳 Descarga tu subtítulo en https://tinyurl.com/27fploy");
+			expect(text).toInclude("🍿 Disfruta de Madame Web (2024) en 1080p subtitulada");
 		}
 	});
 
@@ -48,12 +48,12 @@ describe("CLI", async () => {
 			"bun",
 			import.meta.resolveSync("../run.ts"),
 			"-f",
-			"Wonka.2023.720p.WEBRip.800MB.x264-GalaxyRG.mkv",
+			"Madame.Web.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
 		const binaryProcess = Bun.spawn([
 			`${Bun.env.PWD}/packages/cli/bin/subtis`,
 			"-f",
-			"Wonka.2023.720p.WEBRip.800MB.x264-GalaxyRG.mkv",
+			"Madame.Web.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
 
 		const processes = [developmentProcess, binaryProcess];
@@ -62,8 +62,8 @@ describe("CLI", async () => {
 			const text = await new Response(process.stdout).text();
 
 			expect(text).toInclude("👋 Hola, soy Subtis");
-			expect(text).toInclude("🥳 Descarga tu subtítulo en https://tinyurl.com/ywepv8cn");
-			expect(text).toInclude("🍿 Disfruta de Killers of the Wonka (2023) en 1080p subtitulada");
+			expect(text).toInclude("🥳 Descarga tu subtítulo en https://tinyurl.com/27fploy");
+			expect(text).toInclude("🍿 Disfruta de Madame Web (2024) en 1080p subtitulada");
 		}
 	});
 
@@ -114,12 +114,12 @@ describe("CLI", async () => {
 			"bun",
 			import.meta.resolveSync("../run.ts"),
 			"--file",
-			"Trolls.Band.Together.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mp3",
+			"Trolls.Band.Together.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mp3",
 		]);
 		const binaryProcess = Bun.spawn([
 			`${Bun.env.PWD}/packages/cli/bin/subtis`,
 			"--file",
-			"Trolls.Band.Together.2023.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mp3",
+			"Trolls.Band.Together.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mp3",
 		]);
 
 		const processes = [developmentProcess, binaryProcess];
@@ -137,12 +137,12 @@ describe("CLI", async () => {
 			"bun",
 			import.meta.resolveSync("../run.ts"),
 			"--file",
-			"The.Matrix.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
+			"The.Matrix.3.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
 		const binaryProcess = Bun.spawn([
 			`${Bun.env.PWD}/packages/cli/bin/subtis`,
 			"--file",
-			"The.Matrix.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
+			"The.Matrix.3.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
 
 		const processes = [developmentProcess, binaryProcess];
