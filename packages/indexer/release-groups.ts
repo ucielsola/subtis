@@ -48,7 +48,7 @@ export const RELEASE_GROUPS = {
 	SHITBOX: {
 		fileAttributes: ["x264-SHITBOX", "0-SHITBOX", "1-SHITBOX"],
 		isSupported: true,
-		name: "ETHEL",
+		name: "SHITBOX",
 		searchableOpenSubtitlesName: ["SHITBOX"],
 		searchableSubDivXName: ["SHITBOX"],
 		website: "",

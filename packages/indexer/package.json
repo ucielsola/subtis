@@ -4,6 +4,7 @@
   "license": "MIT",
   "main": "app.ts",
   "scripts": {
+    "test": "bun test --watch",
     "dev": "bun --watch app.ts",
     "dev:node": "npx tsx --env-file .env.development --watch app.ts",
     "prod:node": "NODE_ENV=production npx tsx --env-file .env.production app.ts"

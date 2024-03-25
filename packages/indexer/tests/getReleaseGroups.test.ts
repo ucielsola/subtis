@@ -10,3 +10,4 @@ test("Indexer | should return a list of release groups", async () => {
 	const releaseGroups = await getReleaseGroups(supabase);
 	expect(releaseGroups).toMatchObject(RELEASE_GROUPS);
 });
+
