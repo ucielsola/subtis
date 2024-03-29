@@ -10,13 +10,13 @@
     "test:coverage": "bun test --coverage"
   },
   "dependencies": {
-    "@elysiajs/eden": "^1.0.7",
+    "@elysiajs/eden": "^1.0.8",
     "ts-pattern": "^5.0.8",
     "zod": "^3.22.4"
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "^0.5.1",
-    "@types/bun": "^1.0.10",
+    "@types/bun": "^1.0.11",
     "typescript": "^5.4.3"
   }
 }
