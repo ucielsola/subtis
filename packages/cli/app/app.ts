@@ -80,6 +80,10 @@ export async function runCli(): Promise<void> {
 		} = data;
 		outro(`🍿 Disfruta de ${chalk.bold(`${name} (${year})`)} en ${chalk.italic(resolution)} subtitulada`);
 
+    console.log(chalk.italic('Instructivos para reproducir tu subtítulo'))
+    console.log(`  1) Mueve el archivo descargado a la ${chalk.bold('misma carpeta')} de tu película`)
+    console.log(`  2) Si el subtítulo no se reproduce, ${chalk.bold('selecciona')} el subtitulo en Menú -> Subtítulos -> Pista de Subtítulos\n`)
+
 		if (poster) {
 			const response = await fetch(poster);
 			const arrayBuffer = await response.arrayBuffer();
