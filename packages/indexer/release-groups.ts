@@ -11,7 +11,6 @@ export const RELEASE_GROUPS = {
 		name: "AOC",
 		searchableOpenSubtitlesName: ["AOC"],
 		searchableSubDivXName: ["AOC"],
-		website: "",
 	},
 	AccomplishedYak: {
 		fileAttributes: ["H264-AccomplishedYak", "H265-AccomplishedYak", "x264-AccomplishedYak", "x265-AccomplishedYak"],
@@ -19,7 +18,6 @@ export const RELEASE_GROUPS = {
 		name: "AccomplishedYak",
 		searchableOpenSubtitlesName: ["AccomplishedYak"],
 		searchableSubDivXName: ["AccomplishedYak"],
-		website: "",
 	},
 	CODY: {
 		fileAttributes: ["CODY"],
@@ -27,7 +25,6 @@ export const RELEASE_GROUPS = {
 		name: "CODY",
 		searchableOpenSubtitlesName: ["CODY"],
 		searchableSubDivXName: ["H265-CODY"],
-		website: "",
 	},
 	EDITH: {
 		fileAttributes: ["h264-EDITH"],
@@ -35,7 +32,6 @@ export const RELEASE_GROUPS = {
 		name: "EDITH",
 		searchableOpenSubtitlesName: ["EDITH"],
 		searchableSubDivXName: ["edith"],
-		website: "",
 	},
 	ETHEL: {
 		fileAttributes: ["h264-ETHEL","h265-ETHEL"],
@@ -43,7 +39,6 @@ export const RELEASE_GROUPS = {
 		name: "ETHEL",
 		searchableOpenSubtitlesName: ["ETHEL"],
 		searchableSubDivXName: ["ETHEL","H264-ETHEL", "H265-ETHEL"],
-		website: "",
 	},
 	REVILS: {
 		fileAttributes: ["h264-REVILS"],
@@ -51,7 +46,6 @@ export const RELEASE_GROUPS = {
 		name: "REVILS",
 		searchableOpenSubtitlesName: ["REVILS"],
 		searchableSubDivXName: ["REVILS"],
-		website: "",
 	},
 	SHITBOX: {
 		fileAttributes: ["x264-SHITBOX", "0-SHITBOX", "1-SHITBOX"],
@@ -59,7 +53,6 @@ export const RELEASE_GROUPS = {
 		name: "SHITBOX",
 		searchableOpenSubtitlesName: ["SHITBOX"],
 		searchableSubDivXName: ["SHITBOX"],
-		website: "",
 	},
 	PiGNUS: {
 		fileAttributes: ["x264-pignus"],
@@ -67,7 +60,6 @@ export const RELEASE_GROUPS = {
 		name: "PiGNUS",
 		searchableOpenSubtitlesName: ["PiGNUS"],
 		searchableSubDivXName: ["PiGNUS"],
-		website: "",
 	},
 	EniaHD: {
 		fileAttributes: ["264-EniaHD", "265-EniaHD", "x264-EniaHD", "x265-EniaHD"],
@@ -75,7 +67,6 @@ export const RELEASE_GROUPS = {
 		name: "EniaHD",
 		searchableOpenSubtitlesName: ["EniaHD"],
 		searchableSubDivXName: ["EniaHD"],
-		website: "",
 	},
 	APEX: {
 		fileAttributes: ["264-APEX", "265-APEX"],
@@ -83,7 +74,6 @@ export const RELEASE_GROUPS = {
 		name: "APEX",
 		searchableOpenSubtitlesName: ["APEX"],
 		searchableSubDivXName: ["APEX", "265-APEX", "264-APEX"],
-		website: "",
 	},
 	FLUX: {
 		fileAttributes: ["FLUX", "265-Flux", "264-Flux"],
@@ -91,7 +81,6 @@ export const RELEASE_GROUPS = {
 		name: "FLUX",
 		searchableOpenSubtitlesName: ["FLUX"],
 		searchableSubDivXName: ["FLUX", "265-FLUX", "264-FLUX"],
-		website: "",
 	},
 	FLUX8: {
 		fileAttributes: ["FLUX8"],
@@ -99,7 +88,6 @@ export const RELEASE_GROUPS = {
 		name: "FLUX8",
 		searchableOpenSubtitlesName: ["FLUX8"],
 		searchableSubDivXName: ["FLUX8"],
-		website: "",
 	},
 	GalaxyRG: {
 		fileAttributes: ["GalaxyRG"],
@@ -107,7 +95,6 @@ export const RELEASE_GROUPS = {
 		name: "GalaxyRG",
 		searchableOpenSubtitlesName: ["GalaxyRG"],
 		searchableSubDivXName: ["GalaxyRG"],
-		website: "",
 	},
 	"HDRip-C1NEM4": {
 		fileAttributes: ["HDRip-C1NEM4"],
@@ -115,7 +102,6 @@ export const RELEASE_GROUPS = {
 		name: "HDRip-C1NEM4",
 		searchableOpenSubtitlesName: ["HDRip-C1NEM4"],
 		searchableSubDivXName: ["HDRip-C1NEM4"],
-		website: "",
 	},
 	"HEVC-CMRG": {
 		fileAttributes: ["HEVC-CMRG"],
@@ -123,7 +109,6 @@ export const RELEASE_GROUPS = {
 		name: "HEVC-CMRG",
 		searchableOpenSubtitlesName: ["HEVC-CMRG"],
 		searchableSubDivXName: ["cmrg"],
-		website: "",
 	},
 	"HEVC-PSA": {
 		fileAttributes: ["HEVC-PSA"],
@@ -131,7 +116,6 @@ export const RELEASE_GROUPS = {
 		name: "HEVC-PSA",
 		searchableOpenSubtitlesName: ["HEVC-PSA"],
 		searchableSubDivXName: ["hevc-psa"],
-		website: "",
 	},
 	"HEVC-EVO": {
 		fileAttributes: ["HEVC-EVO"],
@@ -139,7 +123,6 @@ export const RELEASE_GROUPS = {
 		name: "HEVC-EVO",
 		searchableOpenSubtitlesName: ["HEVC-EVO"],
 		searchableSubDivXName: ["HEVC-EVO"],
-		website: "",
 	},
 	KBOX: {
 		fileAttributes: ["h264-kbox", "h265-kbox"],
@@ -147,7 +130,6 @@ export const RELEASE_GROUPS = {
 		name: "KBOX",
 		searchableOpenSubtitlesName: ["KBOX"],
 		searchableSubDivXName: ["KBOX"],
-		website: "",
 	},
 	BYNDR: {
 		fileAttributes: ["264-BYNDR"],
@@ -155,7 +137,6 @@ export const RELEASE_GROUPS = {
 		name: "BYNDR",
 		searchableOpenSubtitlesName: ["H264-BYNDR"],
 		searchableSubDivXName: ["H264-BYNDR"],
-		website: "",
 	},
 	RABiDS: {
 		fileAttributes: ["H264-RABiDS"],
@@ -163,7 +144,6 @@ export const RELEASE_GROUPS = {
 		name: "RABiDS",
 		searchableOpenSubtitlesName: ["RABiDS"],
 		searchableSubDivXName: ["RABiDS"],
-		website: "",
 	},
 	SLOT: {
 		fileAttributes: ["h264-slot", "h265-slot"],
@@ -171,7 +151,6 @@ export const RELEASE_GROUPS = {
 		name: "SLOT",
 		searchableOpenSubtitlesName: ["SLOT"],
 		searchableSubDivXName: ["SLOT"],
-		website: "",
 	},
 	KNiVES: {
 		fileAttributes: ["KNiVES"],
@@ -179,7 +158,6 @@ export const RELEASE_GROUPS = {
 		name: "KNiVES",
 		searchableOpenSubtitlesName: ["KNiVES"],
 		searchableSubDivXName: ["KNiVES"],
-		website: "",
 	},
 	LAMA: {
 		fileAttributes: ["x264-LAMA"],
@@ -187,7 +165,6 @@ export const RELEASE_GROUPS = {
 		name: "LAMA",
 		searchableOpenSubtitlesName: ["LAMA"],
 		searchableSubDivXName: ["LAMA"],
-		website: "",
 	},
 	LiLKiM: {
 		fileAttributes: ["h265-lilkim", "h264-lilkim"],
@@ -195,7 +172,6 @@ export const RELEASE_GROUPS = {
 		name: "LiLKiM",
 		searchableOpenSubtitlesName: ["LiLKiM"],
 		searchableSubDivXName: ["LiLKiM"],
-		website: "",
 	},
 	RiGHTNOW: {
 		fileAttributes: ["RiGHTNOW"],
@@ -203,7 +179,6 @@ export const RELEASE_GROUPS = {
 		name: "RiGHTNOW",
 		searchableOpenSubtitlesName: ["RiGHTNOW"],
 		searchableSubDivXName: ["RIGHTNOW"],
-		website: "",
 	},
 	"YTS-MX": {
 		fileAttributes: ["YTS.MX"],
@@ -211,7 +186,6 @@ export const RELEASE_GROUPS = {
 		name: "YTS-MX",
 		searchableOpenSubtitlesName: ["YTS.MX"],
 		searchableSubDivXName: ["YTS MX", "YTS.MX", "YTS"],
-		website: "https://yts.mx",
 	},
 } as const;
 
