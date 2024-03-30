@@ -38,11 +38,11 @@ export const RELEASE_GROUPS = {
 		website: "",
 	},
 	ETHEL: {
-		fileAttributes: ["h265-ETHEL"],
+		fileAttributes: ["h264-ETHEL","h265-ETHEL"],
 		isSupported: true,
 		name: "ETHEL",
 		searchableOpenSubtitlesName: ["ETHEL"],
-		searchableSubDivXName: ["H265-ETHEL"],
+		searchableSubDivXName: ["ETHEL","H264-ETHEL", "H265-ETHEL"],
 		website: "",
 	},
 	SHITBOX: {
