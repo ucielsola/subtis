@@ -124,6 +124,13 @@ export const RELEASE_GROUPS = {
 		searchableOpenSubtitlesName: ["HEVC-EVO"],
 		searchableSubDivXName: ["HEVC-EVO"],
 	},
+	ACEM: {
+		fileAttributes: ["264-ACEM", "265-ACEM"],
+		isSupported: true,
+		name: "ACEM",
+		searchableOpenSubtitlesName: ["ACEM"],
+		searchableSubDivXName: ["ACEM"],
+	},
 	KBOX: {
 		fileAttributes: ["h264-kbox", "h265-kbox"],
 		isSupported: true,
