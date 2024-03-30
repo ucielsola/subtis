@@ -138,6 +138,21 @@ export const RELEASE_GROUPS = {
 		searchableOpenSubtitlesName: ["REMUX"],
 		searchableSubDivXName: ["REMUX"],
 	},
+	EVO: {
+		fileAttributes: ["x264-EVO", "x265-EVO"],
+		isSupported: true,
+		name: "EVO",
+		searchableOpenSubtitlesName: ["EVO"],
+		searchableSubDivXName: ["EVO"],
+	},
+	'Atmos-SWTYBLZ': {
+		fileAttributes: ["Atmos-SWTYBLZ"],
+		isSupported: true,
+		name: "Atmos-SWTYBLZ",
+		searchableOpenSubtitlesName: ["Atmos-SWTYBLZ"],
+		searchableSubDivXName: ["Atmos-SWTYBLZ"],
+	},
+
 	KBOX: {
 		fileAttributes: ["h264-kbox", "h265-kbox"],
 		isSupported: true,
