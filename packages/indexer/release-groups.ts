@@ -104,7 +104,7 @@ export const RELEASE_GROUPS = {
 		searchableSubDivXName: ["HDRip-C1NEM4"],
 	},
 	"HEVC-CMRG": {
-		fileAttributes: ["HEVC-CMRG"],
+		fileAttributes: ["HEVC-CMRG", "x264-CMRG", "x265-CMRG"],
 		isSupported: true,
 		name: "HEVC-CMRG",
 		searchableOpenSubtitlesName: ["HEVC-CMRG"],
