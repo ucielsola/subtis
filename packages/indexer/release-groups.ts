@@ -152,7 +152,13 @@ export const RELEASE_GROUPS = {
 		searchableOpenSubtitlesName: ["Atmos-SWTYBLZ"],
 		searchableSubDivXName: ["Atmos-SWTYBLZ"],
 	},
-
+	'Atmos-MRCS': {
+		fileAttributes: ["x264-MRCS"],
+		isSupported: true,
+		name: "Atmos-MRCS",
+		searchableOpenSubtitlesName: ["MRCS"],
+		searchableSubDivXName: ["MRCS"],
+	},
 	KBOX: {
 		fileAttributes: ["h264-kbox", "h265-kbox"],
 		isSupported: true,
