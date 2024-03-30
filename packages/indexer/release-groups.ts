@@ -131,6 +131,13 @@ export const RELEASE_GROUPS = {
 		searchableOpenSubtitlesName: ["ACEM"],
 		searchableSubDivXName: ["ACEM"],
 	},
+	REMUX: {
+		fileAttributes: ["REMUX"],
+		isSupported: true,
+		name: "REMUX",
+		searchableOpenSubtitlesName: ["REMUX"],
+		searchableSubDivXName: ["REMUX"],
+	},
 	KBOX: {
 		fileAttributes: ["h264-kbox", "h265-kbox"],
 		isSupported: true,
