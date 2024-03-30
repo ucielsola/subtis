@@ -45,6 +45,14 @@ export const RELEASE_GROUPS = {
 		searchableSubDivXName: ["ETHEL","H264-ETHEL", "H265-ETHEL"],
 		website: "",
 	},
+	REVILS: {
+		fileAttributes: ["h264-REVILS"],
+		isSupported: true,
+		name: "REVILS",
+		searchableOpenSubtitlesName: ["REVILS"],
+		searchableSubDivXName: ["REVILS"],
+		website: "",
+	},
 	SHITBOX: {
 		fileAttributes: ["x264-SHITBOX", "0-SHITBOX", "1-SHITBOX"],
 		isSupported: true,
