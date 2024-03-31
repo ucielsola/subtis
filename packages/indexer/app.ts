@@ -261,12 +261,15 @@ async function getSubtitlesFromMovie(
 		.toSorted((torrentA, torrentB) => torrentB.seeds - torrentA.seeds)
 		.slice(0, TOTAL_MOVIES_TO_SEARCH);
 
+	const MINIMUM_SEEDS = 15;
 	const torrentsWithoutCineRecordings = torrentsSorted
 		.filter((torrent) => !torrent.title.match(cinemaRecordingsRegex))
-		.filter(({ seeds }) => seeds > 30);
+		.filter(({ seeds }) => seeds > MINIMUM_SEEDS);
 
 	if (!torrentsWithoutCineRecordings.length) {
-		console.log(`4.${index}) No se encontraron torrents para la película "${title} (que no sean grabadas en cine y tengan más de 30 seeds)" \n`);
+		console.log(
+			`4.${index}) No se encontraron torrents para la película "${title} (que no sean grabadas en cine y tengan más de ${MINIMUM_SEEDS} seeds)" \n`,
+		);
 		return;
 	}
 
