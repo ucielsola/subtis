@@ -257,6 +257,13 @@ export const RELEASE_GROUPS = {
 		searchableOpenSubtitlesName: ["HUZZAH"],
 		searchableSubDivXName: ["HUZZAH"],
 	},
+	ETRG: {
+		fileAttributes: ["x264-ETRG", "x265-ETRG"],
+		isSupported: true,
+		name: "ETRG",
+		searchableOpenSubtitlesName: ["ETRG", "AAC-ETRG"],
+		searchableSubDivXName: ["ETRG", "AAC-ETRG"],
+	},
 } as const;
 
 // types
