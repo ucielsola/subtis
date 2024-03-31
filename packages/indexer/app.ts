@@ -261,7 +261,7 @@ async function getSubtitlesFromMovie(
 		.toSorted((torrentA, torrentB) => torrentB.seeds - torrentA.seeds)
 		.slice(0, TOTAL_MOVIES_TO_SEARCH);
 
-  const torrentsWithoutCineRecordings = torrentsSorted.filter((torrent) => !torrent.title.match(cinemaRecordingsRegex));
+	const torrentsWithoutCineRecordings = torrentsSorted.filter((torrent) => !torrent.title.match(cinemaRecordingsRegex));
 
 	if (!torrentsWithoutCineRecordings.length) {
 		console.log(`4.${index}) No se encontraron torrents para la película "${title}" \n`);

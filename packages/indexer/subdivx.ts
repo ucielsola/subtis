@@ -88,17 +88,27 @@ export async function getSubDivXSubtitle({
 
 	invariant(subtitle, `[${SUBDIVX_BREADCRUMB_ERROR}]: Subtitle doesn't exists`);
 
-	const subtitleRarLink = `${SUBDIVX_BASE_URL}/sub9/${subtitle.id}.rar`;
-	const subtitleZipLink = `${SUBDIVX_BASE_URL}/sub9/${subtitle.id}.zip`;
+	let subtitleLink = "";
+	let fileExtension = "";
+	const pathIds = [9, 8, 7, 6, 5, 4, 3, 2, 1];
 
-	const isRarLinkAlive = await getIsLinkAlive(subtitleRarLink);
-	const isZipLinkAlive = await getIsLinkAlive(subtitleZipLink);
+	for await (const pathId of pathIds) {
+		const subtitleRarLink = `${SUBDIVX_BASE_URL}/sub${pathId}/${subtitle.id}.rar`;
+		const subtitleZipLink = `${SUBDIVX_BASE_URL}/sub${pathId}/${subtitle.id}.zip`;
 
-	invariant(isRarLinkAlive || isZipLinkAlive, `[${SUBDIVX_BREADCRUMB_ERROR}]: Subtitle link should be alive`);
+		const isRarLinkAlive = await getIsLinkAlive(subtitleRarLink);
+		const isZipLinkAlive = await getIsLinkAlive(subtitleZipLink);
+
+		if (isRarLinkAlive || isZipLinkAlive) {
+			fileExtension = isRarLinkAlive ? "rar" : "zip";
+			subtitleLink = isRarLinkAlive ? subtitleRarLink : subtitleZipLink;
+			break;
+		}
+	}
+
+	invariant(subtitleLink, `[${SUBDIVX_BREADCRUMB_ERROR}]: Subtitle link should be alive`);
 
 	const subtitleGroup = SUBTITLE_GROUPS.SUBDIVX.name;
-	const fileExtension = isRarLinkAlive ? "rar" : "zip";
-	const subtitleLink = isRarLinkAlive ? subtitleRarLink : subtitleZipLink;
 
 	const subtitleSrtFileName = slugify(`${name}-${resolution}-${releaseGroup.name}-${subtitleGroup}.srt`).toLowerCase();
 	const downloadFileName = `${fileNameWithoutExtension}.srt`;

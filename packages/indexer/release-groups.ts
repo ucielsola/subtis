@@ -34,11 +34,11 @@ export const RELEASE_GROUPS = {
 		searchableSubDivXName: ["edith"],
 	},
 	ETHEL: {
-		fileAttributes: ["h264-ETHEL","h265-ETHEL"],
+		fileAttributes: ["h264-ETHEL", "h265-ETHEL"],
 		isSupported: true,
 		name: "ETHEL",
 		searchableOpenSubtitlesName: ["ETHEL"],
-		searchableSubDivXName: ["ETHEL","H264-ETHEL", "H265-ETHEL"],
+		searchableSubDivXName: ["ETHEL", "H264-ETHEL", "H265-ETHEL"],
 	},
 	REVILS: {
 		fileAttributes: ["h264-REVILS"],
@@ -145,14 +145,14 @@ export const RELEASE_GROUPS = {
 		searchableOpenSubtitlesName: ["EVO"],
 		searchableSubDivXName: ["EVO"],
 	},
-	'Atmos-SWTYBLZ': {
+	"Atmos-SWTYBLZ": {
 		fileAttributes: ["Atmos-SWTYBLZ"],
 		isSupported: true,
 		name: "Atmos-SWTYBLZ",
 		searchableOpenSubtitlesName: ["Atmos-SWTYBLZ"],
 		searchableSubDivXName: ["Atmos-SWTYBLZ"],
 	},
-	'Atmos-MRCS': {
+	"Atmos-MRCS": {
 		fileAttributes: ["x264-MRCS"],
 		isSupported: true,
 		name: "Atmos-MRCS",
@@ -215,12 +215,12 @@ export const RELEASE_GROUPS = {
 		searchableOpenSubtitlesName: ["RiGHTNOW"],
 		searchableSubDivXName: ["RIGHTNOW"],
 	},
-	"YTS-MX": {
-		fileAttributes: ["YTS.MX"],
+	YTS: {
+		fileAttributes: ["YTS.MX", "YTS.LT"],
 		isSupported: true,
-		name: "YTS-MX",
-		searchableOpenSubtitlesName: ["YTS.MX"],
-		searchableSubDivXName: ["YTS MX", "YTS.MX", "YTS"],
+		name: "YTS",
+		searchableOpenSubtitlesName: ["YTS MX", "YTS.MX", "YTS", "YTS.LT"],
+		searchableSubDivXName: ["YTS MX", "YTS.MX", "YTS", "YTS.LT", "x264-[YTS.LT]"],
 	},
 } as const;
 
