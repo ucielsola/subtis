@@ -250,6 +250,13 @@ export const RELEASE_GROUPS = {
 		searchableOpenSubtitlesName: ["x264-MADSKY", "x265-MADSKY", "MADSKY"],
 		searchableSubDivXName: ["x264-MADSKY", "x265-MADSKY", "MADSKY"],
 	},
+	HUZZAH: {
+		fileAttributes: ["h264-huzzah", "h265-huzzah"],
+		isSupported: true,
+		name: "HUZZAH",
+		searchableOpenSubtitlesName: ["HUZZAH"],
+		searchableSubDivXName: ["HUZZAH"],
+	},
 } as const;
 
 // types
