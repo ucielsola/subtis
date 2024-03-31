@@ -29,8 +29,8 @@
   },
   "devDependencies": {
     "@raycast/eslint-config": "1.0.8",
-    "@types/bun": "^1.0.11",
-    "@types/node": "20.11.30",
+    "@types/bun": "^1.0.12",
+    "@types/node": "20.12.2",
     "@types/react": "18.2.73",
     "typescript": "^5.4.3"
   }
