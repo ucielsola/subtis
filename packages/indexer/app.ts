@@ -15,7 +15,7 @@ import { match } from "ts-pattern";
 import turl from "turl";
 
 import { type Movie, supabase } from "@subtis/db";
-import { VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieMetadata, type MovieData } from "@subtis/shared";
+import { type MovieData, VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieMetadata } from "@subtis/shared";
 
 import tg from "torrent-grabber";
 import type { File } from "torrent-stream";
@@ -333,13 +333,12 @@ async function getSubtitlesFromMovie(
 		const { length: bytes, name: fileName } = videoFile;
 		const fileNameExtension = getMovieFileNameExtension(fileName);
 
-
-		let movieData: MovieData | null = null
-    try {
-      movieData = getMovieMetadata(fileName);
-    } catch (error) {
-      console.log('\n ~ getSubtitlesFromMovie ~ getMovieMetadata error:', error)
-    }
+		let movieData: MovieData | null = null;
+		try {
+			movieData = getMovieMetadata(fileName);
+		} catch (error) {
+			console.log("\n ~ getSubtitlesFromMovie ~ getMovieMetadata error:", error);
+		}
 
 		if (!movieData) {
 			console.log(`4.${index}) No se encontró metadata para la película "${title}" \n`);
