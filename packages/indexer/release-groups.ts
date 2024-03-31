@@ -247,8 +247,8 @@ export const RELEASE_GROUPS = {
 		fileAttributes: ["264-MADSKY", "265-MADSKY"],
 		isSupported: true,
 		name: "MADSKY",
-		searchableOpenSubtitlesName: ["x264-MADSKY", "x265-MADSKY","MADSKY"],
-		searchableSubDivXName: ["x264-MADSKY","x265-MADSKY","MADSKY"],
+		searchableOpenSubtitlesName: ["x264-MADSKY", "x265-MADSKY", "MADSKY"],
+		searchableSubDivXName: ["x264-MADSKY", "x265-MADSKY", "MADSKY"],
 	},
 } as const;
 
