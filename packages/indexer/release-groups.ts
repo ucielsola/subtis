@@ -222,6 +222,20 @@ export const RELEASE_GROUPS = {
 		searchableOpenSubtitlesName: ["YTS MX", "YTS.MX", "YTS", "YTS.LT"],
 		searchableSubDivXName: ["YTS MX", "YTS.MX", "YTS", "YTS.LT", "x264-[YTS.LT]"],
 	},
+	RMTeam: {
+		fileAttributes: ["x265.rmteam", "x265-rmteam"],
+		isSupported: true,
+		name: "RMTeam",
+		searchableOpenSubtitlesName: ["x265-rmteam", "rmteam"],
+		searchableSubDivXName: ["x265-rmteam", "rmteam"],
+	},
+	BobDobbs: {
+		fileAttributes: ["H264-BobDobbs"],
+		isSupported: true,
+		name: "BobDobbs",
+		searchableOpenSubtitlesName: ["H264-BobDobbs", "BobDobbs"],
+		searchableSubDivXName: ["H264-BobDobbs", "BobDobbs"],
+	},
 } as const;
 
 // types
