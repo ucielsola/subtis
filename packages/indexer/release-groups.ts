@@ -236,6 +236,13 @@ export const RELEASE_GROUPS = {
 		searchableOpenSubtitlesName: ["H264-BobDobbs", "BobDobbs"],
 		searchableSubDivXName: ["H264-BobDobbs", "BobDobbs"],
 	},
+	SPARKS: {
+		fileAttributes: ["x264-sparks"],
+		isSupported: true,
+		name: "SPARKS",
+		searchableOpenSubtitlesName: ["x264-SPARKS", "SPARKS"],
+		searchableSubDivXName: ["x264-SPARKS", "SPARKS"],
+	},
 } as const;
 
 // types
