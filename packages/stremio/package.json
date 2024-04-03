@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "@types/node": "^20.12.2",
+    "@types/node": "^20.12.4",
     "@types/stremio-addon-sdk": "^1.6.11",
     "typescript": "^5.4.3"
   }
