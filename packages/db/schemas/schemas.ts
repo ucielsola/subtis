@@ -50,7 +50,6 @@ export const releaseGroupsRowSchema = z.object({
 	name: z.string(),
 	searchableOpenSubtitlesName: z.array(z.string()).nullable(),
 	searchableSubDivXName: z.array(z.string()),
-	website: z.string(),
 });
 
 export const releaseGroupsInsertSchema = z.object({
@@ -61,7 +60,6 @@ export const releaseGroupsInsertSchema = z.object({
 	name: z.string(),
 	searchableOpenSubtitlesName: z.array(z.string()).optional().nullable(),
 	searchableSubDivXName: z.array(z.string()),
-	website: z.string(),
 });
 
 export const releaseGroupsUpdateSchema = z.object({
@@ -72,7 +70,6 @@ export const releaseGroupsUpdateSchema = z.object({
 	name: z.string().optional(),
 	searchableOpenSubtitlesName: z.array(z.string()).optional().nullable(),
 	searchableSubDivXName: z.array(z.string()).optional(),
-	website: z.string().optional(),
 });
 
 export const subtitleGroupsRowSchema = z.object({
@@ -103,8 +100,9 @@ export const subtitlesRowSchema = z.object({
 	fileExtension: z.string(),
 	fileName: z.string(),
 	id: z.number(),
+	lang: z.string(),
 	lastQueriedAt: z.string().nullable(),
-	movieId: z.number().nullable(),
+	movieId: z.number(),
 	queriedTimes: z.number().nullable(),
 	releaseGroupId: z.number(),
 	resolution: z.string(),
@@ -120,8 +118,9 @@ export const subtitlesInsertSchema = z.object({
 	fileExtension: z.string(),
 	fileName: z.string(),
 	id: z.number().optional(),
+	lang: z.string(),
 	lastQueriedAt: z.string().optional().nullable(),
-	movieId: z.number().optional().nullable(),
+	movieId: z.number(),
 	queriedTimes: z.number().optional().nullable(),
 	releaseGroupId: z.number(),
 	resolution: z.string(),
@@ -137,8 +136,9 @@ export const subtitlesUpdateSchema = z.object({
 	fileExtension: z.string().optional(),
 	fileName: z.string().optional(),
 	id: z.number().optional(),
+	lang: z.string().optional(),
 	lastQueriedAt: z.string().optional().nullable(),
-	movieId: z.number().optional().nullable(),
+	movieId: z.number().optional(),
 	queriedTimes: z.number().optional().nullable(),
 	releaseGroupId: z.number().optional(),
 	resolution: z.string().optional(),

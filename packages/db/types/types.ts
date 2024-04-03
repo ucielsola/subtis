@@ -45,7 +45,6 @@ export type Database = {
 					name: string;
 					searchableOpenSubtitlesName: string[] | null;
 					searchableSubDivXName: string[];
-					website: string;
 				};
 				Insert: {
 					created_at?: string;
@@ -55,7 +54,6 @@ export type Database = {
 					name: string;
 					searchableOpenSubtitlesName?: string[] | null;
 					searchableSubDivXName: string[];
-					website: string;
 				};
 				Update: {
 					created_at?: string;
@@ -65,7 +63,6 @@ export type Database = {
 					name?: string;
 					searchableOpenSubtitlesName?: string[] | null;
 					searchableSubDivXName?: string[];
-					website?: string;
 				};
 				Relationships: [];
 			};
@@ -98,8 +95,9 @@ export type Database = {
 					fileExtension: string;
 					fileName: string;
 					id: number;
+					lang: string;
 					lastQueriedAt: string | null;
-					movieId: number | null;
+					movieId: number;
 					queriedTimes: number | null;
 					releaseGroupId: number;
 					resolution: string;
@@ -114,8 +112,9 @@ export type Database = {
 					fileExtension: string;
 					fileName: string;
 					id?: number;
+					lang: string;
 					lastQueriedAt?: string | null;
-					movieId?: number | null;
+					movieId: number;
 					queriedTimes?: number | null;
 					releaseGroupId: number;
 					resolution: string;
@@ -130,8 +129,9 @@ export type Database = {
 					fileExtension?: string;
 					fileName?: string;
 					id?: number;
+					lang?: string;
 					lastQueriedAt?: string | null;
-					movieId?: number | null;
+					movieId?: number;
 					queriedTimes?: number | null;
 					releaseGroupId?: number;
 					resolution?: string;
