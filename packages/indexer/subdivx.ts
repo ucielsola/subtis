@@ -6,7 +6,7 @@ import { z } from "zod";
 import type { MovieData } from "@subtis/shared";
 
 import { SUBTITLE_GROUPS } from "./subtitle-groups";
-import type { SubtitleData } from "./types";
+import type { FileExtension, SubtitleData } from "./types";
 // internals
 import { getIsLinkAlive } from "./utils";
 
@@ -89,7 +89,7 @@ export async function getSubDivXSubtitle({
 	invariant(subtitle, `[${SUBDIVX_BREADCRUMB_ERROR}]: Subtitle doesn't exists`);
 
 	let subtitleLink = "";
-	let fileExtension = "";
+	let fileExtension: FileExtension | null = null;
 	const pathIds = [9, 8, 7, 6, 5, 4, 3, 2, 1];
 
 	for await (const pathId of pathIds) {
@@ -107,6 +107,7 @@ export async function getSubDivXSubtitle({
 	}
 
 	invariant(subtitleLink, `[${SUBDIVX_BREADCRUMB_ERROR}]: Subtitle link should be alive`);
+	invariant(fileExtension, `[${SUBDIVX_BREADCRUMB_ERROR}]: Subtitle file extension should be defined`);
 
 	const subtitleGroup = SUBTITLE_GROUPS.SUBDIVX.name;
 
@@ -128,5 +129,6 @@ export async function getSubDivXSubtitle({
 		subtitleGroup,
 		subtitleLink,
 		subtitleSrtFileName,
+		lang: "es",
 	};
 }
