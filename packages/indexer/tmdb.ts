@@ -129,6 +129,9 @@ const tmdbApiEndpoints = {
 	movieDetail: (id: number) => {
 		return `https://api.themoviedb.org/3/movie/${id}`;
 	},
+	movieSearch: (title: string) => {
+		return `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}`;
+	},
 };
 
 const TMDB_OPTIONS = {
@@ -207,4 +210,43 @@ export async function getMoviesFromTmdb(page: number, year: number, isDebugging:
 	}
 
 	return movies;
+}
+
+export async function getTmdbMovieFromTitle(query: string): Promise<TmdbMovie> {
+	const url = tmdbApiEndpoints.movieSearch(query);
+
+	const response = await fetch(url, TMDB_OPTIONS);
+	const data = await response.json();
+
+	const { results } = tmdbDiscoverSchema.parse(data);
+
+	const [movie] = results;
+
+	const { id, release_date, title, vote_average: rating, poster_path: posterPath, backdrop_path: backdropPath } = movie;
+
+	// 3. Get IMDB ID from TMDB movie detail
+	const url2 = tmdbApiEndpoints.movieDetail(id);
+
+	const response2 = await fetch(url2, TMDB_OPTIONS);
+	const data2 = await response2.json();
+	const { imdb_id } = tmdbMovieSchema.parse(data2);
+
+	// 4. Parse raw imdb_id
+	const imdbId = getStripedImdbId(imdb_id ?? "");
+
+	// 5. Get year from release date
+	const year = Number(release_date.split("-")[0]);
+
+	const movieData = {
+		imdbId,
+		imdbLink: imdbId ? `https://www.imdb.com/title/tt${imdbId}` : "-",
+		rating,
+		release_date,
+		title,
+		year,
+		poster: generateTmdbImageUrl(posterPath),
+		backdrop: generateTmdbImageUrl(backdropPath),
+	};
+
+	return movieData;
 }

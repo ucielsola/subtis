@@ -37,7 +37,7 @@ import {
 	getSubtitleGroups,
 	saveSubtitleGroupsToDb,
 } from "./subtitle-groups";
-import { type TmdbMovie, getMoviesFromTmdb, getTmdbMoviesTotalPagesArray } from "./tmdb";
+import { type TmdbMovie, getMoviesFromTmdb, getTmdbMovieFromTitle, getTmdbMoviesTotalPagesArray } from "./tmdb";
 import type { SubtitleData } from "./types";
 import { getSubtitleAuthor } from "./utils";
 
@@ -67,7 +67,7 @@ async function setMovieSubtitlesToDatabase({
 }): Promise<void> {
 	try {
 		const {
-      lang,
+			lang,
 			downloadFileName,
 			fileExtension,
 			subtitleCompressedFileName,
@@ -195,7 +195,7 @@ async function setMovieSubtitlesToDatabase({
 
 		// 16. Save subtitle to Supabase
 		await supabase.from("Subtitles").insert({
-      lang,
+			lang,
 			author,
 			bytes: String(bytes),
 			fileExtension: fileNameExtension,
@@ -253,7 +253,7 @@ async function getSubtitlesFromMovie(
 	// 1. Get first 10 movie torrents from ThePirateBay
 	const TOTAL_MOVIES_TO_SEARCH = 10;
 
-  const movieTitleQuery = movie.title.replace(/'/g, "");
+	const movieTitleQuery = movie.title.replace(/'/g, "");
 	const torrents = await tg.search(`${movieTitleQuery} ${movie.year}`, {
 		groupByTracker: false,
 	});
@@ -501,6 +501,24 @@ async function mainIndexer(moviesYear: number, isDebugging: boolean): Promise<vo
 	}
 }
 
+async function indexSingleMovie(movieTitle: string) {
+	try {
+		await tg.activate("ThePirateBay");
+
+		const releaseGroups = await getReleaseGroups(supabase);
+		const subtitleGroups = await getSubtitleGroups(supabase);
+
+		const movie = await getTmdbMovieFromTitle(movieTitle);
+
+		await getSubtitlesFromMovie("1", movie, releaseGroups, subtitleGroups, true);
+	} catch (error) {
+		console.log("\n ~ indexSingleMovie ~ error:", error);
+	}
+}
+
+
 mainIndexer(2023, true);
+// indexSingleMovie("The Tiger's Apprentice");
+
 saveReleaseGroupsToDb(supabase);
 saveSubtitleGroupsToDb(supabase);
