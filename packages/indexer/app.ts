@@ -67,6 +67,7 @@ async function setMovieSubtitlesToDatabase({
 }): Promise<void> {
 	try {
 		const {
+      lang,
 			downloadFileName,
 			fileExtension,
 			subtitleCompressedFileName,
@@ -194,6 +195,7 @@ async function setMovieSubtitlesToDatabase({
 
 		// 16. Save subtitle to Supabase
 		await supabase.from("Subtitles").insert({
+      lang,
 			author,
 			bytes: String(bytes),
 			fileExtension: fileNameExtension,
