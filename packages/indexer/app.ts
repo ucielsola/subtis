@@ -516,7 +516,6 @@ async function indexSingleMovie(movieTitle: string) {
 	}
 }
 
-
 mainIndexer(2023, true);
 // indexSingleMovie("The Tiger's Apprentice");
 
