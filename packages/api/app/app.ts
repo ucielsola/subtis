@@ -11,6 +11,7 @@ import {
 	getRecentMovies,
 	getStremioSubtitleFromFileName,
 	getSubtitleFromFileName,
+	getSubtitleVersionsFromFileName,
 	getSubtitlesFromMovieId,
 	getTrendingSubtitles,
 	listener,
@@ -33,6 +34,9 @@ export function runApi(displayListenLog = false, port = 8080) {
 				})
 				.post("/file", getSubtitleFromFileName, {
 					body: t.Object({ bytes: t.String(), fileName: t.String() }),
+				})
+				.post("/file/versions", getSubtitleVersionsFromFileName, {
+					body: t.Object({ fileName: t.String() }),
 				});
 		})
 		.group("/v1/movies", (app) => {

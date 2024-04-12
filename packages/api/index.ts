@@ -3,6 +3,7 @@ export * from "./metrics-download";
 export * from "./movies-title";
 export * from "./shared";
 export * from "./subtitles-file";
+export * from "./subtitles-file-versions";
 export * from "./subtitles-movie";
 export * from "./subtitles-trending";
 export * from "./stremio-subtitle";
