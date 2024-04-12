@@ -25,7 +25,9 @@ export async function getMoviesFromMovieTitle({
 }): Promise<Response> {
 	const { movieTitle } = body;
 
-	const { data } = await supabase.from("Movies").select("id, name, year").ilike("name", `%${movieTitle}%`).limit(10);
+	const { data } = await supabase.rpc("fuzzy_search_movie", {
+		movie_query: movieTitle,
+	});
 
 	const movies = moviesSchema.safeParse(data);
 	if (!movies.success) {

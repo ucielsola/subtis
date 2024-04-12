@@ -186,11 +186,67 @@ export type Database = {
 			[_ in never]: never;
 		};
 		Functions: {
+			fuzzy_search_movie: {
+				Args: {
+					movie_query: string;
+				};
+				Returns: {
+					id: number;
+					name: string;
+					year: number;
+				}[];
+			};
+			gtrgm_compress: {
+				Args: {
+					"": unknown;
+				};
+				Returns: unknown;
+			};
+			gtrgm_decompress: {
+				Args: {
+					"": unknown;
+				};
+				Returns: unknown;
+			};
+			gtrgm_in: {
+				Args: {
+					"": unknown;
+				};
+				Returns: unknown;
+			};
+			gtrgm_options: {
+				Args: {
+					"": unknown;
+				};
+				Returns: undefined;
+			};
+			gtrgm_out: {
+				Args: {
+					"": unknown;
+				};
+				Returns: unknown;
+			};
 			insert_subtitle_not_found: {
 				Args: {
 					file_name: string;
 				};
 				Returns: undefined;
+			};
+			set_limit: {
+				Args: {
+					"": number;
+				};
+				Returns: number;
+			};
+			show_limit: {
+				Args: Record<PropertyKey, never>;
+				Returns: number;
+			};
+			show_trgm: {
+				Args: {
+					"": string;
+				};
+				Returns: string[];
 			};
 			update_subtitle_info: {
 				Args: {
