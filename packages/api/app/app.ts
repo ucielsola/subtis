@@ -28,7 +28,7 @@ export function runApi(displayListenLog = false, port = 8080) {
 			.group("/v1/subtitles", (app) => {
 				return app
 					.post("/movie", getSubtitlesFromMovieId, {
-						body: t.Object({ movieId: t.String() }),
+						body: t.Object({ movieId: t.Number() }),
 					})
 					.post("/trending", getTrendingSubtitles, {
 						body: t.Object({ limit: t.Number({ min: 1 }) }),
