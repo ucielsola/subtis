@@ -446,7 +446,7 @@ async function getSubtitlesFromMovie(
 }
 
 // core
-async function mainIndexer(moviesYear: number, isDebugging: boolean): Promise<void> {
+async function indexByYear(moviesYear: number, isDebugging: boolean): Promise<void> {
 	try {
 		// 0. Activate ThePirateBay provider
 		await tg.activate("ThePirateBay");
@@ -501,7 +501,7 @@ async function mainIndexer(moviesYear: number, isDebugging: boolean): Promise<vo
 	}
 }
 
-async function indexSingleMovie(movieTitle: string) {
+async function indexByMovieTitle(movieTitle: string) {
 	try {
 		await tg.activate("ThePirateBay");
 
@@ -516,8 +516,8 @@ async function indexSingleMovie(movieTitle: string) {
 	}
 }
 
-mainIndexer(2023, true);
-// indexSingleMovie("The Tiger's Apprentice");
+indexByYear(2023, true);
+// indexByMovieTitle("The Tiger's Apprentice");
 
 saveReleaseGroupsToDb(supabase);
 saveSubtitleGroupsToDb(supabase);
