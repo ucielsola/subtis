@@ -1,6 +1,4 @@
-/* eslint-disable no-console */
 import { Buffer } from "node:buffer";
-
 import fs from "node:fs";
 import path from "node:path";
 import { confirm } from "@clack/prompts";

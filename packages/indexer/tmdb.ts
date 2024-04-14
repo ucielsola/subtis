@@ -108,7 +108,7 @@ export async function getTmdbMoviesTotalPagesArray(
 	const options = {
 		headers: {
 			Accept: "application/json",
-			Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
+			Authorization: `Bearer ${Bun.env.TMDB_API_KEY}`,
 		},
 		method: "GET",
 	};
@@ -136,7 +136,7 @@ const tmdbApiEndpoints = {
 
 const TMDB_OPTIONS = {
 	headers: {
-		Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
+		Authorization: `Bearer ${Bun.env.TMDB_API_KEY}`,
 		accept: "application/json",
 	},
 	method: "GET",

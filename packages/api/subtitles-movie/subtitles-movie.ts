@@ -32,7 +32,7 @@ export async function getSubtitlesFromMovieId({
 	const { data } = await supabase
 		.from("Subtitles")
 		.select(
-			"id, subtitleShortLink, subtitleFullLink, resolution, fileName, bytes, Movies ( name, year, poster, backdrop ), ReleaseGroups ( name ), SubtitleGroups ( name )",
+			"id, subtitleShortLink, subtitleFullLink, resolution, fileName, bytes, movie: Movies ( name, year, poster, backdrop ), releaseGroup: ReleaseGroups ( name ), subtitleGroup: SubtitleGroups ( name )",
 		)
 		.eq("movieId", movieId);
 

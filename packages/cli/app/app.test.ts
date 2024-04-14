@@ -8,7 +8,7 @@ import { getMessageFromStatusCode } from "@subtis/ui";
 
 describe("CLI", async () => {
 	beforeAll(async () => {
-		runApi(false, 8081);
+		runApi();
 
 		Bun.spawn([
 			"bun",
@@ -25,12 +25,12 @@ describe("CLI", async () => {
 			"bun",
 			import.meta.resolveSync("../run.ts"),
 			"--file",
-			"Madame.Web.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
+			"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
 		const binaryProcess = Bun.spawn([
 			`${Bun.env.PWD}/packages/cli/bin/subtis`,
 			"--file",
-			"Madame.Web.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
+			"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
 
 		const processes = [developmentProcess, binaryProcess];
@@ -38,8 +38,8 @@ describe("CLI", async () => {
 			const text = await new Response(process.stdout).text();
 
 			expect(text).toInclude("👋 Hola, soy Subtis");
-			expect(text).toInclude("🥳 Descarga tu subtítulo en https://tinyurl.com/27fploy");
-			expect(text).toInclude("🍿 Disfruta de Madame Web (2024) en 1080p subtitulada");
+			expect(text).toInclude("🥳 Descarga tu subtítulo en https://tinyurl.com/2dckj9bk");
+			expect(text).toInclude("🍿 Disfruta de Road House (2024) en 1080p subtitulada");
 		}
 	});
 
@@ -48,12 +48,12 @@ describe("CLI", async () => {
 			"bun",
 			import.meta.resolveSync("../run.ts"),
 			"-f",
-			"Madame.Web.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
+			"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
 		const binaryProcess = Bun.spawn([
 			`${Bun.env.PWD}/packages/cli/bin/subtis`,
 			"-f",
-			"Madame.Web.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
+			"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
 
 		const processes = [developmentProcess, binaryProcess];
@@ -62,8 +62,8 @@ describe("CLI", async () => {
 			const text = await new Response(process.stdout).text();
 
 			expect(text).toInclude("👋 Hola, soy Subtis");
-			expect(text).toInclude("🥳 Descarga tu subtítulo en https://tinyurl.com/27fploy");
-			expect(text).toInclude("🍿 Disfruta de Madame Web (2024) en 1080p subtitulada");
+			expect(text).toInclude("🥳 Descarga tu subtítulo en https://tinyurl.com/2dckj9bk");
+			expect(text).toInclude("🍿 Disfruta de Road House (2024) en 1080p subtitulada");
 		}
 	});
 

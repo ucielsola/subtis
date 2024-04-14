@@ -30,7 +30,7 @@ export async function getTrendingSubtitles({
 	const { data } = await supabase
 		.from("Subtitles")
 		.select(
-			"id, subtitleShortLink, subtitleFullLink, resolution, fileName, Movies ( name, year, poster, backdrop ), ReleaseGroups ( name ), SubtitleGroups ( name )",
+			"id, subtitleShortLink, subtitleFullLink, resolution, fileName, movie: Movies ( name, year, poster, backdrop ), releaseGroup: ReleaseGroups ( name ), subtitleGroup: SubtitleGroups ( name )",
 		)
 		.order("queriedTimes", { ascending: false })
 		.order("lastQueriedAt", { ascending: false })

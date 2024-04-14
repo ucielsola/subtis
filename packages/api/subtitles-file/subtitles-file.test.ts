@@ -9,7 +9,7 @@ const app = runApi();
 const cacheGetSpy = spyOn(cache, "get");
 const cacheSetSpy = spyOn(cache, "set");
 
-describe("API | /subtitles/file", () => {
+describe("API | /subtitles/file/name", () => {
 	afterAll(() => app.stop());
 
 	beforeEach(() => {
@@ -19,10 +19,10 @@ describe("API | /subtitles/file", () => {
 	});
 
 	it("return a response for an existant subtitle with correct file name", async () => {
-		const bytes = "2300545774";
-		const fileName = "Madame.Web.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4";
+		const bytes = "2442029036";
+		const fileName = "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4";
 
-		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file`, {
+		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file/name`, {
 			body: JSON.stringify({ bytes, fileName }),
 			headers: { "Content-Type": "application/json" },
 			method: "POST",
@@ -35,28 +35,28 @@ describe("API | /subtitles/file", () => {
 		expect(cacheSetSpy).toHaveBeenCalled();
 		expect(cache.size).toBe(1);
 		expect(data).toEqual({
-			fileName: "Madame.Web.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
-			id: 2218,
+			id: 2464,
+			fileName: "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 			resolution: "1080p",
 			subtitleFullLink:
-				"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/madame-web-1080p-yts-mx-subdivx.srt?download=Madame.Web.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
-			subtitleShortLink: "https://tinyurl.com/27fployb",
-			ReleaseGroups: {
-				name: "YTS-MX",
+				"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-yts-subdivx.srt?download=Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
+			subtitleShortLink: "https://tinyurl.com/2dckj9bk",
+			releaseGroup: {
+				name: "YTS",
 			},
-			SubtitleGroups: {
+			subtitleGroup: {
 				name: "SubDivX",
 			},
-			Movies: {
-				name: "Madame Web",
+			movie: {
+				name: "Road House",
 				year: 2024,
-				poster: "https://image.tmdb.org/t/p/original/rULWuutDcN5NvtiZi4FRPzRYWSh.jpg",
+				poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
 			},
 		});
 	});
 
 	it("return a response for an 415 error for non supported file extensions", async () => {
-		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file`, {
+		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file/name`, {
 			body: JSON.stringify({
 				bytes: "2",
 				fileName: "The.Equalizer.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3",
@@ -78,10 +78,10 @@ describe("API | /subtitles/file", () => {
 	});
 
 	it("return a response for an 200 for a file with changed name but with correct bytes", async () => {
-		const bytes = "2326898819";
-		const fileName = "Madame.Wb.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4";
+		const bytes = "2442029036";
+		const fileName = "Road.Hose.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4";
 
-		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file`, {
+		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file/name`, {
 			body: JSON.stringify({ bytes, fileName }),
 			headers: { "Content-Type": "application/json" },
 			method: "POST",
@@ -94,22 +94,22 @@ describe("API | /subtitles/file", () => {
 
 		expect(response.status).toBe(200);
 		expect(data).toEqual({
-			fileName: "Madame.Web.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
-			id: 2218,
+			id: 2464,
+			fileName: "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 			resolution: "1080p",
 			subtitleFullLink:
-				"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/madame-web-1080p-yts-mx-subdivx.srt?download=Madame.Web.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
-			subtitleShortLink: "https://tinyurl.com/27fployb",
-			ReleaseGroups: {
-				name: "YTS-MX",
+				"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-yts-subdivx.srt?download=Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
+			subtitleShortLink: "https://tinyurl.com/2dckj9bk",
+			releaseGroup: {
+				name: "YTS",
 			},
-			SubtitleGroups: {
+			subtitleGroup: {
 				name: "SubDivX",
 			},
-			Movies: {
-				name: "Madame Web",
+			movie: {
+				name: "Road House",
 				year: 2024,
-				poster: "https://image.tmdb.org/t/p/original/rULWuutDcN5NvtiZi4FRPzRYWSh.jpg",
+				poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
 			},
 		});
 	});
@@ -117,7 +117,7 @@ describe("API | /subtitles/file", () => {
 	it("return a response for an 404 error for a non existant subtitle", async () => {
 		const bytes = "2071378941";
 
-		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file`, {
+		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file/name`, {
 			body: JSON.stringify({
 				bytes,
 				fileName: "The.Marvels.2021.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
@@ -138,7 +138,7 @@ describe("API | /subtitles/file", () => {
 	});
 
 	it("return a response for an 422 error for a bad payload", async () => {
-		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file`, {
+		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file/name`, {
 			body: JSON.stringify({ file: "the" }),
 			headers: { "Content-Type": "application/json" },
 			method: "POST",

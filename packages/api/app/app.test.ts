@@ -14,6 +14,7 @@ describe("API | runApi", () => {
 
 	it("returns all defined routes", () => {
 		const apiRoutes = api.routes.map(({ method, path }) => ({ method, path }));
+
 		expect(apiRoutes).toEqual([
 			{
 				method: "OPTIONS",
@@ -41,7 +42,11 @@ describe("API | runApi", () => {
 			},
 			{
 				method: "POST",
-				path: "/v1/subtitles/file",
+				path: "/v1/subtitles/file/name",
+			},
+			{
+				method: "POST",
+				path: "/v1/subtitles/file/versions",
 			},
 			{
 				method: "POST",

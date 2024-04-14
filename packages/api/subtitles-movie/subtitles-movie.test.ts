@@ -10,7 +10,7 @@ describe("API | /subtitles/movie", () => {
 	afterAll(() => app.stop());
 
 	it("return a subtitles response for a specific movie", async () => {
-		const movieId = "11057302";
+		const movieId = 3359350;
 
 		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/movie`, {
 			body: JSON.stringify({ movieId }),
@@ -23,117 +23,117 @@ describe("API | /subtitles/movie", () => {
 
 		expect(data).toMatchObject([
 			{
-				fileName: "Madame.Web.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
-				id: 2218,
+				id: 2464,
+				fileName: "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 				resolution: "1080p",
 				subtitleFullLink:
-					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/madame-web-1080p-yts-mx-subdivx.srt?download=Madame.Web.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
-				subtitleShortLink: "https://tinyurl.com/27fployb",
-				ReleaseGroups: {
-					name: "YTS-MX",
+					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-yts-subdivx.srt?download=Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
+				subtitleShortLink: "https://tinyurl.com/2dckj9bk",
+				releaseGroup: {
+					name: "YTS",
 				},
-				SubtitleGroups: {
+				subtitleGroup: {
 					name: "SubDivX",
 				},
-				Movies: {
-					name: "Madame Web",
+				movie: {
+					name: "Road House",
 					year: 2024,
-					poster: "https://image.tmdb.org/t/p/original/rULWuutDcN5NvtiZi4FRPzRYWSh.jpg",
+					poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
 				},
 			},
 			{
-				fileName: "Madame.Web.2024.720p.WEBRip.x264.AAC-[YTS.MX].mp4",
-				id: 2219,
+				id: 2465,
+				fileName: "Road.House.2024.720p.WEBRip.x264.AAC-[YTS.MX].mp4",
 				resolution: "720p",
 				subtitleFullLink:
-					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/madame-web-720p-yts-mx-subdivx.srt?download=Madame.Web.2024.720p.WEBRip.x264.AAC-[YTS.MX].srt",
-				subtitleShortLink: "https://tinyurl.com/27e94opl",
-				ReleaseGroups: {
-					name: "YTS-MX",
+					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-720p-yts-subdivx.srt?download=Road.House.2024.720p.WEBRip.x264.AAC-[YTS.MX].srt",
+				subtitleShortLink: "https://tinyurl.com/24njx3k3",
+				releaseGroup: {
+					name: "YTS",
 				},
-				SubtitleGroups: {
+				subtitleGroup: {
 					name: "SubDivX",
 				},
-				Movies: {
-					name: "Madame Web",
+				movie: {
+					name: "Road House",
 					year: 2024,
-					poster: "https://image.tmdb.org/t/p/original/rULWuutDcN5NvtiZi4FRPzRYWSh.jpg",
+					poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
 				},
 			},
 			{
-				fileName: "Madame.Web.2024.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv",
-				id: 2220,
+				id: 2466,
+				fileName: "Road.House.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv",
 				resolution: "1080p",
 				subtitleFullLink:
-					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/madame-web-1080p-galaxyrg-subdivx.srt?download=Madame.Web.2024.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
-				subtitleShortLink: "https://tinyurl.com/258jyvmz",
-				ReleaseGroups: {
+					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-galaxyrg-subdivx.srt?download=Road.House.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
+				subtitleShortLink: "https://tinyurl.com/23czjbw9",
+				releaseGroup: {
 					name: "GalaxyRG",
 				},
-				SubtitleGroups: {
+				subtitleGroup: {
 					name: "SubDivX",
 				},
-				Movies: {
-					name: "Madame Web",
+				movie: {
+					name: "Road House",
 					year: 2024,
-					poster: "https://image.tmdb.org/t/p/original/rULWuutDcN5NvtiZi4FRPzRYWSh.jpg",
+					poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
 				},
 			},
 			{
-				fileName: "Madame.Web.2024.720p.WEBRip.800MB.x264-GalaxyRG.mkv",
-				id: 2221,
+				id: 2467,
+				fileName: "Road.House.2024.720p.AMZN.WEBRip.800MB.x264-GalaxyRG.mkv",
 				resolution: "720p",
 				subtitleFullLink:
-					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/madame-web-720p-galaxyrg-subdivx.srt?download=Madame.Web.2024.720p.WEBRip.800MB.x264-GalaxyRG.srt",
-				subtitleShortLink: "https://tinyurl.com/2de336lc",
-				ReleaseGroups: {
+					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-720p-galaxyrg-subdivx.srt?download=Road.House.2024.720p.AMZN.WEBRip.800MB.x264-GalaxyRG.srt",
+				subtitleShortLink: "https://tinyurl.com/23fzkagm",
+				releaseGroup: {
 					name: "GalaxyRG",
 				},
-				SubtitleGroups: {
+				subtitleGroup: {
 					name: "SubDivX",
 				},
-				Movies: {
-					name: "Madame Web",
+				movie: {
+					name: "Road House",
 					year: 2024,
-					poster: "https://image.tmdb.org/t/p/original/rULWuutDcN5NvtiZi4FRPzRYWSh.jpg",
+					poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
 				},
 			},
 			{
-				fileName: "Madame.Web.2024.1080p.AMZN.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.mkv",
-				id: 2222,
+				id: 2468,
+				fileName: "Road.House.2024.1080p.AMZN.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.mkv",
 				resolution: "1080p",
 				subtitleFullLink:
-					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/madame-web-1080p-galaxyrg-subdivx.srt?download=Madame.Web.2024.1080p.AMZN.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.srt",
-				subtitleShortLink: "https://tinyurl.com/232lxzm6",
-				ReleaseGroups: {
+					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-galaxyrg-subdivx.srt?download=Road.House.2024.1080p.AMZN.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.srt",
+				subtitleShortLink: "https://tinyurl.com/28opjqbn",
+				releaseGroup: {
 					name: "GalaxyRG",
 				},
-				SubtitleGroups: {
+				subtitleGroup: {
 					name: "SubDivX",
 				},
-				Movies: {
-					name: "Madame Web",
+				movie: {
+					name: "Road House",
 					year: 2024,
-					poster: "https://image.tmdb.org/t/p/original/rULWuutDcN5NvtiZi4FRPzRYWSh.jpg",
+					poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
 				},
 			},
 			{
-				fileName: "Madame.Web.2024.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.mkv",
-				id: 2223,
-				resolution: "2160p",
+				id: 2469,
+				fileName: "Road.House.2024.1080p.WEB.h264-ETHEL.mkv",
+				resolution: "1080p",
 				subtitleFullLink:
-					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/madame-web-2160p-flux-subdivx.srt?download=Madame.Web.2024.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.srt",
-				subtitleShortLink: "https://tinyurl.com/2bzffdam",
-				ReleaseGroups: {
-					name: "FLUX",
+					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-ethel-subdivx.srt?download=Road.House.2024.1080p.WEB.h264-ETHEL.srt",
+				subtitleShortLink: "https://tinyurl.com/27hwj6wn",
+				releaseGroup: {
+					name: "ETHEL",
 				},
-				SubtitleGroups: {
+				subtitleGroup: {
 					name: "SubDivX",
 				},
-				Movies: {
-					name: "Madame Web",
+				movie: {
+					name: "Road House",
 					year: 2024,
-					poster: "https://image.tmdb.org/t/p/original/rULWuutDcN5NvtiZi4FRPzRYWSh.jpg",
+					poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
 				},
 			},
 		]);
@@ -141,7 +141,7 @@ describe("API | /subtitles/movie", () => {
 
 	it("return a response for an 404 error for a non existant movie id", async () => {
 		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/movie`, {
-			body: JSON.stringify({ movieId: "17913a50" }),
+			body: JSON.stringify({ movieId: 17950 }),
 			headers: { "Content-Type": "application/json" },
 			method: "POST",
 		});
@@ -157,7 +157,7 @@ describe("API | /subtitles/movie", () => {
 
 	it("return a response for an 422 error for a bad payload", async () => {
 		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/movie`, {
-			body: JSON.stringify({ movie: "123" }),
+			body: JSON.stringify({ movie: 12 }),
 			headers: { "Content-Type": "application/json" },
 			method: "POST",
 		});
@@ -167,11 +167,16 @@ describe("API | /subtitles/movie", () => {
 
 		expect(response.status).toBe(422);
 		expect(data).toMatchObject({
-			expected: {
-				movieId: "",
-			},
-			message: "Required property",
 			type: "validation",
+			on: "body",
+			property: "/movieId",
+			message: "Required property",
+			expected: {
+				movieId: 0,
+			},
+			found: {
+				movie: 12,
+			},
 		});
 	});
 });

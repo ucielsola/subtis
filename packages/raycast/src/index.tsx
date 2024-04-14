@@ -38,7 +38,7 @@ export default function Command() {
 			invariant(videoFileExtension, "Extension de video no soportada.");
 
 			// 4. Get subtitle from API
-			const { data, status } = await apiClient.v1.subtitles.file.post({
+			const { data, status } = await apiClient.v1.subtitles.file.index.post({
 				bytes: "",
 				fileName,
 			});

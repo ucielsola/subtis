@@ -11,7 +11,7 @@ describe("API | /movies/title", () => {
 
 	it("return a movies response for a movie name query", async () => {
 		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies/title`, {
-			body: JSON.stringify({ movieTitle: "Mad" }),
+			body: JSON.stringify({ movieTitle: "Road" }),
 			headers: { "Content-Type": "application/json" },
 			method: "POST",
 		});
@@ -19,10 +19,11 @@ describe("API | /movies/title", () => {
 		const response = await app.handle(request);
 		const data = await response.json();
 
+		expect(response.status).toBe(200);
 		expect(data).toEqual([
 			{
-				id: 11057302,
-				name: "Madame Web",
+				id: 3359350,
+				name: "Road House",
 				year: 2024,
 			},
 		]);
@@ -30,7 +31,7 @@ describe("API | /movies/title", () => {
 
 	it("return a movies response for a movie name query with fuzzy search", async () => {
 		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies/title`, {
-			body: JSON.stringify({ movieTitle: "ame" }),
+			body: JSON.stringify({ movieTitle: "rod house" }),
 			headers: { "Content-Type": "application/json" },
 			method: "POST",
 		});
@@ -38,10 +39,11 @@ describe("API | /movies/title", () => {
 		const response = await app.handle(request);
 		const data = await response.json();
 
+		expect(response.status).toBe(200);
 		expect(data).toEqual([
 			{
-				id: 11057302,
-				name: "Madame Web",
+				id: 3359350,
+				name: "Road House",
 				year: 2024,
 			},
 		]);
@@ -49,7 +51,7 @@ describe("API | /movies/title", () => {
 
 	it("return a movies response for a movie name query with lowercase", async () => {
 		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies/title`, {
-			body: JSON.stringify({ movieTitle: "madame" }),
+			body: JSON.stringify({ movieTitle: "road" }),
 			headers: { "Content-Type": "application/json" },
 			method: "POST",
 		});
@@ -57,10 +59,11 @@ describe("API | /movies/title", () => {
 		const response = await app.handle(request);
 		const data = await response.json();
 
+		expect(response.status).toBe(200);
 		expect(data).toEqual([
 			{
-				id: 11057302,
-				name: "Madame Web",
+				id: 3359350,
+				name: "Road House",
 				year: 2024,
 			},
 		]);

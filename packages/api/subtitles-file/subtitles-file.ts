@@ -20,16 +20,16 @@ import { errorSchema } from "../shared";
 // schemas
 export const subtitleSchema = subtitlesRowSchema
 	.pick({
-		fileName: true,
 		id: true,
+		fileName: true,
 		resolution: true,
 		subtitleFullLink: true,
 		subtitleShortLink: true,
 	})
 	.extend({
-		ReleaseGroups: releaseGroupsRowSchema.pick({ name: true }),
-		SubtitleGroups: subtitleGroupsRowSchema.pick({ name: true }),
-		Movies: moviesRowSchema.pick({ name: true, year: true, poster: true }),
+		releaseGroup: releaseGroupsRowSchema.pick({ name: true }),
+		subtitleGroup: subtitleGroupsRowSchema.pick({ name: true }),
+		movie: moviesRowSchema.pick({ name: true, year: true, poster: true }),
 	});
 const responseSchema = z.union([subtitleSchema, errorSchema]);
 
@@ -65,7 +65,7 @@ export async function getSubtitleFromFileName({
 	const { data } = await supabase
 		.from("Subtitles")
 		.select(
-			"id, subtitleShortLink, subtitleFullLink, resolution, fileName, bytes, Movies ( name, year, poster, backdrop ), ReleaseGroups ( name ), SubtitleGroups ( name )",
+			"id, subtitleShortLink, subtitleFullLink, resolution, fileName, bytes, movie: Movies ( name, year, poster, backdrop ), releaseGroup: ReleaseGroups ( name ), subtitleGroup: SubtitleGroups ( name )",
 		)
 		.eq("fileName", videoFileName.data)
 		.single();
@@ -80,7 +80,7 @@ export async function getSubtitleFromFileName({
 		const { data } = await supabase
 			.from("Subtitles")
 			.select(
-				"id, subtitleShortLink, subtitleFullLink, resolution, fileName, bytes, Movies ( name, year, poster, backdrop ), ReleaseGroups ( name ), SubtitleGroups ( name )",
+				"id, subtitleShortLink, subtitleFullLink, resolution, fileName, bytes, movie: Movies ( name, year, poster, backdrop ), releaseGroup: ReleaseGroups ( name ), subtitleGroup: SubtitleGroups ( name )",
 			)
 			.eq("bytes", bytes)
 			.single();

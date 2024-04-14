@@ -11,51 +11,52 @@ describe("API | /subtitles/trending", () => {
 
 	it("return the last two trending subtitles", async () => {
 		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/trending`, {
+			method: "POST",
 			body: JSON.stringify({ limit: 2 }),
 			headers: { "Content-Type": "application/json" },
-			method: "POST",
 		});
 
 		const response = await app.handle(request);
 		const data = await response.json();
 
+		expect(response.status).toBe(200);
 		expect(data).toEqual([
 			{
-				fileName: "Madame.Web.2024.720p.WEBRip.x264.AAC-[YTS.MX].mp4",
-				id: 2219,
+				id: 2450,
+				fileName: "Dune.Part.Two.2024.720p.WEBRip.x264.AAC-[YTS.MX].mp4",
 				resolution: "720p",
 				subtitleFullLink:
-					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/madame-web-720p-yts-mx-subdivx.srt?download=Madame.Web.2024.720p.WEBRip.x264.AAC-[YTS.MX].srt",
-				subtitleShortLink: "https://tinyurl.com/27e94opl",
-				ReleaseGroups: {
-					name: "YTS-MX",
+					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/dune-part-two-720p-yts-subdivx.srt?download=Dune.Part.Two.2024.720p.WEBRip.x264.AAC-[YTS.MX].srt",
+				subtitleShortLink: "https://tinyurl.com/2c6h794h",
+				releaseGroup: {
+					name: "YTS",
 				},
-				SubtitleGroups: {
+				subtitleGroup: {
 					name: "SubDivX",
 				},
-				Movies: {
-					name: "Madame Web",
+				movie: {
+					name: "Dune: Part Two",
 					year: 2024,
-					poster: "https://image.tmdb.org/t/p/original/rULWuutDcN5NvtiZi4FRPzRYWSh.jpg",
+					poster: "https://image.tmdb.org/t/p/original/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg",
 				},
 			},
 			{
-				fileName: "Madame.Web.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
-				id: 2218,
+				id: 2449,
+				fileName: "Dune.Part.Two.2024.1080p.WEBRip.x264.AAC-[YTS.MX].mp4",
 				resolution: "1080p",
 				subtitleFullLink:
-					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/madame-web-1080p-yts-mx-subdivx.srt?download=Madame.Web.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
-				subtitleShortLink: "https://tinyurl.com/27fployb",
-				ReleaseGroups: {
-					name: "YTS-MX",
+					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/dune-part-two-1080p-yts-subdivx.srt?download=Dune.Part.Two.2024.1080p.WEBRip.x264.AAC-[YTS.MX].srt",
+				subtitleShortLink: "https://tinyurl.com/26ztzthj",
+				releaseGroup: {
+					name: "YTS",
 				},
-				SubtitleGroups: {
+				subtitleGroup: {
 					name: "SubDivX",
 				},
-				Movies: {
-					name: "Madame Web",
+				movie: {
+					name: "Dune: Part Two",
 					year: 2024,
-					poster: "https://image.tmdb.org/t/p/original/rULWuutDcN5NvtiZi4FRPzRYWSh.jpg",
+					poster: "https://image.tmdb.org/t/p/original/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg",
 				},
 			},
 		]);

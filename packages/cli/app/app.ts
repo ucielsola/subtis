@@ -61,9 +61,9 @@ export async function runCli(): Promise<void> {
 
 		loader.start("🔎 Buscando subtitulos");
 
-		const { data, status } = await apiClient.v1.subtitles.file.post({
-			bytes: "",
+		const { data, status } = await apiClient.v1.subtitles.file.name.post({
 			fileName,
+			bytes: "",
 		});
 		if (data === null || "message" in data) {
 			const { description, title } = getMessageFromStatusCode(status);
@@ -75,7 +75,7 @@ export async function runCli(): Promise<void> {
 
 		const {
 			resolution,
-			Movies: { name, year },
+			movie: { name, year },
 		} = data;
 		outro(`🍿 Disfruta de ${chalk.bold(`${name} (${year})`)} en ${chalk.italic(resolution)} subtitulada`);
 
@@ -84,9 +84,9 @@ export async function runCli(): Promise<void> {
 		if (shouldContinue) {
 			console.log(`  1) Mueve el archivo descargado a la ${chalk.bold("misma carpeta")} de tu película`);
 			console.log(
-				`  2) Si el subtítulo no se reproduce, ${chalk.bold(
-					"selecciona",
-				)} el subtitulo en: Menú -> Subtítulos -> Pista de Subtítulos\n`,
+				`  2) Si el subtítulo no se reproduce, ${chalk.bold("selecciona")} el subtitulo en ${chalk.italic(
+					"Menú -> Subtítulos -> Pista de Subtítulos",
+				)}\n`,
 			);
 		}
 	} catch (error) {

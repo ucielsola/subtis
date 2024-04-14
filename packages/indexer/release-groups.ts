@@ -273,7 +273,6 @@ export type ReleaseGroup = {
 	name: string;
 	searchableOpenSubtitlesName: string[];
 	searchableSubDivXName: string[];
-	website: string;
 };
 
 export type ReleaseGroupMap = {

@@ -9,29 +9,30 @@ const app = runApi();
 describe("API | /movies/recent", () => {
 	afterAll(() => app.stop());
 
-	it("return the last two trending subtitles", async () => {
+	it("return the last two recent movies", async () => {
 		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies/recent`, {
+			method: "POST",
 			body: JSON.stringify({ limit: 2 }),
 			headers: { "Content-Type": "application/json" },
-			method: "POST",
 		});
 
 		const response = await app.handle(request);
 		const data = await response.json();
 
+		expect(response.status).toBe(200);
 		expect(data).toEqual([
 			{
-				id: 13452446,
-				name: "Damsel",
-				rating: 7.201,
+				id: 3359350,
+				name: "Road House",
+				rating: 7.072,
 				release_date: "2024-03-08",
 				year: 2024,
 			},
 			{
-				id: 11057302,
-				name: "Madame Web",
-				rating: 5.602,
-				release_date: "2024-02-14",
+				id: 21692408,
+				name: "Kung Fu Panda 4",
+				rating: 7.027,
+				release_date: "2024-03-02",
 				year: 2024,
 			},
 		]);
