@@ -1,4 +1,7 @@
-import { afterAll, describe, expect, it } from "bun:test";
+import { afterAll, describe, expect, it, spyOn, beforeEach } from "bun:test";
+
+// db
+import { supabase } from "@subtis/db";
 
 // internals
 import { runApi } from "../app";
@@ -6,8 +9,15 @@ import { runApi } from "../app";
 // constants
 const app = runApi();
 
+// mocks
+const supabaseSpy = spyOn(supabase, "rpc");
+
 describe("API | /movies/title", () => {
 	afterAll(() => app.stop());
+
+	beforeEach(() => {
+		supabaseSpy.mockClear();
+	});
 
 	it("return a movies response for a movie name query", async () => {
 		const request = new Request(`${process.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/movies/title`, {
@@ -19,6 +29,7 @@ describe("API | /movies/title", () => {
 		const response = await app.handle(request);
 		const data = await response.json();
 
+		expect(supabaseSpy).toHaveBeenCalledTimes(1);
 		expect(response.status).toBe(200);
 		expect(data).toEqual([
 			{
@@ -39,6 +50,7 @@ describe("API | /movies/title", () => {
 		const response = await app.handle(request);
 		const data = await response.json();
 
+		expect(supabaseSpy).toHaveBeenCalledTimes(1);
 		expect(response.status).toBe(200);
 		expect(data).toEqual([
 			{
@@ -59,6 +71,7 @@ describe("API | /movies/title", () => {
 		const response = await app.handle(request);
 		const data = await response.json();
 
+		expect(supabaseSpy).toHaveBeenCalledTimes(1);
 		expect(response.status).toBe(200);
 		expect(data).toEqual([
 			{
@@ -79,6 +92,7 @@ describe("API | /movies/title", () => {
 		const response = await app.handle(request);
 		const data = await response.json();
 
+		expect(supabaseSpy).toHaveBeenCalledTimes(1);
 		expect(response.status).toBe(404);
 		expect(data).toEqual({
 			message: "Movies not found for query zxsa",
