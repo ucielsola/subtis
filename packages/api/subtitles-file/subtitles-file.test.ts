@@ -34,6 +34,8 @@ describe("API | /subtitles/file/name", () => {
 		expect(cacheGetSpy).toHaveBeenCalled();
 		expect(cacheSetSpy).toHaveBeenCalled();
 		expect(cache.size).toBe(1);
+
+		expect(response.status).toBe(200);
 		expect(data).toEqual({
 			id: 2464,
 			fileName: "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",

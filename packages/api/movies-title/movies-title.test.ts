@@ -1,4 +1,4 @@
-import { afterAll, describe, expect, it, spyOn, beforeEach } from "bun:test";
+import { afterAll, beforeEach, describe, expect, it, spyOn } from "bun:test";
 
 // db
 import { supabase } from "@subtis/db";
