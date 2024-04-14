@@ -10,10 +10,10 @@ import { errorSchema } from "../shared";
 // schemas
 const movieRecentSchema = moviesRowSchema.pick({
 	id: true,
+	year: true,
 	name: true,
 	rating: true,
-	release_date: true,
-	year: true,
+	releaseDate: true,
 });
 const recentMovieSchema = z
 	.array(movieRecentSchema, { invalid_type_error: "Recent movies not found" })
@@ -35,8 +35,8 @@ export async function getRecentMovies({
 
 	const { data } = await supabase
 		.from("Movies")
-		.select("id, name, year, rating, release_date")
-		.order("release_date", { ascending: false })
+		.select("id, name, year, rating, releaseDate")
+		.order("releaseDate", { ascending: false })
 		.limit(limit);
 
 	const recentSubtitles = recentMovieSchema.safeParse(data);

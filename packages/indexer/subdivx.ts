@@ -1,13 +1,13 @@
-import slugify from "slugify";
 import invariant from "tiny-invariant";
 import { z } from "zod";
 
 // shared
 import type { MovieData } from "@subtis/shared";
 
+import { generateSubtitleFileNames } from "./subtitle-filenames";
+// internals
 import { SUBTITLE_GROUPS } from "./subtitle-groups";
 import type { FileExtension, SubtitleData } from "./types";
-// internals
 import { getIsLinkAlive } from "./utils";
 
 // constants
@@ -111,24 +111,20 @@ export async function getSubDivXSubtitle({
 
 	const subtitleGroup = SUBTITLE_GROUPS.SUBDIVX.name;
 
-	const subtitleSrtFileName = slugify(`${name}-${resolution}-${releaseGroup.name}-${subtitleGroup}.srt`).toLowerCase();
-	const downloadFileName = `${fileNameWithoutExtension}.srt`;
-
-	const subtitleFileNameWithoutExtension = slugify(
-		`${name}-${resolution}-${releaseGroup.name}-${subtitleGroup}`,
-	).toLowerCase();
-	const subtitleCompressedFileName = slugify(
-		`${name}-${resolution}-${releaseGroup.name}-${subtitleGroup}.${fileExtension}`,
-	).toLowerCase();
+	const subtitleFileNames = generateSubtitleFileNames({
+		name,
+		resolution,
+		subtitleGroup,
+		fileExtension,
+		fileNameWithoutExtension,
+		releaseGroupName: releaseGroup.name,
+	});
 
 	return {
-		downloadFileName,
-		fileExtension,
-		subtitleCompressedFileName,
-		subtitleFileNameWithoutExtension,
-		subtitleGroup,
-		subtitleLink,
-		subtitleSrtFileName,
 		lang: "es",
+		subtitleLink,
+		fileExtension,
+		subtitleGroup,
+		...subtitleFileNames,
 	};
 }

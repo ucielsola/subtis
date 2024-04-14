@@ -1,10 +1,10 @@
-import slugify from "slugify";
 import invariant from "tiny-invariant";
 import { z } from "zod";
 
 // shared
 import type { MovieData } from "@subtis/shared";
 
+import { generateSubtitleFileNames } from "./subtitle-filenames";
 import { SUBTITLE_GROUPS } from "./subtitle-groups";
 // internals
 import type { SubtitleData } from "./types";
@@ -15,7 +15,7 @@ const OPEN_SUBTITLES_BASE_URL = "https://api.opensubtitles.com/api/v1" as const;
 
 // utils
 function getOpenSubtitlesApiKey(): string {
-	const openSubtitlesApiKey = Bun.env.OPEN_SUBTITLES_API_KEY;
+	const openSubtitlesApiKey = process.env.OPEN_SUBTITLES_API_KEY;
 	return z.string().parse(openSubtitlesApiKey);
 }
 
@@ -159,24 +159,20 @@ export async function getOpenSubtitlesSubtitle({
 	const subtitleLink = parsedDownloadData.link;
 	const subtitleGroup = SUBTITLE_GROUPS.OPEN_SUBTITLES.name;
 
-	const subtitleSrtFileName = slugify(`${name}-${resolution}-${releaseGroup.name}-${subtitleGroup}.srt`).toLowerCase();
-	const downloadFileName = `${fileNameWithoutExtension}.srt`;
-
-	const subtitleFileNameWithoutExtension = slugify(
-		`${name}-${resolution}-${releaseGroup.name}-${subtitleGroup}`,
-	).toLowerCase();
-	const subtitleCompressedFileName = slugify(
-		`${name}-${resolution}-${releaseGroup.name}-${subtitleGroup}.${fileExtension}`,
-	).toLowerCase();
+	const subtitleFileNames = generateSubtitleFileNames({
+		name,
+		resolution,
+		subtitleGroup,
+		fileExtension,
+		fileNameWithoutExtension,
+		releaseGroupName: releaseGroup.name,
+	});
 
 	return {
-		downloadFileName,
-		fileExtension,
-		subtitleCompressedFileName,
-		subtitleFileNameWithoutExtension,
-		subtitleGroup,
-		subtitleLink,
-		subtitleSrtFileName,
 		lang: "es",
+		subtitleLink,
+		fileExtension,
+		subtitleGroup,
+		...subtitleFileNames,
 	};
 }

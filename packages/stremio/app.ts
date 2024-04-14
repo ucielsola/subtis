@@ -1,7 +1,7 @@
 import { addonBuilder, serveHTTP } from "stremio-addon-sdk";
 
 // constants
-const isProduction = Bun.env.NODE_ENV === "production";
+const isProduction = process.env.NODE_ENV === "production";
 
 const API_BASE_URL = isProduction
 	? "https://subt.is/api" // TODO: Complete with real API prod URL

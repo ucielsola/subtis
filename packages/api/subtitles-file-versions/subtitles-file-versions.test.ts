@@ -12,7 +12,7 @@ describe("API | /subtitles/file/versions", () => {
 	it("return a response for an existant subtitle with correct file name", async () => {
 		const fileName = "Road.House.2024.1080p.WEBRip.x264.C5.1-[YTS.MX].mp4";
 
-		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file/versions`, {
+		const request = new Request(`${process.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file/versions`, {
 			body: JSON.stringify({ fileName }),
 			headers: { "Content-Type": "application/json" },
 			method: "POST",
@@ -149,7 +149,7 @@ describe("API | /subtitles/file/versions", () => {
 	it("return a response for an 415 error for non supported file extensions", async () => {
 		const fileName = "Road.House.2024.1080p.WEBRip.x264.C5.1-[YTS.MX].mp3";
 
-		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file/versions`, {
+		const request = new Request(`${process.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file/versions`, {
 			body: JSON.stringify({
 				fileName,
 			}),
@@ -169,7 +169,7 @@ describe("API | /subtitles/file/versions", () => {
 	it("return a response for an 404 error for a non existant subtitle", async () => {
 		const fileName = "Rd.House.2024.1080p.WEBRip.x264.C5.1-[YTS.MX].mp4";
 
-		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file/versions`, {
+		const request = new Request(`${process.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file/versions`, {
 			body: JSON.stringify({
 				fileName,
 			}),
@@ -187,7 +187,7 @@ describe("API | /subtitles/file/versions", () => {
 	});
 
 	it("return a response for an 422 error for a bad payload", async () => {
-		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file/versions`, {
+		const request = new Request(`${process.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file/versions`, {
 			body: JSON.stringify({ file: "the" }),
 			headers: { "Content-Type": "application/json" },
 			method: "POST",

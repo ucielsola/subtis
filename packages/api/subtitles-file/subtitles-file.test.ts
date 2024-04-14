@@ -22,7 +22,7 @@ describe("API | /subtitles/file/name", () => {
 		const bytes = "2442029036";
 		const fileName = "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4";
 
-		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file/name`, {
+		const request = new Request(`${process.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file/name`, {
 			body: JSON.stringify({ bytes, fileName }),
 			headers: { "Content-Type": "application/json" },
 			method: "POST",
@@ -56,7 +56,7 @@ describe("API | /subtitles/file/name", () => {
 	});
 
 	it("return a response for an 415 error for non supported file extensions", async () => {
-		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file/name`, {
+		const request = new Request(`${process.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file/name`, {
 			body: JSON.stringify({
 				bytes: "2",
 				fileName: "The.Equalizer.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3",
@@ -81,7 +81,7 @@ describe("API | /subtitles/file/name", () => {
 		const bytes = "2442029036";
 		const fileName = "Road.Hose.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4";
 
-		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file/name`, {
+		const request = new Request(`${process.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file/name`, {
 			body: JSON.stringify({ bytes, fileName }),
 			headers: { "Content-Type": "application/json" },
 			method: "POST",
@@ -117,7 +117,7 @@ describe("API | /subtitles/file/name", () => {
 	it("return a response for an 404 error for a non existant subtitle", async () => {
 		const bytes = "2071378941";
 
-		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file/name`, {
+		const request = new Request(`${process.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file/name`, {
 			body: JSON.stringify({
 				bytes,
 				fileName: "The.Marvels.2021.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
@@ -138,7 +138,7 @@ describe("API | /subtitles/file/name", () => {
 	});
 
 	it("return a response for an 422 error for a bad payload", async () => {
-		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file/name`, {
+		const request = new Request(`${process.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/file/name`, {
 			body: JSON.stringify({ file: "the" }),
 			headers: { "Content-Type": "application/json" },
 			method: "POST",

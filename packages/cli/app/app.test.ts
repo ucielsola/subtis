@@ -28,7 +28,7 @@ describe("CLI", async () => {
 			"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
 		const binaryProcess = Bun.spawn([
-			`${Bun.env.PWD}/packages/cli/bin/subtis`,
+			`${process.env.PWD}/packages/cli/bin/subtis`,
 			"--file",
 			"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
@@ -51,7 +51,7 @@ describe("CLI", async () => {
 			"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
 		const binaryProcess = Bun.spawn([
-			`${Bun.env.PWD}/packages/cli/bin/subtis`,
+			`${process.env.PWD}/packages/cli/bin/subtis`,
 			"-f",
 			"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
@@ -69,7 +69,7 @@ describe("CLI", async () => {
 
 	it("returns a message when none parameters is given", async () => {
 		const developmentProcess = Bun.spawn(["bun", import.meta.resolveSync("../run.ts")]);
-		const binaryProcess = Bun.spawn([`${Bun.env.PWD}/packages/cli/bin/subtis`]);
+		const binaryProcess = Bun.spawn([`${process.env.PWD}/packages/cli/bin/subtis`]);
 
 		const processes = [developmentProcess, binaryProcess];
 
@@ -83,7 +83,7 @@ describe("CLI", async () => {
 
 	it("returns a message when -f parameter is given without a file path", async () => {
 		const developmentProcess = Bun.spawn(["bun", import.meta.resolveSync("../run.ts"), "-f"]);
-		const binaryProcess = Bun.spawn([`${Bun.env.PWD}/packages/cli/bin/subtis`, "-f"]);
+		const binaryProcess = Bun.spawn([`${process.env.PWD}/packages/cli/bin/subtis`, "-f"]);
 
 		const processes = [developmentProcess, binaryProcess];
 
@@ -97,7 +97,7 @@ describe("CLI", async () => {
 
 	it("returns a message when --file parameter is given without a file path", async () => {
 		const developmentProcess = Bun.spawn(["bun", import.meta.resolveSync("../run.ts"), "--file"]);
-		const binaryProcess = Bun.spawn([`${Bun.env.PWD}/packages/cli/bin/subtis`, "--file"]);
+		const binaryProcess = Bun.spawn([`${process.env.PWD}/packages/cli/bin/subtis`, "--file"]);
 
 		const processes = [developmentProcess, binaryProcess];
 
@@ -117,7 +117,7 @@ describe("CLI", async () => {
 			"Trolls.Band.Together.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mp3",
 		]);
 		const binaryProcess = Bun.spawn([
-			`${Bun.env.PWD}/packages/cli/bin/subtis`,
+			`${process.env.PWD}/packages/cli/bin/subtis`,
 			"--file",
 			"Trolls.Band.Together.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mp3",
 		]);
@@ -140,7 +140,7 @@ describe("CLI", async () => {
 			"The.Matrix.3.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
 		const binaryProcess = Bun.spawn([
-			`${Bun.env.PWD}/packages/cli/bin/subtis`,
+			`${process.env.PWD}/packages/cli/bin/subtis`,
 			"--file",
 			"The.Matrix.3.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);

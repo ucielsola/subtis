@@ -9,7 +9,7 @@ export function getSupabaseEnvironmentVariables(): {
 	supabaseApiKey: string;
 	supabaseBaseUrl: string;
 } {
-	const [supabaseApiKey, supabaseBaseUrl] = [Bun.env.SUPABASE_API_KEY, Bun.env.SUPABASE_BASE_URL];
+	const [supabaseApiKey, supabaseBaseUrl] = [process.env.SUPABASE_API_KEY, process.env.SUPABASE_BASE_URL];
 	const supabaseEnvVars = { supabaseApiKey, supabaseBaseUrl };
 
 	const schema = z.object({

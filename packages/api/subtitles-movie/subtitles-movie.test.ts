@@ -12,7 +12,7 @@ describe("API | /subtitles/movie", () => {
 	it("return a subtitles response for a specific movie", async () => {
 		const movieId = 3359350;
 
-		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/movie`, {
+		const request = new Request(`${process.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/movie`, {
 			body: JSON.stringify({ movieId }),
 			headers: { "Content-Type": "application/json" },
 			method: "POST",
@@ -140,7 +140,7 @@ describe("API | /subtitles/movie", () => {
 	});
 
 	it("return a response for an 404 error for a non existant movie id", async () => {
-		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/movie`, {
+		const request = new Request(`${process.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/movie`, {
 			body: JSON.stringify({ movieId: 17950 }),
 			headers: { "Content-Type": "application/json" },
 			method: "POST",
@@ -156,7 +156,7 @@ describe("API | /subtitles/movie", () => {
 	});
 
 	it("return a response for an 422 error for a bad payload", async () => {
-		const request = new Request(`${Bun.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/movie`, {
+		const request = new Request(`${process.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/subtitles/movie`, {
 			body: JSON.stringify({ movie: 12 }),
 			headers: { "Content-Type": "application/json" },
 			method: "POST",

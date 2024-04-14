@@ -11,7 +11,7 @@ export type Database = {
 					name: string;
 					poster: string | null;
 					rating: number;
-					release_date: string;
+					releaseDate: string;
 					year: number;
 				};
 				Insert: {
@@ -21,7 +21,7 @@ export type Database = {
 					name: string;
 					poster?: string | null;
 					rating: number;
-					release_date: string;
+					releaseDate: string;
 					year: number;
 				};
 				Update: {
@@ -31,7 +31,7 @@ export type Database = {
 					name?: string;
 					poster?: string | null;
 					rating?: number;
-					release_date?: string;
+					releaseDate?: string;
 					year?: number;
 				};
 				Relationships: [];

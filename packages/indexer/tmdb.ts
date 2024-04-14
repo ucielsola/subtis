@@ -86,6 +86,17 @@ export const tmdbMovieSchema = z.object({
 	vote_count: z.number(),
 });
 
+// constants
+
+const TMDB_OPTIONS = {
+	headers: {
+		accept: "application/json",
+		Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
+	},
+	method: "GET",
+};
+
+// helpers
 function generateTmdbDiscoverMovieUrl(page: number, year: number, isDebugging: boolean) {
 	if (isDebugging) {
 		return `https://api.themoviedb.org/3/discover/movie?language=en-US&page=${page}`;
@@ -105,15 +116,8 @@ export async function getTmdbMoviesTotalPagesArray(
 	isDebugging: boolean,
 ): Promise<{ totalPages: number[]; totalResults: number }> {
 	const url = generateTmdbDiscoverMovieUrl(1, year, isDebugging);
-	const options = {
-		headers: {
-			Accept: "application/json",
-			Authorization: `Bearer ${Bun.env.TMDB_API_KEY}`,
-		},
-		method: "GET",
-	};
 
-	const response = await fetch(url, options);
+	const response = await fetch(url, TMDB_OPTIONS);
 	const data = await response.json();
 
 	const validatedData = tmdbDiscoverSchema.parse(data);
@@ -133,20 +137,11 @@ const tmdbApiEndpoints = {
 		return `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}`;
 	},
 };
-
-const TMDB_OPTIONS = {
-	headers: {
-		Authorization: `Bearer ${Bun.env.TMDB_API_KEY}`,
-		accept: "application/json",
-	},
-	method: "GET",
-};
-
 export type TmdbMovie = {
 	imdbId: number;
 	imdbLink: string;
 	rating: number;
-	release_date: string;
+	releaseDate: string;
 	title: string;
 	year: number;
 	poster: string | null;
@@ -159,6 +154,46 @@ function generateTmdbImageUrl(path: string | null): string | null {
 	}
 
 	return `https://image.tmdb.org/t/p/original${path}`;
+}
+
+async function getMovieMetadataFromTmdbMovie({
+	id,
+	title,
+	posterPath,
+	releaseDate,
+	voteAverage,
+	backdropPath,
+}: {
+	id: number;
+	title: string;
+	releaseDate: string;
+	voteAverage: number;
+	posterPath: string | null;
+	backdropPath: string | null;
+}) {
+	// 1. Get IMDB ID from TMDB movie detail
+	const url = tmdbApiEndpoints.movieDetail(id);
+
+	const response = await fetch(url, TMDB_OPTIONS);
+	const data = await response.json();
+	const { imdb_id } = tmdbMovieSchema.parse(data);
+
+	// 2. Parse raw imdb_id
+	const imdbId = getStripedImdbId(imdb_id ?? "");
+
+	// 3. Get year from release date
+	const year = Number(releaseDate.split("-")[0]);
+
+	return {
+		year,
+		title,
+		imdbId,
+		releaseDate,
+		rating: voteAverage,
+		poster: generateTmdbImageUrl(posterPath),
+		backdrop: generateTmdbImageUrl(backdropPath),
+		imdbLink: imdbId ? `https://www.imdb.com/title/tt${imdbId}` : "-",
+	};
 }
 
 export async function getMoviesFromTmdb(page: number, year: number, isDebugging: boolean): Promise<TmdbMovie[]> {
@@ -175,36 +210,21 @@ export async function getMoviesFromTmdb(page: number, year: number, isDebugging:
 	for await (const movie of validatedData.results) {
 		const {
 			id,
-			release_date,
 			title,
-			vote_average: rating,
+			release_date: releaseDate,
+			vote_average: voteAverage,
 			poster_path: posterPath,
 			backdrop_path: backdropPath,
 		} = movie;
 
-		// 3. Get IMDB ID from TMDB movie detail
-		const url2 = tmdbApiEndpoints.movieDetail(id);
-
-		const response = await fetch(url2, TMDB_OPTIONS);
-		const data = await response.json();
-		const { imdb_id } = tmdbMovieSchema.parse(data);
-
-		// 4. Parse raw imdb_id
-		const imdbId = getStripedImdbId(imdb_id ?? "");
-
-		// 5. Get year from release date
-		const year = Number(release_date.split("-")[0]);
-
-		const movieData = {
-			imdbId,
-			imdbLink: imdbId ? `https://www.imdb.com/title/tt${imdbId}` : "-",
-			rating,
-			release_date,
+		const movieData = await getMovieMetadataFromTmdbMovie({
+			id,
 			title,
-			year,
-			poster: generateTmdbImageUrl(posterPath),
-			backdrop: generateTmdbImageUrl(backdropPath),
-		};
+			posterPath,
+			releaseDate,
+			voteAverage,
+			backdropPath,
+		});
 
 		movies.push(movieData);
 	}
@@ -219,34 +239,25 @@ export async function getTmdbMovieFromTitle(query: string): Promise<TmdbMovie> {
 	const data = await response.json();
 
 	const { results } = tmdbDiscoverSchema.parse(data);
-
 	const [movie] = results;
 
-	const { id, release_date, title, vote_average: rating, poster_path: posterPath, backdrop_path: backdropPath } = movie;
-
-	// 3. Get IMDB ID from TMDB movie detail
-	const url2 = tmdbApiEndpoints.movieDetail(id);
-
-	const response2 = await fetch(url2, TMDB_OPTIONS);
-	const data2 = await response2.json();
-	const { imdb_id } = tmdbMovieSchema.parse(data2);
-
-	// 4. Parse raw imdb_id
-	const imdbId = getStripedImdbId(imdb_id ?? "");
-
-	// 5. Get year from release date
-	const year = Number(release_date.split("-")[0]);
-
-	const movieData = {
-		imdbId,
-		imdbLink: imdbId ? `https://www.imdb.com/title/tt${imdbId}` : "-",
-		rating,
-		release_date,
+	const {
+		id,
+		release_date: releaseDate,
 		title,
-		year,
-		poster: generateTmdbImageUrl(posterPath),
-		backdrop: generateTmdbImageUrl(backdropPath),
-	};
+		vote_average: voteAverage,
+		poster_path: posterPath,
+		backdrop_path: backdropPath,
+	} = movie;
+
+	const movieData = await getMovieMetadataFromTmdbMovie({
+		id,
+		title,
+		posterPath,
+		releaseDate,
+		voteAverage,
+		backdropPath,
+	});
 
 	return movieData;
 }

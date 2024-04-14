@@ -55,7 +55,7 @@ async function setMovieSubtitlesToDatabase({
 		fileName: string;
 		fileNameExtension: string;
 	};
-	movie: Pick<Movie, "id" | "name" | "rating" | "release_date" | "year" | "poster" | "backdrop">;
+	movie: Pick<Movie, "id" | "name" | "rating" | "releaseDate" | "year" | "poster" | "backdrop">;
 	releaseGroup: ReleaseGroupNames;
 	releaseGroups: ReleaseGroupMap;
 	resolution: string;
@@ -246,7 +246,7 @@ async function getSubtitlesFromMovie(
 		}
 	}
 
-	const { imdbId, rating, release_date, title, year, poster, backdrop } = movie;
+	const { imdbId, rating, releaseDate, title, year, poster, backdrop } = movie;
 
 	// 1. Get first 10 movie torrents from ThePirateBay
 	const TOTAL_MOVIES_TO_SEARCH = 10;
@@ -415,7 +415,7 @@ async function getSubtitlesFromMovie(
 						id: imdbId,
 						name: title,
 						rating,
-						release_date,
+						releaseDate,
 						year,
 						poster,
 						backdrop,
@@ -470,7 +470,7 @@ async function indexByYear(moviesYear: number, isDebugging: boolean): Promise<vo
 			const movies = await getMoviesFromTmdb(tmbdMoviesPage, moviesYear, isDebugging);
 			console.log(`3) Películas encontradas en página ${tmbdMoviesPage} \n`);
 
-			console.table(movies.map(({ title, year, release_date, rating }) => ({ title, year, release_date, rating })));
+			console.table(movies.map(({ title, year, releaseDate, rating }) => ({ title, year, releaseDate, rating })));
 			console.log("\n");
 
 			for await (const [index, movie] of Object.entries(movies)) {
