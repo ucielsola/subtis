@@ -6,5 +6,6 @@ export * from "./subtitles-file";
 export * from "./subtitles-file-versions";
 export * from "./subtitles-movie";
 export * from "./subtitles-trending";
+export * from "./subtitles-redirect";
 export * from "./stremio-subtitle";
 export * from "./movies-recents";

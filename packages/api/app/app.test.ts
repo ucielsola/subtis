@@ -61,6 +61,10 @@ describe("API | runApi", () => {
 				path: "/v1/integrations/stremio/:bytes/:fileName",
 			},
 			{
+				method: "GET",
+				path: "/links/:id",
+			},
+			{
 				method: "POST",
 				path: "/v1/metrics/download",
 			},
