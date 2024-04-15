@@ -14,7 +14,6 @@ describe("API | runApi", () => {
 
 	it("returns all defined routes", () => {
 		const apiRoutes = api.routes.map(({ method, path }) => ({ method, path }));
-
 		expect(apiRoutes).toEqual([
 			{
 				method: "OPTIONS",
@@ -61,12 +60,12 @@ describe("API | runApi", () => {
 				path: "/v1/integrations/stremio/:bytes/:fileName",
 			},
 			{
-				method: "GET",
-				path: "/links/:id",
-			},
-			{
 				method: "POST",
 				path: "/v1/metrics/download",
+			},
+			{
+				method: "GET",
+				path: "/v1/links/:id",
 			},
 		]);
 	});

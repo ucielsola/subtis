@@ -14,8 +14,8 @@ import {
 	getSubtitleVersionsFromFileName,
 	getSubtitlesFromMovieId,
 	getTrendingSubtitles,
-	redirectSubtitle,
 	listener,
+	redirectSubtitle,
 } from "../index";
 
 // core
@@ -25,43 +25,46 @@ export function runApi(displayListenLog = false, port = 8080) {
 		.use(helmet())
 		.use(swagger({ path: "/v1/docs" }))
 		.use(rateLimit({ skip: () => process.env.NODE_ENV !== "production" }))
-		.group("/v1/subtitles", (app) => {
+		.group("/v1", (app) => {
 			return app
-				.post("/movie", getSubtitlesFromMovieId, {
-					body: t.Object({ movieId: t.Number() }),
-				})
-				.post("/trending", getTrendingSubtitles, {
-					body: t.Object({ limit: t.Number({ min: 1 }) }),
-				})
-				.group("/file", (app) => {
+				.group("/subtitles", (app) => {
 					return app
-						.post("/name", getSubtitleFromFileName, {
-							body: t.Object({ bytes: t.String(), fileName: t.String() }),
+						.post("/movie", getSubtitlesFromMovieId, {
+							body: t.Object({ movieId: t.Number() }),
 						})
-						.post("/versions", getSubtitleVersionsFromFileName, {
-							body: t.Object({ fileName: t.String() }),
+						.post("/trending", getTrendingSubtitles, {
+							body: t.Object({ limit: t.Number({ min: 1 }) }),
+						})
+						.group("/file", (app) => {
+							return app
+								.post("/name", getSubtitleFromFileName, {
+									body: t.Object({ bytes: t.String(), fileName: t.String() }),
+								})
+								.post("/versions", getSubtitleVersionsFromFileName, {
+									body: t.Object({ fileName: t.String() }),
+								});
 						});
-				});
-		})
-		.group("/v1/movies", (app) => {
-			return app
-				.post("/title", getMoviesFromMovieTitle, {
-					body: t.Object({ movieTitle: t.String() }),
 				})
-				.post("/recent", getRecentMovies, {
-					body: t.Object({ limit: t.Number({ min: 1 }) }),
-				});
-		})
-		.group("/v1/integrations", (app) => {
-			return app.get("/stremio/:bytes/:fileName", getStremioSubtitleFromFileName, {
-				params: t.Object({ bytes: t.String(), fileName: t.String() }),
-			});
-		})
-		.get("/links/:id", redirectSubtitle, { id: t.BigInt() })
-		.group("/v1/metrics", (app) => {
-			return app.post("/download", getDownloadFromFileName, {
-				body: t.Object({ fileName: t.String() }),
-			});
+				.group("/movies", (app) => {
+					return app
+						.post("/title", getMoviesFromMovieTitle, {
+							body: t.Object({ movieTitle: t.String() }),
+						})
+						.post("/recent", getRecentMovies, {
+							body: t.Object({ limit: t.Number({ min: 1 }) }),
+						});
+				})
+				.group("/integrations", (app) => {
+					return app.get("/stremio/:bytes/:fileName", getStremioSubtitleFromFileName, {
+						params: t.Object({ bytes: t.String(), fileName: t.String() }),
+					});
+				})
+				.group("/metrics", (app) => {
+					return app.post("/download", getDownloadFromFileName, {
+						body: t.Object({ fileName: t.String() }),
+					});
+				})
+				.get("/links/:id", redirectSubtitle, { id: t.Number() });
 		})
 		.listen(port, (context) => listener(context, displayListenLog));
 }
