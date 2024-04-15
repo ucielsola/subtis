@@ -10,7 +10,7 @@ describe("API | /links", () => {
 	afterAll(() => app.stop());
 
 	it("return a response for an existant subtitle with correct title", async () => {
-		const request = new Request(`${process.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/links/2458`);
+		const request = new Request(`${process.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/2458`);
 
 		const response = await app.handle(request);
 		const data = await response.text();
@@ -24,7 +24,7 @@ describe("API | /links", () => {
 	});
 
 	it("return a response for an 404 error for a non existant subtitle", async () => {
-		const request = new Request(`${process.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/v1/links/999999999999999999999`);
+		const request = new Request(`${process.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/999999999999999999999`);
 
 		const response = await app.handle(request);
 		const data = await response.json();

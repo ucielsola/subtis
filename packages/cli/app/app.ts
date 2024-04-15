@@ -9,6 +9,9 @@ import { getMessageFromStatusCode } from "@subtis/ui";
 // shared
 import { videoFileNameSchema } from "@subtis/shared";
 
+// api
+import { getSubtitleShortLink } from "@subtis/api";
+
 // internals
 import { apiClient } from "../api";
 
@@ -71,7 +74,7 @@ export async function runCli(): Promise<void> {
 			return outro(`⛏ ${description}`);
 		}
 
-		loader.stop(`🥳 Descarga tu subtítulo en ${chalk.blue(data.subtitleShortLink)}`);
+		loader.stop(`🥳 Descarga tu subtítulo en ${chalk.blue(getSubtitleShortLink(data.id))}`);
 
 		const {
 			resolution,

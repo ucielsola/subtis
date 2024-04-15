@@ -15,7 +15,7 @@ const responseSchema = z.union([z.string(), errorSchema]);
 type Response = z.infer<typeof responseSchema>;
 
 // core
-export async function redirectSubtitle({
+export async function getSubtitleFullLink({
 	params,
 	set,
 }: {
@@ -26,13 +26,13 @@ export async function redirectSubtitle({
 
 	const { data } = await supabase.from("Subtitles").select("subtitleFullLink").eq("id", id).single();
 
-	const subtitleByFileName = subtitleSchema.safeParse(data);
-	if (!subtitleByFileName.success) {
+	const subtitleById = subtitleSchema.safeParse(data);
+	if (!subtitleById.success) {
 		set.status = 404;
 		return { message: "Subtitle not found for id" };
 	}
 
-	set.redirect = subtitleByFileName.data.subtitleFullLink;
+	set.redirect = subtitleById.data.subtitleFullLink;
 
-	return subtitleByFileName.data.subtitleFullLink;
+	return subtitleById.data.subtitleFullLink;
 }

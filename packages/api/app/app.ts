@@ -15,7 +15,7 @@ import {
 	getSubtitlesFromMovieId,
 	getTrendingSubtitles,
 	listener,
-	redirectSubtitle,
+	getSubtitleFullLink,
 } from "../index";
 
 // core
@@ -63,9 +63,9 @@ export function runApi(displayListenLog = false, port = 8080) {
 					return app.post("/download", getDownloadFromFileName, {
 						body: t.Object({ fileName: t.String() }),
 					});
-				})
-				.get("/links/:id", redirectSubtitle, { id: t.Number() });
+				});
 		})
+		.get("/:id", getSubtitleFullLink, { params: t.Object({ id: t.String() }) })
 		.listen(port, (context) => listener(context, displayListenLog));
 }
 

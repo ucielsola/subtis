@@ -65,7 +65,7 @@ describe("API | runApi", () => {
 			},
 			{
 				method: "GET",
-				path: "/v1/links/:id",
+				path: "/:id",
 			},
 		]);
 	});
