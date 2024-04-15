@@ -14,6 +14,7 @@ import {
 	getSubtitleVersionsFromFileName,
 	getSubtitlesFromMovieId,
 	getTrendingSubtitles,
+	redirectSubtitle,
 	listener,
 } from "../index";
 
@@ -56,6 +57,7 @@ export function runApi(displayListenLog = false, port = 8080) {
 				params: t.Object({ bytes: t.String(), fileName: t.String() }),
 			});
 		})
+		.get("/links/:id", redirectSubtitle, { id: t.BigInt() })
 		.group("/v1/metrics", (app) => {
 			return app.post("/download", getDownloadFromFileName, {
 				body: t.Object({ fileName: t.String() }),
