@@ -1,7 +1,8 @@
-import type { ReleaseGroup } from "@subtis/indexer/release-groups";
-import { RELEASE_GROUPS } from "@subtis/indexer/release-groups";
 import invariant from "tiny-invariant";
 import { P, match } from "ts-pattern";
+
+// indexer
+import { RELEASE_GROUPS, type ReleaseGroup } from "@subtis/indexer/release-groups";
 
 // internals
 import { VIDEO_FILE_EXTENSIONS } from "../../files";
