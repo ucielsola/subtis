@@ -98,17 +98,17 @@ export const subtitlesRowSchema = z.object({
 	bytes: z.string(),
 	created_at: z.string(),
 	fileExtension: z.string(),
-	fileName: z.string(),
 	id: z.number(),
 	lang: z.string(),
 	lastQueriedAt: z.string().nullable(),
+	movieFileName: z.string(),
 	movieId: z.number(),
 	queriedTimes: z.number().nullable(),
 	releaseGroupId: z.number(),
 	resolution: z.string(),
-	subtitleFullLink: z.string(),
+	subtitleFileName: z.string(),
 	subtitleGroupId: z.number(),
-	subtitleShortLink: z.string(),
+	subtitleLink: z.string(),
 });
 
 export const subtitlesInsertSchema = z.object({
@@ -116,17 +116,17 @@ export const subtitlesInsertSchema = z.object({
 	bytes: z.string(),
 	created_at: z.string().optional(),
 	fileExtension: z.string(),
-	fileName: z.string(),
 	id: z.number().optional(),
 	lang: z.string(),
 	lastQueriedAt: z.string().optional().nullable(),
+	movieFileName: z.string(),
 	movieId: z.number(),
 	queriedTimes: z.number().optional().nullable(),
 	releaseGroupId: z.number(),
 	resolution: z.string(),
-	subtitleFullLink: z.string(),
+	subtitleFileName: z.string(),
 	subtitleGroupId: z.number(),
-	subtitleShortLink: z.string(),
+	subtitleLink: z.string(),
 });
 
 export const subtitlesUpdateSchema = z.object({
@@ -134,17 +134,17 @@ export const subtitlesUpdateSchema = z.object({
 	bytes: z.string().optional(),
 	created_at: z.string().optional(),
 	fileExtension: z.string().optional(),
-	fileName: z.string().optional(),
 	id: z.number().optional(),
 	lang: z.string().optional(),
 	lastQueriedAt: z.string().optional().nullable(),
+	movieFileName: z.string().optional(),
 	movieId: z.number().optional(),
 	queriedTimes: z.number().optional().nullable(),
 	releaseGroupId: z.number().optional(),
 	resolution: z.string().optional(),
-	subtitleFullLink: z.string().optional(),
+	subtitleFileName: z.string().optional(),
 	subtitleGroupId: z.number().optional(),
-	subtitleShortLink: z.string().optional(),
+	subtitleLink: z.string().optional(),
 });
 
 export const subtitlesNotFoundRowSchema = z.object({

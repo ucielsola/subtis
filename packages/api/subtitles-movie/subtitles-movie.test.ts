@@ -23,12 +23,10 @@ describe("API | /subtitles/movie", () => {
 
 		expect(data).toMatchObject([
 			{
-				id: 2464,
-				fileName: "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
+				id: 2499,
 				resolution: "1080p",
-				subtitleFullLink:
+				subtitleLink:
 					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-yts-subdivx.srt?download=Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
-				subtitleShortLink: "https://tinyurl.com/2dckj9bk",
 				releaseGroup: {
 					name: "YTS",
 				},
@@ -42,31 +40,10 @@ describe("API | /subtitles/movie", () => {
 				},
 			},
 			{
-				id: 2465,
-				fileName: "Road.House.2024.720p.WEBRip.x264.AAC-[YTS.MX].mp4",
-				resolution: "720p",
-				subtitleFullLink:
-					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-720p-yts-subdivx.srt?download=Road.House.2024.720p.WEBRip.x264.AAC-[YTS.MX].srt",
-				subtitleShortLink: "https://tinyurl.com/24njx3k3",
-				releaseGroup: {
-					name: "YTS",
-				},
-				subtitleGroup: {
-					name: "SubDivX",
-				},
-				movie: {
-					name: "Road House",
-					year: 2024,
-					poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
-				},
-			},
-			{
-				id: 2466,
-				fileName: "Road.House.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv",
+				id: 2500,
 				resolution: "1080p",
-				subtitleFullLink:
+				subtitleLink:
 					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-galaxyrg-subdivx.srt?download=Road.House.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
-				subtitleShortLink: "https://tinyurl.com/23czjbw9",
 				releaseGroup: {
 					name: "GalaxyRG",
 				},
@@ -80,12 +57,27 @@ describe("API | /subtitles/movie", () => {
 				},
 			},
 			{
-				id: 2467,
-				fileName: "Road.House.2024.720p.AMZN.WEBRip.800MB.x264-GalaxyRG.mkv",
+				id: 2501,
 				resolution: "720p",
-				subtitleFullLink:
+				subtitleLink:
+					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-720p-yts-subdivx.srt?download=Road.House.2024.720p.WEBRip.x264.AAC-[YTS.MX].srt",
+				releaseGroup: {
+					name: "YTS",
+				},
+				subtitleGroup: {
+					name: "SubDivX",
+				},
+				movie: {
+					name: "Road House",
+					year: 2024,
+					poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
+				},
+			},
+			{
+				id: 2502,
+				resolution: "720p",
+				subtitleLink:
 					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-720p-galaxyrg-subdivx.srt?download=Road.House.2024.720p.AMZN.WEBRip.800MB.x264-GalaxyRG.srt",
-				subtitleShortLink: "https://tinyurl.com/23fzkagm",
 				releaseGroup: {
 					name: "GalaxyRG",
 				},
@@ -99,12 +91,10 @@ describe("API | /subtitles/movie", () => {
 				},
 			},
 			{
-				id: 2468,
-				fileName: "Road.House.2024.1080p.AMZN.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.mkv",
+				id: 2503,
 				resolution: "1080p",
-				subtitleFullLink:
+				subtitleLink:
 					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-galaxyrg-subdivx.srt?download=Road.House.2024.1080p.AMZN.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.srt",
-				subtitleShortLink: "https://tinyurl.com/28opjqbn",
 				releaseGroup: {
 					name: "GalaxyRG",
 				},
@@ -118,12 +108,10 @@ describe("API | /subtitles/movie", () => {
 				},
 			},
 			{
-				id: 2469,
-				fileName: "Road.House.2024.1080p.WEB.h264-ETHEL.mkv",
+				id: 2504,
 				resolution: "1080p",
-				subtitleFullLink:
+				subtitleLink:
 					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-ethel-subdivx.srt?download=Road.House.2024.1080p.WEB.h264-ETHEL.srt",
-				subtitleShortLink: "https://tinyurl.com/27hwj6wn",
 				releaseGroup: {
 					name: "ETHEL",
 				},

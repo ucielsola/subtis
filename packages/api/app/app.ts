@@ -11,11 +11,11 @@ import {
 	getRecentMovies,
 	getStremioSubtitleFromFileName,
 	getSubtitleFromFileName,
+	getSubtitleLink,
 	getSubtitleVersionsFromFileName,
 	getSubtitlesFromMovieId,
 	getTrendingSubtitles,
 	listener,
-	getSubtitleFullLink,
 } from "../index";
 
 // core
@@ -65,7 +65,7 @@ export function runApi(displayListenLog = false, port = 8080) {
 					});
 				});
 		})
-		.get("/:id", getSubtitleFullLink, { params: t.Object({ id: t.String() }) })
+		.get("/:id", getSubtitleLink, { params: t.Object({ id: t.String() }) })
 		.listen(port, (context) => listener(context, displayListenLog));
 }
 

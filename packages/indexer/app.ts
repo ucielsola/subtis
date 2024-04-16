@@ -10,7 +10,6 @@ import prettyBytes from "pretty-bytes";
 import sound from "sound-play";
 import invariant from "tiny-invariant";
 import { match } from "ts-pattern";
-import turl from "turl";
 
 import { type Movie, supabase } from "@subtis/db";
 import { type MovieData, VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieMetadata } from "@subtis/shared";
@@ -165,17 +164,6 @@ async function setMovieSubtitlesToDatabase({
 		// 13. Append download file name to public URL so it matches movie file name
 		const subtitleLinkWithDownloadFileName = `${publicUrl}${downloadFileName}`;
 
-		// 14. Create short link for subtitle
-		const subtitleFullLink = subtitleLinkWithDownloadFileName;
-
-		let subtitleShortLink = "";
-
-		try {
-			subtitleShortLink = await turl.shorten(subtitleLinkWithDownloadFileName);
-		} catch (error) {
-			subtitleShortLink = "";
-		}
-
 		// 13. Get movie by ID
 		const { data: movieData } = await supabase.from("Movies").select("*").eq("id", movie.id);
 		invariant(movieData, "Movie not found");
@@ -197,13 +185,13 @@ async function setMovieSubtitlesToDatabase({
 			author,
 			bytes: String(bytes),
 			fileExtension: fileNameExtension,
-			fileName,
+			movieFileName: fileName,
+			subtitleFileName: downloadFileName,
 			movieId: movie.id,
 			releaseGroupId,
 			resolution,
-			subtitleFullLink,
 			subtitleGroupId,
-			subtitleShortLink,
+			subtitleLink: subtitleLinkWithDownloadFileName,
 		});
 
 		// play sound when a subtitle was found
@@ -391,7 +379,7 @@ async function getSubtitlesFromMovie(
 					const { data: subtitles } = await supabase
 						.from("Subtitles")
 						.select("*")
-						.eq("fileName", fileName)
+						.eq("movieFileName", fileName)
 						.eq("subtitleGroupId", id);
 
 					if (subtitles?.length) {

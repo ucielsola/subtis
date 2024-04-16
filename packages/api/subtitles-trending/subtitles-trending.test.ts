@@ -22,12 +22,12 @@ describe("API | /subtitles/trending", () => {
 		expect(response.status).toBe(200);
 		expect(data).toEqual([
 			{
-				id: 2450,
-				fileName: "Dune.Part.Two.2024.720p.WEBRip.x264.AAC-[YTS.MX].mp4",
-				resolution: "720p",
-				subtitleFullLink:
-					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/dune-part-two-720p-yts-subdivx.srt?download=Dune.Part.Two.2024.720p.WEBRip.x264.AAC-[YTS.MX].srt",
-				subtitleShortLink: "https://tinyurl.com/2c6h794h",
+				id: 2505,
+				resolution: "1080p",
+				subtitleLink:
+					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/kung-fu-panda-4-1080p-yts-subdivx.srt?download=Kung.Fu.Panda.4.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
+				movieFileName: "Kung.Fu.Panda.4.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
+				subtitleFileName: "Kung.Fu.Panda.4.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
 				releaseGroup: {
 					name: "YTS",
 				},
@@ -35,28 +35,28 @@ describe("API | /subtitles/trending", () => {
 					name: "SubDivX",
 				},
 				movie: {
-					name: "Dune: Part Two",
+					name: "Kung Fu Panda 4",
 					year: 2024,
-					poster: "https://image.tmdb.org/t/p/original/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg",
+					poster: "https://image.tmdb.org/t/p/original/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg",
 				},
 			},
 			{
-				id: 2449,
-				fileName: "Dune.Part.Two.2024.1080p.WEBRip.x264.AAC-[YTS.MX].mp4",
+				id: 2504,
 				resolution: "1080p",
-				subtitleFullLink:
-					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/dune-part-two-1080p-yts-subdivx.srt?download=Dune.Part.Two.2024.1080p.WEBRip.x264.AAC-[YTS.MX].srt",
-				subtitleShortLink: "https://tinyurl.com/26ztzthj",
+				subtitleLink:
+					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-ethel-subdivx.srt?download=Road.House.2024.1080p.WEB.h264-ETHEL.srt",
+				movieFileName: "Road.House.2024.1080p.WEB.h264-ETHEL.mkv",
+				subtitleFileName: "Road.House.2024.1080p.WEB.h264-ETHEL.srt",
 				releaseGroup: {
-					name: "YTS",
+					name: "ETHEL",
 				},
 				subtitleGroup: {
 					name: "SubDivX",
 				},
 				movie: {
-					name: "Dune: Part Two",
+					name: "Road House",
 					year: 2024,
-					poster: "https://image.tmdb.org/t/p/original/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg",
+					poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
 				},
 			},
 		]);

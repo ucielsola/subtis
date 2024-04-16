@@ -10,7 +10,7 @@ import { getMessageFromStatusCode } from "@subtis/ui";
 import { videoFileNameSchema } from "@subtis/shared";
 
 // api
-import { getSubtitleShortLink } from "@subtis/api";
+import { getSubtitleShortLink, subtitleSchema } from "@subtis/api";
 
 // internals
 import { apiClient } from "../api";
@@ -68,26 +68,32 @@ export async function runCli(): Promise<void> {
 			fileName,
 			bytes: "",
 		});
-		if (data === null || "message" in data) {
+
+		const subtitleByFileName = subtitleSchema.safeParse(data);
+		if (!subtitleByFileName.success) {
 			const { description, title } = getMessageFromStatusCode(status);
 			loader.stop(`😥 ${title}`);
 			return outro(`⛏ ${description}`);
 		}
 
-		loader.stop(`🥳 Descarga tu subtítulo en ${chalk.blue(getSubtitleShortLink(data.id))}`);
+		loader.stop(`🥳 Descarga tu subtítulo en ${chalk.blue(getSubtitleShortLink(subtitleByFileName.data.id))}`);
 
 		const {
 			resolution,
 			movie: { name, year },
-		} = data;
+		} = subtitleByFileName.data;
 		outro(`🍿 Disfruta de ${chalk.bold(`${name} (${year})`)} en ${chalk.italic(resolution)} subtitulada`);
 
-		const shouldContinue = await confirm(`Ver ${chalk.italic("instructivo")} para reproducir tu subtítulo?`);
+		const shouldDownloadSubtitle = await confirm(`Desea descargar ${chalk.italic("automáticamente")} el subtítulo?`);
 
-		if (shouldContinue) {
-			console.log(`  1) Mueve el archivo descargado a la ${chalk.bold("misma carpeta")} de tu película`);
+		if (shouldDownloadSubtitle) {
+			const result = await fetch(subtitleByFileName.data.subtitleLink);
+			await Bun.write(`./${subtitleByFileName.data.subtitleFileName}`, result);
+		} else {
+			console.log(chalk.bold("\nInstrucciones:"));
+			console.log(`1) Mueve el archivo descargado a la ${chalk.bold("misma carpeta")} de tu película`);
 			console.log(
-				`  2) Si el subtítulo no se reproduce, ${chalk.bold("selecciona")} el subtitulo en ${chalk.italic(
+				`2) Si el subtítulo no se reproduce, ${chalk.bold("selecciona")} el subtitulo en ${chalk.italic(
 					"Menú -> Subtítulos -> Pista de Subtítulos",
 				)}\n`,
 			);

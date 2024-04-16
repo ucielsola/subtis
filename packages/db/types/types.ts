@@ -93,57 +93,57 @@ export type Database = {
 					bytes: string;
 					created_at: string;
 					fileExtension: string;
-					fileName: string;
 					id: number;
 					lang: string;
 					lastQueriedAt: string | null;
+					movieFileName: string;
 					movieId: number;
 					queriedTimes: number | null;
 					releaseGroupId: number;
 					resolution: string;
-					subtitleFullLink: string;
+					subtitleFileName: string;
 					subtitleGroupId: number;
-					subtitleShortLink: string;
+					subtitleLink: string;
 				};
 				Insert: {
 					author?: string | null;
 					bytes: string;
 					created_at?: string;
 					fileExtension: string;
-					fileName: string;
 					id?: number;
 					lang: string;
 					lastQueriedAt?: string | null;
+					movieFileName: string;
 					movieId: number;
 					queriedTimes?: number | null;
 					releaseGroupId: number;
 					resolution: string;
-					subtitleFullLink: string;
+					subtitleFileName: string;
 					subtitleGroupId: number;
-					subtitleShortLink: string;
+					subtitleLink: string;
 				};
 				Update: {
 					author?: string | null;
 					bytes?: string;
 					created_at?: string;
 					fileExtension?: string;
-					fileName?: string;
 					id?: number;
 					lang?: string;
 					lastQueriedAt?: string | null;
+					movieFileName?: string;
 					movieId?: number;
 					queriedTimes?: number | null;
 					releaseGroupId?: number;
 					resolution?: string;
-					subtitleFullLink?: string;
+					subtitleFileName?: string;
 					subtitleGroupId?: number;
-					subtitleShortLink?: string;
+					subtitleLink?: string;
 				};
 				Relationships: [
 					{
 						foreignKeyName: "Subtitles_movieId_fkey";
 						columns: ["movieId"];
-						isOneToOne: false;
+						isOneToOne: true;
 						referencedRelation: "Movies";
 						referencedColumns: ["id"];
 					},

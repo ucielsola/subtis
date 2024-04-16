@@ -21,10 +21,10 @@ import { errorSchema } from "../shared";
 export const subtitleSchema = subtitlesRowSchema
 	.pick({
 		id: true,
-		fileName: true,
 		resolution: true,
-		subtitleFullLink: true,
-		subtitleShortLink: true,
+		subtitleLink: true,
+		movieFileName: true,
+		subtitleFileName: true,
 	})
 	.extend({
 		releaseGroup: releaseGroupsRowSchema.pick({ name: true }),
@@ -65,9 +65,9 @@ export async function getSubtitleFromFileName({
 	const { data } = await supabase
 		.from("Subtitles")
 		.select(
-			"id, subtitleShortLink, subtitleFullLink, resolution, fileName, bytes, movie: Movies ( name, year, poster, backdrop ), releaseGroup: ReleaseGroups ( name ), subtitleGroup: SubtitleGroups ( name )",
+			"id, subtitleLink, resolution, movieFileName, subtitleFileName, movie: Movies ( name, year, poster, backdrop ), releaseGroup: ReleaseGroups ( name ), subtitleGroup: SubtitleGroups ( name )",
 		)
-		.eq("fileName", videoFileName.data)
+		.eq("movieFileName", videoFileName.data)
 		.single();
 
 	const subtitleByFileName = subtitleSchema.safeParse(data);
@@ -80,7 +80,7 @@ export async function getSubtitleFromFileName({
 		const { data } = await supabase
 			.from("Subtitles")
 			.select(
-				"id, subtitleShortLink, subtitleFullLink, resolution, fileName, bytes, movie: Movies ( name, year, poster, backdrop ), releaseGroup: ReleaseGroups ( name ), subtitleGroup: SubtitleGroups ( name )",
+				"id, subtitleLink, resolution, movieFileName, subtitleFileName, movie: Movies ( name, year, poster, backdrop ), releaseGroup: ReleaseGroups ( name ), subtitleGroup: SubtitleGroups ( name )",
 			)
 			.eq("bytes", bytes)
 			.single();

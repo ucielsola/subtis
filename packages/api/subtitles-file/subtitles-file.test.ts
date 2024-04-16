@@ -37,12 +37,12 @@ describe("API | /subtitles/file/name", () => {
 
 		expect(response.status).toBe(200);
 		expect(data).toEqual({
-			id: 2464,
-			fileName: "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
+			id: 2499,
 			resolution: "1080p",
-			subtitleFullLink:
+			subtitleLink:
 				"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-yts-subdivx.srt?download=Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
-			subtitleShortLink: "https://tinyurl.com/2dckj9bk",
+			movieFileName: "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
+			subtitleFileName: "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
 			releaseGroup: {
 				name: "YTS",
 			},
@@ -96,12 +96,12 @@ describe("API | /subtitles/file/name", () => {
 
 		expect(response.status).toBe(200);
 		expect(data).toEqual({
-			id: 2464,
-			fileName: "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
+			id: 2499,
 			resolution: "1080p",
-			subtitleFullLink:
+			subtitleLink:
 				"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-yts-subdivx.srt?download=Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
-			subtitleShortLink: "https://tinyurl.com/2dckj9bk",
+			movieFileName: "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
+			subtitleFileName: "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
 			releaseGroup: {
 				name: "YTS",
 			},

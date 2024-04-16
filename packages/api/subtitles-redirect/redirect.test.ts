@@ -9,14 +9,14 @@ const app = runApi();
 describe("API | /links", () => {
 	afterAll(() => app.stop());
 
-	it("return a response for an existant subtitle with correct title", async () => {
-		const request = new Request(`${process.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/2458`);
+	it("return a redirected response with corret full link", async () => {
+		const request = new Request(`${process.env.PUBLIC_API_BASE_URL_DEVELOPMENT}/2503`);
 
 		const response = await app.handle(request);
 		const data = await response.text();
 
 		const fullLink =
-			"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/kung-fu-panda-4-1080p-galaxyrg-subdivx.srt?download=Kung.Fu.Panda.4.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt";
+			"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-galaxyrg-subdivx.srt?download=Road.House.2024.1080p.AMZN.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.srt";
 
 		expect(response.status).toBe(302);
 		expect(response.headers.get("location")).toBe(fullLink);

@@ -23,17 +23,17 @@ describe("API | /movies/recent", () => {
 		expect(data).toEqual([
 			{
 				id: 3359350,
-				name: "Road House",
-				rating: 7.072,
-				releaseDate: "2024-03-08",
 				year: 2024,
+				name: "Road House",
+				rating: 7.067,
+				releaseDate: "2024-03-08",
 			},
 			{
 				id: 21692408,
-				name: "Kung Fu Panda 4",
-				rating: 7.027,
-				releaseDate: "2024-03-02",
 				year: 2024,
+				name: "Kung Fu Panda 4",
+				rating: 7.126,
+				releaseDate: "2024-03-02",
 			},
 		]);
 	});

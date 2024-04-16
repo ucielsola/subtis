@@ -23,7 +23,7 @@ async function getSubtitleText(subtitleLink: string): Promise<string> {
 
 // schemas
 const subtitleSchema = subtitlesRowSchema.pick({
-	subtitleFullLink: true,
+	subtitleLink: true,
 });
 const responseSchema = z.union([z.string(), errorSchema]);
 
@@ -48,8 +48,8 @@ export async function getStremioSubtitleFromFileName({
 
 	const { data } = await supabase
 		.from("Subtitles")
-		.select("subtitleFullLink")
-		.eq("fileName", videoFileName.data)
+		.select("subtitleLink")
+		.eq("movieFileName", videoFileName.data)
 		.single();
 
 	const subtitleByFileName = subtitleSchema.safeParse(data);
@@ -59,7 +59,7 @@ export async function getStremioSubtitleFromFileName({
 			file_name: videoFileName.data,
 		});
 
-		const { data } = await supabase.from("Subtitles").select("subtitleFullLink").eq("bytes", bytes).single();
+		const { data } = await supabase.from("Subtitles").select("subtitleLink").eq("bytes", bytes).single();
 
 		const subtitleByBytes = subtitleSchema.safeParse(data);
 
@@ -68,12 +68,12 @@ export async function getStremioSubtitleFromFileName({
 			return { message: "Subtitle not found for file" };
 		}
 
-		const subtitle = await getSubtitleText(subtitleByBytes.data.subtitleFullLink);
+		const subtitle = await getSubtitleText(subtitleByBytes.data.subtitleLink);
 
 		return subtitle;
 	}
 
-	const subtitle = await getSubtitleText(subtitleByFileName.data.subtitleFullLink);
+	const subtitle = await getSubtitleText(subtitleByFileName.data.subtitleLink);
 
 	return subtitle;
 }

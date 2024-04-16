@@ -21,11 +21,11 @@ const subtitleSchema = z.array(
 	subtitlesRowSchema
 		.pick({
 			id: true,
-			fileName: true,
 			movieId: true,
 			resolution: true,
-			subtitleFullLink: true,
-			subtitleShortLink: true,
+			subtitleLink: true,
+			movieFileName: true,
+			subtitleFileName: true,
 		})
 		.extend({
 			releaseGroup: releaseGroupsRowSchema.pick({ name: true }),
@@ -73,7 +73,7 @@ export async function getSubtitleVersionsFromFileName({
 	const { data } = await supabase
 		.from("Subtitles")
 		.select(
-			"id, subtitleShortLink, subtitleFullLink, resolution, fileName, bytes, movieId, movie: Movies ( name, year, poster, backdrop ), releaseGroup: ReleaseGroups ( name ), subtitleGroup: SubtitleGroups ( name )",
+			"id, subtitleLink, resolution, movieFileName, subtitleFileName, bytes, movieId, movie: Movies ( name, year, poster, backdrop ), releaseGroup: ReleaseGroups ( name ), subtitleGroup: SubtitleGroups ( name )",
 		)
 		.eq("movieId", movieByNameAndYear.data.id);
 

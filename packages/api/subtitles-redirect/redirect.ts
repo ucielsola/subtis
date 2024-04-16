@@ -8,14 +8,14 @@ import { subtitlesRowSchema, supabase } from "@subtis/db";
 import { errorSchema } from "../shared";
 
 // schemas
-const subtitleSchema = subtitlesRowSchema.pick({ subtitleFullLink: true });
+const subtitleSchema = subtitlesRowSchema.pick({ subtitleLink: true });
 const responseSchema = z.union([z.string(), errorSchema]);
 
 // types
 type Response = z.infer<typeof responseSchema>;
 
 // core
-export async function getSubtitleFullLink({
+export async function getSubtitleLink({
 	params,
 	set,
 }: {
@@ -24,7 +24,7 @@ export async function getSubtitleFullLink({
 }): Promise<Response> {
 	const { id } = params;
 
-	const { data } = await supabase.from("Subtitles").select("subtitleFullLink").eq("id", id).single();
+	const { data } = await supabase.from("Subtitles").select("subtitleLink").eq("id", id).single();
 
 	const subtitleById = subtitleSchema.safeParse(data);
 	if (!subtitleById.success) {
@@ -32,7 +32,7 @@ export async function getSubtitleFullLink({
 		return { message: "Subtitle not found for id" };
 	}
 
-	set.redirect = subtitleById.data.subtitleFullLink;
+	set.redirect = subtitleById.data.subtitleLink;
 
-	return subtitleById.data.subtitleFullLink;
+	return subtitleById.data.subtitleLink;
 }
