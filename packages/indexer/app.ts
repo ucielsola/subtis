@@ -502,7 +502,7 @@ async function indexByMovieTitle(movieTitle: string) {
 	}
 }
 
-indexByYear(2023, true);
+indexByYear(2023, false);
 // indexByMovieTitle("The Tiger's Apprentice");
 
 saveReleaseGroupsToDb(supabase);

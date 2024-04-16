@@ -1,11 +1,7 @@
 import { addonBuilder, serveHTTP } from "stremio-addon-sdk";
 
-// constants
-const isProduction = process.env.NODE_ENV === "production";
-
-const API_BASE_URL = isProduction
-	? "https://subt.is/api" // TODO: Complete with real API prod URL
-	: "http://localhost:8080";
+// utils
+import { getSubtitleUrl, isProduction } from "./utils";
 
 // addon
 const builder = new addonBuilder({
@@ -31,12 +27,12 @@ builder.defineSubtitlesHandler(async function getMovieSubtitle(args) {
 		return Promise.resolve({ subtitles: [] });
 	}
 
-	const { filename: fileName, videoSize: bytes } = args.extra as ExtraArgs;
+	const { videoSize: bytes, filename: fileName } = args.extra as ExtraArgs;
 
 	const subtitle = {
 		lang: "spa",
 		id: ": Subtis | Subtitulo en Español",
-		url: `${API_BASE_URL}/v1/integrations/stremio/${bytes}/${fileName}`,
+		url: getSubtitleUrl({ bytes, fileName }),
 	};
 
 	const withCacheMaxAge = isProduction ? {} : { cacheMaxAge: 0 };

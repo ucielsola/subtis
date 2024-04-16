@@ -10,7 +10,7 @@
     "stremio-addon-sdk": "^1.6.10"
   },
   "devDependencies": {
-    "@types/bun": "latest",
+    "@types/bun": "^1.1.0",
     "@types/node": "^20.12.7",
     "@types/stremio-addon-sdk": "^1.6.11",
     "typescript": "^5.4.5"
