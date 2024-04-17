@@ -149,18 +149,18 @@ export const subtitlesUpdateSchema = z.object({
 
 export const subtitlesNotFoundRowSchema = z.object({
 	created_at: z.string(),
-	fileName: z.string(),
 	id: z.number(),
+	movieFileName: z.string(),
 });
 
 export const subtitlesNotFoundInsertSchema = z.object({
 	created_at: z.string().optional(),
-	fileName: z.string(),
 	id: z.number().optional(),
+	movieFileName: z.string(),
 });
 
 export const subtitlesNotFoundUpdateSchema = z.object({
 	created_at: z.string().optional(),
-	fileName: z.string().optional(),
 	id: z.number().optional(),
+	movieFileName: z.string().optional(),
 });

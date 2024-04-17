@@ -36,7 +36,7 @@
     "@biomejs/biome": "^1.7.0",
     "jscpd": "^3.5.10",
     "npm-run-all": "^4.1.5",
-    "taze": "0.13.3",
+    "taze": "^0.13.6",
     "typescript-coverage-report": "^1.0.0"
   }
 }

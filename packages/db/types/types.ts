@@ -143,7 +143,7 @@ export type Database = {
 					{
 						foreignKeyName: "Subtitles_movieId_fkey";
 						columns: ["movieId"];
-						isOneToOne: true;
+						isOneToOne: false;
 						referencedRelation: "Movies";
 						referencedColumns: ["id"];
 					},
@@ -166,18 +166,18 @@ export type Database = {
 			SubtitlesNotFound: {
 				Row: {
 					created_at: string;
-					fileName: string;
 					id: number;
+					movieFileName: string;
 				};
 				Insert: {
 					created_at?: string;
-					fileName: string;
 					id?: number;
+					movieFileName: string;
 				};
 				Update: {
 					created_at?: string;
-					fileName?: string;
 					id?: number;
+					movieFileName?: string;
 				};
 				Relationships: [];
 			};
