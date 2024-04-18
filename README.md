@@ -22,7 +22,7 @@ El subtítulo que estabas buscando!
 
 ## Development
 
-1. Install bun runtime
+1. Install [bun](https://bun.sh/) runtime
 
 ```bash
 curl -fsSL https://bun.sh/install | bash
@@ -31,23 +31,33 @@ curl -fsSL https://bun.sh/install | bash
 2. Install project dependencies
 
 ```bash
-bun install
+cd subtis && bun install
 ```
 
-3. Copy and paste environment variables from 1Password
+3. Copy and paste environment variables from 1Password to root project folder
 
-4. Run any of the desired packages
+4. Run subtis API first
 
 ```bash
-bun dev:api
-bun dev:web
-bun dev:cli
-bun dev:raycast
-bun dev:stremio
-bun dev:indexer
+bun run dev:api
 ```
 
-5. Test your code in watch mode
+5. Run any of the desired packages
+
+    i. Clients:
+      ```bash
+      bun run dev:web
+      bun run dev:cli
+      bun run dev:raycast
+      bun run dev:stremio
+      ```
+
+    ii. Indexer:
+      ```bash
+      bun run dev:indexer
+      ```
+
+6. Test your code in watch mode
 
 ```bash
 bun run test:watch
@@ -66,7 +76,7 @@ cd packages/db && bunx supabase login
 2. Create database type definitions and zod schemas
 
 ```bash
-bun run generate
+bun run db:generate
 ```
 
 ## Access Database
