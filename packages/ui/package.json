@@ -10,7 +10,7 @@
     "test:coverage": "bun test --coverage"
   },
   "dependencies": {
-    "@elysiajs/eden": "^1.0.11",
+    "hono": "^4.2.4",
     "ts-pattern": "^5.1.1",
     "zod": "^3.22.4"
   },

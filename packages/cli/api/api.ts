@@ -4,7 +4,7 @@ import { getApiClient } from "@subtis/ui";
 const isProduction = process.env.NODE_ENV === "production";
 
 export const apiClient = getApiClient({
-	apiBaseUrlDevelopment: isProduction ? "" : "http://localhost:8080",
-	apiBaseUrlProduction: isProduction ? "" : "http://localhost:8080",
 	isProduction,
+	apiBaseUrlDevelopment: isProduction ? "" : "http://localhost:8787",
+	apiBaseUrlProduction: isProduction ? "" : "http://localhost:8787",
 });

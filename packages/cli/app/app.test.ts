@@ -1,15 +1,13 @@
 import { beforeAll, describe, expect, it } from "bun:test";
 
 // api
-import { runApi } from "@subtis/api";
+import "@subtis/api";
 
 // ui
 import { getMessageFromStatusCode } from "@subtis/ui";
 
 describe("CLI", async () => {
 	beforeAll(async () => {
-		runApi();
-
 		Bun.spawn([
 			"bun",
 			"build",
@@ -38,7 +36,7 @@ describe("CLI", async () => {
 			const text = await new Response(process.stdout).text();
 
 			expect(text).toInclude("👋 Hola, soy Subtis");
-			expect(text).toInclude("🥳 Descarga tu subtítulo en http://localhost:8080/2499");
+			expect(text).toInclude("🥳 Descarga tu subtítulo en http://localhost:8080/2587");
 			expect(text).toInclude("🍿 Disfruta de Road House (2024) en 1080p subtitulada");
 		}
 	});
@@ -62,7 +60,7 @@ describe("CLI", async () => {
 			const text = await new Response(process.stdout).text();
 
 			expect(text).toInclude("👋 Hola, soy Subtis");
-			expect(text).toInclude("🥳 Descarga tu subtítulo en http://localhost:8080/2499");
+			expect(text).toInclude("🥳 Descarga tu subtítulo en http://localhost:8080/2587");
 			expect(text).toInclude("🍿 Disfruta de Road House (2024) en 1080p subtitulada");
 		}
 	});

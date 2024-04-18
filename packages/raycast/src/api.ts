@@ -7,8 +7,10 @@ import { getApiClient } from "@subtis/ui";
 Object.assign(globalThis, { fetch });
 
 // helpers
+const isProduction = true;
+
 export const apiClient = getApiClient({
-	apiBaseUrlDevelopment: "http://localhost:8080",
-	apiBaseUrlProduction: "http://localhost:8080",
-	isProduction: true,
+	isProduction,
+	apiBaseUrlProduction: isProduction ? "" : "http://localhost:8787",
+	apiBaseUrlDevelopment: isProduction ? "" : "http://localhost:8787",
 });

@@ -442,7 +442,7 @@ async function indexByYear(moviesYear: number, isDebugging: boolean): Promise<vo
 		const subtitleGroups = await getSubtitleGroups(supabase);
 
 		// 2. Get all movie pages from TMDB
-		const { totalPages, totalResults } = await getTmdbMoviesTotalPagesArray(moviesYear, isDebugging);
+		const { totalPages, totalResults } = await getTmdbMoviesTotalPagesArray(moviesYear, !isDebugging);
 		console.log(`\n1.1) Con un total de ${totalResults} películas en el año ${moviesYear}`);
 		console.log(
 			`\n1.2) ${totalPages.at(
@@ -455,7 +455,7 @@ async function indexByYear(moviesYear: number, isDebugging: boolean): Promise<vo
 			console.log(`2) Buscando en página ${tmbdMoviesPage} de TMDB \n`);
 
 			// 3. Get movies from TMDB
-			const movies = await getMoviesFromTmdb(tmbdMoviesPage, moviesYear, isDebugging);
+			const movies = await getMoviesFromTmdb(tmbdMoviesPage, moviesYear, !isDebugging);
 			console.log(`3) Películas encontradas en página ${tmbdMoviesPage} \n`);
 
 			console.table(movies.map(({ title, year, releaseDate, rating }) => ({ title, year, releaseDate, rating })));

@@ -1,22 +1,22 @@
-import { edenTreaty } from "@elysiajs/eden";
+import { hc } from "hono/client";
 import { z } from "zod";
 
 // api
-import type { App } from "@subtis/api";
+import type { AppType } from "@subtis/api";
 
 // types
 type ApiBaseUrlConfig = {
+	isProduction: boolean;
 	apiBaseUrlDevelopment?: string;
 	apiBaseUrlProduction?: string;
-	isProduction: boolean;
 };
 
 // utils
 function getApiBaseUrl(apiBaseUrlConfig: ApiBaseUrlConfig): string {
 	const schema = z.object({
+		isProduction: z.boolean(),
 		apiBaseUrlDevelopment: z.string(),
 		apiBaseUrlProduction: z.string(),
-		isProduction: z.boolean(),
 	});
 
 	const apiBaseUrlConfigParsed = schema.parse(apiBaseUrlConfig);
@@ -27,5 +27,7 @@ function getApiBaseUrl(apiBaseUrlConfig: ApiBaseUrlConfig): string {
 
 export function getApiClient(apiBaseUrlConfig: ApiBaseUrlConfig) {
 	const apiBaseUrl = getApiBaseUrl(apiBaseUrlConfig);
-	return edenTreaty<App>(apiBaseUrl);
+	const client = hc<AppType>(apiBaseUrl);
+
+	return client;
 }

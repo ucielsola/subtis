@@ -4,13 +4,13 @@ import minimist from "minimist";
 import { z } from "zod";
 
 // ui
-import { getMessageFromStatusCode } from "@subtis/ui";
+import { getMessageFromStatusCode, getSubtitleShortLink } from "@subtis/ui";
 
 // shared
 import { videoFileNameSchema } from "@subtis/shared";
 
 // api
-import { getSubtitleShortLink, subtitleSchema } from "@subtis/api";
+import { subtitleSchema } from "@subtis/api";
 
 // internals
 import { apiClient } from "../api";
@@ -64,14 +64,17 @@ export async function runCli(): Promise<void> {
 
 		loader.start("🔎 Buscando subtitulos");
 
-		const { data, status } = await apiClient.v1.subtitles.file.name.post({
-			fileName,
-			bytes: "",
+		const response = await apiClient.v1.subtitles.file.name.$post({
+			json: {
+				fileName,
+				bytes: "",
+			},
 		});
+		const data = await response.json();
 
 		const subtitleByFileName = subtitleSchema.safeParse(data);
 		if (!subtitleByFileName.success) {
-			const { description, title } = getMessageFromStatusCode(status);
+			const { description, title } = getMessageFromStatusCode(response.status);
 			loader.stop(`😥 ${title}`);
 			return outro(`⛏ ${description}`);
 		}

@@ -16,3 +16,9 @@ __dump
 .env*
 *.bun-build
 *.srt
+dist
+.wrangler
+.dev.vars
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
