@@ -36,7 +36,7 @@ describe("CLI", async () => {
 			const text = await new Response(process.stdout).text();
 
 			expect(text).toInclude("👋 Hola, soy Subtis");
-			expect(text).toInclude("🥳 Descarga tu subtítulo en http://localhost:8080/2587");
+			expect(text).toInclude("🥳 Descarga tu subtítulo en http://localhost:8787/2587");
 			expect(text).toInclude("🍿 Disfruta de Road House (2024) en 1080p subtitulada");
 		}
 	});
@@ -60,7 +60,7 @@ describe("CLI", async () => {
 			const text = await new Response(process.stdout).text();
 
 			expect(text).toInclude("👋 Hola, soy Subtis");
-			expect(text).toInclude("🥳 Descarga tu subtítulo en http://localhost:8080/2587");
+			expect(text).toInclude("🥳 Descarga tu subtítulo en http://localhost:8787/2587");
 			expect(text).toInclude("🍿 Disfruta de Road House (2024) en 1080p subtitulada");
 		}
 	});

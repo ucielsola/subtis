@@ -9,6 +9,6 @@ describe("Stremio | Utils", () => {
 		const fileName = "movie.mp4";
 		const url = getSubtitleUrl({ bytes, fileName });
 
-		expect(url).toBe("http://localhost:8080/v1/integrations/stremio/123456/movie.mp4");
+		expect(url).toBe("http://localhost:8787/v1/integrations/stremio/123456/movie.mp4");
 	});
 });
