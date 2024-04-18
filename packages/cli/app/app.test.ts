@@ -3,8 +3,8 @@ import { beforeAll, describe, expect, it } from "bun:test";
 // api
 import "@subtis/api";
 
-// ui
-import { getMessageFromStatusCode } from "@subtis/ui";
+// shared
+import { getMessageFromStatusCode } from "@subtis/shared";
 
 describe("CLI", async () => {
 	beforeAll(async () => {

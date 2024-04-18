@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 
-// api
-import { getApiClient } from "@subtis/ui";
+// shared
+import { getApiClient } from "@subtis/shared";
 
 // polyfill fetch for Raycast
 Object.assign(globalThis, { fetch });

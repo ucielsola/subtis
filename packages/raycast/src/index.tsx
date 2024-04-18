@@ -2,11 +2,8 @@ import { Action, ActionPanel, Form, Toast, open, showToast } from "@raycast/api"
 import delay from "delay";
 import invariant from "tiny-invariant";
 
-// ui
-import { getMessageFromStatusCode } from "@subtis/ui";
-
 // shared
-import { getFilenameFromPath, getVideoFileExtension } from "@subtis/shared";
+import { getFilenameFromPath, getVideoFileExtension, getMessageFromStatusCode } from "@subtis/shared";
 
 // internals
 import { apiClient } from "./api";

@@ -3,11 +3,8 @@ import chalk from "chalk";
 import minimist from "minimist";
 import { z } from "zod";
 
-// ui
-import { getMessageFromStatusCode, getSubtitleShortLink } from "@subtis/ui";
-
 // shared
-import { videoFileNameSchema } from "@subtis/shared";
+import { getMessageFromStatusCode, getSubtitleShortLink, videoFileNameSchema } from "@subtis/shared";
 
 // api
 import { subtitleSchema } from "@subtis/api";
