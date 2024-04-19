@@ -6,7 +6,9 @@
     "packages/*"
   ],
   "scripts": {
-    "check": "biome check --apply .",
+    "type:check": "tsc --noEmit",
+    "biome:lint": "biome lint .",
+    "biome:check": "biome check --apply .",
     "test": "bun --env-file=.env.development test",
     "test:watch": "bun --env-file=.env.development test --watch",
     "test:coverage": "bun --env-file=.env.development test --coverage",
