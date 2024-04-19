@@ -183,6 +183,8 @@ async function setMovieSubtitlesToDatabase({
 		await supabase.from("Subtitles").insert({
 			lang,
 			author,
+			reviewed: true,
+			uploadedBy: "indexer",
 			bytes: String(bytes),
 			fileExtension: fileNameExtension,
 			movieFileName: fileName,

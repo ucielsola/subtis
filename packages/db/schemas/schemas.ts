@@ -106,9 +106,11 @@ export const subtitlesRowSchema = z.object({
 	queriedTimes: z.number().nullable(),
 	releaseGroupId: z.number(),
 	resolution: z.string(),
+	reviewed: z.boolean(),
 	subtitleFileName: z.string(),
 	subtitleGroupId: z.number(),
 	subtitleLink: z.string(),
+	uploadedBy: z.string().nullable(),
 });
 
 export const subtitlesInsertSchema = z.object({
@@ -124,9 +126,11 @@ export const subtitlesInsertSchema = z.object({
 	queriedTimes: z.number().optional().nullable(),
 	releaseGroupId: z.number(),
 	resolution: z.string(),
+	reviewed: z.boolean(),
 	subtitleFileName: z.string(),
 	subtitleGroupId: z.number(),
 	subtitleLink: z.string(),
+	uploadedBy: z.string().optional().nullable(),
 });
 
 export const subtitlesUpdateSchema = z.object({
@@ -142,9 +146,11 @@ export const subtitlesUpdateSchema = z.object({
 	queriedTimes: z.number().optional().nullable(),
 	releaseGroupId: z.number().optional(),
 	resolution: z.string().optional(),
+	reviewed: z.boolean().optional(),
 	subtitleFileName: z.string().optional(),
 	subtitleGroupId: z.number().optional(),
 	subtitleLink: z.string().optional(),
+	uploadedBy: z.string().optional().nullable(),
 });
 
 export const subtitlesNotFoundRowSchema = z.object({

@@ -101,9 +101,11 @@ export type Database = {
 					queriedTimes: number | null;
 					releaseGroupId: number;
 					resolution: string;
+					reviewed: boolean;
 					subtitleFileName: string;
 					subtitleGroupId: number;
 					subtitleLink: string;
+					uploadedBy: string | null;
 				};
 				Insert: {
 					author?: string | null;
@@ -118,9 +120,11 @@ export type Database = {
 					queriedTimes?: number | null;
 					releaseGroupId: number;
 					resolution: string;
+					reviewed: boolean;
 					subtitleFileName: string;
 					subtitleGroupId: number;
 					subtitleLink: string;
+					uploadedBy?: string | null;
 				};
 				Update: {
 					author?: string | null;
@@ -135,9 +139,11 @@ export type Database = {
 					queriedTimes?: number | null;
 					releaseGroupId?: number;
 					resolution?: string;
+					reviewed?: boolean;
 					subtitleFileName?: string;
 					subtitleGroupId?: number;
 					subtitleLink?: string;
+					uploadedBy?: string | null;
 				};
 				Relationships: [
 					{
