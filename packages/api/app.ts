@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { secureHeaders } from "hono/secure-headers";
 
 // internals
 import { integrations } from "./integrations";
@@ -10,6 +11,10 @@ import { subtitles } from "./subtitles";
 // core
 const app = new Hono().basePath("/v1");
 
+// middlewares
+app.use(secureHeaders());
+
+// routes
 const routes = app
 	.route("/movies", movies)
 	.route("/metrics", metrics)
