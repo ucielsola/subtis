@@ -14,7 +14,6 @@ test("should return a subtitle link giving a movie, release group and quality", 
 		name: "YTS-MX",
 		searchableOpenSubtitlesName: ["YTS.MX"],
 		searchableSubDivXName: ["YTS MX"],
-		website: "",
 	};
 	const movieData = {
 		fileNameWithoutExtension: "",
@@ -46,7 +45,6 @@ test("should return a subtitle link giving a movie, release group and quality", 
 		name: "YTS-MX",
 		searchableOpenSubtitlesName: ["YTS.MX"],
 		searchableSubDivXName: ["YTS MX"],
-		website: "",
 	};
 	const movieData = {
 		fileNameWithoutExtension: "",
