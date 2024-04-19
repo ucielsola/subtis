@@ -121,9 +121,11 @@ bun run code:duplications
 
 ## API Playground
 
-1. Import [docs/collection.json](/docs/collection.json) into your preferred HTTP client like Hoppscotch (recommended), Postman or Insomnia, to quickly play with all API endpoints and different scenarios.
+1. Import [docs/collection.json](/docs/collection.json) into your preferred HTTP client like [Hoppscotch](https://hoppscotch.io/) to quickly play with all API endpoints and different scenarios
 
+2. Import [docs/localhost.json](/docs/localhost.json) and [docs/localhost.json](/docs/production.json) to your environments section in your HTTP client
 
+3. Select your environment to test like LOCALHOST or PRODUCTION
 
 ## Diagrams
 
