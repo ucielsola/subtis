@@ -20,7 +20,7 @@ export const subtitleSchema = subtitlesRowSchema
 		id: true,
 		resolution: true,
 		subtitleLink: true,
-    subtitleFileName: true,
+		subtitleFileName: true,
 	})
 	.extend({
 		movie: movieSchema,
@@ -86,7 +86,7 @@ export const subtitles = new Hono()
 
 		const videoFileName = videoFileNameSchema.safeParse(fileName);
 		if (!videoFileName.success) {
-      context.status(415);
+			context.status(415);
 			return context.json({ message: videoFileName.error.issues[0].message });
 		}
 
