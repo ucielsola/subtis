@@ -36,7 +36,7 @@ cd subtis && bun install
 
 3. Copy and paste environment variables from 1Password to root project folder
 
-4. Run subtis API first
+4. Run subtis REST API first
 
 ```bash
 bun run dev:api
@@ -44,7 +44,7 @@ bun run dev:api
 
 5. Run any of the desired packages
 
-    i. Clients:
+    i. **clients**
       ```bash
       bun run dev:web
       bun run dev:cli
@@ -52,18 +52,15 @@ bun run dev:api
       bun run dev:stremio
       ```
 
-    ii. Indexer:
+    ii. **indexer**
       ```bash
       bun run dev:indexer
       ```
 
-6. Test your code in watch mode
 
-```bash
-bun run test:watch
-```
+## Database
 
-## Updating Database Types and Schemas
+### Updating Database Types and Schemas
 
 If there's a database schema update, we should run:
 
@@ -79,9 +76,47 @@ cd packages/db && bunx supabase login
 bun run db:generate
 ```
 
-## Access Database
+### Access Database
 
 Request access to Supabase team with the developer email.
+
+## Good practices
+
+- Bump project dependencies
+
+```bash
+bun run update:deps
+```
+
+- Code format and lint
+
+```bash
+bun run biome:check
+```
+
+- Check type errors
+
+```bash
+bun run type:check
+```
+
+- Check type coverage
+
+```bash
+bun run type:coverage
+```
+
+- Check test coverage
+
+```bash
+bun run test:coverage
+```
+
+- Check code duplications
+
+```bash
+bun run code:duplications
+```
 
 ## API Playground
 
