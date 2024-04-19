@@ -6,34 +6,33 @@ import { z } from "zod";
 import { getSupabaseClient } from "../shared";
 
 // db
-import {
-	moviesRowSchema,
-	releaseGroupsRowSchema,
-	subtitleGroupsRowSchema,
-	subtitlesRowSchema,
-} from "@subtis/db/schemas";
+import { moviesRowSchema, releaseGroupsRowSchema, subtitlesRowSchema } from "@subtis/db/schemas";
 
 // shared
 import { getMovieMetadata, videoFileNameSchema } from "@subtis/shared";
 
 // schemas
 const releaseGroupSchema = releaseGroupsRowSchema.pick({ name: true });
-const subtitleGroupSchema = subtitleGroupsRowSchema.pick({ name: true });
-const movieSchema = moviesRowSchema.pick({ id: true, year: true, name: true, poster: true, backdrop: true });
+const movieSchema = moviesRowSchema.pick({ year: true, name: true, poster: true, backdrop: true });
 
 export const subtitleSchema = subtitlesRowSchema
 	.pick({
 		id: true,
 		resolution: true,
 		subtitleLink: true,
-		movieFileName: true,
-		subtitleFileName: true,
 	})
 	.extend({
 		movie: movieSchema,
 		releaseGroup: releaseGroupSchema,
-		subtitleGroup: subtitleGroupSchema,
 	});
+
+const subtitlesQuery = `
+  id,
+  resolution,
+  subtitleLink,
+  releaseGroup: ReleaseGroups ( name ),
+  movie: Movies (  name, year, poster, backdrop )
+`;
 
 const subtitlesSchema = z
 	.array(subtitleSchema, { invalid_type_error: "Subtitles not found for movie" })
@@ -52,12 +51,7 @@ export const subtitles = new Hono()
 	.post("/movie", zValidator("json", z.object({ movieId: z.number() })), async (context) => {
 		const { movieId } = context.req.valid("json");
 
-		const { data } = await getSupabaseClient(context)
-			.from("Subtitles")
-			.select(
-				"id, subtitleLink, resolution, movieFileName, subtitleFileName, bytes, movie: Movies ( id, name, year, poster, backdrop ), releaseGroup: ReleaseGroups ( name ), subtitleGroup: SubtitleGroups ( name )",
-			)
-			.eq("movieId", movieId);
+		const { data } = await getSupabaseClient(context).from("Subtitles").select(subtitlesQuery).eq("movieId", movieId);
 
 		const subtitles = subtitlesSchema.safeParse(data);
 		if (!subtitles.success) {
@@ -72,9 +66,7 @@ export const subtitles = new Hono()
 
 		const { data } = await getSupabaseClient(context)
 			.from("Subtitles")
-			.select(
-				"id, subtitleLink, resolution, movieFileName, subtitleFileName, movie: Movies ( id, name, year, poster, backdrop ), releaseGroup: ReleaseGroups ( name ), subtitleGroup: SubtitleGroups ( name )",
-			)
+			.select(subtitlesQuery)
 			.order("queriedTimes", { ascending: false })
 			.order("lastQueriedAt", { ascending: false })
 			.limit(limit);
@@ -100,9 +92,7 @@ export const subtitles = new Hono()
 
 		const { data } = await supabase
 			.from("Subtitles")
-			.select(
-				"id, subtitleLink, resolution, movieFileName, subtitleFileName, movie: Movies ( id, name, year, poster, backdrop ), releaseGroup: ReleaseGroups ( name ), subtitleGroup: SubtitleGroups ( name )",
-			)
+			.select(subtitlesQuery)
 			.eq("movieFileName", videoFileName.data)
 			.single();
 
@@ -111,13 +101,7 @@ export const subtitles = new Hono()
 		if (!subtitleByFileName.success) {
 			await supabase.rpc("insert_subtitle_not_found", { file_name: videoFileName.data });
 
-			const { data } = await supabase
-				.from("Subtitles")
-				.select(
-					"id, subtitleLink, resolution, movieFileName, subtitleFileName, movie: Movies ( id, name, year, poster, backdrop ), releaseGroup: ReleaseGroups ( name ), subtitleGroup: SubtitleGroups ( name )",
-				)
-				.eq("bytes", bytes)
-				.single();
+			const { data } = await supabase.from("Subtitles").select(subtitlesQuery).eq("bytes", bytes).single();
 
 			const subtitleByBytes = subtitleSchema.safeParse(data);
 
@@ -143,26 +127,16 @@ export const subtitles = new Hono()
 		const supabase = getSupabaseClient(context);
 		const { name, year } = getMovieMetadata(videoFileName.data);
 
-		const { data: movieData } = await supabase
-			.from("Movies")
-			.select("id, name, year, poster, backdrop")
-			.eq("name", name)
-			.eq("year", year)
-			.single();
+		const { data: movieData } = await supabase.from("Movies").select("id").eq("name", name).eq("year", year).single();
 
-		const movieByNameAndYear = movieSchema.safeParse(movieData);
+		const movieByNameAndYear = moviesRowSchema.pick({ id: true }).safeParse(movieData);
 
 		if (!movieByNameAndYear.success) {
 			context.status(404);
 			return context.json({ message: "Movie not found for file" });
 		}
 
-		const { data } = await supabase
-			.from("Subtitles")
-			.select(
-				"id, subtitleLink, resolution, movieFileName, subtitleFileName, bytes, movieId, movie: Movies ( id, name, year, poster, backdrop ), releaseGroup: ReleaseGroups ( name ), subtitleGroup: SubtitleGroups ( name )",
-			)
-			.eq("movieId", movieByNameAndYear.data.id);
+		const { data } = await supabase.from("Subtitles").select(subtitlesQuery).eq("movieId", movieByNameAndYear.data.id);
 
 		const subtitleByFileName = alternativeSubtitlesSchema.safeParse(data);
 
