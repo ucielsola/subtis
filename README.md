@@ -4,21 +4,11 @@ El subtítulo que estabas buscando!
 
 ## Packages
 
-- Server-side
-
-  - [DB](/packages/db/)
-  - [API](/packages/api/)
-  - [Indexer](/packages/indexer/)
-
-- Client-side
-
-  - [CLI](/packages/cli/)
-  - [Raycast](/packages/raycast/)
-  - [Stremio](/packages/stremio/)
-
-- Cross packages
-  - [UI](/packages/ui/)
-  - [Shared](/packages/shared/)
+| Server-side | Client-side | Cross packages |
+|-------------|-------------|----------------|
+| [DB](/packages/db/) | [CLI](/packages/cli/) | [Shared](/packages/shared/) |
+| [API](/packages/api/) | [Raycast](/packages/raycast/) |  |
+| [Indexer](/packages/indexer/) | [Stremio](/packages/stremio/) |                |
 
 ## Development
 
