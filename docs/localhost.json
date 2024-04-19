@@ -1,0 +1,12 @@
+{
+  "name": "LOCALHOST",
+  "v": 1,
+  "id": "9s4223tl0jl",
+  "variables": [
+    {
+      "key": "BASE_URL",
+      "value": "http://localhost:8787",
+      "secret": false
+    }
+  ]
+}

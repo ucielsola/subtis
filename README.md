@@ -121,7 +121,9 @@ bun run code:duplications
 
 ## API Playground
 
-Import [docs/collection.json](/docs/collection.json) into your preferred HTTP client like Hoppscotch (recommended), Postman or Insomnia, to quickly play with all API endpoints and different scenarios.
+1. Import [docs/collection.json](/docs/collection.json) into your preferred HTTP client like Hoppscotch (recommended), Postman or Insomnia, to quickly play with all API endpoints and different scenarios.
+
+
 
 ## Diagrams
 

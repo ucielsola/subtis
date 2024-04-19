@@ -107,4 +107,4 @@ export async function mod(): Promise<void> {
 	}
 }
 
-mod()
+mod();

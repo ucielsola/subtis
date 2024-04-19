@@ -14,6 +14,7 @@
     "test:coverage": "bun --env-file=.env.development test --coverage",
     "type:coverage": "rm -rf coverage-ts && typescript-coverage-report -t 99 -i types.d.ts",
     "code:duplication": "jscpd --ignore 'packages/**/*.test.ts' packages/**/*.ts",
+    "best:practices": "bun type:check && bun biome:lint && bun test:coverage && bun type:coverage && bun code:duplication",
     "db:generate": "cd packages/db && bun run generate",
     "dev:api": "cd packages/api && bun run dev",
     "dev:web": "cd packages/web && bun run dev",

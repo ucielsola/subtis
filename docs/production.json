@@ -1,0 +1,12 @@
+{
+  "name": "PRODUCTION",
+  "v": 1,
+  "id": "arwugm3m61",
+  "variables": [
+    {
+      "key": "BASE_URL",
+      "value": "https://api.subtis.workers.dev",
+      "secret": false
+    }
+  ]
+}

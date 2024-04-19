@@ -8,14 +8,14 @@ import { getMessageFromStatusCode } from "@subtis/shared";
 
 describe("CLI", async () => {
 	beforeAll(async () => {
-    const process = [
+		const process = [
 			"bun",
 			"build",
 			`${import.meta.dir.slice(0, -4)}/cli/app.ts`,
 			"--compile",
 			"--outfile",
 			`${import.meta.dir.slice(0, -4)}/cli/bin/subtis`,
-		]
+		];
 
 		Bun.spawn(process);
 	});
