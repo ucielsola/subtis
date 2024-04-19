@@ -8,42 +8,42 @@
       "folders": [],
       "requests": [
         {
-          "requestVariables": [],
-          "name": "/v1/integrations/stremio/:bytes/:fileName | Found",
+          "preRequestScript": "",
           "params": [],
-          "testScript": "",
+          "requestVariables": [],
           "body": {
-            "body": "{\n  \"fileName\": \"The.Marvels.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\",\n  \"bytes\": \"2071378947\"\n}",
-            "contentType": "application/json"
+            "contentType": "application/json",
+            "body": "{\n  \"fileName\": \"The.Marvels.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\",\n  \"bytes\": \"2071378947\"\n}"
           },
-          "v": "3",
-          "endpoint": "http://localhost:8787/v1/integrations/stremio/2326898819/Madame.Web.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
           "auth": {
             "authActive": true,
             "authType": "none"
           },
           "headers": [],
           "method": "GET",
-          "preRequestScript": ""
+          "endpoint": "<<BASE_URL>>/v1/integrations/stremio/2326898819/Madame.Web.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
+          "v": "3",
+          "name": "/v1/integrations/stremio/:bytes/:fileName | Found",
+          "testScript": ""
         },
         {
-          "headers": [],
-          "v": "3",
-          "preRequestScript": "",
-          "body": {
-            "contentType": "application/json",
-            "body": "{\n  \"fileName\": \"The.Marvels.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\",\n  \"bytes\": \"2071378947\"\n}"
-          },
-          "testScript": "",
-          "name": "/v1/integrations/stremio/:bytes/:fileName | Not Found",
+          "params": [],
           "auth": {
             "authType": "none",
             "authActive": true
           },
-          "params": [],
-          "endpoint": "http://localhost:8787/v1/integrations/stremio/23268819/Madame.eb.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
+          "headers": [],
           "requestVariables": [],
-          "method": "GET"
+          "method": "GET",
+          "body": {
+            "body": "{\n  \"fileName\": \"The.Marvels.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\",\n  \"bytes\": \"2071378947\"\n}",
+            "contentType": "application/json"
+          },
+          "name": "/v1/integrations/stremio/:bytes/:fileName | Not Found",
+          "v": "3",
+          "endpoint": "<<BASE_URL>>/v1/integrations/stremio/23268819/Madame.eb.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
+          "preRequestScript": "",
+          "testScript": ""
         }
       ],
       "auth": {
@@ -59,59 +59,128 @@
       "requests": [
         {
           "headers": [],
-          "v": "3",
-          "params": [],
-          "name": "/v1/subtitles/file/name | Found",
-          "body": {
-            "body": "{\n  \"fileName\": \"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\",\n  \"bytes\": \"\"\n}",
-            "contentType": "application/json"
+          "auth": {
+            "authType": "none",
+            "authActive": true
           },
-          "requestVariables": [],
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"fileName\": \"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\",\n  \"bytes\": \"\"\n}"
+          },
           "preRequestScript": "",
-          "endpoint": "http://localhost:8787/v1/subtitles/file/name",
+          "params": [],
+          "testScript": "",
+          "requestVariables": [],
+          "v": "3",
+          "name": "/v1/subtitles/file/name | Found",
+          "method": "POST",
+          "endpoint": "<<BASE_URL>>/v1/subtitles/file/name"
+        },
+        {
           "auth": {
             "authActive": true,
             "authType": "none"
           },
+          "params": [],
           "method": "POST",
-          "testScript": ""
-        },
-        {
+          "requestVariables": [],
+          "name": "/v1/subtitles/file/name | Not Found",
           "headers": [],
-          "method": "POST",
+          "v": "3",
+          "preRequestScript": "",
+          "testScript": "",
+          "endpoint": "<<BASE_URL>>/v1/subtitles/file/name",
           "body": {
             "contentType": "application/json",
             "body": "{\n \"a\": 3\n}"
-          },
-          "testScript": "",
-          "params": [],
-          "auth": {
-            "authType": "none",
-            "authActive": true
-          },
-          "endpoint": "http://localhost:8787/v1/subtitles/file/name",
-          "v": "3",
-          "requestVariables": [],
-          "name": "/v1/subtitles/file/name | Not Found",
-          "preRequestScript": ""
+          }
         },
         {
+          "headers": [],
+          "endpoint": "<<BASE_URL>>/v1/subtitles/file/name",
+          "params": [],
+          "name": "/v1/subtitles/file/name | Extension Not Supported",
+          "requestVariables": [],
+          "v": "3",
           "method": "POST",
+          "testScript": "",
+          "body": {
+            "body": "{\n  \"fileName\": \"The.Equalizer.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3\",\n  \"bytes\": \"2\"\n}",
+            "contentType": "application/json"
+          },
+          "preRequestScript": "",
+          "auth": {
+            "authActive": true,
+            "authType": "none"
+          }
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": []
+    },
+    {
+      "v": 2,
+      "name": "Subtitles by file for different versions",
+      "folders": [],
+      "requests": [
+        {
+          "testScript": "",
+          "name": "/v1/subtitles/file/versions | Found",
+          "headers": [],
           "auth": {
             "authType": "none",
             "authActive": true
           },
-          "testScript": "",
           "v": "3",
-          "preRequestScript": "",
-          "name": "/v1/subtitles/file/name | Extension Not Supported",
-          "params": [],
-          "endpoint": "http://localhost:8787/v1/subtitles/file/name",
+          "method": "POST",
           "body": {
             "contentType": "application/json",
-            "body": "{\n  \"fileName\": \"The.Equalizer.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3\",\n  \"bytes\": \"2\"\n}"
+            "body": "{\n  \"fileName\": \"Fast.X.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}"
+          },
+          "endpoint": "<<BASE_URL>>/v1/subtitles/file/versions",
+          "preRequestScript": "",
+          "params": [],
+          "requestVariables": []
+        },
+        {
+          "body": {
+            "body": "{\n  \"fileName\": \"Road.He.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}",
+            "contentType": "application/json"
+          },
+          "method": "POST",
+          "preRequestScript": "",
+          "testScript": "",
+          "headers": [],
+          "v": "3",
+          "name": "/v1/subtitles/file/versions | Not Found",
+          "params": [],
+          "requestVariables": [],
+          "auth": {
+            "authType": "none",
+            "authActive": true
+          },
+          "endpoint": "<<BASE_URL>>/v1/subtitles/file/versions"
+        },
+        {
+          "auth": {
+            "authActive": true,
+            "authType": "none"
+          },
+          "params": [],
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"file\": \"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}"
           },
           "headers": [],
+          "testScript": "",
+          "endpoint": "<<BASE_URL>>/v1/subtitles/file/versions",
+          "v": "3",
+          "method": "POST",
+          "name": "/v1/subtitles/file/versions | Extension Not Supported",
+          "preRequestScript": "",
           "requestVariables": []
         }
       ],
@@ -123,134 +192,65 @@
     },
     {
       "v": 2,
-      "name": "Subtitles by file for different versions",
-      "folders": [],
-      "requests": [
-        {
-          "requestVariables": [],
-          "testScript": "",
-          "headers": [],
-          "params": [],
-          "body": {
-            "contentType": "application/json",
-            "body": "{\n  \"fileName\": \"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}"
-          },
-          "endpoint": "http://localhost:8787/v1/subtitles/file/versions",
-          "preRequestScript": "",
-          "method": "POST",
-          "v": "3",
-          "name": "/v1/subtitles/file/versions | Found",
-          "auth": {
-            "authActive": true,
-            "authType": "none"
-          }
-        },
-        {
-          "method": "POST",
-          "body": {
-            "body": "{\n  \"fileName\": \"Road.He.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}",
-            "contentType": "application/json"
-          },
-          "v": "3",
-          "headers": [],
-          "preRequestScript": "",
-          "requestVariables": [],
-          "name": "/v1/subtitles/file/versions | Not Found",
-          "auth": {
-            "authType": "none",
-            "authActive": true
-          },
-          "testScript": "",
-          "params": [],
-          "endpoint": "http://localhost:8787/v1/subtitles/file/versions"
-        },
-        {
-          "endpoint": "http://localhost:8787/v1/subtitles/file/versions",
-          "body": {
-            "body": "{\n  \"file\": \"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}",
-            "contentType": "application/json"
-          },
-          "method": "POST",
-          "name": "/v1/subtitles/file/versions | Extension Not Supported",
-          "requestVariables": [],
-          "headers": [],
-          "v": "3",
-          "testScript": "",
-          "params": [],
-          "auth": {
-            "authType": "none",
-            "authActive": true
-          },
-          "preRequestScript": ""
-        }
-      ],
-      "auth": {
-        "authType": "inherit",
-        "authActive": true
-      },
-      "headers": []
-    },
-    {
-      "v": 2,
       "name": "Subtitles by movie id",
       "folders": [],
       "requests": [
         {
+          "method": "POST",
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"movieId\": 3359350\n}"
+          },
+          "endpoint": "<<BASE_URL>>/v1/subtitles/movie",
+          "testScript": "",
+          "params": [],
+          "requestVariables": [],
+          "headers": [],
+          "name": "/v1/subtitles/movie | Found",
+          "preRequestScript": "",
           "auth": {
             "authType": "none",
             "authActive": true
           },
-          "method": "POST",
-          "params": [],
-          "name": "/v1/subtitles/movie | Found",
-          "v": "3",
-          "body": {
-            "body": "{\n  \"movieId\": 3359350\n}",
-            "contentType": "application/json"
-          },
-          "endpoint": "http://localhost:8787/v1/subtitles/movie",
-          "testScript": "",
-          "preRequestScript": "",
-          "headers": [],
-          "requestVariables": []
-        },
-        {
-          "testScript": "",
-          "body": {
-            "contentType": "application/json",
-            "body": "{\n  \"movieId\": 1107302\n}"
-          },
-          "name": "/v1/subtitles/movie | Not Found",
-          "method": "POST",
-          "auth": {
-            "authActive": true,
-            "authType": "none"
-          },
-          "endpoint": "http://localhost:8787/v1/subtitles/movie",
-          "requestVariables": [],
-          "headers": [],
-          "preRequestScript": "",
-          "params": [],
           "v": "3"
         },
         {
+          "method": "POST",
+          "preRequestScript": "",
+          "requestVariables": [],
+          "params": [],
+          "headers": [],
+          "v": "3",
+          "testScript": "",
+          "name": "/v1/subtitles/movie | Not Found",
+          "endpoint": "<<BASE_URL>>/v1/subtitles/movie",
+          "auth": {
+            "authType": "none",
+            "authActive": true
+          },
+          "body": {
+            "body": "{\n  \"movieId\": 1107302\n}",
+            "contentType": "application/json"
+          }
+        },
+        {
+          "v": "3",
+          "endpoint": "<<BASE_URL>>/v1/subtitles/movie",
+          "method": "POST",
+          "requestVariables": [],
+          "name": "/v1/subtitles/movie | Bad payload",
+          "auth": {
+            "authType": "none",
+            "authActive": true
+          },
           "testScript": "",
           "body": {
-            "body": "\n{\n  \"as\": 2\n}",
-            "contentType": "application/json"
+            "contentType": "application/json",
+            "body": "\n{\n  \"as\": 2\n}"
           },
-          "name": "/v1/subtitles/movie | Bad payload",
           "headers": [],
-          "requestVariables": [],
-          "auth": {
-            "authActive": true,
-            "authType": "none"
-          },
-          "v": "3",
           "params": [],
-          "preRequestScript": "",
-          "endpoint": "http://localhost:8787/v1/subtitles/movie",
-          "method": "POST"
+          "preRequestScript": ""
         }
       ],
       "auth": {
@@ -265,22 +265,22 @@
       "folders": [],
       "requests": [
         {
-          "endpoint": "http://localhost:8787/v1/subtitles/trending",
           "testScript": "",
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"limit\": 2\n}"
+          },
+          "name": "/v1/subtitles/trending | Found",
+          "endpoint": "<<BASE_URL>>/v1/subtitles/trending",
+          "headers": [],
           "requestVariables": [],
-          "method": "POST",
+          "v": "3",
           "auth": {
             "authType": "none",
             "authActive": true
           },
+          "method": "POST",
           "params": [],
-          "headers": [],
-          "v": "3",
-          "name": "/v1/subtitles/trending | Found",
-          "body": {
-            "body": "{\n  \"limit\": 2\n}",
-            "contentType": "application/json"
-          },
           "preRequestScript": ""
         }
       ],
@@ -296,12 +296,13 @@
       "folders": [],
       "requests": [
         {
-          "name": "/v1/movies/title | Found",
-          "method": "POST",
-          "endpoint": "http://localhost:8787/v1/movies/title",
-          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "endpoint": "<<BASE_URL>>/v1/movies/title",
           "v": "3",
+          "name": "/v1/movies/title | Found",
           "testScript": "",
+          "method": "POST",
           "requestVariables": [],
           "auth": {
             "authType": "none",
@@ -311,58 +312,26 @@
             "contentType": "application/json",
             "body": "{\n  \"movieTitle\": \"rod house\"\n}"
           },
-          "headers": [],
-          "preRequestScript": ""
+          "params": []
         },
         {
-          "params": [],
-          "endpoint": "http://localhost:8787/v1/movies/title",
-          "testScript": "",
-          "name": "/v1/movies/title | Not Found",
+          "requestVariables": [],
           "body": {
             "contentType": "application/json",
             "body": "{\n  \"movieTitle\": \"rak\"\n}"
           },
-          "v": "3",
           "headers": [],
-          "preRequestScript": "",
-          "method": "POST",
-          "requestVariables": [],
-          "auth": {
-            "authType": "none",
-            "authActive": true
-          }
-        }
-      ],
-      "auth": {
-        "authType": "inherit",
-        "authActive": true
-      },
-      "headers": []
-    },
-    {
-      "v": 2,
-      "name": "Movies by recent release date",
-      "folders": [],
-      "requests": [
-        {
-          "auth": {
-            "authType": "none",
-            "authActive": true
-          },
-          "headers": [],
-          "preRequestScript": "",
           "v": "3",
-          "body": {
-            "body": "{\n  \"limit\": 2\n}",
-            "contentType": "application/json"
-          },
           "params": [],
-          "requestVariables": [],
-          "endpoint": "http://localhost:8787/v1/movies/recent",
-          "method": "POST",
           "testScript": "",
-          "name": "/v1/movies/recent | Found"
+          "auth": {
+            "authType": "none",
+            "authActive": true
+          },
+          "endpoint": "<<BASE_URL>>/v1/movies/title",
+          "method": "POST",
+          "preRequestScript": "",
+          "name": "/v1/movies/title | Not Found"
         }
       ],
       "auth": {
@@ -373,46 +342,77 @@
     },
     {
       "v": 2,
-      "name": "Metrics",
+      "name": "Movies by recent release date",
       "folders": [],
       "requests": [
         {
-          "name": "/v1/metrics/download | Found",
           "preRequestScript": "",
+          "method": "POST",
+          "name": "/v1/movies/recent | Found",
+          "v": "3",
+          "testScript": "",
+          "requestVariables": [],
+          "headers": [],
+          "params": [],
           "auth": {
             "authActive": true,
             "authType": "none"
           },
-          "endpoint": "http://localhost:8787/v1/metrics/download",
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"limit\": 2\n}"
+          },
+          "endpoint": "<<BASE_URL>>/v1/movies/recent"
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": []
+    },
+    {
+      "v": 2,
+      "name": "Metrics",
+      "folders": [],
+      "requests": [
+        {
+          "v": "3",
+          "method": "POST",
+          "headers": [],
+          "testScript": "",
+          "auth": {
+            "authActive": true,
+            "authType": "none"
+          },
+          "endpoint": "<<BASE_URL>>/v1/metrics/download",
+          "requestVariables": [],
+          "params": [],
+          "preRequestScript": "",
           "body": {
             "contentType": "application/json",
             "body": "{\n  \"fileName\": \"Road.House.2024.1080p.WEB.h264-ETHEL.mkv\"\n}"
           },
-          "v": "3",
-          "method": "POST",
-          "params": [],
-          "testScript": "",
-          "headers": [],
-          "requestVariables": []
+          "name": "/v1/metrics/download | Found"
         },
         {
-          "params": [],
-          "preRequestScript": "",
-          "requestVariables": [],
-          "name": "/v1/metrics/download | Bad payload",
           "method": "POST",
-          "auth": {
-            "authType": "none",
-            "authActive": true
-          },
-          "endpoint": "http://localhost:8787/v1/metrics/download",
-          "testScript": "",
-          "headers": [],
           "v": "3",
+          "headers": [],
+          "requestVariables": [],
+          "auth": {
+            "authActive": true,
+            "authType": "none"
+          },
+          "endpoint": "<<BASE_URL>>/v1/metrics/download",
+          "testScript": "",
+          "params": [],
           "body": {
             "body": "{\n  \"file\": \"The.Marvels.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}",
             "contentType": "application/json"
-          }
+          },
+          "preRequestScript": "",
+          "name": "/v1/metrics/download | Bad payload"
         }
       ],
       "auth": {
