@@ -11,8 +11,8 @@
     "generate": "bun run supabase:type:definitions && bun run supabase:schemas"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.42.4",
-    "zod": "^3.22.4"
+    "@supabase/supabase-js": "^2.42.5",
+    "zod": "^3.22.5"
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "^0.5.1",
