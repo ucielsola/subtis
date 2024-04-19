@@ -47,7 +47,13 @@ bun run dev:api
 
 ## Deployment
 
-- Deploy CLI (WIP)
+- Deploy API
+
+  ```
+    bun run deploy:api
+  ```
+
+- Deploy CLI
 
   ```bash
     bun run deploy:cli
