@@ -12,7 +12,7 @@ const builder = new addonBuilder({
 	catalogs: [],
 	resources: ["subtitles"],
 	types: ["movie"],
-	logo: "", // TODO: Add subtis logo URL
+	logo: "",
 });
 
 // types

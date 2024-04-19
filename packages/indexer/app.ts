@@ -362,7 +362,6 @@ async function getSubtitlesFromMovie(
 			continue;
 		}
 
-		// TODO: Check if we can download subtitles from OpenSubitles
 		// 9. Find subtitle metadata from SubDivx
 		const enabledSubtitleProviders = getEnabledSubtitleProviders(subtitleGroups, ["SubDivX"]);
 
@@ -487,6 +486,7 @@ async function indexByYear(moviesYear: number, isDebugging: boolean): Promise<vo
 	}
 }
 
+// @ts-expect-error - used manually in upcoming CRON
 async function indexByMovieTitle(movieTitle: string) {
 	try {
 		await tg.activate("ThePirateBay");
