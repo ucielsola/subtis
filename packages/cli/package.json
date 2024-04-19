@@ -2,12 +2,14 @@
   "name": "@subtis/cli",
   "version": "0.0.1",
   "license": "MIT",
-  "main": "index.ts",
+  "main": "app.ts",
   "scripts": {
-    "dev": "bun --watch run.ts",
-    "test:watch": "bun test --watch",
-    "test:coverage": "bun test --coverage",
-    "build": "bun build run.ts --compile --outfile bin/subtis",
+    "deploy": "bun run build",
+    "dev": "bun --watch app.ts",
+    "test": "bun --env-file=.env.development test",
+    "test:watch": "bun --env-file=.env.developmenttest --watch",
+    "test:coverage": "bun --env-file=.env.development test --coverage",
+    "build": "bun build app.ts --compile --outfile bin/subtis",
     "copy:bin": "sudo chmod +x bin/subtis && sudo mv bin/subtis /usr/local/bin/"
   },
   "dependencies": {

@@ -45,6 +45,13 @@ bun run dev:api
       bun run dev:indexer
       ```
 
+## Deployment
+
+- Deploy CLI (WIP)
+
+  ```bash
+    bun run deploy:cli
+  ```
 
 ## Database
 

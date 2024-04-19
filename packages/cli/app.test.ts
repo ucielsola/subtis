@@ -8,25 +8,27 @@ import { getMessageFromStatusCode } from "@subtis/shared";
 
 describe("CLI", async () => {
 	beforeAll(async () => {
-		Bun.spawn([
+    const process = [
 			"bun",
 			"build",
-			import.meta.resolveSync("../run.ts"),
+			`${import.meta.dir.slice(0, -4)}/cli/app.ts`,
 			"--compile",
 			"--outfile",
-			`${import.meta.dir.slice(0, -4)}/bin/subtis`,
-		]);
+			`${import.meta.dir.slice(0, -4)}/cli/bin/subtis`,
+		]
+
+		Bun.spawn(process);
 	});
 
 	it("returns a message with a subtitle link with --file parameter", async () => {
 		const developmentProcess = Bun.spawn([
 			"bun",
-			import.meta.resolveSync("../run.ts"),
+			import.meta.resolveSync("./app.ts"),
 			"--file",
 			"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
 		const binaryProcess = Bun.spawn([
-			`${process.env.PWD}/packages/cli/bin/subtis`,
+			`${import.meta.dir.slice(0, -4)}/cli/bin/subtis`,
 			"--file",
 			"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
@@ -44,12 +46,12 @@ describe("CLI", async () => {
 	it("returns a message with a subtitle link with -f parameter", async () => {
 		const developmentProcess = Bun.spawn([
 			"bun",
-			import.meta.resolveSync("../run.ts"),
+			import.meta.resolveSync("./app.ts"),
 			"-f",
 			"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
 		const binaryProcess = Bun.spawn([
-			`${process.env.PWD}/packages/cli/bin/subtis`,
+			`${import.meta.dir.slice(0, -4)}/cli/bin/subtis`,
 			"-f",
 			"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
@@ -66,7 +68,7 @@ describe("CLI", async () => {
 	});
 
 	it("returns a message when none parameters is given", async () => {
-		const developmentProcess = Bun.spawn(["bun", import.meta.resolveSync("../run.ts")]);
+		const developmentProcess = Bun.spawn(["bun", import.meta.resolveSync("./app.ts")]);
 		const binaryProcess = Bun.spawn([`${process.env.PWD}/packages/cli/bin/subtis`]);
 
 		const processes = [developmentProcess, binaryProcess];
@@ -80,8 +82,8 @@ describe("CLI", async () => {
 	});
 
 	it("returns a message when -f parameter is given without a file path", async () => {
-		const developmentProcess = Bun.spawn(["bun", import.meta.resolveSync("../run.ts"), "-f"]);
-		const binaryProcess = Bun.spawn([`${process.env.PWD}/packages/cli/bin/subtis`, "-f"]);
+		const developmentProcess = Bun.spawn(["bun", import.meta.resolveSync("./app.ts"), "-f"]);
+		const binaryProcess = Bun.spawn([`${import.meta.dir.slice(0, -4)}/cli/bin/subtis`, "-f"]);
 
 		const processes = [developmentProcess, binaryProcess];
 
@@ -94,8 +96,8 @@ describe("CLI", async () => {
 	});
 
 	it("returns a message when --file parameter is given without a file path", async () => {
-		const developmentProcess = Bun.spawn(["bun", import.meta.resolveSync("../run.ts"), "--file"]);
-		const binaryProcess = Bun.spawn([`${process.env.PWD}/packages/cli/bin/subtis`, "--file"]);
+		const developmentProcess = Bun.spawn(["bun", import.meta.resolveSync("./app.ts"), "--file"]);
+		const binaryProcess = Bun.spawn([`${import.meta.dir.slice(0, -4)}/cli/bin/subtis`, "--file"]);
 
 		const processes = [developmentProcess, binaryProcess];
 
@@ -110,12 +112,12 @@ describe("CLI", async () => {
 	it("returns a message when extension is not supported", async () => {
 		const developmentProcess = Bun.spawn([
 			"bun",
-			import.meta.resolveSync("../run.ts"),
+			import.meta.resolveSync("./app.ts"),
 			"--file",
 			"Trolls.Band.Together.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mp3",
 		]);
 		const binaryProcess = Bun.spawn([
-			`${process.env.PWD}/packages/cli/bin/subtis`,
+			`${import.meta.dir.slice(0, -4)}/cli/bin/subtis`,
 			"--file",
 			"Trolls.Band.Together.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mp3",
 		]);
@@ -133,12 +135,12 @@ describe("CLI", async () => {
 	it("returns a message when subtitle is not found", async () => {
 		const developmentProcess = Bun.spawn([
 			"bun",
-			import.meta.resolveSync("../run.ts"),
+			import.meta.resolveSync("./app.ts"),
 			"--file",
 			"The.Matrix.3.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
 		const binaryProcess = Bun.spawn([
-			`${process.env.PWD}/packages/cli/bin/subtis`,
+			`${import.meta.dir.slice(0, -4)}/cli/bin/subtis`,
 			"--file",
 			"The.Matrix.3.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);

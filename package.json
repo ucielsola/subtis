@@ -22,6 +22,7 @@
     "dev:stremio": "cd packages/stremio && bun run dev",
     "dev:indexer": "cd packages/indexer && npm run dev:node",
     "prod:indexer": "cd packages/indexer && npm run prod:node",
+    "deploy:cli": "cd packages/cli && bun run deploy",
     "deploy:api": "cd packages/api && bun run deploy",
     "bump:deps": "taze -r -w",
     "update:deps": "bun bump:deps && bun clean:install",

@@ -10,7 +10,7 @@ import { getMessageFromStatusCode, getSubtitleShortLink, videoFileNameSchema } f
 import { subtitleSchema } from "@subtis/api";
 
 // internals
-import { apiClient } from "../api";
+import { apiClient } from "./api";
 
 // schemas
 const cliArgumentsSchema = z.union(
@@ -40,7 +40,7 @@ const cliArgumentsSchema = z.union(
 );
 
 // core
-export async function runCli(): Promise<void> {
+export async function mod(): Promise<void> {
 	const loader = spinner();
 
 	try {
@@ -106,3 +106,5 @@ export async function runCli(): Promise<void> {
 		process.exit();
 	}
 }
+
+mod()
