@@ -264,7 +264,7 @@ export const RELEASE_GROUPS = {
 		searchableOpenSubtitlesName: ["ETRG", "AAC-ETRG"],
 		searchableSubDivXName: ["ETRG", "AAC-ETRG"],
 	},
-} as const;
+};
 
 // types
 export type ReleaseGroup = {
