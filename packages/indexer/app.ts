@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { confirm } from "@clack/prompts";
 import unrar from "@continuata/unrar";
+import cliProgress from "cli-progress";
 import clipboard from "clipboardy";
 import download from "download";
 import extract from "extract-zip";
@@ -452,12 +453,20 @@ async function indexByYear(moviesYear: number, isDebugging: boolean): Promise<vo
 			"\n",
 		);
 
-		for await (const tmbdMoviesPage of totalPages) {
-			console.log(`2) Buscando en página ${tmbdMoviesPage} de TMDB \n`);
+		// 3. Initiate progress bar
+		const totalMoviesResultBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
+		totalMoviesResultBar.start(totalPages.length, 0);
 
-			// 3. Get movies from TMDB
+		for await (const tmbdMoviesPage of totalPages) {
+			console.log(`\n2) Buscando en página ${tmbdMoviesPage} de TMDB \n`);
+
+			// 4. Update progress bar
+			console.log("\nProgreso total del indexador:\n");
+			totalMoviesResultBar.update(tmbdMoviesPage);
+
+			// 5. Get movies from TMDB
 			const movies = await getMoviesFromTmdb(tmbdMoviesPage, moviesYear, !isDebugging);
-			console.log(`3) Películas encontradas en página ${tmbdMoviesPage} \n`);
+			console.log(`\n3) Películas encontradas en página ${tmbdMoviesPage} \n`);
 
 			console.table(movies.map(({ title, year, releaseDate, rating }) => ({ title, year, releaseDate, rating })));
 			console.log("\n");

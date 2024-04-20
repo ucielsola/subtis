@@ -12,6 +12,7 @@
   "dependencies": {
     "@clack/prompts": "^0.7.0",
     "@continuata/unrar": "^1.6.0",
+    "cli-progress": "^3.12.0",
     "clipboardy": "^4.0.0",
     "dayjs": "^1.11.10",
     "delay": "^6.0.0",
