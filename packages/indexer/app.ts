@@ -454,8 +454,11 @@ async function indexByYear(moviesYear: number, isDebugging: boolean): Promise<vo
 		);
 
 		// 3. Initiate progress bar
-		const totalMoviesResultBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
+		const totalMoviesResultBar = new cliProgress.SingleBar({
+      format: '[{bar}] {percentage}% | Procesando {value}/{total} páginas de TMDB',
+    }, cliProgress.Presets.shades_classic);
 		totalMoviesResultBar.start(totalPages.length, 0);
+    console.log("\n");
 
 		for await (const tmbdMoviesPage of totalPages) {
 			console.log(`\n2) Buscando en página ${tmbdMoviesPage} de TMDB \n`);
@@ -466,7 +469,7 @@ async function indexByYear(moviesYear: number, isDebugging: boolean): Promise<vo
 
 			// 5. Get movies from TMDB
 			const movies = await getMoviesFromTmdb(tmbdMoviesPage, moviesYear, !isDebugging);
-			console.log(`\n3) Películas encontradas en página ${tmbdMoviesPage} \n`);
+			console.log(`\n\n3) Películas encontradas en página ${tmbdMoviesPage} \n`);
 
 			console.table(movies.map(({ title, year, releaseDate, rating }) => ({ title, year, releaseDate, rating })));
 			console.log("\n");
