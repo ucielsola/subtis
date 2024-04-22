@@ -166,7 +166,8 @@ async function setMovieSubtitlesToDatabase({
 		const subtitleLinkWithDownloadFileName = `${publicUrl}${downloadFileName}`;
 
 		// 13. Get movie by ID
-		const { data: movieData } = await supabase.from("Movies").select("*").eq("id", movie.id);
+		const { data: movieData } = await supabase.from("Movies").select("*").match({ id: movie.id });
+
 		invariant(movieData, "Movie not found");
 
 		// 14. Save movie to Supabase if is not yet saved
@@ -378,11 +379,10 @@ async function getSubtitlesFromMovie(
 
 				// 10. Check if subtitle already exists in DB
 				if (subtitle) {
-					const { data: subtitles } = await supabase
-						.from("Subtitles")
-						.select("*")
-						.eq("movieFileName", fileName)
-						.eq("subtitleGroupId", id);
+					const { data: subtitles } = await supabase.from("Subtitles").select("*").match({
+						subtitleGroupId: id,
+						movieFileName: fileName,
+					});
 
 					if (subtitles?.length) {
 						console.log(
@@ -454,11 +454,14 @@ async function indexByYear(moviesYear: number, isDebugging: boolean): Promise<vo
 		);
 
 		// 3. Initiate progress bar
-		const totalMoviesResultBar = new cliProgress.SingleBar({
-      format: '[{bar}] {percentage}% | Procesando {value}/{total} páginas de TMDB',
-    }, cliProgress.Presets.shades_classic);
+		const totalMoviesResultBar = new cliProgress.SingleBar(
+			{
+				format: "[{bar}] {percentage}% | Procesando {value}/{total} páginas de TMDB",
+			},
+			cliProgress.Presets.shades_classic,
+		);
 		totalMoviesResultBar.start(totalPages.length, 0);
-    console.log("\n");
+		console.log("\n");
 
 		for await (const tmbdMoviesPage of totalPages) {
 			console.log(`\n2) Buscando en página ${tmbdMoviesPage} de TMDB \n`);

@@ -53,7 +53,7 @@ export const subtitles = new Hono()
 	.post("/movie", zValidator("json", z.object({ movieId: z.number() })), async (context) => {
 		const { movieId } = context.req.valid("json");
 
-		const { data } = await getSupabaseClient(context).from("Subtitles").select(subtitlesQuery).eq("movieId", movieId);
+		const { data } = await getSupabaseClient(context).from("Subtitles").select(subtitlesQuery).match({ movieId });
 
 		const subtitles = subtitlesSchema.safeParse(data);
 		if (!subtitles.success) {
@@ -95,7 +95,7 @@ export const subtitles = new Hono()
 		const { data } = await supabase
 			.from("Subtitles")
 			.select(subtitlesQuery)
-			.eq("movieFileName", videoFileName.data)
+			.match({ movieFileName: videoFileName.data })
 			.single();
 
 		const subtitleByFileName = subtitleSchema.safeParse(data);
@@ -103,7 +103,7 @@ export const subtitles = new Hono()
 		if (!subtitleByFileName.success) {
 			await supabase.rpc("insert_subtitle_not_found", { file_name: videoFileName.data });
 
-			const { data } = await supabase.from("Subtitles").select(subtitlesQuery).eq("bytes", bytes).single();
+			const { data } = await supabase.from("Subtitles").select(subtitlesQuery).match({ bytes }).single();
 
 			const subtitleByBytes = subtitleSchema.safeParse(data);
 
@@ -129,7 +129,7 @@ export const subtitles = new Hono()
 		const supabase = getSupabaseClient(context);
 		const { name, year } = getMovieMetadata(videoFileName.data);
 
-		const { data: movieData } = await supabase.from("Movies").select("id").eq("name", name).eq("year", year).single();
+		const { data: movieData } = await supabase.from("Movies").select("id").match({ name, year }).single();
 
 		const movieByNameAndYear = moviesRowSchema.pick({ id: true }).safeParse(movieData);
 
@@ -138,7 +138,10 @@ export const subtitles = new Hono()
 			return context.json({ message: "Movie not found for file" });
 		}
 
-		const { data } = await supabase.from("Subtitles").select(subtitlesQuery).eq("movieId", movieByNameAndYear.data.id);
+		const { data } = await supabase
+			.from("Subtitles")
+			.select(subtitlesQuery)
+			.match({ movieId: movieByNameAndYear.data.id });
 
 		const subtitleByFileName = alternativeSubtitlesSchema.safeParse(data);
 

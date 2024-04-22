@@ -33,7 +33,7 @@ export const integrations = new Hono().get(
 		const { data } = await supabase
 			.from("Subtitles")
 			.select("subtitleLink")
-			.eq("movieFileName", videoFileName.data)
+			.match({ movieFileName: videoFileName.data })
 			.single();
 
 		const subtitleByFileName = subtitleSchema.safeParse(data);
@@ -43,7 +43,7 @@ export const integrations = new Hono().get(
 				file_name: videoFileName.data,
 			});
 
-			const { data } = await supabase.from("Subtitles").select("subtitleLink").eq("bytes", bytes).single();
+			const { data } = await supabase.from("Subtitles").select("subtitleLink").match({ bytes }).single();
 
 			const subtitleByBytes = subtitleSchema.safeParse(data);
 

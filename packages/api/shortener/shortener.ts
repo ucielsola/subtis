@@ -15,7 +15,7 @@ const subtitleSchema = subtitlesRowSchema.pick({ subtitleLink: true });
 export const shortener = new Hono().post("/:id", zValidator("param", z.object({ id: z.string() })), async (context) => {
 	const { id } = context.req.valid("param");
 
-	const { data } = await getSupabaseClient(context).from("Subtitles").select("subtitleLink").eq("id", id).single();
+	const { data } = await getSupabaseClient(context).from("Subtitles").select("subtitleLink").match({ id }).single();
 
 	const subtitleById = subtitleSchema.safeParse(data);
 	if (!subtitleById.success) {
