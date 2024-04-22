@@ -1,28 +1,26 @@
-import { addonBuilder, serveHTTP } from "stremio-addon-sdk";
+import { type ContentType, addonBuilder, serveHTTP } from "stremio-addon-sdk";
 
 // utils
 import { getSubtitleUrl, isProduction } from "./utils";
 
-// addon
-const builder = new addonBuilder({
-	id: "org.subtis",
-	version: "0.0.1",
-	name: "Subtis",
-	description: "Subtis es un buscador de subtitulos para tus películas",
-	catalogs: [],
-	resources: ["subtitles"],
-	types: ["movie"],
-	logo: "",
-});
-
 // types
+type Args = {
+	type: ContentType;
+	id: string;
+	extra: {
+		videoHash: string;
+		videoSize: string;
+	};
+};
+
 type ExtraArgs = {
 	filename: string;
 	videoSize: string;
 	videoHash: string;
 };
 
-builder.defineSubtitlesHandler(async function getMovieSubtitle(args) {
+// core
+async function getMovieSubtitle(args: Args) {
 	if (args.type !== "movie") {
 		return Promise.resolve({ subtitles: [] });
 	}
@@ -38,6 +36,20 @@ builder.defineSubtitlesHandler(async function getMovieSubtitle(args) {
 	const withCacheMaxAge = isProduction ? {} : { cacheMaxAge: 0 };
 
 	return Promise.resolve({ subtitles: [subtitle], ...withCacheMaxAge });
+}
+
+// addon
+const builder = new addonBuilder({
+	id: "org.subtis",
+	version: "0.0.1",
+	name: "Subtis",
+	description: "Subtis es un buscador de subtitulos para tus películas",
+	catalogs: [],
+	resources: ["subtitles"],
+	types: ["movie"],
+	logo: "https://elhfbeppfhhgaocedmkc.supabase.co/storage/v1/object/public/assets/stremio.jpg",
 });
+
+builder.defineSubtitlesHandler(getMovieSubtitle);
 
 serveHTTP(builder.getInterface(), { port: 8081 });
