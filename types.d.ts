@@ -1,5 +1,7 @@
 /// <reference types="node" />
 
+declare module '*.toml';
+
 declare module 'bun' {
   interface Env {
     NODE_ENV: string
