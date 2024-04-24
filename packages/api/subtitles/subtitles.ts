@@ -13,7 +13,7 @@ import { getMovieMetadata, videoFileNameSchema } from "@subtis/shared";
 
 // schemas
 const releaseGroupSchema = releaseGroupsRowSchema.pick({ name: true });
-const movieSchema = moviesRowSchema.pick({ year: true, name: true, poster: true, backdrop: true });
+const movieSchema = moviesRowSchema.pick({ name: true, year: true, poster: true, backdrop: true });
 
 export const subtitleSchema = subtitlesRowSchema
 	.pick({
@@ -33,7 +33,7 @@ const subtitlesQuery = `
   subtitleLink,
   subtitleFileName,
   releaseGroup: ReleaseGroups ( name ),
-  movie: Movies (  name, year, poster, backdrop )
+  movie: Movies ( name, year, poster, backdrop )
 `;
 
 const subtitlesSchema = z
