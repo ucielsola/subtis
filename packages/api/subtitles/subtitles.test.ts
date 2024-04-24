@@ -1,8 +1,8 @@
 import { describe, expect, test } from "bun:test";
 
 // internals
-import { subtitles } from "./subtitles";
 import { getMockEnv } from "../shared/test";
+import { subtitles } from "./subtitles";
 
 describe("API | /subtitles/movie", () => {
 	test("Valid JSON Request with existing movieId", async () => {

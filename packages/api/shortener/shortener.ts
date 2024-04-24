@@ -12,7 +12,7 @@ import { subtitlesRowSchema } from "@subtis/db/schemas";
 const subtitleSchema = subtitlesRowSchema.pick({ subtitleLink: true });
 
 // core
-export const shortener = new Hono().post("/:id", zValidator("param", z.object({ id: z.string() })), async (context) => {
+export const shortener = new Hono().get("/:id", zValidator("param", z.object({ id: z.string() })), async (context) => {
 	const { id } = context.req.valid("param");
 
 	const { data } = await getSupabaseClient(context).from("Subtitles").select("subtitleLink").match({ id }).single();
