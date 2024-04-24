@@ -12,7 +12,7 @@
     "test": "bun --env-file=.env.development test",
     "test:watch": "bun --env-file=.env.development test --watch",
     "test:coverage": "bun --env-file=.env.development test --coverage",
-    "type:coverage": "rm -rf coverage-ts && typescript-coverage-report -t 99 -i types.d.ts",
+    "type:coverage": "rm -rf coverage-ts && typescript-coverage-report -t 100 -i types.d.ts",
     "code:duplication": "jscpd --ignore 'packages/**/*.test.ts' packages/**/*.ts",
     "db:generate": "cd packages/db && bun run generate",
     "dev:api": "cd packages/api && bun run dev",
