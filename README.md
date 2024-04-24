@@ -83,7 +83,7 @@ Request access to Supabase team with the developer email.
 
 ### Schema
 
-![Database Schema](docs/schema.png)
+To check how the database schema looks like go to Supabase project, under Database -> Tools -> Schema Visualizer.
 
 ## Good practices
 
