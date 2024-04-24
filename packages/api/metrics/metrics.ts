@@ -3,13 +3,13 @@ import { Hono } from "hono";
 import { z } from "zod";
 
 // internals
-import { getSupabaseClient } from "../shared";
+import { type AppVariables, getSupabaseClient } from "../shared";
 
 // shared
 import { videoFileNameSchema } from "@subtis/shared";
 
 // core
-export const metrics = new Hono().post(
+export const metrics = new Hono<{ Variables: AppVariables }>().post(
 	"/download",
 	zValidator("json", z.object({ fileName: z.string() })),
 	async (context) => {

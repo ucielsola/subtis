@@ -3,7 +3,7 @@ import { Hono } from "hono";
 import { z } from "zod";
 
 // internals
-import { getSupabaseClient } from "../shared";
+import { type AppVariables, getSupabaseClient } from "../shared";
 
 // db
 import { subtitlesRowSchema } from "@subtis/db/schemas";
@@ -12,17 +12,25 @@ import { subtitlesRowSchema } from "@subtis/db/schemas";
 const subtitleSchema = subtitlesRowSchema.pick({ subtitleLink: true });
 
 // core
-export const shortener = new Hono().get("/:id", zValidator("param", z.object({ id: z.string() })), async (context) => {
-	const { id } = context.req.valid("param");
+export const shortener = new Hono<{ Variables: AppVariables }>().get(
+	"/:subtitleId",
+	zValidator("param", z.object({ subtitleId: z.string() })),
+	async (context) => {
+		const { subtitleId } = context.req.valid("param");
 
-	const { data } = await getSupabaseClient(context).from("Subtitles").select("subtitleLink").match({ id }).single();
+		const { data } = await getSupabaseClient(context)
+			.from("Subtitles")
+			.select("subtitleLink")
+			.match({ id: subtitleId })
+			.single();
 
-	const subtitleById = subtitleSchema.safeParse(data);
-	if (!subtitleById.success) {
-		context.status(404);
-		return context.json({ message: "Subtitle not found for id" });
-	}
+		const subtitleById = subtitleSchema.safeParse(data);
+		if (!subtitleById.success) {
+			context.status(404);
+			return context.json({ message: "Subtitle not found for id" });
+		}
 
-	context.redirect(subtitleById.data.subtitleLink);
-	return context.text(subtitleById.data.subtitleLink);
-});
+		context.redirect(subtitleById.data.subtitleLink);
+		return context.text(subtitleById.data.subtitleLink);
+	},
+);

@@ -218,27 +218,27 @@ describe("API | /subtitles/trending", () => {
 		expect(data).toHaveLength(2);
 		expect(data).toEqual([
 			{
+				id: 2754,
+				resolution: "1080p",
+				subtitleLink:
+					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-ethel-subdivx.srt?download=Road.House.2024.1080p.WEB.h264-ETHEL.srt",
+				subtitleFileName: "Road.House.2024.1080p.WEB.h264-ETHEL.srt",
+				movie: {
+					name: "Road House",
+					year: 2024,
+					poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
+					backdrop: "https://image.tmdb.org/t/p/original/oe7mWkvYhK4PLRNAVSvonzyUXNy.jpg",
+				},
+				releaseGroup: {
+					name: "ETHEL",
+				},
+			},
+			{
 				id: 2734,
 				resolution: "1080p",
 				subtitleLink:
 					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/dune-part-two-1080p-yts-subdivx.srt?download=Dune.Part.Two.2024.1080p.WEBRip.x265.10bit.AAC-[YTS.MX].srt",
 				subtitleFileName: "Dune.Part.Two.2024.1080p.WEBRip.x265.10bit.AAC-[YTS.MX].srt",
-				movie: {
-					name: "Dune: Part Two",
-					year: 2024,
-					poster: "https://image.tmdb.org/t/p/original/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg",
-					backdrop: "https://image.tmdb.org/t/p/original/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg",
-				},
-				releaseGroup: {
-					name: "YTS",
-				},
-			},
-			{
-				id: 2733,
-				resolution: "1080p",
-				subtitleLink:
-					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/dune-part-two-1080p-yts-subdivx.srt?download=Dune.Part.Two.2024.1080p.WEBRip.x264.AAC-[YTS.MX].srt",
-				subtitleFileName: "Dune.Part.Two.2024.1080p.WEBRip.x264.AAC-[YTS.MX].srt",
 				movie: {
 					name: "Dune: Part Two",
 					year: 2024,

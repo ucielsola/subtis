@@ -3,7 +3,7 @@ import { Hono } from "hono";
 import { z } from "zod";
 
 // internals
-import { getSupabaseClient } from "../shared";
+import { type AppVariables, getSupabaseClient } from "../shared";
 
 // db
 import { moviesRowSchema } from "@subtis/db/schemas";
@@ -12,8 +12,28 @@ import { moviesRowSchema } from "@subtis/db/schemas";
 const movieSchema = moviesRowSchema.pick({ id: true, name: true, year: true });
 const moviesSchema = z.array(movieSchema).min(1);
 
+const movieRecentSchema = moviesRowSchema.pick({
+	id: true,
+	year: true,
+	name: true,
+	rating: true,
+	releaseDate: true,
+});
+const recentMovieSchema = z
+	.array(movieRecentSchema, { invalid_type_error: "Recent movies not found" })
+	.min(1, { message: "Recent movies not found" });
+
+// queries
+const moviesRecentQuery = `
+  id,
+  name,
+  year,
+  rating,
+  releaseDate
+`;
+
 // core
-export const movies = new Hono()
+export const movies = new Hono<{ Variables: AppVariables }>()
 	.post("/title", zValidator("json", z.object({ movieTitle: z.string() })), async (context) => {
 		const { movieTitle } = context.req.valid("json");
 
@@ -32,21 +52,9 @@ export const movies = new Hono()
 
 		const { data } = await getSupabaseClient(context)
 			.from("Movies")
-			.select("id, name, year, rating, releaseDate")
+			.select(moviesRecentQuery)
 			.order("releaseDate", { ascending: false })
 			.limit(limit);
-
-		const movieRecentSchema = moviesRowSchema.pick({
-			id: true,
-			year: true,
-			name: true,
-			rating: true,
-			releaseDate: true,
-		});
-
-		const recentMovieSchema = z
-			.array(movieRecentSchema, { invalid_type_error: "Recent movies not found" })
-			.min(1, { message: "Recent movies not found" });
 
 		const recentSubtitles = recentMovieSchema.safeParse(data);
 		if (!recentSubtitles.success) {

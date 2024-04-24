@@ -3,7 +3,7 @@ import { Hono } from "hono";
 import { z } from "zod";
 
 // internals
-import { getSupabaseClient } from "../shared";
+import { type AppVariables, getSupabaseClient } from "../shared";
 
 // db
 import { moviesRowSchema, releaseGroupsRowSchema, subtitlesRowSchema } from "@subtis/db/schemas";
@@ -49,7 +49,7 @@ const alternativeSubtitlesSchema = z
 	.min(1, { message: "Alternative subtitles not found for file" });
 
 // core
-export const subtitles = new Hono()
+export const subtitles = new Hono<{ Variables: AppVariables }>()
 	.post("/movie", zValidator("json", z.object({ movieId: z.number() })), async (context) => {
 		const { movieId } = context.req.valid("json");
 

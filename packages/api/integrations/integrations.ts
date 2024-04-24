@@ -2,7 +2,7 @@ import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { z } from "zod";
 
-import { getSupabaseClient } from "../shared";
+import { type AppVariables, getSupabaseClient } from "../shared";
 // internals
 import { getSubtitleText } from "./helpers";
 
@@ -16,7 +16,7 @@ import { videoFileNameSchema } from "@subtis/shared";
 const subtitleSchema = subtitlesRowSchema.pick({ subtitleLink: true });
 
 // core
-export const integrations = new Hono().get(
+export const integrations = new Hono<{ Variables: AppVariables }>().get(
 	"/stremio/:bytes/:fileName",
 	zValidator("param", z.object({ bytes: z.string(), fileName: z.string() })),
 	async (context) => {
