@@ -23,6 +23,11 @@ export const metrics = new Hono<{ Variables: AppVariables }>().post(
 
 		const { error } = await getSupabaseClient(context).rpc("update_subtitle_info", { file_name: videoFileName.data });
 
-		return context.json({ ok: !error });
+		if (error) {
+			context.status(404);
+			return context.json({ message: "File name not found in database to update subtitle" });
+		}
+
+		return context.json({ ok: true });
 	},
 );
