@@ -9,8 +9,8 @@
     "test": "bun --env-file=.env.development test",
     "test:watch": "bun --env-file=.env.developmenttest --watch",
     "test:coverage": "bun --env-file=.env.development test --coverage",
-    "copy:bin": "sudo chmod +x bin/subtis && sudo mv bin/subtis /usr/local/bin/",
-    "build": "bun build app.ts --compile --minify --outfile bin/subtis.bin && cp bin/subtis.bin ../api/assets"
+    "build": "bun build app.ts --compile --minify --outfile bin/subtis.bin",
+    "copy:bin": "sudo chmod +x bin/subtis && sudo mv bin/subtis /usr/local/bin/"
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",

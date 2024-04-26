@@ -1,5 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
+import { cache } from "hono/cache";
+import timestring from "timestring";
 import { z } from "zod";
 
 // internals
@@ -48,42 +50,33 @@ const alternativeSubtitlesSchema = z
 	.array(subtitleSchema, { invalid_type_error: "Alternative subtitles not found for file" })
 	.min(1, { message: "Alternative subtitles not found for file" });
 
+// constants
+const ONE_WEEK_SECONDS = timestring("1 week");
+
 // core
 export const subtitles = new Hono<{ Variables: AppVariables }>()
-	.get("/movie/:movieId", zValidator("param", z.object({ movieId: z.string() })), async (context) => {
-		const { movieId } = context.req.valid("param");
+	.get(
+		"/movie/:movieId",
+		zValidator("param", z.object({ movieId: z.string() })),
+		cache({ cacheName: "api", cacheControl: `s-maxage=${ONE_WEEK_SECONDS}` }),
+		async (context) => {
+			const { movieId } = context.req.valid("param");
 
-		const { data } = await getSupabaseClient(context).from("Subtitles").select(subtitlesQuery).match({ movieId });
+			const { data } = await getSupabaseClient(context).from("Subtitles").select(subtitlesQuery).match({ movieId });
 
-		const subtitles = subtitlesSchema.safeParse(data);
-		if (!subtitles.success) {
-			context.status(404);
-			return context.json({ message: subtitles.error.issues[0].message });
-		}
+			const subtitles = subtitlesSchema.safeParse(data);
+			if (!subtitles.success) {
+				context.status(404);
+				return context.json({ message: subtitles.error.issues[0].message });
+			}
 
-		return context.json(data);
-	})
-	.get("/trending/:limit", zValidator("param", z.object({ limit: z.string() })), async (context) => {
-		const { limit } = context.req.valid("param");
-
-		const { data } = await getSupabaseClient(context)
-			.from("Subtitles")
-			.select(subtitlesQuery)
-			.order("queriedTimes", { ascending: false })
-			.order("lastQueriedAt", { ascending: false })
-			.limit(Number(limit));
-
-		const trendingSubtitles = trendingSubtitlesSchema.safeParse(data);
-		if (!trendingSubtitles.success) {
-			context.status(404);
-			return context.json({ message: trendingSubtitles.error.issues[0].message });
-		}
-
-		return context.json(trendingSubtitles.data);
-	})
+			return context.json(data);
+		},
+	)
 	.get(
 		"/file/name/:bytes/:fileName",
 		zValidator("param", z.object({ bytes: z.string(), fileName: z.string() })),
+		cache({ cacheName: "api", cacheControl: `s-maxage=${ONE_WEEK_SECONDS}` }),
 		async (context) => {
 			const { bytes, fileName } = context.req.valid("param");
 
@@ -121,38 +114,61 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 			return context.json(subtitleByFileName.data);
 		},
 	)
-	.get("/file/versions/:fileName", zValidator("param", z.object({ fileName: z.string() })), async (context) => {
-		const { fileName } = context.req.valid("param");
+	.get(
+		"/file/versions/:fileName",
+		zValidator("param", z.object({ fileName: z.string() })),
+		cache({ cacheName: "api", cacheControl: `s-maxage=${ONE_WEEK_SECONDS}` }),
+		async (context) => {
+			const { fileName } = context.req.valid("param");
 
-		const videoFileName = videoFileNameSchema.safeParse(fileName);
-		if (!videoFileName.success) {
-			context.status(415);
-			return context.json({ message: videoFileName.error.issues[0].message });
-		}
+			const videoFileName = videoFileNameSchema.safeParse(fileName);
+			if (!videoFileName.success) {
+				context.status(415);
+				return context.json({ message: videoFileName.error.issues[0].message });
+			}
 
-		const supabase = getSupabaseClient(context);
-		const { name, year } = getMovieMetadata(videoFileName.data);
+			const supabase = getSupabaseClient(context);
+			const { name, year } = getMovieMetadata(videoFileName.data);
 
-		const { data: movieData } = await supabase.from("Movies").select("id").match({ name, year }).single();
+			const { data: movieData } = await supabase.from("Movies").select("id").match({ name, year }).single();
 
-		const movieByNameAndYear = moviesRowSchema.pick({ id: true }).safeParse(movieData);
+			const movieByNameAndYear = moviesRowSchema.pick({ id: true }).safeParse(movieData);
 
-		if (!movieByNameAndYear.success) {
-			context.status(404);
-			return context.json({ message: "Movie not found for file" });
-		}
+			if (!movieByNameAndYear.success) {
+				context.status(404);
+				return context.json({ message: "Movie not found for file" });
+			}
 
-		const { data } = await supabase
+			const { data } = await supabase
+				.from("Subtitles")
+				.select(subtitlesQuery)
+				.match({ movieId: movieByNameAndYear.data.id });
+
+			const subtitleByFileName = alternativeSubtitlesSchema.safeParse(data);
+
+			if (!subtitleByFileName.success) {
+				context.status(404);
+				return context.json({ message: "Subtitle not found for file" });
+			}
+
+			return context.json(subtitleByFileName.data);
+		},
+	)
+	.get("/trending/:limit", zValidator("param", z.object({ limit: z.string() })), async (context) => {
+		const { limit } = context.req.valid("param");
+
+		const { data } = await getSupabaseClient(context)
 			.from("Subtitles")
 			.select(subtitlesQuery)
-			.match({ movieId: movieByNameAndYear.data.id });
+			.order("queriedTimes", { ascending: false })
+			.order("lastQueriedAt", { ascending: false })
+			.limit(Number(limit));
 
-		const subtitleByFileName = alternativeSubtitlesSchema.safeParse(data);
-
-		if (!subtitleByFileName.success) {
+		const trendingSubtitles = trendingSubtitlesSchema.safeParse(data);
+		if (!trendingSubtitles.success) {
 			context.status(404);
-			return context.json({ message: "Subtitle not found for file" });
+			return context.json({ message: trendingSubtitles.error.issues[0].message });
 		}
 
-		return context.json(subtitleByFileName.data);
+		return context.json(trendingSubtitles.data);
 	});
