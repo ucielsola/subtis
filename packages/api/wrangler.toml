@@ -9,7 +9,3 @@ compatibility_date = "2023-12-01"
 [vars]
 SUPABASE_API_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InllbGhzbW52Znl5anVhbXhib2JzIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODY2MTg5MzQsImV4cCI6MjAwMjE5NDkzNH0.WqFO7dB6HzRjwJkeUwW-fNM730TMQ2Dy3IGCOhKplq8"
 SUPABASE_BASE_URL="https://yelhsmnvfyyjuamxbobs.supabase.co"
-
-[env.production.vars]
-SUPABASE_API_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsaGZiZXBwZmhoZ2FvY2VkbWtjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTA3OTkxNTgsImV4cCI6MjAyNjM3NTE1OH0.s1DATPhEyZOgEiueVN2892vbCh_jSfq-SJKjfbGQ2MY"
-SUPABASE_BASE_URL="https://elhfbeppfhhgaocedmkc.supabase.co"
