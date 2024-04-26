@@ -5,24 +5,13 @@ import { z } from "zod";
 import type { AppType } from "@subtis/api";
 
 // types
-type ApiBaseUrlConfig = {
-	isProduction: boolean;
-	apiBaseUrlDevelopment?: string;
-	apiBaseUrlProduction?: string;
-};
+const schema = z.object({ apiBaseUrl: z.string() });
+type ApiBaseUrlConfig = z.infer<typeof schema>;
 
 // utils
 function getApiBaseUrl(apiBaseUrlConfig: ApiBaseUrlConfig): string {
-	const schema = z.object({
-		isProduction: z.boolean(),
-		apiBaseUrlDevelopment: z.string(),
-		apiBaseUrlProduction: z.string(),
-	});
-
 	const apiBaseUrlConfigParsed = schema.parse(apiBaseUrlConfig);
-	return apiBaseUrlConfigParsed.isProduction
-		? apiBaseUrlConfigParsed.apiBaseUrlProduction
-		: apiBaseUrlConfigParsed.apiBaseUrlDevelopment;
+	return apiBaseUrlConfigParsed.apiBaseUrl;
 }
 
 export function getApiClient(apiBaseUrlConfig: ApiBaseUrlConfig) {

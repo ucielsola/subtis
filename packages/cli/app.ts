@@ -7,7 +7,7 @@ import { z } from "zod";
 import { getMessageFromStatusCode, getSubtitleShortLink, videoFileNameSchema } from "@subtis/shared";
 
 // api
-import { subtitleSchema } from "@subtis/api";
+import { subtitleSchema } from "@subtis/api/subtitles/schemas";
 
 // internals
 import { apiClient } from "./api";
@@ -61,10 +61,17 @@ export async function mod(): Promise<void> {
 
 		loader.start("🔎 Buscando subtitulos");
 
+		const file = Bun.file(fileName);
+
+		if (!file.exists()) {
+			loader.stop("🔴 Archivo no encontrado");
+			return outro(chalk.red("🤔 Archivo no encontrado. Prueba con otra ruta"));
+		}
+
 		const response = await apiClient.v1.subtitles.file.name[":bytes"][":fileName"].$get({
 			param: {
 				fileName,
-				bytes: "",
+				bytes: String(file.size),
 			},
 		});
 		const data = await response.json();

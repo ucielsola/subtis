@@ -7,27 +7,11 @@ import { z } from "zod";
 // internals
 import { type AppVariables, getSupabaseClient } from "../shared";
 
-// db
-import { moviesRowSchema, releaseGroupsRowSchema, subtitlesRowSchema } from "@subtis/db/schemas";
-
 // shared
 import { getMovieMetadata, videoFileNameSchema } from "@subtis/shared";
 
 // schemas
-const releaseGroupSchema = releaseGroupsRowSchema.pick({ name: true });
-const movieSchema = moviesRowSchema.pick({ name: true, year: true, poster: true, backdrop: true });
-
-export const subtitleSchema = subtitlesRowSchema
-	.pick({
-		id: true,
-		resolution: true,
-		subtitleLink: true,
-		subtitleFileName: true,
-	})
-	.extend({
-		movie: movieSchema,
-		releaseGroup: releaseGroupSchema,
-	});
+import { moviesVersionSchema, subtitleSchema } from "./schemas";
 
 const subtitlesQuery = `
   id,
@@ -132,7 +116,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 
 			const { data: movieData } = await supabase.from("Movies").select("id").match({ name, year }).single();
 
-			const movieByNameAndYear = moviesRowSchema.pick({ id: true }).safeParse(movieData);
+			const movieByNameAndYear = moviesVersionSchema.safeParse(movieData);
 
 			if (!movieByNameAndYear.success) {
 				context.status(404);
