@@ -50,8 +50,8 @@ const alternativeSubtitlesSchema = z
 
 // core
 export const subtitles = new Hono<{ Variables: AppVariables }>()
-	.post("/movie", zValidator("json", z.object({ movieId: z.number() })), async (context) => {
-		const { movieId } = context.req.valid("json");
+	.get("/movie/:movieId", zValidator("param", z.object({ movieId: z.string() })), async (context) => {
+		const { movieId } = context.req.valid("param");
 
 		const { data } = await getSupabaseClient(context).from("Subtitles").select(subtitlesQuery).match({ movieId });
 
@@ -63,15 +63,15 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 
 		return context.json(data);
 	})
-	.post("/trending", zValidator("json", z.object({ limit: z.number() })), async (context) => {
-		const { limit } = context.req.valid("json");
+	.get("/trending/:limit", zValidator("param", z.object({ limit: z.string() })), async (context) => {
+		const { limit } = context.req.valid("param");
 
 		const { data } = await getSupabaseClient(context)
 			.from("Subtitles")
 			.select(subtitlesQuery)
 			.order("queriedTimes", { ascending: false })
 			.order("lastQueriedAt", { ascending: false })
-			.limit(limit);
+			.limit(Number(limit));
 
 		const trendingSubtitles = trendingSubtitlesSchema.safeParse(data);
 		if (!trendingSubtitles.success) {
@@ -81,8 +81,8 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 
 		return context.json(trendingSubtitles.data);
 	})
-	.post("/file/name", zValidator("json", z.object({ bytes: z.string(), fileName: z.string() })), async (context) => {
-		const { bytes, fileName } = context.req.valid("json");
+	.get("/file/name/:bytes/:fileName", zValidator("param", z.object({ bytes: z.string(), fileName: z.string() })), async (context) => {
+		const { bytes, fileName } = context.req.valid("param");
 
 		const videoFileName = videoFileNameSchema.safeParse(fileName);
 		if (!videoFileName.success) {
@@ -117,8 +117,8 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 
 		return context.json(subtitleByFileName.data);
 	})
-	.post("/file/versions", zValidator("json", z.object({ fileName: z.string() })), async (context) => {
-		const { fileName } = context.req.valid("json");
+	.get("/file/versions/:fileName", zValidator("param", z.object({ fileName: z.string() })), async (context) => {
+		const { fileName } = context.req.valid("param");
 
 		const videoFileName = videoFileNameSchema.safeParse(fileName);
 		if (!videoFileName.success) {

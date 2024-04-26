@@ -1,3 +1,4 @@
+// @ts-ignore
 import manifest from "__STATIC_CONTENT_MANIFEST";
 import { Hono } from "hono";
 import { serveStatic } from "hono/cloudflare-workers";

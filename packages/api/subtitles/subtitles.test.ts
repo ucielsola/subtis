@@ -7,12 +7,12 @@ import { subtitles } from "./subtitles";
 describe("API | /subtitles/movie", () => {
 	test("Valid JSON Request with existing movieId", async () => {
 		const request = {
-			method: "POST",
-			body: JSON.stringify({ movieId: 3359350 }),
-			headers: { "Content-Type": "application/json" },
+			method: "GET",
 		};
 
-		const response = await subtitles.request("/movie", request, getMockEnv());
+    const movieId = 3359350;
+
+		const response = await subtitles.request(`/movie/${movieId}`, request, getMockEnv());
 		const data = await response.json();
 
 		expect(response.status).toBe(200);
@@ -134,84 +134,26 @@ describe("API | /subtitles/movie", () => {
 
 	test("Valid JSON Request with non-existent movieId", async () => {
 		const request = {
-			method: "POST",
-			body: JSON.stringify({ movieId: 9350 }),
-			headers: { "Content-Type": "application/json" },
+			method: "GET",
 		};
 
-		const response = await subtitles.request("/movie", request, getMockEnv());
+		const response = await subtitles.request("/movie/9350", request, getMockEnv());
 		const data = await response.json();
 
 		expect(response.status).toBe(404);
 		expect(data).toEqual({ message: "Subtitles not found for movie" });
-	});
-
-	test("Invalid JSON Request (missing movieId)", async () => {
-		const request = {
-			method: "POST",
-			body: JSON.stringify({}),
-			headers: { "Content-Type": "application/json" },
-		};
-
-		const response = await subtitles.request("/movie", request, getMockEnv());
-		const data = await response.json();
-
-		expect(response.status).toBe(400);
-		expect(data).toEqual({
-			success: false,
-			error: {
-				issues: [
-					{
-						code: "invalid_type",
-						expected: "number",
-						received: "undefined",
-						path: ["movieId"],
-						message: "Required",
-					},
-				],
-				name: "ZodError",
-			},
-		});
-	});
-
-	test("Invalid JSON Request (invalid movieId type)", async () => {
-		const request = {
-			method: "POST",
-			body: JSON.stringify({ movieId: "string" }),
-			headers: { "Content-Type": "application/json" },
-		};
-
-		const response = await subtitles.request("/movie", request, getMockEnv());
-		const data = await response.json();
-
-		expect(response.status).toBe(400);
-		expect(data).toEqual({
-			success: false,
-			error: {
-				issues: [
-					{
-						code: "invalid_type",
-						expected: "number",
-						received: "string",
-						path: ["movieId"],
-						message: "Expected number, received string",
-					},
-				],
-				name: "ZodError",
-			},
-		});
 	});
 });
 
 describe("API | /subtitles/trending", () => {
 	test("Valid JSON Request with limit 2", async () => {
 		const request = {
-			method: "POST",
-			body: JSON.stringify({ limit: 2 }),
-			headers: { "Content-Type": "application/json" },
+			method: "GET",
 		};
 
-		const response = await subtitles.request("/trending", request, getMockEnv());
+    const limit = 2
+
+		const response = await subtitles.request(`/trending/${limit}`, request, getMockEnv());
 		const data = await response.json();
 
 		expect(response.status).toBe(200);
@@ -251,73 +193,18 @@ describe("API | /subtitles/trending", () => {
 			},
 		]);
 	});
-
-	test("Invalid JSON Request (missing limit)", async () => {
-		const request = {
-			method: "POST",
-			body: JSON.stringify({}),
-			headers: { "Content-Type": "application/json" },
-		};
-
-		const response = await subtitles.request("/trending", request, getMockEnv());
-		const data = await response.json();
-
-		expect(response.status).toBe(400);
-		expect(data).toEqual({
-			success: false,
-			error: {
-				issues: [
-					{
-						code: "invalid_type",
-						expected: "number",
-						received: "undefined",
-						path: ["limit"],
-						message: "Required",
-					},
-				],
-				name: "ZodError",
-			},
-		});
-	});
-
-	test("Invalid JSON Request (invalid limit type)", async () => {
-		const request = {
-			method: "POST",
-			body: JSON.stringify({ limit: "foo" }),
-			headers: { "Content-Type": "application/json" },
-		};
-
-		const response = await subtitles.request("/trending", request, getMockEnv());
-		const data = await response.json();
-
-		expect(response.status).toBe(400);
-		expect(data).toEqual({
-			success: false,
-			error: {
-				issues: [
-					{
-						code: "invalid_type",
-						expected: "number",
-						received: "string",
-						path: ["limit"],
-						message: "Expected number, received string",
-					},
-				],
-				name: "ZodError",
-			},
-		});
-	});
 });
 
 describe("API | /subtitles/file/name", () => {
 	test("Valid JSON Request with existing fileName", async () => {
 		const request = {
-			method: "POST",
-			body: JSON.stringify({ fileName: "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4", bytes: "2442029036" }),
-			headers: { "Content-Type": "application/json" },
+			method: "GET",
 		};
 
-		const response = await subtitles.request("/file/name", request, getMockEnv());
+    const fileName = "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4"
+    const bytes = "2442029036"
+
+		const response = await subtitles.request(`/file/name/${bytes}/${fileName}`, request, getMockEnv());
 		const data = await response.json();
 
 		expect(response.status).toBe(200);
@@ -341,12 +228,13 @@ describe("API | /subtitles/file/name", () => {
 
 	test("Invalid JSON Request with wrong fileName type", async () => {
 		const request = {
-			method: "POST",
-			body: JSON.stringify({ fileName: "Road.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3", bytes: "2442029036" }),
-			headers: { "Content-Type": "application/json" },
+			method: "GET",
 		};
 
-		const response = await subtitles.request("/file/name", request, getMockEnv());
+    const fileName = "Road.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3"
+    const bytes = "2442029036"
+
+		const response = await subtitles.request(`/file/name/${bytes}/${fileName}`, request, getMockEnv());
 		const data = await response.json();
 
 		expect(response.status).toBe(415);
@@ -355,12 +243,13 @@ describe("API | /subtitles/file/name", () => {
 
 	test("Valid JSON Request with wrong fileName found by bytes", async () => {
 		const request = {
-			method: "POST",
-			body: JSON.stringify({ fileName: "Road.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4", bytes: "2442029036" }),
-			headers: { "Content-Type": "application/json" },
+			method: "GET",
 		};
 
-		const response = await subtitles.request("/file/name", request, getMockEnv());
+    const fileName = "Road.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4"
+    const bytes = "2442029036"
+
+		const response = await subtitles.request(`/file/name/${bytes}/${fileName}`, request, getMockEnv());
 		const data = await response.json();
 
 		expect(response.status).toBe(200);
@@ -381,73 +270,19 @@ describe("API | /subtitles/file/name", () => {
 			},
 		});
 	});
-
-	test("Invalid JSON Request with missing bytes", async () => {
-		const request = {
-			method: "POST",
-			body: JSON.stringify({ fileName: "some_file_name" }),
-			headers: { "Content-Type": "application/json" },
-		};
-
-		const response = await subtitles.request("/file/name", request, getMockEnv());
-		const data = await response.json();
-
-		expect(response.status).toBe(400);
-		expect(data).toEqual({
-			success: false,
-			error: {
-				issues: [
-					{
-						code: "invalid_type",
-						expected: "string",
-						received: "undefined",
-						path: ["bytes"],
-						message: "Required",
-					},
-				],
-				name: "ZodError",
-			},
-		});
-	});
-
-	test("Invalid JSON Request with non-string bytes", async () => {
-		const request = {
-			method: "POST",
-			body: JSON.stringify({ bytes: 123, fileName: "some_file_name" }),
-			headers: { "Content-Type": "application/json" },
-		};
-
-		const response = await subtitles.request("/file/name", request, getMockEnv());
-		const data = await response.json();
-
-		expect(response.status).toBe(400);
-		expect(data).toEqual({
-			success: false,
-			error: {
-				issues: [
-					{
-						code: "invalid_type",
-						expected: "string",
-						received: "number",
-						path: ["bytes"],
-						message: "Expected string, received number",
-					},
-				],
-				name: "ZodError",
-			},
-		});
-	});
 });
 
 describe("API | /file/versions", () => {
 	test("Valid JSON Request with existing fileName and valid movie metadata", async () => {
 		const request = {
-			method: "POST",
+			method: "GET",
 			body: JSON.stringify({ fileName: "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4" }),
 			headers: { "Content-Type": "application/json" },
 		};
 
-		const response = await subtitles.request("/file/versions", request, getMockEnv());
+    const fileName = "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4"
+
+		const response = await subtitles.request(`/file/versions/${fileName}`, request, getMockEnv());
 		const data = await response.json();
 
 		expect(response.status).toBe(200);
@@ -569,12 +404,12 @@ describe("API | /file/versions", () => {
 
 	test("Valid JSON Request with existing fileName and invalid movie metadata", async () => {
 		const request = {
-			method: "POST",
-			body: JSON.stringify({ fileName: "Road.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4" }),
-			headers: { "Content-Type": "application/json" },
+			method: "GET",
 		};
 
-		const response = await subtitles.request("/file/versions", request, getMockEnv());
+    const fileName = "Road.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4"
+
+		const response = await subtitles.request(`/file/versions/${fileName}`, request, getMockEnv());
 		const data = await response.json();
 
 		expect(response.status).toBe(404);
@@ -583,70 +418,14 @@ describe("API | /file/versions", () => {
 		});
 	});
 
-	test("Invalid JSON Request with missing fileName key", async () => {
-		const request = {
-			method: "POST",
-			body: JSON.stringify({}),
-			headers: { "Content-Type": "application/json" },
-		};
-
-		const response = await subtitles.request("/file/versions", request, getMockEnv());
-		const data = await response.json();
-
-		expect(response.status).toBe(400);
-		expect(data).toEqual({
-			success: false,
-			error: {
-				issues: [
-					{
-						code: "invalid_type",
-						expected: "string",
-						received: "undefined",
-						path: ["fileName"],
-						message: "Required",
-					},
-				],
-				name: "ZodError",
-			},
-		});
-	});
-
-	test("Invalid JSON Request with non-string file name", async () => {
-		const request = {
-			method: "POST",
-			body: JSON.stringify({ fileName: 123 }),
-			headers: { "Content-Type": "application/json" },
-		};
-
-		const response = await subtitles.request("/file/versions", request, getMockEnv());
-		const data = await response.json();
-
-		expect(response.status).toBe(400);
-		expect(data).toEqual({
-			success: false,
-			error: {
-				issues: [
-					{
-						code: "invalid_type",
-						expected: "string",
-						received: "number",
-						path: ["fileName"],
-						message: "Expected string, received number",
-					},
-				],
-				name: "ZodError",
-			},
-		});
-	});
-
 	test("Invalid JSON Request with wrong fileName type", async () => {
 		const request = {
-			method: "POST",
-			body: JSON.stringify({ fileName: "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3" }),
-			headers: { "Content-Type": "application/json" },
+			method: "GET",
 		};
 
-		const response = await subtitles.request("/file/versions", request, getMockEnv());
+    const fileName = "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3"
+
+		const response = await subtitles.request(`/file/versions/${fileName}`, request, getMockEnv());
 		const data = await response.json();
 
 		expect(response.status).toBe(415);

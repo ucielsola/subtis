@@ -34,27 +34,27 @@ const moviesRecentQuery = `
 
 // core
 export const movies = new Hono<{ Variables: AppVariables }>()
-	.post("/title", zValidator("json", z.object({ movieTitle: z.string() })), async (context) => {
-		const { movieTitle } = context.req.valid("json");
+	.get("/title/:movieTitle", zValidator("param", z.object({ movieTitle: z.string() })), async (context) => {
+		const { movieTitle } = context.req.valid("param");
 
 		const { data } = await getSupabaseClient(context).rpc("fuzzy_search_movie", { movie_query: movieTitle });
 
 		const movies = moviesSchema.safeParse(data);
 		if (!movies.success) {
-			context.status(404);
+      context.status(404);
 			return context.json({ message: `Movies not found for query ${movieTitle}` });
 		}
 
 		return context.json(movies.data);
 	})
-	.post("/recent", zValidator("json", z.object({ limit: z.number() })), async (context) => {
-		const { limit } = context.req.valid("json");
+	.get("/recent/:limit", zValidator("param", z.object({ limit: z.string() })), async (context) => {
+		const { limit } = context.req.valid("param");
 
 		const { data } = await getSupabaseClient(context)
 			.from("Movies")
 			.select(moviesRecentQuery)
 			.order("releaseDate", { ascending: false })
-			.limit(limit);
+			.limit(Number(limit));
 
 		const recentSubtitles = recentMovieSchema.safeParse(data);
 		if (!recentSubtitles.success) {

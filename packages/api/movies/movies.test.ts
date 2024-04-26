@@ -4,15 +4,13 @@ import { describe, expect, test } from "bun:test";
 import { getMockEnv } from "../shared/test";
 import { movies } from "./movies";
 
-describe("API | /movies/title", () => {
+describe("API | /movies/title/:movieTitle", () => {
 	test("Valid JSON Request with existing movieTitle", async () => {
 		const request = {
-			method: "POST",
-			body: JSON.stringify({ movieTitle: "Road House" }),
-			headers: { "Content-Type": "application/json" },
+			method: "GET",
 		};
 
-		const response = await movies.request("/title", request, getMockEnv());
+		const response = await movies.request(`/title/${encodeURI("Road House")}`, request, getMockEnv());
 		const data = await response.json();
 
 		expect(response.status).toBe(200);
@@ -24,73 +22,15 @@ describe("API | /movies/title", () => {
 			},
 		]);
 	});
-
-	test("Invalid JSON Request (missing movieTitle)", async () => {
-		const request = {
-			method: "POST",
-			body: JSON.stringify({}),
-			headers: { "Content-Type": "application/json" },
-		};
-
-		const response = await movies.request("/title", request, getMockEnv());
-		const data = await response.json();
-
-		expect(response.status).toBe(400);
-		expect(data).toEqual({
-			success: false,
-			error: {
-				issues: [
-					{
-						code: "invalid_type",
-						expected: "string",
-						received: "undefined",
-						path: ["movieTitle"],
-						message: "Required",
-					},
-				],
-				name: "ZodError",
-			},
-		});
-	});
-
-	test("Invalid JSON Request (invalid movieTitle)", async () => {
-		const request = {
-			method: "POST",
-			body: JSON.stringify({ movieTitle: null }),
-			headers: { "Content-Type": "application/json" },
-		};
-
-		const response = await movies.request("/title", request, getMockEnv());
-		const data = await response.json();
-
-		expect(response.status).toBe(400);
-		expect(data).toEqual({
-			success: false,
-			error: {
-				issues: [
-					{
-						code: "invalid_type",
-						expected: "string",
-						received: "null",
-						path: ["movieTitle"],
-						message: "Expected string, received null",
-					},
-				],
-				name: "ZodError",
-			},
-		});
-	});
 });
 
 describe("API | /movies/recent", () => {
 	test("Valid JSON Request with existing limit", async () => {
 		const request = {
-			method: "POST",
-			body: JSON.stringify({ limit: 2 }),
-			headers: { "Content-Type": "application/json" },
+			method: "GET",
 		};
 
-		const response = await movies.request("/recent", request, getMockEnv());
+		const response = await movies.request("/recent/2", request, getMockEnv());
 		const data = await response.json();
 
 		expect(response.status).toBe(200);
@@ -111,61 +51,5 @@ describe("API | /movies/recent", () => {
 				releaseDate: "2024-03-20",
 			},
 		]);
-	});
-
-	test("Invaling JSON Request (missing limit)", async () => {
-		const request = {
-			method: "POST",
-			body: JSON.stringify({}),
-			headers: { "Content-Type": "application/json" },
-		};
-
-		const response = await movies.request("/recent", request, getMockEnv());
-		const data = await response.json();
-
-		expect(response.status).toBe(400);
-		expect(data).toEqual({
-			success: false,
-			error: {
-				issues: [
-					{
-						code: "invalid_type",
-						expected: "number",
-						received: "undefined",
-						path: ["limit"],
-						message: "Required",
-					},
-				],
-				name: "ZodError",
-			},
-		});
-	});
-
-	test("Invaling JSON Request (invalid limit)", async () => {
-		const request = {
-			method: "POST",
-			body: JSON.stringify({ limit: "2" }),
-			headers: { "Content-Type": "application/json" },
-		};
-
-		const response = await movies.request("/recent", request, getMockEnv());
-		const data = await response.json();
-
-		expect(response.status).toBe(400);
-		expect(data).toEqual({
-			success: false,
-			error: {
-				issues: [
-					{
-						code: "invalid_type",
-						expected: "number",
-						received: "string",
-						path: ["limit"],
-						message: "Expected number, received string",
-					},
-				],
-				name: "ZodError",
-			},
-		});
 	});
 });

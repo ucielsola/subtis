@@ -28,9 +28,7 @@ export const integrations = new Hono<{ Variables: AppVariables }>().get(
 			return context.json({ message: videoFileName.error.issues[0].message });
 		}
 
-		const supabase = getSupabaseClient(context);
-
-		const { data } = await supabase
+		const { data } = await getSupabaseClient(context)
 			.from("Subtitles")
 			.select("subtitleLink")
 			.match({ movieFileName: videoFileName.data })
