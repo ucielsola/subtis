@@ -4,5 +4,5 @@ import { expect, test } from "bun:test";
 import { getSubtitleShortLink } from "./links";
 
 test("getSubtitleShortLink", () => {
-	expect(getSubtitleShortLink(123)).toBe("http://localhost:5173/v1/8787");
+	expect(getSubtitleShortLink(123)).toBe("http://localhost:8787/v1/123");
 });

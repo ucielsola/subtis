@@ -14,7 +14,7 @@ describe("CLI", async () => {
 			`${import.meta.dir.slice(0, -4)}/cli/app.ts`,
 			"--compile",
 			"--outfile",
-			`${import.meta.dir.slice(0, -4)}/cli/bin/subtis.bin`,
+			`${import.meta.dir.slice(0, -4)}/cli/bin/subtis`,
 		];
 
 		Bun.spawn(process);
@@ -28,7 +28,7 @@ describe("CLI", async () => {
 			"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
 		const binaryProcess = Bun.spawn([
-			`${import.meta.dir.slice(0, -4)}/cli/bin/subtis.bin`,
+			`${import.meta.dir.slice(0, -4)}/cli/bin/subtis`,
 			"--file",
 			"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
@@ -38,7 +38,7 @@ describe("CLI", async () => {
 			const text = await new Response(process.stdout).text();
 
 			expect(text).toInclude("👋 Hola, soy Subtis");
-			expect(text).toInclude("🥳 Descarga tu subtítulo en http://localhost:5173/2748");
+			expect(text).toInclude("🥳 Descarga tu subtítulo en http://localhost:8787/v1/2748");
 			expect(text).toInclude("🍿 Disfruta de Road House (2024) en 1080p subtitulada");
 		}
 	});
@@ -51,7 +51,7 @@ describe("CLI", async () => {
 			"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
 		const binaryProcess = Bun.spawn([
-			`${import.meta.dir.slice(0, -4)}/cli/bin/subtis.bin`,
+			`${import.meta.dir.slice(0, -4)}/cli/bin/subtis`,
 			"-f",
 			"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
@@ -62,7 +62,7 @@ describe("CLI", async () => {
 			const text = await new Response(process.stdout).text();
 
 			expect(text).toInclude("👋 Hola, soy Subtis");
-			expect(text).toInclude("🥳 Descarga tu subtítulo en http://localhost:5173/2748");
+			expect(text).toInclude("🥳 Descarga tu subtítulo en http://localhost:8787/v1/2748");
 			expect(text).toInclude("🍿 Disfruta de Road House (2024) en 1080p subtitulada");
 		}
 	});
@@ -83,7 +83,7 @@ describe("CLI", async () => {
 
 	it("returns a message when -f parameter is given without a file path", async () => {
 		const developmentProcess = Bun.spawn(["bun", import.meta.resolveSync("./app.ts"), "-f"]);
-		const binaryProcess = Bun.spawn([`${import.meta.dir.slice(0, -4)}/cli/bin/subtis.bin`, "-f"]);
+		const binaryProcess = Bun.spawn([`${import.meta.dir.slice(0, -4)}/cli/bin/subtis`, "-f"]);
 
 		const processes = [developmentProcess, binaryProcess];
 
@@ -97,7 +97,7 @@ describe("CLI", async () => {
 
 	it("returns a message when --file parameter is given without a file path", async () => {
 		const developmentProcess = Bun.spawn(["bun", import.meta.resolveSync("./app.ts"), "--file"]);
-		const binaryProcess = Bun.spawn([`${import.meta.dir.slice(0, -4)}/cli/bin/subtis.bin`, "--file"]);
+		const binaryProcess = Bun.spawn([`${import.meta.dir.slice(0, -4)}/cli/bin/subtis`, "--file"]);
 
 		const processes = [developmentProcess, binaryProcess];
 
@@ -117,7 +117,7 @@ describe("CLI", async () => {
 			"Trolls.Band.Together.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mp3",
 		]);
 		const binaryProcess = Bun.spawn([
-			`${import.meta.dir.slice(0, -4)}/cli/bin/subtis.bin`,
+			`${import.meta.dir.slice(0, -4)}/cli/bin/subtis`,
 			"--file",
 			"Trolls.Band.Together.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mp3",
 		]);
@@ -140,7 +140,7 @@ describe("CLI", async () => {
 			"The.Matrix.3.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
 		const binaryProcess = Bun.spawn([
-			`${import.meta.dir.slice(0, -4)}/cli/bin/subtis.bin`,
+			`${import.meta.dir.slice(0, -4)}/cli/bin/subtis`,
 			"--file",
 			"The.Matrix.3.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
 		]);
