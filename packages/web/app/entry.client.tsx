@@ -10,7 +10,7 @@ import { hydrateRoot } from "react-dom/client";
 
 startTransition(() => {
 	hydrateRoot(
-    // @ts-ignore
+		// @ts-ignore
 		document,
 		<StrictMode>
 			<RemixBrowser />

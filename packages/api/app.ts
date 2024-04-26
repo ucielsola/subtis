@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { secureHeaders } from "hono/secure-headers";
 
 // internals
+import { cli } from "./cli";
 import { integrations } from "./integrations";
 import { metrics } from "./metrics";
 import { movies } from "./movies";
@@ -16,6 +17,7 @@ app.use(secureHeaders());
 
 // routes
 const routes = app
+	.route("/cli", cli)
 	.route("/movies", movies)
 	.route("/metrics", metrics)
 	.route("/subtitles", subtitles)

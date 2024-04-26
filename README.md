@@ -85,6 +85,28 @@ Request access to Supabase team with the developer email.
 
 To check how the database schema looks like go to Supabase project, under Database -> Tools -> Schema Visualizer.
 
+## CLI
+
+How to install it ?
+
+1. Download binary
+
+```bash
+  curl -L -o subtis https://subt.is/cli
+```
+
+2. Give it write access
+
+```bash
+  chmod +x ./subtis && ./subtis
+```
+
+3. Try it with some movie
+
+```bash
+  ./subtis --file [YOUR_MOVIE_FILE]
+```
+
 ## Good practices
 
 - Bump project dependencies
