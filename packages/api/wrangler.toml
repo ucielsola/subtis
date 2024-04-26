@@ -1,10 +1,10 @@
 name = "api"
 compatibility_date = "2023-12-01"
 
-main = "app.ts"
+# main = "app.ts"
 
-[site]
-bucket = "./assets"
+# [site]
+# bucket = "./assets"
 
 [vars]
 SUPABASE_API_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InllbGhzbW52Znl5anVhbXhib2JzIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODY2MTg5MzQsImV4cCI6MjAwMjE5NDkzNH0.WqFO7dB6HzRjwJkeUwW-fNM730TMQ2Dy3IGCOhKplq8"
