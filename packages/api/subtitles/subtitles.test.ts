@@ -114,7 +114,7 @@ describe("API | /subtitles/movie", () => {
 				},
 			},
 			{
-				id: 2754,
+				id: 2828,
 				resolution: "1080p",
 				subtitleLink:
 					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-ethel-subdivx.srt?download=Road.House.2024.1080p.WEB.h264-ETHEL.srt",
@@ -218,7 +218,7 @@ describe("API | /subtitles/trending", () => {
 		expect(data).toHaveLength(2);
 		expect(data).toEqual([
 			{
-				id: 2754,
+				id: 2828,
 				resolution: "1080p",
 				subtitleLink:
 					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-ethel-subdivx.srt?download=Road.House.2024.1080p.WEB.h264-ETHEL.srt",
@@ -234,11 +234,11 @@ describe("API | /subtitles/trending", () => {
 				},
 			},
 			{
-				id: 2734,
-				resolution: "1080p",
+				id: 2737,
+				resolution: "2160p",
 				subtitleLink:
-					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/dune-part-two-1080p-yts-subdivx.srt?download=Dune.Part.Two.2024.1080p.WEBRip.x265.10bit.AAC-[YTS.MX].srt",
-				subtitleFileName: "Dune.Part.Two.2024.1080p.WEBRip.x265.10bit.AAC-[YTS.MX].srt",
+					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/dune-part-two-2160p-flux-subdivx.srt?download=Dune.Part.Two.2024.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.srt",
+				subtitleFileName: "Dune.Part.Two.2024.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.srt",
 				movie: {
 					name: "Dune: Part Two",
 					year: 2024,
@@ -246,7 +246,7 @@ describe("API | /subtitles/trending", () => {
 					backdrop: "https://image.tmdb.org/t/p/original/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg",
 				},
 				releaseGroup: {
-					name: "YTS",
+					name: "FLUX",
 				},
 			},
 		]);
@@ -549,7 +549,7 @@ describe("API | /file/versions", () => {
 				},
 			},
 			{
-				id: 2754,
+				id: 2828,
 				resolution: "1080p",
 				subtitleLink:
 					"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-ethel-subdivx.srt?download=Road.House.2024.1080p.WEB.h264-ETHEL.srt",

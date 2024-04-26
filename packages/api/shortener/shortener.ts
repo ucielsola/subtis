@@ -30,7 +30,6 @@ export const shortener = new Hono<{ Variables: AppVariables }>().get(
 			return context.json({ message: "Subtitle not found for id" });
 		}
 
-		context.redirect(subtitleById.data.subtitleLink);
-		return context.text(subtitleById.data.subtitleLink);
+		return context.redirect(subtitleById.data.subtitleLink);
 	},
 );

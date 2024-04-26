@@ -11,12 +11,8 @@ describe("API | /:id", () => {
 		};
 
 		const response = await shortener.request("/2748", request, getMockEnv());
-		const data = await response.text();
 
-		expect(response.status).toBe(200);
-		expect(data).toBe(
-			"https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-yts-subdivx.srt?download=Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
-		);
+		expect(response.status).toBe(302);
 	});
 
 	test("Valid Param Request with non-existing subtitleId", async () => {
