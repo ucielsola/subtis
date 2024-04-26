@@ -61,8 +61,8 @@ export async function mod(): Promise<void> {
 
 		loader.start("🔎 Buscando subtitulos");
 
-		const response = await apiClient.v1.subtitles.file.name.$post({
-			json: {
+		const response = await apiClient.v1.subtitles.file.name[":bytes"][":fileName"].$get({
+			param: {
 				fileName,
 				bytes: "",
 			},

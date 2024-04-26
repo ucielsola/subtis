@@ -10,7 +10,7 @@ describe("API | /subtitles/movie", () => {
 			method: "GET",
 		};
 
-    const movieId = 3359350;
+		const movieId = 3359350;
 
 		const response = await subtitles.request(`/movie/${movieId}`, request, getMockEnv());
 		const data = await response.json();
@@ -151,7 +151,7 @@ describe("API | /subtitles/trending", () => {
 			method: "GET",
 		};
 
-    const limit = 2
+		const limit = 2;
 
 		const response = await subtitles.request(`/trending/${limit}`, request, getMockEnv());
 		const data = await response.json();
@@ -201,8 +201,8 @@ describe("API | /subtitles/file/name", () => {
 			method: "GET",
 		};
 
-    const fileName = "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4"
-    const bytes = "2442029036"
+		const fileName = "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4";
+		const bytes = "2442029036";
 
 		const response = await subtitles.request(`/file/name/${bytes}/${fileName}`, request, getMockEnv());
 		const data = await response.json();
@@ -231,8 +231,8 @@ describe("API | /subtitles/file/name", () => {
 			method: "GET",
 		};
 
-    const fileName = "Road.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3"
-    const bytes = "2442029036"
+		const fileName = "Road.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3";
+		const bytes = "2442029036";
 
 		const response = await subtitles.request(`/file/name/${bytes}/${fileName}`, request, getMockEnv());
 		const data = await response.json();
@@ -246,8 +246,8 @@ describe("API | /subtitles/file/name", () => {
 			method: "GET",
 		};
 
-    const fileName = "Road.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4"
-    const bytes = "2442029036"
+		const fileName = "Road.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4";
+		const bytes = "2442029036";
 
 		const response = await subtitles.request(`/file/name/${bytes}/${fileName}`, request, getMockEnv());
 		const data = await response.json();
@@ -280,7 +280,7 @@ describe("API | /file/versions", () => {
 			headers: { "Content-Type": "application/json" },
 		};
 
-    const fileName = "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4"
+		const fileName = "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4";
 
 		const response = await subtitles.request(`/file/versions/${fileName}`, request, getMockEnv());
 		const data = await response.json();
@@ -407,7 +407,7 @@ describe("API | /file/versions", () => {
 			method: "GET",
 		};
 
-    const fileName = "Road.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4"
+		const fileName = "Road.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4";
 
 		const response = await subtitles.request(`/file/versions/${fileName}`, request, getMockEnv());
 		const data = await response.json();
@@ -423,7 +423,7 @@ describe("API | /file/versions", () => {
 			method: "GET",
 		};
 
-    const fileName = "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3"
+		const fileName = "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3";
 
 		const response = await subtitles.request(`/file/versions/${fileName}`, request, getMockEnv());
 		const data = await response.json();

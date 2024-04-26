@@ -41,7 +41,7 @@ export const movies = new Hono<{ Variables: AppVariables }>()
 
 		const movies = moviesSchema.safeParse(data);
 		if (!movies.success) {
-      context.status(404);
+			context.status(404);
 			return context.json({ message: `Movies not found for query ${movieTitle}` });
 		}
 
