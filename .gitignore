@@ -9,6 +9,7 @@ node_modules
 *.js
 bun.lockb
 **/bin/*
+**/bin/subtis
 **/bin/subtis.bin
 coverage-ts
 __dump
