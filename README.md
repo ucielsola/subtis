@@ -4,6 +4,7 @@
 
 | Server-side | Client-side | Cross packages |
 |-------------|-------------|----------------|
+| [DB](/packages/db/) | [Web](/packages/web/) | [Shared](/packages/shared/) |
 | [DB](/packages/db/) | [CLI](/packages/cli/) | [Shared](/packages/shared/) |
 | [API](/packages/api/) | [Raycast](/packages/raycast/) |  |
 | [Indexer](/packages/indexer/) | [Stremio](/packages/stremio/) |                |
@@ -22,7 +23,9 @@ curl -fsSL https://bun.sh/install | bash
 cd subtis && bun install
 ```
 
-3. Copy and paste environment variables from 1Password to root project folder
+3. Download environment variables from 1Password and paste them to root project folder
+
+> Or ask for a quick link with time expiration
 
 4. Run subtis REST API first
 
@@ -30,40 +33,38 @@ cd subtis && bun install
 bun run dev:api
 ```
 
-5. Run any of the desired packages
+5. Run any of the desired client packages
 
-    i. **clients**
-      ```bash
-      bun run dev:web
-      bun run dev:cli
-      bun run dev:raycast
-      bun run dev:stremio
-      ```
+```bash
+bun run dev:web
+bun run dev:cli
+bun run dev:raycast
+bun run dev:stremio
+```
 
-    ii. **indexer**
-      ```bash
-      bun run dev:indexer
-      ```
+5. (Optionally) Run the indexer
+
+```bash
+bun run dev:indexer
+```
 
 ## Deployment
 
 - Deploy API
 
-  ```
-    bun run deploy:api
-  ```
+```bash
+bun run deploy:api
+```
 
 - Deploy CLI
 
-  ```bash
-    bun run deploy:cli
-  ```
+```bash
+bun run deploy:cli
+```
 
 ## Database
 
 ### Updating Database Types and Schemas
-
-If there's a database schema update, we should run:
 
 1. Login to Supabase (if you haven't already)
 
@@ -87,24 +88,22 @@ To check how the database schema looks like go to Supabase project, under Databa
 
 ## CLI
 
-How to install it ?
-
 1. Download binary
 
 ```bash
-  curl -L -o subtis https://subt.is/cli
+curl -L -o subtis https://subt.is/cli
 ```
 
 2. Give it write access
 
 ```bash
-  chmod +x ./subtis && ./subtis
+chmod +x ./subtis && ./subtis
 ```
 
 3. Try it with some movie
 
 ```bash
-  ./subtis --file [YOUR_MOVIE_FILE]
+./subtis --file [YOUR_MOVIE_FILE]
 ```
 
 ## Good practices
