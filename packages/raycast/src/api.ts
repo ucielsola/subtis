@@ -10,7 +10,5 @@ Object.assign(globalThis, { fetch });
 const isProduction = true;
 
 export const apiClient = getApiClient({
-	isProduction,
-	apiBaseUrlProduction: isProduction ? "" : "http://localhost:8787",
-	apiBaseUrlDevelopment: isProduction ? "" : "http://localhost:8787",
+	apiBaseUrl: isProduction ? "https://api.subtis.workers.dev" : "http://localhost:8787",
 });
