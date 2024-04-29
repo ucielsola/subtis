@@ -141,6 +141,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 	.get("/trending/:limit", zValidator("param", z.object({ limit: z.string() })), async (context) => {
 		const { limit } = context.req.valid("param");
 
+		// TODO: Avoid getting more than one subtitle from the same movie
 		const { data } = await getSupabaseClient(context)
 			.from("Subtitles")
 			.select(subtitlesQuery)
