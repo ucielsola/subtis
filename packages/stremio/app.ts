@@ -13,11 +13,7 @@ type Args = {
 	};
 };
 
-type ExtraArgs = {
-	filename: string;
-	videoSize: string;
-	videoHash: string;
-};
+type ExtraArgs = Args["extra"] & { filename: string; };
 
 // core
 async function getMovieSubtitle(args: Args) {
