@@ -47,7 +47,7 @@ const builder = new addonBuilder({
 	catalogs: [],
 	resources: ["subtitles"],
 	types: ["movie"],
-	logo: "https://elhfbeppfhhgaocedmkc.supabase.co/storage/v1/object/public/assets/stremio.jpg",
+	logo: "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/assets/stremio.jpg",
 });
 
 builder.defineSubtitlesHandler(getMovieSubtitle);
