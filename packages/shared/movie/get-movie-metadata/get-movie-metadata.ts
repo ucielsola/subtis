@@ -65,7 +65,7 @@ export function getMovieMetadata(movieFileName: string): MovieData {
 		const fileNameWithoutExtension = getMovieFileNameWithoutExtension(parsedMovieFileName);
 
 		const releaseGroup = Object.values(RELEASE_GROUPS).find((releaseGroupInternal) => {
-			return releaseGroupInternal.fileAttributes.some((attribute) =>
+			return releaseGroupInternal.file_attributes.some((attribute) =>
 				parsedRawAttributes.includes(attribute.toLowerCase()),
 			);
 		});

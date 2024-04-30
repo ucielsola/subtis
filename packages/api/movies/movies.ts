@@ -17,7 +17,7 @@ const movieRecentSchema = moviesRowSchema.pick({
 	year: true,
 	name: true,
 	rating: true,
-	releaseDate: true,
+	release_date: true,
 });
 const recentMovieSchema = z
 	.array(movieRecentSchema, { invalid_type_error: "Recent movies not found" })
@@ -29,7 +29,7 @@ const moviesRecentQuery = `
   name,
   year,
   rating,
-  releaseDate
+  release_date
 `;
 
 // core
@@ -53,7 +53,7 @@ export const movies = new Hono<{ Variables: AppVariables }>()
 		const { data } = await getSupabaseClient(context)
 			.from("Movies")
 			.select(moviesRecentQuery)
-			.order("releaseDate", { ascending: false })
+			.order("release_date", { ascending: false })
 			.limit(Number(limit));
 
 		const recentSubtitles = recentMovieSchema.safeParse(data);

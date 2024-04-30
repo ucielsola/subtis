@@ -68,7 +68,7 @@ export async function getSubDivXSubtitle({
 		const movieDescription = subtitle.descripcion.toLowerCase();
 
 		const hasMovieResolution = movieDescription.includes(resolution);
-		const hasReleaseGroup = releaseGroup.searchableSubDivXName.some((searchableSubDivXName) => {
+		const hasReleaseGroup = releaseGroup.searchable_subdivx_name.some((searchableSubDivXName) => {
 			return movieDescription.includes(searchableSubDivXName.toLowerCase());
 		});
 

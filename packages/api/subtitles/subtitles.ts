@@ -16,8 +16,8 @@ import { moviesVersionSchema, subtitleSchema } from "./schemas";
 const subtitlesQuery = `
   id,
   resolution,
-  subtitleLink,
-  subtitleFileName,
+  subtitle_link,
+  subtitle_file_name,
   releaseGroup: ReleaseGroups ( name ),
   movie: Movies ( name, year, poster, backdrop )
 `;
@@ -42,11 +42,14 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 	.get(
 		"/movie/:movieId",
 		zValidator("param", z.object({ movieId: z.string() })),
-		cache({ cacheName: "api", cacheControl: `s-maxage=${ONE_WEEK_SECONDS}` }),
+		cache({ cacheName: "subtitles-movie", cacheControl: `s-maxage=${ONE_WEEK_SECONDS}` }),
 		async (context) => {
 			const { movieId } = context.req.valid("param");
 
-			const { data } = await getSupabaseClient(context).from("Subtitles").select(subtitlesQuery).match({ movieId });
+			const { data } = await getSupabaseClient(context)
+				.from("Subtitles")
+				.select(subtitlesQuery)
+				.match({ movie_id: movieId });
 
 			const subtitles = subtitlesSchema.safeParse(data);
 			if (!subtitles.success) {
@@ -54,13 +57,13 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 				return context.json({ message: subtitles.error.issues[0].message });
 			}
 
-			return context.json(data);
+			return context.json(subtitles.data);
 		},
 	)
 	.get(
 		"/file/name/:bytes/:fileName",
 		zValidator("param", z.object({ bytes: z.string(), fileName: z.string() })),
-		cache({ cacheName: "api", cacheControl: `s-maxage=${ONE_WEEK_SECONDS}` }),
+		cache({ cacheName: "subtitle-file", cacheControl: `s-maxage=${ONE_WEEK_SECONDS}` }),
 		async (context) => {
 			const { bytes, fileName } = context.req.valid("param");
 
@@ -75,9 +78,8 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 			const { data } = await supabase
 				.from("Subtitles")
 				.select(subtitlesQuery)
-				.match({ movieFileName: videoFileName.data })
+				.match({ movie_file_name: videoFileName.data })
 				.single();
-
 			const subtitleByFileName = subtitleSchema.safeParse(data);
 
 			if (!subtitleByFileName.success) {
@@ -101,7 +103,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 	.get(
 		"/file/versions/:fileName",
 		zValidator("param", z.object({ fileName: z.string() })),
-		cache({ cacheName: "api", cacheControl: `s-maxage=${ONE_WEEK_SECONDS}` }),
+		cache({ cacheName: "subtitle-versions", cacheControl: `s-maxage=${ONE_WEEK_SECONDS}` }),
 		async (context) => {
 			const { fileName } = context.req.valid("param");
 
@@ -126,7 +128,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 			const { data } = await supabase
 				.from("Subtitles")
 				.select(subtitlesQuery)
-				.match({ movieId: movieByNameAndYear.data.id });
+				.match({ movie_id: movieByNameAndYear.data.id });
 
 			const subtitleByFileName = alternativeSubtitlesSchema.safeParse(data);
 
@@ -145,8 +147,8 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 		const { data } = await getSupabaseClient(context)
 			.from("Subtitles")
 			.select(subtitlesQuery)
-			.order("queriedTimes", { ascending: false })
-			.order("lastQueriedAt", { ascending: false })
+			.order("queried_times", { ascending: false })
+			.order("last_queried_at", { ascending: false })
 			.limit(Number(limit));
 
 		const trendingSubtitles = trendingSubtitlesSchema.safeParse(data);

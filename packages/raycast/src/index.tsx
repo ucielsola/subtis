@@ -62,7 +62,7 @@ export default function Command() {
 			await delay(800);
 
 			// 8. Open in browser to automatically begin dowloading subtitle
-			open(data.subtitleLink);
+			open(data.subtitle_link);
 		} catch (error) {
 			if (error instanceof Error) {
 				const isInvariantError = getIsInvariantError(error);

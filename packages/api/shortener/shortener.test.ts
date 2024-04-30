@@ -4,13 +4,13 @@ import { describe, expect, test } from "bun:test";
 import { getMockEnv } from "../shared/test";
 import { shortener } from "./shortener";
 
-describe("API | /:id", () => {
+describe("API | /:subtitleId", () => {
 	test("Valid Param Request with existing subtitleId", async () => {
 		const request = {
 			method: "GET",
 		};
 
-		const response = await shortener.request("/2748", request, getMockEnv());
+		const response = await shortener.request("/2830", request, getMockEnv());
 
 		expect(response.status).toBe(302);
 	});

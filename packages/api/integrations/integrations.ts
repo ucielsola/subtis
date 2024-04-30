@@ -13,7 +13,7 @@ import { subtitlesRowSchema } from "@subtis/db/schemas";
 import { videoFileNameSchema } from "@subtis/shared";
 
 // schemas
-const subtitleSchema = subtitlesRowSchema.pick({ subtitleLink: true });
+const subtitleSchema = subtitlesRowSchema.pick({ subtitle_link: true });
 
 // core
 export const integrations = new Hono<{ Variables: AppVariables }>().get(
@@ -32,8 +32,8 @@ export const integrations = new Hono<{ Variables: AppVariables }>().get(
 
 		const { data } = await supabase
 			.from("Subtitles")
-			.select("subtitleLink")
-			.match({ movieFileName: videoFileName.data })
+			.select("subtitle_link")
+			.match({ movie_file_name: videoFileName.data })
 			.single();
 
 		const subtitleByFileName = subtitleSchema.safeParse(data);
@@ -43,7 +43,7 @@ export const integrations = new Hono<{ Variables: AppVariables }>().get(
 				file_name: videoFileName.data,
 			});
 
-			const { data } = await supabase.from("Subtitles").select("subtitleLink").match({ bytes }).single();
+			const { data } = await supabase.from("Subtitles").select("subtitle_link").match({ bytes }).single();
 
 			const subtitleByBytes = subtitleSchema.safeParse(data);
 
@@ -52,12 +52,12 @@ export const integrations = new Hono<{ Variables: AppVariables }>().get(
 				return context.json({ message: "Subtitle not found for file" });
 			}
 
-			const subtitle = await getSubtitleText(subtitleByBytes.data.subtitleLink);
+			const subtitle = await getSubtitleText(subtitleByBytes.data.subtitle_link);
 
 			return context.text(subtitle);
 		}
 
-		const subtitle = await getSubtitleText(subtitleByFileName.data.subtitleLink);
+		const subtitle = await getSubtitleText(subtitleByFileName.data.subtitle_link);
 
 		return context.text(subtitle);
 	},

@@ -16,7 +16,7 @@ export const moviesRowSchema = z.object({
 	name: z.string(),
 	poster: z.string().nullable(),
 	rating: z.number(),
-	releaseDate: z.string(),
+	release_date: z.string(),
 	year: z.number(),
 });
 
@@ -27,7 +27,7 @@ export const moviesInsertSchema = z.object({
 	name: z.string(),
 	poster: z.string().optional().nullable(),
 	rating: z.number(),
-	releaseDate: z.string(),
+	release_date: z.string(),
 	year: z.number(),
 });
 
@@ -38,38 +38,38 @@ export const moviesUpdateSchema = z.object({
 	name: z.string().optional(),
 	poster: z.string().optional().nullable(),
 	rating: z.number().optional(),
-	releaseDate: z.string().optional(),
+	release_date: z.string().optional(),
 	year: z.number().optional(),
 });
 
 export const releaseGroupsRowSchema = z.object({
 	created_at: z.string(),
-	fileAttributes: z.array(z.string()),
+	file_attributes: z.array(z.string()),
 	id: z.number(),
-	isSupported: z.boolean().nullable(),
+	is_supported: z.boolean().nullable(),
 	name: z.string(),
-	searchableOpenSubtitlesName: z.array(z.string()).nullable(),
-	searchableSubDivXName: z.array(z.string()),
+	searchable_opensubtitles_name: z.array(z.string()).nullable(),
+	searchable_subdivx_name: z.array(z.string()),
 });
 
 export const releaseGroupsInsertSchema = z.object({
 	created_at: z.string().optional(),
-	fileAttributes: z.array(z.string()),
+	file_attributes: z.array(z.string()),
 	id: z.number().optional(),
-	isSupported: z.boolean().optional().nullable(),
+	is_supported: z.boolean().optional().nullable(),
 	name: z.string(),
-	searchableOpenSubtitlesName: z.array(z.string()).optional().nullable(),
-	searchableSubDivXName: z.array(z.string()),
+	searchable_opensubtitles_name: z.array(z.string()).optional().nullable(),
+	searchable_subdivx_name: z.array(z.string()),
 });
 
 export const releaseGroupsUpdateSchema = z.object({
 	created_at: z.string().optional(),
-	fileAttributes: z.array(z.string()).optional(),
+	file_attributes: z.array(z.string()).optional(),
 	id: z.number().optional(),
-	isSupported: z.boolean().optional().nullable(),
+	is_supported: z.boolean().optional().nullable(),
 	name: z.string().optional(),
-	searchableOpenSubtitlesName: z.array(z.string()).optional().nullable(),
-	searchableSubDivXName: z.array(z.string()).optional(),
+	searchable_opensubtitles_name: z.array(z.string()).optional().nullable(),
+	searchable_subdivx_name: z.array(z.string()).optional(),
 });
 
 export const subtitleGroupsRowSchema = z.object({
@@ -97,76 +97,76 @@ export const subtitlesRowSchema = z.object({
 	author: z.string().nullable(),
 	bytes: z.string(),
 	created_at: z.string(),
-	fileExtension: z.string(),
+	file_extension: z.string(),
 	id: z.number(),
 	lang: z.string(),
-	lastQueriedAt: z.string().nullable(),
-	movieFileName: z.string(),
-	movieId: z.number(),
-	queriedTimes: z.number().nullable(),
-	releaseGroupId: z.number(),
+	last_queried_at: z.string().nullable(),
+	movie_file_name: z.string(),
+	movie_id: z.number(),
+	queried_times: z.number().nullable(),
+	release_group_id: z.number(),
 	resolution: z.string(),
 	reviewed: z.boolean(),
-	subtitleFileName: z.string(),
-	subtitleGroupId: z.number(),
-	subtitleLink: z.string(),
-	uploadedBy: z.string().nullable(),
+	subtitle_file_name: z.string(),
+	subtitle_group_id: z.number(),
+	subtitle_link: z.string(),
+	uploaded_by: z.string().nullable(),
 });
 
 export const subtitlesInsertSchema = z.object({
 	author: z.string().optional().nullable(),
 	bytes: z.string(),
 	created_at: z.string().optional(),
-	fileExtension: z.string(),
+	file_extension: z.string(),
 	id: z.number().optional(),
 	lang: z.string(),
-	lastQueriedAt: z.string().optional().nullable(),
-	movieFileName: z.string(),
-	movieId: z.number(),
-	queriedTimes: z.number().optional().nullable(),
-	releaseGroupId: z.number(),
+	last_queried_at: z.string().optional().nullable(),
+	movie_file_name: z.string(),
+	movie_id: z.number(),
+	queried_times: z.number().optional().nullable(),
+	release_group_id: z.number(),
 	resolution: z.string(),
 	reviewed: z.boolean(),
-	subtitleFileName: z.string(),
-	subtitleGroupId: z.number(),
-	subtitleLink: z.string(),
-	uploadedBy: z.string().optional().nullable(),
+	subtitle_file_name: z.string(),
+	subtitle_group_id: z.number(),
+	subtitle_link: z.string(),
+	uploaded_by: z.string().optional().nullable(),
 });
 
 export const subtitlesUpdateSchema = z.object({
 	author: z.string().optional().nullable(),
 	bytes: z.string().optional(),
 	created_at: z.string().optional(),
-	fileExtension: z.string().optional(),
+	file_extension: z.string().optional(),
 	id: z.number().optional(),
 	lang: z.string().optional(),
-	lastQueriedAt: z.string().optional().nullable(),
-	movieFileName: z.string().optional(),
-	movieId: z.number().optional(),
-	queriedTimes: z.number().optional().nullable(),
-	releaseGroupId: z.number().optional(),
+	last_queried_at: z.string().optional().nullable(),
+	movie_file_name: z.string().optional(),
+	movie_id: z.number().optional(),
+	queried_times: z.number().optional().nullable(),
+	release_group_id: z.number().optional(),
 	resolution: z.string().optional(),
 	reviewed: z.boolean().optional(),
-	subtitleFileName: z.string().optional(),
-	subtitleGroupId: z.number().optional(),
-	subtitleLink: z.string().optional(),
-	uploadedBy: z.string().optional().nullable(),
+	subtitle_file_name: z.string().optional(),
+	subtitle_group_id: z.number().optional(),
+	subtitle_link: z.string().optional(),
+	uploaded_by: z.string().optional().nullable(),
 });
 
 export const subtitlesNotFoundRowSchema = z.object({
 	created_at: z.string(),
 	id: z.number(),
-	movieFileName: z.string(),
+	movie_file_name: z.string(),
 });
 
 export const subtitlesNotFoundInsertSchema = z.object({
 	created_at: z.string().optional(),
 	id: z.number().optional(),
-	movieFileName: z.string(),
+	movie_file_name: z.string(),
 });
 
 export const subtitlesNotFoundUpdateSchema = z.object({
 	created_at: z.string().optional(),
 	id: z.number().optional(),
-	movieFileName: z.string().optional(),
+	movie_file_name: z.string().optional(),
 });

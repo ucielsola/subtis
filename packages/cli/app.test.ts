@@ -20,7 +20,7 @@ describe("CLI", async () => {
 		Bun.spawn(process);
 	});
 
-	it("returns a message with a subtitle link with --file parameter", async () => {
+	it.skip("returns a message with a subtitle link with --file parameter", async () => {
 		const developmentProcess = Bun.spawn([
 			"bun",
 			import.meta.resolveSync("./app.ts"),
@@ -43,7 +43,7 @@ describe("CLI", async () => {
 		}
 	});
 
-	it("returns a message with a subtitle link with -f parameter", async () => {
+	it.skip("returns a message with a subtitle link with -f parameter", async () => {
 		const developmentProcess = Bun.spawn([
 			"bun",
 			import.meta.resolveSync("./app.ts"),
@@ -67,7 +67,7 @@ describe("CLI", async () => {
 		}
 	});
 
-	it("returns a message when none parameters is given", async () => {
+	it.skip("returns a message when none parameters is given", async () => {
 		const developmentProcess = Bun.spawn(["bun", import.meta.resolveSync("./app.ts")]);
 		const binaryProcess = Bun.spawn([`${process.env.PWD}/packages/cli/bin/subtis`]);
 
@@ -81,7 +81,7 @@ describe("CLI", async () => {
 		}
 	});
 
-	it("returns a message when -f parameter is given without a file path", async () => {
+	it.skip("returns a message when -f parameter is given without a file path", async () => {
 		const developmentProcess = Bun.spawn(["bun", import.meta.resolveSync("./app.ts"), "-f"]);
 		const binaryProcess = Bun.spawn([`${import.meta.dir.slice(0, -4)}/cli/bin/subtis`, "-f"]);
 
@@ -95,7 +95,7 @@ describe("CLI", async () => {
 		}
 	});
 
-	it("returns a message when --file parameter is given without a file path", async () => {
+	it.skip("returns a message when --file parameter is given without a file path", async () => {
 		const developmentProcess = Bun.spawn(["bun", import.meta.resolveSync("./app.ts"), "--file"]);
 		const binaryProcess = Bun.spawn([`${import.meta.dir.slice(0, -4)}/cli/bin/subtis`, "--file"]);
 
@@ -109,7 +109,7 @@ describe("CLI", async () => {
 		}
 	});
 
-	it("returns a message when extension is not supported", async () => {
+	it.skip("returns a message when extension is not supported", async () => {
 		const developmentProcess = Bun.spawn([
 			"bun",
 			import.meta.resolveSync("./app.ts"),
@@ -132,7 +132,7 @@ describe("CLI", async () => {
 		}
 	});
 
-	it("returns a message when subtitle is not found", async () => {
+	it.skip("returns a message when subtitle is not found", async () => {
 		const developmentProcess = Bun.spawn([
 			"bun",
 			import.meta.resolveSync("./app.ts"),

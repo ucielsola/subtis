@@ -9,11 +9,11 @@ import type { ReleaseGroup } from "../release-groups";
 
 test("should return a subtitle link giving a movie, release group and quality", async () => {
 	const releaseGroup: ReleaseGroup = {
-		fileAttributes: [""],
-		isSupported: false,
+		file_attributes: [""],
+		is_supported: false,
 		name: "YTS-MX",
-		searchableOpenSubtitlesName: ["YTS.MX"],
-		searchableSubDivXName: ["YTS MX"],
+		searchable_opensubtitles_name: ["YTS.MX"],
+		searchable_subdivx_name: ["YTS MX"],
 	};
 	const movieData = {
 		fileNameWithoutExtension: "",
@@ -40,11 +40,11 @@ test("should return a subtitle link giving a movie, release group and quality", 
 
 test("should return a subtitle link giving a movie, release group and quality", async () => {
 	const releaseGroup: ReleaseGroup = {
-		fileAttributes: [""],
-		isSupported: false,
+		file_attributes: [""],
+		is_supported: false,
 		name: "YTS-MX",
-		searchableOpenSubtitlesName: ["YTS.MX"],
-		searchableSubDivXName: ["YTS MX"],
+		searchable_opensubtitles_name: ["YTS.MX"],
+		searchable_subdivx_name: ["YTS MX"],
 	};
 	const movieData = {
 		fileNameWithoutExtension: "",

@@ -9,7 +9,7 @@ import { type AppVariables, getSupabaseClient } from "../shared";
 import { subtitlesRowSchema } from "@subtis/db/schemas";
 
 // schemas
-const subtitleSchema = subtitlesRowSchema.pick({ subtitleLink: true });
+const subtitleSchema = subtitlesRowSchema.pick({ subtitle_link: true });
 
 // core
 export const shortener = new Hono<{ Variables: AppVariables }>().get(
@@ -20,7 +20,7 @@ export const shortener = new Hono<{ Variables: AppVariables }>().get(
 
 		const { data } = await getSupabaseClient(context)
 			.from("Subtitles")
-			.select("subtitleLink")
+			.select("subtitle_link")
 			.match({ id: subtitleId })
 			.single();
 
@@ -30,6 +30,6 @@ export const shortener = new Hono<{ Variables: AppVariables }>().get(
 			return context.json({ message: "Subtitle not found for id" });
 		}
 
-		return context.redirect(subtitleById.data.subtitleLink);
+		return context.redirect(subtitleById.data.subtitle_link);
 	},
 );

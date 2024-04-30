@@ -23,3 +23,6 @@ dist
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
+*.mkv
+*.mp4
+*.avi

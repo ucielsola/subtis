@@ -37,18 +37,18 @@ describe("API | /movies/recent", () => {
 		expect(data).toHaveLength(2);
 		expect(data).toEqual([
 			{
+				id: 30150907,
+				year: 2024,
+				name: "Justice League: Crisis on Infinite Earths Part Two",
+				rating: 6.216,
+				release_date: "2024-04-22",
+			},
+			{
 				id: 20221690,
 				year: 2024,
 				name: "Woody Woodpecker Goes to Camp",
-				rating: 7.309,
-				releaseDate: "2024-04-12",
-			},
-			{
-				id: 21235248,
-				year: 2024,
-				name: "Ghostbusters: Frozen Empire",
-				rating: 6.519,
-				releaseDate: "2024-03-20",
+				rating: 6.884,
+				release_date: "2024-04-12",
 			},
 		]);
 	});

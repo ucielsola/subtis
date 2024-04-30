@@ -83,6 +83,10 @@ export async function mod(): Promise<void> {
 			return outro(`⛏ ${description}`);
 		}
 
+		apiClient.v1.metrics.download.$post({
+			json: { subtitleId: subtitleByFileName.data.id },
+		});
+
 		loader.stop(`🥳 Descarga tu subtítulo en ${chalk.blue(getSubtitleShortLink(subtitleByFileName.data.id))}`);
 
 		const {
@@ -94,8 +98,8 @@ export async function mod(): Promise<void> {
 		const shouldDownloadSubtitle = await confirm(`Desea descargar ${chalk.italic("automáticamente")} el subtítulo?`);
 
 		if (shouldDownloadSubtitle) {
-			const result = await fetch(subtitleByFileName.data.subtitleLink);
-			await Bun.write(`./${subtitleByFileName.data.subtitleFileName}`, result);
+			const result = await fetch(subtitleByFileName.data.subtitle_link);
+			await Bun.write(`./${subtitleByFileName.data.subtitle_file_name}`, result);
 		} else {
 			console.log(chalk.bold("\nInstrucciones:"));
 			console.log(`1) Mueve el archivo descargado a la ${chalk.bold("misma carpeta")} de tu película`);

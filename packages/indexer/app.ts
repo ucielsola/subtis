@@ -55,7 +55,7 @@ async function setMovieSubtitlesToDatabase({
 		fileName: string;
 		fileNameExtension: string;
 	};
-	movie: Pick<Movie, "id" | "name" | "rating" | "releaseDate" | "year" | "poster" | "backdrop">;
+	movie: Pick<Movie, "id" | "name" | "rating" | "release_date" | "year" | "poster" | "backdrop">;
 	releaseGroup: ReleaseGroupNames;
 	releaseGroups: ReleaseGroupMap;
 	resolution: string;
@@ -186,16 +186,16 @@ async function setMovieSubtitlesToDatabase({
 			lang,
 			author,
 			reviewed: true,
-			uploadedBy: "indexer",
+			uploaded_by: "indexer",
 			bytes: String(bytes),
-			fileExtension: fileNameExtension,
-			movieFileName: fileName,
-			subtitleFileName: downloadFileName,
-			movieId: movie.id,
-			releaseGroupId,
+			file_extension: fileNameExtension,
+			movie_file_name: fileName,
+			subtitle_file_name: downloadFileName,
+			movie_id: movie.id,
+			release_group_id: releaseGroupId,
 			resolution,
-			subtitleGroupId,
-			subtitleLink: subtitleLinkWithDownloadFileName,
+			subtitle_group_id: subtitleGroupId,
+			subtitle_link: subtitleLinkWithDownloadFileName,
 		});
 
 		// play sound when a subtitle was found
@@ -355,7 +355,7 @@ async function getSubtitlesFromMovie(
 			},
 		]);
 
-		if (releaseGroup.isSupported === false) {
+		if (releaseGroup.is_supported === false) {
 			console.log("\n");
 			if (isDebugging) {
 				await confirm({
@@ -380,8 +380,8 @@ async function getSubtitlesFromMovie(
 				// 10. Check if subtitle already exists in DB
 				if (subtitle) {
 					const { data: subtitles } = await supabase.from("Subtitles").select("*").match({
-						subtitleGroupId: id,
-						movieFileName: fileName,
+						subtitle_group_id: id,
+						movie_file_name: fileName,
 					});
 
 					if (subtitles?.length) {
@@ -405,7 +405,7 @@ async function getSubtitlesFromMovie(
 						id: imdbId,
 						name: title,
 						rating,
-						releaseDate,
+						release_date: releaseDate,
 						year,
 						poster,
 						backdrop,

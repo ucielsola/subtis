@@ -11,7 +11,7 @@ export type Database = {
 					name: string;
 					poster: string | null;
 					rating: number;
-					releaseDate: string;
+					release_date: string;
 					year: number;
 				};
 				Insert: {
@@ -21,7 +21,7 @@ export type Database = {
 					name: string;
 					poster?: string | null;
 					rating: number;
-					releaseDate: string;
+					release_date: string;
 					year: number;
 				};
 				Update: {
@@ -31,7 +31,7 @@ export type Database = {
 					name?: string;
 					poster?: string | null;
 					rating?: number;
-					releaseDate?: string;
+					release_date?: string;
 					year?: number;
 				};
 				Relationships: [];
@@ -39,30 +39,30 @@ export type Database = {
 			ReleaseGroups: {
 				Row: {
 					created_at: string;
-					fileAttributes: string[];
+					file_attributes: string[];
 					id: number;
-					isSupported: boolean | null;
+					is_supported: boolean | null;
 					name: string;
-					searchableOpenSubtitlesName: string[] | null;
-					searchableSubDivXName: string[];
+					searchable_opensubtitles_name: string[] | null;
+					searchable_subdivx_name: string[];
 				};
 				Insert: {
 					created_at?: string;
-					fileAttributes: string[];
+					file_attributes: string[];
 					id?: number;
-					isSupported?: boolean | null;
+					is_supported?: boolean | null;
 					name: string;
-					searchableOpenSubtitlesName?: string[] | null;
-					searchableSubDivXName: string[];
+					searchable_opensubtitles_name?: string[] | null;
+					searchable_subdivx_name: string[];
 				};
 				Update: {
 					created_at?: string;
-					fileAttributes?: string[];
+					file_attributes?: string[];
 					id?: number;
-					isSupported?: boolean | null;
+					is_supported?: boolean | null;
 					name?: string;
-					searchableOpenSubtitlesName?: string[] | null;
-					searchableSubDivXName?: string[];
+					searchable_opensubtitles_name?: string[] | null;
+					searchable_subdivx_name?: string[];
 				};
 				Relationships: [];
 			};
@@ -92,77 +92,77 @@ export type Database = {
 					author: string | null;
 					bytes: string;
 					created_at: string;
-					fileExtension: string;
+					file_extension: string;
 					id: number;
 					lang: string;
-					lastQueriedAt: string | null;
-					movieFileName: string;
-					movieId: number;
-					queriedTimes: number | null;
-					releaseGroupId: number;
+					last_queried_at: string | null;
+					movie_file_name: string;
+					movie_id: number;
+					queried_times: number | null;
+					release_group_id: number;
 					resolution: string;
 					reviewed: boolean;
-					subtitleFileName: string;
-					subtitleGroupId: number;
-					subtitleLink: string;
-					uploadedBy: string | null;
+					subtitle_file_name: string;
+					subtitle_group_id: number;
+					subtitle_link: string;
+					uploaded_by: string | null;
 				};
 				Insert: {
 					author?: string | null;
 					bytes: string;
 					created_at?: string;
-					fileExtension: string;
+					file_extension: string;
 					id?: number;
 					lang: string;
-					lastQueriedAt?: string | null;
-					movieFileName: string;
-					movieId: number;
-					queriedTimes?: number | null;
-					releaseGroupId: number;
+					last_queried_at?: string | null;
+					movie_file_name: string;
+					movie_id: number;
+					queried_times?: number | null;
+					release_group_id: number;
 					resolution: string;
 					reviewed: boolean;
-					subtitleFileName: string;
-					subtitleGroupId: number;
-					subtitleLink: string;
-					uploadedBy?: string | null;
+					subtitle_file_name: string;
+					subtitle_group_id: number;
+					subtitle_link: string;
+					uploaded_by?: string | null;
 				};
 				Update: {
 					author?: string | null;
 					bytes?: string;
 					created_at?: string;
-					fileExtension?: string;
+					file_extension?: string;
 					id?: number;
 					lang?: string;
-					lastQueriedAt?: string | null;
-					movieFileName?: string;
-					movieId?: number;
-					queriedTimes?: number | null;
-					releaseGroupId?: number;
+					last_queried_at?: string | null;
+					movie_file_name?: string;
+					movie_id?: number;
+					queried_times?: number | null;
+					release_group_id?: number;
 					resolution?: string;
 					reviewed?: boolean;
-					subtitleFileName?: string;
-					subtitleGroupId?: number;
-					subtitleLink?: string;
-					uploadedBy?: string | null;
+					subtitle_file_name?: string;
+					subtitle_group_id?: number;
+					subtitle_link?: string;
+					uploaded_by?: string | null;
 				};
 				Relationships: [
 					{
 						foreignKeyName: "Subtitles_movieId_fkey";
-						columns: ["movieId"];
+						columns: ["movie_id"];
 						isOneToOne: false;
 						referencedRelation: "Movies";
 						referencedColumns: ["id"];
 					},
 					{
 						foreignKeyName: "Subtitles_releaseGroupId_fkey";
-						columns: ["releaseGroupId"];
+						columns: ["release_group_id"];
 						isOneToOne: false;
 						referencedRelation: "ReleaseGroups";
 						referencedColumns: ["id"];
 					},
 					{
 						foreignKeyName: "Subtitles_subtitleGroupId_fkey";
-						columns: ["subtitleGroupId"];
+						columns: ["subtitle_group_id"];
 						isOneToOne: false;
 						referencedRelation: "SubtitleGroups";
 						referencedColumns: ["id"];
@@ -173,17 +173,17 @@ export type Database = {
 				Row: {
 					created_at: string;
 					id: number;
-					movieFileName: string;
+					movie_file_name: string;
 				};
 				Insert: {
 					created_at?: string;
 					id?: number;
-					movieFileName: string;
+					movie_file_name: string;
 				};
 				Update: {
 					created_at?: string;
 					id?: number;
-					movieFileName?: string;
+					movie_file_name?: string;
 				};
 				Relationships: [];
 			};
@@ -256,7 +256,7 @@ export type Database = {
 			};
 			update_subtitle_info: {
 				Args: {
-					file_name: string;
+					subtitle_id: number;
 				};
 				Returns: undefined;
 			};

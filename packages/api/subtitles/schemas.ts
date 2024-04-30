@@ -9,8 +9,8 @@ export const subtitleSchema = subtitlesRowSchema
 	.pick({
 		id: true,
 		resolution: true,
-		subtitleLink: true,
-		subtitleFileName: true,
+		subtitle_link: true,
+		subtitle_file_name: true,
 	})
 	.extend({
 		movie: movieSchema,

@@ -5,10 +5,10 @@ import { getMockEnv } from "../shared/test";
 import { metrics } from "./metrics";
 
 describe("API | /metrics/download", () => {
-	test("Valid JSON Request with existing fileName", async () => {
+	test("Valid JSON Request with existing subtitleId", async () => {
 		const request = {
 			method: "POST",
-			body: JSON.stringify({ fileName: "Road.House.2024.1080p.WEB.h264-ETHEL.mkv" }),
+			body: JSON.stringify({ subtitleId: 2895 }),
 			headers: { "Content-Type": "application/json" },
 		};
 
@@ -19,7 +19,7 @@ describe("API | /metrics/download", () => {
 		expect(data).toEqual({ ok: true });
 	});
 
-	test("Invalid JSON Request (missing fileName)", async () => {
+	test("Invalid JSON Request (missing subtitleId)", async () => {
 		const request = {
 			method: "POST",
 			body: JSON.stringify({}),
@@ -36,30 +36,14 @@ describe("API | /metrics/download", () => {
 				issues: [
 					{
 						code: "invalid_type",
-						expected: "string",
+						expected: "number",
 						received: "undefined",
-						path: ["fileName"],
+						path: ["subtitleId"],
 						message: "Required",
 					},
 				],
 				name: "ZodError",
 			},
-		});
-	});
-
-	test("Invalid JSON Request (invalid fileName type)", async () => {
-		const request = {
-			method: "POST",
-			body: JSON.stringify({ fileName: "Road.House.2024.1080p.WEB.h264-ETHEL.mp3" }),
-			headers: { "Content-Type": "application/json" },
-		};
-
-		const response = await metrics.request("/download", request, getMockEnv());
-		const data = await response.json();
-
-		expect(response.status).toBe(415);
-		expect(data).toEqual({
-			message: "File extension not supported",
 		});
 	});
 });

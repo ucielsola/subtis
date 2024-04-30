@@ -5,23 +5,14 @@ import { z } from "zod";
 // internals
 import { type AppVariables, getSupabaseClient } from "../shared";
 
-// shared
-import { videoFileNameSchema } from "@subtis/shared";
-
 // core
 export const metrics = new Hono<{ Variables: AppVariables }>().post(
 	"/download",
-	zValidator("json", z.object({ fileName: z.string() })),
+	zValidator("json", z.object({ subtitleId: z.number() })),
 	async (context) => {
-		const { fileName } = context.req.valid("json");
+		const { subtitleId } = context.req.valid("json");
 
-		const videoFileName = videoFileNameSchema.safeParse(fileName);
-		if (!videoFileName.success) {
-			context.status(415);
-			return context.json({ message: videoFileName.error.issues[0].message });
-		}
-
-		const { error } = await getSupabaseClient(context).rpc("update_subtitle_info", { file_name: videoFileName.data });
+		const { error } = await getSupabaseClient(context).rpc("update_subtitle_info", { subtitle_id: subtitleId });
 
 		if (error) {
 			context.status(404);

@@ -133,8 +133,8 @@ export async function getOpenSubtitlesSubtitle({
 		const release = subtitle.attributes.release.toLowerCase();
 
 		const hasMovieResolution = release.includes(resolution);
-		const hasReleaseGroup = releaseGroup.searchableOpenSubtitlesName.some((searchableSubDivXName) => {
-			return release.includes(searchableSubDivXName.toLowerCase());
+		const hasReleaseGroup = releaseGroup.searchable_opensubtitles_name.some((searchableOpenSubtitlesName) => {
+			return release.includes(searchableOpenSubtitlesName.toLowerCase());
 		});
 
 		return hasMovieResolution && hasReleaseGroup;
