@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 import { secureHeaders } from "hono/secure-headers";
 
 // internals
@@ -12,6 +13,7 @@ import { subtitles } from "./subtitles";
 const app = new Hono().basePath("/v1");
 
 // middlewares
+app.use('*', cors());
 app.use(secureHeaders());
 
 // routes
