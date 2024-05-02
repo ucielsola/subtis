@@ -98,8 +98,13 @@ export async function mod(): Promise<void> {
 		const shouldDownloadSubtitle = await confirm(`Desea descargar ${chalk.italic("automáticamente")} el subtítulo?`);
 
 		if (shouldDownloadSubtitle) {
+      loader.start("⏳ Descargando subtítulo");
+
+      await Bun.sleep(1000);
 			const result = await fetch(subtitleByFileName.data.subtitle_link);
 			await Bun.write(`./${subtitleByFileName.data.subtitle_file_name}`, result);
+
+      loader.stop("📥 Subtítulo descargado!");
 		} else {
 			console.log(chalk.bold("\nInstrucciones:"));
 			console.log(`1) Mueve el archivo descargado a la ${chalk.bold("misma carpeta")} de tu película`);
