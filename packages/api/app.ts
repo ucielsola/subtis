@@ -13,7 +13,7 @@ import { subtitles } from "./subtitles";
 const app = new Hono().basePath("/v1");
 
 // middlewares
-app.use('*', cors());
+app.use("*", cors());
 app.use(secureHeaders());
 
 // routes

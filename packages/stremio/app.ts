@@ -1,6 +1,7 @@
 import { type ContentType, addonBuilder, serveHTTP } from "stremio-addon-sdk";
 
-// utils
+// internals
+import { apiClient } from "./api";
 import { getSubtitleUrl, isProduction } from "./utils";
 
 // types
@@ -28,6 +29,10 @@ async function getMovieSubtitle(args: Args) {
 		id: ": Subtis | Subtitulo en Español",
 		url: getSubtitleUrl({ bytes, fileName }),
 	};
+
+	apiClient.v1.metrics.download.$post({
+		json: { bytes: Number(bytes), fileName },
+	});
 
 	const withCacheMaxAge = isProduction ? {} : { cacheMaxAge: 0 };
 

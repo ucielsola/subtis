@@ -40,15 +40,15 @@ describe("API | /movies/recent", () => {
 				id: 30150907,
 				year: 2024,
 				name: "Justice League: Crisis on Infinite Earths Part Two",
-				rating: 6.216,
+				rating: 6.477,
 				release_date: "2024-04-22",
 			},
 			{
-				id: 20221690,
+				id: 23137904,
 				year: 2024,
-				name: "Woody Woodpecker Goes to Camp",
-				rating: 6.884,
-				release_date: "2024-04-12",
+				name: "Rebel Moon - Part Two: The Scargiver",
+				rating: 6.122,
+				release_date: "2024-04-19",
 			},
 		]);
 	});

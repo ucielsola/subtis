@@ -62,6 +62,7 @@ export async function mod(): Promise<void> {
 		loader.start("🔎 Buscando subtitulos");
 
 		const file = Bun.file(fileName);
+		const bytes = file.size;
 
 		if (!file.exists()) {
 			loader.stop("🔴 Archivo no encontrado");
@@ -71,7 +72,7 @@ export async function mod(): Promise<void> {
 		const response = await apiClient.v1.subtitles.file.name[":bytes"][":fileName"].$get({
 			param: {
 				fileName,
-				bytes: String(file.size),
+				bytes: String(bytes),
 			},
 		});
 		const data = await response.json();
@@ -84,7 +85,7 @@ export async function mod(): Promise<void> {
 		}
 
 		apiClient.v1.metrics.download.$post({
-			json: { subtitleId: subtitleByFileName.data.id },
+			json: { bytes, fileName },
 		});
 
 		loader.stop(`🥳 Descarga tu subtítulo en ${chalk.blue(getSubtitleShortLink(subtitleByFileName.data.id))}`);
@@ -98,13 +99,13 @@ export async function mod(): Promise<void> {
 		const shouldDownloadSubtitle = await confirm(`Desea descargar ${chalk.italic("automáticamente")} el subtítulo?`);
 
 		if (shouldDownloadSubtitle) {
-      loader.start("⏳ Descargando subtítulo");
+			loader.start("⏳ Descargando subtítulo");
 
-      await Bun.sleep(1000);
+			await Bun.sleep(1000);
 			const result = await fetch(subtitleByFileName.data.subtitle_link);
 			await Bun.write(`./${subtitleByFileName.data.subtitle_file_name}`, result);
 
-      loader.stop("📥 Subtítulo descargado!");
+			loader.stop("📥 Subtítulo descargado!");
 		} else {
 			console.log(chalk.bold("\nInstrucciones:"));
 			console.log(`1) Mueve el archivo descargado a la ${chalk.bold("misma carpeta")} de tu película`);

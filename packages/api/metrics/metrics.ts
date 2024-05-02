@@ -8,11 +8,14 @@ import { type AppVariables, getSupabaseClient } from "../shared";
 // core
 export const metrics = new Hono<{ Variables: AppVariables }>().post(
 	"/download",
-	zValidator("json", z.object({ subtitleId: z.number() })),
+	zValidator("json", z.object({ bytes: z.number(), fileName: z.string() })),
 	async (context) => {
-		const { subtitleId } = context.req.valid("json");
+		const { bytes, fileName } = context.req.valid("json");
 
-		const { error } = await getSupabaseClient(context).rpc("update_subtitle_info", { subtitle_id: subtitleId });
+		const { error } = await getSupabaseClient(context).rpc("update_subtitle_info", {
+			_bytes: bytes,
+			_movie_file_name: fileName,
+		});
 
 		if (error) {
 			context.status(404);

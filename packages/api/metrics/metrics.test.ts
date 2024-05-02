@@ -5,10 +5,10 @@ import { getMockEnv } from "../shared/test";
 import { metrics } from "./metrics";
 
 describe("API | /metrics/download", () => {
-	test("Valid JSON Request with existing subtitleId", async () => {
+	test("Valid JSON Request with existing bytes and fileName", async () => {
 		const request = {
 			method: "POST",
-			body: JSON.stringify({ subtitleId: 2895 }),
+			body: JSON.stringify({ bytes: 2442029036, fileName: "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4" }),
 			headers: { "Content-Type": "application/json" },
 		};
 
@@ -38,7 +38,14 @@ describe("API | /metrics/download", () => {
 						code: "invalid_type",
 						expected: "number",
 						received: "undefined",
-						path: ["subtitleId"],
+						path: ["bytes"],
+						message: "Required",
+					},
+					{
+						code: "invalid_type",
+						expected: "string",
+						received: "undefined",
+						path: ["fileName"],
 						message: "Required",
 					},
 				],

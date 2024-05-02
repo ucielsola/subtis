@@ -95,7 +95,7 @@ export const subtitleGroupsUpdateSchema = z.object({
 
 export const subtitlesRowSchema = z.object({
 	author: z.string().nullable(),
-	bytes: z.string(),
+	bytes: z.number(),
 	created_at: z.string(),
 	file_extension: z.string(),
 	id: z.number(),
@@ -115,7 +115,7 @@ export const subtitlesRowSchema = z.object({
 
 export const subtitlesInsertSchema = z.object({
 	author: z.string().optional().nullable(),
-	bytes: z.string(),
+	bytes: z.number(),
 	created_at: z.string().optional(),
 	file_extension: z.string(),
 	id: z.number().optional(),
@@ -135,7 +135,7 @@ export const subtitlesInsertSchema = z.object({
 
 export const subtitlesUpdateSchema = z.object({
 	author: z.string().optional().nullable(),
-	bytes: z.string().optional(),
+	bytes: z.number().optional(),
 	created_at: z.string().optional(),
 	file_extension: z.string().optional(),
 	id: z.number().optional(),

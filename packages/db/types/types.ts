@@ -90,7 +90,7 @@ export type Database = {
 			Subtitles: {
 				Row: {
 					author: string | null;
-					bytes: string;
+					bytes: number;
 					created_at: string;
 					file_extension: string;
 					id: number;
@@ -109,7 +109,7 @@ export type Database = {
 				};
 				Insert: {
 					author?: string | null;
-					bytes: string;
+					bytes: number;
 					created_at?: string;
 					file_extension: string;
 					id?: number;
@@ -128,7 +128,7 @@ export type Database = {
 				};
 				Update: {
 					author?: string | null;
-					bytes?: string;
+					bytes?: number;
 					created_at?: string;
 					file_extension?: string;
 					id?: number;
@@ -256,7 +256,8 @@ export type Database = {
 			};
 			update_subtitle_info: {
 				Args: {
-					subtitle_id: number;
+					_bytes: number;
+					_movie_file_name: string;
 				};
 				Returns: undefined;
 			};

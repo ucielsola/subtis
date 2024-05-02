@@ -187,7 +187,7 @@ async function setMovieSubtitlesToDatabase({
 			author,
 			reviewed: true,
 			uploaded_by: "indexer",
-			bytes: String(bytes),
+			bytes,
 			file_extension: fileNameExtension,
 			movie_file_name: fileName,
 			subtitle_file_name: downloadFileName,
