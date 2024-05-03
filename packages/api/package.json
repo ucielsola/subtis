@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@hono/zod-validator": "^0.2.1",
-    "@supabase/supabase-js": "^2.43.0",
-    "hono": "^4.2.9",
+    "@supabase/supabase-js": "^2.43.1",
+    "hono": "^4.3.0",
     "timestring": "^7.0.0",
     "zod": "^3.23.6"
   },
