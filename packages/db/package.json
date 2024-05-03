@@ -12,12 +12,12 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.43.0",
-    "zod": "^3.23.5"
+    "zod": "^3.23.6"
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "^0.5.1",
     "@types/bun": "^1.1.1",
-    "supabase": ">=1.164.1",
+    "supabase": ">=1.165.0",
     "supabase-to-zod": "^1.0.5",
     "typescript": "^5.4.5"
   },
