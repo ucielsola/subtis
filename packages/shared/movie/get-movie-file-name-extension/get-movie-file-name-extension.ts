@@ -1,4 +1,3 @@
-import invariant from "tiny-invariant";
 import { z } from "zod";
 
 import {
@@ -18,7 +17,7 @@ export const videoFileNameSchema = z.string().refine(
 
 export function getMovieFileNameExtension(fileName: string): string {
 	const videoFileExtension = getVideoFileExtension(fileName);
-	invariant(videoFileExtension, `Video file extension not supported: ${fileName}`);
+  const videoFileExtensionParsed = z.string({message: `Video file extension not supported: ${fileName}`}).parse(videoFileExtension);
 
-	return videoFileExtension.slice(1);
+	return videoFileExtensionParsed.slice(1);
 }

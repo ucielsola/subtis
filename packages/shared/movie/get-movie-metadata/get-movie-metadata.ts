@@ -1,4 +1,3 @@
-import invariant from "tiny-invariant";
 import { P, match } from "ts-pattern";
 
 // indexer
@@ -9,6 +8,7 @@ import { VIDEO_FILE_EXTENSIONS } from "../../files";
 import { getStringWithoutExtraSpaces } from "../../strings/get-string-without-extra-spaces";
 import { getMovieFileNameWithoutExtension } from "../get-movie-file-name-without-extension/get-movie-file-name-without-extension";
 import { getMovieName } from "../get-movie-name";
+import { z } from "zod";
 
 // types
 export type MovieData = {
@@ -51,7 +51,7 @@ export function getMovieMetadata(movieFileName: string): MovieData {
 		const videoFileExtension = VIDEO_FILE_EXTENSIONS.find((videoFileExtension) =>
 			rawAttributes.includes(videoFileExtension),
 		);
-		invariant(videoFileExtension, "Unsupported file extension");
+    const videoFileExtensionParsed = z.string({message: `Video file extension not supported: ${parsedMovieFileName}`}).parse(videoFileExtension);
 
 		const resolution = match(rawAttributes)
 			.with(P.string.includes("480"), () => "480p")
@@ -72,7 +72,7 @@ export function getMovieMetadata(movieFileName: string): MovieData {
 
 		if (!releaseGroup) {
 			const unsupportedReleaseGroup = rawAttributes
-				.split(videoFileExtension)
+				.split(videoFileExtensionParsed)
 				.at(0)
 				?.split(/\.|\s/g)
 				.at(-1)

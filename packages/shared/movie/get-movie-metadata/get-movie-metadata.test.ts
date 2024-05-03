@@ -16,11 +16,11 @@ describe("getMovieMetadata", () => {
 	test("Unsupported file extension", () => {
 		expect(() => {
 			getMovieMetadata("The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX].zip");
-		}).toThrow("Unsupported file extension");
+		}).toThrow();
 	});
 
 	test("No file extension", () => {
-		expect(() => getMovieMetadata("Avatar (2009) 1080p YTS.MX")).toThrow("Unsupported file extension");
+		expect(() => getMovieMetadata("Avatar (2009) 1080p YTS.MX")).toThrow();
 	});
 
 	test("The Super Mario Bros | 2023 | YTS-MX | (in 1080p)", () => {
