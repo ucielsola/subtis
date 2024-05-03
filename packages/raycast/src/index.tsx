@@ -1,6 +1,7 @@
 import { Action, ActionPanel, Form, Toast, open, showToast } from "@raycast/api";
 import delay from "delay";
 import { readFile } from "fs/promises";
+import fetch from "node-fetch";
 import { z } from "zod";
 
 // api
@@ -9,13 +10,14 @@ import { subtitleSchema } from "@subtis/api/subtitles/schemas";
 // shared
 import { getFilenameFromPath, getMessageFromStatusCode, getVideoFileExtension } from "@subtis/shared";
 
-// internals
-import { apiClient } from "./api";
-
 // types
 type Values = {
 	filePicker: string[];
 };
+
+// constants
+const isProduction = process.env.NODE_ENV === "production";
+const API_URL = isProduction ? "https://api.subtis.workers.dev" : "http://localhost:8787";
 
 export default function Command() {
 	// handlers
@@ -29,6 +31,8 @@ export default function Command() {
 			const [file] = values.filePicker;
 
 			const fileBuffer = await readFile(file);
+
+			const bytes = Number(fileBuffer.length);
 			const fileName = getFilenameFromPath(file);
 
 			const videoFileExtension = getVideoFileExtension(fileName);
@@ -44,12 +48,7 @@ export default function Command() {
 				return;
 			}
 
-			const response = await apiClient.v1.subtitles.file.name[":bytes"][":fileName"].$get({
-				param: {
-					fileName,
-					bytes: String(fileBuffer.length),
-				},
-			});
+			const response = await fetch(`${API_URL}/v1/subtitles/file/name/${bytes}/${fileName}`);
 			const data = await response.json();
 
 			const subtitleByFileName = subtitleSchema.safeParse(data);
@@ -58,6 +57,8 @@ export default function Command() {
 				Object.assign(toast, { message, style: Toast.Style.Failure, title });
 				return;
 			}
+
+			fetch(`${API_URL}/v1/metrics/download`, { method: "POST", body: JSON.stringify({ bytes, fileName }), headers: { "Content-Type": "application/json" }});
 
 			Object.assign(toast, {
 				message: "Descargando subtitulo...",
