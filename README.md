@@ -2,12 +2,12 @@
 
 ## Packages
 
-| Server-side | Client-side | Cross packages |
+| Client-side | Server-side | Cross packages |
 |-------------|-------------|----------------|
-| [DB](/packages/db/) | [Web](/packages/web/) | [Shared](/packages/shared/) |
-| [DB](/packages/db/) | [CLI](/packages/cli/) | [Shared](/packages/shared/) |
-| [API](/packages/api/) | [Raycast](/packages/raycast/) |  |
-| [Indexer](/packages/indexer/) | [Stremio](/packages/stremio/) |                |
+| [Web](/packages/web/) | [DB](/packages/db/) | [Shared](/packages/shared/) |
+| [CLI](/packages/cli/) | [API](/packages/api/) |  |
+| [Raycast](/packages/raycast/) |[Indexer](/packages/indexer/)  |
+| [Stremio](/packages/stremio/) |                |
 
 ## Development
 
