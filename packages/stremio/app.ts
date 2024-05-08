@@ -62,4 +62,4 @@ const builder = new addonBuilder({
 
 builder.defineSubtitlesHandler(getMovieSubtitle);
 
-serveHTTP(builder.getInterface(), { port: 8081 });
+serveHTTP(builder.getInterface(), { port: Number(process.env.port) || 8081 });
