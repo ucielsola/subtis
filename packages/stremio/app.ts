@@ -1,4 +1,10 @@
+import * as Sentry from "@sentry/bun";
 import { type ContentType, addonBuilder, serveHTTP } from "stremio-addon-sdk";
+
+Sentry.init({
+  tracesSampleRate: 1.0,
+  dsn: "https://7e657a20713fdf2a64f56893c5e3ea32@o125974.ingest.us.sentry.io/4507223305551872",
+});
 
 // internals
 import { apiClient } from "./api";
