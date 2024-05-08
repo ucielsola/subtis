@@ -1,17 +1,19 @@
 {
   "name": "@subtis/stremio",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "license": "MIT",
   "main": "app.ts",
   "scripts": {
+    "start": "ts-node app.ts",
     "dev": "bun run --watch app.ts"
   },
   "dependencies": {
-    "@sentry/bun": "^7.114.0",
-    "stremio-addon-sdk": "^1.6.10"
+    "@sentry/node": "^7.114.0",
+    "@sentry/profiling-node": "^7.114.0",
+    "stremio-addon-sdk": "^1.6.10",
+    "ts-node": "^10.9.2"
   },
   "devDependencies": {
-    "@types/bun": "^1.1.1",
     "@types/node": "^20.12.11",
     "@types/stremio-addon-sdk": "^1.6.11",
     "typescript": "^5.4.5"

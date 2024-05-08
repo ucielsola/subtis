@@ -1,9 +1,12 @@
-import * as Sentry from "@sentry/bun";
+import * as Sentry from "@sentry/node";
+import { nodeProfilingIntegration } from "@sentry/profiling-node";
 import { type ContentType, addonBuilder, serveHTTP } from "stremio-addon-sdk";
 
 Sentry.init({
+  dsn: "https://abf86ea3d4e91cc437c4297053c13da6@o125974.ingest.us.sentry.io/4507223362633728",
+  integrations: [nodeProfilingIntegration()],
   tracesSampleRate: 1.0,
-  dsn: "https://7e657a20713fdf2a64f56893c5e3ea32@o125974.ingest.us.sentry.io/4507223305551872",
+  profilesSampleRate: 1.0,
 });
 
 // internals
