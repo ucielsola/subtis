@@ -10,13 +10,13 @@ type ApiBaseUrlConfig = z.infer<typeof schema>;
 
 // utils
 function getApiBaseUrl(apiBaseUrlConfig: ApiBaseUrlConfig): string {
-	const apiBaseUrlConfigParsed = schema.parse(apiBaseUrlConfig);
-	return apiBaseUrlConfigParsed.apiBaseUrl;
+  const apiBaseUrlConfigParsed = schema.parse(apiBaseUrlConfig);
+  return apiBaseUrlConfigParsed.apiBaseUrl;
 }
 
 export function getApiClient(apiBaseUrlConfig: ApiBaseUrlConfig) {
-	const apiBaseUrl = getApiBaseUrl(apiBaseUrlConfig);
-	const client = hc<AppType>(apiBaseUrl);
+  const apiBaseUrl = getApiBaseUrl(apiBaseUrlConfig);
+  const client = hc<AppType>(apiBaseUrl);
 
-	return client;
+  return client;
 }

@@ -5,27 +5,27 @@ import { getMockEnv } from "../shared/test";
 import { shortener } from "./shortener";
 
 describe("API | /:subtitleId", () => {
-	test("Valid Param Request with existing subtitleId", async () => {
-		const request = {
-			method: "GET",
-		};
+  test("Valid Param Request with existing subtitleId", async () => {
+    const request = {
+      method: "GET",
+    };
 
-		const response = await shortener.request("/2937", request, getMockEnv());
+    const response = await shortener.request("/2937", request, getMockEnv());
 
-		expect(response.status).toBe(302);
-	});
+    expect(response.status).toBe(302);
+  });
 
-	test("Valid Param Request with non-existing subtitleId", async () => {
-		const request = {
-			method: "GET",
-		};
+  test("Valid Param Request with non-existing subtitleId", async () => {
+    const request = {
+      method: "GET",
+    };
 
-		const response = await shortener.request("/27422324", request, getMockEnv());
-		const data = await response.json();
+    const response = await shortener.request("/27422324", request, getMockEnv());
+    const data = await response.json();
 
-		expect(response.status).toBe(404);
-		expect(data).toEqual({
-			message: "Subtitle not found for id",
-		});
-	});
+    expect(response.status).toBe(404);
+    expect(data).toEqual({
+      message: "Subtitle not found for id",
+    });
+  });
 });

@@ -5,7 +5,7 @@ import { SupabaseClient } from "@supabase/supabase-js";
 import { supabase } from "../app";
 
 describe("DB | Supabase", () => {
-	it("returns a supabase instance", () => {
-		expect(supabase).toBeInstanceOf(SupabaseClient);
-	});
+  it("returns a supabase instance", () => {
+    expect(supabase).toBeInstanceOf(SupabaseClient);
+  });
 });

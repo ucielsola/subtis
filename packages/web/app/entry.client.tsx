@@ -9,11 +9,11 @@ import { StrictMode, startTransition } from "react";
 import { hydrateRoot } from "react-dom/client";
 
 startTransition(() => {
-	hydrateRoot(
-		// @ts-ignore
-		document,
-		<StrictMode>
-			<RemixBrowser />
-		</StrictMode>,
-	);
+  hydrateRoot(
+    // @ts-ignore
+    document,
+    <StrictMode>
+      <RemixBrowser />
+    </StrictMode>,
+  );
 });

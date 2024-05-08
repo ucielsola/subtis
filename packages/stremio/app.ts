@@ -6,49 +6,49 @@ import { getSubtitleUrl, isProduction } from "./utils";
 
 // types
 type Args = {
-	type: ContentType;
-	id: string;
-	extra: {
-		videoHash: string;
-		videoSize: string;
-	};
+  type: ContentType;
+  id: string;
+  extra: {
+    videoHash: string;
+    videoSize: string;
+  };
 };
 
 type ExtraArgs = Args["extra"] & { filename: string };
 
 // core
 async function getMovieSubtitle(args: Args) {
-	if (args.type !== "movie") {
-		return Promise.resolve({ subtitles: [] });
-	}
+  if (args.type !== "movie") {
+    return Promise.resolve({ subtitles: [] });
+  }
 
-	const { videoSize: bytes, filename: fileName } = args.extra as ExtraArgs;
+  const { videoSize: bytes, filename: fileName } = args.extra as ExtraArgs;
 
-	const subtitle = {
-		lang: "spa",
-		id: ": Subtis | Subtitulo en Español",
-		url: getSubtitleUrl({ bytes, fileName }),
-	};
+  const subtitle = {
+    lang: "spa",
+    id: ": Subtis | Subtitulo en Español",
+    url: getSubtitleUrl({ bytes, fileName }),
+  };
 
-	apiClient.v1.metrics.download.$post({
-		json: { bytes: Number(bytes), fileName },
-	});
+  apiClient.v1.metrics.download.$post({
+    json: { bytes: Number(bytes), fileName },
+  });
 
-	const withCacheMaxAge = isProduction ? {} : { cacheMaxAge: 0 };
+  const withCacheMaxAge = isProduction ? {} : { cacheMaxAge: 0 };
 
-	return Promise.resolve({ subtitles: [subtitle], ...withCacheMaxAge });
+  return Promise.resolve({ subtitles: [subtitle], ...withCacheMaxAge });
 }
 
 // addon
 const builder = new addonBuilder({
-	id: "org.subtis",
-	version: "0.0.1",
-	name: "Subtis",
-	description: "Subtis es un buscador de subtitulos para tus películas",
-	catalogs: [],
-	resources: ["subtitles"],
-	types: ["movie"],
-	logo: "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/assets/stremio.jpg",
+  id: "org.subtis",
+  version: "0.0.1",
+  name: "Subtis",
+  description: "Subtis es un buscador de subtitulos para tus películas",
+  catalogs: [],
+  resources: ["subtitles"],
+  types: ["movie"],
+  logo: "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/assets/stremio.jpg",
 });
 
 builder.defineSubtitlesHandler(getMovieSubtitle);

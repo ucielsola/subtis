@@ -17,48 +17,48 @@ const subtitleSchema = subtitlesRowSchema.pick({ subtitle_link: true });
 
 // core
 export const integrations = new Hono<{ Variables: AppVariables }>().get(
-	"/stremio/:bytes/:fileName",
-	zValidator("param", z.object({ bytes: z.string(), fileName: z.string() })),
-	async (context) => {
-		const { bytes, fileName } = context.req.valid("param");
+  "/stremio/:bytes/:fileName",
+  zValidator("param", z.object({ bytes: z.string(), fileName: z.string() })),
+  async (context) => {
+    const { bytes, fileName } = context.req.valid("param");
 
-		const videoFileName = videoFileNameSchema.safeParse(fileName);
-		if (!videoFileName.success) {
-			context.status(415);
-			return context.json({ message: videoFileName.error.issues[0].message });
-		}
+    const videoFileName = videoFileNameSchema.safeParse(fileName);
+    if (!videoFileName.success) {
+      context.status(415);
+      return context.json({ message: videoFileName.error.issues[0].message });
+    }
 
-		const supabase = getSupabaseClient(context);
+    const supabase = getSupabaseClient(context);
 
-		const { data } = await supabase
-			.from("Subtitles")
-			.select("subtitle_link")
-			.match({ movie_file_name: videoFileName.data })
-			.single();
+    const { data } = await supabase
+      .from("Subtitles")
+      .select("subtitle_link")
+      .match({ movie_file_name: videoFileName.data })
+      .single();
 
-		const subtitleByFileName = subtitleSchema.safeParse(data);
+    const subtitleByFileName = subtitleSchema.safeParse(data);
 
-		if (!subtitleByFileName.success) {
-			await supabase.rpc("insert_subtitle_not_found", {
-				file_name: videoFileName.data,
-			});
+    if (!subtitleByFileName.success) {
+      await supabase.rpc("insert_subtitle_not_found", {
+        file_name: videoFileName.data,
+      });
 
-			const { data } = await supabase.from("Subtitles").select("subtitle_link").match({ bytes }).single();
+      const { data } = await supabase.from("Subtitles").select("subtitle_link").match({ bytes }).single();
 
-			const subtitleByBytes = subtitleSchema.safeParse(data);
+      const subtitleByBytes = subtitleSchema.safeParse(data);
 
-			if (!subtitleByBytes.success) {
-				context.status(404);
-				return context.json({ message: "Subtitle not found for file" });
-			}
+      if (!subtitleByBytes.success) {
+        context.status(404);
+        return context.json({ message: "Subtitle not found for file" });
+      }
 
-			const subtitle = await getSubtitleText(subtitleByBytes.data.subtitle_link);
+      const subtitle = await getSubtitleText(subtitleByBytes.data.subtitle_link);
 
-			return context.text(subtitle);
-		}
+      return context.text(subtitle);
+    }
 
-		const subtitle = await getSubtitleText(subtitleByFileName.data.subtitle_link);
+    const subtitle = await getSubtitleText(subtitleByFileName.data.subtitle_link);
 
-		return context.text(subtitle);
-	},
+    return context.text(subtitle);
+  },
 );

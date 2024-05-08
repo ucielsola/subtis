@@ -18,11 +18,11 @@ app.use(secureHeaders());
 
 // routes
 const routes = app
-	.route("/movies", movies)
-	.route("/metrics", metrics)
-	.route("/subtitles", subtitles)
-	.route("/integrations", integrations)
-	.route("/", shortener);
+  .route("/movies", movies)
+  .route("/metrics", metrics)
+  .route("/subtitles", subtitles)
+  .route("/integrations", integrations)
+  .route("/", shortener);
 
 // exports
 export default app;

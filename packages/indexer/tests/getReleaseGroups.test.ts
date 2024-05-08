@@ -7,6 +7,6 @@ import { supabase } from "@subtis/db";
 import { RELEASE_GROUPS, getReleaseGroups } from "../release-groups";
 
 test("Indexer | should return a list of release groups", async () => {
-	const releaseGroups = await getReleaseGroups(supabase);
-	expect(releaseGroups).toMatchObject(RELEASE_GROUPS);
+  const releaseGroups = await getReleaseGroups(supabase);
+  expect(releaseGroups).toMatchObject(RELEASE_GROUPS);
 });

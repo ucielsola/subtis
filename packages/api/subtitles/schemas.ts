@@ -6,13 +6,13 @@ const movieSchema = moviesRowSchema.pick({ name: true, year: true, poster: true,
 export const moviesVersionSchema = moviesRowSchema.pick({ id: true });
 
 export const subtitleSchema = subtitlesRowSchema
-	.pick({
-		id: true,
-		resolution: true,
-		subtitle_link: true,
-		subtitle_file_name: true,
-	})
-	.extend({
-		movie: movieSchema,
-		releaseGroup: releaseGroupSchema,
-	});
+  .pick({
+    id: true,
+    resolution: true,
+    subtitle_link: true,
+    subtitle_file_name: true,
+  })
+  .extend({
+    movie: movieSchema,
+    releaseGroup: releaseGroupSchema,
+  });
