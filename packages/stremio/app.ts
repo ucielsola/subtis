@@ -6,7 +6,7 @@ import { type ContentType, addonBuilder, serveHTTP } from "stremio-addon-sdk";
 import project from "./package.json";
 
 Sentry.init({
-  dsn: "https://abf86ea3d4e91cc437c4297053c13da6@o125974.ingest.us.sentry.io/4507223362633728",
+  dsn: process.env.SENTRY_DSN,
   integrations: [nodeProfilingIntegration()],
   tracesSampleRate: 1.0,
   profilesSampleRate: 1.0,
