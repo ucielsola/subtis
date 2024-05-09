@@ -25,7 +25,7 @@ cd subtis && bun install
 
 3. Download environment variables from 1Password and paste them to root project folder
 
-> Or ask for a quick link with time expiration
+> or ask for a quick time expiration link
 
 4. Run subtis REST API first
 
@@ -84,7 +84,7 @@ Request access to Supabase team with the developer email.
 
 ### Schema
 
-To check how the database schema looks like go to Supabase project, under Database -> Tools -> Schema Visualizer.
+To check how the database schema looks like go to Supabase project, under `Database -> Tools -> Schema Visualizer`.
 
 ## CLI
 
