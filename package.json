@@ -26,7 +26,7 @@
     "deploy:api": "cd packages/api && bun run deploy",
     "bump:deps": "taze -r -w",
     "update:deps": "bun bump:deps && bun clean:install",
-    "clean:install": "bun pm cache rm && rm -rf bun.lockb node_modules && bun install"
+    "clean:install": "bun pm cache rm && bun install --force"
   },
   "devDependencies": {
     "@biomejs/biome": "1.7.1",
