@@ -12,7 +12,7 @@
   "dependencies": {
     "@hono/zod-validator": "^0.2.1",
     "@supabase/supabase-js": "^2.43.1",
-    "hono": "^4.3.3",
+    "hono": "^4.3.6",
     "timestring": "^7.0.0",
     "zod": "^3.23.8"
   },
@@ -23,6 +23,6 @@
     "@types/node": "^20.12.11",
     "@types/timestring": "^6.0.5",
     "typescript": "^5.4.5",
-    "wrangler": "^3.53.1"
+    "wrangler": "^3.55.0"
   }
 }
