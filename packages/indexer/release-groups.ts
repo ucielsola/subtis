@@ -264,6 +264,41 @@ export const RELEASE_GROUPS = {
     searchable_opensubtitles_name: ["ETRG", "AAC-ETRG"],
     searchable_subdivx_name: ["ETRG", "AAC-ETRG"],
   },
+  NTB: {
+    file_attributes: ["264-NTb", "265-NTb"],
+    is_supported: true,
+    name: "NTB",
+    searchable_opensubtitles_name: ["NTb", "264-NTb"],
+    searchable_subdivx_name: ["NTb", "264-NTb"],
+  },
+  SuccessfulCrab: {
+    file_attributes: ["H264-SuccessfulCrab", "H265-SuccessfulCrab"],
+    is_supported: true,
+    name: "SuccessfulCrab",
+    searchable_opensubtitles_name: ["H264-SuccessfulCrab", "H265-SuccessfulCrab"],
+    searchable_subdivx_name: ["H264-SuccessfulCrab", "H265-SuccessfulCrab"],
+  },
+  TorrentGalaxy: {
+    file_attributes: ["x264-TORRENTGALAXY"],
+    is_supported: true,
+    name: "TorrentGalaxy",
+    searchable_opensubtitles_name: ["x264-TORRENTGALAXY"],
+    searchable_subdivx_name: ["x264-TORRENTGALAXY"],
+  },
+  MeGusta: {
+    file_attributes: ["x265-MeGusta"],
+    is_supported: true,
+    name: "MeGusta",
+    searchable_opensubtitles_name: ["x265-MeGusta"],
+    searchable_subdivx_name: ["x265-MeGusta"],
+  },
+  MinX: {
+    file_attributes: ["x264-MinX", "x265-MinX"],
+    is_supported: true,
+    name: "MinX",
+    searchable_opensubtitles_name: ["x264-MinX", "x265-MinX"],
+    searchable_subdivx_name: ["x264-MinX", "x265-MinX"],
+  },
 };
 
 // types

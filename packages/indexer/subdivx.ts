@@ -2,7 +2,7 @@ import invariant from "tiny-invariant";
 import { z } from "zod";
 
 // shared
-import type { MovieData } from "@subtis/shared";
+import type { TitleFileNameMetadata } from "@subtis/shared";
 
 import { generateSubtitleFileNames } from "./subtitle-filenames";
 // internals
@@ -42,19 +42,19 @@ const subdivxSchema = z.object({
 
 // core
 export async function getSubDivXSubtitle({
-  movieData,
+  titleFileNameMetadata,
 }: {
-  movieData: MovieData;
+  titleFileNameMetadata: TitleFileNameMetadata;
   page?: string;
 }): Promise<SubtitleData> {
-  const { fileNameWithoutExtension, name, releaseGroup, resolution, searchableMovieName } = movieData;
+  const { fileNameWithoutExtension, name, releaseGroup, resolution, searchableQuery } = titleFileNameMetadata;
 
   if (!releaseGroup) {
     throw new Error("release group undefined");
   }
 
   const response = await fetch(`${SUBDIVX_BASE_URL}/inc/ajax.php`, {
-    body: `tabla=resultados&filtros=&buscar=${searchableMovieName}`,
+    body: `tabla=resultados&filtros=&buscar=${searchableQuery}`,
     headers: {
       "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
     },

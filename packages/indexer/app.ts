@@ -8,41 +8,55 @@ import clipboard from "clipboardy";
 import download from "download";
 import extract from "extract-zip";
 import prettyBytes from "pretty-bytes";
+import replaceSpecialCharacters from "replace-special-characters";
 import sound from "sound-play";
 import invariant from "tiny-invariant";
-import { match } from "ts-pattern";
+import { P, match } from "ts-pattern";
+import type { ArrayValues, AsyncReturnType } from "type-fest";
+import { z } from "zod";
 
-import { type Movie, supabase } from "@subtis/db";
-import { type MovieData, VIDEO_FILE_EXTENSIONS, getMovieFileNameExtension, getMovieMetadata } from "@subtis/shared";
+import { type Title, supabase } from "@subtis/db";
+import {
+  type TitleFileNameMetadata,
+  VIDEO_FILE_EXTENSIONS,
+  getTitleFileNameExtension,
+  getTitleFileNameMetadata,
+} from "@subtis/shared";
 
 import tg from "torrent-grabber";
 import type { File } from "torrent-stream";
 import torrentStream from "torrent-stream";
 
 // internals
-import { z } from "zod";
 import { getImdbLink } from "./imdb";
-import {
-  type ReleaseGroupMap,
-  type ReleaseGroupNames,
-  getReleaseGroups,
-  saveReleaseGroupsToDb,
-} from "./release-groups";
+import { type ReleaseGroupMap, type ReleaseGroupNames, getReleaseGroups } from "./release-groups";
 import {
   type SubtitleGroupMap,
   type SubtitleGroupNames,
   getEnabledSubtitleProviders,
   getSubtitleGroups,
-  saveSubtitleGroupsToDb,
 } from "./subtitle-groups";
-import { type TmdbMovie, getMoviesFromTmdb, getTmdbMovieFromTitle, getTmdbMoviesTotalPagesArray } from "./tmdb";
+import {
+  type TmdbTitle,
+  type TmdbTvShow,
+  getMoviesFromTmdb,
+  getTmdbMovieFromTitle,
+  getTmdbMoviesTotalPagesArray,
+  getTmdbTvShowsTotalPagesArray,
+  getTvShowsFromTmdb,
+} from "./tmdb";
 import type { SubtitleData } from "./types";
 import { getSubtitleAuthor } from "./utils";
 
-// utils
-async function setMovieSubtitlesToDatabase({
+// enum
+enum TitleTypes {
+  movie = "movie",
+  tvShow = "tvShow",
+}
+
+async function setSubtitlesToDatabase({
   file,
-  movie,
+  title,
   releaseGroup,
   releaseGroups,
   resolution,
@@ -55,7 +69,9 @@ async function setMovieSubtitlesToDatabase({
     fileName: string;
     fileNameExtension: string;
   };
-  movie: Pick<Movie, "id" | "name" | "rating" | "release_date" | "year" | "poster" | "backdrop">;
+  title: Pick<Title, "id" | "name" | "rating" | "release_date" | "year" | "poster" | "backdrop" | "type"> & {
+    episode: string | null;
+  };
   releaseGroup: ReleaseGroupNames;
   releaseGroups: ReleaseGroupMap;
   resolution: string;
@@ -166,13 +182,14 @@ async function setMovieSubtitlesToDatabase({
     const subtitleLinkWithDownloadFileName = `${publicUrl}${downloadFileName}`;
 
     // 13. Get movie by ID
-    const { data: movieData } = await supabase.from("Movies").select("*").match({ id: movie.id });
+    const { data: titleData } = await supabase.from("Titles").select("*").match({ id: title.id });
 
-    invariant(movieData, "Movie not found");
+    invariant(titleData, "Movie not found");
 
-    // 14. Save movie to Supabase if is not yet saved
-    if (Array.isArray(movieData) && !movieData.length) {
-      await supabase.from("Movies").insert(movie).select();
+    // 14. Save titlte to Supabase if is not yet saved
+    if (Array.isArray(titleData) && !titleData.length) {
+      const { episode, ...rest } = title;
+      await supabase.from("Titles").insert(rest).select();
     }
 
     // 15. Get release and subtitle group id
@@ -180,6 +197,8 @@ async function setMovieSubtitlesToDatabase({
     const { id: subtitleGroupId } = subtitleGroups[subtitleGroup];
 
     const { bytes, fileName, fileNameExtension } = file;
+
+    const { current_season, current_episode } = getSeasonAndEpisode(title.episode);
 
     // 16. Save subtitle to Supabase
     await supabase.from("Subtitles").insert({
@@ -189,13 +208,15 @@ async function setMovieSubtitlesToDatabase({
       uploaded_by: "indexer",
       bytes,
       file_extension: fileNameExtension,
-      movie_file_name: fileName,
+      title_file_name: fileName,
       subtitle_file_name: downloadFileName,
-      movie_id: movie.id,
+      title_id: title.id,
       release_group_id: releaseGroupId,
       resolution,
       subtitle_group_id: subtitleGroupId,
       subtitle_link: subtitleLinkWithDownloadFileName,
+      current_season,
+      current_episode,
     });
 
     // play sound when a subtitle was found
@@ -206,8 +227,8 @@ async function setMovieSubtitlesToDatabase({
 
     console.table([
       {
-        imdbLink: getImdbLink(movie.id),
-        movie: movie.name,
+        imdbLink: getImdbLink(title.id),
+        name: title.name,
         releaseGroup,
         resolution,
         subtitleGroup,
@@ -220,195 +241,232 @@ async function setMovieSubtitlesToDatabase({
   }
 }
 
-async function getSubtitlesFromMovie(
-  index: string,
-  movie: TmdbMovie,
-  releaseGroups: ReleaseGroupMap,
-  subtitleGroups: SubtitleGroupMap,
-  isDebugging: boolean,
-) {
-  // 0. Create necessary folders if they do not exists
-  const folders = ["subs", "subtitles", "torrents"];
+type TmdbMovie = TmdbTitle & { episode: null };
+type TmdbTvShowEpisode = TmdbTvShow & { episode: string };
+type CurrentTitle = TmdbMovie | TmdbTvShowEpisode;
 
-  for (const folder of folders) {
+// helpers
+function getSeasonAndEpisode(fullSeason: string | null): {
+  current_season: number | null;
+  current_episode: number | null;
+} {
+  if (!fullSeason) {
+    return { current_season: null, current_episode: null };
+  }
+
+  const [current_season, current_episode] = fullSeason.replace("E", "-").replace("S", "").split("-").map(Number);
+  return { current_season, current_episode };
+}
+
+function createInitialFolders(): void {
+  const FOLDERS = ["uncompressed-subtitles", "compressed-subtitles"];
+
+  for (const folder of FOLDERS) {
     const folderPath = path.join(__dirname, "..", "indexer", folder);
 
     if (!fs.existsSync(folderPath)) {
       fs.mkdirSync(folderPath);
     }
   }
+}
 
-  const { imdbId, rating, releaseDate, title, year, poster, backdrop } = movie;
+function getQueryForTorrentProvider(title: CurrentTitle): string {
+  const { name, year, episode } = title;
+  const parsedName = replaceSpecialCharacters(name.replace(/'/g, ""));
 
-  // 1. Get first 10 movie torrents from ThePirateBay
-  const TOTAL_MOVIES_TO_SEARCH = 10;
+  return match(episode)
+    .with(null, () => `${parsedName} ${year}`)
+    .with(P.string, () => `${parsedName} ${episode}`)
+    .exhaustive();
+}
 
-  const movieTitleQuery = movie.title.replace(/'/g, "");
-  const torrents = await tg.search(`${movieTitleQuery} ${movie.year}`, {
-    groupByTracker: false,
+type PromiseTorrentResults = ReturnType<typeof tg.search>;
+type TorrentResults = AsyncReturnType<typeof getTitleTorrents>;
+type TorrentResult = ArrayValues<TorrentResults>;
+
+async function getTitleTorrents(query: string): PromiseTorrentResults {
+  return tg.search(query, { groupByTracker: false });
+}
+
+function getFilteredTorrents(torrents: TorrentResults, maxTorrents = 10, minSeeds = 15): TorrentResults {
+  const CINEMA_RECORDING_REGEX = /\b(hdcam|hdcamrip|hqcam|hq-cam|telesync|hdts|hd-ts|c1nem4|qrips)\b/gi;
+
+  return torrents
+    .toSorted((torrentA, torrentB) => torrentB.seeds - torrentA.seeds)
+    .slice(0, maxTorrents)
+    .filter((torrent) => !torrent.title.match(CINEMA_RECORDING_REGEX))
+    .filter(({ seeds }) => seeds > minSeeds);
+}
+
+async function getTorrentFilesMetadata(torrent: TorrentResult): Promise<File[]> {
+  const engine = torrentStream(torrent.trackerId);
+
+  const files = await new Promise<File[]>((resolve, reject) => {
+    const timeoutId = setTimeout(() => {
+      engine.destroy();
+      reject(new Error("Timeout: Tardo más de 30s puede ser por falta de seeds"));
+    }, 30000);
+
+    engine.on("torrent", (data) => {
+      clearTimeout(timeoutId);
+      resolve(data.files);
+    });
   });
 
-  const cinemaRecordingsRegex = /\b(hdcam|hdcamrip|hqcam|hq-cam|telesync|hdts|hd-ts|c1nem4|qrips)\b/gi;
+  engine.destroy();
 
-  const torrentsSorted = torrents
-    .toSorted((torrentA, torrentB) => torrentB.seeds - torrentA.seeds)
-    .slice(0, TOTAL_MOVIES_TO_SEARCH);
+  return files;
+}
 
-  const MINIMUM_SEEDS = 15;
-  const torrentsWithoutCineRecordings = torrentsSorted
-    .filter((torrent) => !torrent.title.match(cinemaRecordingsRegex))
-    .filter(({ seeds }) => seeds > MINIMUM_SEEDS);
+function getVideoFromFiles(files: File[]): File | undefined {
+  return files
+    .toSorted((fileA, fileB) => fileB.length - fileA.length)
+    .find((file) => {
+      return VIDEO_FILE_EXTENSIONS.some((videoFileExtension) => {
+        return file.name.endsWith(videoFileExtension);
+      });
+    });
+}
 
-  if (!torrentsWithoutCineRecordings.length) {
-    console.log(
-      `4.${index}) No se encontraron torrents para la película "${title} (que no sean grabadas en cine y tengan más de ${MINIMUM_SEEDS} seeds)" \n`,
-    );
-    return;
+async function hasSubtitleInDatabase(subtitle_group_id: number, title_file_name: string): Promise<boolean> {
+  const { data: subtitles } = await supabase.from("Subtitles").select("*").match({
+    subtitle_group_id,
+    title_file_name,
+  });
+
+  return subtitles ? subtitles.length > 0 : false;
+}
+
+async function getSubtitlesForTitle({
+  index,
+  currentTitle,
+  releaseGroups,
+  subtitleGroups,
+  isDebugging,
+}: {
+  index: string;
+  currentTitle: CurrentTitle;
+  releaseGroups: ReleaseGroupMap;
+  subtitleGroups: SubtitleGroupMap;
+  isDebugging: boolean;
+}): Promise<void> {
+  createInitialFolders();
+  const titleTorrentQuery = getQueryForTorrentProvider(currentTitle);
+
+  const torrents = await getTitleTorrents(titleTorrentQuery);
+  const filteredTorrents = getFilteredTorrents(torrents);
+
+  const { name, year, imdbId, rating, releaseDate, poster, backdrop, episode } = currentTitle;
+  if (filteredTorrents.length === 0) {
+    return console.log(`4.${index}) No se encontraron torrents para el titulo "${name}" \n`);
   }
 
-  console.log(`4.${index}) Torrents encontrados para la pelicula "${title}" \n`);
-  const subtitleProviderQuery = `${movie.title} ${year}`;
+  console.log(`4.${index}) Torrents (${filteredTorrents.length}) encontrados para el título "${name}" \n`);
   console.table(
-    torrentsWithoutCineRecordings.map(({ seeds, size, title, tracker }) => ({
-      name: subtitleProviderQuery,
+    filteredTorrents.map(({ seeds, size, title, tracker }) => ({
+      query: titleTorrentQuery,
       seeds,
       size: prettyBytes(size ?? 0),
       title,
       tracker,
     })),
   );
-  clipboard.writeSync(subtitleProviderQuery);
+
+  clipboard.writeSync(titleTorrentQuery);
   console.log(
-    `👉 Nombre de película ${subtitleProviderQuery} guardado en el clipboard, para poder pegar directamente en proveedor de subtitulos\n`,
+    `👉 Nombre de titulo ${titleTorrentQuery} guardado en el clipboard, para poder pegar directamente en proveedor de torrents o subtítulos \n`,
   );
-  console.log("\n");
 
-  // 2. Iterate over each torrent
-  for await (const [index, torrentData] of Object.entries(torrentsWithoutCineRecordings)) {
-    console.log(`4.${index}) Procesando torrent`, `"${torrentData.title}"`, "\n");
-
-    const engine = torrentStream(torrentData.trackerId);
-
-    const files = await new Promise<File[]>((resolve, reject) => {
-      const timeoutId = setTimeout(() => {
-        engine.destroy();
-        reject(new Error("Timeout: Tardo más de 30s puede ser por falta de seeds"));
-      }, 30000);
-
-      engine.on("torrent", (data) => {
-        clearTimeout(timeoutId);
-        resolve(data.files);
-      });
-    });
-
-    engine.destroy();
+  for await (const [torrentIndex, torrent] of Object.entries(filteredTorrents)) {
+    console.log(`4.${index}.${torrentIndex}) Procesando torrent`, `"${torrent.title}"`, "\n");
+    const files = await getTorrentFilesMetadata(torrent);
 
     if (files.length === 0) {
-      console.log("No se encontraron archivos en el torrent", "\n");
+      console.log("No se encontraron archivos en el torrent\n");
       continue;
     }
 
-    // 6. Find video file
-    const filesSortedByLength = files.toSorted((fileA, fileB) => fileB.length - fileA.length);
+    const videoFile = getVideoFromFiles(files);
 
-    const videoFile = filesSortedByLength.find((file) => {
-      return VIDEO_FILE_EXTENSIONS.some((videoFileExtension) => {
-        return file.name.endsWith(videoFileExtension);
-      });
-    });
-
-    // 7. Return if no video file
     if (!videoFile) {
+      console.log("No hay archivos de video en el torrent\n");
       continue;
     }
 
-    // 8. Get movie data from video file name
     const { length: bytes, name: fileName } = videoFile;
-    const fileNameExtension = getMovieFileNameExtension(fileName);
+    let titleFileNameMetadata: TitleFileNameMetadata | null = null;
 
-    let movieData: MovieData | null = null;
     try {
-      movieData = getMovieMetadata(fileName);
+      titleFileNameMetadata = getTitleFileNameMetadata({
+        titleFileName: fileName,
+        titleName: name,
+        titleQuery: titleTorrentQuery,
+      });
     } catch (error) {
-      console.log("\n ~ getSubtitlesFromMovie ~ getMovieMetadata error:", error);
+      console.log(`\nNo pudimos parsear ${fileName} correctamente`, error);
     }
 
-    if (!movieData) {
-      console.log(`4.${index}) No se encontró metadata para la película "${title}" \n`);
+    if (!titleFileNameMetadata) {
+      console.log(`4.${index}) No se encontró metadata para el titulo "${name}" \n`);
       continue;
     }
 
-    const { releaseGroup, resolution } = movieData;
+    const { releaseGroup, resolution } = titleFileNameMetadata;
 
     if (!releaseGroup) {
       console.log(`No hay release group soportado para ${videoFile.name} \n`);
       continue;
     }
 
+    const fileNameExtension = getTitleFileNameExtension(fileName);
+
     console.table([
       {
-        fileName,
-        name: movie.title,
-        releaseGroup: releaseGroup.name,
-        resolution,
+        name,
         year,
+        resolution,
+        releaseGroup: releaseGroup.name,
+        fileName,
+        fileNameExtension,
       },
     ]);
 
-    if (releaseGroup.is_supported === false) {
-      console.log("\n");
-      if (isDebugging) {
-        await confirm({
-          message: `¿Desea continuar? El Release Group ${releaseGroup.name} no es soportado, se debería de agregar al indexador`,
-        });
-        console.log("\n");
-      }
-      continue;
-    }
-
-    // 9. Find subtitle metadata from SubDivx
     const enabledSubtitleProviders = getEnabledSubtitleProviders(subtitleGroups, ["SubDivX"]);
 
     for await (const [indexSubtitleProvider, enabledSubtitleProvider] of Object.entries(enabledSubtitleProviders)) {
-      const { getSubtitleFromProvider, id, name } = enabledSubtitleProvider;
+      const { getSubtitleFromProvider, id: subtitleGroupId, name } = enabledSubtitleProvider;
 
       try {
-        console.log(`4.${index}.${indexSubtitleProvider}) Buscando subtítulo en ${name}`);
+        console.log(`4.${index}.${torrentIndex}.${indexSubtitleProvider}) Buscando subtítulo en ${name}`);
+        const subtitle = await getSubtitleFromProvider({ imdbId, titleFileNameMetadata });
 
-        const subtitle = await getSubtitleFromProvider({ imdbId, movieData });
-
-        // 10. Check if subtitle already exists in DB
         if (subtitle) {
-          const { data: subtitles } = await supabase.from("Subtitles").select("*").match({
-            subtitle_group_id: id,
-            movie_file_name: fileName,
-          });
-
-          if (subtitles?.length) {
-            console.log(
-              `4.${index}.${indexSubtitleProvider}) Subtítulo ya existe en la base de datos para ${subtitle.subtitleGroup}`,
-            );
+          const exists = await hasSubtitleInDatabase(subtitleGroupId, fileName);
+          if (exists) {
+            console.log(`4.${index}.${torrentIndex}.${indexSubtitleProvider}) Subtítulo ya existe en la base de datos`);
             continue;
           }
         }
 
         const { subtitleGroup } = subtitle;
-        console.log(`4.${index}.${indexSubtitleProvider}) Subtítulo encontrado para ${subtitleGroup}`);
+        console.log(`4.${index}.${torrentIndex}.${indexSubtitleProvider}) Subtítulo encontrado para ${subtitleGroup}`);
 
-        await setMovieSubtitlesToDatabase({
+        await setSubtitlesToDatabase({
           file: {
             bytes,
             fileName,
             fileNameExtension,
           },
-          movie: {
+          title: {
             id: imdbId,
-            name: title,
+            name,
             rating,
             release_date: releaseDate,
             year,
             poster,
             backdrop,
+            type: TitleTypes.movie,
+            episode,
           },
           releaseGroup: releaseGroup.name as ReleaseGroupNames,
           releaseGroups,
@@ -418,23 +476,23 @@ async function getSubtitlesFromMovie(
           subtitleGroups,
         });
       } catch (error) {
-        console.log(`4.${index}.${indexSubtitleProvider}) Subtítulo no encontrado en ${name} \n`);
+        console.log("\n ~ forawait ~ error:", error);
+        console.log(`4.${index}.${torrentIndex}.${indexSubtitleProvider}) Subtítulo no encontrado en ${name} \n`);
       }
     }
 
     if (isDebugging) {
       await confirm({ message: "¿Desea continuar?" });
     }
-
     console.log("\n------------------------------\n");
   }
 
-  console.log(`4.${index}) Pasando la siguiente película... \n`);
+  console.log(`4.${index}) Pasando al siguiente titulo... \n`);
   console.log("------------------------------ \n");
 }
 
 // core
-async function indexByYear(moviesYear: number, isDebugging: boolean): Promise<void> {
+export async function indexMoviesByYear(moviesYear: number, isDebugging: boolean): Promise<void> {
   try {
     // 0. Activate ThePirateBay provider
     await tg.activate("ThePirateBay");
@@ -445,11 +503,11 @@ async function indexByYear(moviesYear: number, isDebugging: boolean): Promise<vo
 
     // 2. Get all movie pages from TMDB
     const { totalPages, totalResults } = await getTmdbMoviesTotalPagesArray(moviesYear, !isDebugging);
-    console.log(`\n1.1) Con un total de ${totalResults} películas en el año ${moviesYear}`);
+    console.log(`\n1.1) Con un total de ${totalResults} titulos en el año ${moviesYear}`);
     console.log(
       `\n1.2) ${totalPages.at(
         -1,
-      )} páginas (con ${20} pelis c/u), con un total de ${totalResults} películas en el año ${moviesYear}`,
+      )} páginas (con ${20} pelis c/u), con un total de ${totalResults} titulos en el año ${moviesYear}`,
       "\n",
     );
 
@@ -472,15 +530,15 @@ async function indexByYear(moviesYear: number, isDebugging: boolean): Promise<vo
 
       // 5. Get movies from TMDB
       const movies = await getMoviesFromTmdb(tmbdMoviesPage, moviesYear, !isDebugging);
-      console.log(`\n\n3) Películas encontradas en página ${tmbdMoviesPage} \n`);
+      console.log(`\n\n3) titulos encontradas en página ${tmbdMoviesPage} \n`);
 
-      console.table(movies.map(({ title, year, releaseDate, rating }) => ({ title, year, releaseDate, rating })));
+      console.table(movies.map(({ name, year, releaseDate, rating }) => ({ name, year, releaseDate, rating })));
       console.log("\n");
 
       for await (const [index, movie] of Object.entries(movies)) {
         if (isDebugging) {
           const value = await confirm({
-            message: `¿Desea skippear la película ${movie.title}?`,
+            message: `¿Desea skippear el titulo ${movie.name}?`,
           });
 
           if (value === true) {
@@ -490,10 +548,16 @@ async function indexByYear(moviesYear: number, isDebugging: boolean): Promise<vo
 
         try {
           // 4. Get subtitles from each movie
-          await getSubtitlesFromMovie(index, movie, releaseGroups, subtitleGroups, isDebugging);
+          await getSubtitlesForTitle({
+            index,
+            currentTitle: { ...movie, episode: null },
+            releaseGroups,
+            subtitleGroups,
+            isDebugging,
+          });
         } catch (error) {
-          console.log("mainIndexer => getSubtitlesFromMovie error =>", error);
-          console.error("Ningún subtítulo encontrado para la película", movie.title);
+          console.log("mainIndexer => getSubtitlesForMovie error =>", error);
+          console.error("Ningún subtítulo encontrado para el titulo", movie.name);
         }
       }
     }
@@ -503,8 +567,7 @@ async function indexByYear(moviesYear: number, isDebugging: boolean): Promise<vo
   }
 }
 
-// @ts-expect-error - used manually in upcoming CRON
-async function indexByMovieTitle(movieTitle: string) {
+export async function indexByMovieTitle(movieTitle: string) {
   try {
     await tg.activate("ThePirateBay");
 
@@ -513,14 +576,100 @@ async function indexByMovieTitle(movieTitle: string) {
 
     const movie = await getTmdbMovieFromTitle(movieTitle);
 
-    await getSubtitlesFromMovie("1", movie, releaseGroups, subtitleGroups, true);
+    await getSubtitlesForTitle({
+      index: "1",
+      currentTitle: { ...movie, episode: null },
+      releaseGroups,
+      subtitleGroups,
+      isDebugging: true,
+    });
   } catch (error) {
     console.log("\n ~ indexSingleMovie ~ error:", error);
   }
 }
 
-indexByYear(2023, false);
-// indexByMovieTitle("The Tiger's Apprentice");
+export async function indexSeriesByYear(seriesYear: number, isDebugging: boolean): Promise<void> {
+  // 0. Activate ThePirateBay provider
+  await tg.activate("ThePirateBay");
 
-saveReleaseGroupsToDb(supabase);
-saveSubtitleGroupsToDb(supabase);
+  // 1. Get release and subtitle groups from DB
+  const releaseGroups = await getReleaseGroups(supabase);
+  const subtitleGroups = await getSubtitleGroups(supabase);
+
+  // 2. Get all series pages from TMDB
+  const { totalPages, totalResults } = await getTmdbTvShowsTotalPagesArray(seriesYear);
+  console.log(`\n1.1) Con un total de ${totalResults} series en el año ${seriesYear}`);
+  console.log(
+    `\n1.2) ${totalPages.at(
+      -1,
+    )} páginas (con ${20} pelis c/u), con un total de ${totalResults} titulos en el año ${seriesYear}`,
+    "\n",
+  );
+
+  // 3. Initiate progress bar
+  const totalMoviesResultBar = new cliProgress.SingleBar(
+    {
+      format: "[{bar}] {percentage}% | Procesando {value}/{total} páginas de TMDB",
+    },
+    cliProgress.Presets.shades_classic,
+  );
+  totalMoviesResultBar.start(totalPages.length, 0);
+  console.log("\n");
+
+  for await (const tmbdSeriesPage of totalPages) {
+    console.log(`\n2) Buscando en página ${tmbdSeriesPage} de TMDB \n`);
+
+    // 4. Update progress bar
+    console.log("\nProgreso total del indexador:\n");
+    totalMoviesResultBar.update(tmbdSeriesPage);
+
+    // 5. Get movies from TMDB
+    const tvShows = await getTvShowsFromTmdb(tmbdSeriesPage, seriesYear);
+
+    console.log(`\n\n3) titulos encontradas en página ${tmbdSeriesPage} \n`);
+    console.table(
+      tvShows.map(({ name, year, releaseDate, rating, episodes, totalSeasons, totalEpisodes }) => ({
+        name,
+        year,
+        releaseDate,
+        rating,
+        episodes,
+        totalSeasons,
+        totalEpisodes,
+      })),
+    );
+    console.log("\n");
+
+    for await (const [index, tvShow] of Object.entries(tvShows)) {
+      if (index === "0") {
+        continue;
+      }
+
+      if (isDebugging) {
+        const value = await confirm({
+          message: `¿Desea skippear el titulo ${tvShow.name}?`,
+        });
+
+        if (value === true) {
+          continue;
+        }
+      }
+
+      for await (const episode of tvShow.episodes) {
+        try {
+          // 4. Get subtitles from each movie
+          await getSubtitlesForTitle({
+            index,
+            currentTitle: { ...tvShow, episode },
+            releaseGroups,
+            subtitleGroups,
+            isDebugging,
+          });
+        } catch (error) {
+          console.log("mainIndexer => getSubtitlesForTvShow error =>", error);
+          console.error("Ningún subtítulo encontrado para la serie", tvShow.name);
+        }
+      }
+    }
+  }
+}

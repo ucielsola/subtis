@@ -2,7 +2,7 @@ import invariant from "tiny-invariant";
 import { z } from "zod";
 
 // shared
-import type { MovieData } from "@subtis/shared";
+import type { TitleFileNameMetadata } from "@subtis/shared";
 
 import { generateSubtitleFileNames } from "./subtitle-filenames";
 import { SUBTITLE_GROUPS } from "./subtitle-groups";
@@ -106,12 +106,12 @@ const downloadSchema = z.object({
 // core
 export async function getOpenSubtitlesSubtitle({
   imdbId,
-  movieData,
+  titleFileNameMetadata,
 }: {
   imdbId: number;
-  movieData: MovieData;
+  titleFileNameMetadata: TitleFileNameMetadata;
 }): Promise<SubtitleData> {
-  const { fileNameWithoutExtension, name, releaseGroup, resolution } = movieData;
+  const { fileNameWithoutExtension, name, releaseGroup, resolution } = titleFileNameMetadata;
   if (!releaseGroup) {
     throw new Error("release group undefined");
   }

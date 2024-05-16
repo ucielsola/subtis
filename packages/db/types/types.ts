@@ -3,39 +3,6 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export type Database = {
   public: {
     Tables: {
-      Movies: {
-        Row: {
-          backdrop: string | null;
-          created_at: string;
-          id: number;
-          name: string;
-          poster: string | null;
-          rating: number;
-          release_date: string;
-          year: number;
-        };
-        Insert: {
-          backdrop?: string | null;
-          created_at?: string;
-          id: number;
-          name: string;
-          poster?: string | null;
-          rating: number;
-          release_date: string;
-          year: number;
-        };
-        Update: {
-          backdrop?: string | null;
-          created_at?: string;
-          id?: number;
-          name?: string;
-          poster?: string | null;
-          rating?: number;
-          release_date?: string;
-          year?: number;
-        };
-        Relationships: [];
-      };
       ReleaseGroups: {
         Row: {
           created_at: string;
@@ -92,12 +59,12 @@ export type Database = {
           author: string | null;
           bytes: number;
           created_at: string;
+          current_episode: number | null;
+          current_season: number | null;
           file_extension: string;
           id: number;
           lang: string;
           last_queried_at: string | null;
-          movie_file_name: string;
-          movie_id: number;
           queried_times: number | null;
           release_group_id: number;
           resolution: string;
@@ -105,18 +72,20 @@ export type Database = {
           subtitle_file_name: string;
           subtitle_group_id: number;
           subtitle_link: string;
+          title_file_name: string;
+          title_id: number;
           uploaded_by: string | null;
         };
         Insert: {
           author?: string | null;
           bytes: number;
           created_at?: string;
+          current_episode?: number | null;
+          current_season?: number | null;
           file_extension: string;
           id?: number;
           lang: string;
           last_queried_at?: string | null;
-          movie_file_name: string;
-          movie_id: number;
           queried_times?: number | null;
           release_group_id: number;
           resolution: string;
@@ -124,18 +93,20 @@ export type Database = {
           subtitle_file_name: string;
           subtitle_group_id: number;
           subtitle_link: string;
+          title_file_name: string;
+          title_id: number;
           uploaded_by?: string | null;
         };
         Update: {
           author?: string | null;
           bytes?: number;
           created_at?: string;
+          current_episode?: number | null;
+          current_season?: number | null;
           file_extension?: string;
           id?: number;
           lang?: string;
           last_queried_at?: string | null;
-          movie_file_name?: string;
-          movie_id?: number;
           queried_times?: number | null;
           release_group_id?: number;
           resolution?: string;
@@ -143,16 +114,11 @@ export type Database = {
           subtitle_file_name?: string;
           subtitle_group_id?: number;
           subtitle_link?: string;
+          title_file_name?: string;
+          title_id?: number;
           uploaded_by?: string | null;
         };
         Relationships: [
-          {
-            foreignKeyName: "Subtitles_movieId_fkey";
-            columns: ["movie_id"];
-            isOneToOne: false;
-            referencedRelation: "Movies";
-            referencedColumns: ["id"];
-          },
           {
             foreignKeyName: "Subtitles_releaseGroupId_fkey";
             columns: ["release_group_id"];
@@ -167,23 +133,72 @@ export type Database = {
             referencedRelation: "SubtitleGroups";
             referencedColumns: ["id"];
           },
+          {
+            foreignKeyName: "Subtitles_title_id_fkey";
+            columns: ["title_id"];
+            isOneToOne: false;
+            referencedRelation: "Titles";
+            referencedColumns: ["id"];
+          },
         ];
       };
       SubtitlesNotFound: {
         Row: {
           created_at: string;
           id: number;
-          movie_file_name: string;
+          title_file_name: string;
         };
         Insert: {
           created_at?: string;
           id?: number;
-          movie_file_name: string;
+          title_file_name: string;
         };
         Update: {
           created_at?: string;
           id?: number;
-          movie_file_name?: string;
+          title_file_name?: string;
+        };
+        Relationships: [];
+      };
+      Titles: {
+        Row: {
+          backdrop: string | null;
+          created_at: string;
+          id: number;
+          name: string;
+          poster: string | null;
+          rating: number;
+          release_date: string;
+          total_episodes: number | null;
+          total_seasons: number | null;
+          type: string;
+          year: number;
+        };
+        Insert: {
+          backdrop?: string | null;
+          created_at?: string;
+          id: number;
+          name: string;
+          poster?: string | null;
+          rating: number;
+          release_date: string;
+          total_episodes?: number | null;
+          total_seasons?: number | null;
+          type: string;
+          year: number;
+        };
+        Update: {
+          backdrop?: string | null;
+          created_at?: string;
+          id?: number;
+          name?: string;
+          poster?: string | null;
+          rating?: number;
+          release_date?: string;
+          total_episodes?: number | null;
+          total_seasons?: number | null;
+          type?: string;
+          year?: number;
         };
         Relationships: [];
       };
@@ -194,7 +209,7 @@ export type Database = {
     Functions: {
       fuzzy_search_movie: {
         Args: {
-          movie_query: string;
+          title_query: string;
         };
         Returns: {
           id: number;
@@ -257,7 +272,13 @@ export type Database = {
       update_subtitle_info: {
         Args: {
           _bytes: number;
-          _movie_file_name: string;
+          _title_file_name: string;
+        };
+        Returns: undefined;
+      };
+      update_subtitles_info: {
+        Args: {
+          _title_id: string;
         };
         Returns: undefined;
       };

@@ -6,8 +6,10 @@
   "scripts": {
     "test": "bun test --watch",
     "dev": "bun --watch app.ts",
-    "dev:node": "npx tsx --env-file .env.development --watch app.ts",
-    "prod:node": "NODE_ENV=production npx tsx --env-file .env.production app.ts"
+    "dev:node:movies": "npx tsx --env-file .env.development --watch movies.ts",
+    "prod:node:movies": "NODE_ENV=production npx tsx --env-file .env.production movies.ts",
+    "dev:node:tv-shows": "npx tsx --env-file .env.development --watch tv-shows.ts",
+    "prod:node:tv-shows": "NODE_ENV=production npx tsx --env-file .env.production tv-shows.ts"
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
@@ -19,6 +21,7 @@
     "download": "^8.0.0",
     "extract-zip": "^2.0.1",
     "pretty-bytes": "^6.1.1",
+    "replace-special-characters": "^1.2.7",
     "rimraf": "^5.0.7",
     "slugify": "^1.6.6",
     "sound-play": "^1.1.0",
@@ -26,6 +29,7 @@
     "torrent-grabber": "^1.0.2",
     "torrent-stream": "^1.2.1",
     "ts-pattern": "^5.1.1",
+    "type-fest": "^4.18.2",
     "zod": "^3.23.8"
   },
   "devDependencies": {

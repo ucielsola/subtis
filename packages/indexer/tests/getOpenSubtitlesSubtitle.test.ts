@@ -1,10 +1,7 @@
 import { expect, test } from "bun:test";
 
-// shared
-import type { MovieData } from "@subtis/shared";
-
-import { getOpenSubtitlesSubtitle } from "../opensubtitles";
 // internals
+import { getOpenSubtitlesSubtitle } from "../opensubtitles";
 import type { ReleaseGroup } from "../release-groups";
 
 test("should return a subtitle link giving a movie, release group and quality", async () => {
@@ -15,18 +12,18 @@ test("should return a subtitle link giving a movie, release group and quality", 
     searchable_opensubtitles_name: ["YTS.MX"],
     searchable_subdivx_name: ["YTS MX"],
   };
-  const movieData = {
+  const titleFileNameMetadata = {
     fileNameWithoutExtension: "",
     name: "Meg 2 The Trench",
     releaseGroup,
     resolution: "1080p",
-    searchableMovieName: "Meg 2 The Trench (2023)",
+    searchableQuery: "Meg 2 The Trench (2023)",
     year: 2023,
-  } as MovieData;
+  };
 
   const subtitle = await getOpenSubtitlesSubtitle({
     imdbId: 9224104,
-    movieData,
+    titleFileNameMetadata,
   });
 
   expect(subtitle.subtitleLink).toBeTypeOf("string");
@@ -46,18 +43,18 @@ test("should return a subtitle link giving a movie, release group and quality", 
     searchable_opensubtitles_name: ["YTS.MX"],
     searchable_subdivx_name: ["YTS MX"],
   };
-  const movieData = {
+  const titleFileNameMetadata = {
     fileNameWithoutExtension: "",
     name: "Junk Head",
     releaseGroup,
     resolution: "1080p",
-    searchableMovieName: "Junk Head (2017)",
+    searchableQuery: "Junk Head (2017)",
     year: 2017,
-  } as MovieData;
+  };
 
   const subtitle = await getOpenSubtitlesSubtitle({
     imdbId: 6848928,
-    movieData,
+    titleFileNameMetadata,
   });
 
   expect(subtitle.subtitleLink).toBeTypeOf("string");

@@ -1,30 +1,36 @@
 import { P, match } from "ts-pattern";
+import { z } from "zod";
 
 // indexer
 import { RELEASE_GROUPS, type ReleaseGroup } from "@subtis/indexer/release-groups";
 
-import { z } from "zod";
 // internals
 import { VIDEO_FILE_EXTENSIONS } from "../../files";
-import { getStringWithoutExtraSpaces } from "../../strings/get-string-without-extra-spaces";
 import { getMovieFileNameWithoutExtension } from "../get-movie-file-name-without-extension/get-movie-file-name-without-extension";
-import { getMovieName } from "../get-movie-name";
 
 // types
-export type MovieData = {
+export type TitleFileNameMetadata = {
   fileNameWithoutExtension: string;
   name: string;
   releaseGroup: ReleaseGroup | undefined;
   resolution: string;
-  searchableMovieName: string;
+  searchableQuery: string;
   year: number;
 };
 
-export function getMovieMetadata(movieFileName: string): MovieData {
+export function getTitleFileNameMetadata({
+  titleFileName,
+  titleName,
+  titleQuery,
+}: {
+  titleFileName: string;
+  titleName: string;
+  titleQuery: string;
+}): TitleFileNameMetadata {
   const FIRST_MOVIE_RECORDED = 1888;
   const currentYear = new Date().getFullYear();
 
-  const parsedMovieFileName = movieFileName.replace(/\s/g, ".");
+  const parsedMovieFileName = titleFileName.replace(/\s/g, ".");
 
   for (let year = FIRST_MOVIE_RECORDED; year <= currentYear; year++) {
     const yearString = String(year);
@@ -38,15 +44,12 @@ export function getMovieMetadata(movieFileName: string): MovieData {
       continue;
     }
 
-    const [rawName, rawAttributes] = parsedMovieFileName.split(yearStringToReplace);
+    const [_rawName, rawAttributes] = parsedMovieFileName.split(yearStringToReplace);
 
     const lowerCaseRawAttributes = rawAttributes.toLowerCase();
     const parsedRawAttributes = lowerCaseRawAttributes.includes("YTS")
       ? lowerCaseRawAttributes.replace("AAC", "")
       : lowerCaseRawAttributes;
-
-    const movieName = getMovieName(rawName);
-    const searchableMovieName = getStringWithoutExtraSpaces(`${movieName} (${yearString})`);
 
     const videoFileExtension = VIDEO_FILE_EXTENSIONS.find((videoFileExtension) =>
       rawAttributes.includes(videoFileExtension),
@@ -85,10 +88,10 @@ export function getMovieMetadata(movieFileName: string): MovieData {
 
     return {
       fileNameWithoutExtension,
-      name: movieName,
+      name: titleName,
       releaseGroup: releaseGroup as unknown as ReleaseGroup,
       resolution,
-      searchableMovieName,
+      searchableQuery: titleQuery,
       year,
     };
   }

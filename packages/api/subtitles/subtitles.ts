@@ -8,7 +8,7 @@ import { z } from "zod";
 import { type AppVariables, getSupabaseClient } from "../shared";
 
 // shared
-import { getMovieMetadata, videoFileNameSchema } from "@subtis/shared";
+import { getTitleFileNameMetadata, videoFileNameSchema } from "@subtis/shared";
 
 // schemas
 import { moviesVersionSchema, subtitleSchema } from "./schemas";
@@ -114,9 +114,9 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       }
 
       const supabase = getSupabaseClient(context);
-      const { name, year } = getMovieMetadata(videoFileName.data);
+      const { name, year } = getTitleFileNameMetadata(videoFileName.data);
 
-      const { data: movieData } = await supabase.from("Movies").select("id").match({ name, year }).single();
+      const { data: movieData } = await supabase.from("Titles").select("id").match({ name, year }).single();
 
       const movieByNameAndYear = moviesVersionSchema.safeParse(movieData);
 

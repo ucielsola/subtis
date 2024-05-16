@@ -14,7 +14,7 @@ export const metrics = new Hono<{ Variables: AppVariables }>().post(
 
     const { error } = await getSupabaseClient(context).rpc("update_subtitle_info", {
       _bytes: bytes,
-      _movie_file_name: fileName,
+      _title_file_name: fileName,
     });
 
     if (error) {

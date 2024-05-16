@@ -15,7 +15,7 @@ export const videoFileNameSchema = z.string().refine(
   },
 );
 
-export function getMovieFileNameExtension(fileName: string): string {
+export function getTitleFileNameExtension(fileName: string): string {
   const videoFileExtension = getVideoFileExtension(fileName);
   const videoFileExtensionParsed = z
     .string({ message: `Video file extension not supported: ${fileName}` })

@@ -1,9 +1,9 @@
-import { moviesRowSchema, releaseGroupsRowSchema, subtitlesRowSchema } from "@subtis/db/schemas";
+import { releaseGroupsRowSchema, subtitlesRowSchema, titlesRowSchema } from "@subtis/db/schemas";
 
 const releaseGroupSchema = releaseGroupsRowSchema.pick({ name: true });
-const movieSchema = moviesRowSchema.pick({ name: true, year: true, poster: true, backdrop: true });
+const movieSchema = titlesRowSchema.pick({ name: true, year: true, poster: true, backdrop: true });
 
-export const moviesVersionSchema = moviesRowSchema.pick({ id: true });
+export const moviesVersionSchema = titlesRowSchema.pick({ id: true });
 
 export const subtitleSchema = subtitlesRowSchema
   .pick({
