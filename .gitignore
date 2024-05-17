@@ -1,5 +1,6 @@
 torrents
-subs
+uncompressed-subtitles
+compressed-subtitles
 .env
 .DS_Store
 *.mp4

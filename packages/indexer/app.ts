@@ -83,7 +83,7 @@ async function setSubtitlesToDatabase({
     } = subtitle;
 
     // 1. Download subtitle to fs if file is compressed
-    const subtitlesFolderAbsolutePath = path.join(__dirname, "..", "indexer", "subtitles");
+    const subtitlesFolderAbsolutePath = path.join(__dirname, "..", "indexer", COMPRESSED_SUBTITLES_FOLDER_NAME);
 
     if (["rar", "zip"].includes(fileExtension)) {
       await download(subtitleLink, subtitlesFolderAbsolutePath, {
@@ -92,10 +92,10 @@ async function setSubtitlesToDatabase({
     }
 
     // 2. Create path to downloaded subtitles
-    const subtitleAbsolutePath = path.join(__dirname, "..", "indexer", "subtitles", subtitleCompressedFileName);
+    const subtitleAbsolutePath = path.join(__dirname, "..", "indexer", COMPRESSED_SUBTITLES_FOLDER_NAME, subtitleCompressedFileName);
 
     // 3. Create path to extracted subtitles
-    const extractedSubtitlePath = path.join(__dirname, "..", "indexer", "subs", subtitleFileNameWithoutExtension);
+    const extractedSubtitlePath = path.join(__dirname, "..", "indexer", UNCOMPRESSED_SUBTITLES_FOLDER_NAME, subtitleFileNameWithoutExtension);
 
     // 4. Handle compressed zip/rar files or srt files
     fs.mkdirSync(extractedSubtitlePath, { recursive: true });
@@ -131,7 +131,7 @@ async function setSubtitlesToDatabase({
         __dirname,
         "..",
         "indexer",
-        "subs",
+        UNCOMPRESSED_SUBTITLES_FOLDER_NAME,
         subtitleFileNameWithoutExtension,
         srtFile,
       );
@@ -144,7 +144,7 @@ async function setSubtitlesToDatabase({
         __dirname,
         "..",
         "indexer",
-        "subs",
+        UNCOMPRESSED_SUBTITLES_FOLDER_NAME,
         subtitleFileNameWithoutExtension,
         subtitleSrtFileName,
       );
@@ -249,8 +249,12 @@ function getSeasonAndEpisode(fullSeason: string | null): {
   return { current_season, current_episode };
 }
 
+const UNCOMPRESSED_SUBTITLES_FOLDER_NAME = "uncompressed-subtitles";
+const COMPRESSED_SUBTITLES_FOLDER_NAME = "compressed-subtitles";
+const TORRENTS_FOLDER_NAME = "torrents";
+
 function createInitialFolders(): void {
-  const FOLDERS = ["uncompressed-subtitles", "compressed-subtitles"];
+  const FOLDERS = [UNCOMPRESSED_SUBTITLES_FOLDER_NAME, COMPRESSED_SUBTITLES_FOLDER_NAME, TORRENTS_FOLDER_NAME];
 
   for (const folder of FOLDERS) {
     const folderPath = path.join(__dirname, "..", "indexer", folder);
