@@ -3,7 +3,6 @@ import fs from "node:fs";
 import path from "node:path";
 import { confirm } from "@clack/prompts";
 import unrar from "@continuata/unrar";
-import cliProgress from "cli-progress";
 import clipboard from "clipboardy";
 import download from "download";
 import extract from "extract-zip";
@@ -11,6 +10,8 @@ import prettyBytes from "pretty-bytes";
 import replaceSpecialCharacters from "replace-special-characters";
 import sound from "sound-play";
 import invariant from "tiny-invariant";
+import tg from "torrent-grabber";
+import torrentStream, { type File } from "torrent-stream";
 import { P, match } from "ts-pattern";
 import type { ArrayValues, AsyncReturnType } from "type-fest";
 import { z } from "zod";
@@ -23,28 +24,11 @@ import {
   getTitleFileNameMetadata,
 } from "@subtis/shared";
 
-import tg from "torrent-grabber";
-import type { File } from "torrent-stream";
-import torrentStream from "torrent-stream";
-
 // internals
 import { getImdbLink } from "./imdb";
-import { type ReleaseGroupMap, type ReleaseGroupNames, getReleaseGroups } from "./release-groups";
-import {
-  type SubtitleGroupMap,
-  type SubtitleGroupNames,
-  getEnabledSubtitleProviders,
-  getSubtitleGroups,
-} from "./subtitle-groups";
-import {
-  type TmdbTitle,
-  type TmdbTvShow,
-  getMoviesFromTmdb,
-  getTmdbMovieFromTitle,
-  getTmdbMoviesTotalPagesArray,
-  getTmdbTvShowsTotalPagesArray,
-  getTvShowsFromTmdb,
-} from "./tmdb";
+import type { ReleaseGroupMap, ReleaseGroupNames } from "./release-groups";
+import { type SubtitleGroupMap, type SubtitleGroupNames, getEnabledSubtitleProviders } from "./subtitle-groups";
+import type { TmdbTitle, TmdbTvShow } from "./tmdb";
 import type { SubtitleData } from "./types";
 import { getSubtitleAuthor } from "./utils";
 
@@ -53,6 +37,19 @@ enum TitleTypes {
   movie = "movie",
   tvShow = "tvShow",
 }
+
+type SubtitleFile = {
+  bytes: number;
+  fileName: string;
+  fileNameExtension: string;
+};
+
+type TitleWithEpisode = Pick<
+  Title,
+  "id" | "name" | "rating" | "release_date" | "year" | "poster" | "backdrop" | "type"
+> & {
+  episode: string | null;
+};
 
 async function setSubtitlesToDatabase({
   file,
@@ -64,14 +61,8 @@ async function setSubtitlesToDatabase({
   subtitleGroup,
   subtitleGroups,
 }: {
-  file: {
-    bytes: number;
-    fileName: string;
-    fileNameExtension: string;
-  };
-  title: Pick<Title, "id" | "name" | "rating" | "release_date" | "year" | "poster" | "backdrop" | "type"> & {
-    episode: string | null;
-  };
+  file: SubtitleFile;
+  title: TitleWithEpisode;
   releaseGroup: ReleaseGroupNames;
   releaseGroups: ReleaseGroupMap;
   resolution: string;
@@ -337,7 +328,8 @@ async function hasSubtitleInDatabase(subtitle_group_id: number, title_file_name:
   return subtitles ? subtitles.length > 0 : false;
 }
 
-async function getSubtitlesForTitle({
+// core
+export async function getSubtitlesForTitle({
   index,
   currentTitle,
   releaseGroups,
@@ -489,187 +481,4 @@ async function getSubtitlesForTitle({
 
   console.log(`4.${index}) Pasando al siguiente titulo... \n`);
   console.log("------------------------------ \n");
-}
-
-// core
-export async function indexMoviesByYear(moviesYear: number, isDebugging: boolean): Promise<void> {
-  try {
-    // 0. Activate ThePirateBay provider
-    await tg.activate("ThePirateBay");
-
-    // 1. Get release and subtitle groups from DB
-    const releaseGroups = await getReleaseGroups(supabase);
-    const subtitleGroups = await getSubtitleGroups(supabase);
-
-    // 2. Get all movie pages from TMDB
-    const { totalPages, totalResults } = await getTmdbMoviesTotalPagesArray(moviesYear, !isDebugging);
-    console.log(`\n1.1) Con un total de ${totalResults} titulos en el año ${moviesYear}`);
-    console.log(
-      `\n1.2) ${totalPages.at(
-        -1,
-      )} páginas (con ${20} pelis c/u), con un total de ${totalResults} titulos en el año ${moviesYear}`,
-      "\n",
-    );
-
-    // 3. Initiate progress bar
-    const totalMoviesResultBar = new cliProgress.SingleBar(
-      {
-        format: "[{bar}] {percentage}% | Procesando {value}/{total} páginas de TMDB",
-      },
-      cliProgress.Presets.shades_classic,
-    );
-    totalMoviesResultBar.start(totalPages.length, 0);
-    console.log("\n");
-
-    for await (const tmbdMoviesPage of totalPages) {
-      console.log(`\n2) Buscando en página ${tmbdMoviesPage} de TMDB \n`);
-
-      // 4. Update progress bar
-      console.log("\nProgreso total del indexador:\n");
-      totalMoviesResultBar.update(tmbdMoviesPage);
-
-      // 5. Get movies from TMDB
-      const movies = await getMoviesFromTmdb(tmbdMoviesPage, moviesYear, !isDebugging);
-      console.log(`\n\n3) titulos encontradas en página ${tmbdMoviesPage} \n`);
-
-      console.table(movies.map(({ name, year, releaseDate, rating }) => ({ name, year, releaseDate, rating })));
-      console.log("\n");
-
-      for await (const [index, movie] of Object.entries(movies)) {
-        if (isDebugging) {
-          const value = await confirm({
-            message: `¿Desea skippear el titulo ${movie.name}?`,
-          });
-
-          if (value === true) {
-            continue;
-          }
-        }
-
-        try {
-          // 4. Get subtitles from each movie
-          await getSubtitlesForTitle({
-            index,
-            currentTitle: { ...movie, episode: null },
-            releaseGroups,
-            subtitleGroups,
-            isDebugging,
-          });
-        } catch (error) {
-          console.log("mainIndexer => getSubtitlesForMovie error =>", error);
-          console.error("Ningún subtítulo encontrado para el titulo", movie.name);
-        }
-      }
-    }
-  } catch (error) {
-    console.log("mainIndexer => error =>", error);
-    console.log("\n ~ mainIndexer ~ error message:", (error as Error).message);
-  }
-}
-
-export async function indexByMovieTitle(movieTitle: string) {
-  try {
-    await tg.activate("ThePirateBay");
-
-    const releaseGroups = await getReleaseGroups(supabase);
-    const subtitleGroups = await getSubtitleGroups(supabase);
-
-    const movie = await getTmdbMovieFromTitle(movieTitle);
-
-    await getSubtitlesForTitle({
-      index: "1",
-      currentTitle: { ...movie, episode: null },
-      releaseGroups,
-      subtitleGroups,
-      isDebugging: true,
-    });
-  } catch (error) {
-    console.log("\n ~ indexSingleMovie ~ error:", error);
-  }
-}
-
-export async function indexSeriesByYear(seriesYear: number, isDebugging: boolean): Promise<void> {
-  // 0. Activate ThePirateBay provider
-  await tg.activate("ThePirateBay");
-
-  // 1. Get release and subtitle groups from DB
-  const releaseGroups = await getReleaseGroups(supabase);
-  const subtitleGroups = await getSubtitleGroups(supabase);
-
-  // 2. Get all series pages from TMDB
-  const { totalPages, totalResults } = await getTmdbTvShowsTotalPagesArray(seriesYear);
-  console.log(`\n1.1) Con un total de ${totalResults} series en el año ${seriesYear}`);
-  console.log(
-    `\n1.2) ${totalPages.at(
-      -1,
-    )} páginas (con ${20} pelis c/u), con un total de ${totalResults} titulos en el año ${seriesYear}`,
-    "\n",
-  );
-
-  // 3. Initiate progress bar
-  const totalMoviesResultBar = new cliProgress.SingleBar(
-    {
-      format: "[{bar}] {percentage}% | Procesando {value}/{total} páginas de TMDB",
-    },
-    cliProgress.Presets.shades_classic,
-  );
-  totalMoviesResultBar.start(totalPages.length, 0);
-  console.log("\n");
-
-  for await (const tmbdSeriesPage of totalPages) {
-    console.log(`\n2) Buscando en página ${tmbdSeriesPage} de TMDB \n`);
-
-    // 4. Update progress bar
-    console.log("\nProgreso total del indexador:\n");
-    totalMoviesResultBar.update(tmbdSeriesPage);
-
-    // 5. Get movies from TMDB
-    const tvShows = await getTvShowsFromTmdb(tmbdSeriesPage, seriesYear);
-
-    console.log(`\n\n3) titulos encontradas en página ${tmbdSeriesPage} \n`);
-    console.table(
-      tvShows.map(({ name, year, releaseDate, rating, episodes, totalSeasons, totalEpisodes }) => ({
-        name,
-        year,
-        releaseDate,
-        rating,
-        episodes,
-        totalSeasons,
-        totalEpisodes,
-      })),
-    );
-    console.log("\n");
-
-    for await (const [index, tvShow] of Object.entries(tvShows)) {
-      if (index === "0") {
-        continue;
-      }
-
-      if (isDebugging) {
-        const value = await confirm({
-          message: `¿Desea skippear el titulo ${tvShow.name}?`,
-        });
-
-        if (value === true) {
-          continue;
-        }
-      }
-
-      for await (const episode of tvShow.episodes) {
-        try {
-          // 4. Get subtitles from each movie
-          await getSubtitlesForTitle({
-            index,
-            currentTitle: { ...tvShow, episode },
-            releaseGroups,
-            subtitleGroups,
-            isDebugging,
-          });
-        } catch (error) {
-          console.log("mainIndexer => getSubtitlesForTvShow error =>", error);
-          console.error("Ningún subtítulo encontrado para la serie", tvShow.name);
-        }
-      }
-    }
-  }
 }
