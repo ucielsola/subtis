@@ -13,7 +13,7 @@ export const releaseGroupsRowSchema = z.object({
   file_attributes: z.array(z.string()),
   id: z.number(),
   is_supported: z.boolean().nullable(),
-  name: z.string(),
+  release_group_name: z.string(),
   searchable_opensubtitles_name: z.array(z.string()).nullable(),
   searchable_subdivx_name: z.array(z.string()),
 });
@@ -23,7 +23,7 @@ export const releaseGroupsInsertSchema = z.object({
   file_attributes: z.array(z.string()),
   id: z.number().optional(),
   is_supported: z.boolean().optional().nullable(),
-  name: z.string(),
+  release_group_name: z.string(),
   searchable_opensubtitles_name: z.array(z.string()).optional().nullable(),
   searchable_subdivx_name: z.array(z.string()),
 });
@@ -33,7 +33,7 @@ export const releaseGroupsUpdateSchema = z.object({
   file_attributes: z.array(z.string()).optional(),
   id: z.number().optional(),
   is_supported: z.boolean().optional().nullable(),
-  name: z.string().optional(),
+  release_group_name: z.string().optional(),
   searchable_opensubtitles_name: z.array(z.string()).optional().nullable(),
   searchable_subdivx_name: z.array(z.string()).optional(),
 });
@@ -41,21 +41,21 @@ export const releaseGroupsUpdateSchema = z.object({
 export const subtitleGroupsRowSchema = z.object({
   created_at: z.string(),
   id: z.number(),
-  name: z.string(),
+  subtitle_group_name: z.string(),
   website: z.string(),
 });
 
 export const subtitleGroupsInsertSchema = z.object({
   created_at: z.string().optional(),
   id: z.number().optional(),
-  name: z.string(),
+  subtitle_group_name: z.string(),
   website: z.string(),
 });
 
 export const subtitleGroupsUpdateSchema = z.object({
   created_at: z.string().optional(),
   id: z.number().optional(),
-  name: z.string().optional(),
+  subtitle_group_name: z.string().optional(),
   website: z.string().optional(),
 });
 
@@ -147,10 +147,10 @@ export const titlesRowSchema = z.object({
   backdrop: z.string().nullable(),
   created_at: z.string(),
   id: z.number(),
-  name: z.string(),
   poster: z.string().nullable(),
   rating: z.number(),
   release_date: z.string(),
+  title_name: z.string(),
   total_episodes: z.number().nullable(),
   total_seasons: z.number().nullable(),
   type: z.string(),
@@ -161,10 +161,10 @@ export const titlesInsertSchema = z.object({
   backdrop: z.string().optional().nullable(),
   created_at: z.string().optional(),
   id: z.number(),
-  name: z.string(),
   poster: z.string().optional().nullable(),
   rating: z.number(),
   release_date: z.string(),
+  title_name: z.string(),
   total_episodes: z.number().optional().nullable(),
   total_seasons: z.number().optional().nullable(),
   type: z.string(),
@@ -175,10 +175,10 @@ export const titlesUpdateSchema = z.object({
   backdrop: z.string().optional().nullable(),
   created_at: z.string().optional(),
   id: z.number().optional(),
-  name: z.string().optional(),
   poster: z.string().optional().nullable(),
   rating: z.number().optional(),
   release_date: z.string().optional(),
+  title_name: z.string().optional(),
   total_episodes: z.number().optional().nullable(),
   total_seasons: z.number().optional().nullable(),
   type: z.string().optional(),

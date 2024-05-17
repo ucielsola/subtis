@@ -9,7 +9,7 @@ export type Database = {
           file_attributes: string[];
           id: number;
           is_supported: boolean | null;
-          name: string;
+          release_group_name: string;
           searchable_opensubtitles_name: string[] | null;
           searchable_subdivx_name: string[];
         };
@@ -18,7 +18,7 @@ export type Database = {
           file_attributes: string[];
           id?: number;
           is_supported?: boolean | null;
-          name: string;
+          release_group_name: string;
           searchable_opensubtitles_name?: string[] | null;
           searchable_subdivx_name: string[];
         };
@@ -27,7 +27,7 @@ export type Database = {
           file_attributes?: string[];
           id?: number;
           is_supported?: boolean | null;
-          name?: string;
+          release_group_name?: string;
           searchable_opensubtitles_name?: string[] | null;
           searchable_subdivx_name?: string[];
         };
@@ -37,19 +37,19 @@ export type Database = {
         Row: {
           created_at: string;
           id: number;
-          name: string;
+          subtitle_group_name: string;
           website: string;
         };
         Insert: {
           created_at?: string;
           id?: number;
-          name: string;
+          subtitle_group_name: string;
           website: string;
         };
         Update: {
           created_at?: string;
           id?: number;
-          name?: string;
+          subtitle_group_name?: string;
           website?: string;
         };
         Relationships: [];
@@ -165,10 +165,10 @@ export type Database = {
           backdrop: string | null;
           created_at: string;
           id: number;
-          name: string;
           poster: string | null;
           rating: number;
           release_date: string;
+          title_name: string;
           total_episodes: number | null;
           total_seasons: number | null;
           type: string;
@@ -178,10 +178,10 @@ export type Database = {
           backdrop?: string | null;
           created_at?: string;
           id: number;
-          name: string;
           poster?: string | null;
           rating: number;
           release_date: string;
+          title_name: string;
           total_episodes?: number | null;
           total_seasons?: number | null;
           type: string;
@@ -191,10 +191,10 @@ export type Database = {
           backdrop?: string | null;
           created_at?: string;
           id?: number;
-          name?: string;
           poster?: string | null;
           rating?: number;
           release_date?: string;
+          title_name?: string;
           total_episodes?: number | null;
           total_seasons?: number | null;
           type?: string;

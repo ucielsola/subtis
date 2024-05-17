@@ -114,7 +114,9 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       }
 
       const supabase = getSupabaseClient(context);
-      const { name, year } = getTitleFileNameMetadata(videoFileName.data);
+      const { name, year } = getTitleFileNameMetadata({
+        titleFileName: videoFileName.data,
+      });
 
       const { data: movieData } = await supabase.from("Titles").select("id").match({ name, year }).single();
 

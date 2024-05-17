@@ -75,7 +75,7 @@ async function indexMoviesByYear(year: number, isDebugging: boolean): Promise<vo
   }
 }
 
-async function indexMovieByName(name: string) {
+export async function indexMovieByName(name: string) {
   try {
     await tg.activate("ThePirateBay");
 
@@ -98,7 +98,7 @@ async function indexMovieByName(name: string) {
 
 // MOVIES
 indexMoviesByYear(2023, false);
-// indexByMovieTitle("The Batman");
+// indexMovieByName("The Batman");
 
 // GENERAL
 saveReleaseGroupsToDb(supabase);

@@ -92,9 +92,9 @@ export async function mod(): Promise<void> {
 
     const {
       resolution,
-      movie: { name, year },
+      title: { title_name, year },
     } = subtitleByFileName.data;
-    outro(`🍿 Disfruta de ${chalk.bold(`${name} (${year})`)} en ${chalk.italic(resolution)} subtitulada`);
+    outro(`🍿 Disfruta de ${chalk.bold(`${title_name} (${year})`)} en ${chalk.italic(resolution)} subtitulada`);
 
     const shouldDownloadSubtitle = await confirm(`Desea descargar ${chalk.italic("automáticamente")} el subtítulo?`);
 

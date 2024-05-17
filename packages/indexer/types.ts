@@ -10,7 +10,7 @@ export type SubtitleData = {
   fileExtension: FileExtension;
   subtitleCompressedFileName: string;
   subtitleFileNameWithoutExtension: string;
-  subtitleGroup: SubtitleGroupNames;
+  subtitleGroupName: SubtitleGroupNames;
   subtitleLink: string;
   subtitleSrtFileName: string;
   lang: SupportedLanguages;

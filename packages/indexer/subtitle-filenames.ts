@@ -1,14 +1,14 @@
 import slugify from "slugify";
 
 export function generateSubtitleFileNames({
-  subtitleGroup,
+  subtitleGroupName,
   name,
   resolution,
   releaseGroupName,
   fileNameWithoutExtension,
   fileExtension,
 }: {
-  subtitleGroup: string;
+  subtitleGroupName: string;
   name: string;
   resolution: string;
   releaseGroupName: string;
@@ -20,14 +20,16 @@ export function generateSubtitleFileNames({
   subtitleCompressedFileName: string;
   subtitleFileNameWithoutExtension: string;
 } {
-  const subtitleSrtFileName = slugify(`${name}-${resolution}-${releaseGroupName}-${subtitleGroup}.srt`).toLowerCase();
+  const subtitleSrtFileName = slugify(
+    `${name}-${resolution}-${releaseGroupName}-${subtitleGroupName}.srt`,
+  ).toLowerCase();
   const downloadFileName = `${fileNameWithoutExtension}.srt`;
 
   const subtitleFileNameWithoutExtension = slugify(
-    `${name}-${resolution}-${releaseGroupName}-${subtitleGroup}`,
+    `${name}-${resolution}-${releaseGroupName}-${subtitleGroupName}`,
   ).toLowerCase();
   const subtitleCompressedFileName = slugify(
-    `${name}-${resolution}-${releaseGroupName}-${subtitleGroup}.${fileExtension}`,
+    `${name}-${resolution}-${releaseGroupName}-${subtitleGroupName}.${fileExtension}`,
   ).toLowerCase();
 
   return {

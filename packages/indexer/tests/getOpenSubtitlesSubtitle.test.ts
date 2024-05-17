@@ -2,13 +2,12 @@ import { expect, test } from "bun:test";
 
 // internals
 import { getOpenSubtitlesSubtitle } from "../opensubtitles";
-import type { ReleaseGroup } from "../release-groups";
 
 test("should return a subtitle link giving a movie, release group and quality", async () => {
-  const releaseGroup: ReleaseGroup = {
+  const releaseGroup = {
     file_attributes: [""],
     is_supported: false,
-    name: "YTS-MX",
+    release_group_name: "YTS-MX",
     searchable_opensubtitles_name: ["YTS.MX"],
     searchable_subdivx_name: ["YTS MX"],
   };
@@ -24,22 +23,23 @@ test("should return a subtitle link giving a movie, release group and quality", 
   const subtitle = await getOpenSubtitlesSubtitle({
     imdbId: 9224104,
     titleFileNameMetadata,
-  });
+    // biome-ignore lint/suspicious/noExplicitAny: only for testing purposes
+  } as any);
 
   expect(subtitle.subtitleLink).toBeTypeOf("string");
 
   expect(subtitle.fileExtension).toBe("srt");
-  expect(subtitle.subtitleGroup).toBe("OpenSubtitles");
+  expect(subtitle.subtitleGroupName).toBe("OpenSubtitles");
   expect(subtitle.subtitleSrtFileName).toBe("meg-2-the-trench-1080p-yts-mx-opensubtitles.srt");
   expect(subtitle.subtitleCompressedFileName).toBe("meg-2-the-trench-1080p-yts-mx-opensubtitles.srt");
   expect(subtitle.subtitleFileNameWithoutExtension).toBe("meg-2-the-trench-1080p-yts-mx-opensubtitles");
 });
 
 test("should return a subtitle link giving a movie, release group and quality", async () => {
-  const releaseGroup: ReleaseGroup = {
+  const releaseGroup = {
     file_attributes: [""],
     is_supported: false,
-    name: "YTS-MX",
+    release_group_name: "YTS-MX",
     searchable_opensubtitles_name: ["YTS.MX"],
     searchable_subdivx_name: ["YTS MX"],
   };
@@ -55,12 +55,13 @@ test("should return a subtitle link giving a movie, release group and quality", 
   const subtitle = await getOpenSubtitlesSubtitle({
     imdbId: 6848928,
     titleFileNameMetadata,
-  });
+    // biome-ignore lint/suspicious/noExplicitAny: only for testing purposes
+  } as any);
 
   expect(subtitle.subtitleLink).toBeTypeOf("string");
 
   expect(subtitle.fileExtension).toBe("srt");
-  expect(subtitle.subtitleGroup).toBe("OpenSubtitles");
+  expect(subtitle.subtitleGroupName).toBe("OpenSubtitles");
   expect(subtitle.subtitleSrtFileName).toBe("junk-head-1080p-yts-mx-opensubtitles.srt");
   expect(subtitle.subtitleCompressedFileName).toBe("junk-head-1080p-yts-mx-opensubtitles.srt");
   expect(subtitle.subtitleFileNameWithoutExtension).toBe("junk-head-1080p-yts-mx-opensubtitles");

@@ -38,7 +38,7 @@ enum TitleTypes {
   tvShow = "tvShow",
 }
 
-type SubtitleFile = {
+type TitleFile = {
   bytes: number;
   fileName: string;
   fileNameExtension: string;
@@ -46,29 +46,29 @@ type SubtitleFile = {
 
 type TitleWithEpisode = Pick<
   Title,
-  "id" | "name" | "rating" | "release_date" | "year" | "poster" | "backdrop" | "type"
+  "id" | "title_name" | "rating" | "release_date" | "year" | "poster" | "backdrop" | "type"
 > & {
   episode: string | null;
 };
 
+type SubtitleWithResolution = SubtitleData & { resolution: string };
+
 async function setSubtitlesToDatabase({
-  file,
   title,
-  releaseGroup,
-  releaseGroups,
-  resolution,
+  titleFile,
   subtitle,
-  subtitleGroup,
+  releaseGroups,
   subtitleGroups,
+  releaseGroupName,
+  subtitleGroupName,
 }: {
-  file: SubtitleFile;
+  titleFile: TitleFile;
   title: TitleWithEpisode;
-  releaseGroup: ReleaseGroupNames;
   releaseGroups: ReleaseGroupMap;
-  resolution: string;
-  subtitle: SubtitleData;
-  subtitleGroup: SubtitleGroupNames;
   subtitleGroups: SubtitleGroupMap;
+  subtitle: SubtitleWithResolution;
+  releaseGroupName: ReleaseGroupNames;
+  subtitleGroupName: SubtitleGroupNames;
 }): Promise<void> {
   try {
     const {
@@ -79,6 +79,7 @@ async function setSubtitlesToDatabase({
       subtitleFileNameWithoutExtension,
       subtitleLink,
       subtitleSrtFileName,
+      resolution,
     } = subtitle;
 
     // 1. Download subtitle to fs if file is compressed
@@ -184,11 +185,10 @@ async function setSubtitlesToDatabase({
     }
 
     // 15. Get release and subtitle group id
-    const { id: releaseGroupId } = releaseGroups[releaseGroup];
-    const { id: subtitleGroupId } = subtitleGroups[subtitleGroup];
+    const { id: subtitleGroupId } = subtitleGroups[subtitleGroupName];
+    const { id: releaseGroupId } = releaseGroups[releaseGroupName];
 
-    const { bytes, fileName, fileNameExtension } = file;
-
+    const { bytes, fileName, fileNameExtension } = titleFile;
     const { current_season, current_episode } = getSeasonAndEpisode(title.episode);
 
     // 16. Save subtitle to Supabase
@@ -219,10 +219,10 @@ async function setSubtitlesToDatabase({
     console.table([
       {
         imdbLink: getImdbLink(title.id),
-        name: title.name,
-        releaseGroup,
+        name: title.title_name,
+        releaseGroupName,
         resolution,
-        subtitleGroup,
+        subtitleGroupName,
         subtitleLink: `${subtitleLink.slice(0, 100)}...`,
       },
     ]);
@@ -343,9 +343,9 @@ export async function getSubtitlesForTitle({
   isDebugging: boolean;
 }): Promise<void> {
   createInitialFolders();
-  const titleTorrentQuery = getQueryForTorrentProvider(currentTitle);
+  const titleProviderQuery = getQueryForTorrentProvider(currentTitle);
 
-  const torrents = await getTitleTorrents(titleTorrentQuery);
+  const torrents = await getTitleTorrents(titleProviderQuery);
   const filteredTorrents = getFilteredTorrents(torrents);
 
   const { name, year, imdbId, rating, releaseDate, poster, backdrop, episode } = currentTitle;
@@ -356,7 +356,7 @@ export async function getSubtitlesForTitle({
   console.log(`4.${index}) Torrents (${filteredTorrents.length}) encontrados para el título "${name}" \n`);
   console.table(
     filteredTorrents.map(({ seeds, size, title, tracker }) => ({
-      query: titleTorrentQuery,
+      query: titleProviderQuery,
       seeds,
       size: prettyBytes(size ?? 0),
       title,
@@ -364,9 +364,9 @@ export async function getSubtitlesForTitle({
     })),
   );
 
-  clipboard.writeSync(titleTorrentQuery);
+  clipboard.writeSync(titleProviderQuery);
   console.log(
-    `👉 Nombre de titulo ${titleTorrentQuery} guardado en el clipboard, para poder pegar directamente en proveedor de torrents o subtítulos \n`,
+    `👉 Nombre de titulo ${titleProviderQuery} guardado en el clipboard, para poder pegar directamente en proveedor de torrents o subtítulos \n`,
   );
 
   for await (const [torrentIndex, torrent] of Object.entries(filteredTorrents)) {
@@ -392,7 +392,6 @@ export async function getSubtitlesForTitle({
       titleFileNameMetadata = getTitleFileNameMetadata({
         titleFileName: fileName,
         titleName: name,
-        titleQuery: titleTorrentQuery,
       });
     } catch (error) {
       console.log(`\nNo pudimos parsear ${fileName} correctamente`, error);
@@ -417,7 +416,7 @@ export async function getSubtitlesForTitle({
         name,
         year,
         resolution,
-        releaseGroup: releaseGroup.name,
+        releaseGroup: releaseGroup.release_group_name,
         fileName,
         fileNameExtension,
       },
@@ -426,11 +425,11 @@ export async function getSubtitlesForTitle({
     const enabledSubtitleProviders = getEnabledSubtitleProviders(subtitleGroups, ["SubDivX"]);
 
     for await (const [indexSubtitleProvider, enabledSubtitleProvider] of Object.entries(enabledSubtitleProviders)) {
-      const { getSubtitleFromProvider, id: subtitleGroupId, name } = enabledSubtitleProvider;
+      const { getSubtitleFromProvider, id: subtitleGroupId } = enabledSubtitleProvider;
 
       try {
         console.log(`4.${index}.${torrentIndex}.${indexSubtitleProvider}) Buscando subtítulo en ${name}`);
-        const subtitle = await getSubtitleFromProvider({ imdbId, titleFileNameMetadata });
+        const subtitle = await getSubtitleFromProvider({ imdbId, titleFileNameMetadata, titleProviderQuery });
 
         if (subtitle) {
           const exists = await hasSubtitleInDatabase(subtitleGroupId, fileName);
@@ -440,18 +439,21 @@ export async function getSubtitlesForTitle({
           }
         }
 
-        const { subtitleGroup } = subtitle;
-        console.log(`4.${index}.${torrentIndex}.${indexSubtitleProvider}) Subtítulo encontrado para ${subtitleGroup}`);
+        const { subtitleGroupName } = subtitle;
+        const { release_group_name: releaseGroupName } = releaseGroup;
+        console.log(
+          `4.${index}.${torrentIndex}.${indexSubtitleProvider}) Subtítulo encontrado para ${subtitleGroupName}`,
+        );
 
         await setSubtitlesToDatabase({
-          file: {
+          titleFile: {
             bytes,
             fileName,
             fileNameExtension,
           },
           title: {
             id: imdbId,
-            name,
+            title_name: name,
             rating,
             release_date: releaseDate,
             year,
@@ -460,11 +462,10 @@ export async function getSubtitlesForTitle({
             type: TitleTypes.movie,
             episode,
           },
-          releaseGroup: releaseGroup.name as ReleaseGroupNames,
+          releaseGroupName,
+          subtitleGroupName,
+          subtitle: { ...subtitle, resolution },
           releaseGroups,
-          resolution,
-          subtitle,
-          subtitleGroup,
           subtitleGroups,
         });
       } catch (error) {

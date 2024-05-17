@@ -4,9 +4,9 @@ import { z } from "zod";
 // shared
 import type { TitleFileNameMetadata } from "@subtis/shared";
 
+// internals
 import { generateSubtitleFileNames } from "./subtitle-filenames";
 import { SUBTITLE_GROUPS } from "./subtitle-groups";
-// internals
 import type { SubtitleData } from "./types";
 
 // constants
@@ -112,8 +112,13 @@ export async function getOpenSubtitlesSubtitle({
   titleFileNameMetadata: TitleFileNameMetadata;
 }): Promise<SubtitleData> {
   const { fileNameWithoutExtension, name, releaseGroup, resolution } = titleFileNameMetadata;
+
   if (!releaseGroup) {
     throw new Error("release group undefined");
+  }
+
+  if (!name) {
+    throw new Error("name undefined");
   }
 
   invariant(
@@ -157,22 +162,22 @@ export async function getOpenSubtitlesSubtitle({
 
   const fileExtension = "srt";
   const subtitleLink = parsedDownloadData.link;
-  const subtitleGroup = SUBTITLE_GROUPS.OPEN_SUBTITLES.name;
+  const subtitleGroupName = SUBTITLE_GROUPS.OPEN_SUBTITLES.subtitle_group_name;
 
   const subtitleFileNames = generateSubtitleFileNames({
     name,
     resolution,
-    subtitleGroup,
     fileExtension,
+    subtitleGroupName,
     fileNameWithoutExtension,
-    releaseGroupName: releaseGroup.name,
+    releaseGroupName: releaseGroup.release_group_name,
   });
 
   return {
     lang: "es",
     subtitleLink,
     fileExtension,
-    subtitleGroup,
+    subtitleGroupName,
     ...subtitleFileNames,
   };
 }

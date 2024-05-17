@@ -3,18 +3,18 @@ import invariant from "tiny-invariant";
 // db
 import type { SupabaseClient } from "@subtis/db";
 
-import { getOpenSubtitlesSubtitle } from "./opensubtitles";
 // internals
+import { getOpenSubtitlesSubtitle } from "./opensubtitles";
 import { getSubDivXSubtitle } from "./subdivx";
 
 // constants
 export const SUBTITLE_GROUPS = {
   OPEN_SUBTITLES: {
-    name: "OpenSubtitles",
+    subtitle_group_name: "OpenSubtitles",
     website: "https://www.opensubtitles.org",
   },
   SUBDIVX: {
-    name: "SubDivX",
+    subtitle_group_name: "SubDivX",
     website: "https://subdivx.com",
   },
 } as const;
@@ -28,7 +28,7 @@ const SUBTITLE_GROUPS_GETTERS = {
 
 // types
 export type SubtitleGroup = {
-  name: string;
+  subtitle_group_name: string;
   website: string;
 };
 
@@ -39,7 +39,7 @@ export type SubtitleGroupMap = {
   };
 };
 
-export type SubtitleGroupNames = (typeof SUBTITLE_GROUPS)[keyof typeof SUBTITLE_GROUPS]["name"];
+export type SubtitleGroupNames = (typeof SUBTITLE_GROUPS)[keyof typeof SUBTITLE_GROUPS]["subtitle_group_name"];
 
 type SubtitleGroupKeys = keyof typeof SUBTITLE_GROUPS;
 
@@ -50,7 +50,9 @@ export async function saveSubtitleGroupsToDb(supabaseClient: SupabaseClient): Pr
   for (const subtitleGroupKey in SUBTITLE_GROUPS) {
     const subtitleGroup = SUBTITLE_GROUPS[subtitleGroupKey as SubtitleGroupKeys];
 
-    const subtitleGroupExists = data?.find((subtitleGrouInDb) => subtitleGrouInDb.name === subtitleGroup.name);
+    const subtitleGroupExists = data?.find(
+      (subtitleGrouInDb) => subtitleGrouInDb.subtitle_group_name === subtitleGroup.subtitle_group_name,
+    );
     if (subtitleGroupExists) {
       continue;
     }
@@ -62,10 +64,10 @@ export async function saveSubtitleGroupsToDb(supabaseClient: SupabaseClient): Pr
 export function getEnabledSubtitleProviders(subtitleGroups: SubtitleGroupMap, providers: SubtitleGroupNames[]) {
   return Object.values(subtitleGroups)
     .map((subtitleGroup) => {
-      const subtitleGroupGetter = SUBTITLE_GROUPS_GETTERS[subtitleGroup.name as SubtitleGroupNames];
+      const subtitleGroupGetter = SUBTITLE_GROUPS_GETTERS[subtitleGroup.subtitle_group_name as SubtitleGroupNames];
       return { ...subtitleGroup, getSubtitleFromProvider: subtitleGroupGetter };
     })
-    .filter((subtitleGroup) => providers.includes(subtitleGroup.name));
+    .filter((subtitleGroup) => providers.includes(subtitleGroup.subtitle_group_name));
 }
 
 // core
@@ -73,7 +75,10 @@ export async function getSubtitleGroups(supabaseClient: SupabaseClient): Promise
   const { data } = await supabaseClient.from("SubtitleGroups").select("*");
   invariant(data, "SubtitleGroups not found in database");
 
-  const subtitleGroups = data.reduce((acc, subtitleGroup) => ({ ...acc, [subtitleGroup.name]: subtitleGroup }), {});
+  const subtitleGroups = data.reduce(
+    (acc, subtitleGroup) => ({ ...acc, [subtitleGroup.subtitle_group_name]: subtitleGroup }),
+    {},
+  );
 
   return subtitleGroups as SubtitleGroupMap;
 }

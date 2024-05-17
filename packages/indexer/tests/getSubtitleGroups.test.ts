@@ -9,11 +9,11 @@ import { getSubtitleGroups } from "../subtitle-groups";
 // mocks
 const SUBTITLE_GROUPS_MOCK = {
   OpenSubtitles: {
-    name: "OpenSubtitles",
+    subtitle_group_name: "OpenSubtitles",
     website: "https://www.opensubtitles.org",
   },
   SubDivX: {
-    name: "SubDivX",
+    subtitle_group_name: "SubDivX",
     website: "https://subdivx.com",
   },
 };

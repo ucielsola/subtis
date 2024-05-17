@@ -2,31 +2,23 @@ import { P, match } from "ts-pattern";
 import { z } from "zod";
 
 // indexer
-import { RELEASE_GROUPS, type ReleaseGroup } from "@subtis/indexer/release-groups";
+import { RELEASE_GROUPS } from "@subtis/indexer/release-groups";
 
 // internals
 import { VIDEO_FILE_EXTENSIONS } from "../../files";
 import { getMovieFileNameWithoutExtension } from "../get-movie-file-name-without-extension/get-movie-file-name-without-extension";
+import { getTitleName } from "../get-title-name";
 
 // types
-export type TitleFileNameMetadata = {
-  fileNameWithoutExtension: string;
-  name: string;
-  releaseGroup: ReleaseGroup | undefined;
-  resolution: string;
-  searchableQuery: string;
-  year: number;
-};
+export type TitleFileNameMetadata = ReturnType<typeof getTitleFileNameMetadata>;
 
 export function getTitleFileNameMetadata({
   titleFileName,
   titleName,
-  titleQuery,
 }: {
   titleFileName: string;
-  titleName: string;
-  titleQuery: string;
-}): TitleFileNameMetadata {
+  titleName?: string;
+}) {
   const FIRST_MOVIE_RECORDED = 1888;
   const currentYear = new Date().getFullYear();
 
@@ -44,7 +36,8 @@ export function getTitleFileNameMetadata({
       continue;
     }
 
-    const [_rawName, rawAttributes] = parsedMovieFileName.split(yearStringToReplace);
+    const [rawTitleName, rawAttributes] = parsedMovieFileName.split(yearStringToReplace);
+    const parsedTitleName = getTitleName(rawTitleName);
 
     const lowerCaseRawAttributes = rawAttributes.toLowerCase();
     const parsedRawAttributes = lowerCaseRawAttributes.includes("YTS")
@@ -88,13 +81,12 @@ export function getTitleFileNameMetadata({
 
     return {
       fileNameWithoutExtension,
-      name: titleName,
-      releaseGroup: releaseGroup as unknown as ReleaseGroup,
+      name: titleName || parsedTitleName,
+      releaseGroup,
       resolution,
-      searchableQuery: titleQuery,
       year,
     };
   }
 
-  throw new Error("Unsupported year movie");
+  throw new Error("Unsupported title year");
 }

@@ -4,8 +4,8 @@ import { z } from "zod";
 // shared
 import type { TitleFileNameMetadata } from "@subtis/shared";
 
-import { generateSubtitleFileNames } from "./subtitle-filenames";
 // internals
+import { generateSubtitleFileNames } from "./subtitle-filenames";
 import { SUBTITLE_GROUPS } from "./subtitle-groups";
 import type { FileExtension, SubtitleData } from "./types";
 import { getIsLinkAlive } from "./utils";
@@ -43,18 +43,20 @@ const subdivxSchema = z.object({
 // core
 export async function getSubDivXSubtitle({
   titleFileNameMetadata,
+  titleProviderQuery,
 }: {
+  titleProviderQuery?: string;
   titleFileNameMetadata: TitleFileNameMetadata;
   page?: string;
 }): Promise<SubtitleData> {
-  const { fileNameWithoutExtension, name, releaseGroup, resolution, searchableQuery } = titleFileNameMetadata;
+  const { fileNameWithoutExtension, name, releaseGroup, resolution } = titleFileNameMetadata;
 
   if (!releaseGroup) {
     throw new Error("release group undefined");
   }
 
   const response = await fetch(`${SUBDIVX_BASE_URL}/inc/ajax.php`, {
-    body: `tabla=resultados&filtros=&buscar=${searchableQuery}`,
+    body: `tabla=resultados&filtros=&buscar=${titleProviderQuery}`,
     headers: {
       "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
     },
@@ -98,22 +100,22 @@ export async function getSubDivXSubtitle({
   invariant(subtitleLink, `[${SUBDIVX_BREADCRUMB_ERROR}]: Subtitle link should be alive`);
   invariant(fileExtension, `[${SUBDIVX_BREADCRUMB_ERROR}]: Subtitle file extension should be defined`);
 
-  const subtitleGroup = SUBTITLE_GROUPS.SUBDIVX.name;
+  const subtitleGroupName = SUBTITLE_GROUPS.SUBDIVX.subtitle_group_name;
 
   const subtitleFileNames = generateSubtitleFileNames({
     name,
     resolution,
-    subtitleGroup,
+    subtitleGroupName,
     fileExtension,
     fileNameWithoutExtension,
-    releaseGroupName: releaseGroup.name,
+    releaseGroupName: releaseGroup.release_group_name,
   });
 
   return {
     lang: "es",
     subtitleLink,
     fileExtension,
-    subtitleGroup,
+    subtitleGroupName,
     ...subtitleFileNames,
   };
 }

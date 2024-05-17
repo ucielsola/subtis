@@ -9,13 +9,13 @@ import { type AppVariables, getSupabaseClient } from "../shared";
 import { titlesRowSchema } from "@subtis/db/schemas";
 
 // schemas
-const movieSchema = titlesRowSchema.pick({ id: true, name: true, year: true });
+const movieSchema = titlesRowSchema.pick({ id: true, title_name: true, year: true });
 const moviesSchema = z.array(movieSchema).min(1);
 
 const movieRecentSchema = titlesRowSchema.pick({
   id: true,
+  title_name: true,
   year: true,
-  name: true,
   rating: true,
   release_date: true,
 });
@@ -24,11 +24,11 @@ const recentMovieSchema = z
   .min(1, { message: "Recent movies not found" });
 
 // queries
-const moviesRecentQuery = `
+const recentTitlesQuery = `
   id,
-  name,
   year,
   rating,
+  title_name,
   release_date
 `;
 
@@ -52,7 +52,7 @@ export const movies = new Hono<{ Variables: AppVariables }>()
 
     const { data } = await getSupabaseClient(context)
       .from("Titles")
-      .select(moviesRecentQuery)
+      .select(recentTitlesQuery)
       .order("release_date", { ascending: false })
       .limit(Number(limit));
 
