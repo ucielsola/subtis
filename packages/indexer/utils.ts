@@ -20,7 +20,7 @@ export function getRandomDelay(
   return { miliseconds: seconds * 1000, seconds };
 }
 
-export function getSubtitleAuthor(subtitleFile: Buffer): null | string {
+export function getSubtitleAuthor(subtitleFile: Buffer): string | null {
   let author: null | string = null;
   const subtitleString = subtitleFile.toString("utf8");
 

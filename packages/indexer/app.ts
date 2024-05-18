@@ -53,7 +53,219 @@ type TitleWithEpisode = Pick<
 
 type SubtitleWithResolution = SubtitleData & { resolution: string };
 
-async function setSubtitlesToDatabase({
+// helpers
+async function downloadSubtitle(subtitle: SubtitleWithResolution): Promise<void> {
+  const { fileExtension, subtitleCompressedFileName, subtitleLink } = subtitle;
+
+  const subtitlesFolderAbsolutePath = path.join(__dirname, "..", "indexer", COMPRESSED_SUBTITLES_FOLDER_NAME);
+
+  if (["rar", "zip"].includes(fileExtension)) {
+    await download(subtitleLink, subtitlesFolderAbsolutePath, {
+      filename: subtitleCompressedFileName,
+    });
+  }
+}
+
+function getSubtitleAbsolutePaths(subtitle: SubtitleWithResolution) {
+  const { subtitleCompressedFileName, subtitleFileNameWithoutExtension } = subtitle;
+
+  const subtitleCompressedAbsolutePath = path.join(
+    __dirname,
+    "..",
+    "indexer",
+    COMPRESSED_SUBTITLES_FOLDER_NAME,
+    subtitleCompressedFileName,
+  );
+  const extractedSubtitlePath = path.join(
+    __dirname,
+    "..",
+    "indexer",
+    UNCOMPRESSED_SUBTITLES_FOLDER_NAME,
+    subtitleFileNameWithoutExtension,
+  );
+
+  return { subtitleCompressedAbsolutePath, extractedSubtitlePath };
+}
+
+async function uncompressSubtitle({
+  subtitle,
+  fromRoute,
+  toRoute,
+}: {
+  subtitle: SubtitleWithResolution;
+  fromRoute: string;
+  toRoute: string;
+}): Promise<void> {
+  const { fileExtension, subtitleLink, subtitleSrtFileName } = subtitle;
+
+  fs.mkdirSync(toRoute, { recursive: true });
+
+  await match(fileExtension)
+    .with("rar", async () => {
+      await unrar.uncompress({
+        command: "e",
+        dest: toRoute,
+        src: fromRoute,
+        switches: ["-o+", "-idcd"],
+      });
+    })
+    .with("zip", async () => {
+      await extract(fromRoute, { dir: toRoute });
+    })
+    .with("srt", async () => {
+      await download(subtitleLink, toRoute, {
+        filename: subtitleSrtFileName,
+      });
+    })
+    .exhaustive();
+}
+
+const uploadSupabaseSchema = z.object({
+  fullPath: z.string(),
+});
+
+function readSubtitleFile({
+  subtitle,
+  extractedSubtitlePath,
+}: {
+  subtitle: SubtitleWithResolution;
+  extractedSubtitlePath: string;
+}): Buffer {
+  const { fileExtension, subtitleFileNameWithoutExtension, subtitleSrtFileName } = subtitle;
+
+  let subtitleFileToUpload: Buffer | undefined;
+
+  if (["rar", "zip"].includes(fileExtension)) {
+    const extractedSubtitleFiles = fs.readdirSync(extractedSubtitlePath);
+
+    const srtFile = extractedSubtitleFiles.find((file) => path.extname(file).toLowerCase() === ".srt");
+    invariant(srtFile, "SRT file not found");
+
+    const extractedSrtFileNamePath = path.join(
+      __dirname,
+      "..",
+      "indexer",
+      UNCOMPRESSED_SUBTITLES_FOLDER_NAME,
+      subtitleFileNameWithoutExtension,
+      srtFile,
+    );
+
+    subtitleFileToUpload = fs.readFileSync(extractedSrtFileNamePath);
+  }
+
+  if (fileExtension === "srt") {
+    const srtFileNamePath = path.join(
+      __dirname,
+      "..",
+      "indexer",
+      UNCOMPRESSED_SUBTITLES_FOLDER_NAME,
+      subtitleFileNameWithoutExtension,
+      subtitleSrtFileName,
+    );
+    subtitleFileToUpload = fs.readFileSync(srtFileNamePath);
+  }
+
+  const bufferSchema = z.instanceof(Buffer);
+  const subtitleFileToUploadBuffer = bufferSchema.parse(subtitleFileToUpload);
+
+  return subtitleFileToUploadBuffer;
+}
+
+async function storeSubtitleInSupabaseStorage({
+  subtitle,
+  subtitleFileToUpload,
+}: {
+  subtitle: SubtitleWithResolution;
+  subtitleFileToUpload: Buffer;
+}): Promise<string> {
+  const { subtitleSrtFileName } = subtitle;
+
+  const { data } = await supabase.storage.from("subtitles").upload(subtitleSrtFileName, subtitleFileToUpload, {
+    contentType: "text/plain;charset=UTF-8",
+    upsert: true,
+  });
+
+  const { fullPath } = uploadSupabaseSchema.parse(data);
+
+  return fullPath;
+}
+
+function getSupabaseSubtitleLink({
+  fullPath,
+  subtitle,
+}: {
+  fullPath: string;
+  subtitle: SubtitleWithResolution;
+}): string {
+  const { downloadFileName } = subtitle;
+  const publicUrlGenerated = `${process.env.SUPABASE_BASE_URL}/storage/v1/object/public/${fullPath}?download=`;
+
+  return `${publicUrlGenerated}${downloadFileName}`;
+}
+
+async function storeTitleInSupabaseTable(title: TitleWithEpisode): Promise<void> {
+  const { data: titleData } = await supabase.from("Titles").select("*").match({ id: title.id });
+
+  if (Array.isArray(titleData) && !titleData.length) {
+    const { episode, ...rest } = title;
+    await supabase.from("Titles").insert(rest);
+  }
+}
+
+async function storeSubtitleInSupabaseTable({
+  title,
+  titleFile,
+  subtitle,
+  author,
+  subtitleLink,
+  subtitleGroups,
+  releaseGroups,
+  subtitleGroupName,
+  releaseGroupName,
+}: {
+  title: TitleWithEpisode;
+  titleFile: TitleFile;
+  subtitle: SubtitleWithResolution;
+  author: string | null;
+  subtitleLink: string;
+  subtitleGroups: SubtitleGroupMap;
+  releaseGroups: ReleaseGroupMap;
+  subtitleGroupName: SubtitleGroupNames;
+  releaseGroupName: ReleaseGroupNames;
+}): Promise<void> {
+  const { lang, downloadFileName, resolution } = subtitle;
+
+  const { id: subtitleGroupId } = subtitleGroups[subtitleGroupName];
+  const { id: releaseGroupId } = releaseGroups[releaseGroupName];
+
+  const { bytes, fileName, fileNameExtension } = titleFile;
+  const { current_season, current_episode } = getSeasonAndEpisode(title.episode);
+
+  const { error } = await supabase.from("Subtitles").insert({
+    lang,
+    author,
+    reviewed: true,
+    uploaded_by: "indexer",
+    bytes,
+    file_extension: fileNameExtension,
+    title_file_name: fileName,
+    subtitle_file_name: downloadFileName,
+    title_id: title.id,
+    release_group_id: releaseGroupId,
+    resolution,
+    subtitle_group_id: subtitleGroupId,
+    subtitle_link: subtitleLink,
+    current_season,
+    current_episode,
+  });
+
+  if (error) {
+    console.log("\n Error al guardar el subtítulo en la base de datos", error);
+    throw error;
+  }
+}
+
+async function downloadAndStoreTitleAndSubtitle({
   title,
   titleFile,
   subtitle,
@@ -71,159 +283,44 @@ async function setSubtitlesToDatabase({
   subtitleGroupName: SubtitleGroupNames;
 }): Promise<void> {
   try {
-    const {
-      lang,
-      downloadFileName,
-      fileExtension,
-      subtitleCompressedFileName,
-      subtitleFileNameWithoutExtension,
-      subtitleLink,
-      subtitleSrtFileName,
-      resolution,
-    } = subtitle;
+    await downloadSubtitle(subtitle);
 
-    // 1. Download subtitle to fs if file is compressed
-    const subtitlesFolderAbsolutePath = path.join(__dirname, "..", "indexer", COMPRESSED_SUBTITLES_FOLDER_NAME);
+    const { subtitleCompressedAbsolutePath, extractedSubtitlePath } = getSubtitleAbsolutePaths(subtitle);
+    await uncompressSubtitle({ subtitle, fromRoute: subtitleCompressedAbsolutePath, toRoute: extractedSubtitlePath });
 
-    if (["rar", "zip"].includes(fileExtension)) {
-      await download(subtitleLink, subtitlesFolderAbsolutePath, {
-        filename: subtitleCompressedFileName,
-      });
-    }
+    const subtitleFileToUpload = readSubtitleFile({ subtitle, extractedSubtitlePath });
+    const author = getSubtitleAuthor(subtitleFileToUpload);
 
-    // 2. Create path to downloaded subtitles
-    const subtitleAbsolutePath = path.join(__dirname, "..", "indexer", COMPRESSED_SUBTITLES_FOLDER_NAME, subtitleCompressedFileName);
+    const fullPath = await storeSubtitleInSupabaseStorage({ subtitle, subtitleFileToUpload });
+    const subtitleLink = getSupabaseSubtitleLink({ fullPath, subtitle });
 
-    // 3. Create path to extracted subtitles
-    const extractedSubtitlePath = path.join(__dirname, "..", "indexer", UNCOMPRESSED_SUBTITLES_FOLDER_NAME, subtitleFileNameWithoutExtension);
-
-    // 4. Handle compressed zip/rar files or srt files
-    fs.mkdirSync(extractedSubtitlePath, { recursive: true });
-
-    await match(fileExtension)
-      .with("rar", async () => {
-        await unrar.uncompress({
-          command: "e",
-          dest: extractedSubtitlePath,
-          src: subtitleAbsolutePath,
-          switches: ["-o+", "-idcd"],
-        });
-      })
-      .with("zip", async () => {
-        await extract(subtitleAbsolutePath, { dir: extractedSubtitlePath });
-      })
-      .with("srt", async () => {
-        await download(subtitleLink, extractedSubtitlePath, {
-          filename: subtitleSrtFileName,
-        });
-      })
-      .exhaustive();
-
-    let srtFileToUpload: Buffer | unknown;
-
-    if (["rar", "zip"].includes(fileExtension)) {
-      const extractedSubtitleFiles = fs.readdirSync(extractedSubtitlePath);
-
-      const srtFile = extractedSubtitleFiles.find((file) => path.extname(file).toLowerCase() === ".srt");
-      invariant(srtFile, "SRT file not found");
-
-      const extractedSrtFileNamePath = path.join(
-        __dirname,
-        "..",
-        "indexer",
-        UNCOMPRESSED_SUBTITLES_FOLDER_NAME,
-        subtitleFileNameWithoutExtension,
-        srtFile,
-      );
-
-      srtFileToUpload = fs.readFileSync(extractedSrtFileNamePath);
-    }
-
-    if (fileExtension === "srt") {
-      const srtFileNamePath = path.join(
-        __dirname,
-        "..",
-        "indexer",
-        UNCOMPRESSED_SUBTITLES_FOLDER_NAME,
-        subtitleFileNameWithoutExtension,
-        subtitleSrtFileName,
-      );
-      srtFileToUpload = fs.readFileSync(srtFileNamePath);
-    }
-
-    // 10. Get author
-    const bufferSchema = z.instanceof(Buffer);
-    const srtFileToUploadBuffer = bufferSchema.parse(srtFileToUpload);
-    const author = getSubtitleAuthor(srtFileToUploadBuffer);
-
-    // 10. Upload SRT file to Supabase storage
-    await supabase.storage.from("subtitles").upload(subtitleSrtFileName, srtFileToUploadBuffer, {
-      contentType: "text/plain;charset=UTF-8",
-      upsert: true,
-    });
-
-    // 11. Remove files and folders from fs to avoid collition with others subtitle groups
-    // await rimraf([subtitleAbsolutePath, extractedSubtitlePath]);
-
-    // 12. Save SRT to Supabase and get public URL for SRT file
-    const {
-      data: { publicUrl },
-    } = await supabase.storage.from("subtitles").getPublicUrl(subtitleSrtFileName, { download: true });
-
-    // 13. Append download file name to public URL so it matches movie file name
-    const subtitleLinkWithDownloadFileName = `${publicUrl}${downloadFileName}`;
-
-    // 13. Get movie by ID
-    const { data: titleData } = await supabase.from("Titles").select("*").match({ id: title.id });
-
-    invariant(titleData, "Movie not found");
-
-    // 14. Save titlte to Supabase if is not yet saved
-    if (Array.isArray(titleData) && !titleData.length) {
-      const { episode, ...rest } = title;
-      await supabase.from("Titles").insert(rest).select();
-    }
-
-    // 15. Get release and subtitle group id
-    const { id: subtitleGroupId } = subtitleGroups[subtitleGroupName];
-    const { id: releaseGroupId } = releaseGroups[releaseGroupName];
-
-    const { bytes, fileName, fileNameExtension } = titleFile;
-    const { current_season, current_episode } = getSeasonAndEpisode(title.episode);
-
-    // 16. Save subtitle to Supabase
-    await supabase.from("Subtitles").insert({
-      lang,
+    await storeTitleInSupabaseTable(title);
+    await storeSubtitleInSupabaseTable({
+      title,
+      titleFile,
+      subtitle,
       author,
-      reviewed: true,
-      uploaded_by: "indexer",
-      bytes,
-      file_extension: fileNameExtension,
-      title_file_name: fileName,
-      subtitle_file_name: downloadFileName,
-      title_id: title.id,
-      release_group_id: releaseGroupId,
-      resolution,
-      subtitle_group_id: subtitleGroupId,
-      subtitle_link: subtitleLinkWithDownloadFileName,
-      current_season,
-      current_episode,
+      subtitleLink,
+      subtitleGroups,
+      releaseGroups,
+      subtitleGroupName,
+      releaseGroupName,
     });
 
     // play sound when a subtitle was found
     console.log("\n✅ Subtítulo guardado en la base de datos!\n");
 
-    const successSoundPath = path.join(__dirname, "..", "indexer", "success_short_high.wav");
-    sound.play(successSoundPath);
+    // const successSoundPath = path.join(__dirname, "..", "indexer", "success_short_high.wav");
+    // sound.play(successSoundPath);
 
     console.table([
       {
         imdbLink: getImdbLink(title.id),
         name: title.title_name,
         releaseGroupName,
-        resolution,
+        resolution: subtitle.resolution,
         subtitleGroupName,
-        subtitleLink: `${subtitleLink.slice(0, 100)}...`,
+        subtitleLink: `${subtitle.subtitleLink.slice(0, 100)}...`,
       },
     ]);
   } catch (error) {
@@ -231,6 +328,8 @@ async function setSubtitlesToDatabase({
     console.log("\n ~ error message:", error instanceof Error ? error.message : "");
   }
 }
+
+// -------------------------------------------------------------------------------------------------------------------------------
 
 type TmdbMovie = TmdbTitle & { episode: null };
 type TmdbTvShowEpisode = TmdbTvShow & { episode: string };
@@ -449,7 +548,7 @@ export async function getSubtitlesForTitle({
           `4.${index}.${torrentIndex}.${indexSubtitleProvider}) Subtítulo encontrado para ${subtitleGroupName}`,
         );
 
-        await setSubtitlesToDatabase({
+        await downloadAndStoreTitleAndSubtitle({
           titleFile: {
             bytes,
             fileName,
