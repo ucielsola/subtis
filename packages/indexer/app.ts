@@ -310,8 +310,8 @@ async function downloadAndStoreTitleAndSubtitle({
     // play sound when a subtitle was found
     console.log("\n✅ Subtítulo guardado en la base de datos!\n");
 
-    // const successSoundPath = path.join(__dirname, "..", "indexer", "success_short_high.wav");
-    // sound.play(successSoundPath);
+    const successSoundPath = path.join(__dirname, "..", "indexer", "success_short_high.wav");
+    sound.play(successSoundPath);
 
     console.table([
       {
@@ -562,7 +562,7 @@ export async function getSubtitlesForTitle({
             year,
             poster,
             backdrop,
-            type: TitleTypes.movie,
+            type: episode ? TitleTypes.tvShow : TitleTypes.movie,
             episode,
           },
           releaseGroupName,

@@ -48,7 +48,7 @@ async function indexMoviesByYear(year: number, isDebugging: boolean): Promise<vo
 
       for await (const [index, movie] of Object.entries(movies)) {
         if (isDebugging) {
-          const value = await confirm(`¿Desea skippear el titulo ${movie.name}?`);
+          const value = confirm(`¿Desea skippear el titulo ${movie.name}?`);
 
           if (value === true) {
             continue;
@@ -79,12 +79,12 @@ export async function indexMovieByName(name: string) {
   try {
     await tg.activate("ThePirateBay");
 
-    const releaseGroups = await getReleaseGroups(supabase);
+      const releaseGroups = await getReleaseGroups(supabase);
     const subtitleGroups = await getSubtitleGroups(supabase);
 
     const movie = await getTmdbMovieFromTitle(name);
 
-    await getSubtitlesForTitle({
+        await getSubtitlesForTitle({
       index: "1",
       currentTitle: { ...movie, episode: null },
       releaseGroups,

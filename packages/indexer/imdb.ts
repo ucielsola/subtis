@@ -7,6 +7,5 @@ export function getStripedImdbId(imdbId: string): number {
 }
 
 export function getImdbLink(imdbId: number): string {
-  const parsedImdbId = getFullImdbId(imdbId);
-  return `https://www.imdb.com/title/${parsedImdbId}`;
+  return `https://www.imdb.com/title/${getFullImdbId(imdbId)}`;
 }
