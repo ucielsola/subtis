@@ -79,12 +79,12 @@ export async function indexMovieByName(name: string) {
   try {
     await tg.activate("ThePirateBay");
 
-      const releaseGroups = await getReleaseGroups(supabase);
+    const releaseGroups = await getReleaseGroups(supabase);
     const subtitleGroups = await getSubtitleGroups(supabase);
 
     const movie = await getTmdbMovieFromTitle(name);
 
-        await getSubtitlesForTitle({
+    await getSubtitlesForTitle({
       index: "1",
       currentTitle: { ...movie, episode: null },
       releaseGroups,
