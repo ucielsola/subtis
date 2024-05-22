@@ -7,12 +7,11 @@ import clipboard from "clipboardy";
 import download from "download";
 import extract from "extract-zip";
 import prettyBytes from "pretty-bytes";
-import replaceSpecialCharacters from "replace-special-characters";
 import sound from "sound-play";
 import invariant from "tiny-invariant";
 import tg from "torrent-grabber";
 import torrentStream, { type File } from "torrent-stream";
-import { P, match } from "ts-pattern";
+import { match } from "ts-pattern";
 import type { ArrayValues, AsyncReturnType } from "type-fest";
 import { z } from "zod";
 
@@ -31,6 +30,7 @@ import { type SubtitleGroupMap, type SubtitleGroupNames, getEnabledSubtitleProvi
 import type { TmdbTitle, TmdbTvShow } from "./tmdb";
 import type { SubtitleData } from "./types";
 import { getSubtitleAuthor } from "./utils";
+import { getQueryForTorrentProvider } from "./utils/query";
 
 // enum
 enum TitleTypes {
@@ -333,7 +333,7 @@ async function downloadAndStoreTitleAndSubtitle({
 
 type TmdbMovie = TmdbTitle & { episode: null };
 type TmdbTvShowEpisode = TmdbTvShow & { episode: string };
-type CurrentTitle = TmdbMovie | TmdbTvShowEpisode;
+export type CurrentTitle = TmdbMovie | TmdbTvShowEpisode;
 
 // helpers
 function getSeasonAndEpisode(fullSeason: string | null): {
@@ -362,16 +362,6 @@ function createInitialFolders(): void {
       fs.mkdirSync(folderPath);
     }
   }
-}
-
-function getQueryForTorrentProvider(title: CurrentTitle): string {
-  const { name, year, episode } = title;
-  const parsedName = replaceSpecialCharacters(name.replace(/'/g, ""));
-
-  return match(episode)
-    .with(null, () => `${parsedName} ${year}`)
-    .with(P.string, () => `${parsedName} ${episode}`)
-    .exhaustive();
 }
 
 type PromiseTorrentResults = ReturnType<typeof tg.search>;
