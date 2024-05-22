@@ -241,10 +241,10 @@ const TMDB_OPTIONS = {
 // helpers
 function generateTmdbDiscoverMovieUrl(page: number, year: number, isDebugging: boolean) {
   if (isDebugging) {
-    return `https://api.themoviedb.org/3/discover/movie?language=en-US&page=${page}`;
+    return `https://api.themoviedb.org/3/discover/movie?language=es-ES&page=${page}`;
   }
 
-  return `https://api.themoviedb.org/3/discover/movie?language=en-US&page=${page}&primary_release_date.gte=${dayjs(
+  return `https://api.themoviedb.org/3/discover/movie?language=es-ES&page=${page}&primary_release_date.gte=${dayjs(
     `${year}`,
   )
     .startOf("year")
@@ -254,7 +254,7 @@ function generateTmdbDiscoverMovieUrl(page: number, year: number, isDebugging: b
 }
 
 function generateTmdbDiscoverSeriesUrl(page: number, year: number) {
-  return `https://api.themoviedb.org/3/discover/tv?with_original_language=en&page=${page}&first_air_date_year=${year}&sort_by=popularity.desc&region=US`;
+  return `https://api.themoviedb.org/3/discover/tv?language=es-ES&page=${page}&first_air_date_year=${year}&sort_by=popularity.desc&with_original_language=en`;
 }
 
 export async function getTmdbMoviesTotalPagesArray(
@@ -311,6 +311,8 @@ export type TmdbTitle = {
   imdbId: number;
   imdbLink: string;
   rating: number;
+  overview: string;
+  spanishName: string;
   releaseDate: string;
   name: string;
   year: number;
@@ -335,6 +337,8 @@ function generateTmdbImageUrl(path: string | null): string | null {
 async function getMovieMetadataFromTmdbMovie({
   id,
   name,
+  spanishName,
+  overview,
   posterPath,
   releaseDate,
   voteAverage,
@@ -342,6 +346,8 @@ async function getMovieMetadataFromTmdbMovie({
 }: {
   id: number;
   name: string;
+  spanishName: string;
+  overview: string;
   releaseDate: string;
   voteAverage: number;
   posterPath: string | null;
@@ -364,6 +370,8 @@ async function getMovieMetadataFromTmdbMovie({
     year,
     name,
     imdbId,
+    spanishName,
+    overview,
     releaseDate,
     rating: voteAverage,
     poster: generateTmdbImageUrl(posterPath),
@@ -386,7 +394,9 @@ export async function getMoviesFromTmdb(page: number, year: number, isDebugging:
   for await (const movie of validatedData.results) {
     const {
       id,
-      title: name,
+      overview,
+      title: spanishName,
+      original_title: name,
       release_date: releaseDate,
       vote_average: voteAverage,
       poster_path: posterPath,
@@ -396,6 +406,8 @@ export async function getMoviesFromTmdb(page: number, year: number, isDebugging:
     const movieData = await getMovieMetadataFromTmdbMovie({
       id,
       name,
+      overview,
+      spanishName,
       posterPath,
       releaseDate,
       voteAverage,
@@ -411,6 +423,8 @@ export async function getMoviesFromTmdb(page: number, year: number, isDebugging:
 async function getTvShowMetadataFromTmdbTvShow({
   id,
   name,
+  overview,
+  spanishName,
   posterPath,
   releaseDate,
   voteAverage,
@@ -418,6 +432,8 @@ async function getTvShowMetadataFromTmdbTvShow({
 }: {
   id: number;
   name: string;
+  spanishName: string;
+  overview: string;
   releaseDate: string;
   voteAverage: number;
   posterPath: string | null;
@@ -466,7 +482,9 @@ async function getTvShowMetadataFromTmdbTvShow({
     year,
     name,
     imdbId,
+    overview,
     episodes,
+    spanishName,
     releaseDate,
     rating: voteAverage,
     totalSeasons: data.number_of_seasons,
@@ -491,6 +509,8 @@ export async function getTvShowsFromTmdb(page: number, year: number): Promise<Tm
   for await (const tvShow of validatedData.results) {
     const {
       id,
+      overview,
+      name: spanishName,
       original_name: name,
       first_air_date: releaseDate,
       vote_average: voteAverage,
@@ -501,6 +521,8 @@ export async function getTvShowsFromTmdb(page: number, year: number): Promise<Tm
     const tvShowData = await getTvShowMetadataFromTmdbTvShow({
       id,
       name,
+      overview,
+      spanishName,
       posterPath,
       releaseDate,
       voteAverage,
@@ -524,8 +546,10 @@ export async function getTmdbMovieFromTitle(query: string): Promise<TmdbTitle> {
 
   const {
     id,
+    overview,
+    title: spanishName,
+    original_title: name,
     release_date: releaseDate,
-    title: name,
     vote_average: voteAverage,
     poster_path: posterPath,
     backdrop_path: backdropPath,
@@ -534,6 +558,8 @@ export async function getTmdbMovieFromTitle(query: string): Promise<TmdbTitle> {
   const movieData = await getMovieMetadataFromTmdbMovie({
     id,
     name,
+    overview,
+    spanishName,
     posterPath,
     releaseDate,
     voteAverage,

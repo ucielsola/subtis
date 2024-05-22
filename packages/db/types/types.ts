@@ -165,10 +165,12 @@ export type Database = {
           backdrop: string | null;
           created_at: string;
           id: number;
+          overview: string;
           poster: string | null;
           rating: number;
           release_date: string;
           title_name: string;
+          title_name_spa: string;
           total_episodes: number | null;
           total_seasons: number | null;
           type: string;
@@ -178,10 +180,12 @@ export type Database = {
           backdrop?: string | null;
           created_at?: string;
           id: number;
+          overview: string;
           poster?: string | null;
           rating: number;
           release_date: string;
           title_name: string;
+          title_name_spa: string;
           total_episodes?: number | null;
           total_seasons?: number | null;
           type: string;
@@ -191,10 +195,12 @@ export type Database = {
           backdrop?: string | null;
           created_at?: string;
           id?: number;
+          overview?: string;
           poster?: string | null;
           rating?: number;
           release_date?: string;
           title_name?: string;
+          title_name_spa?: string;
           total_episodes?: number | null;
           total_seasons?: number | null;
           type?: string;

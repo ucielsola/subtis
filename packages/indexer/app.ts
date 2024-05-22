@@ -46,7 +46,16 @@ type TitleFile = {
 
 type TitleWithEpisode = Pick<
   Title,
-  "id" | "title_name" | "rating" | "release_date" | "year" | "poster" | "backdrop" | "type"
+  | "id"
+  | "title_name"
+  | "title_name_spa"
+  | "overview"
+  | "rating"
+  | "release_date"
+  | "year"
+  | "poster"
+  | "backdrop"
+  | "type"
 > & {
   episode: string | null;
 };
@@ -441,7 +450,7 @@ export async function getSubtitlesForTitle({
   const torrents = await getTitleTorrents(titleProviderQuery);
   const filteredTorrents = getFilteredTorrents(torrents);
 
-  const { name, year, imdbId, rating, releaseDate, poster, backdrop, episode } = currentTitle;
+  const { name, year, imdbId, rating, releaseDate, poster, backdrop, episode, spanishName, overview } = currentTitle;
   if (filteredTorrents.length === 0) {
     return console.log(`4.${index}) No se encontraron torrents para el titulo "${name}" \n`);
   }
@@ -548,6 +557,8 @@ export async function getSubtitlesForTitle({
             id: imdbId,
             title_name: name,
             rating,
+            overview,
+            title_name_spa: spanishName,
             release_date: releaseDate,
             year,
             poster,
