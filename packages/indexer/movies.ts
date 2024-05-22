@@ -58,7 +58,7 @@ async function indexMoviesByYear(year: number, isDebugging: boolean): Promise<vo
         try {
           await getSubtitlesForTitle({
             index,
-            currentTitle: { ...movie, episode: null },
+            currentTitle: { ...movie, episode: null, totalEpisodes: null, totalSeasons: null },
             releaseGroups,
             subtitleGroups,
             isDebugging,
@@ -86,7 +86,7 @@ export async function indexMovieByName(name: string) {
 
     await getSubtitlesForTitle({
       index: "1",
-      currentTitle: { ...movie, episode: null },
+      currentTitle: { ...movie, episode: null, totalEpisodes: null, totalSeasons: null },
       releaseGroups,
       subtitleGroups,
       isDebugging: true,

@@ -56,6 +56,8 @@ type TitleWithEpisode = Pick<
   | "poster"
   | "backdrop"
   | "type"
+  | "total_seasons"
+  | "total_episodes"
 > & {
   episode: string | null;
 };
@@ -213,12 +215,8 @@ function getSupabaseSubtitleLink({
 }
 
 async function storeTitleInSupabaseTable(title: TitleWithEpisode): Promise<void> {
-  const { data: titleData } = await supabase.from("Titles").select("*").match({ id: title.id });
-
-  if (Array.isArray(titleData) && !titleData.length) {
-    const { episode, ...rest } = title;
-    await supabase.from("Titles").insert(rest);
-  }
+  const { episode, ...rest } = title;
+  return supabase.from("Titles").upsert(rest);
 }
 
 async function storeSubtitleInSupabaseTable({
@@ -340,8 +338,9 @@ async function downloadAndStoreTitleAndSubtitle({
 
 // -------------------------------------------------------------------------------------------------------------------------------
 
-type TmdbMovie = TmdbTitle & { episode: null };
 type TmdbTvShowEpisode = TmdbTvShow & { episode: string };
+type TmdbMovie = TmdbTitle & { episode: null; totalSeasons: null; totalEpisodes: null };
+
 export type CurrentTitle = TmdbMovie | TmdbTvShowEpisode;
 
 // helpers
@@ -450,7 +449,21 @@ export async function getSubtitlesForTitle({
   const torrents = await getTitleTorrents(titleProviderQuery);
   const filteredTorrents = getFilteredTorrents(torrents);
 
-  const { name, year, imdbId, rating, releaseDate, poster, backdrop, episode, spanishName, overview } = currentTitle;
+  const {
+    name,
+    year,
+    imdbId,
+    rating,
+    releaseDate,
+    poster,
+    backdrop,
+    episode,
+    spanishName,
+    overview,
+    totalSeasons,
+    totalEpisodes,
+  } = currentTitle;
+
   if (filteredTorrents.length === 0) {
     return console.log(`4.${index}) No se encontraron torrents para el titulo "${name}" \n`);
   }
@@ -530,7 +543,7 @@ export async function getSubtitlesForTitle({
       const { getSubtitleFromProvider, id: subtitleGroupId } = enabledSubtitleProvider;
 
       try {
-        console.log(`4.${index}.${torrentIndex}.${indexSubtitleProvider}) Buscando subtítulo en ${name}`);
+        console.log(`4.${index}.${torrentIndex}.${indexSubtitleProvider}) Buscando subtítulo para ${name}`);
         const subtitle = await getSubtitleFromProvider({ imdbId, titleFileNameMetadata, titleProviderQuery });
 
         if (subtitle) {
@@ -563,6 +576,8 @@ export async function getSubtitlesForTitle({
             year,
             poster,
             backdrop,
+            total_episodes: totalEpisodes,
+            total_seasons: totalSeasons,
             type: episode ? TitleTypes.tvShow : TitleTypes.movie,
             episode,
           },
