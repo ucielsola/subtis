@@ -1,7 +1,7 @@
 import { describe, expect, it } from "bun:test";
 
 import type { CurrentTitle } from "../app";
-import { getQueryForTorrentProvider } from "./query";
+import { getQueryForTorrentProvider } from "../utils/query";
 
 describe("getQueryForTorrentProvider", () => {
   it("should return the name and year when episode is null", () => {

@@ -31,6 +31,13 @@ import type { TmdbTitle, TmdbTvShow } from "./tmdb";
 import type { SubtitleData } from "./types";
 import { getSubtitleAuthor } from "./utils";
 import { getQueryForTorrentProvider } from "./utils/query";
+import { generateIdFromMagnet } from "./utils/torrent";
+
+// types
+type TmdbTvShowEpisode = TmdbTvShow & { episode: string };
+type TmdbMovie = TmdbTitle & { episode: null; totalSeasons: null; totalEpisodes: null };
+
+export type CurrentTitle = TmdbMovie | TmdbTvShowEpisode;
 
 // enum
 enum TitleTypes {
@@ -62,10 +69,15 @@ type TitleWithEpisode = Pick<
   episode: string | null;
 };
 
-type SubtitleWithResolution = SubtitleData & { resolution: string };
+type SubtitleWithResolutionAndTorrentId = SubtitleData & { resolution: string; torrentId: number };
+
+// constants
+const UNCOMPRESSED_SUBTITLES_FOLDER_NAME = "uncompressed-subtitles";
+const COMPRESSED_SUBTITLES_FOLDER_NAME = "compressed-subtitles";
+const TORRENTS_FOLDER_NAME = "torrents";
 
 // helpers
-async function downloadSubtitle(subtitle: SubtitleWithResolution): Promise<void> {
+async function downloadSubtitle(subtitle: SubtitleWithResolutionAndTorrentId): Promise<void> {
   const { fileExtension, subtitleCompressedFileName, subtitleLink } = subtitle;
 
   const subtitlesFolderAbsolutePath = path.join(__dirname, "..", "indexer", COMPRESSED_SUBTITLES_FOLDER_NAME);
@@ -77,7 +89,10 @@ async function downloadSubtitle(subtitle: SubtitleWithResolution): Promise<void>
   }
 }
 
-function getSubtitleAbsolutePaths(subtitle: SubtitleWithResolution) {
+function getSubtitleAbsolutePaths(subtitle: SubtitleWithResolutionAndTorrentId): {
+  subtitleCompressedAbsolutePath: string;
+  extractedSubtitlePath: string;
+} {
   const { subtitleCompressedFileName, subtitleFileNameWithoutExtension } = subtitle;
 
   const subtitleCompressedAbsolutePath = path.join(
@@ -103,7 +118,7 @@ async function uncompressSubtitle({
   fromRoute,
   toRoute,
 }: {
-  subtitle: SubtitleWithResolution;
+  subtitle: SubtitleWithResolutionAndTorrentId;
   fromRoute: string;
   toRoute: string;
 }): Promise<void> {
@@ -139,7 +154,7 @@ function readSubtitleFile({
   subtitle,
   extractedSubtitlePath,
 }: {
-  subtitle: SubtitleWithResolution;
+  subtitle: SubtitleWithResolutionAndTorrentId;
   extractedSubtitlePath: string;
 }): Buffer {
   const { fileExtension, subtitleFileNameWithoutExtension, subtitleSrtFileName } = subtitle;
@@ -186,7 +201,7 @@ async function storeSubtitleInSupabaseStorage({
   subtitle,
   subtitleFileToUpload,
 }: {
-  subtitle: SubtitleWithResolution;
+  subtitle: SubtitleWithResolutionAndTorrentId;
   subtitleFileToUpload: Buffer;
 }): Promise<string> {
   const { subtitleSrtFileName } = subtitle;
@@ -206,7 +221,7 @@ function getSupabaseSubtitleLink({
   subtitle,
 }: {
   fullPath: string;
-  subtitle: SubtitleWithResolution;
+  subtitle: SubtitleWithResolutionAndTorrentId;
 }): string {
   const { downloadFileName } = subtitle;
   const publicUrlGenerated = `${process.env.SUPABASE_BASE_URL}/storage/v1/object/public/${fullPath}?download=`;
@@ -232,7 +247,7 @@ async function storeSubtitleInSupabaseTable({
 }: {
   title: TitleWithEpisode;
   titleFile: TitleFile;
-  subtitle: SubtitleWithResolution;
+  subtitle: SubtitleWithResolutionAndTorrentId;
   author: string | null;
   subtitleLink: string;
   subtitleGroups: SubtitleGroupMap;
@@ -240,7 +255,7 @@ async function storeSubtitleInSupabaseTable({
   subtitleGroupName: SubtitleGroupNames;
   releaseGroupName: ReleaseGroupNames;
 }): Promise<void> {
-  const { lang, downloadFileName, resolution } = subtitle;
+  const { lang, downloadFileName, resolution, torrentId } = subtitle;
 
   const { id: subtitleGroupId } = subtitleGroups[subtitleGroupName];
   const { id: releaseGroupId } = releaseGroups[releaseGroupName];
@@ -254,6 +269,7 @@ async function storeSubtitleInSupabaseTable({
     reviewed: true,
     uploaded_by: "indexer",
     bytes,
+    torrent_id: torrentId,
     file_extension: fileNameExtension,
     title_file_name: fileName,
     subtitle_file_name: downloadFileName,
@@ -272,10 +288,24 @@ async function storeSubtitleInSupabaseTable({
   }
 }
 
+async function storeTorrentInSupabaseTable(torrent: TorrentResultWithId): Promise<void> {
+  const { id, title, size, seeds, tracker, trackerId } = torrent;
+
+  await supabase.from("Torrents").upsert({
+    id,
+    torrent_name: title,
+    torrent_size: size,
+    torrent_seeds: seeds,
+    torrent_link: trackerId,
+    torrent_tracker: tracker,
+  });
+}
+
 async function downloadAndStoreTitleAndSubtitle({
   title,
   titleFile,
   subtitle,
+  torrent,
   releaseGroups,
   subtitleGroups,
   releaseGroupName,
@@ -283,9 +313,10 @@ async function downloadAndStoreTitleAndSubtitle({
 }: {
   titleFile: TitleFile;
   title: TitleWithEpisode;
+  torrent: TorrentResultWithId;
   releaseGroups: ReleaseGroupMap;
   subtitleGroups: SubtitleGroupMap;
-  subtitle: SubtitleWithResolution;
+  subtitle: SubtitleWithResolutionAndTorrentId;
   releaseGroupName: ReleaseGroupNames;
   subtitleGroupName: SubtitleGroupNames;
 }): Promise<void> {
@@ -301,6 +332,7 @@ async function downloadAndStoreTitleAndSubtitle({
     const fullPath = await storeSubtitleInSupabaseStorage({ subtitle, subtitleFileToUpload });
     const subtitleLink = getSupabaseSubtitleLink({ fullPath, subtitle });
 
+    await storeTorrentInSupabaseTable(torrent);
     await storeTitleInSupabaseTable(title);
     await storeSubtitleInSupabaseTable({
       title,
@@ -317,8 +349,8 @@ async function downloadAndStoreTitleAndSubtitle({
     // play sound when a subtitle was found
     console.log("\n✅ Subtítulo guardado en la base de datos!\n");
 
-    const successSoundPath = path.join(__dirname, "..", "indexer", "success_short_high.wav");
-    sound.play(successSoundPath);
+    // const successSoundPath = path.join(__dirname, "..", "indexer", "success_short_high.wav");
+    // sound.play(successSoundPath);
 
     console.table([
       {
@@ -338,11 +370,6 @@ async function downloadAndStoreTitleAndSubtitle({
 
 // -------------------------------------------------------------------------------------------------------------------------------
 
-type TmdbTvShowEpisode = TmdbTvShow & { episode: string };
-type TmdbMovie = TmdbTitle & { episode: null; totalSeasons: null; totalEpisodes: null };
-
-export type CurrentTitle = TmdbMovie | TmdbTvShowEpisode;
-
 // helpers
 function getSeasonAndEpisode(fullSeason: string | null): {
   current_season: number | null;
@@ -355,10 +382,6 @@ function getSeasonAndEpisode(fullSeason: string | null): {
   const [current_season, current_episode] = fullSeason.replace("E", "-").replace("S", "").split("-").map(Number);
   return { current_season, current_episode };
 }
-
-const UNCOMPRESSED_SUBTITLES_FOLDER_NAME = "uncompressed-subtitles";
-const COMPRESSED_SUBTITLES_FOLDER_NAME = "compressed-subtitles";
-const TORRENTS_FOLDER_NAME = "torrents";
 
 function createInitialFolders(): void {
   const FOLDERS = [UNCOMPRESSED_SUBTITLES_FOLDER_NAME, COMPRESSED_SUBTITLES_FOLDER_NAME, TORRENTS_FOLDER_NAME];
@@ -375,19 +398,21 @@ function createInitialFolders(): void {
 type PromiseTorrentResults = ReturnType<typeof tg.search>;
 type TorrentResults = AsyncReturnType<typeof getTitleTorrents>;
 type TorrentResult = ArrayValues<TorrentResults>;
+type TorrentResultWithId = TorrentResult & { id: number };
 
 async function getTitleTorrents(query: string): PromiseTorrentResults {
   return tg.search(query, { groupByTracker: false });
 }
 
-function getFilteredTorrents(torrents: TorrentResults, maxTorrents = 10, minSeeds = 15): TorrentResults {
+function getFilteredTorrents(torrents: TorrentResults, maxTorrents = 10, minSeeds = 15): TorrentResultWithId[] {
   const CINEMA_RECORDING_REGEX = /\b(hdcam|hdcamrip|hqcam|hq-cam|telesync|hdts|hd-ts|c1nem4|qrips)\b/gi;
 
   return torrents
     .toSorted((torrentA, torrentB) => torrentB.seeds - torrentA.seeds)
     .slice(0, maxTorrents)
     .filter((torrent) => !torrent.title.match(CINEMA_RECORDING_REGEX))
-    .filter(({ seeds }) => seeds > minSeeds);
+    .filter(({ seeds }) => seeds > minSeeds)
+    .map((torrent) => ({ ...torrent, id: generateIdFromMagnet(torrent.trackerId) }));
 }
 
 async function getTorrentFilesMetadata(torrent: TorrentResult): Promise<File[]> {
@@ -581,9 +606,10 @@ export async function getSubtitlesForTitle({
             type: episode ? TitleTypes.tvShow : TitleTypes.movie,
             episode,
           },
+          torrent,
           releaseGroupName,
           subtitleGroupName,
-          subtitle: { ...subtitle, resolution },
+          subtitle: { ...subtitle, resolution, torrentId: torrent.id },
           releaseGroups,
           subtitleGroups,
         });
