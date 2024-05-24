@@ -75,7 +75,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 
       if (!subtitleByFileName.success) {
         await supabase.rpc("insert_subtitle_not_found", {
-          _title_file_name: videoFileName.data,
+          _title_file_name: fileName,
           _bytes: Number(bytes),
         });
 

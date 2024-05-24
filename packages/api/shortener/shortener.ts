@@ -16,13 +16,9 @@ export const shortener = new Hono<{ Variables: AppVariables }>().get(
   "/:subtitleId",
   zValidator("param", z.object({ subtitleId: z.string() })),
   async (context) => {
-    const { subtitleId } = context.req.valid("param");
+    const { subtitleId: id } = context.req.valid("param");
 
-    const { data } = await getSupabaseClient(context)
-      .from("Subtitles")
-      .select("subtitle_link")
-      .match({ id: subtitleId })
-      .single();
+    const { data } = await getSupabaseClient(context).from("Subtitles").select("subtitle_link").match({ id }).single();
 
     const subtitleById = subtitleSchema.safeParse(data);
     if (!subtitleById.success) {
