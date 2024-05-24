@@ -16,6 +16,8 @@ const subtitlesQuery = `
   resolution,
   subtitle_link,
   subtitle_file_name,
+  current_season,
+  current_episode,
   releaseGroup: ReleaseGroups ( release_group_name ),
   title: Titles ( title_name, year, poster, backdrop )
 `;

@@ -23,6 +23,8 @@ describe("API | /subtitles/title", () => {
         subtitle_link:
           "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/dune:-part-two-1080p-yts-subdivx.srt?download=Dune.Part.Two.2024.1080p.WEBRip.x264.AAC-[YTS.MX].srt",
         subtitle_file_name: "Dune.Part.Two.2024.1080p.WEBRip.x264.AAC-[YTS.MX].srt",
+        current_season: null,
+        current_episode: null,
         title: {
           title_name: "Dune: Part Two",
           year: 2024,
@@ -39,6 +41,8 @@ describe("API | /subtitles/title", () => {
         subtitle_link:
           "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/dune:-part-two-720p-yts-subdivx.srt?download=Dune.Part.Two.2024.720p.WEBRip.x264.AAC-[YTS.MX].srt",
         subtitle_file_name: "Dune.Part.Two.2024.720p.WEBRip.x264.AAC-[YTS.MX].srt",
+        current_season: null,
+        current_episode: null,
         title: {
           title_name: "Dune: Part Two",
           year: 2024,
@@ -55,6 +59,8 @@ describe("API | /subtitles/title", () => {
         subtitle_link:
           "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/dune:-part-two-1080p-yts-subdivx.srt?download=Dune.Part.Two.2024.1080p.WEBRip.x265.10bit.AAC-[YTS.MX].srt",
         subtitle_file_name: "Dune.Part.Two.2024.1080p.WEBRip.x265.10bit.AAC-[YTS.MX].srt",
+        current_season: null,
+        current_episode: null,
         title: {
           title_name: "Dune: Part Two",
           year: 2024,
@@ -71,6 +77,8 @@ describe("API | /subtitles/title", () => {
         subtitle_link:
           "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/dune:-part-two-1080p-galaxyrg-subdivx.srt?download=Dune.Part.Two.2024.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.srt",
         subtitle_file_name: "Dune.Part.Two.2024.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.srt",
+        current_season: null,
+        current_episode: null,
         title: {
           title_name: "Dune: Part Two",
           year: 2024,
@@ -87,6 +95,8 @@ describe("API | /subtitles/title", () => {
         subtitle_link:
           "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/dune:-part-two-2160p-flux-subdivx.srt?download=Dune.Part.Two.2024.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.srt",
         subtitle_file_name: "Dune.Part.Two.2024.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.srt",
+        current_season: null,
+        current_episode: null,
         title: {
           title_name: "Dune: Part Two",
           year: 2024,
@@ -103,6 +113,8 @@ describe("API | /subtitles/title", () => {
         subtitle_link:
           "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/dune:-part-two-1080p-yts-subdivx.srt?download=Dune.Part.Two.2024.REPACK.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
         subtitle_file_name: "Dune.Part.Two.2024.REPACK.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
+        current_season: null,
+        current_episode: null,
         title: {
           title_name: "Dune: Part Two",
           year: 2024,
@@ -119,6 +131,8 @@ describe("API | /subtitles/title", () => {
         subtitle_link:
           "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/dune:-part-two-1080p-yts-subdivx.srt?download=Dune.Part.Two.2024.1080p.BluRay.x264.AAC5.1-[YTS.MX].srt",
         subtitle_file_name: "Dune.Part.Two.2024.1080p.BluRay.x264.AAC5.1-[YTS.MX].srt",
+        current_season: null,
+        current_episode: null,
         title: {
           title_name: "Dune: Part Two",
           year: 2024,
@@ -135,6 +149,8 @@ describe("API | /subtitles/title", () => {
         subtitle_link:
           "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/dune:-part-two-720p-yts-subdivx.srt?download=Dune.Part.Two.2024.REPACK.720p.WEBRip.x264.AAC-[YTS.MX].srt",
         subtitle_file_name: "Dune.Part.Two.2024.REPACK.720p.WEBRip.x264.AAC-[YTS.MX].srt",
+        current_season: null,
+        current_episode: null,
         title: {
           title_name: "Dune: Part Two",
           year: 2024,
@@ -181,6 +197,8 @@ describe("API | /subtitles/trending", () => {
         subtitle_link:
           "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/godzilla-x-kong:-the-new-empire-1080p-yts-subdivx.srt?download=Godzilla.X.Kong.The.New.Empire.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
         subtitle_file_name: "Godzilla.X.Kong.The.New.Empire.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
+        current_season: null,
+        current_episode: null,
         title: {
           title_name: "Godzilla x Kong: The New Empire",
           year: 2024,
@@ -197,6 +215,8 @@ describe("API | /subtitles/trending", () => {
         subtitle_link:
           "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/godzilla-x-kong:-the-new-empire-1080p-galaxyrg-subdivx.srt?download=Godzilla.x.Kong.The.New.Empire.2024.REPACK2.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
         subtitle_file_name: "Godzilla.x.Kong.The.New.Empire.2024.REPACK2.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
+        current_season: null,
+        current_episode: null,
         title: {
           title_name: "Godzilla x Kong: The New Empire",
           year: 2024,
@@ -212,7 +232,7 @@ describe("API | /subtitles/trending", () => {
 });
 
 describe("API | /subtitles/file/name", () => {
-  test("Valid JSON Request with existing fileName", async () => {
+  test("Valid JSON Request with existing fileName for a movie", async () => {
     const request = {
       method: "GET",
     };
@@ -230,6 +250,8 @@ describe("API | /subtitles/file/name", () => {
       subtitle_link:
         "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/godzilla-x-kong:-the-new-empire-1080p-galaxyrg-subdivx.srt?download=Godzilla.x.Kong.The.New.Empire.2024.REPACK2.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
       subtitle_file_name: "Godzilla.x.Kong.The.New.Empire.2024.REPACK2.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
+      current_season: null,
+      current_episode: null,
       title: {
         title_name: "Godzilla x Kong: The New Empire",
         year: 2024,
@@ -238,6 +260,37 @@ describe("API | /subtitles/file/name", () => {
       },
       releaseGroup: {
         release_group_name: "GalaxyRG",
+      },
+    });
+  });
+  test("Valid JSON Request with existing fileName for a TV Show", async () => {
+    const request = {
+      method: "GET",
+    };
+
+    const fileName = "Shogun.2024.S01E02.1080p.HEVC.x265-MeGusta.mkv";
+    const bytes = "420946031";
+
+    const response = await subtitles.request(`/file/name/${bytes}/${fileName}`, request, getMockEnv());
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data).toEqual({
+      id: 3899,
+      resolution: "1080p",
+      subtitle_link:
+        "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/shogun-1080p-megusta-subdivx.srt?download=Shogun.2024.S01E02.1080p.HEVC.x265-MeGusta.srt",
+      current_season: 1,
+      current_episode: 2,
+      subtitle_file_name: "Shogun.2024.S01E02.1080p.HEVC.x265-MeGusta.srt",
+      title: {
+        title_name: "Shōgun",
+        year: 2024,
+        poster: "https://image.tmdb.org/t/p/original/uIoDvVOQaKjSfz2oihkVS8M7l1v.jpg",
+        backdrop: "https://image.tmdb.org/t/p/original/5zmiBoMzeeVdQ62no55JOJMY498.jpg",
+      },
+      releaseGroup: {
+        release_group_name: "MeGusta",
       },
     });
   });
@@ -275,6 +328,8 @@ describe("API | /subtitles/file/name", () => {
       subtitle_link:
         "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/godzilla-x-kong:-the-new-empire-1080p-galaxyrg-subdivx.srt?download=Godzilla.x.Kong.The.New.Empire.2024.REPACK2.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
       subtitle_file_name: "Godzilla.x.Kong.The.New.Empire.2024.REPACK2.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
+      current_season: null,
+      current_episode: null,
       title: {
         title_name: "Godzilla x Kong: The New Empire",
         year: 2024,
@@ -307,6 +362,8 @@ describe("API | /file/versions", () => {
         subtitle_link:
           "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/kung-fu-panda-4-1080p-yts-subdivx.srt?download=Kung.Fu.Panda.4.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
         subtitle_file_name: "Kung.Fu.Panda.4.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
+        current_season: null,
+        current_episode: null,
         title: {
           title_name: "Kung Fu Panda 4",
           year: 2024,
@@ -323,6 +380,8 @@ describe("API | /file/versions", () => {
         subtitle_link:
           "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/kung-fu-panda-4-720p-yts-subdivx.srt?download=Kung.Fu.Panda.4.2024.720p.WEBRip.x264.AAC-[YTS.MX].srt",
         subtitle_file_name: "Kung.Fu.Panda.4.2024.720p.WEBRip.x264.AAC-[YTS.MX].srt",
+        current_season: null,
+        current_episode: null,
         title: {
           title_name: "Kung Fu Panda 4",
           year: 2024,
@@ -339,6 +398,8 @@ describe("API | /file/versions", () => {
         subtitle_link:
           "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/kung-fu-panda-4-1080p-yts-subdivx.srt?download=Kung.Fu.Panda.4.2024.1080p.WEBRip.x265.10bit.AAC5.1-[YTS.MX].srt",
         subtitle_file_name: "Kung.Fu.Panda.4.2024.1080p.WEBRip.x265.10bit.AAC5.1-[YTS.MX].srt",
+        current_season: null,
+        current_episode: null,
         title: {
           title_name: "Kung Fu Panda 4",
           year: 2024,
@@ -355,6 +416,8 @@ describe("API | /file/versions", () => {
         subtitle_link:
           "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/kung-fu-panda-4-1080p-galaxyrg-subdivx.srt?download=Kung.Fu.Panda.4.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
         subtitle_file_name: "Kung.Fu.Panda.4.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
+        current_season: null,
+        current_episode: null,
         title: {
           title_name: "Kung Fu Panda 4",
           year: 2024,
@@ -371,6 +434,8 @@ describe("API | /file/versions", () => {
         subtitle_link:
           "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/kung-fu-panda-4-1080p-ethel-subdivx.srt?download=Kung.Fu.Panda.4.2024.1080p.WEB.h264-ETHEL.srt",
         subtitle_file_name: "Kung.Fu.Panda.4.2024.1080p.WEB.h264-ETHEL.srt",
+        current_season: null,
+        current_episode: null,
         title: {
           title_name: "Kung Fu Panda 4",
           year: 2024,
@@ -387,6 +452,8 @@ describe("API | /file/versions", () => {
         subtitle_link:
           "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/kung-fu-panda-4-2160p-flux-subdivx.srt?download=Kung.Fu.Panda.4.2024.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.srt",
         subtitle_file_name: "Kung.Fu.Panda.4.2024.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.srt",
+        current_season: null,
+        current_episode: null,
         title: {
           title_name: "Kung Fu Panda 4",
           year: 2024,
@@ -403,6 +470,8 @@ describe("API | /file/versions", () => {
         subtitle_link:
           "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/kung-fu-panda-4-720p-galaxyrg-subdivx.srt?download=Kung.Fu.Panda.4.2024.720p.AMZN.WEBRip.800MB.x264-GalaxyRG.srt",
         subtitle_file_name: "Kung.Fu.Panda.4.2024.720p.AMZN.WEBRip.800MB.x264-GalaxyRG.srt",
+        current_season: null,
+        current_episode: null,
         title: {
           title_name: "Kung Fu Panda 4",
           year: 2024,
