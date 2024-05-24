@@ -1,4 +1,4 @@
-# Subtis - El subtítulo que estabas buscando!
+# Subtis | Tu buscador de subtitulos
 
 ## Packages
 

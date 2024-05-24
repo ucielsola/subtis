@@ -56,7 +56,7 @@ const builder = new addonBuilder({
   name: "Subtis",
   id: "org.subtis",
   version: project.version,
-  description: "Subtis es un buscador de subtitulos para tus películas",
+  description: "Subtis es tu buscador de subtitulos para tus películas y series favoritas",
   catalogs: [],
   resources: ["subtitles"],
   types: ["movie"],
