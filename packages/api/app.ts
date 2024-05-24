@@ -19,7 +19,9 @@ app.use("*", cors());
 app.use(secureHeaders());
 
 // cache
-app.get("*", cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("1 day")}` }));
+if (process.env.NODE_ENV === "production") {
+  app.get("*", cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("1 day")}` }));
+}
 
 // routes
 const routes = app
