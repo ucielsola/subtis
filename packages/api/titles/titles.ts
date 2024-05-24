@@ -9,18 +9,18 @@ import { type AppVariables, getSupabaseClient } from "../shared";
 import { titlesRowSchema } from "@subtis/db/schemas";
 
 // schemas
-const movieSchema = titlesRowSchema.pick({ id: true, title_name: true, year: true });
-const moviesSchema = z.array(movieSchema).min(1);
+const titleSchema = titlesRowSchema.pick({ id: true, title_name: true, year: true });
+const titlesSchema = z.array(titleSchema).min(1);
 
-const movieRecentSchema = titlesRowSchema.pick({
+const recentTitleSchema = titlesRowSchema.pick({
   id: true,
   title_name: true,
   year: true,
   rating: true,
   release_date: true,
 });
-const recentMovieSchema = z
-  .array(movieRecentSchema, { invalid_type_error: "Recent movies not found" })
+const recentTitlesSchema = z
+  .array(recentTitleSchema, { invalid_type_error: "Recent movies not found" })
   .min(1, { message: "Recent movies not found" });
 
 // queries
@@ -33,19 +33,19 @@ const recentTitlesQuery = `
 `;
 
 // core
-export const movies = new Hono<{ Variables: AppVariables }>()
-  .get("/title/:movieTitle", zValidator("param", z.object({ movieTitle: z.string() })), async (context) => {
-    const { movieTitle } = context.req.valid("param");
+export const titles = new Hono<{ Variables: AppVariables }>()
+  .get("/search/:query", zValidator("param", z.object({ query: z.string() })), async (context) => {
+    const { query } = context.req.valid("param");
 
-    const { data } = await getSupabaseClient(context).rpc("fuzzy_search_movie", { title_query: movieTitle });
+    const { data } = await getSupabaseClient(context).rpc("fuzzy_search_title", { query });
 
-    const movies = moviesSchema.safeParse(data);
-    if (!movies.success) {
+    const titles = titlesSchema.safeParse(data);
+    if (!titles.success) {
       context.status(404);
-      return context.json({ message: `Movies not found for query ${movieTitle}` });
+      return context.json({ message: `Titles not found for query ${query}` });
     }
 
-    return context.json(movies.data);
+    return context.json(titles.data);
   })
   .get("/recent/:limit", zValidator("param", z.object({ limit: z.string() })), async (context) => {
     const { limit } = context.req.valid("param");
@@ -56,7 +56,7 @@ export const movies = new Hono<{ Variables: AppVariables }>()
       .order("release_date", { ascending: false })
       .limit(Number(limit));
 
-    const recentSubtitles = recentMovieSchema.safeParse(data);
+    const recentSubtitles = recentTitlesSchema.safeParse(data);
     if (!recentSubtitles.success) {
       context.status(404);
       return context.json({ message: "No recent movies found" });

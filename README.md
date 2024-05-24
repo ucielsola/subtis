@@ -75,7 +75,7 @@ cd packages/db && bunx supabase login
 2. Create database type definitions and zod schemas
 
 ```bash
-bun run db:generate
+bun run update:db
 ```
 
 ### Access Database

@@ -74,6 +74,7 @@ export type Database = {
           subtitle_link: string;
           title_file_name: string;
           title_id: number;
+          torrent_id: number;
           uploaded_by: string | null;
         };
         Insert: {
@@ -95,6 +96,7 @@ export type Database = {
           subtitle_link: string;
           title_file_name: string;
           title_id: number;
+          torrent_id: number;
           uploaded_by?: string | null;
         };
         Update: {
@@ -116,6 +118,7 @@ export type Database = {
           subtitle_link?: string;
           title_file_name?: string;
           title_id?: number;
+          torrent_id?: number;
           uploaded_by?: string | null;
         };
         Relationships: [
@@ -140,6 +143,13 @@ export type Database = {
             referencedRelation: "Titles";
             referencedColumns: ["id"];
           },
+          {
+            foreignKeyName: "Subtitles_torrent_id_fkey";
+            columns: ["torrent_id"];
+            isOneToOne: false;
+            referencedRelation: "Torrents";
+            referencedColumns: ["id"];
+          },
         ];
       };
       SubtitlesNotFound: {
@@ -162,11 +172,11 @@ export type Database = {
       };
       Titles: {
         Row: {
-          backdrop: string | null;
+          backdrop: string;
           created_at: string;
           id: number;
           overview: string;
-          poster: string | null;
+          poster: string;
           rating: number;
           release_date: string;
           title_name: string;
@@ -177,11 +187,11 @@ export type Database = {
           year: number;
         };
         Insert: {
-          backdrop?: string | null;
+          backdrop: string;
           created_at?: string;
-          id: number;
+          id?: number;
           overview: string;
-          poster?: string | null;
+          poster: string;
           rating: number;
           release_date: string;
           title_name: string;
@@ -192,11 +202,11 @@ export type Database = {
           year: number;
         };
         Update: {
-          backdrop?: string | null;
+          backdrop?: string;
           created_at?: string;
           id?: number;
           overview?: string;
-          poster?: string | null;
+          poster?: string;
           rating?: number;
           release_date?: string;
           title_name?: string;
@@ -205,6 +215,36 @@ export type Database = {
           total_seasons?: number | null;
           type?: string;
           year?: number;
+        };
+        Relationships: [];
+      };
+      Torrents: {
+        Row: {
+          created_at: string;
+          id: number;
+          torrent_link: string;
+          torrent_name: string;
+          torrent_seeds: number;
+          torrent_size: number;
+          torrent_tracker: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: number;
+          torrent_link: string;
+          torrent_name: string;
+          torrent_seeds: number;
+          torrent_size: number;
+          torrent_tracker: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: number;
+          torrent_link?: string;
+          torrent_name?: string;
+          torrent_seeds?: number;
+          torrent_size?: number;
+          torrent_tracker?: string;
         };
         Relationships: [];
       };
@@ -220,6 +260,16 @@ export type Database = {
         Returns: {
           id: number;
           name: string;
+          year: number;
+        }[];
+      };
+      fuzzy_search_title: {
+        Args: {
+          query: string;
+        };
+        Returns: {
+          id: number;
+          title_name: string;
           year: number;
         }[];
       };
@@ -253,12 +303,20 @@ export type Database = {
         };
         Returns: unknown;
       };
-      insert_subtitle_not_found: {
-        Args: {
-          file_name: string;
-        };
-        Returns: undefined;
-      };
+      insert_subtitle_not_found:
+        | {
+            Args: {
+              _bytes: number;
+              _title_file_name: string;
+            };
+            Returns: undefined;
+          }
+        | {
+            Args: {
+              file_name: string;
+            };
+            Returns: undefined;
+          };
       set_limit: {
         Args: {
           "": number;

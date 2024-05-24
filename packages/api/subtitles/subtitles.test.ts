@@ -4,140 +4,156 @@ import { describe, expect, test } from "bun:test";
 import { getMockEnv } from "../shared/test";
 import { subtitles } from "./subtitles";
 
-describe("API | /subtitles/movie", () => {
-  test("Valid JSON Request with existing movieId", async () => {
+describe("API | /subtitles/title", () => {
+  test("Valid JSON Request with existing title ID", async () => {
     const request = {
       method: "GET",
     };
 
-    const movieId = 3359350;
+    const titleId = 15239678;
 
-    const response = await subtitles.request(`/movie/${movieId}`, request, getMockEnv());
+    const response = await subtitles.request(`/title/${titleId}`, request, getMockEnv());
     const data = await response.json();
 
     expect(response.status).toBe(200);
     expect(data).toEqual([
       {
-        id: 2987,
+        id: 3867,
+        resolution: "1080p",
+        subtitle_link:
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/dune:-part-two-1080p-yts-subdivx.srt?download=Dune.Part.Two.2024.1080p.WEBRip.x264.AAC-[YTS.MX].srt",
+        subtitle_file_name: "Dune.Part.Two.2024.1080p.WEBRip.x264.AAC-[YTS.MX].srt",
+        title: {
+          title_name: "Dune: Part Two",
+          year: 2024,
+          poster: "https://image.tmdb.org/t/p/original/6o5cJjA4srfvU52UKWaqPUuPPgl.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg",
+        },
+        releaseGroup: {
+          release_group_name: "YTS",
+        },
+      },
+      {
+        id: 3868,
         resolution: "720p",
         subtitle_link:
-          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-720p-yts-subdivx.srt?download=Road.House.2024.720p.WEBRip.x264.AAC-[YTS.MX].srt",
-        subtitle_file_name: "Road.House.2024.720p.WEBRip.x264.AAC-[YTS.MX].srt",
-        movie: {
-          name: "Road House",
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/dune:-part-two-720p-yts-subdivx.srt?download=Dune.Part.Two.2024.720p.WEBRip.x264.AAC-[YTS.MX].srt",
+        subtitle_file_name: "Dune.Part.Two.2024.720p.WEBRip.x264.AAC-[YTS.MX].srt",
+        title: {
+          title_name: "Dune: Part Two",
           year: 2024,
-          poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
-          backdrop: "https://image.tmdb.org/t/p/original/oe7mWkvYhK4PLRNAVSvonzyUXNy.jpg",
+          poster: "https://image.tmdb.org/t/p/original/6o5cJjA4srfvU52UKWaqPUuPPgl.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg",
         },
         releaseGroup: {
-          name: "YTS",
+          release_group_name: "YTS",
         },
       },
       {
-        id: 2989,
+        id: 3869,
+        resolution: "1080p",
+        subtitle_link:
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/dune:-part-two-1080p-yts-subdivx.srt?download=Dune.Part.Two.2024.1080p.WEBRip.x265.10bit.AAC-[YTS.MX].srt",
+        subtitle_file_name: "Dune.Part.Two.2024.1080p.WEBRip.x265.10bit.AAC-[YTS.MX].srt",
+        title: {
+          title_name: "Dune: Part Two",
+          year: 2024,
+          poster: "https://image.tmdb.org/t/p/original/6o5cJjA4srfvU52UKWaqPUuPPgl.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg",
+        },
+        releaseGroup: {
+          release_group_name: "YTS",
+        },
+      },
+      {
+        id: 3870,
+        resolution: "1080p",
+        subtitle_link:
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/dune:-part-two-1080p-galaxyrg-subdivx.srt?download=Dune.Part.Two.2024.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.srt",
+        subtitle_file_name: "Dune.Part.Two.2024.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.srt",
+        title: {
+          title_name: "Dune: Part Two",
+          year: 2024,
+          poster: "https://image.tmdb.org/t/p/original/6o5cJjA4srfvU52UKWaqPUuPPgl.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg",
+        },
+        releaseGroup: {
+          release_group_name: "GalaxyRG",
+        },
+      },
+      {
+        id: 3871,
+        resolution: "2160p",
+        subtitle_link:
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/dune:-part-two-2160p-flux-subdivx.srt?download=Dune.Part.Two.2024.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.srt",
+        subtitle_file_name: "Dune.Part.Two.2024.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.srt",
+        title: {
+          title_name: "Dune: Part Two",
+          year: 2024,
+          poster: "https://image.tmdb.org/t/p/original/6o5cJjA4srfvU52UKWaqPUuPPgl.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg",
+        },
+        releaseGroup: {
+          release_group_name: "FLUX",
+        },
+      },
+      {
+        id: 3872,
+        resolution: "1080p",
+        subtitle_link:
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/dune:-part-two-1080p-yts-subdivx.srt?download=Dune.Part.Two.2024.REPACK.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
+        subtitle_file_name: "Dune.Part.Two.2024.REPACK.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
+        title: {
+          title_name: "Dune: Part Two",
+          year: 2024,
+          poster: "https://image.tmdb.org/t/p/original/6o5cJjA4srfvU52UKWaqPUuPPgl.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg",
+        },
+        releaseGroup: {
+          release_group_name: "YTS",
+        },
+      },
+      {
+        id: 3873,
+        resolution: "1080p",
+        subtitle_link:
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/dune:-part-two-1080p-yts-subdivx.srt?download=Dune.Part.Two.2024.1080p.BluRay.x264.AAC5.1-[YTS.MX].srt",
+        subtitle_file_name: "Dune.Part.Two.2024.1080p.BluRay.x264.AAC5.1-[YTS.MX].srt",
+        title: {
+          title_name: "Dune: Part Two",
+          year: 2024,
+          poster: "https://image.tmdb.org/t/p/original/6o5cJjA4srfvU52UKWaqPUuPPgl.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg",
+        },
+        releaseGroup: {
+          release_group_name: "YTS",
+        },
+      },
+      {
+        id: 3874,
         resolution: "720p",
         subtitle_link:
-          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-720p-galaxyrg-subdivx.srt?download=Road.House.2024.720p.AMZN.WEBRip.800MB.x264-GalaxyRG.srt",
-        subtitle_file_name: "Road.House.2024.720p.AMZN.WEBRip.800MB.x264-GalaxyRG.srt",
-        movie: {
-          name: "Road House",
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/dune:-part-two-720p-yts-subdivx.srt?download=Dune.Part.Two.2024.REPACK.720p.WEBRip.x264.AAC-[YTS.MX].srt",
+        subtitle_file_name: "Dune.Part.Two.2024.REPACK.720p.WEBRip.x264.AAC-[YTS.MX].srt",
+        title: {
+          title_name: "Dune: Part Two",
           year: 2024,
-          poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
-          backdrop: "https://image.tmdb.org/t/p/original/oe7mWkvYhK4PLRNAVSvonzyUXNy.jpg",
+          poster: "https://image.tmdb.org/t/p/original/6o5cJjA4srfvU52UKWaqPUuPPgl.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg",
         },
         releaseGroup: {
-          name: "GalaxyRG",
-        },
-      },
-      {
-        id: 2990,
-        resolution: "1080p",
-        subtitle_link:
-          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-yts-subdivx.srt?download=Road.House.2024.1080p.WEBRip.x265.10bit.AAC5.1-[YTS.MX].srt",
-        subtitle_file_name: "Road.House.2024.1080p.WEBRip.x265.10bit.AAC5.1-[YTS.MX].srt",
-        movie: {
-          name: "Road House",
-          year: 2024,
-          poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
-          backdrop: "https://image.tmdb.org/t/p/original/oe7mWkvYhK4PLRNAVSvonzyUXNy.jpg",
-        },
-        releaseGroup: {
-          name: "YTS",
-        },
-      },
-      {
-        id: 2991,
-        resolution: "1080p",
-        subtitle_link:
-          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-galaxyrg-subdivx.srt?download=Road.House.2024.1080p.AMZN.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.srt",
-        subtitle_file_name: "Road.House.2024.1080p.AMZN.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.srt",
-        movie: {
-          name: "Road House",
-          year: 2024,
-          poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
-          backdrop: "https://image.tmdb.org/t/p/original/oe7mWkvYhK4PLRNAVSvonzyUXNy.jpg",
-        },
-        releaseGroup: {
-          name: "GalaxyRG",
-        },
-      },
-      {
-        id: 2992,
-        resolution: "1080p",
-        subtitle_link:
-          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-ethel-subdivx.srt?download=Road.House.2024.1080p.WEB.h264-ETHEL.srt",
-        subtitle_file_name: "Road.House.2024.1080p.WEB.h264-ETHEL.srt",
-        movie: {
-          name: "Road House",
-          year: 2024,
-          poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
-          backdrop: "https://image.tmdb.org/t/p/original/oe7mWkvYhK4PLRNAVSvonzyUXNy.jpg",
-        },
-        releaseGroup: {
-          name: "ETHEL",
-        },
-      },
-      {
-        id: 2988,
-        resolution: "1080p",
-        subtitle_link:
-          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-galaxyrg-subdivx.srt?download=Road.House.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
-        subtitle_file_name: "Road.House.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
-        movie: {
-          name: "Road House",
-          year: 2024,
-          poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
-          backdrop: "https://image.tmdb.org/t/p/original/oe7mWkvYhK4PLRNAVSvonzyUXNy.jpg",
-        },
-        releaseGroup: {
-          name: "GalaxyRG",
-        },
-      },
-      {
-        id: 2986,
-        resolution: "1080p",
-        subtitle_link:
-          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-yts-subdivx.srt?download=Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
-        subtitle_file_name: "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
-        movie: {
-          name: "Road House",
-          year: 2024,
-          poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
-          backdrop: "https://image.tmdb.org/t/p/original/oe7mWkvYhK4PLRNAVSvonzyUXNy.jpg",
-        },
-        releaseGroup: {
-          name: "YTS",
+          release_group_name: "YTS",
         },
       },
     ]);
   });
 
-  test("Valid JSON Request with non-existent movieId", async () => {
+  test("Valid JSON Request with non-existent title ID", async () => {
     const request = {
       method: "GET",
     };
 
-    const response = await subtitles.request("/movie/9350", request, getMockEnv());
+    const response = await subtitles.request("/title/9350", request, getMockEnv());
     const data = await response.json();
 
     expect(response.status).toBe(404);
@@ -160,35 +176,35 @@ describe("API | /subtitles/trending", () => {
     expect(data).toHaveLength(2);
     expect(data).toEqual([
       {
-        id: 2986,
-        resolution: "1080p",
+        id: 3863,
+        resolution: "720p",
         subtitle_link:
-          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-yts-subdivx.srt?download=Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
-        subtitle_file_name: "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
-        movie: {
-          name: "Road House",
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/godzilla-x-kong:-the-new-empire-720p-yts-subdivx.srt?download=Godzilla.X.Kong.The.New.Empire.2024.720p.WEBRip.x264.AAC-[YTS.MX].srt",
+        subtitle_file_name: "Godzilla.X.Kong.The.New.Empire.2024.720p.WEBRip.x264.AAC-[YTS.MX].srt",
+        title: {
+          title_name: "Godzilla x Kong: The New Empire",
           year: 2024,
-          poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
-          backdrop: "https://image.tmdb.org/t/p/original/oe7mWkvYhK4PLRNAVSvonzyUXNy.jpg",
+          poster: "https://image.tmdb.org/t/p/original/2YqZ6IyFk7menirwziJvfoVvSOh.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/sR0SpCrXamlIkYMdfz83sFn5JS6.jpg",
         },
         releaseGroup: {
-          name: "YTS",
+          release_group_name: "YTS",
         },
       },
       {
-        id: 2988,
+        id: 3862,
         resolution: "1080p",
         subtitle_link:
-          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-galaxyrg-subdivx.srt?download=Road.House.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
-        subtitle_file_name: "Road.House.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
-        movie: {
-          name: "Road House",
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/godzilla-x-kong:-the-new-empire-1080p-yts-subdivx.srt?download=Godzilla.X.Kong.The.New.Empire.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
+        subtitle_file_name: "Godzilla.X.Kong.The.New.Empire.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
+        title: {
+          title_name: "Godzilla x Kong: The New Empire",
           year: 2024,
-          poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
-          backdrop: "https://image.tmdb.org/t/p/original/oe7mWkvYhK4PLRNAVSvonzyUXNy.jpg",
+          poster: "https://image.tmdb.org/t/p/original/2YqZ6IyFk7menirwziJvfoVvSOh.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/sR0SpCrXamlIkYMdfz83sFn5JS6.jpg",
         },
         releaseGroup: {
-          name: "GalaxyRG",
+          release_group_name: "YTS",
         },
       },
     ]);
@@ -201,27 +217,27 @@ describe("API | /subtitles/file/name", () => {
       method: "GET",
     };
 
-    const fileName = "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4";
-    const bytes = "2442029036";
+    const fileName = "Godzilla.x.Kong.The.New.Empire.2024.REPACK2.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv";
+    const bytes = "1506405943";
 
     const response = await subtitles.request(`/file/name/${bytes}/${fileName}`, request, getMockEnv());
     const data = await response.json();
 
     expect(response.status).toBe(200);
     expect(data).toEqual({
-      id: 2986,
+      id: 3864,
       resolution: "1080p",
       subtitle_link:
-        "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-yts-subdivx.srt?download=Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
-      subtitle_file_name: "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
-      movie: {
-        name: "Road House",
+        "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/godzilla-x-kong:-the-new-empire-1080p-galaxyrg-subdivx.srt?download=Godzilla.x.Kong.The.New.Empire.2024.REPACK2.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
+      subtitle_file_name: "Godzilla.x.Kong.The.New.Empire.2024.REPACK2.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
+      title: {
+        title_name: "Godzilla x Kong: The New Empire",
         year: 2024,
-        poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
-        backdrop: "https://image.tmdb.org/t/p/original/oe7mWkvYhK4PLRNAVSvonzyUXNy.jpg",
+        poster: "https://image.tmdb.org/t/p/original/2YqZ6IyFk7menirwziJvfoVvSOh.jpg",
+        backdrop: "https://image.tmdb.org/t/p/original/sR0SpCrXamlIkYMdfz83sFn5JS6.jpg",
       },
       releaseGroup: {
-        name: "YTS",
+        release_group_name: "GalaxyRG",
       },
     });
   });
@@ -278,7 +294,7 @@ describe("API | /file/versions", () => {
       method: "GET",
     };
 
-    const fileName = "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4";
+    const fileName = "Kung.Fu.Panda.4.2024.720p.AMZN.WEBRip.800MB.x264-GalaxyRG.mkv";
 
     const response = await subtitles.request(`/file/versions/${fileName}`, request, getMockEnv());
     const data = await response.json();
@@ -286,115 +302,115 @@ describe("API | /file/versions", () => {
     expect(response.status).toBe(200);
     expect(data).toEqual([
       {
-        id: 2987,
+        id: 3875,
+        resolution: "1080p",
+        subtitle_link:
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/kung-fu-panda-4-1080p-yts-subdivx.srt?download=Kung.Fu.Panda.4.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
+        subtitle_file_name: "Kung.Fu.Panda.4.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
+        title: {
+          title_name: "Kung Fu Panda 4",
+          year: 2024,
+          poster: "https://image.tmdb.org/t/p/original/zS8BSQdbOesql0EWbs17kPvLoAT.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/kYgQzzjNis5jJalYtIHgrom0gOx.jpg",
+        },
+        releaseGroup: {
+          release_group_name: "YTS",
+        },
+      },
+      {
+        id: 3876,
         resolution: "720p",
         subtitle_link:
-          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-720p-yts-subdivx.srt?download=Road.House.2024.720p.WEBRip.x264.AAC-[YTS.MX].srt",
-        subtitle_file_name: "Road.House.2024.720p.WEBRip.x264.AAC-[YTS.MX].srt",
-        movie: {
-          name: "Road House",
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/kung-fu-panda-4-720p-yts-subdivx.srt?download=Kung.Fu.Panda.4.2024.720p.WEBRip.x264.AAC-[YTS.MX].srt",
+        subtitle_file_name: "Kung.Fu.Panda.4.2024.720p.WEBRip.x264.AAC-[YTS.MX].srt",
+        title: {
+          title_name: "Kung Fu Panda 4",
           year: 2024,
-          poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
-          backdrop: "https://image.tmdb.org/t/p/original/oe7mWkvYhK4PLRNAVSvonzyUXNy.jpg",
+          poster: "https://image.tmdb.org/t/p/original/zS8BSQdbOesql0EWbs17kPvLoAT.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/kYgQzzjNis5jJalYtIHgrom0gOx.jpg",
         },
         releaseGroup: {
-          name: "YTS",
+          release_group_name: "YTS",
         },
       },
       {
-        id: 2989,
+        id: 3877,
+        resolution: "1080p",
+        subtitle_link:
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/kung-fu-panda-4-1080p-yts-subdivx.srt?download=Kung.Fu.Panda.4.2024.1080p.WEBRip.x265.10bit.AAC5.1-[YTS.MX].srt",
+        subtitle_file_name: "Kung.Fu.Panda.4.2024.1080p.WEBRip.x265.10bit.AAC5.1-[YTS.MX].srt",
+        title: {
+          title_name: "Kung Fu Panda 4",
+          year: 2024,
+          poster: "https://image.tmdb.org/t/p/original/zS8BSQdbOesql0EWbs17kPvLoAT.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/kYgQzzjNis5jJalYtIHgrom0gOx.jpg",
+        },
+        releaseGroup: {
+          release_group_name: "YTS",
+        },
+      },
+      {
+        id: 3878,
+        resolution: "1080p",
+        subtitle_link:
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/kung-fu-panda-4-1080p-galaxyrg-subdivx.srt?download=Kung.Fu.Panda.4.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
+        subtitle_file_name: "Kung.Fu.Panda.4.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
+        title: {
+          title_name: "Kung Fu Panda 4",
+          year: 2024,
+          poster: "https://image.tmdb.org/t/p/original/zS8BSQdbOesql0EWbs17kPvLoAT.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/kYgQzzjNis5jJalYtIHgrom0gOx.jpg",
+        },
+        releaseGroup: {
+          release_group_name: "GalaxyRG",
+        },
+      },
+      {
+        id: 3879,
+        resolution: "1080p",
+        subtitle_link:
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/kung-fu-panda-4-1080p-ethel-subdivx.srt?download=Kung.Fu.Panda.4.2024.1080p.WEB.h264-ETHEL.srt",
+        subtitle_file_name: "Kung.Fu.Panda.4.2024.1080p.WEB.h264-ETHEL.srt",
+        title: {
+          title_name: "Kung Fu Panda 4",
+          year: 2024,
+          poster: "https://image.tmdb.org/t/p/original/zS8BSQdbOesql0EWbs17kPvLoAT.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/kYgQzzjNis5jJalYtIHgrom0gOx.jpg",
+        },
+        releaseGroup: {
+          release_group_name: "ETHEL",
+        },
+      },
+      {
+        id: 3880,
+        resolution: "2160p",
+        subtitle_link:
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/kung-fu-panda-4-2160p-flux-subdivx.srt?download=Kung.Fu.Panda.4.2024.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.srt",
+        subtitle_file_name: "Kung.Fu.Panda.4.2024.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.srt",
+        title: {
+          title_name: "Kung Fu Panda 4",
+          year: 2024,
+          poster: "https://image.tmdb.org/t/p/original/zS8BSQdbOesql0EWbs17kPvLoAT.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/kYgQzzjNis5jJalYtIHgrom0gOx.jpg",
+        },
+        releaseGroup: {
+          release_group_name: "FLUX",
+        },
+      },
+      {
+        id: 3881,
         resolution: "720p",
         subtitle_link:
-          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-720p-galaxyrg-subdivx.srt?download=Road.House.2024.720p.AMZN.WEBRip.800MB.x264-GalaxyRG.srt",
-        subtitle_file_name: "Road.House.2024.720p.AMZN.WEBRip.800MB.x264-GalaxyRG.srt",
-        movie: {
-          name: "Road House",
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/kung-fu-panda-4-720p-galaxyrg-subdivx.srt?download=Kung.Fu.Panda.4.2024.720p.AMZN.WEBRip.800MB.x264-GalaxyRG.srt",
+        subtitle_file_name: "Kung.Fu.Panda.4.2024.720p.AMZN.WEBRip.800MB.x264-GalaxyRG.srt",
+        title: {
+          title_name: "Kung Fu Panda 4",
           year: 2024,
-          poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
-          backdrop: "https://image.tmdb.org/t/p/original/oe7mWkvYhK4PLRNAVSvonzyUXNy.jpg",
+          poster: "https://image.tmdb.org/t/p/original/zS8BSQdbOesql0EWbs17kPvLoAT.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/kYgQzzjNis5jJalYtIHgrom0gOx.jpg",
         },
         releaseGroup: {
-          name: "GalaxyRG",
-        },
-      },
-      {
-        id: 2990,
-        resolution: "1080p",
-        subtitle_link:
-          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-yts-subdivx.srt?download=Road.House.2024.1080p.WEBRip.x265.10bit.AAC5.1-[YTS.MX].srt",
-        subtitle_file_name: "Road.House.2024.1080p.WEBRip.x265.10bit.AAC5.1-[YTS.MX].srt",
-        movie: {
-          name: "Road House",
-          year: 2024,
-          poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
-          backdrop: "https://image.tmdb.org/t/p/original/oe7mWkvYhK4PLRNAVSvonzyUXNy.jpg",
-        },
-        releaseGroup: {
-          name: "YTS",
-        },
-      },
-      {
-        id: 2991,
-        resolution: "1080p",
-        subtitle_link:
-          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-galaxyrg-subdivx.srt?download=Road.House.2024.1080p.AMZN.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.srt",
-        subtitle_file_name: "Road.House.2024.1080p.AMZN.WEBRip.DDP5.1.x265.10bit-GalaxyRG265.srt",
-        movie: {
-          name: "Road House",
-          year: 2024,
-          poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
-          backdrop: "https://image.tmdb.org/t/p/original/oe7mWkvYhK4PLRNAVSvonzyUXNy.jpg",
-        },
-        releaseGroup: {
-          name: "GalaxyRG",
-        },
-      },
-      {
-        id: 2992,
-        resolution: "1080p",
-        subtitle_link:
-          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-ethel-subdivx.srt?download=Road.House.2024.1080p.WEB.h264-ETHEL.srt",
-        subtitle_file_name: "Road.House.2024.1080p.WEB.h264-ETHEL.srt",
-        movie: {
-          name: "Road House",
-          year: 2024,
-          poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
-          backdrop: "https://image.tmdb.org/t/p/original/oe7mWkvYhK4PLRNAVSvonzyUXNy.jpg",
-        },
-        releaseGroup: {
-          name: "ETHEL",
-        },
-      },
-      {
-        id: 2988,
-        resolution: "1080p",
-        subtitle_link:
-          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-galaxyrg-subdivx.srt?download=Road.House.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
-        subtitle_file_name: "Road.House.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
-        movie: {
-          name: "Road House",
-          year: 2024,
-          poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
-          backdrop: "https://image.tmdb.org/t/p/original/oe7mWkvYhK4PLRNAVSvonzyUXNy.jpg",
-        },
-        releaseGroup: {
-          name: "GalaxyRG",
-        },
-      },
-      {
-        id: 2986,
-        resolution: "1080p",
-        subtitle_link:
-          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-yts-subdivx.srt?download=Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
-        subtitle_file_name: "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
-        movie: {
-          name: "Road House",
-          year: 2024,
-          poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
-          backdrop: "https://image.tmdb.org/t/p/original/oe7mWkvYhK4PLRNAVSvonzyUXNy.jpg",
-        },
-        releaseGroup: {
-          name: "YTS",
+          release_group_name: "GalaxyRG",
         },
       },
     ]);

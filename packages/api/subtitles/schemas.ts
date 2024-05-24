@@ -3,7 +3,7 @@ import { releaseGroupsRowSchema, subtitlesRowSchema, titlesRowSchema } from "@su
 const releaseGroupSchema = releaseGroupsRowSchema.pick({ release_group_name: true });
 const titleSchema = titlesRowSchema.pick({ title_name: true, year: true, poster: true, backdrop: true });
 
-export const moviesVersionSchema = titlesRowSchema.pick({ id: true });
+export const titlesVersionSchema = titlesRowSchema.pick({ id: true });
 
 export const subtitleSchema = subtitlesRowSchema
   .pick({

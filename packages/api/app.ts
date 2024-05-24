@@ -1,13 +1,15 @@
 import { Hono } from "hono";
+import { cache } from "hono/cache";
 import { cors } from "hono/cors";
 import { secureHeaders } from "hono/secure-headers";
+import timestring from "timestring";
 
 // internals
 import { integrations } from "./integrations";
 import { metrics } from "./metrics";
-import { movies } from "./movies";
 import { shortener } from "./shortener";
 import { subtitles } from "./subtitles";
+import { titles } from "./titles";
 
 // core
 const app = new Hono().basePath("/v1");
@@ -16,9 +18,12 @@ const app = new Hono().basePath("/v1");
 app.use("*", cors());
 app.use(secureHeaders());
 
+// cache
+app.get("*", cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("1 day")}` }));
+
 // routes
 const routes = app
-  .route("/movies", movies)
+  .route("/titles", titles)
   .route("/metrics", metrics)
   .route("/subtitles", subtitles)
   .route("/integrations", integrations)

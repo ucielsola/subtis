@@ -5,10 +5,13 @@ import { getMockEnv } from "../shared/test";
 import { metrics } from "./metrics";
 
 describe("API | /metrics/download", () => {
-  test("Valid JSON Request with existing bytes and fileName", async () => {
+  test("Valid JSON Request with existing bytes and titleFileName", async () => {
     const request = {
       method: "POST",
-      body: JSON.stringify({ bytes: 2442029036, fileName: "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4" }),
+      body: JSON.stringify({
+        bytes: 2271011775,
+        titleFileName: "Godzilla.X.Kong.The.New.Empire.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
+      }),
       headers: { "Content-Type": "application/json" },
     };
 
@@ -45,7 +48,7 @@ describe("API | /metrics/download", () => {
             code: "invalid_type",
             expected: "string",
             received: "undefined",
-            path: ["fileName"],
+            path: ["titleFileName"],
             message: "Required",
           },
         ],

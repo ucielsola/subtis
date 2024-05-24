@@ -2,8 +2,8 @@ import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { z } from "zod";
 
-import { type AppVariables, getSupabaseClient } from "../shared";
 // internals
+import { type AppVariables, getSupabaseClient } from "../shared";
 import { getSubtitleText } from "./helpers";
 
 // db
@@ -33,14 +33,15 @@ export const integrations = new Hono<{ Variables: AppVariables }>().get(
     const { data } = await supabase
       .from("Subtitles")
       .select("subtitle_link")
-      .match({ movie_file_name: videoFileName.data })
+      .match({ title_file_name: videoFileName.data })
       .single();
 
     const subtitleByFileName = subtitleSchema.safeParse(data);
 
     if (!subtitleByFileName.success) {
       await supabase.rpc("insert_subtitle_not_found", {
-        file_name: videoFileName.data,
+        _title_file_name: videoFileName.data,
+        _bytes: Number(bytes),
       });
 
       const { data } = await supabase.from("Subtitles").select("subtitle_link").match({ bytes }).single();

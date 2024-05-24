@@ -231,7 +231,7 @@ function getSupabaseSubtitleLink({
 
 async function storeTitleInSupabaseTable(title: TitleWithEpisode): Promise<void> {
   const { episode, ...rest } = title;
-  return supabase.from("Titles").upsert(rest);
+  await supabase.from("Titles").upsert(rest);
 }
 
 async function storeSubtitleInSupabaseTable({

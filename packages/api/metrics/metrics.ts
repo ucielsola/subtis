@@ -6,15 +6,15 @@ import { z } from "zod";
 import { type AppVariables, getSupabaseClient } from "../shared";
 
 // core
-export const metrics = new Hono<{ Variables: AppVariables }>().post(
+export const metrics = new Hono<{ Variables: AppVariables }>().patch(
   "/download",
-  zValidator("json", z.object({ bytes: z.number(), fileName: z.string() })),
+  zValidator("json", z.object({ bytes: z.number(), titleFileName: z.string() })),
   async (context) => {
-    const { bytes, fileName } = context.req.valid("json");
+    const { bytes, titleFileName } = context.req.valid("json");
 
     const { error } = await getSupabaseClient(context).rpc("update_subtitle_info", {
       _bytes: bytes,
-      _title_file_name: fileName,
+      _title_file_name: titleFileName,
     });
 
     if (error) {
