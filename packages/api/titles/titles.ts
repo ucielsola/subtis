@@ -9,12 +9,13 @@ import { type AppVariables, getSupabaseClient } from "../shared";
 import { titlesRowSchema } from "@subtis/db/schemas";
 
 // schemas
-const titleSchema = titlesRowSchema.pick({ id: true, title_name: true, year: true });
-const titlesSchema = z.array(titleSchema).min(1);
+const searchTitleSchema = titlesRowSchema.pick({ id: true, type: true, title_name: true, year: true });
+const searchTitlesSchema = z.array(searchTitleSchema).min(1);
 
 const recentTitleSchema = titlesRowSchema.pick({
   id: true,
   title_name: true,
+  type: true,
   year: true,
   rating: true,
   release_date: true,
@@ -27,6 +28,7 @@ const recentTitlesSchema = z
 const recentTitlesQuery = `
   id,
   year,
+  type,
   rating,
   title_name,
   release_date
@@ -39,7 +41,7 @@ export const titles = new Hono<{ Variables: AppVariables }>()
 
     const { data } = await getSupabaseClient(context).rpc("fuzzy_search_title", { query });
 
-    const titles = titlesSchema.safeParse(data);
+    const titles = searchTitlesSchema.safeParse(data);
     if (!titles.success) {
       context.status(404);
       return context.json({ message: `Titles not found for query ${query}` });
