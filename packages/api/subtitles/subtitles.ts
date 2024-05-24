@@ -112,7 +112,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 
     if (!titleByNameAndYear.success) {
       context.status(404);
-      return context.json({ message: "title not found for file" });
+      return context.json({ message: "Title not found for file" });
     }
 
     const { data } = await supabase

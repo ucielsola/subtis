@@ -147,11 +147,11 @@ export const subtitlesNotFoundUpdateSchema = z.object({
 });
 
 export const titlesRowSchema = z.object({
-  backdrop: z.string(),
+  backdrop: z.string().nullable(),
   created_at: z.string(),
   id: z.number(),
   overview: z.string(),
-  poster: z.string(),
+  poster: z.string().nullable(),
   rating: z.number(),
   release_date: z.string(),
   title_name: z.string(),
@@ -163,11 +163,11 @@ export const titlesRowSchema = z.object({
 });
 
 export const titlesInsertSchema = z.object({
-  backdrop: z.string(),
+  backdrop: z.string().optional().nullable(),
   created_at: z.string().optional(),
   id: z.number().optional(),
   overview: z.string(),
-  poster: z.string(),
+  poster: z.string().optional().nullable(),
   rating: z.number(),
   release_date: z.string(),
   title_name: z.string(),
@@ -179,11 +179,11 @@ export const titlesInsertSchema = z.object({
 });
 
 export const titlesUpdateSchema = z.object({
-  backdrop: z.string().optional(),
+  backdrop: z.string().optional().nullable(),
   created_at: z.string().optional(),
   id: z.number().optional(),
   overview: z.string().optional(),
-  poster: z.string().optional(),
+  poster: z.string().optional().nullable(),
   rating: z.number().optional(),
   release_date: z.string().optional(),
   title_name: z.string().optional(),

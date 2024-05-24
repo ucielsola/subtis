@@ -6,7 +6,7 @@ import { z } from "zod";
 import { type AppVariables, getSupabaseClient } from "../shared";
 
 // core
-export const metrics = new Hono<{ Variables: AppVariables }>().patch(
+export const metrics = new Hono<{ Variables: AppVariables }>().post(
   "/download",
   zValidator("json", z.object({ bytes: z.number(), titleFileName: z.string() })),
   async (context) => {

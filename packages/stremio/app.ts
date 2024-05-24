@@ -43,7 +43,7 @@ async function getMovieSubtitle(args: Args) {
   };
 
   apiClient.v1.metrics.download.$post({
-    json: { bytes: Number(bytes), fileName },
+    json: { bytes: Number(bytes), titleFileName: fileName },
   });
 
   const withCacheMaxAge = isProduction ? {} : { cacheMaxAge: 0 };

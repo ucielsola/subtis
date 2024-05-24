@@ -85,7 +85,7 @@ export async function mod(): Promise<void> {
     }
 
     apiClient.v1.metrics.download.$post({
-      json: { bytes, fileName },
+      json: { bytes, titleFileName: fileName },
     });
 
     loader.stop(`🥳 Descarga tu subtítulo en ${chalk.blue(getSubtitleShortLink(subtitleByFileName.data.id))}`);

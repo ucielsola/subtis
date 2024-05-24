@@ -10,7 +10,7 @@ describe("API | /:subtitleId", () => {
       method: "GET",
     };
 
-    const response = await shortener.request("/2937", request, getMockEnv());
+    const response = await shortener.request("/3864", request, getMockEnv());
 
     expect(response.status).toBe(302);
   });

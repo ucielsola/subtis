@@ -7,7 +7,7 @@ import clipboard from "clipboardy";
 import download from "download";
 import extract from "extract-zip";
 import prettyBytes from "pretty-bytes";
-import sound from "sound-play";
+// import sound from "sound-play";
 import invariant from "tiny-invariant";
 import tg from "torrent-grabber";
 import torrentStream, { type File } from "torrent-stream";

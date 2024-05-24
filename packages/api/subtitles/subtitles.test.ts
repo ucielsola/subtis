@@ -157,7 +157,7 @@ describe("API | /subtitles/title", () => {
     const data = await response.json();
 
     expect(response.status).toBe(404);
-    expect(data).toEqual({ message: "Subtitles not found for movie" });
+    expect(data).toEqual({ message: "Subtitles not found for title" });
   });
 });
 
@@ -176,22 +176,6 @@ describe("API | /subtitles/trending", () => {
     expect(data).toHaveLength(2);
     expect(data).toEqual([
       {
-        id: 3863,
-        resolution: "720p",
-        subtitle_link:
-          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/godzilla-x-kong:-the-new-empire-720p-yts-subdivx.srt?download=Godzilla.X.Kong.The.New.Empire.2024.720p.WEBRip.x264.AAC-[YTS.MX].srt",
-        subtitle_file_name: "Godzilla.X.Kong.The.New.Empire.2024.720p.WEBRip.x264.AAC-[YTS.MX].srt",
-        title: {
-          title_name: "Godzilla x Kong: The New Empire",
-          year: 2024,
-          poster: "https://image.tmdb.org/t/p/original/2YqZ6IyFk7menirwziJvfoVvSOh.jpg",
-          backdrop: "https://image.tmdb.org/t/p/original/sR0SpCrXamlIkYMdfz83sFn5JS6.jpg",
-        },
-        releaseGroup: {
-          release_group_name: "YTS",
-        },
-      },
-      {
         id: 3862,
         resolution: "1080p",
         subtitle_link:
@@ -205,6 +189,22 @@ describe("API | /subtitles/trending", () => {
         },
         releaseGroup: {
           release_group_name: "YTS",
+        },
+      },
+      {
+        id: 3864,
+        resolution: "1080p",
+        subtitle_link:
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/godzilla-x-kong:-the-new-empire-1080p-galaxyrg-subdivx.srt?download=Godzilla.x.Kong.The.New.Empire.2024.REPACK2.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
+        subtitle_file_name: "Godzilla.x.Kong.The.New.Empire.2024.REPACK2.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
+        title: {
+          title_name: "Godzilla x Kong: The New Empire",
+          year: 2024,
+          poster: "https://image.tmdb.org/t/p/original/2YqZ6IyFk7menirwziJvfoVvSOh.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/sR0SpCrXamlIkYMdfz83sFn5JS6.jpg",
+        },
+        releaseGroup: {
+          release_group_name: "GalaxyRG",
         },
       },
     ]);
@@ -262,27 +262,27 @@ describe("API | /subtitles/file/name", () => {
       method: "GET",
     };
 
-    const fileName = "Road.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4";
-    const bytes = "2442029036";
+    const fileName = "Godzilla.x.Kong.The.New.Empire.2024.REPACK2.1080p.WRip.1400MB.DD5.1.x264-GalaxyRG.mkv";
+    const bytes = "1506405943";
 
     const response = await subtitles.request(`/file/name/${bytes}/${fileName}`, request, getMockEnv());
     const data = await response.json();
 
     expect(response.status).toBe(200);
     expect(data).toEqual({
-      id: 2986,
+      id: 3864,
       resolution: "1080p",
       subtitle_link:
-        "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/road-house-1080p-yts-subdivx.srt?download=Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
-      subtitle_file_name: "Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
-      movie: {
-        name: "Road House",
+        "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/godzilla-x-kong:-the-new-empire-1080p-galaxyrg-subdivx.srt?download=Godzilla.x.Kong.The.New.Empire.2024.REPACK2.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
+      subtitle_file_name: "Godzilla.x.Kong.The.New.Empire.2024.REPACK2.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
+      title: {
+        title_name: "Godzilla x Kong: The New Empire",
         year: 2024,
-        poster: "https://image.tmdb.org/t/p/original/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
-        backdrop: "https://image.tmdb.org/t/p/original/oe7mWkvYhK4PLRNAVSvonzyUXNy.jpg",
+        poster: "https://image.tmdb.org/t/p/original/2YqZ6IyFk7menirwziJvfoVvSOh.jpg",
+        backdrop: "https://image.tmdb.org/t/p/original/sR0SpCrXamlIkYMdfz83sFn5JS6.jpg",
       },
       releaseGroup: {
-        name: "YTS",
+        release_group_name: "GalaxyRG",
       },
     });
   });
@@ -428,7 +428,7 @@ describe("API | /file/versions", () => {
 
     expect(response.status).toBe(404);
     expect(data).toEqual({
-      message: "Movie not found for file",
+      message: "Title not found for file",
     });
   });
 

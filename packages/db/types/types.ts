@@ -172,11 +172,11 @@ export type Database = {
       };
       Titles: {
         Row: {
-          backdrop: string;
+          backdrop: string | null;
           created_at: string;
           id: number;
           overview: string;
-          poster: string;
+          poster: string | null;
           rating: number;
           release_date: string;
           title_name: string;
@@ -187,11 +187,11 @@ export type Database = {
           year: number;
         };
         Insert: {
-          backdrop: string;
+          backdrop?: string | null;
           created_at?: string;
           id?: number;
           overview: string;
-          poster: string;
+          poster?: string | null;
           rating: number;
           release_date: string;
           title_name: string;
@@ -202,11 +202,11 @@ export type Database = {
           year: number;
         };
         Update: {
-          backdrop?: string;
+          backdrop?: string | null;
           created_at?: string;
           id?: number;
           overview?: string;
-          poster?: string;
+          poster?: string | null;
           rating?: number;
           release_date?: string;
           title_name?: string;

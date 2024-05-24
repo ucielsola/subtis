@@ -11,7 +11,7 @@ describe("API | /stremio/:bytes/:file", () => {
     };
 
     const response = await integrations.request(
-      "/stremio/2326898819/Madame.Web.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
+      "/stremio/1506405943/Godzilla.x.Kong.The.New.Empire.2024.REPACK2.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv",
       request,
       getMockEnv(),
     );
