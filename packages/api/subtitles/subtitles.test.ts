@@ -201,6 +201,7 @@ describe("API | /subtitles/trending", () => {
         current_episode: null,
         title: {
           title_name: "Godzilla x Kong: The New Empire",
+          type: "movie",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/2YqZ6IyFk7menirwziJvfoVvSOh.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/sR0SpCrXamlIkYMdfz83sFn5JS6.jpg",
@@ -219,6 +220,7 @@ describe("API | /subtitles/trending", () => {
         current_episode: null,
         title: {
           title_name: "Godzilla x Kong: The New Empire",
+          type: "movie",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/2YqZ6IyFk7menirwziJvfoVvSOh.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/sR0SpCrXamlIkYMdfz83sFn5JS6.jpg",
@@ -254,6 +256,7 @@ describe("API | /subtitles/file/name", () => {
       current_episode: null,
       title: {
         title_name: "Godzilla x Kong: The New Empire",
+        type: "movie",
         year: 2024,
         poster: "https://image.tmdb.org/t/p/original/2YqZ6IyFk7menirwziJvfoVvSOh.jpg",
         backdrop: "https://image.tmdb.org/t/p/original/sR0SpCrXamlIkYMdfz83sFn5JS6.jpg",
@@ -285,6 +288,7 @@ describe("API | /subtitles/file/name", () => {
       subtitle_file_name: "Shogun.2024.S01E02.1080p.HEVC.x265-MeGusta.srt",
       title: {
         title_name: "Shōgun",
+        type: "tvShow",
         year: 2024,
         poster: "https://image.tmdb.org/t/p/original/uIoDvVOQaKjSfz2oihkVS8M7l1v.jpg",
         backdrop: "https://image.tmdb.org/t/p/original/5zmiBoMzeeVdQ62no55JOJMY498.jpg",
@@ -332,6 +336,7 @@ describe("API | /subtitles/file/name", () => {
       current_episode: null,
       title: {
         title_name: "Godzilla x Kong: The New Empire",
+        type: "movie",
         year: 2024,
         poster: "https://image.tmdb.org/t/p/original/2YqZ6IyFk7menirwziJvfoVvSOh.jpg",
         backdrop: "https://image.tmdb.org/t/p/original/sR0SpCrXamlIkYMdfz83sFn5JS6.jpg",

@@ -19,7 +19,7 @@ const subtitlesQuery = `
   current_season,
   current_episode,
   releaseGroup: ReleaseGroups ( release_group_name ),
-  title: Titles ( title_name, year, poster, backdrop )
+  title: Titles ( title_name, type, year, poster, backdrop )
 `;
 
 const subtitlesSchema = z
@@ -79,7 +79,13 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
           _bytes: Number(bytes),
         });
 
-        const { data } = await supabase.from("Subtitles").select(subtitlesQuery).match({ bytes }).single();
+        const { data } = await supabase
+          .from("Subtitles")
+          .select(subtitlesQuery)
+          .match({ bytes })
+          .order("created_at", { ascending: false })
+          .limit(1)
+          .single();
 
         const subtitleByBytes = subtitleSchema.safeParse(data);
 
