@@ -19,10 +19,10 @@
 
 ```sql
 CREATE OR REPLACE FUNCTION public.fuzzy_search_title(query text)
-RETURNS TABLE (id int8, title_name text, year int8) AS $$
+RETURNS TABLE (id int8, title_name text, year int8, type text) AS $$
 BEGIN
     RETURN QUERY
-    SELECT t.id, t.title_name, t.year
+    SELECT t.id, t.title_name, t.year, t.type
     FROM "Titles" t
     WHERE query % ANY(STRING_TO_ARRAY(t.title_name, ' '))
        OR query % ANY(STRING_TO_ARRAY(t.title_name_spa, ' '));
