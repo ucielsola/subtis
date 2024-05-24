@@ -33,6 +33,5 @@ const routes = app
 
 // exports
 export default app;
-export type AppType = typeof routes;
-
 export * from "./subtitles";
+export type AppType = typeof routes;

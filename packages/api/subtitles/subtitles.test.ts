@@ -27,6 +27,7 @@ describe("API | /subtitles/title", () => {
         current_episode: null,
         title: {
           title_name: "Dune: Part Two",
+          type: "movie",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/6o5cJjA4srfvU52UKWaqPUuPPgl.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg",
@@ -45,6 +46,7 @@ describe("API | /subtitles/title", () => {
         current_episode: null,
         title: {
           title_name: "Dune: Part Two",
+          type: "movie",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/6o5cJjA4srfvU52UKWaqPUuPPgl.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg",
@@ -63,6 +65,7 @@ describe("API | /subtitles/title", () => {
         current_episode: null,
         title: {
           title_name: "Dune: Part Two",
+          type: "movie",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/6o5cJjA4srfvU52UKWaqPUuPPgl.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg",
@@ -81,6 +84,7 @@ describe("API | /subtitles/title", () => {
         current_episode: null,
         title: {
           title_name: "Dune: Part Two",
+          type: "movie",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/6o5cJjA4srfvU52UKWaqPUuPPgl.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg",
@@ -99,6 +103,7 @@ describe("API | /subtitles/title", () => {
         current_episode: null,
         title: {
           title_name: "Dune: Part Two",
+          type: "movie",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/6o5cJjA4srfvU52UKWaqPUuPPgl.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg",
@@ -117,6 +122,7 @@ describe("API | /subtitles/title", () => {
         current_episode: null,
         title: {
           title_name: "Dune: Part Two",
+          type: "movie",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/6o5cJjA4srfvU52UKWaqPUuPPgl.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg",
@@ -135,6 +141,7 @@ describe("API | /subtitles/title", () => {
         current_episode: null,
         title: {
           title_name: "Dune: Part Two",
+          type: "movie",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/6o5cJjA4srfvU52UKWaqPUuPPgl.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg",
@@ -153,6 +160,7 @@ describe("API | /subtitles/title", () => {
         current_episode: null,
         title: {
           title_name: "Dune: Part Two",
+          type: "movie",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/6o5cJjA4srfvU52UKWaqPUuPPgl.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg",
@@ -371,6 +379,7 @@ describe("API | /file/versions", () => {
         current_episode: null,
         title: {
           title_name: "Kung Fu Panda 4",
+          type: "movie",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/zS8BSQdbOesql0EWbs17kPvLoAT.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/kYgQzzjNis5jJalYtIHgrom0gOx.jpg",
@@ -389,6 +398,7 @@ describe("API | /file/versions", () => {
         current_episode: null,
         title: {
           title_name: "Kung Fu Panda 4",
+          type: "movie",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/zS8BSQdbOesql0EWbs17kPvLoAT.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/kYgQzzjNis5jJalYtIHgrom0gOx.jpg",
@@ -407,6 +417,7 @@ describe("API | /file/versions", () => {
         current_episode: null,
         title: {
           title_name: "Kung Fu Panda 4",
+          type: "movie",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/zS8BSQdbOesql0EWbs17kPvLoAT.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/kYgQzzjNis5jJalYtIHgrom0gOx.jpg",
@@ -425,6 +436,7 @@ describe("API | /file/versions", () => {
         current_episode: null,
         title: {
           title_name: "Kung Fu Panda 4",
+          type: "movie",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/zS8BSQdbOesql0EWbs17kPvLoAT.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/kYgQzzjNis5jJalYtIHgrom0gOx.jpg",
@@ -443,6 +455,7 @@ describe("API | /file/versions", () => {
         current_episode: null,
         title: {
           title_name: "Kung Fu Panda 4",
+          type: "movie",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/zS8BSQdbOesql0EWbs17kPvLoAT.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/kYgQzzjNis5jJalYtIHgrom0gOx.jpg",
@@ -461,6 +474,7 @@ describe("API | /file/versions", () => {
         current_episode: null,
         title: {
           title_name: "Kung Fu Panda 4",
+          type: "movie",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/zS8BSQdbOesql0EWbs17kPvLoAT.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/kYgQzzjNis5jJalYtIHgrom0gOx.jpg",
@@ -479,6 +493,7 @@ describe("API | /file/versions", () => {
         current_episode: null,
         title: {
           title_name: "Kung Fu Panda 4",
+          type: "movie",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/zS8BSQdbOesql0EWbs17kPvLoAT.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/kYgQzzjNis5jJalYtIHgrom0gOx.jpg",
