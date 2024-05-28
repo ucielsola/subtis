@@ -1,18 +1,10 @@
-import * as Sentry from "@sentry/node";
-import { nodeProfilingIntegration } from "@sentry/profiling-node";
 import { type ContentType, addonBuilder, serveHTTP } from "stremio-addon-sdk";
 
 // internals
 import project from "./package.json";
 
-Sentry.init({
-  dsn: process.env.SENTRY_DSN,
-  integrations: [nodeProfilingIntegration()],
-  tracesSampleRate: 1.0,
-  profilesSampleRate: 1.0,
-});
-
 // internals
+import { subtitleSchema } from "@subtis/api/subtitles/schemas";
 import { apiClient } from "./api";
 import { getSubtitleUrl, isProduction } from "./utils";
 
@@ -29,16 +21,23 @@ type Args = {
 type ExtraArgs = Args["extra"] & { filename: string };
 
 // core
-async function getMovieSubtitle(args: Args) {
-  if (args.type !== "movie") {
+async function getTitleSubtitle(args: Args) {
+  const { videoSize: bytes, filename: fileName } = args.extra as ExtraArgs;
+
+  const response = await apiClient.v1.subtitles.file.name[":bytes"][":fileName"].$get({
+    param: { bytes, fileName },
+  });
+  const data = await response.json();
+
+  const subtitleByFileName = subtitleSchema.safeParse(data);
+  if (!subtitleByFileName.success) {
+    // Trigger error to sentry
     return Promise.resolve({ subtitles: [] });
   }
 
-  const { videoSize: bytes, filename: fileName } = args.extra as ExtraArgs;
-
   const subtitle = {
     lang: "spa",
-    id: ": Subtis | Subtitulo en Español",
+    id: subtitleByFileName.data.id,
     url: getSubtitleUrl({ bytes, fileName }),
   };
 
@@ -59,10 +58,10 @@ const builder = new addonBuilder({
   description: "Subtis es tu buscador de subtitulos para tus películas y series favoritas",
   catalogs: [],
   resources: ["subtitles"],
-  types: ["movie"],
+  types: ["movie", "series"],
   logo: "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/assets/stremio.jpg",
 });
 
-builder.defineSubtitlesHandler(getMovieSubtitle);
+builder.defineSubtitlesHandler(getTitleSubtitle);
 
 serveHTTP(builder.getInterface(), { port: Number(process.env.PORT || 8081) });
