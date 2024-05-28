@@ -288,6 +288,10 @@ async function storeSubtitleInSupabaseTable({
   }
 }
 
+function parseTorrentTrackerId(trackerId: string) {
+  return trackerId.slice(0, 60).toLowerCase();
+}
+
 async function storeTorrentInSupabaseTable(torrent: TorrentResultWithId): Promise<void> {
   const { id, title, size, seeds, tracker, trackerId } = torrent;
 
@@ -296,8 +300,8 @@ async function storeTorrentInSupabaseTable(torrent: TorrentResultWithId): Promis
     torrent_name: title,
     torrent_size: size,
     torrent_seeds: seeds,
-    torrent_link: trackerId,
     torrent_tracker: tracker,
+    torrent_link: parseTorrentTrackerId(trackerId),
   });
 }
 
