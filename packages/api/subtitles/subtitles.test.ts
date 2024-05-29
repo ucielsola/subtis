@@ -185,6 +185,208 @@ describe("API | /subtitles/movie", () => {
   });
 });
 
+describe("API | /subtitles/tv-show", () => {
+  test("Valid JSON Request with existing title ID", async () => {
+    const request = {
+      method: "GET",
+    };
+
+    const titleId = 2788316;
+    const season = 1;
+    const episode = 1;
+
+    const response = await subtitles.request(`/tv-show/${titleId}/${season}/${episode}`, request, getMockEnv());
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data).toEqual([
+      {
+        id: 3883,
+        resolution: "1080p",
+        subtitle_link:
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/shogun-1080p-megusta-subdivx.srt?download=Shogun.2024.S01E01.1080p.HEVC.x265-MeGusta[EZTVx.to].srt",
+        current_season: 1,
+        current_episode: 1,
+        subtitle_file_name: "Shogun.2024.S01E01.1080p.HEVC.x265-MeGusta[EZTVx.to].srt",
+        title: {
+          title_name: "Shōgun",
+          type: "tvShow",
+          year: 2024,
+          poster: "https://image.tmdb.org/t/p/original/uIoDvVOQaKjSfz2oihkVS8M7l1v.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/5zmiBoMzeeVdQ62no55JOJMY498.jpg",
+        },
+        releaseGroup: {
+          release_group_name: "MeGusta",
+        },
+      },
+      {
+        id: 3884,
+        resolution: "2160p",
+        subtitle_link:
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/shogun-2160p-successfulcrab-subdivx.srt?download=shogun.2024.s01e01.2160p.web.h265-successfulcrab.srt",
+        current_season: 1,
+        current_episode: 1,
+        subtitle_file_name: "shogun.2024.s01e01.2160p.web.h265-successfulcrab.srt",
+        title: {
+          title_name: "Shōgun",
+          type: "tvShow",
+          year: 2024,
+          poster: "https://image.tmdb.org/t/p/original/uIoDvVOQaKjSfz2oihkVS8M7l1v.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/5zmiBoMzeeVdQ62no55JOJMY498.jpg",
+        },
+        releaseGroup: {
+          release_group_name: "SuccessfulCrab",
+        },
+      },
+      {
+        id: 3886,
+        resolution: "2160p",
+        subtitle_link:
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/shogun-2160p-successfulcrab-subdivx.srt?download=shogun.2024.s01e01.dv.hdr.2160p.web.h265-successfulcrab.srt",
+        current_season: 1,
+        current_episode: 1,
+        subtitle_file_name: "shogun.2024.s01e01.dv.hdr.2160p.web.h265-successfulcrab.srt",
+        title: {
+          title_name: "Shōgun",
+          type: "tvShow",
+          year: 2024,
+          poster: "https://image.tmdb.org/t/p/original/uIoDvVOQaKjSfz2oihkVS8M7l1v.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/5zmiBoMzeeVdQ62no55JOJMY498.jpg",
+        },
+        releaseGroup: {
+          release_group_name: "SuccessfulCrab",
+        },
+      },
+      {
+        id: 3882,
+        resolution: "1080p",
+        subtitle_link:
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/shogun-1080p-successfulcrab-subdivx.srt?download=shogun.2024.s01e01.1080p.web.h264-successfulcrab.srt",
+        current_season: 1,
+        current_episode: 1,
+        subtitle_file_name: "shogun.2024.s01e01.1080p.web.h264-successfulcrab.srt",
+        title: {
+          title_name: "Shōgun",
+          type: "tvShow",
+          year: 2024,
+          poster: "https://image.tmdb.org/t/p/original/uIoDvVOQaKjSfz2oihkVS8M7l1v.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/5zmiBoMzeeVdQ62no55JOJMY498.jpg",
+        },
+        releaseGroup: {
+          release_group_name: "SuccessfulCrab",
+        },
+      },
+      {
+        id: 3887,
+        resolution: "1080p",
+        subtitle_link:
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/shogun-1080p-flux-subdivx.srt?download=Shogun.2024.S01E01.Anjin.REPACK.1080p.DSNP.WEB-DL.DDP5.1.H.264-FLUX.srt",
+        current_season: 1,
+        current_episode: 1,
+        subtitle_file_name: "Shogun.2024.S01E01.Anjin.REPACK.1080p.DSNP.WEB-DL.DDP5.1.H.264-FLUX.srt",
+        title: {
+          title_name: "Shōgun",
+          type: "tvShow",
+          year: 2024,
+          poster: "https://image.tmdb.org/t/p/original/uIoDvVOQaKjSfz2oihkVS8M7l1v.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/5zmiBoMzeeVdQ62no55JOJMY498.jpg",
+        },
+        releaseGroup: {
+          release_group_name: "FLUX",
+        },
+      },
+      {
+        id: 3888,
+        resolution: "720p",
+        subtitle_link:
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/shogun-720p-minx-subdivx.srt?download=Shogun.2024.S01E01.720p.WEB.x265-MiNX.srt",
+        current_season: 1,
+        current_episode: 1,
+        subtitle_file_name: "Shogun.2024.S01E01.720p.WEB.x265-MiNX.srt",
+        title: {
+          title_name: "Shōgun",
+          type: "tvShow",
+          year: 2024,
+          poster: "https://image.tmdb.org/t/p/original/uIoDvVOQaKjSfz2oihkVS8M7l1v.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/5zmiBoMzeeVdQ62no55JOJMY498.jpg",
+        },
+        releaseGroup: {
+          release_group_name: "MinX",
+        },
+      },
+      {
+        id: 3890,
+        resolution: "1080p",
+        subtitle_link:
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/shogun-1080p-ntb-subdivx.srt?download=Shogun.2024.S01E01.Anjin.1080p.DSNP.WEB-DL.DDP5.1.H.264-NTb[EZTVx.to].srt",
+        current_season: 1,
+        current_episode: 1,
+        subtitle_file_name: "Shogun.2024.S01E01.Anjin.1080p.DSNP.WEB-DL.DDP5.1.H.264-NTb[EZTVx.to].srt",
+        title: {
+          title_name: "Shōgun",
+          type: "tvShow",
+          year: 2024,
+          poster: "https://image.tmdb.org/t/p/original/uIoDvVOQaKjSfz2oihkVS8M7l1v.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/5zmiBoMzeeVdQ62no55JOJMY498.jpg",
+        },
+        releaseGroup: {
+          release_group_name: "NTB",
+        },
+      },
+      {
+        id: 3889,
+        resolution: "1080p",
+        subtitle_link:
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/shogun-1080p-megusta-subdivx.srt?download=Shogun.2024.S01E01.1080p.HEVC.x265-MeGusta.srt",
+        current_season: 1,
+        current_episode: 1,
+        subtitle_file_name: "Shogun.2024.S01E01.1080p.HEVC.x265-MeGusta.srt",
+        title: {
+          title_name: "Shōgun",
+          type: "tvShow",
+          year: 2024,
+          poster: "https://image.tmdb.org/t/p/original/uIoDvVOQaKjSfz2oihkVS8M7l1v.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/5zmiBoMzeeVdQ62no55JOJMY498.jpg",
+        },
+        releaseGroup: {
+          release_group_name: "MeGusta",
+        },
+      },
+      {
+        id: 3885,
+        resolution: "1080p",
+        subtitle_link:
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/shogun-1080p-successfulcrab-subdivx.srt?download=shogun.2024.s01e01.1080p.web.h264-successfulcrab[EZTVx.to].srt",
+        current_season: 1,
+        current_episode: 1,
+        subtitle_file_name: "shogun.2024.s01e01.1080p.web.h264-successfulcrab[EZTVx.to].srt",
+        title: {
+          title_name: "Shōgun",
+          type: "tvShow",
+          year: 2024,
+          poster: "https://image.tmdb.org/t/p/original/uIoDvVOQaKjSfz2oihkVS8M7l1v.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/5zmiBoMzeeVdQ62no55JOJMY498.jpg",
+        },
+        releaseGroup: {
+          release_group_name: "SuccessfulCrab",
+        },
+      },
+    ]);
+  });
+
+  test("Valid JSON Request with non-existent title ID", async () => {
+    const request = {
+      method: "GET",
+    };
+
+    const response = await subtitles.request("/tv-show/9350", request, getMockEnv());
+    const data = await response.json();
+
+    expect(response.status).toBe(404);
+    expect(data).toEqual({ message: "Subtitles not found for title" });
+  });
+});
+
 describe("API | /subtitles/trending", () => {
   test("Valid JSON Request with limit 2", async () => {
     const request = {
