@@ -50,6 +50,12 @@ export const titles = new Hono<{ Variables: AppVariables }>()
   })
   .get("/recent/:limit", zValidator("param", z.object({ limit: z.string() })), async (context) => {
     const { limit } = context.req.valid("param");
+    const MAX_LIMIT = 30;
+
+    if (Number(limit) > MAX_LIMIT) {
+      context.status(400);
+      return context.json({ message: `Limit must be less than or equal to ${MAX_LIMIT}` });
+    }
 
     const { data } = await getSupabaseClient(context)
       .from("Titles")
