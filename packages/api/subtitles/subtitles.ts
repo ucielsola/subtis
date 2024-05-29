@@ -36,7 +36,7 @@ const alternativeSubtitlesSchema = z
 
 // core
 export const subtitles = new Hono<{ Variables: AppVariables }>()
-  .get("/title/:id", zValidator("param", z.object({ id: z.string() })), async (context) => {
+  .get("/movie/:id", zValidator("param", z.object({ id: z.string() })), async (context) => {
     const { id } = context.req.valid("param");
 
     const { data } = await getSupabaseClient(context)
@@ -52,6 +52,28 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 
     return context.json(subtitles.data);
   })
+  .get(
+    "/tv-show/:id/:season?/:episode?",
+    zValidator("param", z.object({ id: z.string(), season: z.string().optional(), episode: z.string().optional() })),
+    async (context) => {
+      const { id, season = 1, episode = 1 } = context.req.valid("param");
+
+      const { data } = await getSupabaseClient(context)
+        .from("Subtitles")
+        .select(subtitlesQuery)
+        .match({ title_id: Number(id), current_season: season, current_episode: episode });
+
+      // TODO: Add title_id, current_season, and current_episode indexes?
+
+      const subtitles = subtitlesSchema.safeParse(data);
+      if (!subtitles.success) {
+        context.status(404);
+        return context.json({ message: subtitles.error.message });
+      }
+
+      return context.json(subtitles.data);
+    },
+  )
   .get(
     "/file/name/:bytes/:fileName",
     zValidator("param", z.object({ bytes: z.string(), fileName: z.string() })),

@@ -4,7 +4,7 @@ import { describe, expect, test } from "bun:test";
 import { getMockEnv } from "../shared/test";
 import { subtitles } from "./subtitles";
 
-describe("API | /subtitles/title", () => {
+describe("API | /subtitles/movie", () => {
   test("Valid JSON Request with existing title ID", async () => {
     const request = {
       method: "GET",
@@ -12,7 +12,7 @@ describe("API | /subtitles/title", () => {
 
     const titleId = 15239678;
 
-    const response = await subtitles.request(`/title/${titleId}`, request, getMockEnv());
+    const response = await subtitles.request(`/movie/${titleId}`, request, getMockEnv());
     const data = await response.json();
 
     expect(response.status).toBe(200);
@@ -177,7 +177,7 @@ describe("API | /subtitles/title", () => {
       method: "GET",
     };
 
-    const response = await subtitles.request("/title/9350", request, getMockEnv());
+    const response = await subtitles.request("/movie/9350", request, getMockEnv());
     const data = await response.json();
 
     expect(response.status).toBe(404);

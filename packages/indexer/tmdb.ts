@@ -467,7 +467,7 @@ async function getTvShowMetadataFromTmdbTvShow({
       return [];
     }
 
-    const seasonEpisodes = [];
+    const seasonEpisodes: string[] = [];
 
     for (let episode = 1; episode <= episodeCount; episode++) {
       seasonEpisodes.push(

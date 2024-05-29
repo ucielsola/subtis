@@ -12,6 +12,18 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "nursery": {
+        "useSortedClasses": "warn",
+        "useExplicitLengthCheck": "warn",
+        "useConsistentBuiltinInstantiation": "warn",
+        "useArrayLiterals": "warn",
+        "noUselessUndefinedInitialization": "warn",
+        "noEvolvingAny": "warn",
+        "noDuplicateJsonKeys": "warn",
+        "noDuplicateElseIf": "warn",
+        "noDoneCallback": "warn",
+        "noConstantMathMinMaxClamp": "warn"
+      },
       "performance": {
         "noAccumulatingSpread": "off"
       },
