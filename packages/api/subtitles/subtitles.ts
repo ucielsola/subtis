@@ -47,7 +47,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
     const subtitles = subtitlesSchema.safeParse(data);
     if (!subtitles.success) {
       context.status(404);
-      return context.json({ message: subtitles.error.message });
+      return context.json({ message: subtitles.error.issues[0].message });
     }
 
     return context.json(subtitles.data);
@@ -68,7 +68,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       const subtitles = subtitlesSchema.safeParse(data);
       if (!subtitles.success) {
         context.status(404);
-        return context.json({ message: subtitles.error.message });
+        return context.json({ message: subtitles.error.issues[0].message });
       }
 
       return context.json(subtitles.data);
@@ -83,7 +83,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       const videoFileName = videoFileNameSchema.safeParse(fileName);
       if (!videoFileName.success) {
         context.status(415);
-        return context.json({ message: videoFileName.error.message });
+        return context.json({ message: videoFileName.error.issues[0].message });
       }
 
       const supabase = getSupabaseClient(context);
@@ -128,7 +128,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
     const videoFileName = videoFileNameSchema.safeParse(fileName);
     if (!videoFileName.success) {
       context.status(415);
-      return context.json({ message: videoFileName.error.message });
+      return context.json({ message: videoFileName.error.issues[0].message });
     }
 
     const supabase = getSupabaseClient(context);
@@ -173,7 +173,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
     const trendingSubtitles = trendingSubtitlesSchema.safeParse(data);
     if (!trendingSubtitles.success) {
       context.status(404);
-      return context.json({ message: trendingSubtitles.error.message });
+      return context.json({ message: trendingSubtitles.error.issues[0].message });
     }
 
     return context.json(trendingSubtitles.data);

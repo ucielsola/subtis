@@ -204,9 +204,9 @@ describe("API | /subtitles/trending", () => {
         resolution: "1080p",
         subtitle_link:
           "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/godzilla-x-kong:-the-new-empire-1080p-yts-subdivx.srt?download=Godzilla.X.Kong.The.New.Empire.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
-        subtitle_file_name: "Godzilla.X.Kong.The.New.Empire.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
         current_season: null,
         current_episode: null,
+        subtitle_file_name: "Godzilla.X.Kong.The.New.Empire.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
         title: {
           title_name: "Godzilla x Kong: The New Empire",
           type: "movie",
@@ -219,22 +219,22 @@ describe("API | /subtitles/trending", () => {
         },
       },
       {
-        id: 3864,
+        id: 3891,
         resolution: "1080p",
         subtitle_link:
-          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/godzilla-x-kong:-the-new-empire-1080p-galaxyrg-subdivx.srt?download=Godzilla.x.Kong.The.New.Empire.2024.REPACK2.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
-        subtitle_file_name: "Godzilla.x.Kong.The.New.Empire.2024.REPACK2.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.srt",
-        current_season: null,
-        current_episode: null,
+          "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/shogun-1080p-successfulcrab-subdivx.srt?download=shogun.2024.s01e02.1080p.web.h264-successfulcrab.srt",
+        current_season: 1,
+        current_episode: 2,
+        subtitle_file_name: "shogun.2024.s01e02.1080p.web.h264-successfulcrab.srt",
         title: {
-          title_name: "Godzilla x Kong: The New Empire",
-          type: "movie",
+          title_name: "Shōgun",
+          type: "tvShow",
           year: 2024,
-          poster: "https://image.tmdb.org/t/p/original/2YqZ6IyFk7menirwziJvfoVvSOh.jpg",
-          backdrop: "https://image.tmdb.org/t/p/original/sR0SpCrXamlIkYMdfz83sFn5JS6.jpg",
+          poster: "https://image.tmdb.org/t/p/original/uIoDvVOQaKjSfz2oihkVS8M7l1v.jpg",
+          backdrop: "https://image.tmdb.org/t/p/original/5zmiBoMzeeVdQ62no55JOJMY498.jpg",
         },
         releaseGroup: {
-          release_group_name: "GalaxyRG",
+          release_group_name: "SuccessfulCrab",
         },
       },
     ]);

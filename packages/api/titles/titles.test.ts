@@ -65,12 +65,12 @@ describe("API | /titles/recent", () => {
         release_date: "2024-03-27",
       },
       {
-        id: 21692408,
-        title_name: "Kung Fu Panda 4",
+        id: 3359350,
+        title_name: "Road House",
         type: "movie",
         year: 2024,
-        rating: 7.128,
-        release_date: "2024-03-02",
+        rating: 7.021,
+        release_date: "2024-03-08",
       },
     ]);
   });

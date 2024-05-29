@@ -25,7 +25,7 @@ export const integrations = new Hono<{ Variables: AppVariables }>().get(
     const videoFileName = videoFileNameSchema.safeParse(fileName);
     if (!videoFileName.success) {
       context.status(415);
-      return context.json({ message: videoFileName.error.message });
+      return context.json({ message: videoFileName.error.issues[0].message });
     }
 
     const supabase = getSupabaseClient(context);
