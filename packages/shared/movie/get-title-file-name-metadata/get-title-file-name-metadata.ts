@@ -18,7 +18,13 @@ export function getTitleFileNameMetadata({
 }: {
   titleFileName: string;
   titleName?: string;
-}) {
+}): {
+  name: string;
+  resolution: string;
+  year: number | null;
+  fileNameWithoutExtension: string;
+  releaseGroup: (typeof RELEASE_GROUPS)[keyof typeof RELEASE_GROUPS] | undefined;
+} {
   const FIRST_MOVIE_RECORDED = 1888;
   const currentYear = new Date().getFullYear();
 
@@ -47,9 +53,7 @@ export function getTitleFileNameMetadata({
     const videoFileExtension = VIDEO_FILE_EXTENSIONS.find((videoFileExtension) =>
       rawAttributes.includes(videoFileExtension),
     );
-    const videoFileExtensionParsed = z
-      .string({ message: `Video file extension not supported: ${parsedMovieFileName}` })
-      .parse(videoFileExtension);
+    z.string({ message: `Video file extension not supported: ${parsedMovieFileName}` }).parse(videoFileExtension);
 
     const resolution = match(rawAttributes)
       .with(P.string.includes("480"), () => "480p")
@@ -68,25 +72,51 @@ export function getTitleFileNameMetadata({
       );
     });
 
-    if (!releaseGroup) {
-      const unsupportedReleaseGroup = rawAttributes
-        .split(videoFileExtensionParsed)
-        .at(0)
-        ?.split(/\.|\s/g)
-        .at(-1)
-        ?.replace("x264-", "") as string;
-
-      console.error(`🛑 Release group ${unsupportedReleaseGroup} no soportado 🛑`);
-    }
-
     return {
+      year,
+      resolution,
+      releaseGroup,
       fileNameWithoutExtension,
       name: titleName || parsedTitleName,
-      releaseGroup,
-      resolution,
-      year,
     };
   }
 
-  throw new Error("Unsupported title year");
+  const resolutions = ["480p", "576p", "1080p", "720p", "2160p", "3D"];
+
+  for (const resolution of resolutions) {
+    if (!parsedMovieFileName.includes(resolution)) {
+      continue;
+    }
+
+    const [rawTitleName, rawAttributes] = parsedMovieFileName.split(resolution);
+    const parsedTitleName = getTitleName(rawTitleName);
+
+    const lowerCaseRawAttributes = rawAttributes.toLowerCase();
+    const parsedRawAttributes = lowerCaseRawAttributes.includes("YTS")
+      ? lowerCaseRawAttributes.replace("AAC", "")
+      : lowerCaseRawAttributes;
+
+    const videoFileExtension = VIDEO_FILE_EXTENSIONS.find((videoFileExtension) =>
+      rawAttributes.includes(videoFileExtension),
+    );
+    z.string({ message: `Video file extension not supported: ${parsedMovieFileName}` }).parse(videoFileExtension);
+
+    const releaseGroup = Object.values(RELEASE_GROUPS).find((releaseGroupInternal) => {
+      return releaseGroupInternal.file_attributes.some((attribute) =>
+        parsedRawAttributes.includes(attribute.toLowerCase()),
+      );
+    });
+
+    const fileNameWithoutExtension = getMovieFileNameWithoutExtension(parsedMovieFileName);
+
+    return {
+      year: null,
+      resolution,
+      releaseGroup,
+      fileNameWithoutExtension,
+      name: titleName || parsedTitleName,
+    };
+  }
+
+  throw new Error("Couldn't parse the title file name metadata");
 }
