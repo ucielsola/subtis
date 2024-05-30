@@ -56,9 +56,9 @@ export async function indexSeriesByYear(seriesYear: number, isDebugging: boolean
     console.log("\n");
 
     for await (const [index, tvShow] of Object.entries(tvShows)) {
-      // if (["0", "1"].includes(index)) {
-      //   continue;
-      // }
+      if (["0"].includes(index)) {
+        continue;
+      }
 
       if (isDebugging) {
         const value = await confirm(`¿Desea skippear el titulo ${tvShow.name}?`);
