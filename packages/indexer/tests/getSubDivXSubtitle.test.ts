@@ -22,6 +22,7 @@ test('should return a subtitle metadata for "Guardians of the Galaxy Vol 3"', as
   const subtitle = await getSubDivXSubtitle({
     titleFileNameMetadata,
     titleProviderQuery,
+    episode: null,
   });
 
   expect(subtitle).toEqual({
@@ -50,6 +51,7 @@ test('should return a subtitle metadata for "Shogun S01E01"', async () => {
   const subtitle = await getSubDivXSubtitle({
     titleFileNameMetadata,
     titleProviderQuery,
+    episode: null,
   });
 
   expect(subtitle).toEqual({

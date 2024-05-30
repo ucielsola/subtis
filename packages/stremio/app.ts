@@ -1,12 +1,12 @@
 import { type ContentType, addonBuilder, serveHTTP } from "stremio-addon-sdk";
 
 // internals
-import project from "./package.json";
-
-// internals
-import { subtitleSchema } from "@subtis/api/subtitles/schemas";
 import { apiClient } from "./api";
+import project from "./package.json";
 import { getSubtitleUrl, isProduction } from "./utils";
+
+// api
+import { subtitleSchema } from "@subtis/api/subtitles/schemas";
 
 // types
 type Args = {
@@ -37,7 +37,7 @@ async function getTitleSubtitle(args: Args) {
 
   const subtitle = {
     lang: "spa",
-    id: subtitleByFileName.data.id,
+    id: Number(subtitleByFileName.data.id),
     url: getSubtitleUrl({ bytes, fileName }),
   };
 

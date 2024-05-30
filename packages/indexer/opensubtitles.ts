@@ -106,8 +106,10 @@ const downloadSchema = z.object({
 // core
 export async function getOpenSubtitlesSubtitle({
   imdbId,
+  episode,
   titleFileNameMetadata,
 }: {
+  episode: string | null;
   imdbId: number;
   titleFileNameMetadata: TitleFileNameMetadata;
 }): Promise<SubtitleData> {
@@ -125,7 +127,6 @@ export async function getOpenSubtitlesSubtitle({
     !String(imdbId).startsWith("tt"),
     `[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: imdbId should not start with 'tt'`,
   );
-
   const response = await fetch(`${OPEN_SUBTITLES_BASE_URL}/subtitles?imdb_id=${imdbId}&languages=es`, {
     headers: getOpenSubtitlesHeaders(),
   });
@@ -166,6 +167,7 @@ export async function getOpenSubtitlesSubtitle({
 
   const subtitleFileNames = generateSubtitleFileNames({
     name,
+    episode,
     resolution,
     fileExtension,
     subtitleGroupName,

@@ -7,7 +7,7 @@ import clipboard from "clipboardy";
 import download from "download";
 import extract from "extract-zip";
 import prettyBytes from "pretty-bytes";
-// import sound from "sound-play";
+import sound from "sound-play";
 import invariant from "tiny-invariant";
 import tg from "torrent-grabber";
 import torrentStream, { type File } from "torrent-stream";
@@ -353,8 +353,8 @@ async function downloadAndStoreTitleAndSubtitle({
     // play sound when a subtitle was found
     console.log("\n✅ Subtítulo guardado en la base de datos!\n");
 
-    // const successSoundPath = path.join(__dirname, "..", "indexer", "success_short_high.wav");
-    // sound.play(successSoundPath);
+    const successSoundPath = path.join(__dirname, "..", "indexer", "success_short_high.wav");
+    sound.play(successSoundPath);
 
     console.table([
       {
@@ -450,10 +450,13 @@ function getVideoFromFiles(files: File[]): File | undefined {
 }
 
 async function hasSubtitleInDatabase(subtitle_group_id: number, title_file_name: string): Promise<boolean> {
+  console.log("\n ~ hasSubtitleInDatabase ~ subtitle_group_id:", subtitle_group_id);
+  console.log("\n ~ hasSubtitleInDatabase ~ title_file_name:", title_file_name);
   const { data: subtitles } = await supabase.from("Subtitles").select("*").match({
     subtitle_group_id,
     title_file_name,
   });
+  console.log("\n ~ const{data:subtitles}=awaitsupabase.from ~ subtitles:", subtitles);
 
   return subtitles ? subtitles.length > 0 : false;
 }
@@ -537,6 +540,7 @@ export async function getSubtitlesForTitle({
         titleFileName: fileName,
         titleName: name,
       });
+      console.table([titleFileNameMetadata]);
     } catch (error) {
       console.log(`\nNo pudimos parsear ${fileName} correctamente`, error);
     }
@@ -549,7 +553,7 @@ export async function getSubtitlesForTitle({
     const { releaseGroup, resolution } = titleFileNameMetadata;
 
     if (!releaseGroup) {
-      console.log(`No hay release group soportado para ${videoFile.name} \n`);
+      console.error(`No hay release group soportado para ${videoFile.name} \n`);
       continue;
     }
 
@@ -573,7 +577,7 @@ export async function getSubtitlesForTitle({
 
       try {
         console.log(`4.${index}.${torrentIndex}.${indexSubtitleProvider}) Buscando subtítulo para ${name}`);
-        const subtitle = await getSubtitleFromProvider({ imdbId, titleFileNameMetadata, titleProviderQuery });
+        const subtitle = await getSubtitleFromProvider({ imdbId, titleFileNameMetadata, titleProviderQuery, episode });
 
         if (subtitle) {
           const exists = await hasSubtitleInDatabase(subtitleGroupId, fileName);

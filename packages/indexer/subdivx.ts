@@ -44,10 +44,11 @@ const subdivxSchema = z.object({
 export async function getSubDivXSubtitle({
   titleFileNameMetadata,
   titleProviderQuery,
+  episode,
 }: {
+  episode: string | null;
   titleProviderQuery?: string;
   titleFileNameMetadata: TitleFileNameMetadata;
-  page?: string;
 }): Promise<SubtitleData> {
   const { fileNameWithoutExtension, name, releaseGroup, resolution } = titleFileNameMetadata;
 
@@ -108,6 +109,7 @@ export async function getSubDivXSubtitle({
     subtitleGroupName,
     fileExtension,
     fileNameWithoutExtension,
+    episode,
     releaseGroupName: releaseGroup.release_group_name,
   });
 

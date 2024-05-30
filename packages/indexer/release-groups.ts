@@ -289,8 +289,8 @@ export const RELEASE_GROUPS = {
     file_attributes: ["x265-MeGusta"],
     is_supported: true,
     release_group_name: "MeGusta",
-    searchable_opensubtitles_name: ["x265-MeGusta"],
-    searchable_subdivx_name: ["x265-MeGusta"],
+    searchable_opensubtitles_name: ["x265-MeGusta", "MeGusta"],
+    searchable_subdivx_name: ["x265-MeGusta", "MeGusta"],
   },
   MinX: {
     file_attributes: ["x264-MinX", "x265-MinX"],
@@ -298,6 +298,13 @@ export const RELEASE_GROUPS = {
     release_group_name: "MinX",
     searchable_opensubtitles_name: ["x264-MinX", "x265-MinX"],
     searchable_subdivx_name: ["x264-MinX", "x265-MinX"],
+  },
+  TheCuteness: {
+    file_attributes: ["h264-thecuteness", "h265-thecuteness"],
+    is_supported: true,
+    release_group_name: "TheCuteness",
+    searchable_opensubtitles_name: ["TheCuteness"],
+    searchable_subdivx_name: ["TheCuteness"],
   },
 } as const;
 
