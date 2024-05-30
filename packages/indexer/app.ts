@@ -450,13 +450,10 @@ function getVideoFromFiles(files: File[]): File | undefined {
 }
 
 async function hasSubtitleInDatabase(subtitle_group_id: number, title_file_name: string): Promise<boolean> {
-  console.log("\n ~ hasSubtitleInDatabase ~ subtitle_group_id:", subtitle_group_id);
-  console.log("\n ~ hasSubtitleInDatabase ~ title_file_name:", title_file_name);
   const { data: subtitles } = await supabase.from("Subtitles").select("*").match({
     subtitle_group_id,
     title_file_name,
   });
-  console.log("\n ~ const{data:subtitles}=awaitsupabase.from ~ subtitles:", subtitles);
 
   return subtitles ? subtitles.length > 0 : false;
 }
@@ -540,7 +537,6 @@ export async function getSubtitlesForTitle({
         titleFileName: fileName,
         titleName: name,
       });
-      console.table([titleFileNameMetadata]);
     } catch (error) {
       console.log(`\nNo pudimos parsear ${fileName} correctamente`, error);
     }
