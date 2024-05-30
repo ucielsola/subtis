@@ -6,6 +6,8 @@
   "scripts": {
     "test": "bun test --watch",
     "dev": "bun --watch app.ts",
+    "dev:node:file": "npx tsx --env-file .env.development --watch file.ts",
+    "prod:node:file": "NODE_ENV=production npx tsx --env-file .env.production file.ts",
     "dev:node:movies": "npx tsx --env-file .env.development --watch movies.ts",
     "prod:node:movies": "NODE_ENV=production npx tsx --env-file .env.production movies.ts",
     "dev:node:tv-shows": "npx tsx --env-file .env.development --watch tv-shows.ts",

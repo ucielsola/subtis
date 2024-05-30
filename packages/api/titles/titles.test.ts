@@ -36,7 +36,7 @@ describe("API | /titles/search/:query", () => {
     expect(data).toEqual([
       {
         id: 2788316,
-        type: "tvShow",
+        type: "tv-show",
         title_name: "Shōgun",
         year: 2024,
       },

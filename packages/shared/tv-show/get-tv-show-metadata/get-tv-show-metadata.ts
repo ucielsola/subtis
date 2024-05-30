@@ -5,7 +5,7 @@ import type { ReleaseGroup } from "@subtis/db";
 import { RELEASE_GROUPS } from "@subtis/indexer/release-groups";
 
 import { VIDEO_FILE_EXTENSIONS } from "../../files";
-import { getMovieFileNameWithoutExtension } from "../../movie";
+import { getTitleFileNameWithoutExtension } from "../../titles";
 
 // types
 export type TvShowData = {
@@ -41,7 +41,7 @@ export function getTvShowMetadata(tvShowFileName: string, tvShowQuery: string, t
     .with(P.string.includes("3D"), () => "3D")
     .run();
 
-  const fileNameWithoutExtension = getMovieFileNameWithoutExtension(tvShowFileName);
+  const fileNameWithoutExtension = getTitleFileNameWithoutExtension(tvShowFileName);
 
   const releaseGroup = Object.values(RELEASE_GROUPS).find((releaseGroupInternal) => {
     return releaseGroupInternal.file_attributes.some((attribute) => {

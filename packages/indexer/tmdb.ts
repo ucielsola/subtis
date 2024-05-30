@@ -334,7 +334,7 @@ function generateTmdbImageUrl(path: string | null): string | null {
   return `https://image.tmdb.org/t/p/original${path}`;
 }
 
-async function getMovieMetadataFromTmdbMovie({
+export async function getMovieMetadataFromTmdbMovie({
   id,
   name,
   spanishName,
@@ -420,7 +420,7 @@ export async function getMoviesFromTmdb(page: number, year: number, isDebugging:
   return movies;
 }
 
-async function getTvShowMetadataFromTmdbTvShow({
+export async function getTvShowMetadataFromTmdbTvShow({
   id,
   name,
   overview,

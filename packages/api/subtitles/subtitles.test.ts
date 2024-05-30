@@ -210,7 +210,7 @@ describe("API | /subtitles/tv-show", () => {
         subtitle_file_name: "Shogun.2024.S01E01.1080p.HEVC.x265-MeGusta[EZTVx.to].srt",
         title: {
           title_name: "Shōgun",
-          type: "tvShow",
+          type: "tv-show",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/uIoDvVOQaKjSfz2oihkVS8M7l1v.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/5zmiBoMzeeVdQ62no55JOJMY498.jpg",
@@ -229,7 +229,7 @@ describe("API | /subtitles/tv-show", () => {
         subtitle_file_name: "shogun.2024.s01e01.2160p.web.h265-successfulcrab.srt",
         title: {
           title_name: "Shōgun",
-          type: "tvShow",
+          type: "tv-show",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/uIoDvVOQaKjSfz2oihkVS8M7l1v.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/5zmiBoMzeeVdQ62no55JOJMY498.jpg",
@@ -248,7 +248,7 @@ describe("API | /subtitles/tv-show", () => {
         subtitle_file_name: "shogun.2024.s01e01.dv.hdr.2160p.web.h265-successfulcrab.srt",
         title: {
           title_name: "Shōgun",
-          type: "tvShow",
+          type: "tv-show",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/uIoDvVOQaKjSfz2oihkVS8M7l1v.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/5zmiBoMzeeVdQ62no55JOJMY498.jpg",
@@ -267,7 +267,7 @@ describe("API | /subtitles/tv-show", () => {
         subtitle_file_name: "shogun.2024.s01e01.1080p.web.h264-successfulcrab.srt",
         title: {
           title_name: "Shōgun",
-          type: "tvShow",
+          type: "tv-show",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/uIoDvVOQaKjSfz2oihkVS8M7l1v.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/5zmiBoMzeeVdQ62no55JOJMY498.jpg",
@@ -286,7 +286,7 @@ describe("API | /subtitles/tv-show", () => {
         subtitle_file_name: "Shogun.2024.S01E01.Anjin.REPACK.1080p.DSNP.WEB-DL.DDP5.1.H.264-FLUX.srt",
         title: {
           title_name: "Shōgun",
-          type: "tvShow",
+          type: "tv-show",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/uIoDvVOQaKjSfz2oihkVS8M7l1v.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/5zmiBoMzeeVdQ62no55JOJMY498.jpg",
@@ -305,7 +305,7 @@ describe("API | /subtitles/tv-show", () => {
         subtitle_file_name: "Shogun.2024.S01E01.720p.WEB.x265-MiNX.srt",
         title: {
           title_name: "Shōgun",
-          type: "tvShow",
+          type: "tv-show",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/uIoDvVOQaKjSfz2oihkVS8M7l1v.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/5zmiBoMzeeVdQ62no55JOJMY498.jpg",
@@ -324,7 +324,7 @@ describe("API | /subtitles/tv-show", () => {
         subtitle_file_name: "Shogun.2024.S01E01.Anjin.1080p.DSNP.WEB-DL.DDP5.1.H.264-NTb[EZTVx.to].srt",
         title: {
           title_name: "Shōgun",
-          type: "tvShow",
+          type: "tv-show",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/uIoDvVOQaKjSfz2oihkVS8M7l1v.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/5zmiBoMzeeVdQ62no55JOJMY498.jpg",
@@ -343,7 +343,7 @@ describe("API | /subtitles/tv-show", () => {
         subtitle_file_name: "Shogun.2024.S01E01.1080p.HEVC.x265-MeGusta.srt",
         title: {
           title_name: "Shōgun",
-          type: "tvShow",
+          type: "tv-show",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/uIoDvVOQaKjSfz2oihkVS8M7l1v.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/5zmiBoMzeeVdQ62no55JOJMY498.jpg",
@@ -362,7 +362,7 @@ describe("API | /subtitles/tv-show", () => {
         subtitle_file_name: "shogun.2024.s01e01.1080p.web.h264-successfulcrab[EZTVx.to].srt",
         title: {
           title_name: "Shōgun",
-          type: "tvShow",
+          type: "tv-show",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/uIoDvVOQaKjSfz2oihkVS8M7l1v.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/5zmiBoMzeeVdQ62no55JOJMY498.jpg",
@@ -430,7 +430,7 @@ describe("API | /subtitles/trending", () => {
         subtitle_file_name: "shogun.2024.s01e02.1080p.web.h264-successfulcrab.srt",
         title: {
           title_name: "Shōgun",
-          type: "tvShow",
+          type: "tv-show",
           year: 2024,
           poster: "https://image.tmdb.org/t/p/original/uIoDvVOQaKjSfz2oihkVS8M7l1v.jpg",
           backdrop: "https://image.tmdb.org/t/p/original/5zmiBoMzeeVdQ62no55JOJMY498.jpg",
@@ -498,7 +498,7 @@ describe("API | /subtitles/file/name", () => {
       subtitle_file_name: "Shogun.2024.S01E02.1080p.HEVC.x265-MeGusta.srt",
       title: {
         title_name: "Shōgun",
-        type: "tvShow",
+        type: "tv-show",
         year: 2024,
         poster: "https://image.tmdb.org/t/p/original/uIoDvVOQaKjSfz2oihkVS8M7l1v.jpg",
         backdrop: "https://image.tmdb.org/t/p/original/5zmiBoMzeeVdQ62no55JOJMY498.jpg",

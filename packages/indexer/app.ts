@@ -42,7 +42,7 @@ export type CurrentTitle = TmdbMovie | TmdbTvShowEpisode;
 // enum
 enum TitleTypes {
   movie = "movie",
-  tvShow = "tvShow",
+  tvShow = "tv-show",
 }
 
 type TitleFile = {
@@ -461,12 +461,14 @@ async function hasSubtitleInDatabase(subtitle_group_id: number, title_file_name:
 // core
 export async function getSubtitlesForTitle({
   index,
+  initialTorrents,
   currentTitle,
   releaseGroups,
   subtitleGroups,
   isDebugging,
 }: {
   index: string;
+  initialTorrents?: TorrentResults;
   currentTitle: CurrentTitle;
   releaseGroups: ReleaseGroupMap;
   subtitleGroups: SubtitleGroupMap;
@@ -475,7 +477,7 @@ export async function getSubtitlesForTitle({
   createInitialFolders();
   const titleProviderQuery = getQueryForTorrentProvider(currentTitle);
 
-  const torrents = await getTitleTorrents(titleProviderQuery);
+  const torrents = initialTorrents ?? (await getTitleTorrents(titleProviderQuery));
   const filteredTorrents = getFilteredTorrents(torrents);
 
   const {

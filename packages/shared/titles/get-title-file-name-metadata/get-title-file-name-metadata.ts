@@ -6,7 +6,7 @@ import { RELEASE_GROUPS } from "@subtis/indexer/release-groups";
 
 // internals
 import { VIDEO_FILE_EXTENSIONS } from "../../files";
-import { getMovieFileNameWithoutExtension } from "../get-movie-file-name-without-extension/get-movie-file-name-without-extension";
+import { getTitleFileNameWithoutExtension } from "../get-title-file-name-without-extension/get-title-file-name-without-extension";
 import { getTitleName } from "../get-title-name";
 
 // types
@@ -64,7 +64,7 @@ export function getTitleFileNameMetadata({
       .with(P.string.includes("3D"), () => "3D")
       .run();
 
-    const fileNameWithoutExtension = getMovieFileNameWithoutExtension(parsedMovieFileName);
+    const fileNameWithoutExtension = getTitleFileNameWithoutExtension(parsedMovieFileName);
 
     const releaseGroup = Object.values(RELEASE_GROUPS).find((releaseGroupInternal) => {
       return releaseGroupInternal.file_attributes.some((attribute) =>
@@ -107,7 +107,7 @@ export function getTitleFileNameMetadata({
       );
     });
 
-    const fileNameWithoutExtension = getMovieFileNameWithoutExtension(parsedMovieFileName);
+    const fileNameWithoutExtension = getTitleFileNameWithoutExtension(parsedMovieFileName);
 
     return {
       year: null,
