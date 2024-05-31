@@ -104,76 +104,72 @@ async function indexTitleByFileName(titleFileName: string, isDebugging: boolean)
       const episode = getEpisode(titleFileName);
       console.log("\n ~ indexTitleByFileName ~ episode:", episode);
 
-      try {
-        await getSubtitlesForTitle({
-          index: "0",
-          currentTitle: { ...tvShowData, episode },
-          releaseGroups,
-          subtitleGroups,
-          isDebugging,
-          initialTorrents: [torrent],
-        });
-      } catch (error) {
-        console.log("mainIndexer => getSubtitlesForMovie error =>", error);
-        console.error("Ningún subtítulo encontrado para el titulo", title.name);
-      }
-    } else {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/search/movie?query=${title.name}&include_adult=false&language=es-ES&page=1`,
-        {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
-          },
-        },
-      );
-
-      const data = await response.json();
-
-      const movies = tmdbDiscoverMovieSchema.parse(data);
-
-      const [movie] = movies.results;
-      console.log("\n ~ indexTitleByFileName ~ movie:", movie);
-
-      const {
-        id,
-        overview,
-        title: spanishName,
-        original_title: name,
-        release_date: releaseDate,
-        vote_average: voteAverage,
-        poster_path: posterPath,
-        backdrop_path: backdropPath,
-      } = movie;
-
-      const movieData = await getMovieMetadataFromTmdbMovie({
-        id,
-        name,
-        overview,
-        spanishName,
-        posterPath,
-        releaseDate,
-        voteAverage,
-        backdropPath,
+      await getSubtitlesForTitle({
+        index: "0",
+        currentTitle: { ...tvShowData, episode },
+        releaseGroups,
+        subtitleGroups,
+        isDebugging,
+        initialTorrents: [torrent],
       });
 
-      console.log("\n ~ indexTitleByFileName ~ movieData:", movieData);
-
-      try {
-        await getSubtitlesForTitle({
-          index: "0",
-          initialTorrents: [torrent],
-          currentTitle: { ...movieData, episode: null, totalEpisodes: null, totalSeasons: null },
-          releaseGroups,
-          subtitleGroups,
-          isDebugging,
-        });
-      } catch (error) {
-        console.log("mainIndexer => getSubtitlesForMovie error =>", error);
-        console.error("Ningún subtítulo encontrado para el titulo", title.name);
-      }
+      return;
     }
+
+    const response = await fetch(
+      `https://api.themoviedb.org/3/search/movie?query=${title.name}&include_adult=false&language=es-ES&page=1`,
+      {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
+        },
+      },
+    );
+
+    const data = await response.json();
+
+    const movies = tmdbDiscoverMovieSchema.parse(data);
+
+    const [movie] = movies.results;
+    console.log("\n ~ indexTitleByFileName ~ movie:", movie);
+
+    const {
+      id,
+      overview,
+      title: spanishName,
+      original_title: name,
+      release_date: releaseDate,
+      vote_average: voteAverage,
+      poster_path: posterPath,
+      backdrop_path: backdropPath,
+    } = movie;
+
+    const movieData = await getMovieMetadataFromTmdbMovie({
+      id,
+      name,
+      overview,
+      spanishName,
+      posterPath,
+      releaseDate,
+      voteAverage,
+      backdropPath,
+    });
+
+    console.log("\n ~ indexTitleByFileName ~ movieData:", movieData);
+
+    await getSubtitlesForTitle({
+      index: "0",
+      initialTorrents: [torrent],
+      currentTitle: { ...movieData, episode: null, totalEpisodes: null, totalSeasons: null },
+      releaseGroups,
+      subtitleGroups,
+      isDebugging,
+    });
   } catch (error) {
+    await supabase.rpc("insert_subtitle_not_found", {
+      _title_file_name: titleFileName,
+    });
+
     console.log("mainIndexer => error =>", error);
     console.log("\n ~ mainIndexer ~ error message:", (error as Error).message);
   }

@@ -253,16 +253,6 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      fuzzy_search_movie: {
-        Args: {
-          title_query: string;
-        };
-        Returns: {
-          id: number;
-          name: string;
-          year: number;
-        }[];
-      };
       fuzzy_search_title: {
         Args: {
           query: string;
@@ -271,6 +261,7 @@ export type Database = {
           id: number;
           title_name: string;
           year: number;
+          type: string;
         }[];
       };
       gtrgm_compress: {
@@ -303,20 +294,12 @@ export type Database = {
         };
         Returns: unknown;
       };
-      insert_subtitle_not_found:
-        | {
-            Args: {
-              _bytes: number;
-              _title_file_name: string;
-            };
-            Returns: undefined;
-          }
-        | {
-            Args: {
-              file_name: string;
-            };
-            Returns: undefined;
-          };
+      insert_subtitle_not_found: {
+        Args: {
+          _title_file_name: string;
+        };
+        Returns: undefined;
+      };
       set_limit: {
         Args: {
           "": number;
