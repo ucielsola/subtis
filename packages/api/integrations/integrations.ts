@@ -39,11 +39,6 @@ export const integrations = new Hono<{ Variables: AppVariables }>().get(
     const subtitleByFileName = subtitleSchema.safeParse(data);
 
     if (!subtitleByFileName.success) {
-      await supabase.rpc("insert_subtitle_not_found", {
-        _title_file_name: videoFileName.data,
-        _bytes: Number(bytes),
-      });
-
       const { data } = await supabase.from("Subtitles").select("subtitle_link").match({ bytes }).single();
 
       const subtitleByBytes = subtitleSchema.safeParse(data);
