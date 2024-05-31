@@ -12,7 +12,7 @@ import {
   getTvShowMetadataFromTmdbTvShow,
   tmdbDiscoverMovieSchema,
   tmdbDiscoverSerieSchema,
-} from "./tmdb";\
+} from "./tmdb";
 
 // helpers
 function getIsTvShow(title: string): boolean {
@@ -24,18 +24,14 @@ function getEpisode(title: string): string {
 }
 
 // core
-async function indexTitleByFileName(isDebugging: boolean): Promise<void> {
-  console.time('Function Execution Time');
-  try {
+async function indexTitleByFileName(titleFileName: string, isDebugging: boolean): Promise<void> {
+  console.time("Function Execution Time");
 
+  try {
     await tg.activate("ThePirateBay");
 
     const releaseGroups = await getReleaseGroups(supabase);
     const subtitleGroups = await getSubtitleGroups(supabase);
-
-    // const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv"
-    const titleFileName = "shogun.2024.s01e04.1080p.web.h264-successfulcrab.mkv";
-    console.log("\n ~ indexTitleByFileName ~ titleFileName:", titleFileName);
 
     const isTvShow = getIsTvShow(titleFileName);
     console.log("\n ~ indexTitleByFileName ~ isTvShow:", isTvShow);
@@ -182,11 +178,14 @@ async function indexTitleByFileName(isDebugging: boolean): Promise<void> {
     console.log("\n ~ mainIndexer ~ error message:", (error as Error).message);
   }
 
-console.timeEnd('Function Execution Time');
+  console.timeEnd("Function Execution Time");
 }
 
 // FILES
-indexTitleByFileName(false);
+// const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv"
+const titleFileName = "shogun.2024.s01e04.1080p.web.h264-successfulcrab.mkv";
+
+indexTitleByFileName(titleFileName, false);
 
 // GENERAL
 saveReleaseGroupsToDb(supabase);
