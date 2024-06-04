@@ -1,9 +1,9 @@
-import { type ContentType, addonBuilder, serveHTTP } from "stremio-addon-sdk";
+import { type ContentType, type Subtitle, addonBuilder, serveHTTP } from "stremio-addon-sdk";
 
 // internals
 import { apiClient } from "./api";
 import project from "./package.json";
-import { getSubtitleUrl, isProduction } from "./utils";
+import { getSubtitleUrl } from "./utils";
 
 // api
 import { subtitleSchema } from "@subtis/api/subtitles/schemas";
@@ -21,7 +21,7 @@ type Args = {
 type ExtraArgs = Args["extra"] & { filename: string };
 
 // core
-async function getTitleSubtitle(args: Args) {
+async function getTitleSubtitle(args: Args): Promise<{ subtitles: Subtitle[] }> {
   const { videoSize: bytes, filename: fileName } = args.extra as ExtraArgs;
 
   const response = await apiClient.v1.subtitles.file.name[":bytes"][":fileName"].$get({
@@ -37,7 +37,7 @@ async function getTitleSubtitle(args: Args) {
 
   const subtitle = {
     lang: "spa",
-    id: Number(subtitleByFileName.data.id),
+    id: String(subtitleByFileName.data.id),
     url: getSubtitleUrl({ bytes, fileName }),
   };
 
@@ -45,9 +45,7 @@ async function getTitleSubtitle(args: Args) {
     json: { bytes: Number(bytes), titleFileName: fileName },
   });
 
-  const withCacheMaxAge = isProduction ? {} : { cacheMaxAge: 0 };
-
-  return Promise.resolve({ subtitles: [subtitle], ...withCacheMaxAge });
+  return Promise.resolve({ subtitles: [subtitle] });
 }
 
 // addon
