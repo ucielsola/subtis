@@ -175,6 +175,7 @@ export type Database = {
           backdrop: string | null;
           created_at: string;
           id: number;
+          logo: string | null;
           overview: string;
           poster: string | null;
           rating: number;
@@ -190,6 +191,7 @@ export type Database = {
           backdrop?: string | null;
           created_at?: string;
           id?: number;
+          logo?: string | null;
           overview: string;
           poster?: string | null;
           rating: number;
@@ -205,6 +207,7 @@ export type Database = {
           backdrop?: string | null;
           created_at?: string;
           id?: number;
+          logo?: string | null;
           overview?: string;
           poster?: string | null;
           rating?: number;

@@ -65,6 +65,7 @@ type TitleWithEpisode = Pick<
   | "type"
   | "total_seasons"
   | "total_episodes"
+  | "logo"
 > & {
   episode: string | null;
 };
@@ -483,6 +484,7 @@ export async function getSubtitlesForTitle({
   const {
     name,
     year,
+    logo,
     imdbId,
     rating,
     releaseDate,
@@ -605,6 +607,7 @@ export async function getSubtitlesForTitle({
             title_name_spa: spanishName,
             release_date: releaseDate,
             year,
+            logo,
             poster,
             backdrop,
             total_episodes: totalEpisodes,

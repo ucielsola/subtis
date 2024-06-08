@@ -229,6 +229,43 @@ const tmdbTvShowExternalIdsSchema = z.object({
   imdb_id: z.string().nullable(),
 });
 
+const tmdbImageSchema = z.object({
+  id: z.number(),
+  backdrops: z.array(
+    z.object({
+      aspect_ratio: z.number(),
+      height: z.number(),
+      iso_639_1: z.string(),
+      file_path: z.string(),
+      vote_average: z.number(),
+      vote_count: z.number(),
+      width: z.number(),
+    }),
+  ),
+  logos: z.array(
+    z.object({
+      aspect_ratio: z.number(),
+      height: z.number(),
+      iso_639_1: z.string(),
+      file_path: z.string(),
+      vote_average: z.number(),
+      vote_count: z.number(),
+      width: z.number(),
+    }),
+  ),
+  posters: z.array(
+    z.object({
+      aspect_ratio: z.number(),
+      height: z.number(),
+      iso_639_1: z.string(),
+      file_path: z.string(),
+      vote_average: z.number(),
+      vote_count: z.number(),
+      width: z.number(),
+    }),
+  ),
+});
+
 // constants
 const TMDB_OPTIONS = {
   headers: {
@@ -296,8 +333,14 @@ const tmdbApiEndpoints = {
   movieDetail: (id: number) => {
     return `https://api.themoviedb.org/3/movie/${id}`;
   },
+  movieImages: (id: number) => {
+    return `https://api.themoviedb.org/3/movie/${id}/images?include_image_language=en`;
+  },
   tvShowDetail: (id: number) => {
     return `https://api.themoviedb.org/3/tv/${id}`;
+  },
+  tvShowImages: (id: number) => {
+    return `https://api.themoviedb.org/3/tv/${id}/images?include_image_language=en`;
   },
   tvShowExternalIds: (id: number) => {
     return `https://api.themoviedb.org/3/tv/${id}/external_ids`;
@@ -316,6 +359,7 @@ export type TmdbTitle = {
   releaseDate: string;
   name: string;
   year: number;
+  logo: string | null;
   poster: string | null;
   backdrop: string | null;
 };
@@ -366,12 +410,16 @@ export async function getMovieMetadataFromTmdbMovie({
   // 3. Get year from release date
   const year = Number(releaseDate.split("-")[0]);
 
+  // 4. Get movie title image
+  const logo = await getTmdbMovieLogoUrl(id);
+
   return {
     year,
     name,
+    logo,
     imdbId,
-    spanishName,
     overview,
+    spanishName,
     releaseDate,
     rating: voteAverage,
     poster: generateTmdbImageUrl(posterPath),
@@ -460,6 +508,9 @@ export async function getTvShowMetadataFromTmdbTvShow({
 
   const data = tmdbTvShowSchema.parse(tvShowDetailData);
 
+  // 5. Get TV show logo
+  const logo = await getTmdbTvShoweLogoUrl(id);
+
   const episodes = data.seasons.flatMap((season) => {
     const { season_number: seasonNumber, episode_count: episodeCount } = season;
 
@@ -481,6 +532,7 @@ export async function getTvShowMetadataFromTmdbTvShow({
   return {
     year,
     name,
+    logo,
     imdbId,
     overview,
     episodes,
@@ -533,6 +585,34 @@ export async function getTvShowsFromTmdb(page: number, year: number): Promise<Tm
   }
 
   return tvShows;
+}
+
+async function getTmdbTvShoweLogoUrl(id: number): Promise<string | null> {
+  const response = await fetch(tmdbApiEndpoints.tvShowImages(id), TMDB_OPTIONS);
+  const data = await response.json();
+
+  const images = tmdbImageSchema.parse(data);
+  const [logo] = images.logos.sort((logoA, logoB) => logoA.width - logoB.width);
+
+  if (!logo) {
+    return null;
+  }
+
+  return generateTmdbImageUrl(logo.file_path);
+}
+
+async function getTmdbMovieLogoUrl(id: number): Promise<string | null> {
+  const response = await fetch(tmdbApiEndpoints.movieImages(id), TMDB_OPTIONS);
+  const data = await response.json();
+
+  const images = tmdbImageSchema.parse(data);
+  const [logo] = images.logos.sort((logoA, logoB) => logoA.width - logoB.width);
+
+  if (!logo) {
+    return null;
+  }
+
+  return generateTmdbImageUrl(logo.file_path);
 }
 
 export async function getTmdbMovieFromTitle(query: string): Promise<TmdbTitle> {

@@ -19,7 +19,7 @@ const subtitlesQuery = `
   current_season,
   current_episode,
   releaseGroup: ReleaseGroups ( release_group_name ),
-  title: Titles ( title_name, type, year, poster, backdrop )
+  title: Titles ( title_name, type, year, poster, backdrop, logo )
 `;
 
 const subtitlesSchema = z
