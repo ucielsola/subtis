@@ -23,6 +23,6 @@
     "@types/node": "^20.14.2",
     "@types/timestring": "^6.0.5",
     "typescript": "^5.4.5",
-    "wrangler": "^3.60.0"
+    "wrangler": "^3.60.1"
   }
 }

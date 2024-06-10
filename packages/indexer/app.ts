@@ -7,7 +7,6 @@ import clipboard from "clipboardy";
 import download from "download";
 import extract from "extract-zip";
 import prettyBytes from "pretty-bytes";
-import sound from "sound-play";
 import invariant from "tiny-invariant";
 import tg from "torrent-grabber";
 import torrentStream, { type File } from "torrent-stream";
@@ -353,9 +352,6 @@ async function downloadAndStoreTitleAndSubtitle({
 
     // play sound when a subtitle was found
     console.log("\n✅ Subtítulo guardado en la base de datos!\n");
-
-    const successSoundPath = path.join(__dirname, "..", "indexer", "success_short_high.wav");
-    sound.play(successSoundPath);
 
     console.table([
       {
