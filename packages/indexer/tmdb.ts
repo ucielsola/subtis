@@ -592,7 +592,9 @@ async function getTmdbTvShoweLogoUrl(id: number): Promise<string | null> {
   const data = await response.json();
 
   const images = tmdbImageSchema.parse(data);
-  const [logo] = images.logos.sort((logoA, logoB) => logoA.width - logoB.width);
+  const [logo] = images.logos
+    .filter((logo) => !logo.file_path.endsWith("svg"))
+    .sort((logoA, logoB) => logoA.width - logoB.width);
 
   if (!logo) {
     return null;
@@ -606,7 +608,9 @@ async function getTmdbMovieLogoUrl(id: number): Promise<string | null> {
   const data = await response.json();
 
   const images = tmdbImageSchema.parse(data);
-  const [logo] = images.logos.sort((logoA, logoB) => logoA.width - logoB.width);
+  const [logo] = images.logos
+    .filter((logo) => !logo.file_path.endsWith("svg"))
+    .sort((logoA, logoB) => logoA.width - logoB.width);
 
   if (!logo) {
     return null;

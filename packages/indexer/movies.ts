@@ -98,7 +98,7 @@ export async function indexMovieByName(name: string) {
 
 // MOVIES
 indexMoviesByYear(2023, false);
-// indexMovieByName("Road House");
+// indexMovieByName("Challengers");
 
 // GENERAL
 saveReleaseGroupsToDb(supabase);
