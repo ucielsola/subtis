@@ -23,6 +23,7 @@
     "dev:indexer:file": "cd packages/indexer && npm run dev:file",
     "dev:indexer:movies": "cd packages/indexer && npm run dev:movies",
     "dev:indexer:tv-shows": "cd packages/indexer && npm run dev:tv-shows",
+    "dev:indexer:not-found": "cd packages/indexer && npm run dev:not-found",
     "deploy:web": "cd packages/web && bun run deploy",
     "deploy:api": "cd packages/api && bun run deploy",
     "bump:deps": "taze -r -w",

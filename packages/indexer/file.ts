@@ -24,7 +24,7 @@ function getEpisode(title: string): string {
 }
 
 // core
-async function indexTitleByFileName(titleFileName: string, isDebugging: boolean): Promise<void> {
+export async function indexTitleByFileName(titleFileName: string, isDebugging: boolean): Promise<{ ok: boolean }> {
   console.time(`Tardo en indexar ${titleFileName}`);
 
   try {
@@ -179,6 +179,8 @@ async function indexTitleByFileName(titleFileName: string, isDebugging: boolean)
       subtitleGroups,
       isDebugging,
     });
+
+    return {ok:true}
   } catch (error) {
     await supabase.rpc("insert_subtitle_not_found", {
       _title_file_name: titleFileName,
@@ -186,6 +188,8 @@ async function indexTitleByFileName(titleFileName: string, isDebugging: boolean)
 
     console.log("mainIndexer => error =>", error);
     console.log("\n ~ mainIndexer ~ error message:", (error as Error).message);
+
+    return { ok:false }
   }
 
   console.timeEnd(`Tardo en indexar ${titleFileName}`);
@@ -195,8 +199,8 @@ async function indexTitleByFileName(titleFileName: string, isDebugging: boolean)
 const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
 // const titleFileName = "shogun.2024.s01e04.1080p.web.h264-successfulcrab.mkv";
 
-indexTitleByFileName(titleFileName, false);
+// indexTitleByFileName(titleFileName, false);
 
 // GENERAL
-saveReleaseGroupsToDb(supabase);
-saveSubtitleGroupsToDb(supabase);
+// saveReleaseGroupsToDb(supabase);
+// saveSubtitleGroupsToDb(supabase);

@@ -5,10 +5,10 @@
   "main": "app.ts",
   "scripts": {
     "test": "bun test --watch",
-    "dev": "bun --watch app.ts",
     "dev:file": "bun --watch file.ts",
     "dev:movies": "bun --watch movies.ts",
-    "dev:tv-shows": "bun --watch tv-shows.ts"
+    "dev:tv-shows": "bun --watch tv-shows.ts",
+    "dev:not-found": "bun --watch not-found.ts"
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
