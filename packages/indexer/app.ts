@@ -72,9 +72,8 @@ type TitleWithEpisode = Pick<
 type SubtitleWithResolutionAndTorrentId = SubtitleData & { resolution: string; torrentId: number };
 
 // constants
-const UNCOMPRESSED_SUBTITLES_FOLDER_NAME = "uncompressed-subtitles";
 const COMPRESSED_SUBTITLES_FOLDER_NAME = "compressed-subtitles";
-const TORRENTS_FOLDER_NAME = "torrents";
+const UNCOMPRESSED_SUBTITLES_FOLDER_NAME = "uncompressed-subtitles";
 
 // helpers
 async function downloadSubtitle(subtitle: SubtitleWithResolutionAndTorrentId): Promise<void> {
@@ -305,6 +304,12 @@ async function storeTorrentInSupabaseTable(torrent: TorrentResultWithId): Promis
   });
 }
 
+function removeSubtitlesFromFileSystem(paths: string[]): void {
+  for (const path of paths) {
+    fs.promises.rm(path, { recursive: true, force: true });
+  }
+}
+
 async function downloadAndStoreTitleAndSubtitle({
   title,
   titleFile,
@@ -334,6 +339,7 @@ async function downloadAndStoreTitleAndSubtitle({
     const author = getSubtitleAuthor(subtitleFileToUpload);
 
     const fullPath = await storeSubtitleInSupabaseStorage({ subtitle, subtitleFileToUpload });
+    removeSubtitlesFromFileSystem([subtitleCompressedAbsolutePath, extractedSubtitlePath]);
     const subtitleLink = getSupabaseSubtitleLink({ fullPath, subtitle });
 
     await storeTorrentInSupabaseTable(torrent);
@@ -385,7 +391,7 @@ function getSeasonAndEpisode(fullSeason: string | null): {
 }
 
 function createInitialFolders(): void {
-  const FOLDERS = [UNCOMPRESSED_SUBTITLES_FOLDER_NAME, COMPRESSED_SUBTITLES_FOLDER_NAME, TORRENTS_FOLDER_NAME];
+  const FOLDERS = [UNCOMPRESSED_SUBTITLES_FOLDER_NAME, COMPRESSED_SUBTITLES_FOLDER_NAME];
 
   for (const folder of FOLDERS) {
     const folderPath = path.join(__dirname, "..", "indexer", folder);

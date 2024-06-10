@@ -216,11 +216,20 @@ export const RELEASE_GROUPS = {
     searchable_subdivx_name: ["RIGHTNOW"],
   },
   YTS: {
-    file_attributes: ["YTS.MX", "YTS.LT", "YIFY"],
+    file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM"],
     is_supported: true,
     release_group_name: "YTS",
-    searchable_opensubtitles_name: ["YTS MX", "YTS.MX", "YTS", "YTS.LT", "x264-[YTS.LT]", "YIFY"],
-    searchable_subdivx_name: ["YTS MX", "YTS.MX", "YTS", "YTS.LT", "x264-[YTS.LT]", "YIFY"],
+    searchable_opensubtitles_name: [
+      "YTS MX",
+      "YTS.MX",
+      "YTS",
+      "YTS.LT",
+      "x264-[YTS.LT]",
+      "YTS.AM",
+      "x264-[YTS.AM]",
+      "YIFY",
+    ],
+    searchable_subdivx_name: ["YTS MX", "YTS.MX", "YTS", "YTS.LT", "x264-[YTS.LT]", "YTS.AM", "x264-[YTS.AM]", "YIFY"],
   },
   RMTeam: {
     file_attributes: ["x265.rmteam", "x265-rmteam"],

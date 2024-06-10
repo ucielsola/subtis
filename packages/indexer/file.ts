@@ -25,7 +25,7 @@ function getEpisode(title: string): string {
 
 // core
 async function indexTitleByFileName(titleFileName: string, isDebugging: boolean): Promise<void> {
-  console.time("Function Execution Time");
+  console.time(`Tardo en indexar ${titleFileName}`);
 
   try {
     await tg.activate("ThePirateBay");
@@ -56,10 +56,24 @@ async function indexTitleByFileName(titleFileName: string, isDebugging: boolean)
       torrents = await tg.search(newQuery, { groupByTracker: false });
     }
 
+    if (torrents.length === 0) {
+      const newQuery = title.name;
+      console.log("\n ~ newQuery:", newQuery);
+      torrents = await tg.search(newQuery, { groupByTracker: false });
+    }
+
     invariant(torrents.length, "No se encontraron torrents para la busqueda");
 
-    const [torrent] = torrents;
+    console.log("\n ~ indexTitleByFileName ~ torrents:", torrents);
+    const torrent = torrents.find((torrent) => {
+      return (
+        title.releaseGroup?.file_attributes.some((fileAttribute) => torrent.title.includes(fileAttribute)) &&
+        torrent.title.includes(title.resolution)
+      );
+    });
     console.log("\n ~ indexTitleByFileName ~ torrent:", torrent);
+
+    invariant(torrent, "Torrent not found");
 
     if (isTvShow) {
       const response = await fetch(
@@ -174,12 +188,12 @@ async function indexTitleByFileName(titleFileName: string, isDebugging: boolean)
     console.log("\n ~ mainIndexer ~ error message:", (error as Error).message);
   }
 
-  console.timeEnd("Function Execution Time");
+  console.timeEnd(`Tardo en indexar ${titleFileName}`);
 }
 
 // FILES
-// const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv"
-const titleFileName = "shogun.2024.s01e04.1080p.web.h264-successfulcrab.mkv";
+const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
+// const titleFileName = "shogun.2024.s01e04.1080p.web.h264-successfulcrab.mkv";
 
 indexTitleByFileName(titleFileName, false);
 
