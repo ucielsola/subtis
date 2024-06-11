@@ -15,8 +15,8 @@ import { indexSeriesByYear } from "./tv-shows";
 // setup
 dayjs.extend(dayOfYear);
 
-// cron
-cron.schedule("31 19 * * *", async () => {
+// cron - runs every day at 19:30
+cron.schedule("30 19 * * *", async () => {
   const today = dayjs();
   const dayOfYearValue = today.dayOfYear();
 
