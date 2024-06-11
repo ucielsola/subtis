@@ -155,17 +155,23 @@ export type Database = {
       SubtitlesNotFound: {
         Row: {
           created_at: string;
+          email: string | null;
           id: number;
+          run_times: number;
           title_file_name: string;
         };
         Insert: {
           created_at?: string;
+          email?: string | null;
           id?: number;
+          run_times?: number;
           title_file_name: string;
         };
         Update: {
           created_at?: string;
+          email?: string | null;
           id?: number;
+          run_times?: number;
           title_file_name?: string;
         };
         Relationships: [];

@@ -24,7 +24,15 @@ function getEpisode(title: string): string {
 }
 
 // core
-export async function indexTitleByFileName(titleFileName: string, isDebugging: boolean): Promise<{ ok: boolean }> {
+export async function indexTitleByFileName({
+  titleFileName,
+  shouldStoreNotFoundSubtitle,
+  isDebugging,
+}: {
+  titleFileName: string;
+  shouldStoreNotFoundSubtitle: boolean;
+  isDebugging: boolean;
+}): Promise<{ ok: boolean }> {
   console.time(`Tardo en indexar ${titleFileName}`);
 
   try {
@@ -34,44 +42,36 @@ export async function indexTitleByFileName(titleFileName: string, isDebugging: b
     const subtitleGroups = await getSubtitleGroups(supabase);
 
     const isTvShow = getIsTvShow(titleFileName);
-    console.log("\n ~ indexTitleByFileName ~ isTvShow:", isTvShow);
 
     const title = getTitleFileNameMetadata({ titleFileName });
-    console.log("\n ~ indexTitleByFileName ~ title:", title);
 
     const query = getTitleFileNameWithoutExtension(titleFileName);
-    console.log("\n ~ indexTitleByFileName ~ query:", query);
 
     let torrents = await tg.search(query, { groupByTracker: false });
 
     if (torrents.length === 0) {
       const newQuery = query.replaceAll(".", " ");
-      console.log("\n ~ newQuery:", newQuery);
       torrents = await tg.search(newQuery, { groupByTracker: false });
     }
 
     if (torrents.length === 0) {
       const newQuery = `${title.name} ${title.year}`;
-      console.log("\n ~ newQuery:", newQuery);
       torrents = await tg.search(newQuery, { groupByTracker: false });
     }
 
     if (torrents.length === 0) {
       const newQuery = title.name;
-      console.log("\n ~ newQuery:", newQuery);
       torrents = await tg.search(newQuery, { groupByTracker: false });
     }
 
     invariant(torrents.length, "No se encontraron torrents para la busqueda");
 
-    console.log("\n ~ indexTitleByFileName ~ torrents:", torrents);
     const torrent = torrents.find((torrent) => {
       return (
         title.releaseGroup?.file_attributes.some((fileAttribute) => torrent.title.includes(fileAttribute)) &&
         torrent.title.includes(title.resolution)
       );
     });
-    console.log("\n ~ indexTitleByFileName ~ torrent:", torrent);
 
     invariant(torrent, "Torrent not found");
 
@@ -91,7 +91,6 @@ export async function indexTitleByFileName(titleFileName: string, isDebugging: b
       const tvShows = tmdbDiscoverSerieSchema.parse(data);
 
       const [tvShow] = tvShows.results;
-      console.log("\n ~ indexTitleByFileName ~ tvShow:", tvShow);
 
       const {
         id,
@@ -116,7 +115,6 @@ export async function indexTitleByFileName(titleFileName: string, isDebugging: b
       });
 
       const episode = getEpisode(titleFileName);
-      console.log("\n ~ indexTitleByFileName ~ episode:", episode);
 
       await getSubtitlesForTitle({
         index: "0",
@@ -127,7 +125,7 @@ export async function indexTitleByFileName(titleFileName: string, isDebugging: b
         initialTorrents: [torrent],
       });
 
-      return;
+      return { ok: true };
     }
 
     const response = await fetch(
@@ -145,7 +143,6 @@ export async function indexTitleByFileName(titleFileName: string, isDebugging: b
     const movies = tmdbDiscoverMovieSchema.parse(data);
 
     const [movie] = movies.results;
-    console.log("\n ~ indexTitleByFileName ~ movie:", movie);
 
     const {
       id,
@@ -169,8 +166,6 @@ export async function indexTitleByFileName(titleFileName: string, isDebugging: b
       backdropPath,
     });
 
-    console.log("\n ~ indexTitleByFileName ~ movieData:", movieData);
-
     await getSubtitlesForTitle({
       index: "0",
       initialTorrents: [torrent],
@@ -180,26 +175,32 @@ export async function indexTitleByFileName(titleFileName: string, isDebugging: b
       isDebugging,
     });
 
-    return {ok:true}
+    return { ok: true };
   } catch (error) {
-    await supabase.rpc("insert_subtitle_not_found", {
-      _title_file_name: titleFileName,
-    });
+    if (shouldStoreNotFoundSubtitle) {
+      await supabase.rpc("insert_subtitle_not_found", {
+        _title_file_name: titleFileName,
+      });
+    }
 
     console.log("mainIndexer => error =>", error);
     console.log("\n ~ mainIndexer ~ error message:", (error as Error).message);
 
-    return { ok:false }
+    return { ok: false };
+  } finally {
+    console.timeEnd(`Tardo en indexar ${titleFileName}`);
   }
-
-  console.timeEnd(`Tardo en indexar ${titleFileName}`);
 }
 
 // FILES
 const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
 // const titleFileName = "shogun.2024.s01e04.1080p.web.h264-successfulcrab.mkv";
 
-// indexTitleByFileName(titleFileName, false);
+// indexTitleByFileName({
+//   titleFileName,
+//   shouldStoreNotFoundSubtitle: true,
+//   isDebugging: true,
+// });
 
 // GENERAL
 // saveReleaseGroupsToDb(supabase);
