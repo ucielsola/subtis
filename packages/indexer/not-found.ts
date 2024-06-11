@@ -6,7 +6,7 @@ import { subtitlesNotFoundRowSchema, supabase } from "@subtis/db";
 // internals
 import { indexTitleByFileName } from "./file";
 
-async function indexNotFoundSubtitles() {
+export async function indexNotFoundSubtitles() {
   const { data } = await supabase.from("SubtitlesNotFound").select("*");
   const notFoundSubtitles = z.array(subtitlesNotFoundRowSchema).safeParse(data);
 
@@ -71,29 +71,32 @@ async function indexNotFoundSubtitles() {
   }
 }
 
-indexNotFoundSubtitles();
+// testing
+// indexNotFoundSubtitles();
 
-async function populateSubtitlesNotFound() {
-  const subtitleNotFounds = [
-    // {
-    //   title_file_name: "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv",
-    //   email: "agu.garcia@gmail.com",
-    // },
-    // {
-    //   title_file_name: "shogun.2024.s01e04.1080p.web.h264-successfulcrab.mkv",
-    //   email: "lndgalante@gmail.com",
-    // },
-    // {
-    //   title_file_name: "The.Fall.Guy.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv ",
-    // },
-    {
-      title_file_name: "Scenes.From.A.Marriage.1974.1080p.BluRay.x264-[YTS.AM].mp4",
-    },
-  ];
+// populate db
 
-  for await (const subtitleNotFound of subtitleNotFounds) {
-    await supabase.from("SubtitlesNotFound").insert(subtitleNotFound);
-  }
-}
+// async function populateSubtitlesNotFound() {
+//   const subtitleNotFounds = [
+//     // {
+//     //   title_file_name: "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv",
+//     //   email: "agu.garcia@gmail.com",
+//     // },
+//     // {
+//     //   title_file_name: "shogun.2024.s01e04.1080p.web.h264-successfulcrab.mkv",
+//     //   email: "lndgalante@gmail.com",
+//     // },
+//     // {
+//     //   title_file_name: "The.Fall.Guy.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv ",
+//     // },
+//     {
+//       title_file_name: "Scenes.From.A.Marriage.1974.1080p.BluRay.x264-[YTS.AM].mp4",
+//     },
+//   ];
+
+//   for await (const subtitleNotFound of subtitleNotFounds) {
+//     await supabase.from("SubtitlesNotFound").insert(subtitleNotFound);
+//   }
+// }
 
 // populateSubtitlesNotFound()

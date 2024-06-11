@@ -1,15 +1,17 @@
 import cliProgress from "cli-progress";
 import tg from "torrent-grabber";
 
+// db
 import { supabase } from "@subtis/db";
 
+// internals
 import { getSubtitlesForTitle } from "./app";
-import { getReleaseGroups, saveReleaseGroupsToDb } from "./release-groups";
-import { getSubtitleGroups, saveSubtitleGroupsToDb } from "./subtitle-groups";
+import { getReleaseGroups } from "./release-groups";
+import { getSubtitleGroups } from "./subtitle-groups";
 import { getMoviesFromTmdb, getTmdbMovieFromTitle, getTmdbMoviesTotalPagesArray } from "./tmdb";
 
 // core
-async function indexMoviesByYear(year: number, isDebugging: boolean): Promise<void> {
+export async function indexMoviesByYear(year: number, isDebugging: boolean): Promise<void> {
   try {
     await tg.activate("ThePirateBay");
 
@@ -96,10 +98,6 @@ export async function indexMovieByName(name: string) {
   }
 }
 
-// MOVIES
-indexMoviesByYear(2023, false);
+// testing
+// indexMoviesByYear(2023, false);
 // indexMovieByName("Challengers");
-
-// GENERAL
-saveReleaseGroupsToDb(supabase);
-saveSubtitleGroupsToDb(supabase);

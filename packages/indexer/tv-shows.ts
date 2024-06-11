@@ -4,8 +4,8 @@ import tg from "torrent-grabber";
 import { supabase } from "@subtis/db";
 
 import { getSubtitlesForTitle } from "./app";
-import { getReleaseGroups, saveReleaseGroupsToDb } from "./release-groups";
-import { getSubtitleGroups, saveSubtitleGroupsToDb } from "./subtitle-groups";
+import { getReleaseGroups } from "./release-groups";
+import { getSubtitleGroups } from "./subtitle-groups";
 import { getTmdbTvShowsTotalPagesArray, getTvShowsFromTmdb } from "./tmdb";
 
 // core
@@ -86,9 +86,5 @@ export async function indexSeriesByYear(seriesYear: number, isDebugging: boolean
   }
 }
 
-// GENERAL
-saveReleaseGroupsToDb(supabase);
-saveSubtitleGroupsToDb(supabase);
-
-// SERIES
-indexSeriesByYear(2024, false);
+// testing
+// indexSeriesByYear(2024, false);
