@@ -9,7 +9,7 @@ import { type AppVariables, getSupabaseClient } from "../shared";
 import { titlesRowSchema } from "@subtis/db/schemas";
 
 // schemas
-const searchTitleSchema = titlesRowSchema.pick({ id: true, type: true, title_name: true, year: true });
+const searchTitleSchema = titlesRowSchema.pick({ id: true, type: true, title_name: true, year: true, backdrop: true });
 const searchTitlesSchema = z.array(searchTitleSchema).min(1);
 
 const recentTitleSchema = titlesRowSchema.pick({
@@ -38,7 +38,14 @@ const recentTitlesQuery = `
 export const titles = new Hono<{ Variables: AppVariables }>()
   .get("/search/:query", zValidator("param", z.object({ query: z.string() })), async (context) => {
     const { query } = context.req.valid("param");
-    const { data } = await getSupabaseClient(context).rpc("fuzzy_search_title", { query });
+    const [type] = context.req.queries("type") ?? [undefined];
+
+    if (type && !["tv-show", "movie"].includes(type)) {
+      context.status(400);
+      return context.json({ message: "Invalid type" });
+    }
+
+    const { data } = await getSupabaseClient(context).rpc("fuzzy_search_title", { query, optional_type: type });
 
     const titles = searchTitlesSchema.safeParse(data);
     if (!titles.success) {

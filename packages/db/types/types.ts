@@ -265,12 +265,14 @@ export type Database = {
       fuzzy_search_title: {
         Args: {
           query: string;
+          optional_type?: string;
         };
         Returns: {
           id: number;
           title_name: string;
           year: number;
           type: string;
+          backdrop: string;
         }[];
       };
       gtrgm_compress: {

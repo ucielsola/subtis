@@ -62,7 +62,6 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
         .select(subtitlesQuery)
         .match({ title_id: Number(id), current_season: season, current_episode: episode });
 
-
       const subtitles = subtitlesSchema.safeParse(data);
       if (!subtitles.success) {
         context.status(404);

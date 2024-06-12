@@ -18,14 +18,15 @@
 ## Functions
 
 ```sql
-CREATE OR REPLACE FUNCTION public.fuzzy_search_title(query text)
+CREATE OR REPLACE FUNCTION public.fuzzy_search_title(query text, optional_type text DEFAULT NULL)
 RETURNS TABLE (id int8, title_name text, year int8, type text, backdrop text) AS $$
 BEGIN
     RETURN QUERY
     SELECT t.id, t.title_name, t.year, t.type, t.backdrop
     FROM "Titles" t
-    WHERE query % ANY(STRING_TO_ARRAY(t.title_name, ' '))
-       OR query % ANY(STRING_TO_ARRAY(t.title_name_spa, ' '));
+    WHERE (query % ANY(STRING_TO_ARRAY(t.title_name, ' '))
+       OR query % ANY(STRING_TO_ARRAY(t.title_name_spa, ' ')))
+      AND (optional_type IS NULL OR t.type = optional_type);
 END;
 $$ LANGUAGE plpgsql;
 ```
