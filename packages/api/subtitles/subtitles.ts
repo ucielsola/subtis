@@ -57,13 +57,11 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
     zValidator("param", z.object({ id: z.string(), season: z.string().optional(), episode: z.string().optional() })),
     async (context) => {
       const { id, season = 1, episode = 1 } = context.req.valid("param");
-
       const { data } = await getSupabaseClient(context)
         .from("Subtitles")
         .select(subtitlesQuery)
         .match({ title_id: Number(id), current_season: season, current_episode: episode });
 
-      // TODO: Add title_id, current_season, and current_episode indexes?
 
       const subtitles = subtitlesSchema.safeParse(data);
       if (!subtitles.success) {
@@ -130,14 +128,17 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
     const { name, year } = getTitleFileNameMetadata({
       titleFileName: videoFileName.data,
     });
-
-    const { data: titleData } = await supabase.from("Titles").select("id").match({ title_name: name, year }).single();
-
+    const { data: titleData } = await supabase
+      .from("Titles")
+      .select("id")
+      .or(`title_name.ilike.%${name}%,title_name_spa.ilike.%${name}%`)
+      .match({ year })
+      .single();
     const titleByNameAndYear = titlesVersionSchema.safeParse(titleData);
 
     if (!titleByNameAndYear.success) {
       context.status(404);
-      return context.json({ message: "Title not found for file" });
+      return context.json({ message: "Subtitle not found for file" });
     }
 
     const { data } = await supabase
