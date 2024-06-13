@@ -170,8 +170,8 @@ export const RELEASE_GROUPS = {
     file_attributes: ["264-BYNDR"],
     is_supported: true,
     release_group_name: "BYNDR",
-    searchable_opensubtitles_name: ["H264-BYNDR"],
-    searchable_subdivx_name: ["H264-BYNDR"],
+    searchable_opensubtitles_name: ["H264-BYNDR", "BYNDR"],
+    searchable_subdivx_name: ["H264-BYNDR", "BYNDR"],
   },
   RABiDS: {
     file_attributes: ["H264-RABiDS"],
@@ -314,6 +314,41 @@ export const RELEASE_GROUPS = {
     release_group_name: "TheCuteness",
     searchable_opensubtitles_name: ["TheCuteness"],
     searchable_subdivx_name: ["TheCuteness"],
+  },
+  HHWEB: {
+    file_attributes: ["264-hhweb", "265-hhweb", "aac-hhweb"],
+    is_supported: true,
+    release_group_name: "HHWEB",
+    searchable_opensubtitles_name: ["HHWEB", "265-HHWEB"],
+    searchable_subdivx_name: ["HHWEB", "265-HHWEB"],
+  },
+  BenTheMen: {
+    file_attributes: ["264-BEN.THE.MEN"],
+    is_supported: true,
+    release_group_name: "BEN THE MEN",
+    searchable_opensubtitles_name: ["BEN THE MEN"],
+    searchable_subdivx_name: ["BEN THE MEN"],
+  },
+  GODZiLLA: {
+    file_attributes: ["264-GODZiLLA"],
+    is_supported: true,
+    release_group_name: "GODZiLLA",
+    searchable_opensubtitles_name: ["WEB-DL GODZiLLA"],
+    searchable_subdivx_name: ["WEB-DL GODZiLLA"],
+  },
+  POKE: {
+    file_attributes: ["H265-POKE", "H264-POKE"],
+    is_supported: true,
+    release_group_name: "POKE",
+    searchable_opensubtitles_name: ["H265-POKE", "H264-POKE", "POKE"],
+    searchable_subdivx_name: ["H265-POKE", "H264-POKE", "POKE"],
+  },
+  NellTigerFree: {
+    file_attributes: ["h265-nelltigerfree"],
+    is_supported: true,
+    release_group_name: "NellTigerFree",
+    searchable_opensubtitles_name: ["H265-NellTigerFree"],
+    searchable_subdivx_name: ["H265-NellTigerFree"],
   },
 } as const;
 
