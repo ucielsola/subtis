@@ -3,10 +3,6 @@ import invariant from "tiny-invariant";
 // db
 import type { SupabaseClient } from "@subtis/db";
 
-// internals
-import { getOpenSubtitlesSubtitle } from "./opensubtitles";
-import { getSubDivXSubtitle } from "./subdivx";
-
 // constants
 export const SUBTITLE_GROUPS = {
   OPEN_SUBTITLES: {
@@ -21,10 +17,9 @@ export const SUBTITLE_GROUPS = {
 
 export const SUBTITLE_GROUPS_ARRAY = Object.values(SUBTITLE_GROUPS);
 
-const SUBTITLE_GROUPS_GETTERS = {
-  OpenSubtitles: getOpenSubtitlesSubtitle,
-  SubDivX: getSubDivXSubtitle,
-} as const;
+// const SUBTITLE_GROUPS_GETTERS = {
+//   OpenSubtitles: getOpenSubtitlesSubtitle,
+// } as const;
 
 // types
 export type SubtitleGroup = {
@@ -61,14 +56,14 @@ export async function saveSubtitleGroupsToDb(supabaseClient: SupabaseClient): Pr
   }
 }
 
-export function getEnabledSubtitleProviders(subtitleGroups: SubtitleGroupMap, providers: SubtitleGroupNames[]) {
-  return Object.values(subtitleGroups)
-    .map((subtitleGroup) => {
-      const subtitleGroupGetter = SUBTITLE_GROUPS_GETTERS[subtitleGroup.subtitle_group_name as SubtitleGroupNames];
-      return { ...subtitleGroup, getSubtitleFromProvider: subtitleGroupGetter };
-    })
-    .filter((subtitleGroup) => providers.includes(subtitleGroup.subtitle_group_name));
-}
+// export function getEnabledSubtitleProviders(subtitleGroups: SubtitleGroupMap, providers: SubtitleGroupNames[]) {
+//   return Object.values(subtitleGroups)
+//     .map((subtitleGroup) => {
+//       const subtitleGroupGetter = SUBTITLE_GROUPS_GETTERS[subtitleGroup.subtitle_group_name as SubtitleGroupNames];
+//       return { ...subtitleGroup, getSubtitleFromProvider: subtitleGroupGetter };
+//     })
+//     .filter((subtitleGroup) => providers.includes(subtitleGroup.subtitle_group_name));
+// }
 
 // core
 export async function getSubtitleGroups(supabaseClient: SupabaseClient): Promise<SubtitleGroupMap> {

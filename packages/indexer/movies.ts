@@ -68,6 +68,11 @@ export async function indexMoviesByYear(year: number, isDebugging: boolean): Pro
         } catch (error) {
           console.log("mainIndexer => getSubtitlesForMovie error =>", error);
           console.error("Ningún subtítulo encontrado para el titulo", movie.name);
+        } finally {
+          console.log(
+            "Esperando 3 segundos para la siguiente película para evitar rate-limit del proveedor de subtitulos... \n",
+          );
+          await Bun.sleep(3000);
         }
       }
     }

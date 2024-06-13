@@ -40,14 +40,37 @@ const subdivxSchema = z.object({
   sEcho: z.string(),
 });
 
+type SubDivXSubtitles = z.infer<typeof subdivxSchema>;
+
 // core
-export async function getSubDivXSubtitle({
-  titleFileNameMetadata,
+export async function getSubtitlesFromSubDivXForTitle({
   titleProviderQuery,
+}: {
+  titleProviderQuery: string;
+}): Promise<SubDivXSubtitles> {
+  const response = await fetch(`${SUBDIVX_BASE_URL}/inc/ajax.php`, {
+    headers: {
+      "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+      Cookie: "sdx=h99js4a0iqvc651p69addd2i7i",
+      "X-Requested-With": "XMLHttpRequest",
+    },
+    method: "POST",
+    body: `tabla=resultados&filtros=&buscar=${titleProviderQuery}`,
+  });
+
+  const data = await response.json();
+  const subtitles = subdivxSchema.parse(data);
+
+  return subtitles;
+}
+
+export async function filterSubDivXSubtitlesForTorrent({
   episode,
+  subtitles,
+  titleFileNameMetadata,
 }: {
   episode: string | null;
-  titleProviderQuery?: string;
+  subtitles: SubDivXSubtitles;
   titleFileNameMetadata: TitleFileNameMetadata;
 }): Promise<SubtitleData> {
   const { fileNameWithoutExtension, name, releaseGroup, resolution } = titleFileNameMetadata;
@@ -55,17 +78,6 @@ export async function getSubDivXSubtitle({
   if (!releaseGroup) {
     throw new Error("release group undefined");
   }
-
-  const response = await fetch(`${SUBDIVX_BASE_URL}/inc/ajax.php`, {
-    body: `tabla=resultados&filtros=&buscar=${titleProviderQuery}`,
-    headers: {
-      "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-    },
-    method: "POST",
-  });
-
-  const data = await response.json();
-  const subtitles = subdivxSchema.parse(data);
 
   const subtitle = subtitles.aaData.find((subtitle) => {
     const movieDescription = subtitle.descripcion.toLowerCase();
