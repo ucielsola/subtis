@@ -1,12 +1,16 @@
+import invariant from "tiny-invariant";
 import tg from "torrent-grabber";
 
+// db
 import { supabase } from "@subtis/db";
 
+// shared
 import { getTitleFileNameMetadata, getTitleFileNameWithoutExtension } from "@subtis/shared";
-import invariant from "tiny-invariant";
+
+// internals
 import { getSubtitlesForTitle } from "./app";
-import { getReleaseGroups, saveReleaseGroupsToDb } from "./release-groups";
-import { getSubtitleGroups, saveSubtitleGroupsToDb } from "./subtitle-groups";
+import { getReleaseGroups } from "./release-groups";
+import { getSubtitleGroups } from "./subtitle-groups";
 import {
   getMovieMetadataFromTmdbMovie,
   getTvShowMetadataFromTmdbTvShow,
@@ -193,7 +197,7 @@ export async function indexTitleByFileName({
 }
 
 // FILES
-const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
+// const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
 // const titleFileName = "shogun.2024.s01e04.1080p.web.h264-successfulcrab.mkv";
 
 // indexTitleByFileName({
