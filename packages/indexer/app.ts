@@ -578,7 +578,6 @@ export async function getSubtitlesForTitle({
     console.log(`4.${index}.${torrentIndex}) Buscando subtítulo para ${name}`);
 
     const subtitleAlreadyExists = await hasSubtitleInDatabase(fileName);
-    console.log("\n ~ forawait ~ subtitleAlreadyExists:", subtitleAlreadyExists);
     if (subtitleAlreadyExists) {
       console.log(`4.${index}.${torrentIndex}) Subtítulo ya existe en la base de datos`);
       continue;
@@ -590,7 +589,6 @@ export async function getSubtitlesForTitle({
         episode,
         titleFileNameMetadata,
       });
-      console.log("\n ~ foundSubtitle:", foundSubtitle);
 
       const { subtitleGroupName } = foundSubtitle;
       const { release_group_name: releaseGroupName } = releaseGroup;
@@ -626,7 +624,7 @@ export async function getSubtitlesForTitle({
         subtitleGroups,
       });
     } catch (error) {
-      console.log("\n ~ forawait ~ error:", error);
+      // console.log("\n ~ forawait ~ error:", error);
       console.log(`4.${index}.${torrentIndex}) Subtítulo no encontrado en ${name} \n`);
     }
 
