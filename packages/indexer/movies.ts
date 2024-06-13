@@ -99,5 +99,5 @@ export async function indexMovieByName(name: string) {
 }
 
 // testing
-// indexMoviesByYear(2023, false);
+indexMoviesByYear(2024, false);
 // indexMovieByName("Challengers");

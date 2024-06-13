@@ -56,7 +56,7 @@ export async function indexSeriesByYear(seriesYear: number, isDebugging: boolean
     console.log("\n");
 
     for await (const [index, tvShow] of Object.entries(tvShows)) {
-      if (["0"].includes(index)) {
+      if (["0", "1"].includes(index)) {
         continue;
       }
 
@@ -87,4 +87,4 @@ export async function indexSeriesByYear(seriesYear: number, isDebugging: boolean
 }
 
 // testing
-// indexSeriesByYear(2024, false);
+indexSeriesByYear(2024, false);
