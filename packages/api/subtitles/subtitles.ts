@@ -175,7 +175,10 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
   })
   .post(
     "/not-found",
-    zValidator("json", z.object({ email: z.string().email(), bytes: z.number(), titleFileName: z.string() })),
+    zValidator(
+      "json",
+      z.object({ email: z.string().email().optional(), bytes: z.number(), titleFileName: z.string() }),
+    ),
     async (context) => {
       const { email, bytes, titleFileName } = context.req.valid("json");
 
