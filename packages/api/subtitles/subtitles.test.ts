@@ -739,3 +739,142 @@ describe("API | /file/versions", () => {
     });
   });
 });
+
+describe("API | /not-found", () => {
+  test("Valid JSON Request with proper email, bytes, and titleFileName", async () => {
+    const bytes = 1506405943;
+    const titleFileName = "Kung.Fu.Panda.4.2024.720p.AMZN.WEBRip.800MB.x264-GalaxyRG.mkv";
+
+    const request = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: "lnd@gmail.com", bytes, titleFileName }),
+    };
+
+    const response = await subtitles.request("/not-found", request, getMockEnv());
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data).toEqual({ ok: true });
+  });
+
+  test("Invalid JSON Request with wrong titleFileName type", async () => {
+    const bytes = 1506405943;
+    const titleFileName = "Kung.Fu.Panda.4.2024.720p.AMZN.WEBRip.800MB.x264-GalaxyRG.mp3";
+
+    const request = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: "lnd@gmail.com", bytes, titleFileName }),
+    };
+
+    const response = await subtitles.request("/not-found", request, getMockEnv());
+    const data = await response.json();
+
+    expect(response.status).toBe(415);
+    expect(data).toEqual({
+      message: "File extension not supported",
+    });
+  });
+
+  test("Invalid JSON Request with no tileFileName", async () => {
+    const bytes = 1506405943;
+
+    const request = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: "lnd@gmail.com", bytes }),
+    };
+
+    const response = await subtitles.request("/not-found", request, getMockEnv());
+    const data = await response.json();
+
+    expect(response.status).toBe(400);
+    expect(data).toEqual({
+      success: false,
+      error: {
+        issues: [
+          {
+            code: "invalid_type",
+            expected: "string",
+            received: "undefined",
+            path: ["titleFileName"],
+            message: "Required",
+          },
+        ],
+        name: "ZodError",
+      },
+    });
+  });
+
+  test("Invalid JSON Request with no bytes", async () => {
+    const titleFileName = "Kung.Fu.Panda.4.2024.720p.AMZN.WEBRip.800MB.x264-GalaxyRG.mp3";
+
+    const request = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: "lnd@gmail.com", titleFileName }),
+    };
+
+    const response = await subtitles.request("/not-found", request, getMockEnv());
+    const data = await response.json();
+
+    expect(response.status).toBe(400);
+    expect(data).toEqual({
+      success: false,
+      error: {
+        issues: [
+          {
+            code: "invalid_type",
+            expected: "number",
+            received: "undefined",
+            path: ["bytes"],
+            message: "Required",
+          },
+        ],
+        name: "ZodError",
+      },
+    });
+  });
+
+  test("Invalid JSON Request with invalid email", async () => {
+    const request = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: "lnd@gmail" }),
+    };
+
+    const response = await subtitles.request("/not-found", request, getMockEnv());
+    const data = await response.json();
+
+    expect(response.status).toBe(400);
+    expect(data).toEqual({
+      success: false,
+      error: {
+        issues: [
+          {
+            validation: "email",
+            code: "invalid_string",
+            message: "Invalid email",
+            path: ["email"],
+          },
+          {
+            code: "invalid_type",
+            expected: "number",
+            received: "undefined",
+            path: ["bytes"],
+            message: "Required",
+          },
+          {
+            code: "invalid_type",
+            expected: "string",
+            received: "undefined",
+            path: ["titleFileName"],
+            message: "Required",
+          },
+        ],
+        name: "ZodError",
+      },
+    });
+  });
+});

@@ -172,4 +172,28 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
     }
 
     return context.json(trendingSubtitles.data);
-  });
+  })
+  .post(
+    "/not-found",
+    zValidator("json", z.object({ email: z.string().email(), bytes: z.number(), titleFileName: z.string() })),
+    async (context) => {
+      const { email, bytes, titleFileName } = context.req.valid("json");
+
+      const videoFileName = videoFileNameSchema.safeParse(titleFileName);
+      if (!videoFileName.success) {
+        context.status(415);
+        return context.json({ message: videoFileName.error.issues[0].message });
+      }
+
+      const { error } = await getSupabaseClient(context)
+        .from("SubtitlesNotFound")
+        .insert({ email, bytes, title_file_name: titleFileName });
+
+      if (error) {
+        context.status(500);
+        return context.json({ message: error.message });
+      }
+
+      return context.json({ ok: true });
+    },
+  );

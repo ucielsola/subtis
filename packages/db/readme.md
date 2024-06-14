@@ -43,13 +43,3 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 ```
-
-```sql
-CREATE OR REPLACE FUNCTION public.insert_subtitle_not_found(_title_file_name text)
-RETURNS void AS $$
-BEGIN
-    INSERT INTO "SubtitlesNotFound" ("title_file_name")
-    VALUES (_title_file_name);
-END;
-$$ LANGUAGE plpgsql;
-```

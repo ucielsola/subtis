@@ -130,6 +130,7 @@ export const subtitlesUpdateSchema = z.object({
 });
 
 export const subtitlesNotFoundRowSchema = z.object({
+  bytes: z.number(),
   created_at: z.string(),
   email: z.string().nullable(),
   id: z.number(),
@@ -138,6 +139,7 @@ export const subtitlesNotFoundRowSchema = z.object({
 });
 
 export const subtitlesNotFoundInsertSchema = z.object({
+  bytes: z.number(),
   created_at: z.string().optional(),
   email: z.string().optional().nullable(),
   id: z.number().optional(),
@@ -146,6 +148,7 @@ export const subtitlesNotFoundInsertSchema = z.object({
 });
 
 export const subtitlesNotFoundUpdateSchema = z.object({
+  bytes: z.number().optional(),
   created_at: z.string().optional(),
   email: z.string().optional().nullable(),
   id: z.number().optional(),

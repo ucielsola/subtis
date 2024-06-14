@@ -154,6 +154,7 @@ export type Database = {
       };
       SubtitlesNotFound: {
         Row: {
+          bytes: number;
           created_at: string;
           email: string | null;
           id: number;
@@ -161,6 +162,7 @@ export type Database = {
           title_file_name: string;
         };
         Insert: {
+          bytes: number;
           created_at?: string;
           email?: string | null;
           id?: number;
@@ -168,6 +170,7 @@ export type Database = {
           title_file_name: string;
         };
         Update: {
+          bytes?: number;
           created_at?: string;
           email?: string | null;
           id?: number;

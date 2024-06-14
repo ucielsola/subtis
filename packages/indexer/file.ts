@@ -29,10 +29,12 @@ function getEpisode(title: string): string {
 
 // core
 export async function indexTitleByFileName({
+  bytes,
   titleFileName,
   shouldStoreNotFoundSubtitle,
   isDebugging,
 }: {
+  bytes: number;
   titleFileName: string;
   shouldStoreNotFoundSubtitle: boolean;
   isDebugging: boolean;
@@ -182,9 +184,7 @@ export async function indexTitleByFileName({
     return { ok: true };
   } catch (error) {
     if (shouldStoreNotFoundSubtitle) {
-      await supabase.rpc("insert_subtitle_not_found", {
-        _title_file_name: titleFileName,
-      });
+      await supabase.from("SubtitlesNotFound").insert({ bytes, title_file_name: titleFileName });
     }
 
     console.log("mainIndexer => error =>", error);
