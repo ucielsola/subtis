@@ -17,6 +17,7 @@ export const subtitleSchema = subtitlesRowSchema
     id: true,
     resolution: true,
     subtitle_link: true,
+    queried_times: true,
     current_season: true,
     current_episode: true,
     subtitle_file_name: true,

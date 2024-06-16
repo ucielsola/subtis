@@ -15,6 +15,7 @@ const subtitlesQuery = `
   id,
   resolution,
   subtitle_link,
+  queried_times,
   subtitle_file_name,
   current_season,
   current_episode,
@@ -152,9 +153,10 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       return context.json({ message: "Subtitle not found for file" });
     }
 
-    const filteredSubtitlesByResolution = subtitleByFileName.data.filter(
-      (subtitle) => subtitle.resolution === resolution,
-    );
+    const filteredSubtitlesByResolution = subtitleByFileName.data
+      .filter((subtitle) => subtitle.resolution === resolution)
+      .sort((a, b) => (a.releaseGroup.release_group_name < b.releaseGroup.release_group_name ? 1 : -1))
+      .sort((a, b) => ((a.queried_times || 0) < (b.queried_times || 0) ? 1 : -1));
 
     if (filteredSubtitlesByResolution.length > 0) {
       return context.json(filteredSubtitlesByResolution);
@@ -167,7 +169,8 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
             subtitle.releaseGroup.release_group_name === releaseGroup.release_group_name ||
             subtitle.resolution === resolution,
         )
-        .sort((a, b) => (a.releaseGroup.release_group_name < b.releaseGroup.release_group_name ? 1 : -1));
+        .sort((a, b) => (a.releaseGroup.release_group_name < b.releaseGroup.release_group_name ? 1 : -1))
+        .sort((a, b) => ((a.queried_times || 0) < (b.queried_times || 0) ? 1 : -1));
 
       if (filteredSubtitles.length > 0) {
         return context.json(filteredSubtitles);
