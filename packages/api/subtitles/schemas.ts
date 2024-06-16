@@ -10,7 +10,7 @@ const titleSchema = titlesRowSchema.pick({
   logo: true,
 });
 
-export const titlesVersionSchema = titlesRowSchema.pick({ id: true });
+export const alternativeTitlesSchema = titlesRowSchema.pick({ id: true });
 
 export const subtitleSchema = subtitlesRowSchema
   .pick({

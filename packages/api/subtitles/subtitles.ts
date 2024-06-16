@@ -9,7 +9,7 @@ import { type AppVariables, getSupabaseClient } from "../shared";
 import { getTitleFileNameMetadata, videoFileNameSchema } from "@subtis/shared";
 
 // schemas
-import { subtitleSchema, titlesVersionSchema } from "./schemas";
+import { alternativeTitlesSchema, subtitleSchema } from "./schemas";
 
 const subtitlesQuery = `
   id,
@@ -114,7 +114,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       return context.json(subtitleByFileName.data);
     },
   )
-  .get("/file/versions/:fileName", zValidator("param", z.object({ fileName: z.string() })), async (context) => {
+  .get("/file/alternatives/:fileName", zValidator("param", z.object({ fileName: z.string() })), async (context) => {
     const { fileName } = context.req.valid("param");
 
     const videoFileName = videoFileNameSchema.safeParse(fileName);
@@ -124,7 +124,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
     }
 
     const supabase = getSupabaseClient(context);
-    const { name, year } = getTitleFileNameMetadata({
+    const { name, year, releaseGroup, resolution } = getTitleFileNameMetadata({
       titleFileName: videoFileName.data,
     });
     const { data: titleData } = await supabase
@@ -133,7 +133,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       .or(`title_name.ilike.%${name}%,title_name_spa.ilike.%${name}%`)
       .match({ year })
       .single();
-    const titleByNameAndYear = titlesVersionSchema.safeParse(titleData);
+    const titleByNameAndYear = alternativeTitlesSchema.safeParse(titleData);
 
     if (!titleByNameAndYear.success) {
       context.status(404);
@@ -150,6 +150,28 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
     if (!subtitleByFileName.success) {
       context.status(404);
       return context.json({ message: "Subtitle not found for file" });
+    }
+
+    const filteredSubtitlesByResolution = subtitleByFileName.data.filter(
+      (subtitle) => subtitle.resolution === resolution,
+    );
+
+    if (filteredSubtitlesByResolution.length > 0) {
+      return context.json(filteredSubtitlesByResolution);
+    }
+
+    if (releaseGroup) {
+      const filteredSubtitles = subtitleByFileName.data
+        .filter(
+          (subtitle) =>
+            subtitle.releaseGroup.release_group_name === releaseGroup.release_group_name ||
+            subtitle.resolution === resolution,
+        )
+        .sort((a, b) => (a.releaseGroup.release_group_name < b.releaseGroup.release_group_name ? 1 : -1));
+
+      if (filteredSubtitles.length > 0) {
+        return context.json(filteredSubtitles);
+      }
     }
 
     return context.json(subtitleByFileName.data);
