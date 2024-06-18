@@ -5,7 +5,6 @@ import { secureHeaders } from "hono/secure-headers";
 import timestring from "timestring";
 
 // internals
-import { integrations } from "./integrations";
 import { metrics } from "./metrics";
 import { shortener } from "./shortener";
 import { subtitles } from "./subtitles";
@@ -28,7 +27,6 @@ const routes = app
   .route("/titles", titles)
   .route("/metrics", metrics)
   .route("/subtitles", subtitles)
-  .route("/integrations", integrations)
   .route("/", shortener);
 
 // exports
