@@ -3,7 +3,6 @@ import { type ContentType, type Subtitle, addonBuilder, serveHTTP } from "stremi
 // internals
 import { apiClient } from "./api";
 import project from "./package.json";
-import { getSubtitleUrl } from "./utils";
 
 // api
 import { subtitleSchema } from "@subtis/api/subtitles/schemas";
@@ -31,17 +30,16 @@ async function getTitleSubtitle(args: Args): Promise<{ subtitles: Subtitle[] }> 
 
   const subtitleByFileName = subtitleSchema.safeParse(data);
   if (!subtitleByFileName.success) {
-    // Trigger error to sentry
     return Promise.resolve({ subtitles: [] });
   }
 
   const subtitle = {
     lang: "spa",
     id: String(subtitleByFileName.data.id),
-    url: getSubtitleUrl({ bytes, fileName }),
+    url: subtitleByFileName.data.subtitle_link,
   };
 
-  apiClient.v1.metrics.download.$post({
+  await apiClient.v1.metrics.download.$post({
     json: { bytes: Number(bytes), titleFileName: fileName },
   });
 
