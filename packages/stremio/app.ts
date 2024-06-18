@@ -8,14 +8,8 @@ import project from "./package.json";
 import { subtitleSchema } from "@subtis/api/subtitles/schemas";
 
 // types
-type Args = {
-  type: ContentType;
-  id: string;
-  extra: {
-    videoHash: string;
-    videoSize: string;
-  };
-};
+type Extra = { videoHash: string; videoSize: string };
+type Args = { id: string; extra: Extra; type: ContentType };
 
 type ExtraArgs = Args["extra"] & { filename: string };
 

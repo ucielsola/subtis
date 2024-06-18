@@ -330,7 +330,7 @@ Subtitulos descargados desde Subtis | https://subt.is
 
 -1
 00:00:14,000 --> 00:00:18,000
-Contactanos por X en @subt_is
+Contactanos por Twitter/X en @subt_is
 
 0
 00:00:18,000 --> 00:00:22,000
