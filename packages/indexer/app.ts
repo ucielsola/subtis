@@ -14,10 +14,14 @@ import { match } from "ts-pattern";
 import type { ArrayValues, AsyncReturnType } from "type-fest";
 import { z } from "zod";
 
+// db
 import { type Title, supabase } from "@subtis/db";
+
+// shared
 import {
   type TitleFileNameMetadata,
   VIDEO_FILE_EXTENSIONS,
+  getDecodedSubtitleFile,
   getTitleFileNameExtension,
   getTitleFileNameMetadata,
 } from "@subtis/shared";
@@ -150,16 +154,14 @@ const uploadSupabaseSchema = z.object({
   fullPath: z.string(),
 });
 
-function readSubtitleFile({
+function getSubtitleInitialPath({
   subtitle,
   extractedSubtitlePath,
 }: {
   subtitle: SubtitleWithResolutionAndTorrentId;
   extractedSubtitlePath: string;
-}): Buffer {
+}): string {
   const { fileExtension, subtitleFileNameWithoutExtension, subtitleSrtFileName } = subtitle;
-
-  let subtitleFileToUpload: Buffer | undefined;
 
   if (["rar", "zip"].includes(fileExtension)) {
     const extractedSubtitleFiles = fs.readdirSync(extractedSubtitlePath);
@@ -176,7 +178,7 @@ function readSubtitleFile({
       srtFile,
     );
 
-    subtitleFileToUpload = fs.readFileSync(extractedSrtFileNamePath);
+    return extractedSrtFileNamePath;
   }
 
   if (fileExtension === "srt") {
@@ -188,8 +190,15 @@ function readSubtitleFile({
       subtitleFileNameWithoutExtension,
       subtitleSrtFileName,
     );
-    subtitleFileToUpload = fs.readFileSync(srtFileNamePath);
+
+    return srtFileNamePath;
   }
+
+  throw new Error("No se encontró el archivo de subtítulo");
+}
+
+function readSubtitleFile(path: string): Buffer {
+  const subtitleFileToUpload = fs.readFileSync(path);
 
   const bufferSchema = z.instanceof(Buffer);
   const subtitleFileToUploadBuffer = bufferSchema.parse(subtitleFileToUpload);
@@ -311,6 +320,28 @@ function removeSubtitlesFromFileSystem(paths: string[]): void {
   }
 }
 
+async function addWatermarkToSubtitle(path: string): Promise<void> {
+  const subtitleBuffer = await fs.promises.readFile(path);
+  const subtitleText = getDecodedSubtitleFile(subtitleBuffer);
+
+  const subtitleTextWithWatermark = `-2
+00:00:10,000 --> 00:00:14,000
+Subtitulos descargados desde Subtis | https://subt.is
+
+-1
+00:00:14,000 --> 00:00:18,000
+Contactanos por X en @subt_is
+
+0
+00:00:18,000 --> 00:00:22,000
+Contactanos por email soporte@subt.is
+
+${subtitleText}
+`;
+
+  await fs.promises.writeFile(path, subtitleTextWithWatermark, "utf-8");
+}
+
 async function downloadAndStoreTitleAndSubtitle({
   title,
   titleFile,
@@ -336,7 +367,10 @@ async function downloadAndStoreTitleAndSubtitle({
     const { subtitleCompressedAbsolutePath, extractedSubtitlePath } = getSubtitleAbsolutePaths(subtitle);
     await uncompressSubtitle({ subtitle, fromRoute: subtitleCompressedAbsolutePath, toRoute: extractedSubtitlePath });
 
-    const subtitleFileToUpload = readSubtitleFile({ subtitle, extractedSubtitlePath });
+    const path = getSubtitleInitialPath({ subtitle, extractedSubtitlePath });
+    await addWatermarkToSubtitle(path);
+
+    const subtitleFileToUpload = readSubtitleFile(path);
     const author = getSubtitleAuthor(subtitleFileToUpload);
 
     const fullPath = await storeSubtitleInSupabaseStorage({ subtitle, subtitleFileToUpload });
