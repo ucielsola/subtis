@@ -82,7 +82,7 @@ export async function indexMoviesByYear(year: number, isDebugging: boolean): Pro
   }
 }
 
-export async function indexMovieByName(name: string) {
+export async function indexMovieByName(name: string, isDebugging: boolean) {
   try {
     await tg.activate("ThePirateBay");
 
@@ -96,7 +96,7 @@ export async function indexMovieByName(name: string) {
       currentTitle: { ...movie, episode: null, totalEpisodes: null, totalSeasons: null },
       releaseGroups,
       subtitleGroups,
-      isDebugging: true,
+      isDebugging,
     });
   } catch (error) {
     console.log("\n ~ indexMovieByName ~ error:", error);
@@ -104,5 +104,5 @@ export async function indexMovieByName(name: string) {
 }
 
 // testing
-indexMoviesByYear(2024, false);
-// indexMovieByName("Challengers");
+// indexMoviesByYear(2024, false);
+indexMovieByName("Kung Fu Panda 4", false);
