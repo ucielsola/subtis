@@ -19,7 +19,7 @@
     "@cloudflare/workers-types": "^4.20240614.0",
     "@total-typescript/ts-reset": "^0.5.1",
     "@types/bun": "^1.1.4",
-    "@types/node": "^20.14.2",
+    "@types/node": "^20.14.4",
     "@types/timestring": "^6.0.5",
     "typescript": "^5.4.5",
     "wrangler": "^3.60.3"
