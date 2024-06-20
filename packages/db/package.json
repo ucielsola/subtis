@@ -16,10 +16,10 @@
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "^0.5.1",
-    "@types/bun": "^1.1.4",
-    "supabase": ">=1.176.10",
+    "@types/bun": "^1.1.5",
+    "supabase": ">=1.178.2",
     "supabase-to-zod": "^1.0.5",
-    "typescript": "^5.4.5"
+    "typescript": "^5.5.2"
   },
   "trustedDependencies": [
     "supabase"

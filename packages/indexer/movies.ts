@@ -104,5 +104,5 @@ export async function indexMovieByName(name: string, isDebugging: boolean) {
 }
 
 // testing
-// indexMoviesByYear(2024, false);
-indexMovieByName("Kung Fu Panda 4", false);
+indexMoviesByYear(2024, false);
+// indexMovieByName("Kung Fu Panda 4", false);
