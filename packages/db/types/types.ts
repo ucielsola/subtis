@@ -189,6 +189,7 @@ export type Database = {
           poster: string | null;
           rating: number;
           release_date: string;
+          teaser: string | null;
           title_name: string;
           title_name_spa: string;
           total_episodes: number | null;
@@ -205,6 +206,7 @@ export type Database = {
           poster?: string | null;
           rating: number;
           release_date: string;
+          teaser?: string | null;
           title_name: string;
           title_name_spa: string;
           total_episodes?: number | null;
@@ -221,6 +223,7 @@ export type Database = {
           poster?: string | null;
           rating?: number;
           release_date?: string;
+          teaser?: string | null;
           title_name?: string;
           title_name_spa?: string;
           total_episodes?: number | null;

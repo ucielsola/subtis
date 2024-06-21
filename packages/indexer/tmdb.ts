@@ -362,6 +362,7 @@ export type TmdbTitle = {
   logo: string | null;
   poster: string | null;
   backdrop: string | null;
+  teaser: string | null;
 };
 
 export type TmdbTvShow = TmdbTitle & {
@@ -376,6 +377,61 @@ function generateTmdbImageUrl(path: string | null): string | null {
   }
 
   return `https://image.tmdb.org/t/p/original${path}`;
+}
+
+const titleVideoSchema = z.object({
+  id: z.number(),
+  results: z.array(
+    z.object({
+      iso_639_1: z.string(),
+      iso_3166_1: z.string(),
+      name: z.string(),
+      key: z.string(),
+      site: z.string(),
+      size: z.number(),
+      type: z.string(),
+      official: z.boolean(),
+      published_at: z.string(),
+      id: z.string(),
+    }),
+  ),
+});
+
+async function getMovieYoutubeTeaser(id: number): Promise<string | null> {
+  const responseVideo = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos`, TMDB_OPTIONS);
+  const dataVideo = await responseVideo.json();
+
+  const titleVideos = titleVideoSchema.parse(dataVideo);
+  let teaser = titleVideos.results.find(({ type, site }) => type === "Teaser" && site === "YouTube");
+
+  if (!teaser) {
+    teaser = titleVideos.results.find(({ type, site }) => type === "Trailer" && site === "YouTube");
+  }
+
+  if (!teaser) {
+    return null;
+  }
+
+  return `https://www.youtube.com/watch?v=${teaser.key}`;
+}
+
+async function getTvShowYoutubeTeaser(id: number): Promise<string | null> {
+  const responseVideo = await fetch(`https://api.themoviedb.org/3/tv/${id}/videos`, TMDB_OPTIONS);
+  const dataVideo = await responseVideo.json();
+
+  const titleVideos = titleVideoSchema.parse(dataVideo);
+
+  let teaser = titleVideos.results.find(({ type, site }) => type === "Teaser" && site === "YouTube");
+
+  if (!teaser) {
+    teaser = titleVideos.results.find(({ type, site }) => type === "Trailer" && site === "YouTube");
+  }
+
+  if (!teaser) {
+    return null;
+  }
+
+  return `https://www.youtube.com/watch?v=${teaser.key}`;
 }
 
 export async function getMovieMetadataFromTmdbMovie({
@@ -413,11 +469,15 @@ export async function getMovieMetadataFromTmdbMovie({
   // 4. Get movie title image
   const logo = await getTmdbMovieLogoUrl(id);
 
+  // 5. Get movie teaser
+  const teaser = await getMovieYoutubeTeaser(id);
+
   return {
     year,
     name,
     logo,
     imdbId,
+    teaser,
     overview,
     spanishName,
     releaseDate,
@@ -511,6 +571,9 @@ export async function getTvShowMetadataFromTmdbTvShow({
   // 5. Get TV show logo
   const logo = await getTmdbTvShoweLogoUrl(id);
 
+  // 5. Get TV show teaser
+  const teaser = await getTvShowYoutubeTeaser(id);
+
   const episodes = data.seasons.flatMap((season) => {
     const { season_number: seasonNumber, episode_count: episodeCount } = season;
 
@@ -534,6 +597,7 @@ export async function getTvShowMetadataFromTmdbTvShow({
     name,
     logo,
     imdbId,
+    teaser,
     overview,
     episodes,
     spanishName,

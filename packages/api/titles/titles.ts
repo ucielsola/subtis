@@ -2,11 +2,14 @@ import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { z } from "zod";
 
-// internals
-import { type AppVariables, getSupabaseClient } from "../shared";
+// shared
+import { getTitleFileNameMetadata, videoFileNameSchema } from "@subtis/shared";
 
 // db
 import { titlesRowSchema } from "@subtis/db/schemas";
+
+// internals
+import { type AppVariables, getSupabaseClient } from "../shared";
 
 // schemas
 const searchTitleSchema = titlesRowSchema.pick({ id: true, type: true, title_name: true, year: true, backdrop: true });
@@ -77,4 +80,26 @@ export const titles = new Hono<{ Variables: AppVariables }>()
     }
 
     return context.json(recentSubtitles.data);
+  })
+  .get("/teaser/:fileName", zValidator("param", z.object({ fileName: z.string() })), async (context) => {
+    const { fileName } = context.req.valid("param");
+
+    const videoFileName = videoFileNameSchema.safeParse(fileName);
+    if (!videoFileName.success) {
+      context.status(415);
+      return context.json({ message: videoFileName.error.issues[0].message });
+    }
+
+    const { name, year } = getTitleFileNameMetadata({
+      titleFileName: videoFileName.data,
+    });
+
+    const { data: titleData } = await getSupabaseClient(context)
+      .from("Titles")
+      .select("teaser")
+      .or(`title_name.ilike.%${name}%,title_name_spa.ilike.%${name}%`)
+      .match({ year })
+      .single();
+
+    return context.json(titleData);
   });

@@ -70,6 +70,7 @@ type TitleWithEpisode = Pick<
   | "total_seasons"
   | "total_episodes"
   | "logo"
+  | "teaser"
 > & {
   episode: string | null;
 };
@@ -521,6 +522,7 @@ export async function getSubtitlesForTitle({
     name,
     year,
     logo,
+    teaser,
     imdbId,
     rating,
     releaseDate,
@@ -554,7 +556,6 @@ export async function getSubtitlesForTitle({
   );
 
   const subtitles = await getSubtitlesFromSubDivXForTitle({ titleProviderQuery });
-  console.log("\n ~ subtitles:", subtitles);
 
   for await (const [torrentIndex, torrent] of Object.entries(filteredTorrents)) {
     console.log(`4.${index}.${torrentIndex}) Procesando torrent`, `"${torrent.title}"`, "\n");
@@ -635,6 +636,7 @@ export async function getSubtitlesForTitle({
           fileNameExtension,
         },
         title: {
+          teaser,
           id: imdbId,
           title_name: name,
           rating,
