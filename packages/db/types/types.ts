@@ -192,6 +192,7 @@ export type Database = {
           teaser: string | null;
           title_name: string;
           title_name_spa: string;
+          title_name_without_special_chars: string;
           total_episodes: number | null;
           total_seasons: number | null;
           type: string;
@@ -209,6 +210,7 @@ export type Database = {
           teaser?: string | null;
           title_name: string;
           title_name_spa: string;
+          title_name_without_special_chars: string;
           total_episodes?: number | null;
           total_seasons?: number | null;
           type: string;
@@ -226,6 +228,7 @@ export type Database = {
           teaser?: string | null;
           title_name?: string;
           title_name_spa?: string;
+          title_name_without_special_chars?: string;
           total_episodes?: number | null;
           total_seasons?: number | null;
           type?: string;

@@ -131,7 +131,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
     const { data: titleData } = await supabase
       .from("Titles")
       .select("id")
-      .or(`title_name.ilike.%${name}%,title_name_spa.ilike.%${name}%`)
+      .or(`title_name_without_special_chars.ilike.%${name}%`)
       .match({ year })
       .single();
     const titleByNameAndYear = alternativeTitlesSchema.safeParse(titleData);

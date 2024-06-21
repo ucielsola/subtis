@@ -7,6 +7,7 @@ import clipboard from "clipboardy";
 import download from "download";
 import extract from "extract-zip";
 import prettyBytes from "pretty-bytes";
+import replaceSpecialCharacters from "replace-special-characters";
 import invariant from "tiny-invariant";
 import tg from "torrent-grabber";
 import torrentStream, { type File } from "torrent-stream";
@@ -241,7 +242,10 @@ function getSupabaseSubtitleLink({
 
 async function storeTitleInSupabaseTable(title: TitleWithEpisode): Promise<void> {
   const { episode, ...rest } = title;
-  await supabase.from("Titles").upsert(rest);
+  await supabase.from("Titles").upsert({
+    ...rest,
+    title_name_without_special_chars: replaceSpecialCharacters(title.title_name).replaceAll(":", ""),
+  });
 }
 
 async function storeSubtitleInSupabaseTable({

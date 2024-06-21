@@ -97,7 +97,7 @@ export const titles = new Hono<{ Variables: AppVariables }>()
     const { data: titleData } = await getSupabaseClient(context)
       .from("Titles")
       .select("teaser")
-      .or(`title_name.ilike.%${name}%,title_name_spa.ilike.%${name}%`)
+      .or(`title_name_without_special_chars.ilike.%${name}%`)
       .match({ year })
       .single();
 
