@@ -21,7 +21,7 @@ export async function indexNotFoundSubtitles() {
     const subtitleOnSubtitlesTable = await supabase
       .from("Subtitles")
       .select("title_file_name")
-      .eq("title_file_name", notFoundSubtitle.title_file_name)
+      .or(`title_file_name.eq.${notFoundSubtitle.title_file_name},bytes.eq.${notFoundSubtitle.bytes}`)
       .single();
     console.log("\n ~ forawait ~ subtitleOnSubtitlesTable:", subtitleOnSubtitlesTable);
 
