@@ -89,28 +89,9 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       const { data } = await supabase
         .from("Subtitles")
         .select(subtitlesQuery)
-        .match({ title_file_name: videoFileName.data })
+        .or(`title_file_name.eq.${videoFileName.data},bytes.eq.${bytes}`)
         .single();
       const subtitleByFileName = subtitleSchema.safeParse(data);
-
-      if (!subtitleByFileName.success) {
-        const { data } = await supabase
-          .from("Subtitles")
-          .select(subtitlesQuery)
-          .match({ bytes })
-          .order("created_at", { ascending: false })
-          .limit(1)
-          .single();
-
-        const subtitleByBytes = subtitleSchema.safeParse(data);
-
-        if (!subtitleByBytes.success) {
-          context.status(404);
-          return context.json({ message: "Subtitle not found for file" });
-        }
-
-        return context.json(subtitleByBytes.data);
-      }
 
       return context.json(subtitleByFileName.data);
     },
