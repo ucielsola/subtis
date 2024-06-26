@@ -18,12 +18,17 @@ export const shortener = new Hono<{ Variables: AppVariables }>().get(
   async (context) => {
     const { subtitleId: id } = context.req.valid("param");
 
+    if (Number.isNaN(Number(id))) {
+      context.status(400);
+      return context.json({ message: "Invalid ID: it should be a number" });
+    }
+
     const { data } = await getSupabaseClient(context).from("Subtitles").select("subtitle_link").match({ id }).single();
 
     const subtitleById = subtitleSchema.safeParse(data);
     if (!subtitleById.success) {
       context.status(404);
-      return context.json({ message: "Subtitle not found for id" });
+      return context.json({ message: "Subtitle not found for ID" });
     }
 
     return context.redirect(subtitleById.data.subtitle_link);
