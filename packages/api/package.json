@@ -4,8 +4,8 @@
   "license": "MIT",
   "main": "app.ts",
   "scripts": {
-    "dev": "wrangler dev app.ts",
-    "deploy": "wrangler deploy --minify app.ts",
+    "dev": "wrangler dev api.ts",
+    "deploy": "wrangler deploy --minify api.ts",
     "test:watch": "bun --env-file=.env.development test --watch"
   },
   "dependencies": {
