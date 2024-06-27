@@ -8,7 +8,7 @@ import { supabase } from "@subtis/db";
 import { getTitleFileNameMetadata, getTitleFileNameWithoutExtension } from "@subtis/shared";
 
 // internals
-import { getSubtitlesForTitle, getTorrentFilesMetadata, getVideoFromFiles } from "./app";
+import { getSubtitlesForTitle } from "./app";
 import { getReleaseGroups } from "./release-groups";
 import { getSubtitleGroups } from "./subtitle-groups";
 import {
@@ -40,7 +40,7 @@ export async function indexTitleByFileName({
   titleFileName: string;
   shouldStoreNotFoundSubtitle: boolean;
   isDebugging: boolean;
-}): Promise<{ ok: boolean; newTorrentFileName: string | null; newBytes: number | null }> {
+}): Promise<{ ok: boolean }> {
   console.time("Tardo en indexar");
 
   try {
@@ -131,12 +131,11 @@ export async function indexTitleByFileName({
         subtitleGroups,
         isDebugging,
         initialTorrents: [torrent],
+        bytesFromNotFoundSubtitle: bytes,
+        titleFileNameFromNotFoundSubtitle: titleFileName,
       });
 
-      const files = await getTorrentFilesMetadata(torrent);
-      const videoFile = getVideoFromFiles(files);
-
-      return { ok: true, newTorrentFileName: videoFile?.name ?? "", newBytes: torrent.size };
+      return { ok: true };
     }
 
     const response = await fetch(
@@ -184,11 +183,11 @@ export async function indexTitleByFileName({
       releaseGroups,
       subtitleGroups,
       isDebugging,
+      bytesFromNotFoundSubtitle: bytes,
+      titleFileNameFromNotFoundSubtitle: titleFileName,
     });
-    const files = await getTorrentFilesMetadata(torrent);
-    const videoFile = getVideoFromFiles(files);
 
-    return { ok: true, newTorrentFileName: videoFile?.name ?? "", newBytes: torrent.size };
+    return { ok: true };
   } catch (error) {
     if (shouldStoreNotFoundSubtitle) {
       supabase.from("SubtitlesNotFound").insert({
@@ -204,7 +203,7 @@ export async function indexTitleByFileName({
     console.log("mainIndexer => error =>", error);
     console.log("\n ~ mainIndexer ~ error message:", (error as Error).message);
 
-    return { ok: false, newTorrentFileName: null, newBytes: null };
+    return { ok: false };
   } finally {
     console.timeEnd("Tardo en indexar");
   }

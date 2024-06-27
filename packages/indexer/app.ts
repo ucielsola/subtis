@@ -258,6 +258,8 @@ async function storeSubtitleInSupabaseTable({
   releaseGroups,
   subtitleGroupName,
   releaseGroupName,
+  bytesFromNotFoundSubtitle,
+  titleFileNameFromNotFoundSubtitle,
 }: {
   title: TitleWithEpisode;
   titleFile: TitleFile;
@@ -268,6 +270,8 @@ async function storeSubtitleInSupabaseTable({
   releaseGroups: ReleaseGroupMap;
   subtitleGroupName: SubtitleGroupNames;
   releaseGroupName: ReleaseGroupNames;
+  bytesFromNotFoundSubtitle?: number;
+  titleFileNameFromNotFoundSubtitle?: string;
 }): Promise<void> {
   const { lang, downloadFileName, resolution, torrentId } = subtitle;
 
@@ -275,6 +279,7 @@ async function storeSubtitleInSupabaseTable({
   const { id: releaseGroupId } = releaseGroups[releaseGroupName];
 
   const { bytes, fileName, fileNameExtension } = titleFile;
+  console.log("\n ~ fileName:", fileName);
   const { current_season, current_episode } = getSeasonAndEpisode(title.episode);
 
   const { error } = await supabase.from("Subtitles").insert({
@@ -295,6 +300,36 @@ async function storeSubtitleInSupabaseTable({
     current_season,
     current_episode,
   });
+
+  if (
+    titleFileNameFromNotFoundSubtitle &&
+    typeof bytesFromNotFoundSubtitle === "number" &&
+    fileName !== titleFileNameFromNotFoundSubtitle
+  ) {
+    const { error } = await supabase.from("Subtitles").insert({
+      lang,
+      author,
+      reviewed: true,
+      uploaded_by: "indexer",
+      bytes: bytesFromNotFoundSubtitle,
+      torrent_id: torrentId,
+      file_extension: fileNameExtension,
+      title_file_name: titleFileNameFromNotFoundSubtitle,
+      subtitle_file_name: downloadFileName,
+      title_id: title.id,
+      release_group_id: releaseGroupId,
+      resolution,
+      subtitle_group_id: subtitleGroupId,
+      subtitle_link: subtitleLink,
+      current_season,
+      current_episode,
+    });
+
+    if (error) {
+      console.log("\n Error al guardar el subtítulo en la base de datos", error);
+      throw error;
+    }
+  }
 
   if (error) {
     console.log("\n Error al guardar el subtítulo en la base de datos", error);
@@ -356,6 +391,8 @@ async function downloadAndStoreTitleAndSubtitle({
   subtitleGroups,
   releaseGroupName,
   subtitleGroupName,
+  bytesFromNotFoundSubtitle,
+  titleFileNameFromNotFoundSubtitle,
 }: {
   titleFile: TitleFile;
   title: TitleWithEpisode;
@@ -365,6 +402,8 @@ async function downloadAndStoreTitleAndSubtitle({
   subtitle: SubtitleWithResolutionAndTorrentId;
   releaseGroupName: ReleaseGroupNames;
   subtitleGroupName: SubtitleGroupNames;
+  bytesFromNotFoundSubtitle?: number;
+  titleFileNameFromNotFoundSubtitle?: string;
 }): Promise<void> {
   try {
     await downloadSubtitle(subtitle);
@@ -394,6 +433,8 @@ async function downloadAndStoreTitleAndSubtitle({
       releaseGroups,
       subtitleGroupName,
       releaseGroupName,
+      bytesFromNotFoundSubtitle,
+      titleFileNameFromNotFoundSubtitle,
     });
 
     // play sound when a subtitle was found
@@ -509,6 +550,8 @@ export async function getSubtitlesForTitle({
   releaseGroups,
   subtitleGroups,
   isDebugging,
+  bytesFromNotFoundSubtitle,
+  titleFileNameFromNotFoundSubtitle,
 }: {
   index: string;
   initialTorrents?: TorrentResults;
@@ -516,6 +559,8 @@ export async function getSubtitlesForTitle({
   releaseGroups: ReleaseGroupMap;
   subtitleGroups: SubtitleGroupMap;
   isDebugging: boolean;
+  bytesFromNotFoundSubtitle?: number;
+  titleFileNameFromNotFoundSubtitle?: string;
 }): Promise<void> {
   createInitialFolders();
   const titleProviderQuery = getQueryForTorrentProvider(currentTitle);
@@ -657,6 +702,8 @@ export async function getSubtitlesForTitle({
           type: episode ? TitleTypes.tvShow : TitleTypes.movie,
           episode,
         },
+        bytesFromNotFoundSubtitle,
+        titleFileNameFromNotFoundSubtitle,
         torrent,
         releaseGroupName,
         subtitleGroupName,

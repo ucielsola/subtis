@@ -89,7 +89,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       const { data } = await supabase
         .from("Subtitles")
         .select(subtitlesQuery)
-        .or(`title_file_name.eq.${videoFileName.data},bytes.eq.${bytes}`)
+        .or(`title_file_name.eq.${fileName},bytes.eq.${bytes}`)
         .single();
       const subtitleByFileName = subtitleSchema.safeParse(data);
 

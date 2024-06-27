@@ -95,27 +95,26 @@ export async function indexNotFoundSubtitles() {
       continue;
     }
 
-    const { ok, newTorrentFileName, newBytes } = await indexTitleByFileName({
+    const { ok } = await indexTitleByFileName({
       bytes: notFoundSubtitle.bytes,
       titleFileName: notFoundSubtitle.title_file_name,
       shouldStoreNotFoundSubtitle: false,
       isDebugging: false,
     });
 
-    if (ok === true && newTorrentFileName && newBytes) {
+    if (ok === true) {
       if (notFoundSubtitle.email) {
         console.log(`sending email to ${notFoundSubtitle.email}...`);
 
         try {
           const response = await apiClient.v1.subtitles.file.name[":bytes"][":fileName"].$get({
             param: {
-              bytes: String(newBytes),
-              fileName: newTorrentFileName,
+              bytes: String(notFoundSubtitle.bytes),
+              fileName: notFoundSubtitle.title_file_name,
             },
           });
-          const data = await response.json();
-          console.log("\n ~ forawait ~ data:", data);
 
+          const data = await response.json();
           const subtitleByFileName = subtitleSchema.safeParse(data);
 
           if (!subtitleByFileName.success) {
