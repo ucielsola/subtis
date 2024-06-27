@@ -6,13 +6,13 @@
     "test:watch": "bun test --watch"
   },
   "dependencies": {
-    "hono": "^4.4.8",
+    "hono": "^4.4.9",
     "ts-pattern": "^5.2.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "^0.5.1",
-    "@types/bun": "^1.1.5",
+    "@types/bun": "^1.1.6",
     "typescript": "^5.5.2"
   }
 }
