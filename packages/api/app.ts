@@ -36,7 +36,6 @@ export function runApi() {
 // exports
 function defineRoutes() {
   const app = new Hono().basePath("/v1");
-
   return app.route("/titles", titles).route("/metrics", metrics).route("/subtitles", subtitles).route("/", shortener);
 }
 

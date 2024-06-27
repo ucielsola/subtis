@@ -426,7 +426,8 @@ function getSeasonAndEpisode(fullSeason: string | null): {
     return { current_season: null, current_episode: null };
   }
 
-  const [current_season, current_episode] = fullSeason.replace("E", "-").replace("S", "").split("-").map(Number);
+  const [current_season, current_episode] = fullSeason.replace(/e/gi, "-").replace(/s/gi, "").split("-").map(Number);
+
   return { current_season, current_episode };
 }
 
@@ -462,7 +463,7 @@ function getFilteredTorrents(torrents: TorrentResults, maxTorrents = 10, minSeed
     .map((torrent) => ({ ...torrent, id: generateIdFromMagnet(torrent.trackerId) }));
 }
 
-async function getTorrentFilesMetadata(torrent: TorrentResult): Promise<File[]> {
+export async function getTorrentFilesMetadata(torrent: TorrentResult): Promise<File[]> {
   const engine = torrentStream(torrent.trackerId);
 
   const files = await new Promise<File[]>((resolve, reject) => {
@@ -482,7 +483,7 @@ async function getTorrentFilesMetadata(torrent: TorrentResult): Promise<File[]> 
   return files;
 }
 
-function getVideoFromFiles(files: File[]): File | undefined {
+export function getVideoFromFiles(files: File[]): File | undefined {
   return files
     .toSorted((fileA, fileB) => fileB.length - fileA.length)
     .find((file) => {

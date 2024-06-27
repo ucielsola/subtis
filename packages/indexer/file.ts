@@ -5,10 +5,10 @@ import tg from "torrent-grabber";
 import { supabase } from "@subtis/db";
 
 // shared
-import { getApiClient, getTitleFileNameMetadata, getTitleFileNameWithoutExtension } from "@subtis/shared";
+import { getTitleFileNameMetadata, getTitleFileNameWithoutExtension } from "@subtis/shared";
 
 // internals
-import { getSubtitlesForTitle } from "./app";
+import { getSubtitlesForTitle, getTorrentFilesMetadata, getVideoFromFiles } from "./app";
 import { getReleaseGroups } from "./release-groups";
 import { getSubtitleGroups } from "./subtitle-groups";
 import {
@@ -19,11 +19,6 @@ import {
 } from "./tmdb";
 
 // constants
-const isProduction = process.env.NODE_ENV === "production";
-
-export const apiClient = getApiClient({
-  apiBaseUrl: isProduction ? "https://api.subtis.workers.dev" : "http://localhost:8787",
-});
 
 // helpers
 function getIsTvShow(title: string): boolean {
@@ -45,7 +40,7 @@ export async function indexTitleByFileName({
   titleFileName: string;
   shouldStoreNotFoundSubtitle: boolean;
   isDebugging: boolean;
-}): Promise<{ ok: boolean }> {
+}): Promise<{ ok: boolean; newTorrentFileName: string | null; newBytes: number | null }> {
   console.time("Tardo en indexar");
 
   try {
@@ -138,7 +133,10 @@ export async function indexTitleByFileName({
         initialTorrents: [torrent],
       });
 
-      return { ok: true };
+      const files = await getTorrentFilesMetadata(torrent);
+      const videoFile = getVideoFromFiles(files);
+
+      return { ok: true, newTorrentFileName: videoFile?.name ?? "", newBytes: torrent.size };
     }
 
     const response = await fetch(
@@ -187,36 +185,43 @@ export async function indexTitleByFileName({
       subtitleGroups,
       isDebugging,
     });
+    const files = await getTorrentFilesMetadata(torrent);
+    const videoFile = getVideoFromFiles(files);
 
-    return { ok: true };
+    return { ok: true, newTorrentFileName: videoFile?.name ?? "", newBytes: torrent.size };
   } catch (error) {
     if (shouldStoreNotFoundSubtitle) {
-      await apiClient.v1.subtitles["not-found"].$post({
-        json: { bytes, titleFileName },
+      supabase.from("SubtitlesNotFound").insert({
+        bytes,
+        title_file_name: titleFileName,
+        run_times: 1,
       });
+      // await apiClient.v1.subtitles["not-found"].$post({
+      //   json: { bytes, titleFileName },
+      // });
     }
 
     console.log("mainIndexer => error =>", error);
     console.log("\n ~ mainIndexer ~ error message:", (error as Error).message);
 
-    return { ok: false };
+    return { ok: false, newTorrentFileName: null, newBytes: null };
   } finally {
     console.timeEnd("Tardo en indexar");
   }
 }
 
 // FILES
-const bytes = 123123123;
-const titleFileName = "Scenes.From.A.Marriage.1974.1080p.BluRay.x264-[YTS.AM].mp4";
+// const bytes = 123123123;
+// const titleFileName = "Scenes.From.A.Marriage.1974.1080p.BluRay.x264-[YTS.AM].mp4";
 // const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
 // const titleFileName = "shogun.2024.s01e04.1080p.web.h264-successfulcrab.mkv";
 
-indexTitleByFileName({
-  bytes,
-  titleFileName,
-  shouldStoreNotFoundSubtitle: true,
-  isDebugging: true,
-});
+// indexTitleByFileName({
+//   bytes,
+//   titleFileName,
+//   shouldStoreNotFoundSubtitle: true,
+//   isDebugging: true,
+// });
 
 // GENERAL
 // saveReleaseGroupsToDb(supabase);

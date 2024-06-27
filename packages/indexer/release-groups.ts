@@ -284,8 +284,8 @@ export const RELEASE_GROUPS = {
     file_attributes: ["H264-SuccessfulCrab", "H265-SuccessfulCrab"],
     is_supported: true,
     release_group_name: "SuccessfulCrab",
-    searchable_opensubtitles_name: ["H264-SuccessfulCrab", "H265-SuccessfulCrab"],
-    searchable_subdivx_name: ["H264-SuccessfulCrab", "H265-SuccessfulCrab"],
+    searchable_opensubtitles_name: ["H264-SuccessfulCrab", "H265-SuccessfulCrab", "SuccessfulCrab", "(SuccessfulCrab)"],
+    searchable_subdivx_name: ["H264-SuccessfulCrab", "H265-SuccessfulCrab", "SuccessfulCrab", "(SuccessfulCrab)"],
   },
   TorrentGalaxy: {
     file_attributes: ["x264-TORRENTGALAXY"],
