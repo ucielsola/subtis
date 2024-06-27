@@ -152,48 +152,48 @@ export async function indexNotFoundSubtitles() {
 
 // populate db
 
-async function populateSubtitlesNotFound() {
-  const subtitleNotFounds = [
-    // {
-    //   bytes: 0,
-    //   email: "lndgalante@gmail.com",
-    //   title_file_name: "the.boys.s04e01.1080p.web.h264-successfulcrab.mkv",
-    // },
-    {
-      bytes: 1,
-      email: "agustingarcia.inf@gmail.com",
-      title_file_name: "shogun.2024.s01e04.1080p.web.h264-successfulcrab.mkv",
-    },
-    {
-      bytes: 2,
-      email: "integraldieteticaonline@gmail.com",
-      title_file_name: "The.Fall.Guy.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv ",
-    },
-    {
-      bytes: 3,
-      email: "lndgalante@gmail.com",
-      title_file_name: "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv",
-    },
-    {
-      bytes: 4,
-      email: "lndgalante@gmail.com",
-      title_file_name: "Avengers.Infinity.War.2018.1080p.WEBRip.x264-[YTS.AM].mp4",
-    },
-    {
-      bytes: 5,
-      email: "agustingarcia.inf@gmail.com",
-      title_file_name: "Poor.Things.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv",
-    },
-    {
-      bytes: 6,
-      email: "agustingarcia.inf@gmail.com",
-      title_file_name: "Avengers.Endgame.2019.1080p.WEBRip.x264-[YTS.LT].mp4 ",
-    },
-  ];
+// async function populateSubtitlesNotFound() {
+//   const subtitleNotFounds = [
+//     // {
+//     //   bytes: 0,
+//     //   email: "lndgalante@gmail.com",
+//     //   title_file_name: "the.boys.s04e01.1080p.web.h264-successfulcrab.mkv",
+//     // },
+//     {
+//       bytes: 1,
+//       email: "agustingarcia.inf@gmail.com",
+//       title_file_name: "shogun.2024.s01e04.1080p.web.h264-successfulcrab.mkv",
+//     },
+//     {
+//       bytes: 2,
+//       email: "integraldieteticaonline@gmail.com",
+//       title_file_name: "The.Fall.Guy.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv ",
+//     },
+//     {
+//       bytes: 3,
+//       email: "lndgalante@gmail.com",
+//       title_file_name: "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv",
+//     },
+//     {
+//       bytes: 4,
+//       email: "lndgalante@gmail.com",
+//       title_file_name: "Avengers.Infinity.War.2018.1080p.WEBRip.x264-[YTS.AM].mp4",
+//     },
+//     {
+//       bytes: 5,
+//       email: "agustingarcia.inf@gmail.com",
+//       title_file_name: "Poor.Things.2023.1080p.WEBRip.1600MB.DD5.1.x264-GalaxyRG.mkv",
+//     },
+//     {
+//       bytes: 6,
+//       email: "agustingarcia.inf@gmail.com",
+//       title_file_name: "Avengers.Endgame.2019.1080p.WEBRip.x264-[YTS.LT].mp4 ",
+//     },
+//   ];
 
-  for await (const subtitleNotFound of subtitleNotFounds) {
-    await supabase.from("SubtitlesNotFound").upsert(subtitleNotFound);
-  }
-}
+//   for await (const subtitleNotFound of subtitleNotFounds) {
+//     await supabase.from("SubtitlesNotFound").upsert(subtitleNotFound);
+//   }
+// }
 
 // populateSubtitlesNotFound();

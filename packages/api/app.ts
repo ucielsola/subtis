@@ -5,8 +5,6 @@ import { secureHeaders } from "hono/secure-headers";
 import timestring from "timestring";
 
 // internals
-import { metrics } from "./metrics";
-import { shortener } from "./shortener";
 import { subtitles } from "./subtitles";
 import { titles } from "./titles";
 
@@ -24,11 +22,7 @@ export function runApi() {
   }
 
   // routes
-  const routes = app
-    .route("/titles", titles)
-    .route("/metrics", metrics)
-    .route("/subtitles", subtitles)
-    .route("/", shortener);
+  const routes = app.route("/titles", titles).route("/subtitles", subtitles);
 
   return [app, routes];
 }
@@ -36,7 +30,7 @@ export function runApi() {
 // exports
 function defineRoutes() {
   const app = new Hono().basePath("/v1");
-  return app.route("/titles", titles).route("/metrics", metrics).route("/subtitles", subtitles).route("/", shortener);
+  return app.route("/titles", titles).route("/subtitles", subtitles);
 }
 
 export * from "./subtitles";

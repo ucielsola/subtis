@@ -33,7 +33,7 @@ async function getTitleSubtitle(args: Args): Promise<{ subtitles: Subtitle[] }> 
     url: subtitleByFileName.data.subtitle_link,
   };
 
-  await apiClient.v1.metrics.download.$post({
+  await apiClient.v1.subtitles.metrics.download.$post({
     json: { bytes: Number(bytes), titleFileName: fileName },
   });
 

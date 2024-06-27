@@ -8,6 +8,7 @@ import { supabase } from "@subtis/db";
 import { getTitleFileNameMetadata, getTitleFileNameWithoutExtension } from "@subtis/shared";
 
 // internals
+import { apiClient } from "./api-client";
 import { getSubtitlesForTitle } from "./app";
 import { getReleaseGroups } from "./release-groups";
 import { getSubtitleGroups } from "./subtitle-groups";
@@ -17,8 +18,6 @@ import {
   tmdbDiscoverMovieSchema,
   tmdbDiscoverSerieSchema,
 } from "./tmdb";
-
-// constants
 
 // helpers
 function getIsTvShow(title: string): boolean {
@@ -190,14 +189,9 @@ export async function indexTitleByFileName({
     return { ok: true };
   } catch (error) {
     if (shouldStoreNotFoundSubtitle) {
-      supabase.from("SubtitlesNotFound").insert({
-        bytes,
-        title_file_name: titleFileName,
-        run_times: 1,
+      await apiClient.v1.subtitles["not-found"].$post({
+        json: { bytes, titleFileName },
       });
-      // await apiClient.v1.subtitles["not-found"].$post({
-      //   json: { bytes, titleFileName },
-      // });
     }
 
     console.log("mainIndexer => error =>", error);
