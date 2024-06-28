@@ -166,7 +166,6 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
   .get("/trending/:limit", zValidator("param", z.object({ limit: z.string() })), async (context) => {
     const { limit } = context.req.valid("param");
 
-    // TODO: Avoid getting more than one subtitle from the same title
     const { data } = await getSupabaseClient(context)
       .from("Subtitles")
       .select(subtitlesQuery)
@@ -180,7 +179,29 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       return context.json({ message: trendingSubtitles.error.issues[0].message });
     }
 
-    return context.json(trendingSubtitles.data);
+    const subtitlesWithoutDuplicates = trendingSubtitles.data.filter(
+      (subtitle, index, self) => index === self.slice(index).findIndex((s) => s.title.title_name === subtitle.title.title_name),
+    );
+
+    return context.json(subtitlesWithoutDuplicates);
+  })
+  .get("/link/:subtitleId", zValidator("param", z.object({ subtitleId: z.string() })), async (context) => {
+    const { subtitleId: id } = context.req.valid("param");
+
+    if (Number.isNaN(Number(id))) {
+      context.status(400);
+      return context.json({ message: "Invalid ID: it should be a number" });
+    }
+
+    const { data } = await getSupabaseClient(context).from("Subtitles").select("subtitle_link").match({ id }).single();
+
+    const subtitleById = subtitleShortenerSchema.safeParse(data);
+    if (!subtitleById.success) {
+      context.status(404);
+      return context.json({ message: "Subtitle not found for ID" });
+    }
+
+    return context.redirect(subtitleById.data.subtitle_link);
   })
   .post(
     "/not-found",
@@ -228,21 +249,3 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       return context.json({ ok: true });
     },
   )
-  .get("/:subtitleId", zValidator("param", z.object({ subtitleId: z.string() })), async (context) => {
-    const { subtitleId: id } = context.req.valid("param");
-
-    if (Number.isNaN(Number(id))) {
-      context.status(400);
-      return context.json({ message: "Invalid ID: it should be a number" });
-    }
-
-    const { data } = await getSupabaseClient(context).from("Subtitles").select("subtitle_link").match({ id }).single();
-
-    const subtitleById = subtitleShortenerSchema.safeParse(data);
-    if (!subtitleById.success) {
-      context.status(404);
-      return context.json({ message: "Subtitle not found for ID" });
-    }
-
-    return context.redirect(subtitleById.data.subtitle_link);
-  });
