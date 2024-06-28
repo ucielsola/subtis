@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@hono/zod-validator": "^0.2.2",
-    "@supabase/supabase-js": "^2.44.1",
+    "@supabase/supabase-js": "^2.44.2",
     "hono": "^4.4.9",
     "timestring": "^7.0.0",
     "zod": "^3.23.8"
