@@ -7,7 +7,7 @@ import { getTitleFileNameMetadata, videoFileNameSchema } from "@subtis/shared";
 
 // schemas
 import { type AppVariables, getSupabaseClient } from "../shared";
-import { alternativeTitlesSchema, subtitleSchema, subtitleShortenerSchema} from "./schemas";
+import { alternativeTitlesSchema, subtitleSchema, subtitleShortenerSchema } from "./schemas";
 
 const subtitlesQuery = `
   id,
@@ -180,7 +180,8 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
     }
 
     const subtitlesWithoutDuplicates = trendingSubtitles.data.filter(
-      (subtitle, index, self) => index === self.slice(index).findIndex((s) => s.title.title_name === subtitle.title.title_name),
+      (subtitle, index, self) =>
+        index === self.slice(index).findIndex((s) => s.title.title_name === subtitle.title.title_name),
     );
 
     return context.json(subtitlesWithoutDuplicates);
@@ -248,4 +249,4 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 
       return context.json({ ok: true });
     },
-  )
+  );

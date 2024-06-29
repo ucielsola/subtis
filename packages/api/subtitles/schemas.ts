@@ -27,6 +27,4 @@ export const subtitleSchema = subtitlesRowSchema
     releaseGroup: releaseGroupSchema,
   });
 
-
-
 export const subtitleShortenerSchema = subtitlesRowSchema.pick({ subtitle_link: true });
