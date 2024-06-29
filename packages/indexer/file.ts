@@ -1,3 +1,4 @@
+import type { ServerWebSocket } from "bun";
 import invariant from "tiny-invariant";
 import tg from "torrent-grabber";
 
@@ -34,25 +35,33 @@ export async function indexTitleByFileName({
   titleFileName,
   shouldStoreNotFoundSubtitle,
   isDebugging,
+  websocket,
 }: {
   bytes: number;
   titleFileName: string;
   shouldStoreNotFoundSubtitle: boolean;
   isDebugging: boolean;
+  websocket?: ServerWebSocket<unknown>;
 }): Promise<{ ok: boolean }> {
   console.time("Tardo en indexar");
 
   try {
     await tg.activate("ThePirateBay");
 
+    const isTvShow = getIsTvShow(titleFileName);
+    const title = getTitleFileNameMetadata({ titleFileName });
+    const query = getTitleFileNameWithoutExtension(titleFileName);
+
+    if (websocket) {
+      websocket.send(JSON.stringify({ total: 0.15, message: `Catalogando ${title.name}` }));
+    }
+
     const releaseGroups = await getReleaseGroups(supabase);
     const subtitleGroups = await getSubtitleGroups(supabase);
 
-    const isTvShow = getIsTvShow(titleFileName);
-
-    const title = getTitleFileNameMetadata({ titleFileName });
-
-    const query = getTitleFileNameWithoutExtension(titleFileName);
+    if (websocket) {
+      websocket.send(JSON.stringify({ total: 0.3, message: "Buscando archivo con nuestros proveedores" }));
+    }
 
     let torrents = await tg.search(query, { groupByTracker: false });
 
@@ -83,6 +92,10 @@ export async function indexTitleByFileName({
     invariant(torrent, "Torrent not found");
 
     if (isTvShow) {
+      if (websocket) {
+        websocket.send(JSON.stringify({ total: 0.45, message: `Buscando información de ${title.name}` }));
+      }
+
       const response = await fetch(
         `https://api.themoviedb.org/3/search/tv?query=${title.name}&include_adult=false&language=es-ES&page=1`,
         {
@@ -110,6 +123,10 @@ export async function indexTitleByFileName({
         backdrop_path: backdropPath,
       } = tvShow;
 
+      if (websocket) {
+        websocket.send(JSON.stringify({ total: 0.6, message: `Buscando más información de ${title.name}` }));
+      }
+
       const tvShowData = await getTvShowMetadataFromTmdbTvShow({
         id,
         name,
@@ -123,6 +140,10 @@ export async function indexTitleByFileName({
 
       const episode = getEpisode(titleFileName);
 
+      if (websocket) {
+        websocket.send(JSON.stringify({ total: 0.75, message: "Buscando subtitulo en nuestros proveedores" }));
+      }
+
       await getSubtitlesForTitle({
         index: "0",
         currentTitle: { ...tvShowData, episode },
@@ -134,11 +155,19 @@ export async function indexTitleByFileName({
         titleFileNameFromNotFoundSubtitle: titleFileName,
       });
 
+      if (websocket) {
+        websocket.send(JSON.stringify({ total: 1, message: "Buscando subtitulo en nuestros proveedores" }));
+      }
+
       return { ok: true };
     }
 
+    if (websocket) {
+      websocket.send(JSON.stringify({ total: 0.45, message: `Buscando información de ${title.name}` }));
+    }
+
     const response = await fetch(
-      `https://api.themoviedb.org/3/search/movie?query=${title.name}&include_adult=false&language=es-ES&page=1`,
+      `https://api.themoviedb.org/3/search/movie?query=${title.name}&language=es-ES&page=1`,
       {
         headers: {
           Accept: "application/json",
@@ -164,6 +193,10 @@ export async function indexTitleByFileName({
       backdrop_path: backdropPath,
     } = movie;
 
+    if (websocket) {
+      websocket.send(JSON.stringify({ total: 0.6, message: `Buscando más información de ${title.name}` }));
+    }
+
     const movieData = await getMovieMetadataFromTmdbMovie({
       id,
       name,
@@ -175,6 +208,10 @@ export async function indexTitleByFileName({
       backdropPath,
     });
 
+    if (websocket) {
+      websocket.send(JSON.stringify({ total: 0.75, message: "Buscando subtitulo en nuestros proveedores" }));
+    }
+
     await getSubtitlesForTitle({
       index: "0",
       initialTorrents: [torrent],
@@ -185,6 +222,10 @@ export async function indexTitleByFileName({
       bytesFromNotFoundSubtitle: bytes,
       titleFileNameFromNotFoundSubtitle: titleFileName,
     });
+
+    if (websocket) {
+      websocket.send(JSON.stringify({ total: 1, message: "Buscando subtitulo en nuestros proveedores" }));
+    }
 
     return { ok: true };
   } catch (error) {

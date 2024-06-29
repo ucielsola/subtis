@@ -45,8 +45,10 @@ type SubDivXSubtitles = z.infer<typeof subdivxSchema>;
 // core
 export async function getSubtitlesFromSubDivXForTitle({
   titleProviderQuery,
+  hasBeenExecutedOnce,
 }: {
   titleProviderQuery: string;
+  hasBeenExecutedOnce: boolean;
 }): Promise<SubDivXSubtitles> {
   const response = await fetch(`${SUBDIVX_BASE_URL}/inc/ajax.php`, {
     headers: {
@@ -60,6 +62,12 @@ export async function getSubtitlesFromSubDivXForTitle({
 
   const data = await response.json();
   const subtitles = subdivxSchema.parse(data);
+
+  if (subtitles.aaData.length === 0 && hasBeenExecutedOnce === false) {
+    const lastCharacter = titleProviderQuery.at(-1);
+    const newTitleProviderQuery = `${titleProviderQuery.slice(0, -1)}${Number(lastCharacter) - 1}`;
+    return getSubtitlesFromSubDivXForTitle({ titleProviderQuery: newTitleProviderQuery, hasBeenExecutedOnce: true });
+  }
 
   return subtitles;
 }

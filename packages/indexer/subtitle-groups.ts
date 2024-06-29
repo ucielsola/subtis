@@ -52,7 +52,7 @@ export async function saveSubtitleGroupsToDb(supabaseClient: SupabaseClient): Pr
       continue;
     }
 
-    await supabaseClient.from("SubtitleGroups").insert(subtitleGroup);
+    await supabaseClient.from("SubtitleGroups").upsert(subtitleGroup);
   }
 }
 

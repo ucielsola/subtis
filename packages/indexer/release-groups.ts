@@ -90,7 +90,7 @@ export const RELEASE_GROUPS = {
     searchable_subdivx_name: ["FLUX8"],
   },
   GalaxyRG: {
-    file_attributes: ["GalaxyRG"],
+    file_attributes: ["GalaxyRG", "x264-Galax", "x265-Galax", "x264-GalaxyRG", "x265-GalaxyRG"],
     is_supported: true,
     release_group_name: "GalaxyRG",
     searchable_opensubtitles_name: ["GalaxyRG"],
@@ -378,7 +378,7 @@ export async function saveReleaseGroupsToDb(supabaseClient: SupabaseClient): Pro
     }
 
     // @ts-ignore
-    await supabaseClient.from("ReleaseGroups").insert(releaseGroup);
+    await supabaseClient.from("ReleaseGroups").upsert(releaseGroup);
   }
 }
 
