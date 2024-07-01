@@ -6,7 +6,7 @@
     "test:watch": "bun test --watch"
   },
   "dependencies": {
-    "hono": "^4.4.9",
+    "hono": "^4.4.10",
     "ts-pattern": "^5.2.0",
     "zod": "^3.23.8"
   },
