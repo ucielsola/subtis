@@ -6,7 +6,7 @@ import { z } from "zod";
 import { getTitleFileNameMetadata, videoFileNameSchema } from "@subtis/shared";
 
 // schemas
-import { type AppVariables, getSupabaseClient } from "../shared";
+import { type AppVariables, MAX_LIMIT, getSupabaseClient } from "../shared";
 import { alternativeTitlesSchema, subtitleSchema, subtitleShortenerSchema } from "./schemas";
 
 const subtitlesQuery = `
@@ -165,6 +165,11 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
   })
   .get("/trending/:limit", zValidator("param", z.object({ limit: z.string() })), async (context) => {
     const { limit } = context.req.valid("param");
+
+    if (Number(limit) > MAX_LIMIT) {
+      context.status(400);
+      return context.json({ message: `Limit must be less than or equal to ${MAX_LIMIT}` });
+    }
 
     const { data } = await getSupabaseClient(context)
       .from("Subtitles")

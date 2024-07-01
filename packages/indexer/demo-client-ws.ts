@@ -20,7 +20,6 @@ const MOCK_INITIAL_MESSAGE = {
 
 // message is received
 socket.addEventListener("message", (event) => {
-
   if (typeof event.data !== "string") {
     return;
   }
@@ -43,7 +42,6 @@ socket.addEventListener("message", (event) => {
         `Redireccionando a pagina /${MOCK_INITIAL_MESSAGE.subtitle.bytes}/${MOCK_INITIAL_MESSAGE.subtitle.titleFileName}`,
       );
     }
-
   }
 });
 

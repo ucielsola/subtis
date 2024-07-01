@@ -25,7 +25,6 @@ Bun.serve({
   },
   websocket: {
     async message(ws, message) {
-
       if (typeof message !== "string") {
         ws.close(4000, "Invalid message");
         return;

@@ -9,7 +9,7 @@ import { getTitleFileNameMetadata, videoFileNameSchema } from "@subtis/shared";
 import { titlesRowSchema } from "@subtis/db/schemas";
 
 // internals
-import { type AppVariables, getSupabaseClient } from "../shared";
+import { type AppVariables, MAX_LIMIT, getSupabaseClient } from "../shared";
 
 // schemas
 const searchTitleSchema = titlesRowSchema.pick({ id: true, type: true, title_name: true, year: true, backdrop: true });
@@ -60,7 +60,6 @@ export const titles = new Hono<{ Variables: AppVariables }>()
   })
   .get("/recent/:limit", zValidator("param", z.object({ limit: z.string() })), async (context) => {
     const { limit } = context.req.valid("param");
-    const MAX_LIMIT = 30;
 
     if (Number(limit) > MAX_LIMIT) {
       context.status(400);
