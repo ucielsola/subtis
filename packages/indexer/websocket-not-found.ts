@@ -48,6 +48,8 @@ Bun.serve({
         shouldStoreNotFoundSubtitle: false,
       });
 
+      ws.send(JSON.stringify({ ok }));
+
       // TODO: Should I close the WS from the server or client? Talk with Hugo
       if (ok === true) {
         ws.close(200, "Subtitle indexed successfully");

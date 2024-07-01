@@ -13,8 +13,8 @@ const finalMessageSchema = z.object({
 
 const MOCK_INITIAL_MESSAGE = {
   subtitle: {
-    bytes: 4,
-    titleFileName: "Kung.Fu.Panda.4.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv",
+    bytes: 332,
+    titleFileName: "Hit.Man.2023.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv",
   },
 };
 
@@ -31,7 +31,7 @@ socket.addEventListener("message", (event) => {
 
   if (subtitleMessage.success) {
     console.log(`Vamos un ${subtitleMessage.data.total * 100}% completado`);
-    console.log(`Detalle: ${subtitleMessage.data.message}`);
+    console.log(`Detalle: ${subtitleMessage.data.message} \n`);
   }
 
   const finalMessage = finalMessageSchema.safeParse(parsedMessage);
@@ -40,9 +40,10 @@ socket.addEventListener("message", (event) => {
     if (finalMessage.data.ok === true) {
       console.log(`Finalizado con éxito: ${finalMessage.data.ok}`);
       console.log(
-        `Redireccionando a /${MOCK_INITIAL_MESSAGE.subtitle.bytes}/${MOCK_INITIAL_MESSAGE.subtitle.titleFileName}`,
+        `Redireccionando a pagina /${MOCK_INITIAL_MESSAGE.subtitle.bytes}/${MOCK_INITIAL_MESSAGE.subtitle.titleFileName}`,
       );
     }
+
   }
 });
 
