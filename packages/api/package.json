@@ -17,11 +17,10 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240620.0",
-    "@total-typescript/ts-reset": "^0.5.1",
     "@types/bun": "^1.1.6",
     "@types/node": "^20.14.9",
     "@types/timestring": "^6.0.5",
-    "typescript": "^5.5.2",
+    "typescript": "^5.5.3",
     "wrangler": "^3.62.0"
   }
 }
