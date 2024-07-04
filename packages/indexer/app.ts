@@ -702,7 +702,6 @@ export async function getSubtitlesForTitle({
           titleFileNameMetadata,
           subtitles: subtitlesFromSubDivX,
         });
-        console.log("\n ~ getSubtitleFromProvider ~ foundSubtitleFromSubDivX:", foundSubtitleFromSubDivX);
 
         const { release_group_name: releaseGroupName } = releaseGroup;
         console.log(

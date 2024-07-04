@@ -5,13 +5,13 @@ import type { SupabaseClient } from "@subtis/db";
 
 // constants
 export const SUBTITLE_GROUPS = {
-  OPEN_SUBTITLES: {
-    subtitle_group_name: "OpenSubtitles",
-    website: "https://www.opensubtitles.org",
-  },
   SUBDIVX: {
     subtitle_group_name: "SubDivX",
     website: "https://subdivx.com",
+  },
+  OPEN_SUBTITLES: {
+    subtitle_group_name: "OpenSubtitles",
+    website: "https://www.opensubtitles.org",
   },
 } as const;
 

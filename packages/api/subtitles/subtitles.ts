@@ -18,6 +18,7 @@ const subtitlesQuery = `
   current_season,
   current_episode,
   releaseGroup: ReleaseGroups ( release_group_name ),
+  subtitleGroup: SubtitleGroups ( subtitle_group_name ),
   title: Titles ( title_name, type, year, poster, backdrop, logo )
 `;
 
@@ -41,6 +42,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
     const { data } = await getSupabaseClient(context)
       .from("Subtitles")
       .select(subtitlesQuery)
+      .order("subtitle_group_id")
       .match({ title_id: Number(id) });
 
     const subtitles = subtitlesSchema.safeParse(data);
@@ -59,6 +61,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       const { data } = await getSupabaseClient(context)
         .from("Subtitles")
         .select(subtitlesQuery)
+        .order("subtitle_group_id")
         .match({ title_id: Number(id), current_season: season, current_episode: episode });
 
       const subtitles = subtitlesSchema.safeParse(data);
@@ -128,6 +131,8 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
     const { data } = await supabase
       .from("Subtitles")
       .select(subtitlesQuery)
+      .order("subtitle_group_id")
+      .order("queried_times", { ascending: false })
       .match({ title_id: titleByNameAndYear.data.id });
 
     const subtitleByFileName = alternativeSubtitlesSchema.safeParse(data);
