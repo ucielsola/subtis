@@ -9,27 +9,24 @@ export type Database = {
           file_attributes: string[];
           id: number;
           is_supported: boolean | null;
+          query_matches: string[];
           release_group_name: string;
-          searchable_opensubtitles_name: string[] | null;
-          searchable_subdivx_name: string[];
         };
         Insert: {
           created_at?: string;
           file_attributes: string[];
           id?: number;
           is_supported?: boolean | null;
+          query_matches: string[];
           release_group_name: string;
-          searchable_opensubtitles_name?: string[] | null;
-          searchable_subdivx_name: string[];
         };
         Update: {
           created_at?: string;
           file_attributes?: string[];
           id?: number;
           is_supported?: boolean | null;
+          query_matches?: string[];
           release_group_name?: string;
-          searchable_opensubtitles_name?: string[] | null;
-          searchable_subdivx_name?: string[];
         };
         Relationships: [];
       };

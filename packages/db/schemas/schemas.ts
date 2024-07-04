@@ -15,8 +15,7 @@ export const releaseGroupsRowSchema = z.object({
   id: z.number(),
   is_supported: z.boolean().nullable(),
   release_group_name: z.string(),
-  searchable_opensubtitles_name: z.array(z.string()).nullable(),
-  searchable_subdivx_name: z.array(z.string()),
+  query_matches: z.array(z.string()),
 });
 
 export const releaseGroupsInsertSchema = z.object({
@@ -25,8 +24,7 @@ export const releaseGroupsInsertSchema = z.object({
   id: z.number().optional(),
   is_supported: z.boolean().optional().nullable(),
   release_group_name: z.string(),
-  searchable_opensubtitles_name: z.array(z.string()).optional().nullable(),
-  searchable_subdivx_name: z.array(z.string()),
+  query_matches: z.array(z.string()),
 });
 
 export const releaseGroupsUpdateSchema = z.object({
@@ -35,8 +33,7 @@ export const releaseGroupsUpdateSchema = z.object({
   id: z.number().optional(),
   is_supported: z.boolean().optional().nullable(),
   release_group_name: z.string().optional(),
-  searchable_opensubtitles_name: z.array(z.string()).optional().nullable(),
-  searchable_subdivx_name: z.array(z.string()).optional(),
+  query_matches: z.array(z.string()).optional(),
 });
 
 export const subtitleGroupsRowSchema = z.object({

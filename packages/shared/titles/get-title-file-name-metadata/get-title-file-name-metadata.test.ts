@@ -43,18 +43,7 @@ describe("getTitleFileNameMetadata", () => {
         file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM"],
         is_supported: true,
         release_group_name: "YTS",
-        searchable_opensubtitles_name: [
-          "YTS MX",
-          "YTS.MX",
-          "YTS",
-          "YTS.LT",
-          "x264-[YTS.LT]",
-          "YTS.AM",
-          "x264-[YTS.AM]",
-          "YIFY",
-          "[YTS.MX]",
-        ],
-        searchable_subdivx_name: [
+        query_matches: [
           "YTS MX",
           "YTS.MX",
           "YTS",
@@ -83,18 +72,7 @@ describe("getTitleFileNameMetadata", () => {
         file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM"],
         is_supported: true,
         release_group_name: "YTS",
-        searchable_opensubtitles_name: [
-          "YTS MX",
-          "YTS.MX",
-          "YTS",
-          "YTS.LT",
-          "x264-[YTS.LT]",
-          "YTS.AM",
-          "x264-[YTS.AM]",
-          "YIFY",
-          "[YTS.MX]",
-        ],
-        searchable_subdivx_name: [
+        query_matches: [
           "YTS MX",
           "YTS.MX",
           "YTS",
@@ -123,18 +101,7 @@ describe("getTitleFileNameMetadata", () => {
         file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM"],
         is_supported: true,
         release_group_name: "YTS",
-        searchable_opensubtitles_name: [
-          "YTS MX",
-          "YTS.MX",
-          "YTS",
-          "YTS.LT",
-          "x264-[YTS.LT]",
-          "YTS.AM",
-          "x264-[YTS.AM]",
-          "YIFY",
-          "[YTS.MX]",
-        ],
-        searchable_subdivx_name: [
+        query_matches: [
           "YTS MX",
           "YTS.MX",
           "YTS",
@@ -163,18 +130,7 @@ describe("getTitleFileNameMetadata", () => {
         file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM"],
         is_supported: true,
         release_group_name: "YTS",
-        searchable_opensubtitles_name: [
-          "YTS MX",
-          "YTS.MX",
-          "YTS",
-          "YTS.LT",
-          "x264-[YTS.LT]",
-          "YTS.AM",
-          "x264-[YTS.AM]",
-          "YIFY",
-          "[YTS.MX]",
-        ],
-        searchable_subdivx_name: [
+        query_matches: [
           "YTS MX",
           "YTS.MX",
           "YTS",
@@ -203,18 +159,7 @@ describe("getTitleFileNameMetadata", () => {
         file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM"],
         is_supported: true,
         release_group_name: "YTS",
-        searchable_opensubtitles_name: [
-          "YTS MX",
-          "YTS.MX",
-          "YTS",
-          "YTS.LT",
-          "x264-[YTS.LT]",
-          "YTS.AM",
-          "x264-[YTS.AM]",
-          "YIFY",
-          "[YTS.MX]",
-        ],
-        searchable_subdivx_name: [
+        query_matches: [
           "YTS MX",
           "YTS.MX",
           "YTS",
@@ -243,8 +188,7 @@ describe("getTitleFileNameMetadata", () => {
         file_attributes: ["CODY"],
         is_supported: true,
         release_group_name: "CODY",
-        searchable_opensubtitles_name: ["CODY"],
-        searchable_subdivx_name: ["H265-CODY"],
+        query_matches: ["CODY", "H265-CODY"],
       },
       resolution: "1080p",
       year: 2023,
@@ -260,8 +204,7 @@ describe("getTitleFileNameMetadata", () => {
       file_attributes: ["GalaxyRG", "x264-Galax", "x265-Galax", "x264-GalaxyRG", "x265-GalaxyRG"],
       is_supported: true,
       release_group_name: "GalaxyRG",
-      searchable_opensubtitles_name: ["GalaxyRG"],
-      searchable_subdivx_name: ["GalaxyRG"],
+      query_matches: ["GalaxyRG"],
     };
     expect(data).toEqual({
       fileNameWithoutExtension: "Evil.Dead.Rise.2023.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG",
@@ -281,8 +224,7 @@ describe("getTitleFileNameMetadata", () => {
       file_attributes: ["RiGHTNOW"],
       is_supported: true,
       release_group_name: "RiGHTNOW",
-      searchable_opensubtitles_name: ["RiGHTNOW"],
-      searchable_subdivx_name: ["RIGHTNOW"],
+      query_matches: ["RiGHTNOW"],
     };
     expect(data).toEqual({
       fileNameWithoutExtension: "The.Flash.2023.1080p.WEB-DL.H.264-RiGHTNOW",
@@ -305,18 +247,7 @@ describe("getTitleFileNameMetadata", () => {
         file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM"],
         is_supported: true,
         release_group_name: "YTS",
-        searchable_opensubtitles_name: [
-          "YTS MX",
-          "YTS.MX",
-          "YTS",
-          "YTS.LT",
-          "x264-[YTS.LT]",
-          "YTS.AM",
-          "x264-[YTS.AM]",
-          "YIFY",
-          "[YTS.MX]",
-        ],
-        searchable_subdivx_name: [
+        query_matches: [
           "YTS MX",
           "YTS.MX",
           "YTS",

@@ -91,7 +91,7 @@ export async function filterSubDivXSubtitlesForTorrent({
     const movieDescription = subtitle.descripcion.toLowerCase();
 
     const hasMovieResolution = movieDescription.includes(resolution);
-    const hasReleaseGroup = releaseGroup.searchable_subdivx_name.some((searchableSubDivXName) => {
+    const hasReleaseGroup = releaseGroup.query_matches.some((searchableSubDivXName) => {
       return movieDescription.includes(searchableSubDivXName.toLowerCase());
     });
 
