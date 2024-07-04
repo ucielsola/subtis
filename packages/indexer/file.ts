@@ -153,6 +153,7 @@ export async function indexTitleByFileName({
         initialTorrents: [torrent],
         bytesFromNotFoundSubtitle: bytes,
         titleFileNameFromNotFoundSubtitle: titleFileName,
+        shouldUseTryCatch: false,
       });
 
       if (websocket) {
@@ -221,6 +222,7 @@ export async function indexTitleByFileName({
       isDebugging,
       bytesFromNotFoundSubtitle: bytes,
       titleFileNameFromNotFoundSubtitle: titleFileName,
+      shouldUseTryCatch: false,
     });
 
     if (websocket) {

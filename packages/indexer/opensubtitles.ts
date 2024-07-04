@@ -103,47 +103,55 @@ const downloadSchema = z.object({
   uk: z.string(),
 });
 
+type Subtitles = z.infer<typeof subtitlesSchema>;
+
 // core
-export async function getOpenSubtitlesSubtitle({
+export async function getSubtitlesFromOpenSubtitlesForTitle({
   imdbId,
+}: {
+  imdbId: number;
+}): Promise<Subtitles> {
+  const response = await fetch(`${OPEN_SUBTITLES_BASE_URL}/subtitles?imdb_id=${imdbId}&languages=es`, {
+    headers: getOpenSubtitlesHeaders(),
+  });
+
+  if (!response.ok) {
+    throw new Error(`[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: ${response.statusText}`);
+  }
+
+  const data = await response.json();
+
+  return subtitlesSchema.parse(data);
+}
+
+export async function filterOpenSubtitleSubtitlesForTorrent({
   episode,
+  subtitles,
   titleFileNameMetadata,
 }: {
+  subtitles: Subtitles;
   episode: string | null;
-  imdbId: number;
   titleFileNameMetadata: TitleFileNameMetadata;
 }): Promise<SubtitleData> {
   const { fileNameWithoutExtension, name, releaseGroup, resolution } = titleFileNameMetadata;
 
   if (!releaseGroup) {
-    throw new Error("release group undefined");
+    throw new Error("Release group undefined");
   }
 
-  if (!name) {
-    throw new Error("name undefined");
-  }
-
-  invariant(
-    !String(imdbId).startsWith("tt"),
-    `[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: imdbId should not start with 'tt'`,
-  );
-  const response = await fetch(`${OPEN_SUBTITLES_BASE_URL}/subtitles?imdb_id=${imdbId}&languages=es`, {
-    headers: getOpenSubtitlesHeaders(),
-  });
-  const data = await response.json();
-
-  const parsedData = subtitlesSchema.parse(data);
-  invariant(parsedData.data, `[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: No subtitles data found`);
-
-  const firstResult = parsedData.data.find((subtitle) => {
+  const firstResult = subtitles.data.find((subtitle) => {
     const release = subtitle.attributes.release.toLowerCase();
+    const comments = subtitle.attributes.comments.toLowerCase();
 
-    const hasMovieResolution = release.includes(resolution);
+    const hasResolution = release.includes(resolution) || comments.includes(resolution);
     const hasReleaseGroup = releaseGroup.searchable_opensubtitles_name.some((searchableOpenSubtitlesName) => {
-      return release.includes(searchableOpenSubtitlesName.toLowerCase());
+      return (
+        release.includes(searchableOpenSubtitlesName.toLowerCase()) ||
+        comments.includes(searchableOpenSubtitlesName.toLowerCase())
+      );
     });
 
-    return hasMovieResolution && hasReleaseGroup;
+    return hasResolution && hasReleaseGroup;
   });
 
   invariant(firstResult, `[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: No subtitle data found`);
@@ -152,14 +160,13 @@ export async function getOpenSubtitlesSubtitle({
   const { file_id } = files[0];
 
   const downloadResponse = await fetch(`${OPEN_SUBTITLES_BASE_URL}/download`, {
+    method: "POST",
     body: JSON.stringify({ file_id }),
     headers: getOpenSubtitlesHeaders(),
-    method: "POST",
   });
   const downloadData = await downloadResponse.json();
 
   const parsedDownloadData = downloadSchema.parse(downloadData);
-  invariant(parsedDownloadData.link, `[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: No download subtitle link found`);
 
   const fileExtension = "srt";
   const subtitleLink = parsedDownloadData.link;

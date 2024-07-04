@@ -69,18 +69,14 @@ export async function indexSeriesByYear(seriesYear: number, isDebugging: boolean
       }
 
       for await (const episode of tvShow.episodes) {
-        try {
-          await getSubtitlesForTitle({
-            index,
-            currentTitle: { ...tvShow, episode },
-            releaseGroups,
-            subtitleGroups,
-            isDebugging,
-          });
-        } catch (error) {
-          console.log("mainIndexer => getSubtitlesForTvShow error =>", error);
-          console.error("Ningún subtítulo encontrado para la serie", tvShow.name);
-        }
+        await getSubtitlesForTitle({
+          index,
+          currentTitle: { ...tvShow, episode },
+          releaseGroups,
+          subtitleGroups,
+          isDebugging,
+          shouldUseTryCatch: true,
+        });
       }
     }
   }

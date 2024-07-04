@@ -29,12 +29,13 @@ import {
 
 // internals
 import { getImdbLink } from "./imdb";
+import { filterOpenSubtitleSubtitlesForTorrent, getSubtitlesFromOpenSubtitlesForTitle } from "./opensubtitles";
 import type { ReleaseGroupMap, ReleaseGroupNames } from "./release-groups";
 import { filterSubDivXSubtitlesForTorrent, getSubtitlesFromSubDivXForTitle } from "./subdivx";
 import type { SubtitleGroupMap, SubtitleGroupNames } from "./subtitle-groups";
 import type { TmdbTitle, TmdbTvShow } from "./tmdb";
 import type { SubtitleData } from "./types";
-import { getSubtitleAuthor } from "./utils";
+import { executeWithOptionalTryCatch, getSubtitleAuthor } from "./utils";
 import { getQueryForTorrentProvider } from "./utils/query";
 import { generateIdFromMagnet } from "./utils/torrent";
 
@@ -279,7 +280,6 @@ async function storeSubtitleInSupabaseTable({
   const { id: releaseGroupId } = releaseGroups[releaseGroupName];
 
   const { bytes, fileName, fileNameExtension } = titleFile;
-  console.log("\n ~ fileName:", fileName);
   const { current_season, current_episode } = getSeasonAndEpisode(title.episode);
 
   const { error } = await supabase.from("Subtitles").insert({
@@ -360,9 +360,24 @@ function removeSubtitlesFromFileSystem(paths: string[]): void {
   }
 }
 
-async function addWatermarkToSubtitle(path: string): Promise<void> {
+async function addWatermarkToSubtitle({
+  path,
+  subtitleGroupName,
+}: {
+  path: string;
+  subtitleGroupName: SubtitleGroupNames;
+}): Promise<void> {
   const subtitleBuffer = await fs.promises.readFile(path);
-  const subtitleText = getDecodedSubtitleFile(subtitleBuffer);
+
+  let subtitleText = "";
+
+  if (subtitleGroupName === "SubDivX") {
+    subtitleText = getDecodedSubtitleFile(subtitleBuffer);
+  }
+
+  if (subtitleGroupName === "OpenSubtitles") {
+    subtitleText = subtitleBuffer.toString("utf-8");
+  }
 
   const subtitleTextWithWatermark = `-2
 00:00:10,000 --> 00:00:14,000
@@ -412,7 +427,7 @@ async function downloadAndStoreTitleAndSubtitle({
     await uncompressSubtitle({ subtitle, fromRoute: subtitleCompressedAbsolutePath, toRoute: extractedSubtitlePath });
 
     const path = getSubtitleInitialPath({ subtitle, extractedSubtitlePath });
-    await addWatermarkToSubtitle(path);
+    await addWatermarkToSubtitle({ path, subtitleGroupName });
 
     const subtitleFileToUpload = readSubtitleFile(path);
     const author = getSubtitleAuthor(subtitleFileToUpload);
@@ -552,6 +567,7 @@ export async function getSubtitlesForTitle({
   isDebugging,
   bytesFromNotFoundSubtitle,
   titleFileNameFromNotFoundSubtitle,
+  shouldUseTryCatch,
 }: {
   index: string;
   initialTorrents?: TorrentResults;
@@ -559,6 +575,7 @@ export async function getSubtitlesForTitle({
   releaseGroups: ReleaseGroupMap;
   subtitleGroups: SubtitleGroupMap;
   isDebugging: boolean;
+  shouldUseTryCatch: boolean;
   bytesFromNotFoundSubtitle?: number;
   titleFileNameFromNotFoundSubtitle?: string;
 }): Promise<void> {
@@ -605,7 +622,16 @@ export async function getSubtitlesForTitle({
     `👉 Nombre de titulo ${titleProviderQuery} guardado en el clipboard, para poder pegar directamente en proveedor de torrents o subtítulos \n`,
   );
 
-  const subtitles = await getSubtitlesFromSubDivXForTitle({ titleProviderQuery, hasBeenExecutedOnce: false });
+  console.log(`4.${index}) Buscando subtítulos en SubDivX \n`);
+  const subtitlesFromSubDivX = await getSubtitlesFromSubDivXForTitle({
+    titleProviderQuery,
+    hasBeenExecutedOnce: false,
+  });
+  console.log(`4.${index}) ${subtitlesFromSubDivX.aaData.length} subtitlos encontrados en SubDivX \n`);
+
+  console.log(`4.${index}) Buscando subtítulos en OpenSubtitles \n`);
+  const subtitlesFromOpenSubtitles = await getSubtitlesFromOpenSubtitlesForTitle({ imdbId });
+  console.log(`4.${index}) ${subtitlesFromOpenSubtitles.data.length} subtitlos encontrados en OpenSubtitles \n`);
 
   for await (const [torrentIndex, torrent] of Object.entries(filteredTorrents)) {
     console.log(`4.${index}.${torrentIndex}) Procesando torrent`, `"${torrent.title}"`, "\n");
@@ -668,53 +694,112 @@ export async function getSubtitlesForTitle({
       continue;
     }
 
-    // try {
-    const foundSubtitle = await filterSubDivXSubtitlesForTorrent({
-      subtitles,
-      episode,
-      titleFileNameMetadata,
-    });
+    await executeWithOptionalTryCatch(
+      shouldUseTryCatch,
+      async function getSubtitleFromProvider() {
+        const foundSubtitleFromSubDivX = await filterSubDivXSubtitlesForTorrent({
+          episode,
+          titleFileNameMetadata,
+          subtitles: subtitlesFromSubDivX,
+        });
+        console.log("\n ~ getSubtitleFromProvider ~ foundSubtitleFromSubDivX:", foundSubtitleFromSubDivX);
 
-    const { subtitleGroupName } = foundSubtitle;
-    const { release_group_name: releaseGroupName } = releaseGroup;
-    console.log(`4.${index}.${torrentIndex}) Subtítulo encontrado para ${subtitleGroupName}`);
+        const { release_group_name: releaseGroupName } = releaseGroup;
+        console.log(
+          `4.${index}.${torrentIndex}) Subtítulo encontrado en SubDivX para ${name} ${resolution} ${releaseGroupName} \n`,
+        );
 
-    await downloadAndStoreTitleAndSubtitle({
-      titleFile: {
-        bytes,
-        fileName,
-        fileNameExtension,
+        await downloadAndStoreTitleAndSubtitle({
+          titleFile: {
+            bytes,
+            fileName,
+            fileNameExtension,
+          },
+          title: {
+            teaser,
+            id: imdbId,
+            title_name: name,
+            rating,
+            overview,
+            title_name_spa: spanishName,
+            release_date: releaseDate,
+            year,
+            logo,
+            poster,
+            backdrop,
+            total_episodes: totalEpisodes,
+            total_seasons: totalSeasons,
+            type: episode ? TitleTypes.tvShow : TitleTypes.movie,
+            episode,
+          },
+          bytesFromNotFoundSubtitle,
+          titleFileNameFromNotFoundSubtitle,
+          torrent,
+          releaseGroupName,
+          subtitleGroupName: foundSubtitleFromSubDivX.subtitleGroupName,
+          subtitle: { ...foundSubtitleFromSubDivX, resolution, torrentId: torrent.id },
+          releaseGroups,
+          subtitleGroups,
+        });
       },
-      title: {
-        teaser,
-        id: imdbId,
-        title_name: name,
-        rating,
-        overview,
-        title_name_spa: spanishName,
-        release_date: releaseDate,
-        year,
-        logo,
-        poster,
-        backdrop,
-        total_episodes: totalEpisodes,
-        total_seasons: totalSeasons,
-        type: episode ? TitleTypes.tvShow : TitleTypes.movie,
-        episode,
+      `4.${index}.${torrentIndex}) Subtítulo no encontrado en SubDivX para ${name} ${resolution} ${releaseGroup.release_group_name} \n`,
+    );
+
+    const subtitleAlreadyExistsAgain = await hasSubtitleInDatabase(fileName);
+    if (subtitleAlreadyExistsAgain) {
+      console.log(`4.${index}.${torrentIndex}) Subtítulo ya existe en la base de datos`);
+      continue;
+    }
+
+    await executeWithOptionalTryCatch(
+      shouldUseTryCatch,
+      async function getSubtitleFromProvider() {
+        const foundSubtitleFromOpenSubtitles = await filterOpenSubtitleSubtitlesForTorrent({
+          episode,
+          titleFileNameMetadata,
+          subtitles: subtitlesFromOpenSubtitles,
+        });
+
+        const { release_group_name: releaseGroupName } = releaseGroup;
+        console.log(
+          `4.${index}.${torrentIndex}) Subtítulo encontrado en OpenSubtitles para ${name} ${resolution} ${releaseGroupName} \n`,
+        );
+
+        await downloadAndStoreTitleAndSubtitle({
+          titleFile: {
+            bytes,
+            fileName,
+            fileNameExtension,
+          },
+          title: {
+            teaser,
+            id: imdbId,
+            title_name: name,
+            rating,
+            overview,
+            title_name_spa: spanishName,
+            release_date: releaseDate,
+            year,
+            logo,
+            poster,
+            backdrop,
+            total_episodes: totalEpisodes,
+            total_seasons: totalSeasons,
+            type: episode ? TitleTypes.tvShow : TitleTypes.movie,
+            episode,
+          },
+          bytesFromNotFoundSubtitle,
+          titleFileNameFromNotFoundSubtitle,
+          torrent,
+          releaseGroupName,
+          subtitleGroupName: foundSubtitleFromOpenSubtitles.subtitleGroupName,
+          subtitle: { ...foundSubtitleFromOpenSubtitles, resolution, torrentId: torrent.id },
+          releaseGroups,
+          subtitleGroups,
+        });
       },
-      bytesFromNotFoundSubtitle,
-      titleFileNameFromNotFoundSubtitle,
-      torrent,
-      releaseGroupName,
-      subtitleGroupName,
-      subtitle: { ...foundSubtitle, resolution, torrentId: torrent.id },
-      releaseGroups,
-      subtitleGroups,
-    });
-    // } catch (error) {
-    //   // console.log("\n ~ forawait ~ error:", error);
-    //   console.log(`4.${index}.${torrentIndex}) Subtítulo no encontrado en ${name} \n`);
-    // }
+      `4.${index}.${torrentIndex}) Subtítulo no encontrado en OpenSubtitles para ${name} ${resolution} ${releaseGroup.release_group_name} \n`,
+    );
 
     if (isDebugging) {
       await confirm({ message: "¿Desea continuar?" });

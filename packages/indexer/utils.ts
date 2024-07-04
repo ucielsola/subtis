@@ -39,3 +39,25 @@ export function getSubtitleAuthor(subtitleFile: Buffer): string | null {
 
   return author;
 }
+
+export async function executeWithOptionalTryCatch<T>(
+  shouldUseTryCatch: boolean,
+  func: () => Promise<T>,
+  errorMessage?: string,
+): Promise<T | undefined> {
+  if (shouldUseTryCatch) {
+    try {
+      return await func();
+    } catch (error) {
+      console.log("in catch");
+
+      if (errorMessage) {
+        console.error(errorMessage);
+      }
+
+      console.error(`Caught an error in ${func.name}:`, error);
+    }
+  } else {
+    return await func();
+  }
+}

@@ -52,6 +52,7 @@ describe("getTitleFileNameMetadata", () => {
           "YTS.AM",
           "x264-[YTS.AM]",
           "YIFY",
+          "[YTS.MX]",
         ],
         searchable_subdivx_name: [
           "YTS MX",
@@ -62,6 +63,7 @@ describe("getTitleFileNameMetadata", () => {
           "YTS.AM",
           "x264-[YTS.AM]",
           "YIFY",
+          "[YTS.MX]",
         ],
       },
       resolution: "1080p",
@@ -90,6 +92,7 @@ describe("getTitleFileNameMetadata", () => {
           "YTS.AM",
           "x264-[YTS.AM]",
           "YIFY",
+          "[YTS.MX]",
         ],
         searchable_subdivx_name: [
           "YTS MX",
@@ -100,6 +103,7 @@ describe("getTitleFileNameMetadata", () => {
           "YTS.AM",
           "x264-[YTS.AM]",
           "YIFY",
+          "[YTS.MX]",
         ],
       },
       resolution: "720p",
@@ -128,6 +132,7 @@ describe("getTitleFileNameMetadata", () => {
           "YTS.AM",
           "x264-[YTS.AM]",
           "YIFY",
+          "[YTS.MX]",
         ],
         searchable_subdivx_name: [
           "YTS MX",
@@ -138,6 +143,7 @@ describe("getTitleFileNameMetadata", () => {
           "YTS.AM",
           "x264-[YTS.AM]",
           "YIFY",
+          "[YTS.MX]",
         ],
       },
       resolution: "1080p",
@@ -166,6 +172,7 @@ describe("getTitleFileNameMetadata", () => {
           "YTS.AM",
           "x264-[YTS.AM]",
           "YIFY",
+          "[YTS.MX]",
         ],
         searchable_subdivx_name: [
           "YTS MX",
@@ -176,6 +183,7 @@ describe("getTitleFileNameMetadata", () => {
           "YTS.AM",
           "x264-[YTS.AM]",
           "YIFY",
+          "[YTS.MX]",
         ],
       },
       resolution: "2160p",
@@ -204,6 +212,7 @@ describe("getTitleFileNameMetadata", () => {
           "YTS.AM",
           "x264-[YTS.AM]",
           "YIFY",
+          "[YTS.MX]",
         ],
         searchable_subdivx_name: [
           "YTS MX",
@@ -214,6 +223,7 @@ describe("getTitleFileNameMetadata", () => {
           "YTS.AM",
           "x264-[YTS.AM]",
           "YIFY",
+          "[YTS.MX]",
         ],
       },
       resolution: "3D",
@@ -247,7 +257,7 @@ describe("getTitleFileNameMetadata", () => {
     });
 
     const releaseGroup: ReleaseGroup = {
-      file_attributes: ["GalaxyRG"],
+      file_attributes: ["GalaxyRG", "x264-Galax", "x265-Galax", "x264-GalaxyRG", "x265-GalaxyRG"],
       is_supported: true,
       release_group_name: "GalaxyRG",
       searchable_opensubtitles_name: ["GalaxyRG"],
@@ -304,6 +314,7 @@ describe("getTitleFileNameMetadata", () => {
           "YTS.AM",
           "x264-[YTS.AM]",
           "YIFY",
+          "[YTS.MX]",
         ],
         searchable_subdivx_name: [
           "YTS MX",
@@ -314,6 +325,7 @@ describe("getTitleFileNameMetadata", () => {
           "YTS.AM",
           "x264-[YTS.AM]",
           "YIFY",
+          "[YTS.MX]",
         ],
       },
       resolution: "1080p",
