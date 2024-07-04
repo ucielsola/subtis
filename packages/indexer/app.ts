@@ -635,9 +635,11 @@ export async function getSubtitlesForTitle({
 
   for await (const [torrentIndex, torrent] of Object.entries(filteredTorrents)) {
     console.log(`4.${index}.${torrentIndex}) Procesando torrent`, `"${torrent.title}"`, "\n");
-    const files = await getTorrentFilesMetadata(torrent);
+    const files = await executeWithOptionalTryCatch(true, async function processTorrent() {
+      return await getTorrentFilesMetadata(torrent);
+    }, `4.${index}.${torrentIndex}) No se encontraron archivos en el torrent\n`);
 
-    if (files.length === 0) {
+    if (!files || files.length === 0) {
       console.log("No se encontraron archivos en el torrent\n");
       continue;
     }
