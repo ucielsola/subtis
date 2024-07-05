@@ -5,7 +5,7 @@ import { apiClient } from "./api";
 import project from "./package.json";
 
 // api
-import { subtitleSchema } from "@subtis/api/subtitles/schemas";
+import { subtitleSchema } from "@subtis/api/shared/schemas";
 
 // types
 type Extra = { videoHash: string; videoSize: string };
@@ -17,7 +17,7 @@ type ExtraArgs = Args["extra"] & { filename: string };
 async function getTitleSubtitle(args: Args): Promise<{ subtitles: Subtitle[] }> {
   const { videoSize: bytes, filename: fileName } = args.extra as ExtraArgs;
 
-  const response = await apiClient.v1.subtitles.file.name[":bytes"][":fileName"].$get({
+  const response = await apiClient.v1.subtitle.file.name[":bytes"][":fileName"].$get({
     param: { bytes, fileName },
   });
   const data = await response.json();
@@ -33,7 +33,7 @@ async function getTitleSubtitle(args: Args): Promise<{ subtitles: Subtitle[] }> 
     url: subtitleByFileName.data.subtitle_link,
   };
 
-  await apiClient.v1.subtitles.metrics.download.$post({
+  await apiClient.v1.subtitle.metrics.download.$post({
     json: { bytes: Number(bytes), titleFileName: fileName },
   });
 

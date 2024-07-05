@@ -5,7 +5,7 @@ import fetch from "node-fetch";
 import { z } from "zod";
 
 // api
-import { subtitleSchema } from "@subtis/api/subtitles/schemas";
+import { subtitleSchema } from "@subtis/api/shared/schemas";
 
 // shared
 import { getFilenameFromPath, getMessageFromStatusCode, getVideoFileExtension } from "@subtis/shared";
@@ -48,7 +48,7 @@ export default function Command() {
         return;
       }
 
-      const response = await fetch(`${API_URL}/v1/subtitles/file/name/${bytes}/${fileName}`);
+      const response = await fetch(`${API_URL}/v1/subtitle/file/name/${bytes}/${fileName}`);
       const data = await response.json();
 
       const subtitleByFileName = subtitleSchema.safeParse(data);

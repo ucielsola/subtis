@@ -5,22 +5,10 @@ import { z } from "zod";
 // shared
 import { getTitleFileNameMetadata, videoFileNameSchema } from "@subtis/shared";
 
-// schemas
-import { type AppVariables, MAX_LIMIT, getSupabaseClient } from "../shared";
-import { alternativeTitlesSchema, subtitleSchema, subtitleShortenerSchema } from "./schemas";
-
-const subtitlesQuery = `
-  id,
-  resolution,
-  subtitle_link,
-  queried_times,
-  subtitle_file_name,
-  current_season,
-  current_episode,
-  releaseGroup: ReleaseGroups ( release_group_name ),
-  subtitleGroup: SubtitleGroups ( subtitle_group_name ),
-  title: Titles ( title_name, type, year, poster, backdrop, logo )
-`;
+// internals
+import { MAX_LIMIT } from "../shared/constants";
+import { alternativeTitlesSchema, subtitleSchema, subtitleShortenerSchema, subtitlesQuery } from "../shared/schemas";
+import { type AppVariables, getSupabaseClient } from "../shared/supabase";
 
 const subtitlesSchema = z
   .array(subtitleSchema, { invalid_type_error: "Subtitles not found for title" })

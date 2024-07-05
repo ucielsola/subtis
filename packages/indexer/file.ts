@@ -232,7 +232,7 @@ export async function indexTitleByFileName({
     return { ok: true };
   } catch (error) {
     if (shouldStoreNotFoundSubtitle) {
-      await apiClient.v1.subtitles["not-found"].$post({
+      await apiClient.v1.subtitle["not-found"].$post({
         json: { bytes, titleFileName },
       });
     }

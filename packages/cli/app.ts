@@ -7,7 +7,7 @@ import { z } from "zod";
 import { getMessageFromStatusCode, getSubtitleShortLink, videoFileNameSchema } from "@subtis/shared";
 
 // api
-import { subtitleSchema } from "@subtis/api/subtitles/schemas";
+import { subtitleSchema } from "@subtis/api/shared/schemas";
 
 // internals
 import { apiClient } from "./api";
@@ -69,7 +69,7 @@ export async function mod(): Promise<void> {
       return outro(chalk.red("🤔 Archivo no encontrado. Prueba con otra ruta"));
     }
 
-    const response = await apiClient.v1.subtitles.file.name[":bytes"][":fileName"].$get({
+    const response = await apiClient.v1.subtitle.file.name[":bytes"][":fileName"].$get({
       param: {
         fileName,
         bytes: String(bytes),
@@ -84,7 +84,7 @@ export async function mod(): Promise<void> {
       return outro(`⛏ ${description}`);
     }
 
-    apiClient.v1.subtitles.metrics.download.$post({
+    apiClient.v1.subtitle.metrics.download.$post({
       json: { bytes, titleFileName: fileName },
     });
 

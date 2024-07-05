@@ -9,7 +9,8 @@ import { getTitleFileNameMetadata, videoFileNameSchema } from "@subtis/shared";
 import { titlesRowSchema } from "@subtis/db/schemas";
 
 // internals
-import { type AppVariables, MAX_LIMIT, getSupabaseClient } from "../shared";
+import { MAX_LIMIT } from "../shared/constants";
+import { type AppVariables, getSupabaseClient } from "../shared/supabase";
 
 // schemas
 const searchTitleSchema = titlesRowSchema.pick({ id: true, type: true, title_name: true, year: true, backdrop: true });
@@ -23,6 +24,7 @@ const recentTitleSchema = titlesRowSchema.pick({
   rating: true,
   release_date: true,
 });
+
 const recentTitlesSchema = z
   .array(recentTitleSchema, { invalid_type_error: "Recent movies not found" })
   .min(1, { message: "Recent movies not found" });

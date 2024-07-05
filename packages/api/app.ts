@@ -5,9 +5,11 @@ import { secureHeaders } from "hono/secure-headers";
 import timestring from "timestring";
 
 // internals
+import { subtitle } from "./subtitle";
 import { subtitles } from "./subtitles";
 import { titles } from "./titles";
 
+// core
 export function runApi() {
   // core
   const app = new Hono().basePath("/v1");
@@ -22,16 +24,16 @@ export function runApi() {
   }
 
   // routes
-  const routes = app.route("/titles", titles).route("/subtitles", subtitles);
+  const routes = app.route("/titles", titles).route("/subtitle", subtitle).route("/subtitles", subtitles);
 
   return [app, routes];
 }
 
-// exports
 function defineRoutes() {
   const app = new Hono().basePath("/v1");
-  return app.route("/titles", titles).route("/subtitles", subtitles);
+  return app.route("/titles", titles).route("/subtitle", subtitle).route("/subtitles", subtitles);
 }
 
+// exports
 export * from "./subtitles";
 export type AppType = ReturnType<typeof defineRoutes>;
