@@ -56,6 +56,7 @@ export async function indexSeriesByYear(seriesYear: number, isDebugging: boolean
     console.log("\n");
 
     for await (const [index, tvShow] of Object.entries(tvShows)) {
+      // TODO: Remove the following line
       if (["0", "1"].includes(index)) {
         continue;
       }
@@ -68,7 +69,11 @@ export async function indexSeriesByYear(seriesYear: number, isDebugging: boolean
         }
       }
 
-      for await (const episode of tvShow.episodes) {
+      for await (const [index, episode] of Object.entries(tvShow.episodes)) {
+        if (Number(index) >= 2) {
+          break;
+        }
+
         await getSubtitlesForTitle({
           index,
           currentTitle: { ...tvShow, episode },
