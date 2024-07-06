@@ -46,7 +46,7 @@ type TmdbMovie = TmdbTitle & { episode: null; totalSeasons: null; totalEpisodes:
 export type CurrentTitle = TmdbMovie | TmdbTvShowEpisode;
 
 // enum
-enum TitleTypes {
+export enum TitleTypes {
   movie = "movie",
   tvShow = "tv-show",
 }
@@ -622,6 +622,9 @@ export async function getSubtitlesForTitle({
     `👉 Nombre de titulo ${titleProviderQuery} guardado en el clipboard, para poder pegar directamente en proveedor de torrents o subtítulos \n`,
   );
 
+  const titleType = episode ? TitleTypes.tvShow : TitleTypes.movie;
+  const { current_season: currentSeason, current_episode: currentEpisode } = getSeasonAndEpisode(episode);
+
   console.log(`4.${index}) Buscando subtítulos en SubDivX \n`);
   const subtitlesFromSubDivX = await getSubtitlesFromSubDivXForTitle({
     titleProviderQuery,
@@ -629,11 +632,64 @@ export async function getSubtitlesForTitle({
   });
   console.log(`4.${index}) ${subtitlesFromSubDivX.aaData.length} subtitlos encontrados en SubDivX \n`);
 
-  // console.log(`4.${index}) Buscando subtítulos en OpenSubtitles \n`);
-  // const subtitlesFromOpenSubtitles = await getSubtitlesFromOpenSubtitlesForTitle({ imdbId });
-  // console.log(`4.${index}) ${subtitlesFromOpenSubtitles.data.length} subtitlos encontrados en OpenSubtitles \n`);
+  console.log(`4.${index}) Buscando subtítulos en OpenSubtitles \n`);
+  const subtitlesFromOpenSubtitles = await getSubtitlesFromOpenSubtitlesForTitle({
+    imdbId,
+    titleType,
+    currentSeason,
+    currentEpisode,
+  });
+  console.log(`4.${index}) ${subtitlesFromOpenSubtitles.data.length} subtitlos encontrados en OpenSubtitles \n`);
+
+  const releaseGroupsqueryMatches = Object.values(releaseGroups)
+    .flatMap(({ query_matches }) => query_matches)
+    .map((string) => string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+
+  const releaseGroupsRegex = new RegExp(`\\b(${releaseGroupsqueryMatches.join("|")})\\b`, "gi");
+  const resolutionRegex = /(480p|576p|720p|1080p|2160p|3d)/gi;
+
+  const subdivxTable = subtitlesFromSubDivX.aaData.map(({ titulo, descripcion }) => {
+    const resolutions = descripcion.match(resolutionRegex);
+    const releaseGroups = descripcion.match(releaseGroupsRegex);
+
+    return {
+      title: titulo,
+      resolutions: resolutions ? [...new Set(resolutions)] : "",
+      releaseGroups: releaseGroups ? [...new Set(releaseGroups)] : "",
+    };
+  });
+
+  const openSubtitlesTable = subtitlesFromOpenSubtitles.data.map(({ attributes }) => {
+    const release = attributes.release.toLowerCase();
+    const comments = attributes.comments.toLowerCase();
+
+    const resolutions = release.match(resolutionRegex) || comments.match(resolutionRegex);
+    const releaseGroups = release.match(releaseGroupsRegex) || comments.match(releaseGroupsRegex);
+
+    return {
+      title: attributes.feature_details.title,
+      name: attributes.feature_details.movie_name,
+      resolutions: resolutions ? [...new Set(resolutions)] : "",
+      releaseGroups: releaseGroups ? [...new Set(releaseGroups)] : "",
+    };
+  });
 
   for await (const [torrentIndex, torrent] of Object.entries(filteredTorrents)) {
+    console.log("\n\n\n\n");
+    console.log("-------------------------------------------------------------------");
+
+    if (subdivxTable.length > 0) {
+      console.log(`4.${index}.${torrentIndex}) Subtitulos encontrados en SubDivx:`);
+      console.table(subdivxTable);
+      console.log("\n");
+    }
+
+    if (openSubtitlesTable.length > 0) {
+      console.log(`4.${index}.${torrentIndex}) Subtitulos encontrados en OpenSubtitles:`);
+      console.table(openSubtitlesTable);
+      console.log("\n");
+    }
+
     console.log(`4.${index}.${torrentIndex}) Procesando torrent`, `"${torrent.title}"`, "\n");
     const files = await executeWithOptionalTryCatch(
       true,
@@ -750,66 +806,69 @@ export async function getSubtitlesForTitle({
       `4.${index}.${torrentIndex}) Subtítulo no encontrado en SubDivX para ${name} ${resolution} ${releaseGroup.release_group_name} \n`,
     );
 
-    // const subtitleAlreadyExistsAgain = await hasSubtitleInDatabase(fileName);
-    // if (subtitleAlreadyExistsAgain) {
-    //   console.log(`4.${index}.${torrentIndex}) Subtítulo ya existe en la base de datos`);
-    //   continue;
-    // }
+    const subtitleAlreadyExistsAgain = await hasSubtitleInDatabase(fileName);
+    if (subtitleAlreadyExistsAgain) {
+      console.log(`4.${index}.${torrentIndex}) Subtítulo ya existe en la base de datos`);
+      continue;
+    }
 
-    // await executeWithOptionalTryCatch(
-    //   shouldUseTryCatch,
-    //   async function getSubtitleFromProvider() {
-    //     const foundSubtitleFromOpenSubtitles = await filterOpenSubtitleSubtitlesForTorrent({
-    //       episode,
-    //       titleFileNameMetadata,
-    //       subtitles: subtitlesFromOpenSubtitles,
-    //     });
+    await executeWithOptionalTryCatch(
+      shouldUseTryCatch,
+      async function getSubtitleFromProvider() {
+        const foundSubtitleFromOpenSubtitles = await filterOpenSubtitleSubtitlesForTorrent({
+          episode,
+          titleFileNameMetadata,
+          subtitles: subtitlesFromOpenSubtitles,
+        });
 
-    //     const { release_group_name: releaseGroupName } = releaseGroup;
-    //     console.log(
-    //       `4.${index}.${torrentIndex}) Subtítulo encontrado en OpenSubtitles para ${name} ${resolution} ${releaseGroupName} \n`,
-    //     );
+        const { release_group_name: releaseGroupName } = releaseGroup;
+        console.log(
+          `4.${index}.${torrentIndex}) Subtítulo encontrado en OpenSubtitles para ${name} ${resolution} ${releaseGroupName} \n`,
+        );
 
-    //     await downloadAndStoreTitleAndSubtitle({
-    //       titleFile: {
-    //         bytes,
-    //         fileName,
-    //         fileNameExtension,
-    //       },
-    //       title: {
-    //         teaser,
-    //         id: imdbId,
-    //         title_name: name,
-    //         rating,
-    //         overview,
-    //         title_name_spa: spanishName,
-    //         release_date: releaseDate,
-    //         year,
-    //         logo,
-    //         poster,
-    //         backdrop,
-    //         total_episodes: totalEpisodes,
-    //         total_seasons: totalSeasons,
-    //         type: episode ? TitleTypes.tvShow : TitleTypes.movie,
-    //         episode,
-    //       },
-    //       bytesFromNotFoundSubtitle,
-    //       titleFileNameFromNotFoundSubtitle,
-    //       torrent,
-    //       releaseGroupName,
-    //       subtitleGroupName: foundSubtitleFromOpenSubtitles.subtitleGroupName,
-    //       subtitle: { ...foundSubtitleFromOpenSubtitles, resolution, torrentId: torrent.id },
-    //       releaseGroups,
-    //       subtitleGroups,
-    //     });
-    //   },
-    //   `4.${index}.${torrentIndex}) Subtítulo no encontrado en OpenSubtitles para ${name} ${resolution} ${releaseGroup.release_group_name} \n`,
-    // );
+        await downloadAndStoreTitleAndSubtitle({
+          titleFile: {
+            bytes,
+            fileName,
+            fileNameExtension,
+          },
+          title: {
+            teaser,
+            id: imdbId,
+            title_name: name,
+            rating,
+            overview,
+            title_name_spa: spanishName,
+            release_date: releaseDate,
+            year,
+            logo,
+            poster,
+            backdrop,
+            total_episodes: totalEpisodes,
+            total_seasons: totalSeasons,
+            type: episode ? TitleTypes.tvShow : TitleTypes.movie,
+            episode,
+          },
+          bytesFromNotFoundSubtitle,
+          titleFileNameFromNotFoundSubtitle,
+          torrent,
+          releaseGroupName,
+          subtitleGroupName: foundSubtitleFromOpenSubtitles.subtitleGroupName,
+          subtitle: { ...foundSubtitleFromOpenSubtitles, resolution, torrentId: torrent.id },
+          releaseGroups,
+          subtitleGroups,
+        });
+      },
+      `4.${index}.${torrentIndex}) Subtítulo no encontrado en OpenSubtitles para ${name} ${resolution} ${releaseGroup.release_group_name} \n`,
+    );
 
     if (isDebugging) {
       await confirm({ message: "¿Desea continuar?" });
     }
   }
+
+  console.log(`4.${index}) Esperando 4s para pasar al siguiente titulo... \n`);
+  await Bun.sleep(4000);
 
   console.log(`4.${index}) Pasando al siguiente titulo... \n`);
   console.log("------------------------------ \n");

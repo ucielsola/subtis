@@ -59,11 +59,11 @@ Bun.serve({
       }
     },
     // a message is received
-    open(ws) {
+    open(_ws) {
       console.log("open");
     },
     // a socket is opened
-    close(ws, code, message) {
+    close(_ws, code, _message) {
       console.log("\n ~ close ~ code:", code);
     },
     // a socket is closed

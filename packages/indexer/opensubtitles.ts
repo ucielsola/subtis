@@ -5,6 +5,7 @@ import { z } from "zod";
 import type { TitleFileNameMetadata } from "@subtis/shared";
 
 // internals
+import type { TitleTypes } from "./app";
 import { generateSubtitleFileNames } from "./subtitle-filenames";
 import { SUBTITLE_GROUPS } from "./subtitle-groups";
 import type { SubtitleData } from "./types";
@@ -35,15 +36,32 @@ const subtitleDataSchema = z.object({
     ai_translated: z.boolean(),
     comments: z.string(),
     download_count: z.number(),
-    feature_details: z.object({
-      feature_id: z.number(),
-      feature_type: z.string(),
-      imdb_id: z.number(),
-      movie_name: z.string(),
-      title: z.string(),
-      tmdb_id: z.number(),
-      year: z.number(),
-    }),
+    feature_details: z.union([
+      z.object({
+        feature_id: z.number(),
+        feature_type: z.string(),
+        imdb_id: z.number(),
+        movie_name: z.string(),
+        title: z.string(),
+        tmdb_id: z.number(),
+        year: z.number(),
+      }),
+      z.object({
+        feature_id: z.number(),
+        feature_type: z.string(),
+        imdb_id: z.number(),
+        movie_name: z.string(),
+        title: z.string(),
+        tmdb_id: z.number().nullable(),
+        year: z.number().nullable(),
+        season_number: z.number(),
+        episode_number: z.number(),
+        parent_imdb_id: z.number(),
+        parent_title: z.string(),
+        parent_tmdb_id: z.number(),
+        parent_feature_id: z.number(),
+      }),
+    ]),
     files: z.array(
       z.object({
         cd_number: z.number(),
@@ -62,11 +80,17 @@ const subtitleDataSchema = z.object({
     new_download_count: z.number(),
     ratings: z.number(),
     related_links: z.array(
-      z.object({
-        img_url: z.string(),
-        label: z.string(),
-        url: z.string(),
-      }),
+      z.union([
+        z.object({
+          img_url: z.string(),
+          label: z.string(),
+          url: z.string(),
+        }),
+        z.object({
+          label: z.string(),
+          url: z.string(),
+        }),
+      ]),
     ),
     release: z.string(),
     subtitle_id: z.string(),
@@ -108,10 +132,21 @@ type Subtitles = z.infer<typeof subtitlesSchema>;
 // core
 export async function getSubtitlesFromOpenSubtitlesForTitle({
   imdbId,
+  titleType,
+  currentSeason,
+  currentEpisode,
 }: {
   imdbId: number;
+  titleType: TitleTypes;
+  currentSeason: number | null;
+  currentEpisode: number | null;
 }): Promise<Subtitles> {
-  const response = await fetch(`${OPEN_SUBTITLES_BASE_URL}/subtitles?imdb_id=${imdbId}&languages=es`, {
+  const titleTypeParam = titleType === "movie" ? "imdb_id" : "parent_imdb_id";
+  const tvShowParam = titleType === "tv-show" ? `&season_number=${currentSeason}&episode_number=${currentEpisode}` : "";
+
+  const URL = `${OPEN_SUBTITLES_BASE_URL}/subtitles?${titleTypeParam}=${imdbId}${tvShowParam}&languages=es`;
+
+  const response = await fetch(URL, {
     headers: getOpenSubtitlesHeaders(),
   });
 

@@ -46,7 +46,7 @@ socket.addEventListener("message", (event) => {
 });
 
 // socket opened
-socket.addEventListener("open", (event) => {
+socket.addEventListener("open", (_event) => {
   // console.log("\n ~ event:", event.type);
   socket.send(JSON.stringify(MOCK_INITIAL_MESSAGE));
 });
