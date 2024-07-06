@@ -144,11 +144,10 @@ export async function filterOpenSubtitleSubtitlesForTorrent({
     const comments = subtitle.attributes.comments.toLowerCase();
 
     const hasResolution = release.includes(resolution) || comments.includes(resolution);
-    const hasReleaseGroup = releaseGroup.query_matches.some((searchableOpenSubtitlesName) => {
-      return (
-        release.includes(searchableOpenSubtitlesName.toLowerCase()) ||
-        comments.includes(searchableOpenSubtitlesName.toLowerCase())
-      );
+    const hasReleaseGroup = releaseGroup.query_matches.some((queryMatch) => {
+      const lowerCaseQueryMatch = queryMatch.toLowerCase();
+
+      return release.includes(lowerCaseQueryMatch) || comments.includes(lowerCaseQueryMatch);
     });
 
     return hasResolution && hasReleaseGroup;
