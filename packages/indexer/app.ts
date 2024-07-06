@@ -509,7 +509,7 @@ async function getTitleTorrents(query: string): PromiseTorrentResults {
 }
 
 function getFilteredTorrents(torrents: TorrentResults, maxTorrents = 10, minSeeds = 15): TorrentResultWithId[] {
-  const CINEMA_RECORDING_REGEX = /\b(hdcam|hdcamrip|hqcam|hq-cam|telesync|hdts|hd-ts|c1nem4|qrips|hdrip)\b/gi;
+  const CINEMA_RECORDING_REGEX = /\b(hdcam|hdcamrip|hqcam|hq-cam|telesync|hdts|hd-ts|c1nem4|qrips|hdrip|cam)\b/gi;
 
   return torrents
     .toSorted((torrentA, torrentB) => torrentB.seeds - torrentA.seeds)
