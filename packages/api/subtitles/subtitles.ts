@@ -27,6 +27,11 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
   .get("/movie/:id", zValidator("param", z.object({ id: z.string() })), async (context) => {
     const { id } = context.req.valid("param");
 
+    if (Number.isNaN(Number(id))) {
+      context.status(400);
+      return context.json({ message: "Invalid ID: it should be a number" });
+    }
+
     const { data } = await getSupabaseClient(context)
       .from("Subtitles")
       .select(subtitlesQuery)
@@ -46,6 +51,12 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
     zValidator("param", z.object({ id: z.string(), season: z.string().optional(), episode: z.string().optional() })),
     async (context) => {
       const { id, season = 1, episode = 1 } = context.req.valid("param");
+
+      if (Number.isNaN(Number(id))) {
+        context.status(400);
+        return context.json({ message: "Invalid ID: it should be a number" });
+      }
+
       const { data } = await getSupabaseClient(context)
         .from("Subtitles")
         .select(subtitlesQuery)
@@ -129,6 +140,11 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
   })
   .get("/trending/:limit", zValidator("param", z.object({ limit: z.string() })), async (context) => {
     const { limit } = context.req.valid("param");
+
+    if (Number.isNaN(Number(limit))) {
+      context.status(400);
+      return context.json({ message: "Invalid ID: it should be a number" });
+    }
 
     if (Number(limit) > MAX_LIMIT) {
       context.status(400);

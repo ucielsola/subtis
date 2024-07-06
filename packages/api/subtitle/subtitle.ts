@@ -18,6 +18,11 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
     async (context) => {
       const { bytes, fileName } = context.req.valid("param");
 
+      if (Number.isNaN(Number(bytes))) {
+        context.status(400);
+        return context.json({ message: "Invalid ID: it should be a number" });
+      }
+
       const videoFileName = videoFileNameSchema.safeParse(fileName);
       if (!videoFileName.success) {
         context.status(415);
@@ -68,6 +73,11 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
     async (context) => {
       const { email, bytes, titleFileName } = context.req.valid("json");
 
+      if (Number.isNaN(Number(bytes))) {
+        context.status(400);
+        return context.json({ message: "Invalid ID: it should be a number" });
+      }
+
       const videoFileName = videoFileNameSchema.safeParse(titleFileName);
       if (!videoFileName.success) {
         context.status(415);
@@ -91,6 +101,11 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
     zValidator("json", z.object({ bytes: z.number(), titleFileName: z.string() })),
     async (context) => {
       const { bytes, titleFileName } = context.req.valid("json");
+
+      if (Number.isNaN(Number(bytes))) {
+        context.status(400);
+        return context.json({ message: "Invalid ID: it should be a number" });
+      }
 
       const { error } = await getSupabaseClient(context).rpc("update_subtitle_info", {
         _bytes: bytes,
