@@ -43,14 +43,8 @@ const recentTitlesQuery = `
 export const titles = new Hono<{ Variables: AppVariables }>()
   .get("/search/:query", zValidator("param", z.object({ query: z.string() })), async (context) => {
     const { query } = context.req.valid("param");
-    const [type] = context.req.queries("type") ?? [undefined];
 
-    if (type && !["tv-show", "movie"].includes(type)) {
-      context.status(400);
-      return context.json({ message: "Invalid type" });
-    }
-
-    const { data } = await getSupabaseClient(context).rpc("fuzzy_search_title", { query, optional_type: type });
+    const { data } = await getSupabaseClient(context).rpc("fuzzy_search_title", { query });
 
     const titles = searchTitlesSchema.safeParse(data);
     if (!titles.success) {
