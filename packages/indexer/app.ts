@@ -380,15 +380,15 @@ async function addWatermarkToSubtitle({
   }
 
   const subtitleTextWithWatermark = `-2
-00:00:10,000 --> 00:00:14,000
+00:00:00,000 --> 00:00:04,000
 Subtitulos descargados desde Subtis | https://subt.is
 
 -1
-00:00:14,000 --> 00:00:18,000
+00:00:04,000 --> 00:00:08,000
 Contactanos por Twitter/X en @subt_is
 
 0
-00:00:18,000 --> 00:00:22,000
+00:00:08,000 --> 00:00:12,000
 Contactanos por email soporte@subt.is
 
 ${subtitleText}
