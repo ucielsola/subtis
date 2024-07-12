@@ -40,6 +40,10 @@ BEGIN
     SET lastQueriedAt = CURRENT_TIMESTAMP,
         queriedTimes = queriedTimes + 1
     WHERE "title_id" = _title_id;
+
+    IF NOT FOUND THEN
+        RAISE EXCEPTION 'Subtitle not found for title_id: %', _title_id;
+    END IF;
 END;
 $$ LANGUAGE plpgsql;
 ```

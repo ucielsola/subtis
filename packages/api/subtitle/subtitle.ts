@@ -182,7 +182,6 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         _bytes: bytes,
         _title_file_name: titleFileName,
       });
-
       if (error) {
         context.status(404);
         return context.json({ message: "File name not found in database to update subtitle" });
