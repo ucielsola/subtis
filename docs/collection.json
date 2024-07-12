@@ -8,35 +8,35 @@
       "folders": [],
       "requests": [
         {
-          "params": [],
-          "endpoint": "<<BASE_URL>>/v1/subtitle/metrics/download",
-          "auth": { "authActive": true, "authType": "none" },
-          "method": "POST",
           "preRequestScript": "",
-          "requestVariables": [],
           "testScript": "",
           "body": {
-            "contentType": "application/json",
-            "body": "{\n  \"bytes\": 2933498258,\n  \"titleFileName\": \"Furiosa.A.Mad.Max.Saga.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}"
+            "body": "{\n  \"bytes\": 2933498258,\n  \"titleFileName\": \"Furiosa.A.Mad.Max.Saga.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}",
+            "contentType": "application/json"
           },
+          "method": "POST",
+          "auth": { "authType": "none", "authActive": true },
+          "endpoint": "<<BASE_URL>>/v1/subtitle/metrics/download",
           "headers": [],
-          "name": "/v1/subtitle/metrics/download | Found",
-          "v": "5"
+          "params": [],
+          "requestVariables": [],
+          "v": "5",
+          "name": "/v1/subtitle/metrics/download | Found"
         },
         {
-          "params": [],
-          "endpoint": "<<BASE_URL>>/v1/subtitle/metrics/download",
-          "auth": { "authActive": true, "authType": "none" },
-          "method": "POST",
-          "preRequestScript": "",
-          "requestVariables": [],
-          "testScript": "",
           "body": {
-            "contentType": "application/json",
-            "body": "{\n  \"bits\": 2933498258,\n  \"file\": \"Furiosa.A.Mad.Max.Saga.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}"
+            "body": "{\n  \"bytes\": 3348258,\n  \"titleFileName\": \"Furiosa.A.M5.1-[YTS.MX].mp4\"\n}",
+            "contentType": "application/json"
           },
+          "method": "POST",
+          "name": "/v1/subtitle/metrics/download | Not Found",
+          "params": [],
+          "auth": { "authActive": true, "authType": "none" },
+          "testScript": "",
+          "preRequestScript": "",
+          "endpoint": "<<BASE_URL>>/v1/subtitle/metrics/download",
           "headers": [],
-          "name": "/v1/subtitle/metrics/download | Found",
+          "requestVariables": [],
           "v": "5"
         }
       ],
@@ -49,51 +49,51 @@
       "folders": [],
       "requests": [
         {
-          "headers": [],
-          "v": "5",
-          "auth": { "authActive": true, "authType": "none" },
           "method": "POST",
-          "preRequestScript": "",
-          "params": [],
-          "testScript": "",
           "name": "/v1/subtitle/not-found | Movie",
-          "endpoint": "<<BASE_URL>>/v1/subtitle/not-found",
-          "requestVariables": [],
-          "body": {
-            "body": "{\n  \"bytes\": 2933498258,\n  \"titleFileName\": \"Furiosa.A.Mad.Max.Saga.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}",
-            "contentType": "application/json"
-          }
-        },
-        {
-          "method": "POST",
-          "params": [],
-          "preRequestScript": "",
-          "headers": [],
-          "auth": { "authType": "none", "authActive": true },
-          "v": "5",
-          "testScript": "",
-          "endpoint": "<<BASE_URL>>/v1/subtitle/not-found",
-          "name": "/v1/subtitle/not-found | TV Show",
-          "requestVariables": [],
-          "body": {
-            "body": "{\n  \"titleFileName\": \"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}",
-            "contentType": "application/json"
-          }
-        },
-        {
           "params": [],
           "testScript": "",
-          "preRequestScript": "",
-          "requestVariables": [],
-          "name": "/v1/subtitle/not-found | Bad payload ",
-          "v": "5",
-          "method": "POST",
           "endpoint": "<<BASE_URL>>/v1/subtitle/not-found",
-          "headers": [],
           "auth": { "authType": "none", "authActive": true },
+          "headers": [],
           "body": {
             "contentType": "application/json",
-            "body": "{\n  \"bit\": 1510731608,\n  \"file\": \"Hit.Man.2023.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv\"\n}"
+            "body": "{\n  \"bytes\": 2933498258,\n  \"titleFileName\": \"Furiosa.A.Mad.Max.Saga.2024.2160p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}"
+          },
+          "v": "5",
+          "preRequestScript": "",
+          "requestVariables": []
+        },
+        {
+          "name": "/v1/subtitle/not-found | TV Show",
+          "preRequestScript": "",
+          "auth": { "authType": "none", "authActive": true },
+          "method": "POST",
+          "headers": [],
+          "endpoint": "<<BASE_URL>>/v1/subtitle/not-found",
+          "params": [],
+          "testScript": "",
+          "requestVariables": [],
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"titleFileName\": \"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}"
+          },
+          "v": "5"
+        },
+        {
+          "method": "POST",
+          "auth": { "authActive": true, "authType": "none" },
+          "params": [],
+          "testScript": "",
+          "endpoint": "<<BASE_URL>>/v1/subtitle/not-found",
+          "headers": [],
+          "preRequestScript": "",
+          "v": "5",
+          "name": "/v1/subtitle/not-found | Bad payload ",
+          "requestVariables": [],
+          "body": {
+            "body": "{\n  \"bit\": 1510731608,\n  \"file\": \"Hit.Man.2023.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv\"\n}",
+            "contentType": "application/json"
           }
         }
       ],
@@ -106,23 +106,23 @@
       "folders": [],
       "requests": [
         {
-          "name": "/v1/subtitle/link/:subtitleId | Found",
           "preRequestScript": "",
-          "params": [],
-          "v": "5",
-          "auth": { "authType": "none", "authActive": true },
           "body": {
-            "body": "{\n  \"fileName\": \"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}",
-            "contentType": "application/json"
+            "contentType": "application/json",
+            "body": "{\n  \"fileName\": \"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}"
           },
-          "endpoint": "<<BASE_URL>>/v1/subtitle/link/5089",
-          "method": "GET",
+          "testScript": "",
+          "auth": { "authType": "none", "authActive": true },
           "requestVariables": [],
+          "v": "5",
+          "method": "GET",
           "headers": [],
-          "testScript": ""
+          "params": [],
+          "endpoint": "<<BASE_URL>>/v1/subtitle/link/5283",
+          "name": "/v1/subtitle/link/:subtitleId | Found"
         }
       ],
-      "auth": { "authActive": true, "authType": "inherit" },
+      "auth": { "authType": "inherit", "authActive": true },
       "headers": []
     },
     {
@@ -131,97 +131,97 @@
       "folders": [],
       "requests": [
         {
+          "name": "/v1/subtitle/file/name/:bytes/:fileName | Movie found by fileName",
           "preRequestScript": "",
-          "params": [],
-          "headers": [],
+          "endpoint": "<<BASE_URL>>/v1/subtitle/file/name/4694013364/Atlas.2024.720p.WEBRip.x264.AAC-[YTS.MX].mp4",
           "requestVariables": [],
+          "auth": { "authType": "none", "authActive": true },
+          "method": "GET",
+          "testScript": "",
+          "v": "5",
+          "headers": [],
           "body": {
             "body": "{\n  \"fileName\": \"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\",\n  \"bytes\": \"2442029036\"\n}\n",
             "contentType": "application/json"
           },
-          "method": "GET",
-          "endpoint": "<<BASE_URL>>/v1/subtitle/file/name/2933498258/Furiosa.A.Mad.Max.Saga.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
-          "testScript": "",
-          "name": "/v1/subtitle/file/name/:bytes/:fileName | Movie found by fileName",
-          "v": "5",
-          "auth": { "authType": "none", "authActive": true }
+          "params": []
         },
         {
-          "body": {
-            "body": "{\n  \"fileName\": \"Road.House.2024.1080p.WEBRip.x264.5.1-[YTS.MX].mp4\",\n  \"bytes\": \"2442029036\"\n}",
-            "contentType": "application/json"
-          },
-          "params": [],
-          "preRequestScript": "",
-          "auth": { "authType": "none", "authActive": true },
-          "method": "GET",
+          "requestVariables": [],
+          "auth": { "authActive": true, "authType": "none" },
           "name": "/v1/subtitle/file/name/:bytes/:fileName | Movie found by bytes",
-          "v": "5",
-          "requestVariables": [],
-          "testScript": "",
-          "endpoint": "<<BASE_URL>>/v1/subtitles/file/name/1/Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv",
-          "headers": []
-        },
-        {
-          "v": "5",
-          "headers": [],
-          "auth": { "authActive": true, "authType": "none" },
-          "preRequestScript": "",
-          "body": {
-            "contentType": "application/json",
-            "body": "{\n  \"fileName\": \"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\",\n  \"bytes\": \"2442029036\"\n"
-          },
-          "params": [],
-          "requestVariables": [],
-          "method": "GET",
-          "endpoint": "<<BASE_URL>>/v1/subtitles/file/name/0/the.boys.s04e01.1080p.web.h264-successfulcrab.mkv",
-          "name": "/v1/subtitle/file/name/:bytes/:fileName | TV Show found by fileName",
-          "testScript": ""
-        },
-        {
-          "headers": [],
-          "preRequestScript": "",
-          "name": "/v1/subtitle/file/name/:bytes/:fileName | TV Show found by bytes",
-          "auth": { "authActive": true, "authType": "none" },
-          "endpoint": "<<BASE_URL>>/v1/subtitles/file/name/2467339301/shogun.2024.s01e80p.web.h264-successfulcrab.mkv",
           "body": {
             "contentType": "application/json",
             "body": "{\n  \"fileName\": \"Road.House.2024.1080p.WEBRip.x264.5.1-[YTS.MX].mp4\",\n  \"bytes\": \"2442029036\"\n}"
           },
-          "requestVariables": [],
+          "headers": [],
+          "params": [],
+          "testScript": "",
+          "preRequestScript": "",
           "method": "GET",
           "v": "5",
-          "testScript": "",
-          "params": []
+          "endpoint": "<<BASE_URL>>/v1/subtitles/file/name/1/Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv"
         },
         {
+          "params": [],
+          "testScript": "",
+          "v": "5",
+          "headers": [],
+          "body": {
+            "body": "{\n  \"fileName\": \"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\",\n  \"bytes\": \"2442029036\"\n",
+            "contentType": "application/json"
+          },
+          "method": "GET",
           "preRequestScript": "",
           "auth": { "authType": "none", "authActive": true },
-          "endpoint": "<<BASE_URL>>/v1/subtitles/file/name/244202/Road.Ho.2024.1080p.WEBRip.x264.5.1-[YTS.MX].mp4",
-          "headers": [],
-          "name": "/v1/subtitle/file/name/:bytes/:fileName | Not Found",
-          "v": "5",
-          "requestVariables": [],
-          "method": "GET",
-          "params": [],
-          "testScript": "",
-          "body": { "body": "{\n \"a\": 3\n}", "contentType": "application/json" }
+          "endpoint": "<<BASE_URL>>/v1/subtitles/file/name/0/the.boys.s04e01.1080p.web.h264-successfulcrab.mkv",
+          "name": "/v1/subtitle/file/name/:bytes/:fileName | TV Show found by fileName",
+          "requestVariables": []
         },
         {
-          "name": "/v1/subtitle/file/name/:bytes/:fileName | Extension Not Supported",
-          "params": [],
-          "testScript": "",
           "requestVariables": [],
+          "testScript": "",
+          "body": {
+            "body": "{\n  \"fileName\": \"Road.House.2024.1080p.WEBRip.x264.5.1-[YTS.MX].mp4\",\n  \"bytes\": \"2442029036\"\n}",
+            "contentType": "application/json"
+          },
+          "preRequestScript": "",
+          "v": "5",
+          "params": [],
+          "endpoint": "<<BASE_URL>>/v1/subtitles/file/name/2467339301/shogun.2024.s01e80p.web.h264-successfulcrab.mkv",
+          "method": "GET",
+          "headers": [],
+          "name": "/v1/subtitle/file/name/:bytes/:fileName | TV Show found by bytes",
+          "auth": { "authType": "none", "authActive": true }
+        },
+        {
+          "auth": { "authActive": true, "authType": "none" },
+          "name": "/v1/subtitle/file/name/:bytes/:fileName | Not Found",
+          "v": "5",
+          "headers": [],
+          "body": { "contentType": "application/json", "body": "{\n \"a\": 3\n}" },
+          "requestVariables": [],
+          "endpoint": "<<BASE_URL>>/v1/subtitles/file/name/244202/Road.Ho.2024.1080p.WEBRip.x264.5.1-[YTS.MX].mp4",
+          "preRequestScript": "",
+          "params": [],
+          "method": "GET",
+          "testScript": ""
+        },
+        {
           "body": {
             "body": "{\n  \"fileName\": \"The.Equalizer.3.2023.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3\",\n  \"bytes\": \"2\"\n}",
             "contentType": "application/json"
           },
-          "preRequestScript": "",
-          "method": "GET",
-          "auth": { "authType": "none", "authActive": true },
-          "v": "5",
+          "params": [],
           "headers": [],
-          "endpoint": "<<BASE_URL>>/v1/subtitles/file/name/2442029036/Road.House.2024.1080p.WEBRip.x264.5.1-[YTS.MX].mp3"
+          "auth": { "authActive": true, "authType": "none" },
+          "method": "GET",
+          "preRequestScript": "",
+          "testScript": "",
+          "endpoint": "<<BASE_URL>>/v1/subtitles/file/name/2442029036/Road.House.2024.1080p.WEBRip.x264.5.1-[YTS.MX].mp3",
+          "requestVariables": [],
+          "v": "5",
+          "name": "/v1/subtitle/file/name/:bytes/:fileName | Extension Not Supported"
         }
       ],
       "auth": { "authType": "inherit", "authActive": true },
@@ -229,72 +229,72 @@
     },
     {
       "v": 2,
-      "name": "Subtitles | By file name for alternatives | GET",
+      "name": "Subtitle | By file name for alternative | GET",
       "folders": [],
       "requests": [
         {
           "testScript": "",
-          "endpoint": "<<BASE_URL>>/v1/subtitles/file/alternatives/Civil.War.2024.2160p.4K.WEB.x265.10bit.AAC5.1-[YTS.MX].mkv",
-          "params": [],
-          "body": {
-            "body": "{\n  \"fileName\": \"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}",
-            "contentType": "application/json"
-          },
-          "auth": { "authActive": true, "authType": "none" },
-          "v": "5",
-          "requestVariables": [],
-          "name": "/v1/subtitles/file/versions/:fileName | Movie Found",
-          "method": "GET",
-          "headers": [],
-          "preRequestScript": ""
-        },
-        {
-          "testScript": "",
-          "body": {
-            "body": "{\n  \"fileName\": \"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}",
-            "contentType": "application/json"
-          },
-          "headers": [],
-          "v": "5",
-          "requestVariables": [],
-          "name": "/v1/subtitles/file/versions/:fileName | TV Show Found",
-          "method": "GET",
-          "params": [],
-          "auth": { "authActive": true, "authType": "none" },
-          "endpoint": "<<BASE_URL>>/v1/subtitles/file/versions/shogun.2024.s01e04.1080p.web.h264-successfulcrab.mkv",
-          "preRequestScript": ""
-        },
-        {
-          "endpoint": "<<BASE_URL>>/v1/subtitles/file/versions/Road.He.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
-          "body": {
-            "body": "{\n  \"fileName\": \"Road.He.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}",
-            "contentType": "application/json"
-          },
-          "headers": [],
-          "name": "/v1/subtitles/file/versions/:fileName | Not Found",
-          "method": "GET",
           "preRequestScript": "",
+          "endpoint": "<<BASE_URL>>/v1/subtitle/file/alternative/Civil.War.2024.2160p.4K.WEB.x265.10bit.AAC5.1-[YTS.MX].mkv",
+          "auth": { "authActive": true, "authType": "none" },
+          "method": "GET",
+          "v": "5",
+          "headers": [],
+          "requestVariables": [],
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"fileName\": \"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}"
+          },
+          "name": "/v1/subtitle/file/alternative/:fileName | Movie Found",
+          "params": []
+        },
+        {
+          "params": [],
           "requestVariables": [],
           "v": "5",
+          "endpoint": "<<BASE_URL>>/v1/subtitle/file/alternative/shogun.2024.s01e04.1080p.web.h264-successfulcrab.mkv",
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"fileName\": \"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}"
+          },
+          "testScript": "",
+          "headers": [],
+          "preRequestScript": "",
+          "method": "GET",
+          "name": "/v1/subtitle/file/alternative/:fileName | TV Show Found",
+          "auth": { "authActive": true, "authType": "none" }
+        },
+        {
           "auth": { "authType": "none", "authActive": true },
           "params": [],
+          "method": "GET",
+          "headers": [],
+          "requestVariables": [],
+          "preRequestScript": "",
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"fileName\": \"Road.He.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}"
+          },
+          "name": "/v1/subtitle/file/alternative/:fileName | Not Found",
+          "v": "5",
+          "endpoint": "<<BASE_URL>>/v1/subtitle/file/alternative/Road.He.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
           "testScript": ""
         },
         {
+          "v": "5",
+          "method": "GET",
+          "name": "/v1/subtitle/file/alternative/:fileName | Extension Not Supported",
           "params": [],
-          "endpoint": "<<BASE_URL>>/v1/subtitles/file/versions/Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3",
+          "headers": [],
+          "auth": { "authActive": true, "authType": "none" },
+          "requestVariables": [],
+          "preRequestScript": "",
+          "testScript": "",
           "body": {
             "body": "{\n  \"file\": \"Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}",
             "contentType": "application/json"
           },
-          "auth": { "authType": "none", "authActive": true },
-          "v": "5",
-          "preRequestScript": "",
-          "testScript": "",
-          "name": "/v1/subtitles/file/versions/:fileName | Extension Not Supported",
-          "method": "GET",
-          "headers": [],
-          "requestVariables": []
+          "endpoint": "<<BASE_URL>>/v1/subtitle/file/alternative/Road.House.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3"
         }
       ],
       "auth": { "authType": "inherit", "authActive": true },
@@ -306,46 +306,46 @@
       "folders": [],
       "requests": [
         {
-          "testScript": "",
+          "v": "5",
+          "method": "GET",
+          "headers": [],
+          "params": [],
           "requestVariables": [],
-          "auth": { "authType": "none", "authActive": true },
           "endpoint": "<<BASE_URL>>/v1/subtitles/movie/17279496",
-          "name": "/v1/subtitles/movie/:id | Movie Found",
-          "method": "GET",
-          "headers": [],
-          "v": "5",
-          "params": [],
-          "preRequestScript": "",
-          "body": { "body": "{\n  \"movieId\": 3359350\n}", "contentType": "application/json" }
-        },
-        {
-          "requestVariables": [],
-          "preRequestScript": "",
-          "auth": { "authType": "none", "authActive": true },
-          "params": [],
-          "method": "GET",
           "testScript": "",
-          "v": "5",
-          "name": "/v1/subtitles/tv-show/:id | TV Show Found",
-          "endpoint": "<<BASE_URL>>/v1/subtitles/tv-show/17677860/1/6",
           "body": { "contentType": "application/json", "body": "{\n  \"movieId\": 3359350\n}" },
-          "headers": []
+          "preRequestScript": "",
+          "auth": { "authActive": true, "authType": "none" },
+          "name": "/v1/subtitles/movie/:id | Movie Found"
         },
         {
-          "auth": { "authActive": true, "authType": "none" },
-          "preRequestScript": "",
-          "body": { "body": "{\n  \"movieId\": 3359350\n}", "contentType": "application/json" },
-          "name": "/v1/subtitles/tv-show/:id | TV Show Found | Season and Episode",
-          "requestVariables": [],
-          "endpoint": "<<BASE_URL>>/v1/subtitles/tv-show/19231492/1/2",
-          "headers": [],
-          "testScript": "",
-          "params": [],
           "method": "GET",
-          "v": "5"
+          "headers": [],
+          "name": "/v1/subtitles/tv-show/:id | TV Show Found",
+          "body": { "body": "{\n  \"movieId\": 3359350\n}", "contentType": "application/json" },
+          "requestVariables": [],
+          "endpoint": "<<BASE_URL>>/v1/subtitles/tv-show/19231492",
+          "auth": { "authActive": true, "authType": "none" },
+          "testScript": "",
+          "v": "5",
+          "preRequestScript": "",
+          "params": []
+        },
+        {
+          "body": { "contentType": "application/json", "body": "{\n  \"movieId\": 3359350\n}" },
+          "method": "GET",
+          "name": "/v1/subtitles/tv-show/:id | TV Show Found | Season and Episode",
+          "v": "5",
+          "headers": [],
+          "auth": { "authActive": true, "authType": "none" },
+          "endpoint": "<<BASE_URL>>/v1/subtitles/tv-show/19231492/1/2",
+          "preRequestScript": "",
+          "requestVariables": [],
+          "testScript": "",
+          "params": []
         }
       ],
-      "auth": { "authActive": true, "authType": "inherit" },
+      "auth": { "authType": "inherit", "authActive": true },
       "headers": []
     },
     {
@@ -354,20 +354,20 @@
       "folders": [],
       "requests": [
         {
-          "params": [],
-          "method": "GET",
-          "auth": { "authType": "none", "authActive": true },
-          "name": "/v1/subtitles/trending/:limit | Found",
-          "requestVariables": [],
-          "endpoint": "<<BASE_URL>>/v1/subtitles/trending/4",
-          "v": "5",
           "testScript": "",
           "body": { "contentType": "application/json", "body": "{\n  \"limit\": 2\n}" },
-          "headers": [],
-          "preRequestScript": ""
+          "params": [],
+          "name": "/v1/subtitles/trending/:limit | Found",
+          "requestVariables": [],
+          "v": "5",
+          "preRequestScript": "",
+          "endpoint": "<<BASE_URL>>/v1/subtitles/trending/4",
+          "auth": { "authType": "none", "authActive": true },
+          "method": "GET",
+          "headers": []
         }
       ],
-      "auth": { "authType": "inherit", "authActive": true },
+      "auth": { "authActive": true, "authType": "inherit" },
       "headers": []
     },
     {
@@ -377,71 +377,45 @@
       "requests": [
         {
           "testScript": "",
-          "method": "GET",
           "preRequestScript": "",
-          "params": [],
-          "body": { "contentType": "application/json", "body": "{\n}" },
-          "auth": { "authActive": true, "authType": "none" },
-          "endpoint": "<<BASE_URL>>/v1/titles/search/opppen",
+          "endpoint": "<<BASE_URL>>/v1/titles/search/th",
           "v": "5",
-          "requestVariables": [],
-          "name": "/v1/titles/search/:query | Movie Found",
-          "headers": []
-        },
-        {
-          "method": "GET",
-          "requestVariables": [],
-          "auth": { "authType": "none", "authActive": true },
-          "headers": [],
+          "name": "/v1/titles/search/:query | Found",
           "body": { "body": "{\n}", "contentType": "application/json" },
-          "preRequestScript": "",
-          "endpoint": "<<BASE_URL>>/v1/titles/search/opppen?type=movie",
-          "params": [],
-          "name": "/v1/titles/search/:query | Movie Found with type filter",
-          "v": "5",
-          "testScript": ""
-        },
-        {
-          "auth": { "authType": "none", "authActive": true },
-          "preRequestScript": "",
-          "endpoint": "<<BASE_URL>>/v1/titles/search/sho",
-          "v": "5",
-          "requestVariables": [],
-          "params": [],
-          "headers": [],
           "method": "GET",
-          "name": "/v1/titles/search/:query | TV Show Found",
-          "body": { "body": "{\n}", "contentType": "application/json" },
-          "testScript": ""
+          "requestVariables": [],
+          "headers": [],
+          "auth": { "authActive": true, "authType": "none" },
+          "params": []
         },
         {
-          "auth": { "authActive": true, "authType": "none" },
-          "headers": [],
+          "testScript": "",
           "preRequestScript": "",
-          "requestVariables": [],
+          "endpoint": "<<BASE_URL>>/v1/titles/search/t",
           "v": "5",
+          "name": "/v1/titles/search/:query | Found",
+          "body": { "body": "{\n}", "contentType": "application/json" },
+          "method": "GET",
+          "requestVariables": [],
+          "headers": [],
+          "auth": { "authActive": true, "authType": "none" },
+          "params": []
+        },
+        {
+          "body": { "body": "{\n  \"movieTitle\": \"rak\"\n}", "contentType": "application/json" },
+          "endpoint": "<<BASE_URL>>/v1/titles/search/th",
+          "headers": [],
           "testScript": "",
           "method": "GET",
-          "params": [],
-          "body": { "contentType": "application/json", "body": "{\n}" },
-          "name": "/v1/titles/search/:query | TV Show Found with type filter",
-          "endpoint": "<<BASE_URL>>/v1/titles/search/sho?type=tv-show"
-        },
-        {
+          "auth": { "authType": "none", "authActive": true },
           "v": "5",
-          "params": [],
-          "auth": { "authActive": true, "authType": "none" },
-          "preRequestScript": "",
-          "body": { "contentType": "application/json", "body": "{\n  \"movieTitle\": \"rak\"\n}" },
-          "endpoint": "<<BASE_URL>>/v1/titles/search/asd",
           "requestVariables": [],
-          "name": "/v1/titles/search/:query | Not Found",
-          "headers": [],
-          "testScript": "",
-          "method": "GET"
+          "preRequestScript": "",
+          "name": "/v1/titles/search/:query | At least 3 characters",
+          "params": []
         }
       ],
-      "auth": { "authActive": true, "authType": "inherit" },
+      "auth": { "authType": "inherit", "authActive": true },
       "headers": []
     },
     {
@@ -450,17 +424,17 @@
       "folders": [],
       "requests": [
         {
-          "params": [],
-          "auth": { "authType": "none", "authActive": true },
-          "preRequestScript": "",
-          "body": { "body": "{\n  \"limit\": 2\n}", "contentType": "application/json" },
-          "method": "GET",
-          "testScript": "",
-          "headers": [],
-          "v": "5",
-          "endpoint": "<<BASE_URL>>/v1/titles/recent/2",
           "requestVariables": [],
-          "name": "/v1/titles/recent/:limit | Found"
+          "body": { "contentType": "application/json", "body": "{\n  \"limit\": 2\n}" },
+          "auth": { "authActive": true, "authType": "none" },
+          "endpoint": "<<BASE_URL>>/v1/titles/recent/2",
+          "method": "GET",
+          "name": "/v1/titles/recent/:limit | Found",
+          "params": [],
+          "testScript": "",
+          "preRequestScript": "",
+          "v": "5",
+          "headers": []
         }
       ],
       "auth": { "authType": "inherit", "authActive": true },
@@ -472,17 +446,17 @@
       "folders": [],
       "requests": [
         {
-          "v": "5",
-          "params": [],
-          "auth": { "authActive": true, "authType": "none" },
           "name": "/v1/titles/teaser/:fileName | Found",
-          "headers": [],
-          "body": { "body": "{\n  \"limit\": 2\n}", "contentType": "application/json" },
-          "testScript": "",
-          "preRequestScript": "",
+          "body": { "contentType": "application/json", "body": "{\n  \"limit\": 2\n}" },
           "endpoint": "<<BASE_URL>>/v1/titles/teaser/Furiosa.A.Mad.Max.Saga.2024.1080p.BluRay.x264.AAC-[YTS.MX].mp4",
+          "params": [],
+          "v": "5",
           "method": "GET",
-          "requestVariables": []
+          "requestVariables": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "headers": [],
+          "auth": { "authType": "none", "authActive": true }
         }
       ],
       "auth": { "authType": "inherit", "authActive": true },
@@ -490,6 +464,6 @@
     }
   ],
   "requests": [],
-  "auth": { "authActive": true, "authType": "inherit" },
+  "auth": { "authType": "inherit", "authActive": true },
   "headers": []
 }
