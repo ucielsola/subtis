@@ -44,6 +44,11 @@ export const titles = new Hono<{ Variables: AppVariables }>()
   .get("/search/:query", zValidator("param", z.object({ query: z.string() })), async (context) => {
     const { query } = context.req.valid("param");
 
+    if (query.length < 3) {
+      context.status(400);
+      return context.json({ message: "Query must be at least 3 characters" });
+    }
+
     const { data } = await getSupabaseClient(context).rpc("fuzzy_search_title", { query });
 
     const titles = searchTitlesSchema.safeParse(data);
