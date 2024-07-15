@@ -379,6 +379,8 @@ async function addWatermarkToSubtitle({
     subtitleText = subtitleBuffer.toString("utf-8");
   }
 
+  // TODO: Revisar si es necesario cambiar el timing de los subtitulos
+
   const subtitleTextWithWatermark = `-2
 00:00:00,000 --> 00:00:04,000
 Subtitulos descargados desde Subtis | https://subt.is
