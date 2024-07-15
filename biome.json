@@ -16,13 +16,10 @@
         "useSortedClasses": "warn",
         "useExplicitLengthCheck": "warn",
         "useConsistentBuiltinInstantiation": "warn",
-        "useArrayLiterals": "warn",
         "noUselessUndefinedInitialization": "warn",
-        "noEvolvingAny": "warn",
         "noDuplicateJsonKeys": "warn",
         "noDuplicateElseIf": "warn",
-        "noDoneCallback": "warn",
-        "noConstantMathMinMaxClamp": "warn"
+        "noDoneCallback": "warn"
       },
       "performance": {
         "noAccumulatingSpread": "off"
