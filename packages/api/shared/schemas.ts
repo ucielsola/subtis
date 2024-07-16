@@ -60,7 +60,7 @@ export const youTubeSchema = z.object({
     z.object({
       kind: z.string(),
       etag: z.string(),
-      id: z.object({ kind: z.string(), videoId: z.string() }),
+      id: z.object({ kind: z.string(), videoId: z.string().optional() }),
       snippet: z.object({
         publishedAt: z.string(),
         channelId: z.string(),
