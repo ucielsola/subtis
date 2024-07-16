@@ -18,6 +18,7 @@ __dump
 .env*
 *.bun-build
 *.srt
+*.ssa
 dist
 .wrangler
 .dev.vars
