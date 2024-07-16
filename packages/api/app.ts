@@ -7,6 +7,7 @@ import timestring from "timestring";
 // internals
 import { subtitle } from "./subtitle";
 import { subtitles } from "./subtitles";
+import { title } from "./title";
 import { titles } from "./titles";
 
 // core
@@ -24,14 +25,22 @@ export function runApi() {
   }
 
   // routes
-  const routes = app.route("/titles", titles).route("/subtitle", subtitle).route("/subtitles", subtitles);
+  const routes = app
+    .route("/title", title)
+    .route("/titles", titles)
+    .route("/subtitle", subtitle)
+    .route("/subtitles", subtitles);
 
   return [app, routes];
 }
 
 function defineRoutes() {
   const app = new Hono().basePath("/v1");
-  return app.route("/titles", titles).route("/subtitle", subtitle).route("/subtitles", subtitles);
+  return app
+    .route("/title", title)
+    .route("/titles", titles)
+    .route("/subtitle", subtitle)
+    .route("/subtitles", subtitles);
 }
 
 // exports
