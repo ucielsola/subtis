@@ -1,10 +1,11 @@
 import querystring from "querystring";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
+import replaceSpecialCharacters from "replace-special-characters";
 import { z } from "zod";
 
 // shared
-import { getTitleFileNameMetadata, videoFileNameSchema } from "@subtis/shared";
+import { type TitleFileNameMetadata, getTitleFileNameMetadata, videoFileNameSchema } from "@subtis/shared";
 
 // db
 import { titlesRowSchema } from "@subtis/db/schemas";
@@ -32,9 +33,15 @@ export const title = new Hono<{ Variables: AppVariables }>().get(
       return context.json({ message: videoFileName.error.issues[0].message });
     }
 
-    const { name, year } = getTitleFileNameMetadata({
-      titleFileName: videoFileName.data,
-    });
+    let titleFileNameMetadata: TitleFileNameMetadata | null = null;
+    try {
+      titleFileNameMetadata = getTitleFileNameMetadata({ titleFileName: videoFileName.data });
+    } catch (error) {
+      context.status(415);
+      return context.json({ message: "File name is not supported" });
+    }
+
+    const { name, year } = titleFileNameMetadata;
 
     const { data: titleData } = await getSupabaseClient(context)
       .from("Titles")
@@ -46,7 +53,11 @@ export const title = new Hono<{ Variables: AppVariables }>().get(
     const { success, data } = teaserSchema.safeParse(titleData);
 
     if (success) {
-      return context.json(data);
+      return context.json({
+        name,
+        year,
+        url: data.teaser,
+      });
     }
 
     const query = `${name} ${year} teaser`;
@@ -69,16 +80,32 @@ export const title = new Hono<{ Variables: AppVariables }>().get(
       context.status(404);
       return context.json({ message: "No teaser found" });
     }
+    const filteredTeasers = parsedData.data.items.filter((item) => {
+      const youtubeTitle = replaceSpecialCharacters(item.snippet.title.toLowerCase()).replaceAll(":", "");
+      return (
+        youtubeTitle.includes(name.toLowerCase()) &&
+        (youtubeTitle.includes("teaser") || youtubeTitle.includes("trailer"))
+      );
+    });
 
-    const curatedYouTubeTeaser = parsedData.data.items.find((item) => {
+    if (filteredTeasers.length === 0) {
+      context.status(404);
+      return context.json({ message: "No teaser found" });
+    }
+
+    const curatedYouTubeTeaser = filteredTeasers.find((item) => {
       return OFFICIAL_SUBTIS_CHANNELS.some((curatedChannelsInLowerCase) =>
         curatedChannelsInLowerCase.ids.includes(item.snippet.channelId.toLowerCase()),
       );
     });
 
-    const youTubeTeaser = curatedYouTubeTeaser ?? parsedData.data.items[0];
+    const youTubeTeaser = curatedYouTubeTeaser ?? filteredTeasers[0];
     const teaser = `https://www.youtube.com/watch?v=${youTubeTeaser?.id.videoId}`;
 
-    return context.json({ teaser });
+    return context.json({
+      name,
+      year,
+      url: teaser,
+    });
   },
 );
