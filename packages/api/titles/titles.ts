@@ -1,3 +1,4 @@
+import querystring from "querystring";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { z } from "zod";
@@ -10,7 +11,10 @@ import { titlesRowSchema } from "@subtis/db/schemas";
 
 // internals
 import { MAX_LIMIT } from "../shared/constants";
-import { type AppVariables, getSupabaseClient } from "../shared/supabase";
+import { youTubeSchema } from "../shared/schemas";
+import { getSupabaseClient } from "../shared/supabase";
+import type { AppVariables } from "../shared/types";
+import { getYoutubeApiKey } from "../shared/youtube";
 
 // schemas
 const searchTitleSchema = titlesRowSchema.pick({ id: true, type: true, title_name: true, year: true, backdrop: true });
@@ -28,6 +32,8 @@ const recentTitleSchema = titlesRowSchema.pick({
 const recentTitlesSchema = z
   .array(recentTitleSchema, { invalid_type_error: "Recent movies not found" })
   .min(1, { message: "Recent movies not found" });
+
+const teaserSchema = titlesRowSchema.pick({ teaser: true });
 
 // queries
 const recentTitlesQuery = `
@@ -101,5 +107,47 @@ export const titles = new Hono<{ Variables: AppVariables }>()
       .match({ year })
       .single();
 
-    return context.json(titleData);
+    const { success, data } = teaserSchema.safeParse(titleData);
+
+    if (!success) {
+      const query = `${name} ${year} teaser`;
+      const BASE_URL = "https://www.googleapis.com/youtube/v3/search";
+
+      const params = {
+        q: query,
+        maxResults: 8,
+        part: "snippet",
+        key: getYoutubeApiKey(context),
+      };
+
+      const queryParams = querystring.stringify(params);
+
+      const response = await fetch(`${BASE_URL}?${queryParams}`);
+      const data = await response.json();
+
+      const parsedData = youTubeSchema.safeParse(data);
+
+      if (!parsedData.success) {
+        context.status(404);
+        return context.json({ message: "No teaser found" });
+      }
+
+      const CURATED_CHANNELS = [
+        {
+          id: "UCjmJDM5pRKbUlVIzDYYWb6g",
+          name: "Warner Bros. Pictures",
+        },
+      ];
+
+      const curatedYouTubeTeaser = parsedData.data.items.find((item) => {
+        return CURATED_CHANNELS.some((channel) => item.snippet.channelId.toLowerCase() === channel.id.toLowerCase());
+      });
+
+      const youTubeTeaser = curatedYouTubeTeaser ?? parsedData.data.items[0];
+      const teaser = `https://www.youtube.com/watch?v=${youTubeTeaser?.id.videoId}`;
+
+      return context.json({ teaser });
+    }
+
+    return context.json(data);
   });

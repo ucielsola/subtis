@@ -7,7 +7,8 @@ import { getTitleFileNameMetadata, videoFileNameSchema } from "@subtis/shared";
 
 // internals
 import { alternativeTitlesSchema, subtitleSchema, subtitleShortenerSchema, subtitlesQuery } from "../shared/schemas";
-import { type AppVariables, getSupabaseClient } from "../shared/supabase";
+import { getSupabaseClient } from "../shared/supabase";
+import type { AppVariables } from "../shared/types";
 
 // schemas
 const alternativeSubtitlesSchema = z

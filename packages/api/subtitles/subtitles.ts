@@ -5,7 +5,8 @@ import { z } from "zod";
 // internals
 import { MAX_LIMIT } from "../shared/constants";
 import { subtitleSchema, subtitlesQuery } from "../shared/schemas";
-import { type AppVariables, getSupabaseClient } from "../shared/supabase";
+import { getSupabaseClient } from "../shared/supabase";
+import type { AppVariables } from "../shared/types";
 
 const subtitlesSchema = z
   .array(subtitleSchema, { invalid_type_error: "Subtitles not found for title" })
