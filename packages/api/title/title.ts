@@ -14,7 +14,7 @@ import { youTubeSchema } from "../shared/schemas";
 import { getSupabaseClient } from "../shared/supabase";
 import type { AppVariables } from "../shared/types";
 import { OFFICIAL_SUBTIS_CHANNELS } from "./constants";
-import { getYoutubeApiKey } from "./youtube";
+import { YOUTUBE_SEARCH_URL, getYoutubeApiKey } from "./youtube";
 
 // schemas
 const teaserSchema = titlesRowSchema.pick({ teaser: true });
@@ -50,7 +50,6 @@ export const title = new Hono<{ Variables: AppVariables }>().get(
     }
 
     const query = `${name} ${year} teaser`;
-    const BASE_URL = "https://www.googleapis.com/youtube/v3/search";
 
     const params = {
       q: query,
@@ -61,7 +60,7 @@ export const title = new Hono<{ Variables: AppVariables }>().get(
 
     const queryParams = querystring.stringify(params);
 
-    const youtubeResponse = await fetch(`${BASE_URL}?${queryParams}`);
+    const youtubeResponse = await fetch(`${YOUTUBE_SEARCH_URL}?${queryParams}`);
     const youtubeData = await youtubeResponse.json();
 
     const parsedData = youTubeSchema.safeParse(youtubeData);
