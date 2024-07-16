@@ -8,7 +8,7 @@
   "scripts": {
     "type:check": "tsc --noEmit",
     "biome:lint": "biome lint .",
-    "biome:check": "biome check --apply-unsafe .",
+    "biome:check": "biome check --write --unsafe .",
     "test": "bun --env-file=.env.development test",
     "test:watch": "bun --env-file=.env.development test --watch",
     "test:coverage": "bun --env-file=.env.development test --coverage",
