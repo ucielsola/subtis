@@ -45,41 +45,41 @@ export const title = new Hono<{ Variables: AppVariables }>().get(
 
     const { success, data } = teaserSchema.safeParse(titleData);
 
-    if (!success) {
-      const query = `${name} ${year} teaser`;
-      const BASE_URL = "https://www.googleapis.com/youtube/v3/search";
-
-      const params = {
-        q: query,
-        maxResults: 12,
-        part: "snippet",
-        key: getYoutubeApiKey(context),
-      };
-
-      const queryParams = querystring.stringify(params);
-
-      const response = await fetch(`${BASE_URL}?${queryParams}`);
-      const data = await response.json();
-
-      const parsedData = youTubeSchema.safeParse(data);
-
-      if (!parsedData.success) {
-        context.status(404);
-        return context.json({ message: "No teaser found" });
-      }
-
-      const curatedYouTubeTeaser = parsedData.data.items.find((item) => {
-        return OFFICIAL_SUBTIS_CHANNELS.some((curatedChannelsInLowerCase) =>
-          curatedChannelsInLowerCase.ids.includes(item.snippet.channelId.toLowerCase()),
-        );
-      });
-
-      const youTubeTeaser = curatedYouTubeTeaser ?? parsedData.data.items[0];
-      const teaser = `https://www.youtube.com/watch?v=${youTubeTeaser?.id.videoId}`;
-
-      return context.json({ teaser });
+    if (success) {
+      return context.json(data);
     }
 
-    return context.json(data);
+    const query = `${name} ${year} teaser`;
+    const BASE_URL = "https://www.googleapis.com/youtube/v3/search";
+
+    const params = {
+      q: query,
+      maxResults: 12,
+      part: "snippet",
+      key: getYoutubeApiKey(context),
+    };
+
+    const queryParams = querystring.stringify(params);
+
+    const youtubeResponse = await fetch(`${BASE_URL}?${queryParams}`);
+    const youtubeData = await youtubeResponse.json();
+
+    const parsedData = youTubeSchema.safeParse(youtubeData);
+
+    if (!parsedData.success) {
+      context.status(404);
+      return context.json({ message: "No teaser found" });
+    }
+
+    const curatedYouTubeTeaser = parsedData.data.items.find((item) => {
+      return OFFICIAL_SUBTIS_CHANNELS.some((curatedChannelsInLowerCase) =>
+        curatedChannelsInLowerCase.ids.includes(item.snippet.channelId.toLowerCase()),
+      );
+    });
+
+    const youTubeTeaser = curatedYouTubeTeaser ?? parsedData.data.items[0];
+    const teaser = `https://www.youtube.com/watch?v=${youTubeTeaser?.id.videoId}`;
+
+    return context.json({ teaser });
   },
 );
