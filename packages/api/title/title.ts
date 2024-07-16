@@ -13,7 +13,8 @@ import { titlesRowSchema } from "@subtis/db/schemas";
 import { youTubeSchema } from "../shared/schemas";
 import { getSupabaseClient } from "../shared/supabase";
 import type { AppVariables } from "../shared/types";
-import { getYoutubeApiKey } from "../shared/youtube";
+import { OFFICIAL_SUBTIS_CHANNELS } from "./constants";
+import { getYoutubeApiKey } from "./youtube";
 
 // schemas
 const teaserSchema = titlesRowSchema.pick({ teaser: true });
@@ -50,7 +51,7 @@ export const title = new Hono<{ Variables: AppVariables }>().get(
 
       const params = {
         q: query,
-        maxResults: 8,
+        maxResults: 12,
         part: "snippet",
         key: getYoutubeApiKey(context),
       };
@@ -67,15 +68,10 @@ export const title = new Hono<{ Variables: AppVariables }>().get(
         return context.json({ message: "No teaser found" });
       }
 
-      const CURATED_CHANNELS = [
-        {
-          id: "UCjmJDM5pRKbUlVIzDYYWb6g",
-          name: "Warner Bros. Pictures",
-        },
-      ];
-
       const curatedYouTubeTeaser = parsedData.data.items.find((item) => {
-        return CURATED_CHANNELS.some((channel) => item.snippet.channelId.toLowerCase() === channel.id.toLowerCase());
+        return OFFICIAL_SUBTIS_CHANNELS.some((curatedChannelsInLowerCase) =>
+          curatedChannelsInLowerCase.ids.includes(item.snippet.channelId.toLowerCase()),
+        );
       });
 
       const youTubeTeaser = curatedYouTubeTeaser ?? parsedData.data.items[0];
