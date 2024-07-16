@@ -1,3 +1,4 @@
+// Prioritize channel ids by language from i.e. Disney Latam, Disney US
 const CURATED_CHANNELS = [
   {
     name: "Warner Bros. Pictures",
