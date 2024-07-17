@@ -32,7 +32,7 @@
     "torrent-grabber": "^1.0.2",
     "torrent-stream": "^1.2.1",
     "ts-pattern": "^5.2.0",
-    "type-fest": "^4.21.0",
+    "type-fest": "^4.22.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
