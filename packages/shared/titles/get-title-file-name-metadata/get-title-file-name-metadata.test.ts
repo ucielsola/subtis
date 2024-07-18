@@ -57,6 +57,8 @@ describe("getTitleFileNameMetadata", () => {
       },
       resolution: "1080p",
       year: 2023,
+      currentSeason: null,
+      currentEpisode: null,
     });
   });
 
@@ -86,6 +88,8 @@ describe("getTitleFileNameMetadata", () => {
       },
       resolution: "720p",
       year: 2023,
+      currentSeason: null,
+      currentEpisode: null,
     });
   });
 
@@ -115,6 +119,8 @@ describe("getTitleFileNameMetadata", () => {
       },
       resolution: "1080p",
       year: 2023,
+      currentSeason: null,
+      currentEpisode: null,
     });
   });
 
@@ -144,6 +150,8 @@ describe("getTitleFileNameMetadata", () => {
       },
       resolution: "2160p",
       year: 2023,
+      currentSeason: null,
+      currentEpisode: null,
     });
   });
 
@@ -173,6 +181,8 @@ describe("getTitleFileNameMetadata", () => {
       },
       resolution: "3D",
       year: 2023,
+      currentSeason: null,
+      currentEpisode: null,
     });
   });
 
@@ -192,6 +202,8 @@ describe("getTitleFileNameMetadata", () => {
       },
       resolution: "1080p",
       year: 2023,
+      currentSeason: null,
+      currentEpisode: null,
     });
   });
 
@@ -212,6 +224,8 @@ describe("getTitleFileNameMetadata", () => {
       releaseGroup,
       resolution: "1080p",
       year: 2023,
+      currentSeason: null,
+      currentEpisode: null,
     });
   });
 
@@ -232,6 +246,8 @@ describe("getTitleFileNameMetadata", () => {
       releaseGroup,
       resolution: "1080p",
       year: 2023,
+      currentSeason: null,
+      currentEpisode: null,
     });
   });
 
@@ -261,6 +277,8 @@ describe("getTitleFileNameMetadata", () => {
       },
       resolution: "1080p",
       year: 2009,
+      currentSeason: null,
+      currentEpisode: null,
     });
   });
 

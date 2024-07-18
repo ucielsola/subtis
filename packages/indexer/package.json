@@ -18,7 +18,7 @@
     "@continuata/unrar": "^1.6.0",
     "cli-progress": "^3.12.0",
     "clipboardy": "^4.0.0",
-    "dayjs": "^1.11.11",
+    "dayjs": "^1.11.12",
     "delay": "^6.0.0",
     "download": "^8.0.0",
     "extract-zip": "^2.0.1",
@@ -32,7 +32,7 @@
     "torrent-grabber": "^1.0.2",
     "torrent-stream": "^1.2.1",
     "ts-pattern": "^5.2.0",
-    "type-fest": "^4.22.0",
+    "type-fest": "^4.22.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {
