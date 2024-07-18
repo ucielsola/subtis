@@ -17,7 +17,6 @@ const alternativeSubtitlesSchema = z
 
 // core
 export const subtitle = new Hono<{ Variables: AppVariables }>()
-
   .get(
     "/file/name/:bytes/:fileName",
     zValidator("param", z.object({ bytes: z.string(), fileName: z.string() })),

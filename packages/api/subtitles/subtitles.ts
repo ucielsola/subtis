@@ -8,6 +8,7 @@ import { subtitleSchema, subtitlesQuery } from "../shared/schemas";
 import { getSupabaseClient } from "../shared/supabase";
 import type { AppVariables } from "../shared/types";
 
+// schema
 const subtitlesSchema = z
   .array(subtitleSchema, { invalid_type_error: "Subtitles not found for title" })
   .min(1, { message: "Subtitles not found for title" });

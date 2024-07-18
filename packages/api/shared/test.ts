@@ -1,11 +1,13 @@
 import data from "../wrangler.json";
 
+// types
 type Vars = {
   YOUTUBE_API_KEY: string;
   SUPABASE_API_KEY: string;
   SUPABASE_BASE_URL: string;
 };
 
+// core
 export function getMockEnv(): Vars {
   return {
     YOUTUBE_API_KEY: data.vars.YOUTUBE_API_KEY,

@@ -11,11 +11,10 @@ import { type TitleFileNameMetadata, getTitleFileNameMetadata, videoFileNameSche
 import { titlesRowSchema } from "@subtis/db/schemas";
 
 // internals
-import { youTubeSchema } from "../shared/schemas";
 import { getSupabaseClient } from "../shared/supabase";
 import type { AppVariables } from "../shared/types";
 import { OFFICIAL_SUBTIS_CHANNELS } from "./constants";
-import { YOUTUBE_SEARCH_URL, getYoutubeApiKey } from "./youtube";
+import { YOUTUBE_SEARCH_URL, getYoutubeApiKey, youTubeSchema } from "./youtube";
 
 // schemas
 const teaserSchema = titlesRowSchema.pick({ teaser: true });
