@@ -23,6 +23,7 @@ import {
   type TitleFileNameMetadata,
   VIDEO_FILE_EXTENSIONS,
   getDecodedSubtitleFile,
+  getSeasonAndEpisode,
   getTitleFileNameExtension,
   getTitleFileNameMetadata,
 } from "@subtis/shared";
@@ -476,19 +477,6 @@ async function downloadAndStoreTitleAndSubtitle({
 // -------------------------------------------------------------------------------------------------------------------------------
 
 // helpers
-function getSeasonAndEpisode(fullSeason: string | null): {
-  current_season: number | null;
-  current_episode: number | null;
-} {
-  if (!fullSeason) {
-    return { current_season: null, current_episode: null };
-  }
-
-  const [current_season, current_episode] = fullSeason.replace(/e/gi, "-").replace(/s/gi, "").split("-").map(Number);
-
-  return { current_season, current_episode };
-}
-
 function createInitialFolders(): void {
   const FOLDERS = [UNCOMPRESSED_SUBTITLES_FOLDER_NAME, COMPRESSED_SUBTITLES_FOLDER_NAME];
 

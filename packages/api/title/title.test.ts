@@ -87,4 +87,22 @@ describe("API | /title/teaser/:fileName", () => {
       message: "No teaser found",
     });
   });
+
+  test("Valid URL with title file name that is a TV Show found on YouTube for specific season", async () => {
+    const request = {
+      method: "GET",
+    };
+
+    const fileName = "game.of.thrones.s08e06.720p.web.h264-memento[eztv].mkv";
+
+    const response = await title.request(`/teaser/${fileName}`, request, getMockEnv());
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data).toEqual({
+      name: "game of thrones",
+      year: null,
+      url: "https://www.youtube.com/watch?v=rlR4PJn8b8I",
+    });
+  });
 });

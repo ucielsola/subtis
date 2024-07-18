@@ -6,7 +6,7 @@ import tg from "torrent-grabber";
 import { supabase } from "@subtis/db";
 
 // shared
-import { getTitleFileNameMetadata, getTitleFileNameWithoutExtension } from "@subtis/shared";
+import { getEpisode, getIsTvShow, getTitleFileNameMetadata, getTitleFileNameWithoutExtension } from "@subtis/shared";
 
 // internals
 import { apiClient } from "./api-client";
@@ -19,15 +19,6 @@ import {
   tmdbDiscoverMovieSchema,
   tmdbDiscoverSerieSchema,
 } from "./tmdb";
-
-// helpers
-function getIsTvShow(title: string): boolean {
-  return /s\d{2}e\d{2}/gi.test(title);
-}
-
-function getEpisode(title: string): string {
-  return title.match(/s\d{2}e\d{2}/gi)?.[0] || "";
-}
 
 // core
 export async function indexTitleByFileName({

@@ -4,6 +4,9 @@ import { z } from "zod";
 // indexer
 import { RELEASE_GROUPS } from "@subtis/indexer/release-groups";
 
+// shared
+import { getEpisode, getSeasonAndEpisode } from "@subtis/shared";
+
 // internals
 import { VIDEO_FILE_EXTENSIONS } from "../../files";
 import { getTitleFileNameWithoutExtension } from "../get-title-file-name-without-extension/get-title-file-name-without-extension";
@@ -22,6 +25,8 @@ export function getTitleFileNameMetadata({
   name: string;
   resolution: string;
   year: number | null;
+  currentSeason: number | null;
+  currentEpisode: number | null;
   fileNameWithoutExtension: string;
   releaseGroup: (typeof RELEASE_GROUPS)[keyof typeof RELEASE_GROUPS] | undefined;
 } {
@@ -44,6 +49,9 @@ export function getTitleFileNameMetadata({
 
     const [rawTitleName, rawAttributes] = parsedMovieFileName.split(yearStringToReplace);
     const parsedTitleName = getTitleName(rawTitleName);
+
+    const episode = getEpisode(rawTitleName);
+    const { current_season: currentSeason, current_episode: currentEpisode } = getSeasonAndEpisode(episode);
 
     const lowerCaseRawAttributes = rawAttributes.toLowerCase();
     const parsedRawAttributes = lowerCaseRawAttributes.includes("YTS")
@@ -76,6 +84,8 @@ export function getTitleFileNameMetadata({
       year,
       resolution,
       releaseGroup,
+      currentSeason,
+      currentEpisode,
       fileNameWithoutExtension,
       name: titleName || parsedTitleName,
     };
@@ -90,6 +100,9 @@ export function getTitleFileNameMetadata({
 
     const [rawTitleName, rawAttributes] = parsedMovieFileName.split(resolution);
     const parsedTitleName = getTitleName(rawTitleName);
+
+    const episode = getEpisode(rawTitleName);
+    const { current_season: currentSeason, current_episode: currentEpisode } = getSeasonAndEpisode(episode);
 
     const lowerCaseRawAttributes = rawAttributes.toLowerCase();
     const parsedRawAttributes = lowerCaseRawAttributes.includes("YTS")
@@ -113,6 +126,8 @@ export function getTitleFileNameMetadata({
       year: null,
       resolution,
       releaseGroup,
+      currentSeason,
+      currentEpisode,
       fileNameWithoutExtension,
       name: titleName || parsedTitleName,
     };

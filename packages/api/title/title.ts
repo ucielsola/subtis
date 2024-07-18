@@ -41,7 +41,7 @@ export const title = new Hono<{ Variables: AppVariables }>().get(
       return context.json({ message: "File name is not supported" });
     }
 
-    const { name, year } = titleFileNameMetadata;
+    const { name, year, currentSeason } = titleFileNameMetadata;
 
     const { data: titleData } = await getSupabaseClient(context)
       .from("Titles")
@@ -60,7 +60,7 @@ export const title = new Hono<{ Variables: AppVariables }>().get(
       });
     }
 
-    const query = `${name} ${year} teaser`;
+    const query = currentSeason ? `${name} season ${currentSeason} teaser` : `${name} ${year} teaser`;
 
     const params = {
       q: query,
@@ -80,8 +80,8 @@ export const title = new Hono<{ Variables: AppVariables }>().get(
       context.status(404);
       return context.json({ message: "No teaser found" });
     }
-    const filteredTeasers = parsedData.data.items.filter((item) => {
-      const youtubeTitle = replaceSpecialCharacters(item.snippet.title.toLowerCase()).replaceAll(":", "");
+    const filteredTeasers = parsedData.data.items.filter(({ snippet }) => {
+      const youtubeTitle = replaceSpecialCharacters(snippet.title.toLowerCase()).replaceAll(":", "");
       return (
         youtubeTitle.includes(name.toLowerCase()) &&
         (youtubeTitle.includes("teaser") || youtubeTitle.includes("trailer"))
@@ -93,9 +93,9 @@ export const title = new Hono<{ Variables: AppVariables }>().get(
       return context.json({ message: "No teaser found" });
     }
 
-    const curatedYouTubeTeaser = filteredTeasers.find((item) => {
+    const curatedYouTubeTeaser = filteredTeasers.find(({ snippet }) => {
       return OFFICIAL_SUBTIS_CHANNELS.some((curatedChannelsInLowerCase) =>
-        curatedChannelsInLowerCase.ids.includes(item.snippet.channelId.toLowerCase()),
+        curatedChannelsInLowerCase.ids.includes(snippet.channelId.toLowerCase()),
       );
     });
 
