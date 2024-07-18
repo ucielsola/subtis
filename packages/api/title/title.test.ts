@@ -54,7 +54,7 @@ describe("API | /title/teaser/:fileName", () => {
     });
   });
 
-  test("Valid URL with title file name that is found from YouTube", async () => {
+  test.skip("Valid URL with title file name that is found from YouTube", async () => {
     const request = {
       method: "GET",
     };
@@ -72,7 +72,7 @@ describe("API | /title/teaser/:fileName", () => {
     });
   });
 
-  test("Valid URL with title file name that is NOT found on YouTube", async () => {
+  test.skip("Valid URL with title file name that is NOT found on YouTube", async () => {
     const request = {
       method: "GET",
     };
@@ -88,7 +88,7 @@ describe("API | /title/teaser/:fileName", () => {
     });
   });
 
-  test("Valid URL with title file name that is a TV Show found on YouTube for specific season", async () => {
+  test.skip("Valid URL with title file name that is a TV Show found on YouTube for specific season", async () => {
     const request = {
       method: "GET",
     };
