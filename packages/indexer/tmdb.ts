@@ -345,7 +345,11 @@ const tmdbApiEndpoints = {
   tvShowExternalIds: (id: number) => {
     return `https://api.themoviedb.org/3/tv/${id}/external_ids`;
   },
-  movieSearch: (title: string) => {
+  movieSearch: (title: string, year?: number) => {
+    if (year) {
+      return `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}&primary_release_year=${year}`;
+    }
+
     return `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}`;
   },
 };
@@ -683,8 +687,8 @@ async function getTmdbMovieLogoUrl(id: number): Promise<string | null> {
   return generateTmdbImageUrl(logo.file_path);
 }
 
-export async function getTmdbMovieFromTitle(query: string): Promise<TmdbTitle> {
-  const url = tmdbApiEndpoints.movieSearch(query);
+export async function getTmdbMovieFromTitle(query: string, year?: number): Promise<TmdbTitle> {
+  const url = tmdbApiEndpoints.movieSearch(query, year);
 
   const response = await fetch(url, TMDB_OPTIONS);
   const data = await response.json();

@@ -73,14 +73,22 @@ export async function indexMoviesByYear(year: number, isDebugging: boolean): Pro
   }
 }
 
-export async function indexMovieByName(name: string, isDebugging: boolean) {
+export async function indexMovieByName({
+  name,
+  year,
+  isDebugging,
+}: {
+  name: string;
+  year?: number;
+  isDebugging: boolean;
+}) {
   try {
     await tg.activate("ThePirateBay");
 
     const releaseGroups = await getReleaseGroups(supabase);
     const subtitleGroups = await getSubtitleGroups(supabase);
 
-    const movie = await getTmdbMovieFromTitle(name);
+    const movie = await getTmdbMovieFromTitle(name, year);
 
     await getSubtitlesForTitle({
       index: "1",
@@ -97,7 +105,11 @@ export async function indexMovieByName(name: string, isDebugging: boolean) {
 
 // testing
 indexMoviesByYear(2024, false);
-// indexMovieByName("Kung Fu Panda 4", false);
+// indexMovieByName({
+//   year: 2011,
+//   name: "One Day",
+//   isDebugging: false,
+// });
 
 // saveReleaseGroupsToDb(supabase);
 // saveSubtitleGroupsToDb(supabase);
