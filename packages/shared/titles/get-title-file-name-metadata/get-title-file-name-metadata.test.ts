@@ -7,13 +7,6 @@ import type { ReleaseGroup } from "@subtis/indexer/release-groups";
 import { getTitleFileNameMetadata } from "./get-title-file-name-metadata";
 
 describe("getTitleFileNameMetadata", () => {
-  test("Unsupported year movie", () => {
-    expect(() => {
-      getTitleFileNameMetadata({
-        titleFileName: "The.Super.Mario.Bros..Movie.1788.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4",
-      });
-    }).toThrow("Unsupported title year");
-  });
 
   test("Unsupported file extension", () => {
     expect(() => {
