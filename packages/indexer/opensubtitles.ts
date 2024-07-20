@@ -34,7 +34,7 @@ function getOpenSubtitlesHeaders(): {
 const subtitleDataSchema = z.object({
   attributes: z.object({
     ai_translated: z.boolean(),
-    comments: z.string(),
+    comments: z.string().nullable(),
     download_count: z.number(),
     feature_details: z.union([
       z.object({
