@@ -7,7 +7,6 @@ import type { ReleaseGroup } from "@subtis/indexer/release-groups";
 import { getTitleFileNameMetadata } from "./get-title-file-name-metadata";
 
 describe("getTitleFileNameMetadata", () => {
-
   test("Unsupported file extension", () => {
     expect(() => {
       getTitleFileNameMetadata({

@@ -1,15 +1,6 @@
-import { z } from "zod";
+import { detailMessageSchema, finalMessageSchema } from "./ws-schemas";
 
 const socket = new WebSocket("ws://localhost:3000");
-
-const detailMessageSchema = z.object({
-  total: z.number(),
-  message: z.string(),
-});
-
-const finalMessageSchema = z.object({
-  ok: z.boolean(),
-});
 
 const MOCK_INITIAL_MESSAGE = {
   subtitle: {

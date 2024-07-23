@@ -651,7 +651,7 @@ export async function getSubtitlesForTitle({
 
   const openSubtitlesTable = subtitlesFromOpenSubtitles.data.map(({ attributes }) => {
     const release = attributes.release.toLowerCase();
-    const comments = attributes.comments.toLowerCase();
+    const comments = attributes?.comments?.toLowerCase() ?? "";
 
     const resolutions = release.match(resolutionRegex) || comments.match(resolutionRegex);
     const releaseGroups = release.match(releaseGroupsRegex) || comments.match(releaseGroupsRegex);
@@ -863,3 +863,7 @@ export async function getSubtitlesForTitle({
   console.log(`4.${index}) Pasando al siguiente titulo... \n`);
   console.log("------------------------------ \n");
 }
+
+// ----------------------- WS
+
+export * from "./websocket-not-found";

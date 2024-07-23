@@ -176,7 +176,7 @@ export async function filterOpenSubtitleSubtitlesForTorrent({
 
   const firstResult = subtitles.data.find((subtitle) => {
     const release = subtitle.attributes.release.toLowerCase();
-    const comments = subtitle.attributes.comments.toLowerCase();
+    const comments = subtitle.attributes?.comments?.toLowerCase() ?? "";
 
     const hasResolution = release.includes(resolution) || comments.includes(resolution);
     const hasReleaseGroup = releaseGroup.query_matches.some((queryMatch) => {

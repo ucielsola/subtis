@@ -72,11 +72,13 @@ export async function indexTitleByFileName({
     }
 
     invariant(torrents.length, "No se encontraron torrents para la busqueda");
-
     const torrent = torrents.find((torrent) => {
+      const lowerCaseTorrentTitle = torrent.title.toLowerCase();
+
       return (
-        title.releaseGroup?.file_attributes.some((fileAttribute) => torrent.title.includes(fileAttribute)) &&
-        torrent.title.includes(title.resolution)
+        title.releaseGroup?.file_attributes.some((fileAttribute) =>
+          lowerCaseTorrentTitle.includes(fileAttribute.toLowerCase()),
+        ) && lowerCaseTorrentTitle.includes(title.resolution.toLowerCase())
       );
     });
 
