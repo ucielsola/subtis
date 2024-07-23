@@ -111,5 +111,5 @@ indexMoviesByYear(2024, false);
 //   isDebugging: false,
 // });
 
-// saveReleaseGroupsToDb(supabase);
+saveReleaseGroupsToDb(supabase);
 // saveSubtitleGroupsToDb(supabase);

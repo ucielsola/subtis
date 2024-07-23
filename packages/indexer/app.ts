@@ -633,7 +633,7 @@ export async function getSubtitlesForTitle({
 
   const releaseGroupsqueryMatches = Object.values(releaseGroups)
     .flatMap(({ query_matches }) => query_matches)
-    .map((string) => string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+    .map((queryMatch) => queryMatch.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
 
   const releaseGroupsRegex = new RegExp(`\\b(${releaseGroupsqueryMatches.join("|")})\\b`, "gi");
   const resolutionRegex = /(480p|576p|720p|1080p|2160p|3d)/gi;

@@ -168,7 +168,7 @@ export const RELEASE_GROUPS = {
     query_matches: ["KNiVES"],
   },
   LAMA: {
-    file_attributes: ["x264-LAMA","AAC-LAMA"],
+    file_attributes: ["x264-LAMA", "AAC-LAMA"],
     is_supported: true,
     release_group_name: "LAMA",
     query_matches: ["LAMA"],
@@ -280,10 +280,10 @@ export const RELEASE_GROUPS = {
     query_matches: ["HHWEB", "265-HHWEB"],
   },
   BenTheMen: {
-    file_attributes: ["264-BEN.THE.MEN","MP4-BEN.THE.MEN","BEN.THE.MEN,","265-BEN.THE.MEN"],
+    file_attributes: ["264-BEN.THE.MEN", "MP4-BEN.THE.MEN", "BEN.THE.MEN,", "265-BEN.THE.MEN"],
     is_supported: true,
     release_group_name: "BEN THE MEN",
-    query_matches: ["BEN THE MEN",,"BEN.THE.MEN,"],
+    query_matches: ["BEN THE MEN", "BEN.THE.MEN,"],
   },
   GODZiLLA: {
     file_attributes: ["264-GODZiLLA"],
@@ -304,22 +304,22 @@ export const RELEASE_GROUPS = {
     query_matches: ["H265-NellTigerFree"],
   },
   Xebec: {
-    file_attributes: ["XEBEC","264-XEBEC","265-XEBEC"],
+    file_attributes: ["XEBEC", "264-XEBEC", "265-XEBEC"],
     is_supported: true,
     release_group_name: "Xebec",
     query_matches: ["XEBEC"],
   },
   Byndr: {
-    file_attributes: ["Byndr","h264-byndr","h265-byndr"],
+    file_attributes: ["Byndr", "h264-byndr", "h265-byndr"],
     is_supported: true,
     release_group_name: "Byndr",
-    query_matches: ["265-BYNDR", "264-BYNDR","BYNDR"],
+    query_matches: ["265-BYNDR", "264-BYNDR", "BYNDR"],
   },
   DualYG: {
     file_attributes: ["Dual.YG"],
     is_supported: true,
     release_group_name: "Dual YG",
-    query_matches: ["Dual YG","Dual.YG"],
+    query_matches: ["Dual YG", "Dual.YG"],
   },
 } as const;
 
@@ -339,8 +339,37 @@ export async function saveReleaseGroupsToDb(supabaseClient: SupabaseClient): Pro
   for (const releaseGroupKey in RELEASE_GROUPS) {
     const releaseGroup = RELEASE_GROUPS[releaseGroupKey as ReleaseGroupKeys];
 
-    // @ts-ignore
-    await supabaseClient.from("ReleaseGroups").upsert(releaseGroup);
+    const { release_group_name, file_attributes, is_supported, query_matches } = releaseGroup;
+
+    // Check if the release group already exists in the database
+    const { data: existingGroups, error } = await supabaseClient
+      .from("ReleaseGroups")
+      .select("id")
+      .eq("release_group_name", release_group_name)
+      .single();
+
+    if (error) {
+      console.error(`Error fetching release group ${release_group_name}:`, error);
+      continue;
+    }
+
+    if (existingGroups) {
+      await supabaseClient
+        .from("ReleaseGroups")
+        .update({
+          is_supported,
+          query_matches: query_matches as unknown as string[],
+          file_attributes: file_attributes as unknown as string[],
+        })
+        .eq("id", existingGroups.id);
+    } else {
+      await supabaseClient.from("ReleaseGroups").insert({
+        is_supported,
+        query_matches: query_matches as unknown as string[],
+        file_attributes: file_attributes as unknown as string[],
+        release_group_name: release_group_name as unknown as string,
+      });
+    }
   }
 }
 
