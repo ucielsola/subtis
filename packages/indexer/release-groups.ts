@@ -168,7 +168,7 @@ export const RELEASE_GROUPS = {
     query_matches: ["KNiVES"],
   },
   LAMA: {
-    file_attributes: ["x264-LAMA"],
+    file_attributes: ["x264-LAMA","AAC-LAMA"],
     is_supported: true,
     release_group_name: "LAMA",
     query_matches: ["LAMA"],
@@ -280,10 +280,10 @@ export const RELEASE_GROUPS = {
     query_matches: ["HHWEB", "265-HHWEB"],
   },
   BenTheMen: {
-    file_attributes: ["264-BEN.THE.MEN"],
+    file_attributes: ["264-BEN.THE.MEN","MP4-BEN.THE.MEN","BEN.THE.MEN,","265-BEN.THE.MEN"],
     is_supported: true,
     release_group_name: "BEN THE MEN",
-    query_matches: ["BEN THE MEN"],
+    query_matches: ["BEN THE MEN",,"BEN.THE.MEN,"],
   },
   GODZiLLA: {
     file_attributes: ["264-GODZiLLA"],
@@ -302,6 +302,24 @@ export const RELEASE_GROUPS = {
     is_supported: true,
     release_group_name: "NellTigerFree",
     query_matches: ["H265-NellTigerFree"],
+  },
+  Xebec: {
+    file_attributes: ["XEBEC","264-XEBEC","265-XEBEC"],
+    is_supported: true,
+    release_group_name: "Xebec",
+    query_matches: ["XEBEC"],
+  },
+  Byndr: {
+    file_attributes: ["Byndr","h264-byndr","h265-byndr"],
+    is_supported: true,
+    release_group_name: "Byndr",
+    query_matches: ["265-BYNDR", "264-BYNDR","BYNDR"],
+  },
+  DualYG: {
+    file_attributes: ["Dual.YG"],
+    is_supported: true,
+    release_group_name: "Dual YG",
+    query_matches: ["Dual YG","Dual.YG"],
   },
 } as const;
 
