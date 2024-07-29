@@ -43,8 +43,8 @@ const subtitleDataSchema = z.object({
         imdb_id: z.number(),
         movie_name: z.string(),
         title: z.string(),
-        tmdb_id: z.number(),
-        year: z.number(),
+        tmdb_id: z.number().nullable(),
+        year: z.number().nullable(),
       }),
       z.object({
         feature_id: z.number(),
