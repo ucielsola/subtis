@@ -498,7 +498,7 @@ async function getTitleTorrents(query: string): PromiseTorrentResults {
   return tg.search(query, { groupByTracker: false });
 }
 
-function getFilteredTorrents(torrents: TorrentResults, maxTorrents = 10, minSeeds = 15): TorrentResultWithId[] {
+function getFilteredTorrents(torrents: TorrentResults, maxTorrents = 20, minSeeds = 15): TorrentResultWithId[] {
   const CINEMA_RECORDING_REGEX = /\b(hdcam|hdcamrip|hqcam|hq-cam|telesync|hdts|hd-ts|c1nem4|qrips|hdrip|cam)\b/gi;
 
   return torrents
