@@ -138,7 +138,7 @@ export async function indexTitleByFileName({
       }
 
       await getSubtitlesForTitle({
-        index: "0",
+        index: "1",
         currentTitle: { ...tvShowData, episode },
         releaseGroups,
         subtitleGroups,
@@ -207,7 +207,7 @@ export async function indexTitleByFileName({
     }
 
     await getSubtitlesForTitle({
-      index: "0",
+      index: "1",
       initialTorrents: [torrent],
       currentTitle: { ...movieData, episode: null, totalEpisodes: null, totalSeasons: null },
       releaseGroups,
