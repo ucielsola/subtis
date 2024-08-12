@@ -104,7 +104,7 @@ export async function indexMovieByName({
 }
 
 // testing
-// indexMoviesByYear(2024, false);
+indexMoviesByYear(2024, false);
 // indexMovieByName({
 //   year: 2024,
 //   name: "A Quiet Place Day One",

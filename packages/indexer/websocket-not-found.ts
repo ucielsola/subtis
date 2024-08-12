@@ -15,8 +15,7 @@ Bun.serve({
   fetch(req, server) {
     const success = server.upgrade(req);
     if (success) {
-      // Bun automatically returns a 101 Switching Protocols
-      // if the upgrade succeeds
+      // Bun automatically returns a 101 Switching Protocols if the upgrade succeeds
       return undefined;
     }
 
@@ -31,7 +30,6 @@ Bun.serve({
       }
 
       const parsedMessage = JSON.parse(message);
-
       const subtitle = subtitleSchema.safeParse(parsedMessage);
 
       if (!subtitle.success) {
@@ -49,7 +47,6 @@ Bun.serve({
 
       ws.send(JSON.stringify({ ok }));
 
-      // TODO: Should I close the WS from the server or client? Talk with Hugo
       if (ok === true) {
         ws.close(200, "Subtitle indexed successfully");
       }

@@ -573,7 +573,9 @@ export async function getSubtitlesForTitle({
   const titleProviderQuery = getQueryForTorrentProvider(currentTitle);
 
   const torrents = initialTorrents ?? (await getTitleTorrents(titleProviderQuery));
+  console.log("\n ~ torrents:", torrents);
   const filteredTorrents = getFilteredTorrents(torrents);
+  console.log("\n ~ filteredTorrents:", filteredTorrents);
 
   const {
     name,
@@ -797,6 +799,7 @@ export async function getSubtitlesForTitle({
     );
 
     const subtitleAlreadyExistsAgain = await hasSubtitleInDatabase(fileName);
+    console.log("\n ~ forawait ~ subtitleAlreadyExistsAgain:", subtitleAlreadyExistsAgain);
     if (subtitleAlreadyExistsAgain) {
       console.log(`4.${index}.${torrentIndex}) Subtítulo ya existe en la base de datos`);
       continue;
