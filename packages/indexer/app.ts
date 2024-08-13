@@ -39,6 +39,7 @@ import type { SubtitleData } from "./types";
 import { executeWithOptionalTryCatch, getSubtitleAuthor } from "./utils";
 import { getQueryForTorrentProvider } from "./utils/query";
 import { generateIdFromMagnet } from "./utils/torrent";
+import { getYtsTorrents } from "./yts";
 
 // types
 type TmdbTvShowEpisode = TmdbTvShow & { episode: string };
@@ -494,12 +495,29 @@ type TorrentResults = AsyncReturnType<typeof getTitleTorrents>;
 type TorrentResult = ArrayValues<TorrentResults>;
 type TorrentResultWithId = TorrentResult & { id: number };
 
-async function getTitleTorrents(query: string): PromiseTorrentResults {
-  return tg.search(query, { groupByTracker: false });
+async function getTitleTorrents(query: string, titleType: TitleTypes, imdbId: number): PromiseTorrentResults {
+  let thePirateBayTorrents = [];
+
+  try {
+    const thePirateBayResult = await tg.search(query, { groupByTracker: true });
+    thePirateBayTorrents = thePirateBayResult instanceof Map ? thePirateBayResult.get("ThePirateBay") : [];
+  } catch (error) {
+    console.log("Error on getTitleTorrents using tg.search interface");
+    console.log(error);
+  }
+
+  if (titleType === TitleTypes.tvShow) {
+    return thePirateBayTorrents;
+  }
+
+  const ytsTorrents = await getYtsTorrents(imdbId);
+
+  return [...ytsTorrents, ...thePirateBayTorrents].flat();
 }
 
 function getFilteredTorrents(torrents: TorrentResults, maxTorrents = 15, minSeeds = 15): TorrentResultWithId[] {
-  const CINEMA_RECORDING_REGEX = /\b(hdcam|hdcamrip|hqcam|hq-cam|telesync|hdts|hd-ts|c1nem4|qrips|hdrip|cam)\b/gi;
+  const CINEMA_RECORDING_REGEX =
+    /\b(hdcam|hdcamrip|hqcam|hq-cam|telesync|hdts|hd-ts|c1nem4|qrips|hdrip|cam|soundtrack|xxx|clean)\b/gi;
 
   return torrents
     .toSorted((torrentA, torrentB) => torrentB.seeds - torrentA.seeds)
@@ -558,6 +576,7 @@ export async function getSubtitlesForTitle({
   bytesFromNotFoundSubtitle,
   titleFileNameFromNotFoundSubtitle,
   shouldUseTryCatch,
+  fromWebSocket,
 }: {
   index: string;
   initialTorrents?: TorrentResults;
@@ -568,15 +587,8 @@ export async function getSubtitlesForTitle({
   shouldUseTryCatch: boolean;
   bytesFromNotFoundSubtitle?: number;
   titleFileNameFromNotFoundSubtitle?: string;
+  fromWebSocket?: boolean;
 }): Promise<void> {
-  createInitialFolders();
-  const titleProviderQuery = getQueryForTorrentProvider(currentTitle);
-
-  const torrents = initialTorrents ?? (await getTitleTorrents(titleProviderQuery));
-  console.log("\n ~ torrents:", torrents);
-  const filteredTorrents = getFilteredTorrents(torrents);
-  console.log("\n ~ filteredTorrents:", filteredTorrents);
-
   const {
     name,
     year,
@@ -593,6 +605,15 @@ export async function getSubtitlesForTitle({
     totalSeasons,
     totalEpisodes,
   } = currentTitle;
+
+  const titleType = episode ? TitleTypes.tvShow : TitleTypes.movie;
+  const { current_season: currentSeason, current_episode: currentEpisode } = getSeasonAndEpisode(episode);
+
+  createInitialFolders();
+  const titleProviderQuery = getQueryForTorrentProvider(currentTitle);
+
+  const torrents = initialTorrents ?? (await getTitleTorrents(titleProviderQuery, titleType, imdbId));
+  const filteredTorrents = getFilteredTorrents(torrents);
 
   if (filteredTorrents.length === 0) {
     return console.log(`4.${index}) No se encontraron torrents para el titulo "${name}" \n`);
@@ -613,9 +634,6 @@ export async function getSubtitlesForTitle({
   console.log(
     `👉 Nombre de titulo ${titleProviderQuery} guardado en el clipboard, para poder pegar directamente en proveedor de torrents o subtítulos \n`,
   );
-
-  const titleType = episode ? TitleTypes.tvShow : TitleTypes.movie;
-  const { current_season: currentSeason, current_episode: currentEpisode } = getSeasonAndEpisode(episode);
 
   console.log(`4.${index}) Buscando subtítulos en SubDivX \n`);
   const subtitlesFromSubDivX = await getSubtitlesFromSubDivXForTitle({
@@ -860,11 +878,13 @@ export async function getSubtitlesForTitle({
     }
   }
 
-  console.log(`4.${index}) Esperando 4s para pasar al siguiente titulo... \n`);
-  await Bun.sleep(4000);
+  if (!fromWebSocket) {
+    console.log(`4.${index}) Esperando 4s para pasar al siguiente titulo... \n`);
+    await Bun.sleep(4000);
 
-  console.log(`4.${index}) Pasando al siguiente titulo... \n`);
-  console.log("------------------------------ \n");
+    console.log(`4.${index}) Pasando al siguiente titulo... \n`);
+    console.log("------------------------------ \n");
+  }
 }
 
 // ----------------------- WS
