@@ -47,3 +47,15 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 ```
+
+```sql
+CREATE OR REPLACE FUNCTION update_subtitle_info(_bytes int8, _title_file_name text)
+RETURNS void AS $$
+BEGIN
+    UPDATE "Subtitles"
+    SET last_queried_at = CURRENT_TIMESTAMP,
+        queried_times = queried_times + 1
+    WHERE title_file_name = _title_file_name OR bytes = _bytes;
+END;
+$$ LANGUAGE plpgsql;
+```
