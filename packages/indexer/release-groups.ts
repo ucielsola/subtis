@@ -372,16 +372,11 @@ export async function saveReleaseGroupsToDb(supabaseClient: SupabaseClient): Pro
     const { release_group_name, file_attributes, is_supported, query_matches } = releaseGroup;
 
     // Check if the release group already exists in the database
-    const { data: existingGroups, error } = await supabaseClient
+    const { data: existingGroups } = await supabaseClient
       .from("ReleaseGroups")
       .select("id")
       .eq("release_group_name", release_group_name)
       .single();
-
-    if (error) {
-      console.error(`Error fetching release group ${release_group_name}:`, error);
-      continue;
-    }
 
     if (existingGroups) {
       await supabaseClient
