@@ -1,8 +1,10 @@
 import cliProgress from "cli-progress";
 import tg from "torrent-grabber";
 
+// db
 import { supabase } from "@subtis/db";
 
+// internals
 import { getSubtitlesForTitle } from "./app";
 import { getReleaseGroups } from "./release-groups";
 import { getSubtitleGroups } from "./subtitle-groups";
@@ -66,7 +68,7 @@ export async function indexSeriesByYear(seriesYear: number, isDebugging: boolean
 
       for await (const [index, episode] of Object.entries(tvShow.episodes)) {
         // Only index the first 2 episodes for debugging mode
-        if (isDebugging && Number(index) >= 2) {
+        if (Number(index) >= 2) {
           break;
         }
 

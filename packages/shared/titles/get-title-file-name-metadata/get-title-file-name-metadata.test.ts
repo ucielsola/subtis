@@ -32,7 +32,7 @@ describe("getTitleFileNameMetadata", () => {
       fileNameWithoutExtension: "The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX]",
       name: "The Super Mario Bros Movie",
       releaseGroup: {
-        file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM"],
+        file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM", "YTS.AG"],
         is_supported: true,
         release_group_name: "YTS",
         query_matches: [
@@ -45,6 +45,7 @@ describe("getTitleFileNameMetadata", () => {
           "x264-[YTS.AM]",
           "YIFY",
           "[YTS.MX]",
+          "x264-[YTS.AG]",
         ],
       },
       resolution: "1080p",
@@ -63,7 +64,7 @@ describe("getTitleFileNameMetadata", () => {
       fileNameWithoutExtension: "The.Super.Mario.Bros..Movie.2023.720p.BluRay.x264.AAC5.1-[YTS.MX]",
       name: "The Super Mario Bros Movie",
       releaseGroup: {
-        file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM"],
+        file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM", "YTS.AG"],
         is_supported: true,
         release_group_name: "YTS",
         query_matches: [
@@ -76,6 +77,7 @@ describe("getTitleFileNameMetadata", () => {
           "x264-[YTS.AM]",
           "YIFY",
           "[YTS.MX]",
+          "x264-[YTS.AG]",
         ],
       },
       resolution: "720p",
@@ -94,7 +96,7 @@ describe("getTitleFileNameMetadata", () => {
       fileNameWithoutExtension: "The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX]",
       name: "The Super Mario Bros Movie",
       releaseGroup: {
-        file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM"],
+        file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM", "YTS.AG"],
         is_supported: true,
         release_group_name: "YTS",
         query_matches: [
@@ -107,6 +109,7 @@ describe("getTitleFileNameMetadata", () => {
           "x264-[YTS.AM]",
           "YIFY",
           "[YTS.MX]",
+          "x264-[YTS.AG]",
         ],
       },
       resolution: "1080p",
@@ -125,7 +128,7 @@ describe("getTitleFileNameMetadata", () => {
       fileNameWithoutExtension: "The.Super.Mario.Bros..Movie.2023.2160p.BluRay.x264.AAC5.1-[YTS.MX]",
       name: "The Super Mario Bros Movie",
       releaseGroup: {
-        file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM"],
+        file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM", "YTS.AG"],
         is_supported: true,
         release_group_name: "YTS",
         query_matches: [
@@ -138,6 +141,7 @@ describe("getTitleFileNameMetadata", () => {
           "x264-[YTS.AM]",
           "YIFY",
           "[YTS.MX]",
+          "x264-[YTS.AG]",
         ],
       },
       resolution: "2160p",
@@ -156,7 +160,7 @@ describe("getTitleFileNameMetadata", () => {
       fileNameWithoutExtension: "The.Super.Mario.Bros..Movie.2023.3D.BluRay.x264.AAC5.1-[YTS.MX]",
       name: "The Super Mario Bros Movie",
       releaseGroup: {
-        file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM"],
+        file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM", "YTS.AG"],
         is_supported: true,
         release_group_name: "YTS",
         query_matches: [
@@ -169,6 +173,7 @@ describe("getTitleFileNameMetadata", () => {
           "x264-[YTS.AM]",
           "YIFY",
           "[YTS.MX]",
+          "x264-[YTS.AG]",
         ],
       },
       resolution: "3D",
@@ -252,7 +257,7 @@ describe("getTitleFileNameMetadata", () => {
       fileNameWithoutExtension: "Avatar.(2009).1080p.x264.YTS.MX",
       name: "Avatar",
       releaseGroup: {
-        file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM"],
+        file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM", "YTS.AG"],
         is_supported: true,
         release_group_name: "YTS",
         query_matches: [
@@ -265,6 +270,7 @@ describe("getTitleFileNameMetadata", () => {
           "x264-[YTS.AM]",
           "YIFY",
           "[YTS.MX]",
+          "x264-[YTS.AG]",
         ],
       },
       resolution: "1080p",

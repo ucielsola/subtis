@@ -186,7 +186,7 @@ export const RELEASE_GROUPS = {
     query_matches: ["RiGHTNOW"],
   },
   YTS: {
-    file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM"],
+    file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM", "YTS.AG"],
     is_supported: true,
     release_group_name: "YTS",
     query_matches: [
@@ -199,6 +199,7 @@ export const RELEASE_GROUPS = {
       "x264-[YTS.AM]",
       "YIFY",
       "[YTS.MX]",
+      "x264-[YTS.AG]",
     ],
   },
   RMTeam: {
