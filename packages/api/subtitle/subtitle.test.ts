@@ -72,7 +72,7 @@ describe("API | /subtitle/file/name/:bytes/:fileName", () => {
     expect(data).toEqual({
       current_episode: null,
       current_season: null,
-      id: 5499,
+      id: 6201,
       queried_times: 0,
       releaseGroup: {
         release_group_name: "YTS",
@@ -85,7 +85,7 @@ describe("API | /subtitle/file/name/:bytes/:fileName", () => {
       subtitle_link:
         "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-garfield-movie-1080p-yts-subdivx.srt?download=The.Garfield.Movie.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
       title: {
-        backdrop: "https://image.tmdb.org/t/p/original/Akv9GlCCMrzcDkVz4ad8MdLl9DK.jpg",
+        backdrop: "https://image.tmdb.org/t/p/original/1wP1phHo2CROOqzv7Azs0MT5esU.jpg",
         poster: "https://image.tmdb.org/t/p/original/tkdc73JiPVvzngSpbLEIfFNjll1.jpg",
         title_name: "The Garfield Movie",
         type: "movie",
@@ -109,7 +109,7 @@ describe("API | /subtitle/file/name/:bytes/:fileName", () => {
     expect(data).toEqual({
       current_episode: null,
       current_season: null,
-      id: 5499,
+      id: 6201,
       queried_times: 0,
       releaseGroup: {
         release_group_name: "YTS",
@@ -122,7 +122,7 @@ describe("API | /subtitle/file/name/:bytes/:fileName", () => {
       subtitle_link:
         "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-garfield-movie-1080p-yts-subdivx.srt?download=The.Garfield.Movie.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
       title: {
-        backdrop: "https://image.tmdb.org/t/p/original/Akv9GlCCMrzcDkVz4ad8MdLl9DK.jpg",
+        backdrop: "https://image.tmdb.org/t/p/original/1wP1phHo2CROOqzv7Azs0MT5esU.jpg",
         poster: "https://image.tmdb.org/t/p/original/tkdc73JiPVvzngSpbLEIfFNjll1.jpg",
         title_name: "The Garfield Movie",
         type: "movie",
@@ -184,7 +184,7 @@ describe("API | /subtitle/file/alternative/:fileName", () => {
 
     expect(response.status).toBe(200);
     expect(data).toEqual({
-      id: 5500,
+      id: 6202,
       resolution: "720p",
       subtitle_link:
         "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-garfield-movie-720p-galaxyrg-subdivx.srt?download=The.Garfield.Movie.2024.720p.WEBRip.800MB.x264-GalaxyRG.srt",
@@ -197,7 +197,7 @@ describe("API | /subtitle/file/alternative/:fileName", () => {
         type: "movie",
         year: 2024,
         poster: "https://image.tmdb.org/t/p/original/tkdc73JiPVvzngSpbLEIfFNjll1.jpg",
-        backdrop: "https://image.tmdb.org/t/p/original/Akv9GlCCMrzcDkVz4ad8MdLl9DK.jpg",
+        backdrop: "https://image.tmdb.org/t/p/original/1wP1phHo2CROOqzv7Azs0MT5esU.jpg",
       },
       releaseGroup: {
         release_group_name: "GalaxyRG",
@@ -257,7 +257,7 @@ describe("API | /subtitle/link/:subtitleId", () => {
       method: "GET",
     };
 
-    const subtitleId = 5499;
+    const subtitleId = 6201;
 
     const response = await subtitle.request(`/link/${subtitleId}`, request, getMockEnv());
 

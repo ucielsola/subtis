@@ -23,17 +23,17 @@ describe("API | /titles/search/:query", () => {
       method: "GET",
     };
 
-    const response = await titles.request("/search/insde", request, getMockEnv());
+    const response = await titles.request("/search/kngdom", request, getMockEnv());
     const data = await response.json();
 
     expect(response.status).toBe(200);
     expect(data).toEqual([
       {
-        id: 2096673,
+        id: 11389872,
         type: "movie",
-        title_name: "Inside Out",
-        year: 2015,
-        backdrop: "https://image.tmdb.org/t/p/original/j29ekbcLpBvxnGk6LjdTc2EI5SA.jpg",
+        title_name: "Kingdom of the Planet of the Apes",
+        year: 2024,
+        backdrop: "https://image.tmdb.org/t/p/original/fqv8v6AycXKsivp1T5yKtLbGXce.jpg",
       },
     ]);
   });
@@ -62,11 +62,11 @@ describe("API | /titles/search/:query", () => {
     expect(response.status).toBe(200);
     expect(data).toEqual([
       {
-        id: 13875494,
-        type: "tv-show",
-        title_name: "Tracker",
+        id: 26753003,
+        type: "movie",
+        title_name: "Trap",
         year: 2024,
-        backdrop: "https://image.tmdb.org/t/p/original/uVnGusAwehV4WdxgKwFg0UJql1R.jpg",
+        backdrop: "https://image.tmdb.org/t/p/original/iAlsYg6dlv1fvOBypM7SldIS1Wl.jpg",
       },
     ]);
   });
@@ -96,20 +96,20 @@ describe("API | /titles/recent/:limit", () => {
     expect(response.status).toBe(200);
     expect(data).toEqual([
       {
-        id: 20202136,
-        title_name: "Descendants: The Rise of Red",
+        id: 23063732,
+        title_name: "Saving Bikini Bottom: The Sandy Cheeks Movie",
         type: "movie",
         year: 2024,
-        rating: 7.3,
-        release_date: "2024-07-11",
+        rating: 6.276,
+        release_date: "2024-08-01",
       },
       {
-        id: 18070898,
-        title_name: "Sunny",
-        type: "tv-show",
+        id: 26753003,
+        title_name: "Trap",
+        type: "movie",
         year: 2024,
-        rating: 6.5,
-        release_date: "2024-07-09",
+        rating: 6.3,
+        release_date: "2024-07-31",
       },
     ]);
   });
