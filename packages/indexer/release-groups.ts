@@ -321,6 +321,36 @@ export const RELEASE_GROUPS = {
     release_group_name: "Dual YG",
     query_matches: ["Dual YG", "Dual.YG"],
   },
+  playWEB: {
+    file_attributes: ["playWEB", "264-playWEB”,”265-playWEB"],
+    is_supported: true,
+    release_group_name: "playWEB",
+    query_matches: ["DSNP playWEB”, ”playWEB"],
+  },
+  LightSaber: {
+    file_attributes: ["lightsaber", "h264-lightsaber”, ”h265-lightsaber"],
+    is_supported: true,
+    release_group_name: "LightSaber",
+    query_matches: ["LightSaber", "HETEL-LightSaber", "H264-lightsaber", "H265-lightsaber"],
+  },
+  ORGANiC: {
+    file_attributes: ["ORGANiC", "H264-ORGANiC", "H265-ORGANiC"],
+    is_supported: true,
+    release_group_name: "ORGANiC",
+    query_matches: ["ORGANIC"],
+  },
+  ELiTE: {
+    file_attributes: ["h264-ELiTE", "h265-ELiTE", "x264-ELiTE", "x265-ELiTE", "ELiTE"],
+    is_supported: true,
+    release_group_name: "ELiTE",
+    query_matches: ["h264-ELiTE", "h265-ELiTE", "x264-ELiTE", "x265-ELiTE", "ELiTE"],
+  },
+  NHTFS: {
+    file_attributes: ["h264-nhtfs", "h265-nhtfs", "nhtfs"],
+    is_supported: true,
+    release_group_name: "NHTFS",
+    query_matches: ["h264-NHTFS", "h265-NHTFS", "NHTFS"],
+  },
 } as const;
 
 // types
