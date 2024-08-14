@@ -72,7 +72,7 @@ export async function indexSeriesByYear(seriesYear: number, isDebugging: boolean
 
       for await (const [index, episode] of Object.entries(tvShow.episodes)) {
         // Only index the first 2 episodes for debugging mode
-        if (Number(index) >= 4) {
+        if (Number(index) > 2) {
           break;
         }
 
