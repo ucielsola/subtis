@@ -56,17 +56,17 @@ describe("API | /titles/search/:query", () => {
       method: "GET",
     };
 
-    const response = await titles.request("/search/tracker", request, getMockEnv());
+    const response = await titles.request("/search/Cnvert", request, getMockEnv());
     const data = await response.json();
 
     expect(response.status).toBe(200);
     expect(data).toEqual([
       {
-        id: 26753003,
+        id: 20113412,
         type: "movie",
-        title_name: "Trap",
+        title_name: "The Convert",
         year: 2024,
-        backdrop: "https://image.tmdb.org/t/p/original/iAlsYg6dlv1fvOBypM7SldIS1Wl.jpg",
+        backdrop: "https://image.tmdb.org/t/p/original/tqSg1hHiSWhHAhnjDhhevaFGsP0.jpg",
       },
     ]);
   });
@@ -100,16 +100,16 @@ describe("API | /titles/recent/:limit", () => {
         title_name: "Saving Bikini Bottom: The Sandy Cheeks Movie",
         type: "movie",
         year: 2024,
-        rating: 6.276,
+        rating: 6.352,
         release_date: "2024-08-01",
       },
       {
-        id: 26753003,
-        title_name: "Trap",
+        id: 31691318,
+        rating: 5.813,
+        release_date: "2024-07-26",
+        title_name: "House of Ga'a",
         type: "movie",
         year: 2024,
-        rating: 6.3,
-        release_date: "2024-07-31",
       },
     ]);
   });

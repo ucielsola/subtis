@@ -25,7 +25,7 @@ describe("API | /subtitles/movie/:id", () => {
       method: "GET",
     };
 
-    const movieId = 11152168;
+    const movieId = 7510222;
 
     const response = await subtitles.request(`/movie/${movieId}`, request, getMockEnv());
     const data = await response.json();

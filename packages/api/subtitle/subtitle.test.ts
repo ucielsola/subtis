@@ -72,7 +72,7 @@ describe("API | /subtitle/file/name/:bytes/:fileName", () => {
     expect(data).toEqual({
       current_episode: null,
       current_season: null,
-      id: 6201,
+      id: 6419,
       queried_times: 0,
       releaseGroup: {
         release_group_name: "YTS",
@@ -109,7 +109,7 @@ describe("API | /subtitle/file/name/:bytes/:fileName", () => {
     expect(data).toEqual({
       current_episode: null,
       current_season: null,
-      id: 6201,
+      id: 6419,
       queried_times: 0,
       releaseGroup: {
         release_group_name: "YTS",
@@ -184,7 +184,7 @@ describe("API | /subtitle/file/alternative/:fileName", () => {
 
     expect(response.status).toBe(200);
     expect(data).toEqual({
-      id: 6202,
+      id: 6420,
       resolution: "720p",
       subtitle_link:
         "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-garfield-movie-720p-galaxyrg-subdivx.srt?download=The.Garfield.Movie.2024.720p.WEBRip.800MB.x264-GalaxyRG.srt",
@@ -257,7 +257,7 @@ describe("API | /subtitle/link/:subtitleId", () => {
       method: "GET",
     };
 
-    const subtitleId = 6201;
+    const subtitleId = 6419;
 
     const response = await subtitle.request(`/link/${subtitleId}`, request, getMockEnv());
 
