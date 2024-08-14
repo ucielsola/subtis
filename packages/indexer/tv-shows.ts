@@ -57,7 +57,7 @@ export async function indexSeriesByYear(seriesYear: number, isDebugging: boolean
     );
     console.log("\n");
 
-    for await (const [index, tvShow] of Object.entries(tvShows)) {
+    for await (const tvShow of tvShows) {
       // if (Number(index) < 5) {
       //   continue;
       // }
