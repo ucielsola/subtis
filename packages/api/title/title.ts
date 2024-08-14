@@ -1,6 +1,7 @@
 import querystring from "querystring";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
+import { unescape as htmlUnescape } from "html-escaper";
 import replaceSpecialCharacters from "replace-special-characters";
 import { z } from "zod";
 
@@ -80,7 +81,11 @@ export const title = new Hono<{ Variables: AppVariables }>().get(
       return context.json({ message: "No teaser found" });
     }
     const filteredTeasers = parsedData.data.items.filter(({ snippet }) => {
-      const youtubeTitle = replaceSpecialCharacters(snippet.title.toLowerCase()).replaceAll(":", "");
+      const unescapedTitle = htmlUnescape(snippet.title);
+      const youtubeTitle = replaceSpecialCharacters(unescapedTitle.toLowerCase())
+        .replaceAll(":", "")
+        .replaceAll("'", "");
+
       return (
         youtubeTitle.includes(name.toLowerCase()) &&
         (youtubeTitle.includes("teaser") || youtubeTitle.includes("trailer"))
