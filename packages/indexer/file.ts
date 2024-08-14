@@ -31,7 +31,6 @@ import { getYtsTorrent } from "./yts";
 async function getTorrentFromPirateBay(query: string, title: TitleFileNameMetadata) {
   await tg.activate("ThePirateBay");
 
-  console.log("\n ~ getTorrentFromPirateBay ~ query:", query);
   let torrents = await tg.search(query, { groupByTracker: false });
 
   if (torrents.length === 0) {
@@ -53,7 +52,6 @@ async function getTorrentFromPirateBay(query: string, title: TitleFileNameMetada
 
   const torrent = torrents.find((torrent) => {
     const lowerCaseTorrentTitle = torrent.title.toLowerCase();
-    console.log("\n ~ torrent ~ lowerCaseTorrentTitle:", lowerCaseTorrentTitle);
 
     return (
       title.releaseGroup?.file_attributes.some((fileAttribute) =>
