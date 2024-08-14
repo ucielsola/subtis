@@ -362,11 +362,36 @@ function removeSubtitlesFromFileSystem(paths: string[]): void {
   }
 }
 
+function addSecondsToTimestamp(timestamp: string, secondsToAdd: number): string {
+  const [time] = timestamp.split(",");
+  let [hours, minutes, seconds] = time.split(":").map(Number);
+
+  seconds += secondsToAdd;
+
+  if (seconds >= 60) {
+    minutes += Math.floor(seconds / 60);
+    seconds %= 60;
+  }
+
+  if (minutes >= 60) {
+    hours += Math.floor(minutes / 60);
+    minutes %= 60;
+  }
+
+  if (hours >= 24) {
+    hours %= 24;
+  }
+
+  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")},000`;
+}
+
 async function addWatermarkToSubtitle({
   path,
+  titleType,
   subtitleGroupName,
 }: {
   path: string;
+  titleType: TitleTypes;
   subtitleGroupName: SubtitleGroupNames;
 }): Promise<void> {
   const subtitleBuffer = await fs.promises.readFile(path);
@@ -381,28 +406,72 @@ async function addWatermarkToSubtitle({
     subtitleText = subtitleBuffer.toString("utf-8");
   }
 
-  // TODO: Revisar si es necesario cambiar el timing de los subtitulos
+  const subtitleTextWithWatermark = match(titleType)
+    .with(TitleTypes.movie, () => {
+      return `-2
+        00:00:05,000 --> 00:00:15,000
+        - Subtitulos descargados desde <b>Subtis</b>
+        - Link: https://subt.is
 
-  const subtitleTextWithWatermark = `-2
-00:00:00,000 --> 00:00:04,000
-Subtitulos descargados desde Subtis | https://subt.is
+        -1
+        00:00:16,000 --> 00:00:26,000
+        Contactanos por Twitter/X en @subt_is
 
--1
-00:00:04,000 --> 00:00:08,000
-Contactanos por Twitter/X en @subt_is
+        0
+        00:00:27,000 --> 00:00:37,000
+        Contactanos por email soporte@subt.is
 
-0
-00:00:08,000 --> 00:00:12,000
-Contactanos por email soporte@subt.is
+        ${subtitleText}
+    `;
+    })
+    .with(TitleTypes.tvShow, () => {
+      const splitter = match(subtitleGroupName)
+        .with("SubDivX", () => /\r\n\r\n/)
+        .with("OpenSubtitles", () => /\n\n/)
+        .run();
 
-${subtitleText}
-`;
+      const lastSubtitleSplitted = subtitleText.trimEnd().split(splitter);
+      let lastSubtitle = lastSubtitleSplitted.at(-1) as string;
+
+      if (lastSubtitle.includes("9999") || lastSubtitle.includes("www.subdivx.com")) {
+        lastSubtitle = lastSubtitleSplitted.at(-2) as string;
+      }
+
+      const [id, timestamp] = lastSubtitle.split("\n");
+
+      const lastSubtitleId = Number(id);
+      const lastSubtitleTimestamp = timestamp.split(" ").at(-1) as string;
+
+      const watermarkNextId = lastSubtitleId + 1;
+
+      const newTimestamp = addSecondsToTimestamp(lastSubtitleTimestamp, 6);
+      const newTimestamp2 = addSecondsToTimestamp(newTimestamp, 4);
+      const newTimestamp3 = addSecondsToTimestamp(newTimestamp2, 4);
+
+      return `${subtitleText}
+
+        ${watermarkNextId}
+        ${lastSubtitleTimestamp} --> ${newTimestamp}
+        - Subtitulos descargados desde <b>Subtis</b>
+        - Link: https://subt.is
+
+        ${watermarkNextId + 1}
+        ${newTimestamp} --> ${newTimestamp2}
+        Contactanos por Twitter/X en @subt_is
+
+        ${watermarkNextId + 2}
+        ${newTimestamp2} --> ${newTimestamp3}
+        Contactanos por email
+      `;
+    })
+    .run();
 
   await fs.promises.writeFile(path, subtitleTextWithWatermark, "utf-8");
 }
 
 async function downloadAndStoreTitleAndSubtitle({
   title,
+  titleType,
   titleFile,
   subtitle,
   torrent,
@@ -414,6 +483,7 @@ async function downloadAndStoreTitleAndSubtitle({
   titleFileNameFromNotFoundSubtitle,
 }: {
   titleFile: TitleFile;
+  titleType: TitleTypes;
   title: TitleWithEpisode;
   torrent: TorrentResultWithId;
   releaseGroups: ReleaseGroupMap;
@@ -431,7 +501,7 @@ async function downloadAndStoreTitleAndSubtitle({
     await uncompressSubtitle({ subtitle, fromRoute: subtitleCompressedAbsolutePath, toRoute: extractedSubtitlePath });
 
     const path = getSubtitleInitialPath({ subtitle, extractedSubtitlePath });
-    await addWatermarkToSubtitle({ path, subtitleGroupName });
+    await addWatermarkToSubtitle({ path, subtitleGroupName, titleType });
 
     const subtitleFileToUpload = readSubtitleFile(path);
     const author = getSubtitleAuthor(subtitleFileToUpload);
@@ -781,6 +851,7 @@ export async function getSubtitlesForTitle({
         );
 
         await downloadAndStoreTitleAndSubtitle({
+          titleType,
           titleFile: {
             bytes,
             fileName,
@@ -838,6 +909,7 @@ export async function getSubtitlesForTitle({
         );
 
         await downloadAndStoreTitleAndSubtitle({
+          titleType,
           titleFile: {
             bytes,
             fileName,

@@ -57,7 +57,11 @@ export async function indexSeriesByYear(seriesYear: number, isDebugging: boolean
     );
     console.log("\n");
 
-    for await (const tvShow of tvShows) {
+    for await (const [index, tvShow] of Object.entries(tvShows)) {
+      // if (Number(index) < 5) {
+      //   continue;
+      // }
+
       if (isDebugging) {
         const value = await confirm(`¿Desea skippear el titulo ${tvShow.name}?`);
 
@@ -68,7 +72,7 @@ export async function indexSeriesByYear(seriesYear: number, isDebugging: boolean
 
       for await (const [index, episode] of Object.entries(tvShow.episodes)) {
         // Only index the first 2 episodes for debugging mode
-        if (Number(index) >= 2) {
+        if (Number(index) >= 4) {
           break;
         }
 
