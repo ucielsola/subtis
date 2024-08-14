@@ -409,20 +409,19 @@ async function addWatermarkToSubtitle({
   const subtitleTextWithWatermark = match(titleType)
     .with(TitleTypes.movie, () => {
       return `-2
-        00:00:05,000 --> 00:00:15,000
-        - Subtitulos descargados desde <b>Subtis</b>
-        - Link: https://subt.is
+00:00:05,000 --> 00:00:15,000
+- Subtitulos descargados desde <b>Subtis</b>
+- Link: https://subt.is
 
-        -1
-        00:00:16,000 --> 00:00:26,000
-        Contactanos por Twitter/X en @subt_is
+-1
+00:00:16,000 --> 00:00:26,000
+Contactanos por Twitter/X en @subt_is
 
-        0
-        00:00:27,000 --> 00:00:37,000
-        Contactanos por email soporte@subt.is
+0
+00:00:27,000 --> 00:00:37,000
+Contactanos por email a soporte@subt.is
 
-        ${subtitleText}
-    `;
+${subtitleText}`;
     })
     .with(TitleTypes.tvShow, () => {
       const splitter = match(subtitleGroupName)
@@ -450,19 +449,18 @@ async function addWatermarkToSubtitle({
 
       return `${subtitleText}
 
-        ${watermarkNextId}
-        ${lastSubtitleTimestamp} --> ${newTimestamp}
-        - Subtitulos descargados desde <b>Subtis</b>
-        - Link: https://subt.is
+  ${watermarkNextId}
+  ${lastSubtitleTimestamp} --> ${newTimestamp}
+  - Subtitulos descargados desde <b>Subtis</b>
+  - Link: https://subt.is
 
-        ${watermarkNextId + 1}
-        ${newTimestamp} --> ${newTimestamp2}
-        Contactanos por Twitter/X en @subt_is
+  ${watermarkNextId + 1}
+  ${newTimestamp} --> ${newTimestamp2}
+  Contactanos por Twitter/X en @subt_is
 
-        ${watermarkNextId + 2}
-        ${newTimestamp2} --> ${newTimestamp3}
-        Contactanos por email
-      `;
+  ${watermarkNextId + 2}
+  ${newTimestamp2} --> ${newTimestamp3}
+  Contactanos por email a soporte@subt.is`;
     })
     .run();
 
