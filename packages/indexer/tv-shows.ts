@@ -6,7 +6,7 @@ import { supabase } from "@subtis/db";
 
 // internals
 import { getSubtitlesForTitle } from "./app";
-import { getReleaseGroups } from "./release-groups";
+import { getReleaseGroups, saveReleaseGroupsToDb } from "./release-groups";
 import { getSubtitleGroups } from "./subtitle-groups";
 import { getTmdbTvShowsTotalPagesArray, getTvShowsFromTmdb } from "./tmdb";
 
@@ -91,3 +91,4 @@ export async function indexSeriesByYear(seriesYear: number, isDebugging: boolean
 
 // testing
 indexSeriesByYear(2024, true);
+saveReleaseGroupsToDb(supabase);

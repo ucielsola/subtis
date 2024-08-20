@@ -119,6 +119,4 @@ indexMoviesByYear(2024, true);
 //   name: "Oppenheimer",
 //   isDebugging: false,
 // });
-
 saveReleaseGroupsToDb(supabase);
-// saveSubtitleGroupsToDb(supabase);
