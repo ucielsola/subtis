@@ -1,3 +1,4 @@
+import { confirm } from "@clack/prompts";
 import cliProgress from "cli-progress";
 import tg from "torrent-grabber";
 
@@ -63,7 +64,10 @@ export async function indexSeriesByYear(seriesYear: number, isDebugging: boolean
       // }
 
       if (isDebugging) {
-        const value = await confirm(`¿Desea skippear el titulo ${tvShow.name}?`);
+        const value = await confirm({
+          message: `¿Desea saltar el titulo ${tvShow.name}?`,
+          initialValue: false,
+        });
 
         if (value === true) {
           continue;
@@ -72,7 +76,7 @@ export async function indexSeriesByYear(seriesYear: number, isDebugging: boolean
 
       for await (const [index, episode] of Object.entries(tvShow.episodes)) {
         // Only index the first 2 episodes for debugging mode
-        if (Number(index) > 2) {
+        if (Number(index) > 1) {
           break;
         }
 
