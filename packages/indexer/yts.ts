@@ -143,7 +143,7 @@ export async function getYtsTorrents(imdbId: number) {
 
       return {
         tracker: "YTS",
-        title: `${yts.data.movie.title_long} YTS`,
+        title: `${yts.data.movie.title_long} [${torrent.quality}] [${torrent.video_codec}] [${torrent.audio_channels}] YTS`,
         size: torrent.size_bytes,
         trackerId,
         id: torrent.hash,
