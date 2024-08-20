@@ -585,10 +585,15 @@ async function getTitleTorrents(query: string, titleType: TitleTypes, imdbId: nu
 
 function getFilteredTorrents(torrents: TorrentResults, maxTorrents = 15, minSeeds = 15): TorrentResultWithId[] {
   const CINEMA_RECORDING_REGEX =
-    /\b(hdcam|hdcamrip|hqcam|hq-cam|telesync|hdts|hd-ts|c1nem4|qrips|hdrip|cam|soundtrack|xxx|clean)\b/gi;
+    /\b(hdcam|hdcamrip|hqcam|hq-cam|telesync|hdts|hd-ts|c1nem4|qrips|hdrip|cam|soundtrack|xxx|clean|khz|ep)\b/gi;
 
   return torrents
-    .toSorted((torrentA, torrentB) => torrentB.seeds - torrentA.seeds)
+    .toSorted((torrentA, torrentB) => {
+      if (torrentA.tracker === "YTS" && torrentB.tracker !== "YTS") return -1;
+      if (torrentA.tracker !== "YTS" && torrentB.tracker === "YTS") return 1;
+
+      return torrentB.seeds - torrentA.seeds;
+    })
     .slice(0, maxTorrents)
     .filter((torrent) => !torrent.title.match(CINEMA_RECORDING_REGEX))
     .filter(({ seeds }) => seeds > minSeeds)
@@ -810,6 +815,14 @@ export async function getSubtitlesForTitle({
 
     if (!releaseGroup) {
       console.error(`No hay release group soportado para ${videoFile.name} \n`);
+
+      if (isDebugging) {
+        await confirm({
+          message: "¿Desea continuar? (Revisar si tiene sentido agregar el release group)",
+          initialValue: true,
+        });
+      }
+
       continue;
     }
 
@@ -830,7 +843,7 @@ export async function getSubtitlesForTitle({
 
     const subtitleAlreadyExists = await hasSubtitleInDatabase(fileName);
     if (subtitleAlreadyExists) {
-      console.log(`4.${index}.${torrentIndex}) Subtítulo ya existe en la base de datos`);
+      console.log(`4.${index}.${torrentIndex}) Subtítulo ya existe en la base de datos 🙌`);
       continue;
     }
 
@@ -887,7 +900,7 @@ export async function getSubtitlesForTitle({
 
     const subtitleAlreadyExistsAgain = await hasSubtitleInDatabase(fileName);
     if (subtitleAlreadyExistsAgain) {
-      console.log(`4.${index}.${torrentIndex}) Subtítulo ya existe en la base de datos`);
+      console.log(`4.${index}.${torrentIndex}) Subtítulo ya existe en la base de datos 🙌`);
       continue;
     }
 
@@ -943,7 +956,7 @@ export async function getSubtitlesForTitle({
     );
 
     if (isDebugging) {
-      await confirm({ message: "¿Desea continuar?" });
+      await confirm({ message: "¿Desea continuar al siguiente titulo?" });
     }
   }
 

@@ -90,4 +90,4 @@ export async function indexSeriesByYear(seriesYear: number, isDebugging: boolean
 }
 
 // testing
-indexSeriesByYear(2024, false);
+indexSeriesByYear(2024, true);

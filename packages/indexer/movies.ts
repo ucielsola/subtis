@@ -1,3 +1,4 @@
+import { confirm } from "@clack/prompts";
 import cliProgress from "cli-progress";
 import tg from "torrent-grabber";
 
@@ -18,7 +19,7 @@ export async function indexMoviesByYear(year: number, isDebugging: boolean): Pro
     const releaseGroups = await getReleaseGroups(supabase);
     const subtitleGroups = await getSubtitleGroups(supabase);
 
-    const { totalPages, totalResults } = await getTmdbMoviesTotalPagesArray(year, !isDebugging);
+    const { totalPages, totalResults } = await getTmdbMoviesTotalPagesArray(year, isDebugging);
     console.log(`\n1.1) Con un total de ${totalResults} titulos en el año ${year}`);
     console.log(
       `\n1.2) ${totalPages.at(
@@ -42,7 +43,7 @@ export async function indexMoviesByYear(year: number, isDebugging: boolean): Pro
       console.log("\nProgreso total del indexador:\n");
       totalMoviesResultBar.update(tmbdMoviesPage);
 
-      const movies = await getMoviesFromTmdb(tmbdMoviesPage, year, !isDebugging);
+      const movies = await getMoviesFromTmdb(tmbdMoviesPage, year, isDebugging);
       console.log(`\n\n3) titulos encontradas en página ${tmbdMoviesPage} \n`);
 
       console.table(movies.map(({ name, year, releaseDate, rating }) => ({ name, year, releaseDate, rating })));
@@ -50,7 +51,10 @@ export async function indexMoviesByYear(year: number, isDebugging: boolean): Pro
 
       for await (const [index, movie] of Object.entries(movies)) {
         if (isDebugging) {
-          const value = confirm(`¿Desea skippear el titulo ${movie.name}?`);
+          const value = await confirm({
+            message: `¿Desea saltar el titulo ${movie.name}?`,
+            initialValue: false,
+          });
 
           if (value === true) {
             continue;
@@ -68,8 +72,13 @@ export async function indexMoviesByYear(year: number, isDebugging: boolean): Pro
       }
     }
   } catch (error) {
-    console.log("mainIndexer => error =>", error);
+    console.log("mainIndexer => error =>");
+    console.log(error);
     console.log("\n ~ mainIndexer ~ error message:", (error as Error).message);
+
+    if (isDebugging) {
+      await confirm({ message: "¿Desea continuar? (Revisar el porqué del error primero)", initialValue: true });
+    }
   }
 }
 
@@ -104,10 +113,10 @@ export async function indexMovieByName({
 }
 
 // testing
-indexMoviesByYear(2024, false);
+indexMoviesByYear(2024, true);
 // indexMovieByName({
 //   year: 2024,
-//   name: "Inside Out 2",
+//   name: "Oppenheimer",
 //   isDebugging: false,
 // });
 
