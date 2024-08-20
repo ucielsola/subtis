@@ -570,8 +570,11 @@ async function getTitleTorrents(query: string, titleType: TitleTypes, imdbId: nu
     const thePirateBayResult = await tg.search(query, { groupByTracker: true });
     thePirateBayTorrents = thePirateBayResult instanceof Map ? thePirateBayResult.get("ThePirateBay") : [];
   } catch (error) {
-    console.log("Error on getTitleTorrents using tg.search interface");
-    console.log(error);
+    const parsedError = error as Error;
+    if (!parsedError.message.includes("arr[0].tracker")) {
+      console.log("Error on getTitleTorrents using tg.search interface");
+      console.log(error);
+    }
   }
 
   if (titleType === TitleTypes.tvShow) {
