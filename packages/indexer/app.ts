@@ -587,6 +587,8 @@ function getFilteredTorrents(torrents: TorrentResults, maxTorrents = 15, minSeed
   const CINEMA_RECORDING_REGEX =
     /\b(hdcam|hdcamrip|hqcam|hq-cam|telesync|hdts|hd-ts|c1nem4|qrips|hdrip|cam|soundtrack|xxx|clean|khz|ep)\b/gi;
 
+  const seenSizes = new Set<number>();
+
   return torrents
     .toSorted((torrentA, torrentB) => {
       if (torrentA.tracker === "YTS" && torrentB.tracker !== "YTS") return -1;
@@ -597,6 +599,15 @@ function getFilteredTorrents(torrents: TorrentResults, maxTorrents = 15, minSeed
     .slice(0, maxTorrents)
     .filter((torrent) => !torrent.title.match(CINEMA_RECORDING_REGEX))
     .filter(({ seeds }) => seeds > minSeeds)
+    .filter((torrent) => {
+      if (seenSizes.has(torrent.size)) {
+        return false;
+      }
+
+      seenSizes.add(torrent.size);
+
+      return true;
+    })
     .map((torrent) => ({ ...torrent, id: generateIdFromMagnet(torrent.trackerId) }));
 }
 
@@ -956,7 +967,9 @@ export async function getSubtitlesForTitle({
     );
 
     if (isDebugging) {
-      await confirm({ message: "¿Desea continuar al siguiente titulo?" });
+      await confirm({
+        message: `¿Desea continuar al siguiente ${Number(torrentIndex) === filteredTorrents.length - 1 ? "titulo" : "subtitlo"}?`,
+      });
     }
   }
 
