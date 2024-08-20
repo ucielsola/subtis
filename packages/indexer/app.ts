@@ -895,7 +895,7 @@ export async function getSubtitlesForTitle({
           subtitleGroups,
         });
       },
-      `4.${index}.${torrentIndex}) Subtítulo no encontrado en SubDivX para ${name} ${resolution} ${releaseGroup.release_group_name} \n`,
+      `4.${index}.${torrentIndex}) Subtítulo no encontrado en SubDivX para ${name} ${resolution} ${releaseGroup.release_group_name} (Puede llegar a existir en OpenSubtitles) \n`,
     );
 
     const subtitleAlreadyExistsAgain = await hasSubtitleInDatabase(fileName);
