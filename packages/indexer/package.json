@@ -36,7 +36,8 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@types/bun": "^1.1.6",
+    "@types/bun": "^1.1.8",
+    "@types/cli-progress": "^3.11.6",
     "@types/download": "^8.0.5",
     "@types/lodash.times": "^4.3.9",
     "@types/node-cron": "^3.0.11",
