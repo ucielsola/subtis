@@ -41,6 +41,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         .select(subtitlesQuery)
         .or(`title_file_name.eq.${fileName},bytes.eq.${bytes}`)
         .single();
+
       const subtitleByFileName = subtitleSchema.safeParse(data);
 
       if (!subtitleByFileName.success) {
