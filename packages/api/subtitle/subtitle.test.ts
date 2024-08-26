@@ -62,34 +62,34 @@ describe("API | /subtitle/file/name/:bytes/:fileName", () => {
       method: "GET",
     };
 
-    const bytes = 1998445320;
-    const fileName = "The.Garfield.Movie.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4";
+    const bytes = 1320;
+    const fileName = "The.Garfield.Movie.2024.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4";
 
     const response = await subtitle.request(`/file/name/${bytes}/${fileName}`, request, getMockEnv());
     const data = await response.json();
 
     expect(response.status).toBe(200);
     expect(data).toEqual({
-      current_episode: null,
-      current_season: null,
-      id: 6419,
-      queried_times: 0,
-      releaseGroup: {
-        release_group_name: "YTS",
-      },
+      id: 6600,
       resolution: "1080p",
-      subtitleGroup: {
-        id: 61,
-      },
-      subtitle_file_name: "The.Garfield.Movie.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
       subtitle_link:
-        "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-garfield-movie-1080p-yts-subdivx.srt?download=The.Garfield.Movie.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
+        "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-garfield-movie-1080p-yts-subdivx.srt?download=The.Garfield.Movie.2024.1080p.BluRay.x264.AAC5.1-[YTS.MX].srt",
+      queried_times: 0,
+      current_season: null,
+      current_episode: null,
+      subtitle_file_name: "The.Garfield.Movie.2024.1080p.BluRay.x264.AAC5.1-[YTS.MX].srt",
       title: {
-        backdrop: "https://image.tmdb.org/t/p/original/1wP1phHo2CROOqzv7Azs0MT5esU.jpg",
-        poster: "https://image.tmdb.org/t/p/original/tkdc73JiPVvzngSpbLEIfFNjll1.jpg",
         title_name: "The Garfield Movie",
         type: "movie",
         year: 2024,
+        poster: "https://image.tmdb.org/t/p/original/xYduFGuch9OwbCOEUiamml18ZoB.jpg",
+        backdrop: "https://image.tmdb.org/t/p/original/1wP1phHo2CROOqzv7Azs0MT5esU.jpg",
+      },
+      releaseGroup: {
+        release_group_name: "YTS",
+      },
+      subtitleGroup: {
+        id: 61,
       },
     });
   });
@@ -99,7 +99,7 @@ describe("API | /subtitle/file/name/:bytes/:fileName", () => {
       method: "GET",
     };
 
-    const bytes = 1998445320;
+    const bytes = 2000517334;
     const fileName = "The.Ga.MX].mp4";
 
     const response = await subtitle.request(`/file/name/${bytes}/${fileName}`, request, getMockEnv());
@@ -107,26 +107,26 @@ describe("API | /subtitle/file/name/:bytes/:fileName", () => {
 
     expect(response.status).toBe(200);
     expect(data).toEqual({
-      current_episode: null,
-      current_season: null,
-      id: 6419,
-      queried_times: 0,
-      releaseGroup: {
-        release_group_name: "YTS",
-      },
+      id: 6600,
       resolution: "1080p",
-      subtitleGroup: {
-        id: 61,
-      },
-      subtitle_file_name: "The.Garfield.Movie.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
       subtitle_link:
-        "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-garfield-movie-1080p-yts-subdivx.srt?download=The.Garfield.Movie.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].srt",
+        "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-garfield-movie-1080p-yts-subdivx.srt?download=The.Garfield.Movie.2024.1080p.BluRay.x264.AAC5.1-[YTS.MX].srt",
+      queried_times: 0,
+      current_season: null,
+      current_episode: null,
+      subtitle_file_name: "The.Garfield.Movie.2024.1080p.BluRay.x264.AAC5.1-[YTS.MX].srt",
       title: {
-        backdrop: "https://image.tmdb.org/t/p/original/1wP1phHo2CROOqzv7Azs0MT5esU.jpg",
-        poster: "https://image.tmdb.org/t/p/original/tkdc73JiPVvzngSpbLEIfFNjll1.jpg",
         title_name: "The Garfield Movie",
         type: "movie",
         year: 2024,
+        poster: "https://image.tmdb.org/t/p/original/xYduFGuch9OwbCOEUiamml18ZoB.jpg",
+        backdrop: "https://image.tmdb.org/t/p/original/1wP1phHo2CROOqzv7Azs0MT5esU.jpg",
+      },
+      releaseGroup: {
+        release_group_name: "YTS",
+      },
+      subtitleGroup: {
+        id: 61,
       },
     });
   });
@@ -184,7 +184,7 @@ describe("API | /subtitle/file/alternative/:fileName", () => {
 
     expect(response.status).toBe(200);
     expect(data).toEqual({
-      id: 6420,
+      id: 6604,
       resolution: "720p",
       subtitle_link:
         "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-garfield-movie-720p-galaxyrg-subdivx.srt?download=The.Garfield.Movie.2024.720p.WEBRip.800MB.x264-GalaxyRG.srt",
@@ -196,7 +196,7 @@ describe("API | /subtitle/file/alternative/:fileName", () => {
         title_name: "The Garfield Movie",
         type: "movie",
         year: 2024,
-        poster: "https://image.tmdb.org/t/p/original/tkdc73JiPVvzngSpbLEIfFNjll1.jpg",
+        poster: "https://image.tmdb.org/t/p/original/xYduFGuch9OwbCOEUiamml18ZoB.jpg",
         backdrop: "https://image.tmdb.org/t/p/original/1wP1phHo2CROOqzv7Azs0MT5esU.jpg",
       },
       releaseGroup: {
@@ -257,7 +257,7 @@ describe("API | /subtitle/link/:subtitleId", () => {
       method: "GET",
     };
 
-    const subtitleId = 6419;
+    const subtitleId = 6509;
 
     const response = await subtitle.request(`/link/${subtitleId}`, request, getMockEnv());
 

@@ -33,7 +33,7 @@ describe("API | /titles/search/:query", () => {
         type: "movie",
         title_name: "Kingdom of the Planet of the Apes",
         year: 2024,
-        backdrop: "https://image.tmdb.org/t/p/original/fqv8v6AycXKsivp1T5yKtLbGXce.jpg",
+        backdrop: "https://image.tmdb.org/t/p/original/fypydCipcWDKDTTCoPucBsdGYXW.jpg",
       },
     ]);
   });
@@ -56,17 +56,17 @@ describe("API | /titles/search/:query", () => {
       method: "GET",
     };
 
-    const response = await titles.request("/search/Cnvert", request, getMockEnv());
+    const response = await titles.request("/search/Grfield", request, getMockEnv());
     const data = await response.json();
 
     expect(response.status).toBe(200);
     expect(data).toEqual([
       {
-        id: 20113412,
+        id: 5779228,
         type: "movie",
-        title_name: "The Convert",
+        title_name: "The Garfield Movie",
         year: 2024,
-        backdrop: "https://image.tmdb.org/t/p/original/tqSg1hHiSWhHAhnjDhhevaFGsP0.jpg",
+        backdrop: "https://image.tmdb.org/t/p/original/1wP1phHo2CROOqzv7Azs0MT5esU.jpg",
       },
     ]);
   });
@@ -96,20 +96,20 @@ describe("API | /titles/recent/:limit", () => {
     expect(response.status).toBe(200);
     expect(data).toEqual([
       {
-        id: 23063732,
-        title_name: "Saving Bikini Bottom: The Sandy Cheeks Movie",
+        id: 12610390,
+        title_name: "The Union",
         type: "movie",
         year: 2024,
-        rating: 6.352,
-        release_date: "2024-08-01",
+        rating: 6.316,
+        release_date: "2024-08-15",
       },
       {
-        id: 31691318,
-        rating: 5.813,
-        release_date: "2024-07-26",
-        title_name: "House of Ga'a",
+        id: 26940324,
+        title_name: "Jackpot!",
         type: "movie",
         year: 2024,
+        rating: 6.502,
+        release_date: "2024-08-13",
       },
     ]);
   });

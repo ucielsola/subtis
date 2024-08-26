@@ -25,7 +25,7 @@ describe("API | /subtitles/movie/:id", () => {
       method: "GET",
     };
 
-    const movieId = 7510222;
+    const movieId = 4919268;
 
     const response = await subtitles.request(`/movie/${movieId}`, request, getMockEnv());
     const data = await response.json();
@@ -71,7 +71,7 @@ describe("API | /subtitles/tv-show/:id/:season?/:episode?", () => {
       method: "GET",
     };
 
-    const tvShowId = 1928307;
+    const tvShowId = 16026746;
 
     const response = await subtitles.request(`/tv-show/${tvShowId}`, request, getMockEnv());
     const data = await response.json();
@@ -85,7 +85,7 @@ describe("API | /subtitles/tv-show/:id/:season?/:episode?", () => {
       method: "GET",
     };
 
-    const tvShowId = 1928307;
+    const tvShowId = 16026746;
 
     const response = await subtitles.request(`/tv-show/${tvShowId}/1`, request, getMockEnv());
     const data = await response.json();
@@ -99,9 +99,9 @@ describe("API | /subtitles/tv-show/:id/:season?/:episode?", () => {
       method: "GET",
     };
 
-    const tvShowId = 1928307;
+    const tvShowId = 16026746;
 
-    const response = await subtitles.request(`/tv-show/${tvShowId}/1/2`, request, getMockEnv());
+    const response = await subtitles.request(`/tv-show/${tvShowId}/1/1`, request, getMockEnv());
     const data = await response.json();
 
     expect(response.status).toBe(200);

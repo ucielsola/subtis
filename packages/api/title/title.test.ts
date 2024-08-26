@@ -50,7 +50,7 @@ describe("API | /title/teaser/:fileName", () => {
     expect(data).toEqual({
       name: "Kingdom Of The Planet Of The Apes",
       year: 2024,
-      url: "https://www.youtube.com/watch?v=NQ_HvTBaFoo",
+      url: "https://www.youtube.com/watch?v=F76v5seynhk",
     });
   });
 
