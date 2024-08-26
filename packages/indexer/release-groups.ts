@@ -78,7 +78,7 @@ export const RELEASE_GROUPS = {
     query_matches: ["FLUX8"],
   },
   GalaxyRG: {
-    file_attributes: ["GalaxyRG", "x264-Galax", "x265-Galax", "x264-GalaxyRG", "x265-GalaxyRG"],
+    file_attributes: ["GalaxyRG", "x264-Galax", "x265-Galax", "x264-GalaxyRG", "x265-GalaxyRG", "Galaxy"],
     is_supported: true,
     release_group_name: "GalaxyRG",
     query_matches: ["GalaxyRG"],
@@ -351,6 +351,12 @@ export const RELEASE_GROUPS = {
     is_supported: true,
     release_group_name: "NHTFS",
     query_matches: ["h264-NHTFS", "h265-NHTFS", "NHTFS"],
+  },
+  ROEN: {
+    file_attributes: ["x264-ROEN", "x265-ROEN"],
+    is_supported: true,
+    release_group_name: "roen",
+    query_matches: ["ROEN", "x264-ROEN", "x265-ROEN"],
   },
 } as const;
 
