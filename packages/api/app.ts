@@ -12,7 +12,7 @@ import { titles } from "./titles";
 
 // core
 export function runApi() {
-  // core
+  // constants
   const app = new Hono().basePath("/v1");
 
   // middlewares
