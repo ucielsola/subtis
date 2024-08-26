@@ -72,6 +72,16 @@ const CURATED_CHANNELS = [
     name: "IFC Films",
     ids: ["UCOn923UnbV8H9zo_lO6ZCRw"], // MAIN
   },
+  { 
+    name: "DiamondFilms",
+    ids: ["UCaFEAxeTC-Y_0AFthe0Xmwg"], // LATAM
+  },
+  
+  {
+    name: "Neon",
+    ids: ["UCpy5dRhZd-JbZP4NsrnLt1w"], // MAIN
+  },
+
 ] as const;
 
 export const OFFICIAL_SUBTIS_CHANNELS = CURATED_CHANNELS.map((channel) => ({
