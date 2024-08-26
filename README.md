@@ -108,6 +108,12 @@ chmod +x ./subtis && ./subtis
 
 ## Good practices
 
+- Generate SQL dump
+
+```bash
+pg_dump -h aws-0-sa-east-1.pooler.supabase.com -U postgres.yelhsmnvfyyjuamxbobs -d postgres -p 6543 -s > schema.sql
+```
+
 - Bump project dependencies
 
 ```bash
