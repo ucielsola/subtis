@@ -419,7 +419,7 @@ Link: https://subt.is
 0
 00:00:10,200 --> 00:00:20,000
 Contactanos por Twitter/X en <i>@subt_is</i>
-Via email a <i>soporte@subt.is</i>
+Vía email a <i>soporte@subt.is</i>
 
 ${subtitleText}`;
     })
@@ -456,7 +456,7 @@ Link: https://subt.is
 ${watermarkNextId + 1}
 ${newTimestamp} --> ${newTimestamp2}
 Contactanos por Twitter/X en <i>@subt_is</i>
-Via email a <i>soporte@subt.is</i>
+Vía email a <i>soporte@subt.is</i>
 `;
     })
     .run();
