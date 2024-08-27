@@ -1,4 +1,4 @@
-export function getDecodedSubtitleFile(subtitleBuffer: Buffer): string {
-  const decoder = new TextDecoder("iso-8859-1");
+export function getDecodedSubtitleFile(subtitleBuffer: Buffer, encoding?: string): string {
+  const decoder = new TextDecoder(encoding ?? "iso-8859-1");
   return decoder.decode(subtitleBuffer);
 }

@@ -6,6 +6,7 @@ import unrar from "@continuata/unrar";
 import clipboard from "clipboardy";
 import download from "download";
 import extract from "extract-zip";
+import jschardet from "jschardet";
 import prettyBytes from "pretty-bytes";
 import replaceSpecialCharacters from "replace-special-characters";
 import invariant from "tiny-invariant";
@@ -399,10 +400,12 @@ async function addWatermarkToSubtitle({
   let subtitleText = "";
 
   if (subtitleGroupName === "SubDivX") {
-    subtitleText = getDecodedSubtitleFile(subtitleBuffer);
+    const { encoding } = jschardet.detect(subtitleBuffer);
+    subtitleText = getDecodedSubtitleFile(subtitleBuffer, encoding);
   }
 
   if (subtitleGroupName === "OpenSubtitles") {
+    // TODO: If the subtitle is not correct try to use the same solution from SubDivX to get the encoding
     subtitleText = subtitleBuffer.toString("utf-8");
   }
 
