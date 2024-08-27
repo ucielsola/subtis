@@ -410,13 +410,13 @@ async function addWatermarkToSubtitle({
     .with(TitleTypes.movie, () => {
       return `-2
 00:00:00,000 --> 00:00:10,000
--Subtitulos descargados desde <b>Subtis</b>
--Link: https://subt.is
+Subtitulos descargados desde <b>Subtis</b>
+Link: https://subt.is
 
 -1
 00:00:10,500 --> 00:00:20,000
--Contactanos por Twitter/X en <i>@subt_is</i>
--o por email a <i>soporte@subt.is</i>
+Contactanos por Twitter/X en <i>@subt_is</i>
+Via email a <i>soporte@subt.is</i>
 
 ${subtitleText}`;
     })
@@ -447,13 +447,13 @@ ${subtitleText}`;
 
 ${watermarkNextId}
 ${lastSubtitleTimestamp} --> ${newTimestamp}
--Subtitulos descargados desde <b>Subtis</b>
--Link: https://subt.is
+Subtitulos descargados desde <b>Subtis</b>
+Link: https://subt.is
 
 ${watermarkNextId + 1}
 ${newTimestamp} --> ${newTimestamp2}
--Contactanos por Twitter/X en <i>@subt_is</i>
--o por email a <i>soporte@subt.is</i>
+Contactanos por Twitter/X en <i>@subt_is</i>
+Via email a <i>soporte@subt.is</i>
 `;
     })
     .run();
