@@ -62,15 +62,17 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
     }
 
     const supabase = getSupabaseClient(context);
-    const { name, year, releaseGroup, resolution } = getTitleFileNameMetadata({
+    const { name, year, releaseGroup, resolution, currentEpisode, currentSeason } = getTitleFileNameMetadata({
       titleFileName: videoFileName.data,
     });
-    const { data: titleData } = await supabase
-      .from("Titles")
-      .select("id")
-      .or(`title_name_without_special_chars.ilike.%${name}%`)
-      .match({ year })
-      .single();
+
+    const titleQuery = supabase.from("Titles").select("id").or(`title_name_without_special_chars.ilike.%${name}%`);
+
+    if (year !== null) {
+      titleQuery.eq("year", year);
+    }
+
+    const { data: titleData } = await titleQuery.single();
     const titleByNameAndYear = alternativeTitlesSchema.safeParse(titleData);
 
     if (!titleByNameAndYear.success) {
@@ -78,14 +80,25 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       return context.json({ message: "Subtitle not found for file" });
     }
 
-    const { data } = await supabase
+    const subtitleQuery = supabase
       .from("Subtitles")
       .select(subtitlesQuery)
+      .neq("title_file_name", fileName)
       .order("subtitle_group_id")
-      .order("queried_times", { ascending: false })
-      .match({ title_id: titleByNameAndYear.data.id });
+      .order("queried_times", { ascending: false });
 
-    const subtitleByFileName = alternativeSubtitlesSchema.safeParse(data);
+    if (currentSeason !== null) {
+      subtitleQuery.eq("current_season", currentSeason);
+    }
+
+    if (currentEpisode !== null) {
+      subtitleQuery.eq("current_episode", currentEpisode);
+    }
+
+    const { data: subtitleData } = await subtitleQuery.match({
+      title_id: titleByNameAndYear.data.id,
+    });
+    const subtitleByFileName = alternativeSubtitlesSchema.safeParse(subtitleData);
 
     if (!subtitleByFileName.success) {
       context.status(404);
