@@ -358,6 +358,24 @@ export const RELEASE_GROUPS = {
     release_group_name: "roen",
     query_matches: ["ROEN", "x264-ROEN", "x265-ROEN"],
   },
+  Asiimov: {
+    file_attributes: ["Asiimov", "x265-Asiimov", "x264-Asiimov"],
+    is_supported: true,
+    release_group_name: "Asiimov",
+    query_matches: ["Asiimov", "x265-Asiimov"],
+  },
+  Dolores: {
+    file_attributes: ["h264-DOLORES", "h265-DOLORES", "DOLORES"],
+    is_supported: true,
+    release_group_name: "DOLORES",
+    query_matches: ["DOLORES"],
+  },
+  Will1869: {
+    file_attributes: ["Will1869"],
+    is_supported: true,
+    release_group_name: "Will1869",
+    query_matches: ["Will1869"],
+  },
 } as const;
 
 // types
