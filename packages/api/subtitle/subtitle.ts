@@ -23,9 +23,9 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
     async (context) => {
       const { bytes, fileName } = context.req.valid("param");
 
-      if (Number.isNaN(Number(bytes))) {
+      if (!Number.isInteger(bytes)) {
         context.status(400);
-        return context.json({ message: "Invalid ID: it should be a number" });
+        return context.json({ message: "Invalid Bytes: it should be a positive integer number" });
       }
 
       const videoFileName = videoFileNameSchema.safeParse(fileName);
@@ -134,9 +134,9 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
   .get("/link/:subtitleId", zValidator("param", z.object({ subtitleId: z.string() })), async (context) => {
     const { subtitleId: id } = context.req.valid("param");
 
-    if (Number.isNaN(Number(id))) {
+    if (!Number.isInteger(id)) {
       context.status(400);
-      return context.json({ message: "Invalid ID: it should be a number" });
+      return context.json({ message: "Invalid ID: it should be a positive integer number" });
     }
 
     const { data } = await getSupabaseClient(context).from("Subtitles").select("subtitle_link").match({ id }).single();
@@ -158,9 +158,9 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
     async (context) => {
       const { email, bytes, titleFileName } = context.req.valid("json");
 
-      if (Number.isNaN(Number(bytes))) {
+      if (!Number.isInteger(bytes)) {
         context.status(400);
-        return context.json({ message: "Invalid ID: it should be a number" });
+        return context.json({ message: "Invalid Bytes: it should be a positive integer number" });
       }
 
       const videoFileName = videoFileNameSchema.safeParse(titleFileName);
@@ -187,9 +187,9 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
     async (context) => {
       const { bytes, titleFileName } = context.req.valid("json");
 
-      if (Number.isNaN(Number(bytes))) {
+      if (!Number.isInteger(bytes)) {
         context.status(400);
-        return context.json({ message: "Invalid ID: it should be a number" });
+        return context.json({ message: "Invalid Bytes: it should be a positive integer number" });
       }
 
       const { error } = await getSupabaseClient(context).rpc("update_subtitle_info", {

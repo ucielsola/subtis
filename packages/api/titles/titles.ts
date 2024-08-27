@@ -60,9 +60,9 @@ export const titles = new Hono<{ Variables: AppVariables }>()
   .get("/recent/:limit", zValidator("param", z.object({ limit: z.string() })), async (context) => {
     const { limit } = context.req.valid("param");
 
-    if (Number.isNaN(Number(limit))) {
+    if (!Number.isInteger(limit)) {
       context.status(400);
-      return context.json({ message: "Invalid limit: it should be a number" });
+      return context.json({ message: "Invalid Limit: it should be a positive integer number" });
     }
 
     if (Number(limit) > MAX_LIMIT) {
