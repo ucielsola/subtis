@@ -408,13 +408,13 @@ async function addWatermarkToSubtitle({
 
   const subtitleTextWithWatermark = match(titleType)
     .with(TitleTypes.movie, () => {
-      return `-2
+      return `-1
 00:00:00,000 --> 00:00:10,000
 Subtitulos descargados desde <b>Subtis</b>
 Link: https://subt.is
 
--1
-00:00:10,500 --> 00:00:20,000
+0
+00:00:10,200 --> 00:00:20,000
 Contactanos por Twitter/X en <i>@subt_is</i>
 Via email a <i>soporte@subt.is</i>
 
