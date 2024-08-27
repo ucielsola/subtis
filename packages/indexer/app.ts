@@ -443,18 +443,18 @@ ${subtitleText}`;
 
       const watermarkNextId = lastSubtitleId + 1;
 
-      const newTimestamp = addSecondsToTimestamp(lastSubtitleTimestamp, 6);
-      const newTimestamp2 = addSecondsToTimestamp(newTimestamp, 4);
+      const firstTimestamp = addSecondsToTimestamp(lastSubtitleTimestamp, 2);
+      const secondTimestamp = addSecondsToTimestamp(lastSubtitleTimestamp, 4);
+      const thirdTimestamp = addSecondsToTimestamp(secondTimestamp, 6);
 
       return `${subtitleText}
-
 ${watermarkNextId}
-${lastSubtitleTimestamp} --> ${newTimestamp}
+${firstTimestamp} --> ${secondTimestamp}
 Subtitulos descargados desde <b>Subtis</b>
 Link: https://subt.is
 
 ${watermarkNextId + 1}
-${newTimestamp} --> ${newTimestamp2}
+${secondTimestamp} --> ${thirdTimestamp}
 Contactanos por Twitter/X en <i>@subt_is</i>
 Vía email a <i>soporte@subt.is</i>
 `;
