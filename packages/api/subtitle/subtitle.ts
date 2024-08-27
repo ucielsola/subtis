@@ -23,7 +23,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
     async (context) => {
       const { bytes, fileName } = context.req.valid("param");
 
-      if (!Number.isInteger(bytes)) {
+      if (Number(bytes) < 1) {
         context.status(400);
         return context.json({ message: "Invalid Bytes: it should be a positive integer number" });
       }
@@ -134,7 +134,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
   .get("/link/:subtitleId", zValidator("param", z.object({ subtitleId: z.string() })), async (context) => {
     const { subtitleId: id } = context.req.valid("param");
 
-    if (!Number.isInteger(id)) {
+    if (Number(id) < 1) {
       context.status(400);
       return context.json({ message: "Invalid ID: it should be a positive integer number" });
     }
@@ -158,7 +158,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
     async (context) => {
       const { email, bytes, titleFileName } = context.req.valid("json");
 
-      if (!Number.isInteger(bytes)) {
+      if (Number(bytes) < 1) {
         context.status(400);
         return context.json({ message: "Invalid Bytes: it should be a positive integer number" });
       }
@@ -187,7 +187,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
     async (context) => {
       const { bytes, titleFileName } = context.req.valid("json");
 
-      if (!Number.isInteger(bytes)) {
+      if (Number(bytes) < 1) {
         context.status(400);
         return context.json({ message: "Invalid Bytes: it should be a positive integer number" });
       }
