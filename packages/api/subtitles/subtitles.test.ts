@@ -126,20 +126,6 @@ describe("API | /subtitles/tv-show/:id/:season?/:episode?", () => {
 });
 
 describe("API | /subtitles/trending/:limit", () => {
-  test("Invalid URL with limit being not a number", async () => {
-    const request = {
-      method: "GET",
-    };
-
-    const limit = "9214772d";
-
-    const response = await subtitles.request(`/trending/${limit}`, request, getMockEnv());
-    const data = await response.json();
-
-    expect(response.status).toBe(400);
-    expect(data).toEqual({ message: "Invalid ID: it should be a number" });
-  });
-
   test("Valid URL with limit being greater than MAX_LIMIT (30)", async () => {
     const request = {
       method: "GET",

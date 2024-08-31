@@ -60,12 +60,14 @@ export const titles = new Hono<{ Variables: AppVariables }>()
   .get("/recent/:limit", zValidator("param", z.object({ limit: z.string() })), async (context) => {
     const { limit } = context.req.valid("param");
 
-    if (Number(limit) < 1) {
+    const parsedLimit = Number.parseInt(limit);
+
+    if (parsedLimit < 1) {
       context.status(400);
       return context.json({ message: "Invalid Limit: it should be a positive integer number" });
     }
 
-    if (Number(limit) > MAX_LIMIT) {
+    if (parsedLimit > MAX_LIMIT) {
       context.status(400);
       return context.json({ message: `Limit must be less than or equal to ${MAX_LIMIT}` });
     }
@@ -74,7 +76,7 @@ export const titles = new Hono<{ Variables: AppVariables }>()
       .from("Titles")
       .select(recentTitlesQuery)
       .order("release_date", { ascending: false })
-      .limit(Number(limit));
+      .limit(parsedLimit);
 
     const recentSubtitles = recentTitlesSchema.safeParse(data);
     if (!recentSubtitles.success) {

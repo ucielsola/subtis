@@ -70,12 +70,14 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
   .get("/trending/:limit", zValidator("param", z.object({ limit: z.string() })), async (context) => {
     const { limit } = context.req.valid("param");
 
-    if (Number(limit) < 1) {
+    const parsedLimit = Number.parseInt(limit);
+
+    if (parsedLimit < 1) {
       context.status(400);
       return context.json({ message: "Invalid ID: it should be a positive integer number" });
     }
 
-    if (Number(limit) > MAX_LIMIT) {
+    if (parsedLimit > MAX_LIMIT) {
       context.status(400);
       return context.json({ message: `Limit must be less than or equal to ${MAX_LIMIT}` });
     }
@@ -85,7 +87,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       .select(subtitlesQuery)
       .order("queried_times", { ascending: false })
       .order("last_queried_at", { ascending: false })
-      .limit(Number(limit));
+      .limit(parsedLimit);
 
     const trendingSubtitles = trendingSubtitlesSchema.safeParse(data);
     if (!trendingSubtitles.success) {
