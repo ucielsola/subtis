@@ -363,15 +363,27 @@ function removeSubtitlesFromFileSystem(paths: string[]): void {
   }
 }
 
-function addSecondsToTimestamp(timestamp: string, secondsToAdd: number): string {
+function modifySecondsInTimestamp(timestamp: string, secondsToModify: number): string {
   const [time] = timestamp.split(",");
   let [hours, minutes, seconds] = time.split(":").map(Number);
 
-  seconds += secondsToAdd;
+  seconds += secondsToModify;
+
+  if (seconds < 0) {
+    const totalMinutes = Math.ceil(Math.abs(seconds) / 60);
+    minutes -= totalMinutes;
+    seconds += totalMinutes * 60;
+  }
 
   if (seconds >= 60) {
     minutes += Math.floor(seconds / 60);
     seconds %= 60;
+  }
+
+  if (minutes < 0) {
+    const totalHours = Math.ceil(Math.abs(minutes) / 60);
+    hours -= totalHours;
+    minutes += totalHours * 60;
   }
 
   if (minutes >= 60) {
@@ -379,11 +391,34 @@ function addSecondsToTimestamp(timestamp: string, secondsToAdd: number): string 
     minutes %= 60;
   }
 
+  if (hours < 0) {
+    hours = (hours + 24) % 24;
+  }
+
   if (hours >= 24) {
     hours %= 24;
   }
 
   return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")},000`;
+}
+
+function halfTime(timestamp: string): string {
+  const [hours, minutes, secondsMilliseconds] = timestamp.split(":");
+  const [seconds, milliseconds] = secondsMilliseconds.split(",");
+
+  const totalMilliseconds =
+    Number(hours) * 3600000 + Number(minutes) * 60000 + Number(seconds) * 1000 + Number(milliseconds);
+
+  const halfMilliseconds = Math.floor(totalMilliseconds / 2);
+
+  const halfHours = Math.floor(halfMilliseconds / 3600000);
+  const halfMinutes = Math.floor((halfMilliseconds % 3600000) / 60000);
+  const halfSeconds = Math.floor((halfMilliseconds % 60000) / 1000);
+  const halfMillisecondsRemainder = halfMilliseconds % 1000;
+
+  const formattedHalfTime = `${String(halfHours).padStart(2, "0")}:${String(halfMinutes).padStart(2, "0")}:${String(halfSeconds).padStart(2, "0")},${String(halfMillisecondsRemainder).padStart(3, "0")}`;
+
+  return formattedHalfTime;
 }
 
 async function addWatermarkToSubtitle({
@@ -409,31 +444,40 @@ async function addWatermarkToSubtitle({
     subtitleText = subtitleBuffer.toString("utf-8");
   }
 
+  const splitter = match(subtitleGroupName)
+    .with("SubDivX", () => /\r\n\r\n/)
+    .with("OpenSubtitles", () => /\n\n/)
+    .run();
+
+  const subtitleSplitted = subtitleText.trimEnd().split(splitter);
+
   const subtitleTextWithWatermark = match(titleType)
     .with(TitleTypes.movie, () => {
+      const firstSubtitle = subtitleSplitted.at(0) as string;
+
+      const [_id, timestamp] = firstSubtitle.split("\n");
+      const firstSubtitleTimestamp = timestamp.split(" ").at(0) as string;
+
+      const firstTimestamp = halfTime(firstSubtitleTimestamp);
+      const secondTimestamp = modifySecondsInTimestamp(firstSubtitleTimestamp, -2);
+
       return `-1
-00:00:00,000 --> 00:00:10,000
+00:00:00,000 --> ${firstTimestamp}
 Subtitulos descargados desde <b>Subtis</b>
 Link: https://subt.is
 
 0
-00:00:10,200 --> 00:00:20,000
+${firstTimestamp} --> ${secondTimestamp}
 Contactanos por Twitter/X en <i>@subt_is</i>
 Vía email a <i>soporte@subt.is</i>
 
 ${subtitleText}`;
     })
     .with(TitleTypes.tvShow, () => {
-      const splitter = match(subtitleGroupName)
-        .with("SubDivX", () => /\r\n\r\n/)
-        .with("OpenSubtitles", () => /\n\n/)
-        .run();
-
-      const lastSubtitleSplitted = subtitleText.trimEnd().split(splitter);
-      let lastSubtitle = lastSubtitleSplitted.at(-1) as string;
+      let lastSubtitle = subtitleSplitted.at(-1) as string;
 
       if (lastSubtitle.includes("9999") || lastSubtitle.includes("www.subdivx.com")) {
-        lastSubtitle = lastSubtitleSplitted.at(-2) as string;
+        lastSubtitle = subtitleSplitted.at(-2) as string;
       }
 
       const [id, timestamp] = lastSubtitle.split("\n");
@@ -443,9 +487,9 @@ ${subtitleText}`;
 
       const watermarkNextId = lastSubtitleId + 1;
 
-      const firstTimestamp = addSecondsToTimestamp(lastSubtitleTimestamp, 2);
-      const secondTimestamp = addSecondsToTimestamp(lastSubtitleTimestamp, 4);
-      const thirdTimestamp = addSecondsToTimestamp(secondTimestamp, 6);
+      const firstTimestamp = modifySecondsInTimestamp(lastSubtitleTimestamp, 2);
+      const secondTimestamp = modifySecondsInTimestamp(lastSubtitleTimestamp, 4);
+      const thirdTimestamp = modifySecondsInTimestamp(secondTimestamp, 6);
 
       return `${subtitleText}
 ${watermarkNextId}
