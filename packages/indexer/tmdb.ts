@@ -280,14 +280,16 @@ function generateTmdbDiscoverMovieUrl(page: number, year: number, isDebugging: b
   if (isDebugging) {
     return `https://api.themoviedb.org/3/discover/movie?language=es-ES&page=${page}`;
   }
+  return `https://api.themoviedb.org/3/discover/movie?language=es-ES&page=${page}`;
 
-  return `https://api.themoviedb.org/3/discover/movie?language=es-ES&page=${page}&primary_release_date.gte=${dayjs(
-    `${year}`,
-  )
-    .startOf("year")
-    .format("YYYY-MM-DD")}&primary_release_date.lte=${dayjs(`${year}`)
-    .endOf("year")
-    .format("YYYY-MM-DD")}&sort_by=primary_release_date.asc&region=US&with_runtime.gte=60`;
+  // TODO: Check why the following filters doesn't work properly
+  // return `https://api.themoviedb.org/3/discover/movie?language=es-ES&page=${page}&primary_release_date.gte=${dayjs(
+  //   `${year}`,
+  // )
+  //   .startOf("year")
+  //   .format("YYYY-MM-DD")}&primary_release_date.lte=${dayjs(`${year}`)
+  //   .endOf("year")
+  //   .format("YYYY-MM-DD")}&sort_by=primary_release_date.asc&region=US&with_runtime.gte=60`;
 }
 
 function generateTmdbDiscoverSeriesUrl(page: number, year: number) {
