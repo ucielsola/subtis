@@ -155,3 +155,26 @@ describe("API | /subtitles/trending/:limit", () => {
     expect(data).toHaveLength(1);
   });
 });
+
+describe("API | /subtitles/tv-show/download/season/:id/:season/:resolution/:releaseGroupId", () => {
+  test("Invalid URL with ID being not a number", async () => {
+    const request = {
+      method: "GET",
+    };
+
+    const tvShowId = 15203646;
+    const season = 1;
+    const resolution = "1080p";
+    const releaseGroupId = "953";
+
+    const response = await subtitles.request(
+      `/tv-show/download/season/${tvShowId}/${season}/${resolution}/${releaseGroupId}`,
+      request,
+      getMockEnv(),
+    );
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("Content-Type")).toBe("application/zip");
+    expect(response.headers.get("Content-Disposition")).toContain("attachment");
+  });
+});
