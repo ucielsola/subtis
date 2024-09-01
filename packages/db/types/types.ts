@@ -181,9 +181,11 @@ export type Database = {
           backdrop: string | null;
           created_at: string;
           id: number;
+          last_queried_at: string | null;
           logo: string | null;
           overview: string;
           poster: string | null;
+          queried_times: number | null;
           rating: number;
           release_date: string;
           teaser: string | null;
@@ -199,9 +201,11 @@ export type Database = {
           backdrop?: string | null;
           created_at?: string;
           id?: number;
+          last_queried_at?: string | null;
           logo?: string | null;
           overview: string;
           poster?: string | null;
+          queried_times?: number | null;
           rating: number;
           release_date: string;
           teaser?: string | null;
@@ -217,9 +221,11 @@ export type Database = {
           backdrop?: string | null;
           created_at?: string;
           id?: number;
+          last_queried_at?: string | null;
           logo?: string | null;
           overview?: string;
           poster?: string | null;
+          queried_times?: number | null;
           rating?: number;
           release_date?: string;
           teaser?: string | null;
@@ -271,7 +277,6 @@ export type Database = {
       fuzzy_search_title: {
         Args: {
           query: string;
-          optional_type?: string;
         };
         Returns: {
           id: number;
@@ -323,10 +328,6 @@ export type Database = {
         };
         Returns: number;
       };
-      show_limit: {
-        Args: Record<PropertyKey, never>;
-        Returns: number;
-      };
       show_trgm: {
         Args: {
           "": string;
@@ -340,9 +341,9 @@ export type Database = {
         };
         Returns: undefined;
       };
-      update_subtitles_info: {
+      update_title_info: {
         Args: {
-          _title_id: string;
+          _id: number;
         };
         Returns: undefined;
       };

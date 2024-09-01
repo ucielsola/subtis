@@ -24,8 +24,17 @@ const recentTitleSchema = titlesRowSchema.pick({
 });
 
 const recentTitlesSchema = z
-  .array(recentTitleSchema, { invalid_type_error: "Recent movies not found" })
-  .min(1, { message: "Recent movies not found" });
+  .array(recentTitleSchema, { invalid_type_error: "Recent titles not found" })
+  .min(1, { message: "Recent titles not found" });
+
+const trendingTitleSchema = titlesRowSchema.pick({
+  id: true,
+  title_name: true,
+});
+
+const trendingSubtitlesSchema = z
+  .array(trendingTitleSchema, { invalid_type_error: "Recent titles not found" })
+  .min(1, { message: "Recent titles not found" });
 
 // queries
 const recentTitlesQuery = `
@@ -35,6 +44,11 @@ const recentTitlesQuery = `
   rating,
   title_name,
   release_date
+`;
+
+const trendingTitlesQuery = `
+  id,
+  title_name
 `;
 
 // core
@@ -47,7 +61,12 @@ export const titles = new Hono<{ Variables: AppVariables }>()
       return context.json({ message: "Query must be at least 3 characters" });
     }
 
-    const { data } = await getSupabaseClient(context).rpc("fuzzy_search_title", { query });
+    const { data, error } = await getSupabaseClient(context).rpc("fuzzy_search_title", { query });
+
+    if (error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error });
+    }
 
     const titles = searchTitlesSchema.safeParse(data);
     if (!titles.success) {
@@ -62,7 +81,7 @@ export const titles = new Hono<{ Variables: AppVariables }>()
 
     const parsedLimit = Number.parseInt(limit);
 
-    if (parsedLimit < 1) {
+    if (Number.isNaN(parsedLimit) || parsedLimit < 1) {
       context.status(400);
       return context.json({ message: "Invalid Limit: it should be a positive integer number" });
     }
@@ -81,8 +100,38 @@ export const titles = new Hono<{ Variables: AppVariables }>()
     const recentSubtitles = recentTitlesSchema.safeParse(data);
     if (!recentSubtitles.success) {
       context.status(404);
-      return context.json({ message: "No recent movies found" });
+      return context.json({ message: "No recent titles found" });
     }
 
     return context.json(recentSubtitles.data);
+  })
+  .get("/trending/:limit", zValidator("param", z.object({ limit: z.string() })), async (context) => {
+    const { limit } = context.req.valid("param");
+
+    const parsedLimit = Number.parseInt(limit);
+
+    if (Number.isNaN(parsedLimit) || parsedLimit < 1) {
+      context.status(400);
+      return context.json({ message: "Invalid ID: it should be a positive integer number" });
+    }
+
+    if (parsedLimit > MAX_LIMIT) {
+      context.status(400);
+      return context.json({ message: `Limit must be less than or equal to ${MAX_LIMIT}` });
+    }
+
+    const { data } = await getSupabaseClient(context)
+      .from("Titles")
+      .select(trendingTitlesQuery)
+      .order("queried_times", { ascending: false })
+      .order("last_queried_at", { ascending: false })
+      .limit(parsedLimit);
+
+    const trendingSubtitles = trendingSubtitlesSchema.safeParse(data);
+    if (!trendingSubtitles.success) {
+      context.status(404);
+      return context.json({ message: trendingSubtitles.error.issues[0].message });
+    }
+
+    return context.json(trendingSubtitles.data);
   });

@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 import z from "zod";
 
 // internals
@@ -276,7 +276,7 @@ const TMDB_OPTIONS = {
 };
 
 // helpers
-function generateTmdbDiscoverMovieUrl(page: number, year: number, isDebugging: boolean) {
+function generateTmdbDiscoverMovieUrl(page: number, _year: number, isDebugging: boolean) {
   if (isDebugging) {
     return `https://api.themoviedb.org/3/discover/movie?language=es-ES&page=${page}`;
   }

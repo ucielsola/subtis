@@ -11,7 +11,7 @@
   "dependencies": {
     "@hono/zod-validator": "^0.2.2",
     "@supabase/supabase-js": "^2.45.3",
-    "hono": "^4.5.9",
+    "hono": "^4.5.10",
     "html-escaper": "^3.0.3",
     "replace-special-characters": "^1.2.7",
     "timestring": "^7.0.0",

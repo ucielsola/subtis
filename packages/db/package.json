@@ -8,7 +8,8 @@
     "test:watch": "bun test --watch",
     "supabase:type:definitions": "bunx supabase gen types typescript --project-id 'yelhsmnvfyyjuamxbobs' --schema public > types/types.ts",
     "supabase:schemas": "supabase-to-zod --input types/types.ts --output schemas/schemas.ts",
-    "generate": "bun run supabase:type:definitions && bun run supabase:schemas"
+    "generate:schemas": "bun run supabase:type:definitions && bun run supabase:schemas",
+    "generate:dump": "pg_dump -h aws-0-sa-east-1.pooler.supabase.com -U postgres.yelhsmnvfyyjuamxbobs -d postgres -p 6543 -s > schema-new.sql"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.3",

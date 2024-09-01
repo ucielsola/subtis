@@ -21,10 +21,8 @@ import { YOUTUBE_SEARCH_URL, getYoutubeApiKey, youTubeSchema } from "./youtube";
 const teaserSchema = titlesRowSchema.pick({ teaser: true });
 
 // core
-export const title = new Hono<{ Variables: AppVariables }>().get(
-  "/teaser/:fileName",
-  zValidator("param", z.object({ fileName: z.string() })),
-  async (context) => {
+export const title = new Hono<{ Variables: AppVariables }>()
+  .get("/teaser/:fileName", zValidator("param", z.object({ fileName: z.string() })), async (context) => {
     const { fileName } = context.req.valid("param");
 
     const videoFileName = videoFileNameSchema.safeParse(fileName);
@@ -111,5 +109,26 @@ export const title = new Hono<{ Variables: AppVariables }>().get(
       year,
       url: teaser,
     });
-  },
-);
+  })
+  .post("/metrics/click", zValidator("json", z.object({ id: z.number() })), async (context) => {
+    const { id: _id } = context.req.valid("json");
+
+    if (_id < 1) {
+      context.status(400);
+      return context.json({ message: "Invalid ID: it should be a positive integer number" });
+    }
+
+    const { data, error } = await getSupabaseClient(context).rpc("update_title_info", { _id });
+
+    if (error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error });
+    }
+
+    if (data === false) {
+      context.status(404);
+      return context.json({ message: "Title not found" });
+    }
+
+    return context.json({ ok: true });
+  });

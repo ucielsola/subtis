@@ -23,7 +23,9 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
     async (context) => {
       const { bytes, fileName } = context.req.valid("param");
 
-      if (Number(bytes) < 1) {
+      const parsedBytes = Number.parseInt(bytes);
+
+      if (Number.isNaN(parsedBytes) || parsedBytes < 1) {
         context.status(400);
         return context.json({ message: "Invalid Bytes: it should be a positive integer number" });
       }
@@ -134,7 +136,9 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
   .get("/link/:subtitleId", zValidator("param", z.object({ subtitleId: z.string() })), async (context) => {
     const { subtitleId: id } = context.req.valid("param");
 
-    if (Number(id) < 1) {
+    const parsedId = Number.parseInt(id);
+
+    if (Number.isNaN(parsedId) || parsedId < 1) {
       context.status(400);
       return context.json({ message: "Invalid ID: it should be a positive integer number" });
     }
@@ -192,14 +196,19 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "Invalid Bytes: it should be a positive integer number" });
       }
 
-      const { error } = await getSupabaseClient(context).rpc("update_subtitle_info", {
+      const { data, error } = await getSupabaseClient(context).rpc("update_subtitle_info", {
         _bytes: bytes,
         _title_file_name: titleFileName,
       });
 
       if (error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error });
+      }
+
+      if (data === false) {
         context.status(404);
-        return context.json({ message: "File name not found in database to update subtitle" });
+        return context.json({ message: "Subtitle not found" });
       }
 
       return context.json({ ok: true });

@@ -111,8 +111,23 @@ chmod +x ./subtis && ./subtis
 - Generate SQL dump
 
 ```bash
-pg_dump -h aws-0-sa-east-1.pooler.supabase.com -U postgres.yelhsmnvfyyjuamxbobs -d postgres -p 6543 -s > schema.sql
+bun run update:db:dump
 ```
+
+- Bump DB schemas
+
+  1. Remove the following 4 lines
+  ```typescript
+  show_limit: {
+    Args: Record<PropertyKey, never>;
+    Returns: number;
+  };
+  ```
+
+  2. Run the following command
+  ```bash
+  bun run update:db:schemas
+  ```
 
 - Bump project dependencies
 

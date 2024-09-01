@@ -22,7 +22,9 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
   .get("/movie/:id", zValidator("param", z.object({ id: z.string() })), async (context) => {
     const { id } = context.req.valid("param");
 
-    if (Number(id) < 1) {
+    const parsedId = Number.parseInt(id);
+
+    if (Number.isNaN(parsedId) || parsedId < 1) {
       context.status(400);
       return context.json({ message: "Invalid ID: it should be a positive integer number" });
     }
@@ -47,7 +49,9 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
     async (context) => {
       const { id, season = 1, episode = 1 } = context.req.valid("param");
 
-      if (Number(id) < 1) {
+      const parsedId = Number.parseInt(id);
+
+      if (Number.isNaN(parsedId) || parsedId < 1) {
         context.status(400);
         return context.json({ message: "Invalid ID: it should be a positive integer number" });
       }
@@ -72,7 +76,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 
     const parsedLimit = Number.parseInt(limit);
 
-    if (parsedLimit < 1) {
+    if (Number.isNaN(parsedLimit) || parsedLimit < 1) {
       context.status(400);
       return context.json({ message: "Invalid ID: it should be a positive integer number" });
     }
