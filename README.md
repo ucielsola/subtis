@@ -167,7 +167,7 @@ bun run code:duplications
 
 ## API Playground
 
-1. Import [docs/collection.json](/docs/collection.json) into your preferred HTTP client like [Hoppscotch](https://hoppscotch.io/) within Collecitions to quickly play with all API endpoints and different scenarios
+1. Import [docs/collection.json](/docs/collection.json) into your preferred HTTP client like [Yaak](https://yaak.app) within Collecitions to quickly play with all API endpoints and different scenarios
 
 2. Import [docs/localhost.json](/docs/localhost.json) and [docs/localhost.json](/docs/production.json) to your environments section in your HTTP client
 
