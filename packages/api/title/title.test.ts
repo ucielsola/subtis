@@ -41,16 +41,16 @@ describe("API | /title/teaser/:fileName", () => {
       method: "GET",
     };
 
-    const fileName = "Kingdom.Of.The.Planet.Of.The.Apes.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4";
+    const fileName = "Inside.Out.2.2024.720p.WEBRip.x264.AAC-[YTS.MX].mp4";
 
     const response = await title.request(`/teaser/${fileName}`, request, getMockEnv());
     const data = await response.json();
 
     expect(response.status).toBe(200);
     expect(data).toEqual({
-      name: "Kingdom Of The Planet Of The Apes",
+      name: "Inside Out 2",
       year: 2024,
-      url: "https://www.youtube.com/watch?v=F76v5seynhk",
+      url: "https://www.youtube.com/watch?v=RY5aH21ohU4",
     });
   });
 

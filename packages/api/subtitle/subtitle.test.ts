@@ -38,8 +38,8 @@ describe("API | /subtitle/file/name/:bytes/:fileName", () => {
     const response = await subtitle.request(`/file/name/${bytes}/${fileName}`, request, getMockEnv());
     const data = await response.json();
 
-    expect(response.status).toBe(400);
-    expect(data).toEqual({ message: "Invalid ID: it should be a number" });
+    expect(response.status).toBe(404);
+    expect(data).toEqual({ message: "Subtitle not found for file" });
   });
 
   test("Invalid URL with fileName not being a video extension", async () => {
@@ -70,7 +70,7 @@ describe("API | /subtitle/file/name/:bytes/:fileName", () => {
 
     expect(response.status).toBe(200);
     expect(data).toEqual({
-      id: 6600,
+      id: 6825,
       resolution: "1080p",
       subtitle_link:
         "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-garfield-movie-1080p-yts-subdivx.srt?download=The.Garfield.Movie.2024.1080p.BluRay.x264.AAC5.1-[YTS.MX].srt",
@@ -82,7 +82,7 @@ describe("API | /subtitle/file/name/:bytes/:fileName", () => {
         title_name: "The Garfield Movie",
         type: "movie",
         year: 2024,
-        poster: "https://image.tmdb.org/t/p/original/xYduFGuch9OwbCOEUiamml18ZoB.jpg",
+        poster: "https://image.tmdb.org/t/p/original/tkdc73JiPVvzngSpbLEIfFNjll1.jpg",
         backdrop: "https://image.tmdb.org/t/p/original/1wP1phHo2CROOqzv7Azs0MT5esU.jpg",
       },
       releaseGroup: {
@@ -107,7 +107,7 @@ describe("API | /subtitle/file/name/:bytes/:fileName", () => {
 
     expect(response.status).toBe(200);
     expect(data).toEqual({
-      id: 6600,
+      id: 6825,
       resolution: "1080p",
       subtitle_link:
         "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-garfield-movie-1080p-yts-subdivx.srt?download=The.Garfield.Movie.2024.1080p.BluRay.x264.AAC5.1-[YTS.MX].srt",
@@ -119,7 +119,7 @@ describe("API | /subtitle/file/name/:bytes/:fileName", () => {
         title_name: "The Garfield Movie",
         type: "movie",
         year: 2024,
-        poster: "https://image.tmdb.org/t/p/original/xYduFGuch9OwbCOEUiamml18ZoB.jpg",
+        poster: "https://image.tmdb.org/t/p/original/tkdc73JiPVvzngSpbLEIfFNjll1.jpg",
         backdrop: "https://image.tmdb.org/t/p/original/1wP1phHo2CROOqzv7Azs0MT5esU.jpg",
       },
       releaseGroup: {
@@ -184,7 +184,7 @@ describe("API | /subtitle/file/alternative/:fileName", () => {
 
     expect(response.status).toBe(200);
     expect(data).toEqual({
-      id: 6604,
+      id: 6829,
       resolution: "720p",
       subtitle_link:
         "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-garfield-movie-720p-galaxyrg-subdivx.srt?download=The.Garfield.Movie.2024.720p.WEBRip.800MB.x264-GalaxyRG.srt",
@@ -196,7 +196,7 @@ describe("API | /subtitle/file/alternative/:fileName", () => {
         title_name: "The Garfield Movie",
         type: "movie",
         year: 2024,
-        poster: "https://image.tmdb.org/t/p/original/xYduFGuch9OwbCOEUiamml18ZoB.jpg",
+        poster: "https://image.tmdb.org/t/p/original/tkdc73JiPVvzngSpbLEIfFNjll1.jpg",
         backdrop: "https://image.tmdb.org/t/p/original/1wP1phHo2CROOqzv7Azs0MT5esU.jpg",
       },
       releaseGroup: {
@@ -235,7 +235,7 @@ describe("API | /subtitle/link/:subtitleId", () => {
     const data = await response.json();
 
     expect(response.status).toBe(400);
-    expect(data).toEqual({ message: "Invalid ID: it should be a number" });
+    expect(data).toEqual({ message: "Invalid ID: it should be a positive integer number" });
   });
 
   test("Valid URL with subtitle not found", async () => {
@@ -257,7 +257,7 @@ describe("API | /subtitle/link/:subtitleId", () => {
       method: "GET",
     };
 
-    const subtitleId = 6509;
+    const subtitleId = 6734;
 
     const response = await subtitle.request(`/link/${subtitleId}`, request, getMockEnv());
 

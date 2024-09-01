@@ -11,13 +11,13 @@ describe("API | /subtitles/movie/:id", () => {
       method: "GET",
     };
 
-    const movieId = "9214772d";
+    const movieId = "dddddddd";
 
     const response = await subtitles.request(`/movie/${movieId}`, request, getMockEnv());
     const data = await response.json();
 
     expect(response.status).toBe(400);
-    expect(data).toEqual({ message: "Invalid ID: it should be a number" });
+    expect(data).toEqual({ message: "Invalid ID: it should be a positive integer number" });
   });
 
   test("Valid URL with existing movie ID", async () => {
@@ -57,13 +57,13 @@ describe("API | /subtitles/tv-show/:id/:season?/:episode?", () => {
       method: "GET",
     };
 
-    const tvShowId = "9214772d";
+    const tvShowId = "ddassqweqwew";
 
     const response = await subtitles.request(`/tv-show/${tvShowId}`, request, getMockEnv());
     const data = await response.json();
 
     expect(response.status).toBe(400);
-    expect(data).toEqual({ message: "Invalid ID: it should be a number" });
+    expect(data).toEqual({ message: "Invalid ID: it should be a positive integer number" });
   });
 
   test("Valid URL with existing TV show ID", async () => {
@@ -71,7 +71,7 @@ describe("API | /subtitles/tv-show/:id/:season?/:episode?", () => {
       method: "GET",
     };
 
-    const tvShowId = 16026746;
+    const tvShowId = 9018736;
 
     const response = await subtitles.request(`/tv-show/${tvShowId}`, request, getMockEnv());
     const data = await response.json();
@@ -85,7 +85,7 @@ describe("API | /subtitles/tv-show/:id/:season?/:episode?", () => {
       method: "GET",
     };
 
-    const tvShowId = 16026746;
+    const tvShowId = 9018736;
 
     const response = await subtitles.request(`/tv-show/${tvShowId}/1`, request, getMockEnv());
     const data = await response.json();
@@ -99,7 +99,7 @@ describe("API | /subtitles/tv-show/:id/:season?/:episode?", () => {
       method: "GET",
     };
 
-    const tvShowId = 16026746;
+    const tvShowId = 9018736;
 
     const response = await subtitles.request(`/tv-show/${tvShowId}/1/1`, request, getMockEnv());
     const data = await response.json();

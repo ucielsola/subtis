@@ -96,21 +96,52 @@ describe("API | /titles/recent/:limit", () => {
     expect(response.status).toBe(200);
     expect(data).toEqual([
       {
-        id: 12610390,
-        title_name: "The Union",
+        id: 12598606,
+        title_name: "Gunner",
         type: "movie",
         year: 2024,
-        rating: 6.316,
-        release_date: "2024-08-15",
+        rating: 5.2,
+        release_date: "2024-08-16",
       },
       {
-        id: 26940324,
-        title_name: "Jackpot!",
+        id: 18884172,
+        title_name: "Crescent City",
         type: "movie",
         year: 2024,
-        rating: 6.502,
-        release_date: "2024-08-13",
+        rating: 6.048,
+        release_date: "2024-08-16",
       },
     ]);
+  });
+});
+
+describe("API | /titles/trending/:limit", () => {
+  test("Valid URL with limit being greater than MAX_LIMIT (30)", async () => {
+    const request = {
+      method: "GET",
+    };
+
+    const limit = 40;
+
+    const response = await titles.request(`/trending/${limit}`, request, getMockEnv());
+    const data = await response.json();
+
+    expect(response.status).toBe(400);
+    expect(data).toEqual({ message: `Limit must be less than or equal to ${MAX_LIMIT}` });
+  });
+
+  test("Valid URL with limit being 1", async () => {
+    const request = {
+      method: "GET",
+    };
+
+    const limit = 1;
+
+    const response = await titles.request(`/trending/${limit}`, request, getMockEnv());
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data).toBeArray();
+    expect(data).toHaveLength(1);
   });
 });
