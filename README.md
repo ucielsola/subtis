@@ -42,10 +42,11 @@ bun run dev:raycast
 bun run dev:stremio
 ```
 
-5. (Optionally) Run the indexer
+5. Run the indexer to fill DB
 
 ```bash
-bun run dev:indexer
+bun run dev:indexer:movies
+bun run dev:indexer:tv-shows
 ```
 
 ## Deployment
