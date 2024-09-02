@@ -1,7 +1,7 @@
 {
   "yaakVersion": "2024.8.2",
   "yaakSchema": 2,
-  "timestamp": "2024-09-02T16:32:39.821294",
+  "timestamp": "2024-09-02T23:58:26.493066",
   "resources": {
     "workspaces": [
       {
@@ -115,18 +115,18 @@
     "httpRequests": [
       {
         "createdAt": "2024-09-01T16:36:01",
-        "updatedAt": "2024-09-02T16:14:07",
+        "updatedAt": "2024-09-02T23:55:39",
         "id": "rq_TSkZUrqOKj",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "model": "http_request",
-        "sortPriority": 0.0,
+        "sortPriority": 1000.0,
         "name": "Update subtitle download metrics (/v1/subtitle/metrics/download)",
         "url": "${[baseUrl]}/v1/subtitle/metrics/download",
         "urlParameters": [],
-        "method": "POST",
+        "method": "PATCH",
         "body": {
-          "text": "{\n  \"bytes\": \"<integer>\",\n  \"titleFileName\": \"<string>\"\n}"
+          "text": "{\n  \"bytes\": 1704801878,\n  \"titleFileName\": \"Prey.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}"
         },
         "bodyType": "application/json",
         "authentication": {},
@@ -141,12 +141,12 @@
       },
       {
         "createdAt": "2024-09-01T16:36:01",
-        "updatedAt": "2024-09-02T16:14:20",
+        "updatedAt": "2024-09-02T23:44:01",
         "id": "rq_lLVuparxgM",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "model": "http_request",
-        "sortPriority": 3000.0,
+        "sortPriority": 0.0,
         "name": "Create not found subtitle (/v1/subtitle/not-found)",
         "url": "${[baseUrl]}/v1/subtitle/not-found",
         "urlParameters": [],
@@ -167,12 +167,12 @@
       },
       {
         "createdAt": "2024-09-01T16:36:01",
-        "updatedAt": "2024-09-02T16:29:37",
+        "updatedAt": "2024-09-02T23:44:01",
         "id": "rq_k2QEcQF7uP",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "model": "http_request",
-        "sortPriority": 4000.0,
+        "sortPriority": 2000.0,
         "name": "Get subtitle short link (/v1/subtitle/link/:subtitleId)",
         "url": "${[baseUrl]}/v1/subtitle/link/:subtitleId",
         "urlParameters": [],
@@ -185,12 +185,12 @@
       },
       {
         "createdAt": "2024-09-01T16:36:01",
-        "updatedAt": "2024-09-02T16:30:26",
+        "updatedAt": "2024-09-02T23:44:01",
         "id": "rq_H9boP0jxGI",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "model": "http_request",
-        "sortPriority": 5000.0,
+        "sortPriority": 4000.0,
         "name": "Get subtitle by file name and bytes (/v1/subtitle/file/name/:bytes/:fileName)",
         "url": "${[baseUrl]}/v1/subtitle/file/name/1117597602/Bad.Boys.Ride.Or.Die.2024.720p.WEBRip.x264.AAC-[YTS.MX].mp4",
         "urlParameters": [],
@@ -203,12 +203,12 @@
       },
       {
         "createdAt": "2024-09-01T16:36:01",
-        "updatedAt": "2024-09-02T16:29:49",
+        "updatedAt": "2024-09-02T23:44:01",
         "id": "rq_0NmBIllZrD",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "model": "http_request",
-        "sortPriority": 4500.0,
+        "sortPriority": 3000.0,
         "name": "Get alternative subtitle by file name (/v1/subtitle/file/alternative/:fileName)",
         "url": "${[baseUrl]}/v1/subtitle/file/alternative/:fileName",
         "urlParameters": [],
@@ -311,7 +311,7 @@
       },
       {
         "createdAt": "2024-09-01T16:36:01",
-        "updatedAt": "2024-09-02T16:11:27",
+        "updatedAt": "2024-09-02T23:58:08",
         "id": "rq_lWYKCjbYhz",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_G3EShJi9ud",
@@ -320,9 +320,9 @@
         "name": "Update title click metrics (/v1/title/metrics/click)",
         "url": "${[baseUrl]}/v1/title/metrics/click",
         "urlParameters": [],
-        "method": "POST",
+        "method": "PATCH",
         "body": {
-          "text": "{\n  \"id\": \"<integer>\"\n}"
+          "text": "{\n  \"id\": 27682129\n}"
         },
         "bodyType": "application/json",
         "authentication": {},
