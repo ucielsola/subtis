@@ -110,7 +110,7 @@ export const title = new Hono<{ Variables: AppVariables }>()
       url: teaser,
     });
   })
-  .post("/metrics/click", zValidator("json", z.object({ id: z.number() })), async (context) => {
+  .patch("/metrics/click", zValidator("json", z.object({ id: z.number() })), async (context) => {
     const { id: _id } = context.req.valid("json");
 
     if (_id < 1) {

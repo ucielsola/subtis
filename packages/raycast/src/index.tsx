@@ -59,7 +59,7 @@ export default function Command() {
       }
 
       fetch(`${API_URL}/v1/metrics/download`, {
-        method: "POST",
+        method: "PATCH",
         body: JSON.stringify({ bytes, fileName }),
         headers: { "Content-Type": "application/json" },
       });

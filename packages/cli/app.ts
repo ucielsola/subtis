@@ -84,7 +84,7 @@ export async function mod(): Promise<void> {
       return outro(`⛏ ${description}`);
     }
 
-    apiClient.v1.subtitle.metrics.download.$post({
+    apiClient.v1.subtitle.metrics.download.$patch({
       json: { bytes, titleFileName: fileName },
     });
 

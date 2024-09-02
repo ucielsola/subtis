@@ -185,7 +185,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       return context.json({ ok: true });
     },
   )
-  .post(
+  .patch(
     "/metrics/download",
     zValidator("json", z.object({ bytes: z.number(), titleFileName: z.string() })),
     async (context) => {
