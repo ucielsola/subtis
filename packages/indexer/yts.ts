@@ -120,7 +120,7 @@ const TRACKERS = [
   "udp://tracker.leechers-paradise.org:6969",
   "udp://tracker.internetwarriors.net:1337",
 ];
-const trParameter = TRACKERS[0]
+const trParameter = TRACKERS[0];
 
 export async function getYtsTorrents(imdbId: number) {
   const response = await fetch(
