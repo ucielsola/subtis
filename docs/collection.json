@@ -1,7 +1,7 @@
 {
-  "yaakVersion": "2024.8.2",
+  "yaakVersion": "2024.9.0-beta.1",
   "yaakSchema": 2,
-  "timestamp": "2024-09-03T02:55:26.670642",
+  "timestamp": "2024-09-03T17:33:10.566610",
   "resources": {
     "workspaces": [
       {
@@ -167,14 +167,14 @@
       },
       {
         "createdAt": "2024-09-01T16:36:01",
-        "updatedAt": "2024-09-03T00:08:57",
+        "updatedAt": "2024-09-03T17:29:09",
         "id": "rq_k2QEcQF7uP",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "model": "http_request",
         "sortPriority": 2000.0,
         "name": "Get subtitle short link (/v1/subtitle/link/:subtitleId)",
-        "url": "${[baseUrl]}/v1/subtitle/link/6727",
+        "url": "${[baseUrl]}/v1/subtitle/link/:subtitleId",
         "urlParameters": [],
         "method": "GET",
         "body": {},
@@ -185,14 +185,14 @@
       },
       {
         "createdAt": "2024-09-01T16:36:01",
-        "updatedAt": "2024-09-03T00:04:52",
+        "updatedAt": "2024-09-03T17:29:39",
         "id": "rq_H9boP0jxGI",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "model": "http_request",
         "sortPriority": 4000.0,
         "name": "Get subtitle by file name and bytes (/v1/subtitle/file/name/:bytes/:fileName)",
-        "url": "${[baseUrl]}/v1/subtitle/file/name/5156483797/Despicable.Me.4.2024.1080p.WEB.h264-ETHEL.mkv",
+        "url": "${[baseUrl]}/v1/subtitle/file/name/:bytes/:fileName",
         "urlParameters": [],
         "method": "GET",
         "body": {},
@@ -221,14 +221,14 @@
       },
       {
         "createdAt": "2024-09-01T16:36:01",
-        "updatedAt": "2024-09-03T00:15:05",
+        "updatedAt": "2024-09-03T17:30:39",
         "id": "rq_N17uAhCV9T",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_CqsEDHtsiK",
         "model": "http_request",
         "sortPriority": 0.0,
         "name": "Get subtitles by movie ID (/v1/subtitles/movie/:id)",
-        "url": "${[baseUrl]}/v1/subtitles/movie/11389872",
+        "url": "${[baseUrl]}/v1/subtitles/movie/:id",
         "urlParameters": [],
         "method": "GET",
         "body": {},
@@ -275,14 +275,14 @@
       },
       {
         "createdAt": "2024-09-01T16:36:01",
-        "updatedAt": "2024-09-03T00:51:01",
+        "updatedAt": "2024-09-03T17:31:17",
         "id": "rq_QsY5hKIlNW",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_CqsEDHtsiK",
         "model": "http_request",
         "sortPriority": 4000.0,
         "name": "Download subtitles for a TV show season (/v1/subtitles/tv-show/download/season/:id/:season/:resolution/:releaseGroupId)",
-        "url": "${[baseUrl]}/v1/subtitles/tv-show/download/season/12262202/1/720p/956",
+        "url": "${[baseUrl]}/v1/subtitles/tv-show/download/season/:id/:season/:resolution/:releaseGroupId",
         "urlParameters": [],
         "method": "GET",
         "body": {},
@@ -391,15 +391,31 @@
       },
       {
         "createdAt": "2024-09-01T16:36:01",
-        "updatedAt": "2024-09-03T00:36:43",
+        "updatedAt": "2024-09-03T17:28:53",
         "id": "rq_CeZMoAtUiy",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_YERMf4idMs",
         "model": "http_request",
         "sortPriority": 0.0,
         "name": "Get trending titles (/v1/titles/trending/:limit)",
-        "url": "${[baseUrl]}/v1/titles/trending/3",
-        "urlParameters": [],
+        "url": "${[baseUrl]}/v1/titles/trending/:limit",
+        "urlParameters": [
+          {
+            "enabled": true,
+            "name": ":limit",
+            "value": ""
+          },
+          {
+            "enabled": false,
+            "name": "",
+            "value": ""
+          },
+          {
+            "enabled": true,
+            "name": "",
+            "value": ""
+          }
+        ],
         "method": "GET",
         "body": {},
         "bodyType": null,
