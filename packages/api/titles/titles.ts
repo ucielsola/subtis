@@ -30,6 +30,7 @@ const recentTitlesSchema = z
 const trendingTitleSchema = titlesRowSchema.pick({
   id: true,
   title_name: true,
+  queried_times: true,
 });
 
 const trendingSubtitlesSchema = z
@@ -46,9 +47,11 @@ const recentTitlesQuery = `
   release_date
 `;
 
+// TODO: Remove queried_times when going to Prod (only for QA to test API)
 const trendingTitlesQuery = `
   id,
-  title_name
+  title_name,
+  queried_times
 `;
 
 // core
