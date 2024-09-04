@@ -81,6 +81,14 @@ const CURATED_CHANNELS = [
     name: "Neon",
     ids: ["UCpy5dRhZd-JbZP4NsrnLt1w"], // MAIN
   },
+  {
+    name: "Walt Disney",
+    ids: ["UCuaFvcY4MhZY3U43mMt1dYQ", "UC_976xMxPgzIa290Hqtk-9g"], // Studios - Animation Studios
+  },
+  {
+    name: "Pixar",
+    ids: ["UC_IRYSp4auq7hKLvziWVH6w"], // MAIN
+  },
 ] as const;
 
 export const OFFICIAL_SUBTIS_CHANNELS = CURATED_CHANNELS.map((channel) => ({
