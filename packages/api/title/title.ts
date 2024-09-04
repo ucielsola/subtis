@@ -41,12 +41,17 @@ export const title = new Hono<{ Variables: AppVariables }>()
 
     const { name, year, currentSeason } = titleFileNameMetadata;
 
-    const { data: titleData } = await getSupabaseClient(context)
+    const { data: titleData, error } = await getSupabaseClient(context)
       .from("Titles")
       .select("teaser")
       .or(`title_name_without_special_chars.ilike.%${name}%`)
       .match({ year })
       .single();
+
+    if (error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error });
+    }
 
     const { success, data } = teaserSchema.safeParse(titleData);
 

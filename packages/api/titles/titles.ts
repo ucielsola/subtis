@@ -91,11 +91,16 @@ export const titles = new Hono<{ Variables: AppVariables }>()
       return context.json({ message: `Limit must be less than or equal to ${MAX_LIMIT}` });
     }
 
-    const { data } = await getSupabaseClient(context)
+    const { data, error } = await getSupabaseClient(context)
       .from("Titles")
       .select(recentTitlesQuery)
       .order("release_date", { ascending: false })
       .limit(parsedLimit);
+
+    if (error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error });
+    }
 
     const recentSubtitles = recentTitlesSchema.safeParse(data);
     if (!recentSubtitles.success) {
@@ -120,12 +125,17 @@ export const titles = new Hono<{ Variables: AppVariables }>()
       return context.json({ message: `Limit must be less than or equal to ${MAX_LIMIT}` });
     }
 
-    const { data } = await getSupabaseClient(context)
+    const { data, error } = await getSupabaseClient(context)
       .from("Titles")
       .select(trendingTitlesQuery)
       .order("queried_times", { ascending: false })
       .order("last_queried_at", { ascending: false })
       .limit(parsedLimit);
+
+    if (error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error });
+    }
 
     const trendingSubtitles = trendingSubtitlesSchema.safeParse(data);
     if (!trendingSubtitles.success) {

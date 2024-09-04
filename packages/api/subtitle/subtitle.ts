@@ -38,11 +38,16 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
       const supabase = getSupabaseClient(context);
 
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from("Subtitles")
         .select(subtitlesQuery)
         .or(`title_file_name.eq.${fileName},bytes.eq.${bytes}`)
         .single();
+
+      if (error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error });
+      }
 
       const subtitleByFileName = subtitleSchema.safeParse(data);
 
@@ -74,7 +79,13 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       titleQuery.eq("year", year);
     }
 
-    const { data: titleData } = await titleQuery.single();
+    const { data: titleData, error } = await titleQuery.single();
+
+    if (error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error });
+    }
+
     const titleByNameAndYear = alternativeTitlesSchema.safeParse(titleData);
 
     if (!titleByNameAndYear.success) {
@@ -97,9 +108,15 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       subtitleQuery.eq("current_episode", currentEpisode);
     }
 
-    const { data: subtitleData } = await subtitleQuery.match({
+    const { data: subtitleData, error: subtitleError } = await subtitleQuery.match({
       title_id: titleByNameAndYear.data.id,
     });
+
+    if (subtitleError) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error: subtitleError });
+    }
+
     const subtitleByFileName = alternativeSubtitlesSchema.safeParse(subtitleData);
 
     if (!subtitleByFileName.success) {
@@ -143,7 +160,16 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       return context.json({ message: "Invalid ID: it should be a positive integer number" });
     }
 
-    const { data } = await getSupabaseClient(context).from("Subtitles").select("subtitle_link").match({ id }).single();
+    const { data, error } = await getSupabaseClient(context)
+      .from("Subtitles")
+      .select("subtitle_link")
+      .match({ id })
+      .single();
+
+    if (error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error });
+    }
 
     const subtitleById = subtitleShortenerSchema.safeParse(data);
     if (!subtitleById.success) {
@@ -179,7 +205,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
       if (error) {
         context.status(500);
-        return context.json({ message: error.message });
+        return context.json({ message: "An error occurred", error });
       }
 
       return context.json({ ok: true });

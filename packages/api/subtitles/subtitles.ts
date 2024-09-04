@@ -31,11 +31,16 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       return context.json({ message: "Invalid ID: it should be a positive integer number" });
     }
 
-    const { data } = await getSupabaseClient(context)
+    const { data, error } = await getSupabaseClient(context)
       .from("Subtitles")
       .select(subtitlesQuery)
       .order("subtitle_group_id")
       .match({ title_id: Number(id) });
+
+    if (error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error });
+    }
 
     const subtitles = subtitlesSchema.safeParse(data);
     if (!subtitles.success) {
@@ -58,11 +63,16 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "Invalid ID: it should be a positive integer number" });
       }
 
-      const { data } = await getSupabaseClient(context)
+      const { data, error } = await getSupabaseClient(context)
         .from("Subtitles")
         .select(subtitlesQuery)
         .order("subtitle_group_id")
         .match({ title_id: parsedId, current_season: season, current_episode: episode });
+
+      if (error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error });
+      }
 
       const subtitles = subtitlesSchema.safeParse(data);
       if (!subtitles.success) {
@@ -103,7 +113,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "Invalid Release Group ID: it should be a positive integer number" });
       }
 
-      const { data } = await getSupabaseClient(context)
+      const { data, error } = await getSupabaseClient(context)
         .from("Subtitles")
         .select(subtitlesQuery)
         .order("subtitle_group_id")
@@ -113,6 +123,11 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
           current_season: parsedseason,
           release_group_id: parsedReleaseGroupId,
         });
+
+      if (error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error });
+      }
 
       const subtitles = subtitlesSchema.safeParse(data);
       if (!subtitles.success) {
@@ -159,12 +174,17 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       return context.json({ message: `Limit must be less than or equal to ${MAX_LIMIT}` });
     }
 
-    const { data } = await getSupabaseClient(context)
+    const { data, error } = await getSupabaseClient(context)
       .from("Subtitles")
       .select(subtitlesQuery)
       .order("queried_times", { ascending: false })
       .order("last_queried_at", { ascending: false })
       .limit(parsedLimit);
+
+    if (error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error });
+    }
 
     const trendingSubtitles = trendingSubtitlesSchema.safeParse(data);
     if (!trendingSubtitles.success) {
