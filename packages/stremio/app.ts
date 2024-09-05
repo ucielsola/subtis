@@ -2,7 +2,6 @@ import { type ContentType, type Subtitle, addonBuilder, serveHTTP } from "stremi
 
 // internals
 import { apiClient } from "./api";
-import project from "./package.json";
 
 // api
 import { subtitleSchema } from "@subtis/api/shared/schemas";
@@ -13,7 +12,7 @@ type Args = { id: string; extra: Extra; type: ContentType };
 type ExtraArgs = Args["extra"] & { filename: string };
 
 // helpers
-async function getOriginalSubtitle({
+async function getPrimarySubtitle({
   bytes,
   fileName,
 }: {
@@ -81,8 +80,11 @@ async function getAlternativeSubtitle({
 async function getTitleSubtitle(args: Args): Promise<{ subtitles: Subtitle[] }> {
   try {
     const { videoSize: bytes, filename: fileName } = args.extra as ExtraArgs;
+    console.log("\n ~ getTitleSubtitle ~ fileName:", fileName);
+    console.log("\n ~ getTitleSubtitle ~ bytes:", bytes);
 
-    const originalSubtitle = await getOriginalSubtitle({ bytes, fileName });
+    const originalSubtitle = await getPrimarySubtitle({ bytes, fileName });
+    console.log("\n ~ getTitleSubtitle ~ originalSubtitle:", originalSubtitle);
 
     if (originalSubtitle === null) {
       const alternativeSubtitle = await getAlternativeSubtitle({ fileName });
@@ -99,11 +101,12 @@ async function getTitleSubtitle(args: Args): Promise<{ subtitles: Subtitle[] }> 
 const builder = new addonBuilder({
   name: "Subtis",
   id: "org.subtis",
-  version: project.version,
+  version: "0.1.1",
   description: "Subtis es tu buscador de subtitulos para tus películas y series favoritas",
   catalogs: [],
   resources: ["subtitles"],
   types: ["movie", "series"],
+  idPrefixes: ["tt"],
   logo: "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/assets/stremio.jpg",
 });
 
