@@ -31,6 +31,7 @@
     "dev:indexer:not-found": "cd packages/indexer && bun run dev:not-found",
     "deploy:web": "cd packages/web && bun run deploy",
     "deploy:api": "cd packages/api && bun run deploy",
+    "deploy:stremio": "fly deploy",
     "bump:deps": "taze -r -w",
     "update:deps": "bun bump:deps && bun clean:install",
     "clean:install": "bun pm cache rm && bun install --force"
