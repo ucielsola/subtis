@@ -66,7 +66,7 @@ export const titles = new Hono<{ Variables: AppVariables }>()
 
     const { data, error } = await getSupabaseClient(context).rpc("fuzzy_search_title", { query });
 
-    if (error) {
+    if (error && error.code !== "PGRST116") {
       context.status(500);
       return context.json({ message: "An error occurred", error });
     }
@@ -100,7 +100,7 @@ export const titles = new Hono<{ Variables: AppVariables }>()
       .order("release_date", { ascending: false })
       .limit(parsedLimit);
 
-    if (error) {
+    if (error && error.code !== "PGRST116") {
       context.status(500);
       return context.json({ message: "An error occurred", error });
     }
@@ -135,7 +135,7 @@ export const titles = new Hono<{ Variables: AppVariables }>()
       .order("last_queried_at", { ascending: false })
       .limit(parsedLimit);
 
-    if (error) {
+    if (error && error.code !== "PGRST116") {
       context.status(500);
       return context.json({ message: "An error occurred", error });
     }

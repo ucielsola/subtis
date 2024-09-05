@@ -48,7 +48,7 @@ export const title = new Hono<{ Variables: AppVariables }>()
       .match({ year })
       .single();
 
-    if (error) {
+    if (error && error.code !== "PGRST116") {
       context.status(500);
       return context.json({ message: "An error occurred", error });
     }
@@ -125,12 +125,12 @@ export const title = new Hono<{ Variables: AppVariables }>()
 
     const { data, error } = await getSupabaseClient(context).rpc("update_title_info", { _id });
 
-    if (error) {
+    if (error && error.code !== "PGRST116") {
       context.status(500);
       return context.json({ message: "An error occurred", error });
     }
 
-    if (data === false) {
+    if (data && data === false) {
       context.status(404);
       return context.json({ message: "Title not found" });
     }

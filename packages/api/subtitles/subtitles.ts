@@ -37,7 +37,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       .order("subtitle_group_id")
       .match({ title_id: Number(id) });
 
-    if (error) {
+    if (error && error.code !== "PGRST116") {
       context.status(500);
       return context.json({ message: "An error occurred", error });
     }
@@ -69,7 +69,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
         .order("subtitle_group_id")
         .match({ title_id: parsedId, current_season: season, current_episode: episode });
 
-      if (error) {
+      if (error && error.code !== "PGRST116") {
         context.status(500);
         return context.json({ message: "An error occurred", error });
       }
@@ -124,7 +124,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
           release_group_id: parsedReleaseGroupId,
         });
 
-      if (error) {
+      if (error && error.code !== "PGRST116") {
         context.status(500);
         return context.json({ message: "An error occurred", error });
       }
@@ -181,7 +181,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       .order("last_queried_at", { ascending: false })
       .limit(parsedLimit);
 
-    if (error) {
+    if (error && error.code !== "PGRST116") {
       context.status(500);
       return context.json({ message: "An error occurred", error });
     }

@@ -20,11 +20,13 @@ export const alternativeTitlesSchema = titlesRowSchema.pick({ id: true });
 export const subtitleSchema = subtitlesRowSchema
   .pick({
     id: true,
+    bytes: true,
     resolution: true,
     subtitle_link: true,
     queried_times: true,
     current_season: true,
     current_episode: true,
+    title_file_name: true,
     subtitle_file_name: true,
   })
   .extend({
@@ -37,7 +39,9 @@ export const subtitleShortenerSchema = subtitlesRowSchema.pick({ subtitle_link: 
 
 export const subtitlesQuery = `
   id,
+  bytes,
   resolution,
+  title_file_name,
   subtitle_link,
   queried_times,
   subtitle_file_name,

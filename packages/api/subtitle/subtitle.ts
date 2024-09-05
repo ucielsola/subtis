@@ -44,7 +44,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         .or(`title_file_name.eq.${fileName},bytes.eq.${bytes}`)
         .single();
 
-      if (error) {
+      if (error && error.code !== "PGRST116") {
         context.status(500);
         return context.json({ message: "An error occurred", error });
       }
@@ -81,7 +81,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
     const { data: titleData, error } = await titleQuery.single();
 
-    if (error) {
+    if (error && error.code !== "PGRST116") {
       context.status(500);
       return context.json({ message: "An error occurred", error });
     }
@@ -166,7 +166,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       .match({ id })
       .single();
 
-    if (error) {
+    if (error && error.code !== "PGRST116") {
       context.status(500);
       return context.json({ message: "An error occurred", error });
     }
@@ -203,7 +203,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         .from("SubtitlesNotFound")
         .insert({ email, bytes, title_file_name: titleFileName });
 
-      if (error) {
+      if (error && error.code !== "PGRST116") {
         context.status(500);
         return context.json({ message: "An error occurred", error });
       }
@@ -227,12 +227,12 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         _title_file_name: titleFileName,
       });
 
-      if (error) {
+      if (error && error.code !== "PGRST116") {
         context.status(500);
         return context.json({ message: "An error occurred", error });
       }
 
-      if (data === false) {
+      if (data && data === false) {
         context.status(404);
         return context.json({ message: "Subtitle not found" });
       }

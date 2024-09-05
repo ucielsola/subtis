@@ -7,157 +7,90 @@ import project from "./package.json";
 // api
 import { subtitleSchema } from "@subtis/api/shared/schemas";
 
-// helpers
-import { detailMessageSchema, finalMessageSchema } from "@subtis/indexer/ws-schemas";
-
 // types
 type Extra = { videoHash: string; videoSize: string };
 type Args = { id: string; extra: Extra; type: ContentType };
-
 type ExtraArgs = Args["extra"] & { filename: string };
 
-// core
-async function getTitleSubtitle(args: Args): Promise<{ subtitles: Subtitle[] }> {
-  const { videoSize: bytes, filename: fileName } = args.extra as ExtraArgs;
+// helpers
+async function getOriginalSubtitle({
+  bytes,
+  fileName,
+}: {
+  bytes: string;
+  fileName: string;
+}) {
+  const response = await apiClient.v1.subtitle.file.name[":bytes"][":fileName"].$get({
+    param: { bytes, fileName },
+  });
 
-  async function fetchSubtitleFromApi() {
-    const response = await apiClient.v1.subtitle.file.name[":bytes"][":fileName"].$get({
-      param: { bytes, fileName },
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      const subtitleByFileName = subtitleSchema.parse(data);
-
-      const subtitle = {
-        lang: "spa",
-        id: String(subtitleByFileName.id),
-        url: subtitleByFileName.subtitle_link,
-      };
-
-      // await apiClient.v1.subtitle.metrics.download.$post({
-      //   json: { bytes: Number(bytes), titleFileName: fileName },
-      // });
-
-      return { subtitles: [subtitle] };
-    }
-
+  if (response.status === 404) {
     return null;
   }
 
-  // Function to handle WebSocket connection
-  async function fetchSubtitleOnDemand() {
-    return new Promise((resolve) => {
-      const socket = new WebSocket("ws://localhost:3000");
-
-      const wsInitialMessage = {
-        subtitle: { bytes: Number(bytes), titleFileName: fileName },
-      };
-
-      socket.addEventListener("message", async (event) => {
-        if (typeof event.data !== "string") {
-          return;
-        }
-
-        const parsedMessage = JSON.parse(event.data);
-        const subtitleMessage = detailMessageSchema.safeParse(parsedMessage);
-
-        if (subtitleMessage.success) {
-          console.log(`Vamos un ${subtitleMessage.data.total * 100}% completado`);
-          console.log(`Detalle: ${subtitleMessage.data.message} \n`);
-        }
-
-        const finalMessage = finalMessageSchema.safeParse(parsedMessage);
-
-        if (finalMessage.success) {
-          if (finalMessage.data.ok === false) {
-            console.log("No pudimos encontrar el subtitulo para este archivo desde el indexador");
-            console.log("Buscando el subtitulo alternativo por nombre de archivo");
-
-            const response = await apiClient.v1.subtitle.file.alternative[":fileName"].$get({
-              param: { fileName },
-            });
-
-            if (response.ok) {
-              const data = await response.json();
-
-              const subtitleByFileName = subtitleSchema.parse(data);
-
-              const subtitle = {
-                lang: "spa",
-                id: String(subtitleByFileName.id),
-                url: subtitleByFileName.subtitle_link,
-              };
-
-              return resolve({ subtitles: [subtitle] });
-            }
-
-            return resolve({ subtitles: [] });
-          }
-
-          console.log(`Finalizado con éxito: ${finalMessage.data.ok}`);
-          console.log(
-            `Redireccionando a pagina /${wsInitialMessage.subtitle.bytes}/${wsInitialMessage.subtitle.titleFileName}`,
-          );
-
-          const response = await apiClient.v1.subtitle.file.name[":bytes"][":fileName"].$get({
-            param: { bytes, fileName },
-          });
-
-          if (response.ok) {
-            const data = await response.json();
-
-            const subtitleByFileName = subtitleSchema.parse(data);
-
-            const subtitle = {
-              lang: "spa",
-              id: String(subtitleByFileName.id),
-              url: subtitleByFileName.subtitle_link,
-            };
-            console.log("\n ~ socket.addEventListener ~ subtitle:", subtitle);
-
-            // await apiClient.v1.subtitle.metrics.download.$post({
-            //   json: { bytes: Number(bytes), titleFileName: fileName },
-            // });
-
-            return resolve({ subtitles: [subtitle] });
-          }
-        }
-
-        // return resolve({ subtitles: [] });
-      });
-
-      socket.addEventListener("open", (_event) => {
-        socket.send(JSON.stringify(wsInitialMessage));
-      });
-
-      socket.addEventListener("close", (event) => {
-        console.log("\n ~ event close in:", event.reason);
-      });
-
-      socket.addEventListener("error", (event) => {
-        console.log("\n ~ event error in:", event.type);
-        return resolve({ subtitles: [] });
-      });
-    });
+  if (!response.ok) {
+    throw new Error("Failed to fetch original subtitle");
   }
 
-  try {
-    // First attempt to fetch subtitle from the API
-    const initialSubtitle = await fetchSubtitleFromApi();
-    console.log("\n ~ getTitleSubtitle ~ initialSubtitle:", initialSubtitle);
+  const data = await response.json();
+  const subtitleByFileName = subtitleSchema.parse(data);
 
-    // If initial fetch fails, trigger the WebSocket logic
-    if (initialSubtitle) {
-      return Promise.resolve(initialSubtitle);
+  const subtitle = {
+    lang: "spa",
+    id: String(subtitleByFileName.id),
+    url: subtitleByFileName.subtitle_link,
+  };
+
+  await apiClient.v1.subtitle.metrics.download.$patch({
+    json: { bytes: subtitleByFileName.bytes, titleFileName: subtitleByFileName.title_file_name },
+  });
+
+  return { subtitles: [subtitle] };
+}
+
+async function getAlternativeSubtitle({
+  fileName,
+}: {
+  fileName: string;
+}) {
+  const response = await apiClient.v1.subtitle.file.alternative[":fileName"].$get({
+    param: { fileName },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch alternative subtitle");
+  }
+
+  const data = await response.json();
+  const subtitleByFileName = subtitleSchema.parse(data);
+
+  const subtitle = {
+    lang: "spa",
+    id: String(subtitleByFileName.id),
+    url: subtitleByFileName.subtitle_link,
+  };
+
+  await apiClient.v1.subtitle.metrics.download.$patch({
+    json: { bytes: subtitleByFileName.bytes, titleFileName: subtitleByFileName.title_file_name },
+  });
+
+  return { subtitles: [subtitle] };
+}
+
+// core
+async function getTitleSubtitle(args: Args): Promise<{ subtitles: Subtitle[] }> {
+  try {
+    const { videoSize: bytes, filename: fileName } = args.extra as ExtraArgs;
+
+    const originalSubtitle = await getOriginalSubtitle({ bytes, fileName });
+
+    if (originalSubtitle === null) {
+      const alternativeSubtitle = await getAlternativeSubtitle({ fileName });
+      return alternativeSubtitle;
     }
 
-    const result = await fetchSubtitleOnDemand();
-    console.log("\n ~ getTitleSubtitle ~ result:", result);
-
-    return Promise.resolve(result as { subtitles: Subtitle[] });
+    return originalSubtitle;
   } catch (error) {
-    console.log("WebSocket failed or timed out. Returning empty subtitles.");
     return Promise.resolve({ subtitles: [] });
   }
 }
