@@ -80,11 +80,8 @@ async function getAlternativeSubtitle({
 async function getTitleSubtitle(args: Args): Promise<{ subtitles: Subtitle[] }> {
   try {
     const { videoSize: bytes, filename: fileName } = args.extra as ExtraArgs;
-    console.log("\n ~ getTitleSubtitle ~ fileName:", fileName);
-    console.log("\n ~ getTitleSubtitle ~ bytes:", bytes);
 
     const originalSubtitle = await getPrimarySubtitle({ bytes, fileName });
-    console.log("\n ~ getTitleSubtitle ~ originalSubtitle:", originalSubtitle);
 
     if (originalSubtitle === null) {
       const alternativeSubtitle = await getAlternativeSubtitle({ fileName });
