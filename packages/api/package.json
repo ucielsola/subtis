@@ -4,7 +4,7 @@
   "license": "MIT",
   "main": "app.ts",
   "scripts": {
-    "dev": "wrangler dev api.ts",
+    "dev": "wrangler dev api.ts --port 9090",
     "deploy": "wrangler deploy --minify api.ts",
     "test:watch": "bun --env-file=.env.development test --watch"
   },

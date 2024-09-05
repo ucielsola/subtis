@@ -21,6 +21,7 @@
     "dev:cli": "cd packages/cli && bun run dev --",
     "dev:raycast": "cd packages/raycast && bun run dev",
     "dev:stremio": "cd packages/stremio && bun run dev",
+    "start:stremio": "cd packages/stremio && bun run start",
     "start:indexer:ws": "cd packages/indexer && bun run start:ws",
     "start:indexer:cron": "cd packages/indexer && bun run start:cron",
     "dev:indexer:ws": "cd packages/indexer && bun run dev:ws",
