@@ -86,10 +86,10 @@ async function getTitleSubtitle(args: Args): Promise<{ subtitles: Subtitle[] }> 
 
     if (originalSubtitle === null) {
       const alternativeSubtitle = await getAlternativeSubtitle({ fileName });
-      return alternativeSubtitle;
+      return Promise.resolve(alternativeSubtitle);
     }
 
-    return originalSubtitle;
+    return Promise.resolve(originalSubtitle);
   } catch (error) {
     return Promise.resolve({ subtitles: [] });
   }
