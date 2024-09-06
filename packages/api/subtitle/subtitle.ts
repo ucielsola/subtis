@@ -44,16 +44,21 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         .or(`title_file_name.eq.${fileName},bytes.eq.${bytes}`)
         .single();
 
-      if (error && error.code !== "PGRST116") {
+      if (error && error.code === "PGRST116") {
+        context.status(404);
+        return context.json({ message: "Subtitle not found for file" });
+      }
+
+      if (error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error });
+        return context.json({ message: "An error occurred", error: error.message });
       }
 
       const subtitleByFileName = subtitleSchema.safeParse(data);
 
-      if (!subtitleByFileName.success) {
-        context.status(404);
-        return context.json({ message: "Subtitle not found for file" });
+      if (subtitleByFileName.error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error: subtitleByFileName.error.message });
       }
 
       return context.json(subtitleByFileName.data);
@@ -81,16 +86,21 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
     const { data: titleData, error } = await titleQuery.single();
 
-    if (error && error.code !== "PGRST116") {
+    if (error && error.code === "PGRST116") {
+      context.status(404);
+      return context.json({ message: "Alternative subtitle not found for file" });
+    }
+
+    if (error) {
       context.status(500);
-      return context.json({ message: "An error occurred", error });
+      return context.json({ message: "An error occurred", error: error.message });
     }
 
     const titleByNameAndYear = alternativeTitlesSchema.safeParse(titleData);
 
-    if (!titleByNameAndYear.success) {
-      context.status(404);
-      return context.json({ message: "Subtitle not found for file" });
+    if (titleByNameAndYear.error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error: titleByNameAndYear.error.message });
     }
 
     const subtitleQuery = supabase
@@ -166,15 +176,21 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       .match({ id })
       .single();
 
-    if (error && error.code !== "PGRST116") {
+    if (error && error.code === "PGRST116") {
+      context.status(404);
+      return context.json({ message: "Subtitle link not found for subtitle ID" });
+    }
+
+    if (error) {
       context.status(500);
-      return context.json({ message: "An error occurred", error });
+      return context.json({ message: "An error occurred", error: error.message });
     }
 
     const subtitleById = subtitleShortenerSchema.safeParse(data);
-    if (!subtitleById.success) {
-      context.status(404);
-      return context.json({ message: "Subtitle not found for ID" });
+
+    if (subtitleById.error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error: subtitleById.error.message });
     }
 
     return context.redirect(subtitleById.data.subtitle_link);
@@ -203,9 +219,14 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         .from("SubtitlesNotFound")
         .insert({ email, bytes, title_file_name: titleFileName });
 
-      if (error && error.code !== "PGRST116") {
+      if (error && error.code === "PGRST116") {
+        context.status(404);
+        return context.json({ message: "Subtitle not found for file" });
+      }
+
+      if (error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error });
+        return context.json({ message: "An error occurred", error: error.message });
       }
 
       return context.json({ ok: true });
@@ -227,7 +248,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         _title_file_name: titleFileName,
       });
 
-      if (error && error.code !== "PGRST116") {
+      if (error) {
         context.status(500);
         return context.json({ message: "An error occurred", error });
       }

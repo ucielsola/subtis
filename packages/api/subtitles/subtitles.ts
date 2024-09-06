@@ -1,9 +1,9 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import JSZip from "jszip";
+import slugify from "slugify";
 import { z } from "zod";
 
-import slugify from "slugify";
 // internals
 import { MAX_LIMIT } from "../shared/constants";
 import { subtitleSchema, subtitlesQuery } from "../shared/schemas";
@@ -37,15 +37,21 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       .order("subtitle_group_id")
       .match({ title_id: Number(id) });
 
-    if (error && error.code !== "PGRST116") {
+    if (error && error.code === "PGRST116") {
+      context.status(404);
+      return context.json({ message: "Subtitles not found for movie ID" });
+    }
+
+    if (error) {
       context.status(500);
-      return context.json({ message: "An error occurred", error });
+      return context.json({ message: "An error occurred", error: error.message });
     }
 
     const subtitles = subtitlesSchema.safeParse(data);
-    if (!subtitles.success) {
-      context.status(404);
-      return context.json({ message: subtitles.error.issues[0].message });
+
+    if (subtitles.error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error: subtitles.error.message });
     }
 
     return context.json(subtitles.data);
@@ -69,15 +75,21 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
         .order("subtitle_group_id")
         .match({ title_id: parsedId, current_season: season, current_episode: episode });
 
-      if (error && error.code !== "PGRST116") {
+      if (error && error.code === "PGRST116") {
+        context.status(404);
+        return context.json({ message: "Subtitles not found for TV Show", error: error.message });
+      }
+
+      if (error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error });
+        return context.json({ message: "An error occurred", error: error.message });
       }
 
       const subtitles = subtitlesSchema.safeParse(data);
-      if (!subtitles.success) {
-        context.status(404);
-        return context.json({ message: subtitles.error.issues[0].message });
+
+      if (subtitles.error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error: subtitles.error.message });
       }
 
       return context.json(subtitles.data);
@@ -124,15 +136,21 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
           release_group_id: parsedReleaseGroupId,
         });
 
-      if (error && error.code !== "PGRST116") {
+      if (error && error.code === "PGRST116") {
+        context.status(404);
+        return context.json({ message: "Subtitles not found for TV Show" });
+      }
+
+      if (error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error });
+        return context.json({ message: "An error occurred", error: error.message });
       }
 
       const subtitles = subtitlesSchema.safeParse(data);
-      if (!subtitles.success) {
-        context.status(404);
-        return context.json({ message: subtitles.error.issues[0].message });
+
+      if (subtitles.error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error: subtitles.error.message });
       }
 
       const zip = new JSZip();
@@ -181,15 +199,21 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       .order("last_queried_at", { ascending: false })
       .limit(parsedLimit);
 
-    if (error && error.code !== "PGRST116") {
+    if (error && error.code === "PGRST116") {
+      context.status(404);
+      return context.json({ message: "Trending subtitles not found" });
+    }
+
+    if (error) {
       context.status(500);
-      return context.json({ message: "An error occurred", error });
+      return context.json({ message: "An error occurred", error: error.message });
     }
 
     const trendingSubtitles = trendingSubtitlesSchema.safeParse(data);
-    if (!trendingSubtitles.success) {
-      context.status(404);
-      return context.json({ message: trendingSubtitles.error.issues[0].message });
+
+    if (trendingSubtitles.error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error: trendingSubtitles.error.message });
     }
 
     const subtitlesWithoutDuplicates = trendingSubtitles.data.filter(

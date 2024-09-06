@@ -66,9 +66,9 @@ export const titles = new Hono<{ Variables: AppVariables }>()
 
     const { data, error } = await getSupabaseClient(context).rpc("fuzzy_search_title", { query });
 
-    if (error && error.code !== "PGRST116") {
+    if (error) {
       context.status(500);
-      return context.json({ message: "An error occurred", error });
+      return context.json({ message: "An error occurred", error: error.message });
     }
 
     const titles = searchTitlesSchema.safeParse(data);
@@ -100,15 +100,21 @@ export const titles = new Hono<{ Variables: AppVariables }>()
       .order("release_date", { ascending: false })
       .limit(parsedLimit);
 
-    if (error && error.code !== "PGRST116") {
+    if (error && error.code === "PGRST116") {
+      context.status(404);
+      return context.json({ message: "Recent titles not found" });
+    }
+
+    if (error) {
       context.status(500);
-      return context.json({ message: "An error occurred", error });
+      return context.json({ message: "An error occurred", error: error.message });
     }
 
     const recentSubtitles = recentTitlesSchema.safeParse(data);
-    if (!recentSubtitles.success) {
-      context.status(404);
-      return context.json({ message: "No recent titles found" });
+
+    if (recentSubtitles.error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error: recentSubtitles.error.message });
     }
 
     return context.json(recentSubtitles.data);
@@ -135,15 +141,21 @@ export const titles = new Hono<{ Variables: AppVariables }>()
       .order("last_queried_at", { ascending: false })
       .limit(parsedLimit);
 
-    if (error && error.code !== "PGRST116") {
+    if (error && error.code === "PGRST116") {
+      context.status(404);
+      return context.json({ message: "Recent titles not found" });
+    }
+
+    if (error) {
       context.status(500);
-      return context.json({ message: "An error occurred", error });
+      return context.json({ message: "An error occurred", error: error.message });
     }
 
     const trendingSubtitles = trendingSubtitlesSchema.safeParse(data);
-    if (!trendingSubtitles.success) {
+
+    if (trendingSubtitles.error) {
       context.status(404);
-      return context.json({ message: trendingSubtitles.error.issues[0].message });
+      return context.json({ message: trendingSubtitles.error.message });
     }
 
     return context.json(trendingSubtitles.data);

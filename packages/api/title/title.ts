@@ -48,12 +48,22 @@ export const title = new Hono<{ Variables: AppVariables }>()
       .match({ year })
       .single();
 
-    if (error && error.code !== "PGRST116") {
-      context.status(500);
-      return context.json({ message: "An error occurred", error });
+    if (error && error.code === "PGRST116") {
+      context.status(404);
+      return context.json({ message: "Title not found for file" });
     }
 
-    const { success, data } = teaserSchema.safeParse(titleData);
+    if (error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error: error.message });
+    }
+
+    const { success, data, error: teaserSchemaError } = teaserSchema.safeParse(titleData);
+
+    if (teaserSchemaError) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error: teaserSchemaError.message });
+    }
 
     if (success) {
       return context.json({
@@ -77,13 +87,13 @@ export const title = new Hono<{ Variables: AppVariables }>()
     const youtubeResponse = await fetch(`${YOUTUBE_SEARCH_URL}?${queryParams}`);
     const youtubeData = await youtubeResponse.json();
 
-    const parsedData = youTubeSchema.safeParse(youtubeData);
+    const youtubeParsedData = youTubeSchema.safeParse(youtubeData);
 
-    if (!parsedData.success) {
-      context.status(404);
-      return context.json({ message: "No teaser found" });
+    if (youtubeParsedData.error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error: youtubeParsedData.error.message });
     }
-    const filteredTeasers = parsedData.data.items.filter(({ snippet }) => {
+    const filteredTeasers = youtubeParsedData.data.items.filter(({ snippet }) => {
       const unescapedTitle = htmlUnescape(snippet.title);
       const youtubeTitle = replaceSpecialCharacters(unescapedTitle.toLowerCase())
         .replaceAll(":", "")
@@ -125,9 +135,9 @@ export const title = new Hono<{ Variables: AppVariables }>()
 
     const { data, error } = await getSupabaseClient(context).rpc("update_title_info", { _id });
 
-    if (error && error.code !== "PGRST116") {
+    if (error) {
       context.status(500);
-      return context.json({ message: "An error occurred", error });
+      return context.json({ message: "An error occurred", error: error.message });
     }
 
     if (data && data === false) {
