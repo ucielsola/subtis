@@ -35,8 +35,6 @@ export async function getTitleTeaser({
     throw new Error(youtubeParsedData.error.message);
   }
 
-  console.table(youtubeParsedData.data.items);
-
   const filteredTeasers = youtubeParsedData.data.items.filter(({ snippet }) => {
     const unescapedTitle = htmlUnescape(snippet.title);
     const youtubeTitle = replaceSpecialCharacters(unescapedTitle.toLowerCase()).replaceAll(":", "").replaceAll("'", "");
@@ -49,8 +47,6 @@ export async function getTitleTeaser({
   if (filteredTeasers.length === 0) {
     throw new Error("No teaser found");
   }
-
-  console.table(filteredTeasers);
 
   const curatedYouTubeTeaser = filteredTeasers.find(({ snippet }) => {
     return OFFICIAL_SUBTIS_CHANNELS.some((curatedChannelsInLowerCase) =>
