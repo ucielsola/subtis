@@ -1,6 +1,7 @@
 import type { ServerWebSocket } from "bun";
 import invariant from "tiny-invariant";
 import tg from "torrent-grabber";
+import TorrentSearchApi from "torrent-search-api";
 import { P, match } from "ts-pattern";
 
 // db
@@ -17,7 +18,7 @@ import {
 
 // internals
 import { apiClient } from "./api-client";
-import { getSubtitlesForTitle } from "./app";
+import { type TorrentFound, getSubtitlesForTitle } from "./app";
 import { getReleaseGroups } from "./release-groups";
 import { getSubtitleGroups } from "./subtitle-groups";
 import {
@@ -26,26 +27,64 @@ import {
   tmdbDiscoverMovieSchema,
   tmdbDiscoverSerieSchema,
 } from "./tmdb";
+import { generateIdFromMagnet } from "./utils/torrent";
 import { getYtsTorrent } from "./yts";
 
-async function getTorrentFromPirateBay(query: string, title: TitleFileNameMetadata) {
+async function getTorrentFromPirateBayOr1337x(query: string, title: TitleFileNameMetadata) {
   await tg.activate("ThePirateBay");
+  TorrentSearchApi.enableProvider("1337x");
 
-  let torrents = await tg.search(query, { groupByTracker: false });
+  const torrents: TorrentFound[] = (await tg.search(query, { groupByTracker: false })) as unknown as TorrentFound[];
 
   if (torrents.length === 0) {
     const newQuery = query.replaceAll(".", " ");
-    torrents = await tg.search(newQuery, { groupByTracker: false });
+    const newTorrents = (await tg.search(newQuery, { groupByTracker: false })) as unknown as TorrentFound[];
+
+    if (newTorrents.length > 0) {
+      torrents.push(...newTorrents);
+    }
   }
 
   if (torrents.length === 0) {
     const newQuery = `${title.name} ${title.year}`;
-    torrents = await tg.search(newQuery, { groupByTracker: false });
+    const newTorrents = (await tg.search(newQuery, { groupByTracker: false })) as unknown as TorrentFound[];
+
+    if (newTorrents.length > 0) {
+      torrents.push(...newTorrents);
+    }
   }
 
   if (torrents.length === 0) {
     const newQuery = title.name;
-    torrents = await tg.search(newQuery, { groupByTracker: false });
+    const newTorrents = (await tg.search(newQuery, { groupByTracker: false })) as unknown as TorrentFound[];
+
+    if (newTorrents.length > 0) {
+      torrents.push(...newTorrents);
+    }
+  }
+
+  const torrentsTvShows1337x = await TorrentSearchApi.search(query, "TV", 10);
+  const torrentsMovies1337x = await TorrentSearchApi.search(query, "Movies", 10);
+
+  type TorrentSearchApiExteneded = TorrentSearchApi.Torrent & { seeds: number };
+
+  const torrents1337xWithMagnet = await Promise.all(
+    [...torrentsTvShows1337x, ...torrentsMovies1337x].map(async (torrent) => {
+      const torrent1337x = torrent as TorrentSearchApiExteneded;
+      const trackerId = await TorrentSearchApi.getMagnet(torrent);
+      return {
+        tracker: torrent1337x.provider,
+        title: torrent1337x.title,
+        size: torrent1337x.size,
+        seeds: torrent1337x.seeds,
+        trackerId,
+        isBytesFormatted: true,
+      };
+    }),
+  );
+
+  if (torrents1337xWithMagnet.length > 0) {
+    torrents.push(...torrents1337xWithMagnet);
   }
 
   invariant(torrents.length, "No se encontraron torrents para la busqueda");
@@ -62,7 +101,7 @@ async function getTorrentFromPirateBay(query: string, title: TitleFileNameMetada
 
   invariant(torrent, "Torrent not found");
 
-  return torrent;
+  return { ...torrent, id: generateIdFromMagnet(torrent.trackerId) };
 }
 
 // core
@@ -152,7 +191,7 @@ export async function indexTitleByFileName({
         websocket.send(JSON.stringify({ total: 0.75, message: "Buscando archivo con nuestros proveedores" }));
       }
 
-      const torrent = await getTorrentFromPirateBay(query, title);
+      const torrent = await getTorrentFromPirateBayOr1337x(query, title);
 
       console.log("\n ~ indexTitleByFileName ~ torrent:", torrent);
 
@@ -232,7 +271,7 @@ export async function indexTitleByFileName({
 
     const torrent = await match(title.releaseGroup?.release_group_name)
       .with("YTS", () => getYtsTorrent(movieData.imdbId, title.resolution))
-      .with(P._, () => getTorrentFromPirateBay(query, title))
+      .with(P._, () => getTorrentFromPirateBayOr1337x(query, title))
       .exhaustive();
 
     if (!torrent) {

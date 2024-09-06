@@ -1,6 +1,7 @@
 import { confirm } from "@clack/prompts";
 import cliProgress from "cli-progress";
 import tg from "torrent-grabber";
+import TorrentSearchApi from "torrent-search-api";
 
 // db
 import { supabase } from "@subtis/db";
@@ -14,6 +15,7 @@ import { getTmdbTvShowFromTitle, getTmdbTvShowsTotalPagesArray, getTvShowsFromTm
 // core
 export async function indexSeriesByYear(seriesYear: number, isDebugging: boolean): Promise<void> {
   await tg.activate("ThePirateBay");
+  TorrentSearchApi.enableProvider("1337x");
 
   const releaseGroups = await getReleaseGroups(supabase);
   const subtitleGroups = await getSubtitleGroups(supabase);
@@ -104,11 +106,13 @@ export async function indexSeriesByName({
 }) {
   try {
     await tg.activate("ThePirateBay");
+    TorrentSearchApi.enableProvider("1337x");
 
     const releaseGroups = await getReleaseGroups(supabase);
     const subtitleGroups = await getSubtitleGroups(supabase);
 
     const tvShow = await getTmdbTvShowFromTitle(name, year);
+    console.log("\n ~ tvShow:", tvShow);
 
     for await (const [index, episode] of Object.entries(tvShow.episodes)) {
       await getSubtitlesForTitle({

@@ -1,6 +1,9 @@
 import invariant from "tiny-invariant";
 import { z } from "zod";
 
+// internals
+import { generateIdFromMagnet } from "./utils/torrent";
+
 // schemas
 const ytsSchemaWithTorrents = z.object({
   status: z.string(),
@@ -146,8 +149,9 @@ export async function getYtsTorrents(imdbId: number) {
         title: `${yts.data.movie.title_long} [${torrent.quality}] [${torrent.video_codec}] [${torrent.audio_channels}] YTS`,
         size: torrent.size_bytes,
         trackerId,
-        id: torrent.hash,
         seeds: torrent.seeds,
+        isBytesFormatted: false,
+        id: generateIdFromMagnet(trackerId),
       };
     });
   }
@@ -183,8 +187,9 @@ export async function getYtsTorrent(imdbId: number, resolution: string) {
       title: `${yts.data.movie.title_long} YTS`,
       size: torrent.size_bytes,
       trackerId,
-      id: torrent.hash,
       seeds: torrent.seeds,
+      isBytesFormatted: false,
+      id: generateIdFromMagnet(trackerId),
     };
   }
 

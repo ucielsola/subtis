@@ -12,9 +12,9 @@ import prettyBytes from "pretty-bytes";
 import replaceSpecialCharacters from "replace-special-characters";
 import invariant from "tiny-invariant";
 import tg from "torrent-grabber";
+import TorrentSearchApi from "torrent-search-api";
 import torrentStream, { type File } from "torrent-stream";
 import { match } from "ts-pattern";
-import type { ArrayValues, AsyncReturnType } from "type-fest";
 import { z } from "zod";
 
 // db
@@ -84,7 +84,7 @@ type TitleWithEpisode = Pick<
 type SubtitleWithResolutionAndTorrentId = SubtitleData & { resolution: string; torrentId: number };
 
 // constants
-const MAX_TIMEOUT = ms("50s");
+const MAX_TIMEOUT = ms("30s");
 const COMPRESSED_SUBTITLES_FOLDER_NAME = "compressed-subtitles";
 const UNCOMPRESSED_SUBTITLES_FOLDER_NAME = "uncompressed-subtitles";
 
@@ -346,13 +346,13 @@ function parseTorrentTrackerId(trackerId: string) {
   return trackerId.slice(0, 60).toLowerCase();
 }
 
-async function storeTorrentInSupabaseTable(torrent: TorrentResultWithId): Promise<void> {
+async function storeTorrentInSupabaseTable(torrent: TorrentFoundWithId): Promise<void> {
   const { id, title, size, seeds, tracker, trackerId } = torrent;
 
   await supabase.from("Torrents").upsert({
     id,
     torrent_name: title,
-    torrent_size: size,
+    torrent_size: Number(size),
     torrent_seeds: seeds,
     torrent_tracker: tracker,
     torrent_link: parseTorrentTrackerId(trackerId),
@@ -526,7 +526,7 @@ async function downloadAndStoreTitleAndSubtitle({
   titleFile: TitleFile;
   titleType: TitleTypes;
   title: TitleWithEpisode;
-  torrent: TorrentResultWithId;
+  torrent: TorrentFoundWithId;
   releaseGroups: ReleaseGroupMap;
   subtitleGroups: SubtitleGroupMap;
   subtitle: SubtitleWithResolutionAndTorrentId;
@@ -601,17 +601,28 @@ function createInitialFolders(): void {
   }
 }
 
-type PromiseTorrentResults = ReturnType<typeof tg.search>;
-type TorrentResults = AsyncReturnType<typeof getTitleTorrents>;
-type TorrentResult = ArrayValues<TorrentResults>;
-type TorrentResultWithId = TorrentResult & { id: number };
+export type TorrentFound = {
+  tracker: string;
+  title: string;
+  size: string | number;
+  trackerId: string;
+  seeds: number;
+  isBytesFormatted: boolean;
+};
+type TorrentFoundWithId = TorrentFound & { id: number };
 
-async function getTitleTorrents(query: string, titleType: TitleTypes, imdbId: number): PromiseTorrentResults {
-  let thePirateBayTorrents = [];
+async function getTitleTorrents(query: string, titleType: TitleTypes, imdbId: number): Promise<TorrentFound[]> {
+  let thePirateBayTorrents: TorrentFound[] = [];
 
   try {
     const thePirateBayResult = await tg.search(query, { groupByTracker: true });
-    thePirateBayTorrents = thePirateBayResult instanceof Map ? thePirateBayResult.get("ThePirateBay") : [];
+    const thePirateBayTorrentsRaw = thePirateBayResult instanceof Map ? thePirateBayResult.get("ThePirateBay") : [];
+
+    // @ts-ignore
+    thePirateBayTorrents = thePirateBayTorrentsRaw.map((torrent) => ({
+      ...torrent,
+      isBytesFormatted: false,
+    })) as TorrentFound[];
   } catch (error) {
     const parsedError = error as Error;
     if (!parsedError.message.includes("arr[0].tracker")) {
@@ -619,22 +630,41 @@ async function getTitleTorrents(query: string, titleType: TitleTypes, imdbId: nu
       console.log(error);
     }
   }
+  const torrentSearchApiCategory = titleType === TitleTypes.tvShow ? "TV" : "Movies";
+  const torrents1337x = await TorrentSearchApi.search(query, torrentSearchApiCategory, 10);
+
+  type TorrentSearchApiExteneded = TorrentSearchApi.Torrent & { seeds: number };
+
+  const torrents1337xWithMagnet = await Promise.all(
+    torrents1337x.map(async (torrent) => {
+      const torrent1337x = torrent as TorrentSearchApiExteneded;
+      const trackerId = await TorrentSearchApi.getMagnet(torrent);
+      return {
+        tracker: torrent1337x.provider,
+        title: torrent1337x.title,
+        size: torrent1337x.size,
+        seeds: torrent1337x.seeds,
+        trackerId,
+        isBytesFormatted: true,
+      };
+    }),
+  );
 
   if (titleType === TitleTypes.tvShow) {
-    return thePirateBayTorrents;
+    return [...torrents1337xWithMagnet, ...thePirateBayTorrents];
   }
 
   const ytsTorrents = await getYtsTorrents(imdbId);
 
-  return [...ytsTorrents, ...thePirateBayTorrents].flat();
+  return [...ytsTorrents, ...torrents1337xWithMagnet, ...thePirateBayTorrents].flat();
 }
 
-function getFilteredTorrents(titleType: TitleTypes, torrents: TorrentResults, maxTorrents = 15): TorrentResultWithId[] {
+function getFilteredTorrents(titleType: TitleTypes, torrents: TorrentFound[], maxTorrents = 40): TorrentFoundWithId[] {
   const CINEMA_RECORDING_REGEX =
     /\b(hdcam|hdcamrip|hqcam|hq-cam|telesync|hdts|hd-ts|c1nem4|qrips|hdrip|cam|soundtrack|xxx|clean|khz|ep)\b/gi;
 
-  const seenSizes = new Set<number>();
-  const minSeeds = titleType === TitleTypes.tvShow ? 1 : 15;
+  const seenSizes = new Set<string | number>();
+  const minSeeds = titleType === TitleTypes.tvShow ? 5 : 15;
 
   return torrents
     .toSorted((torrentA, torrentB) => {
@@ -645,7 +675,7 @@ function getFilteredTorrents(titleType: TitleTypes, torrents: TorrentResults, ma
     })
     .slice(0, maxTorrents)
     .filter((torrent) => !torrent.title.match(CINEMA_RECORDING_REGEX))
-    .filter(({ seeds }) => seeds >= minSeeds)
+    .filter(({ seeds }) => seeds > minSeeds)
     .filter((torrent) => {
       if (seenSizes.has(torrent.size)) {
         return false;
@@ -658,13 +688,13 @@ function getFilteredTorrents(titleType: TitleTypes, torrents: TorrentResults, ma
     .map((torrent) => ({ ...torrent, id: generateIdFromMagnet(torrent.trackerId) }));
 }
 
-export async function getTorrentFilesMetadata(torrent: TorrentResult): Promise<File[]> {
+export async function getTorrentFilesMetadata(torrent: TorrentFound): Promise<File[]> {
   const engine = torrentStream(torrent.trackerId);
 
   const files = await new Promise<File[]>((resolve, reject) => {
     const timeoutId = setTimeout(() => {
       engine.destroy();
-      reject(new Error("Timeout: Tardo más de 50s puede ser por falta de seeds"));
+      reject(new Error("Timeout: Tardo más de 30s puede ser por falta de seeds"));
     }, MAX_TIMEOUT);
 
     engine.on("torrent", (data) => {
@@ -710,7 +740,7 @@ export async function getSubtitlesForTitle({
   fromWebSocket,
 }: {
   index: string;
-  initialTorrents?: TorrentResults;
+  initialTorrents?: TorrentFoundWithId[];
   currentTitle: CurrentTitle;
   releaseGroups: ReleaseGroupMap;
   subtitleGroups: SubtitleGroupMap;
@@ -747,15 +777,19 @@ export async function getSubtitlesForTitle({
   const filteredTorrents = getFilteredTorrents(titleType, torrents);
 
   if (filteredTorrents.length === 0) {
-    return console.log(`4.${index}) No se encontraron torrents para el titulo "${name}" \n`);
+    return console.log(
+      `4.${index}) No se encontraron torrents para el titulo "${name}" con query ${titleProviderQuery} \n`,
+    );
   }
 
-  console.log(`4.${index}) Torrents (${filteredTorrents.length}) encontrados para el título "${name}" \n`);
+  console.log(
+    `4.${index}) Torrents (${filteredTorrents.length}) encontrados para el título "${name}" con query ${titleProviderQuery} \n`,
+  );
   console.table(
-    filteredTorrents.map(({ seeds, size, title, tracker }) => ({
+    filteredTorrents.map(({ seeds, size, title, tracker, isBytesFormatted }) => ({
       query: titleProviderQuery,
       seeds,
-      size: prettyBytes(size ?? 0),
+      size: isBytesFormatted ? size : prettyBytes((size as number) ?? 0),
       title,
       tracker,
     })),
