@@ -1,6 +1,9 @@
 // import dayjs from "dayjs";
 import z from "zod";
 
+// shared
+import { getTitleTeaser } from "@subtis/shared";
+
 // internals
 import { getStripedImdbId } from "./imdb";
 import { getNumbersArray } from "./utils";
@@ -392,61 +395,6 @@ function generateTmdbImageUrl(path: string | null): string | null {
   return `https://image.tmdb.org/t/p/original${path}`;
 }
 
-const titleVideoSchema = z.object({
-  id: z.number(),
-  results: z.array(
-    z.object({
-      iso_639_1: z.string(),
-      iso_3166_1: z.string(),
-      name: z.string(),
-      key: z.string(),
-      site: z.string(),
-      size: z.number(),
-      type: z.string(),
-      official: z.boolean(),
-      published_at: z.string(),
-      id: z.string(),
-    }),
-  ),
-});
-
-async function getMovieYoutubeTeaser(id: number): Promise<string | null> {
-  const responseVideo = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos`, TMDB_OPTIONS);
-  const dataVideo = await responseVideo.json();
-
-  const titleVideos = titleVideoSchema.parse(dataVideo);
-  let teaser = titleVideos.results.find(({ type, site }) => type === "Teaser" && site === "YouTube");
-
-  if (!teaser) {
-    teaser = titleVideos.results.find(({ type, site }) => type === "Trailer" && site === "YouTube");
-  }
-
-  if (!teaser) {
-    return null;
-  }
-
-  return `https://www.youtube.com/watch?v=${teaser.key}`;
-}
-
-async function getTvShowYoutubeTeaser(id: number): Promise<string | null> {
-  const responseVideo = await fetch(`https://api.themoviedb.org/3/tv/${id}/videos`, TMDB_OPTIONS);
-  const dataVideo = await responseVideo.json();
-
-  const titleVideos = titleVideoSchema.parse(dataVideo);
-
-  let teaser = titleVideos.results.find(({ type, site }) => type === "Teaser" && site === "YouTube");
-
-  if (!teaser) {
-    teaser = titleVideos.results.find(({ type, site }) => type === "Trailer" && site === "YouTube");
-  }
-
-  if (!teaser) {
-    return null;
-  }
-
-  return `https://www.youtube.com/watch?v=${teaser.key}`;
-}
-
 export async function getMovieMetadataFromTmdbMovie({
   id,
   name,
@@ -483,7 +431,17 @@ export async function getMovieMetadataFromTmdbMovie({
   const logo = await getTmdbMovieLogoUrl(id);
 
   // 5. Get movie teaser
-  const teaser = await getMovieYoutubeTeaser(id);
+  let teaser = "";
+
+  try {
+    teaser = await getTitleTeaser({
+      name,
+      year,
+      currentSeason: null,
+    });
+  } catch (error) {
+    console.log("\n ~ error getting title teaser:", error);
+  }
 
   return {
     year,
@@ -585,7 +543,17 @@ export async function getTvShowMetadataFromTmdbTvShow({
   const logo = await getTmdbTvShoweLogoUrl(id);
 
   // 5. Get TV show teaser
-  const teaser = await getTvShowYoutubeTeaser(id);
+  let teaser = "";
+
+  try {
+    teaser = await getTitleTeaser({
+      name,
+      year,
+      currentSeason: 1,
+    });
+  } catch (error) {
+    console.log("\n ~ error getting title teaser:", error);
+  }
 
   const episodes = data.seasons.flatMap((season) => {
     const { season_number: seasonNumber, episode_count: episodeCount } = season;

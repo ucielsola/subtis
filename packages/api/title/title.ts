@@ -6,7 +6,14 @@ import replaceSpecialCharacters from "replace-special-characters";
 import { z } from "zod";
 
 // shared
-import { type TitleFileNameMetadata, getTitleFileNameMetadata, videoFileNameSchema } from "@subtis/shared";
+import {
+  OFFICIAL_SUBTIS_CHANNELS,
+  type TitleFileNameMetadata,
+  YOUTUBE_SEARCH_URL,
+  getTitleFileNameMetadata,
+  videoFileNameSchema,
+  youTubeSchema,
+} from "@subtis/shared";
 
 // db
 import { titlesRowSchema } from "@subtis/db/schemas";
@@ -14,8 +21,7 @@ import { titlesRowSchema } from "@subtis/db/schemas";
 // internals
 import { getSupabaseClient } from "../shared/supabase";
 import type { AppVariables } from "../shared/types";
-import { OFFICIAL_SUBTIS_CHANNELS } from "./constants";
-import { YOUTUBE_SEARCH_URL, getYoutubeApiKey, youTubeSchema } from "./youtube";
+import { getYoutubeApiKey } from "./youtube";
 
 // schemas
 const teaserSchema = titlesRowSchema.pick({ teaser: true });
@@ -93,6 +99,7 @@ export const title = new Hono<{ Variables: AppVariables }>()
       context.status(500);
       return context.json({ message: "An error occurred", error: youtubeParsedData.error.message });
     }
+
     const filteredTeasers = youtubeParsedData.data.items.filter(({ snippet }) => {
       const unescapedTitle = htmlUnescape(snippet.title);
       const youtubeTitle = replaceSpecialCharacters(unescapedTitle.toLowerCase())
