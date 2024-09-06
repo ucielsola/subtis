@@ -9,7 +9,7 @@ import { supabase } from "@subtis/db";
 import { getSubtitlesForTitle } from "./app";
 import { getReleaseGroups, saveReleaseGroupsToDb } from "./release-groups";
 import { getSubtitleGroups } from "./subtitle-groups";
-import { getTmdbTvShowsTotalPagesArray, getTvShowsFromTmdb } from "./tmdb";
+import { getTmdbTvShowFromTitle, getTmdbTvShowsTotalPagesArray, getTvShowsFromTmdb } from "./tmdb";
 
 // core
 export async function indexSeriesByYear(seriesYear: number, isDebugging: boolean): Promise<void> {
@@ -93,6 +93,39 @@ export async function indexSeriesByYear(seriesYear: number, isDebugging: boolean
   }
 }
 
+export async function indexSeriesByName({
+  name,
+  year,
+  isDebugging,
+}: {
+  name: string;
+  year?: number;
+  isDebugging: boolean;
+}) {
+  try {
+    await tg.activate("ThePirateBay");
+
+    const releaseGroups = await getReleaseGroups(supabase);
+    const subtitleGroups = await getSubtitleGroups(supabase);
+
+    const tvShow = await getTmdbTvShowFromTitle(name, year);
+
+    for await (const [index, episode] of Object.entries(tvShow.episodes)) {
+      await getSubtitlesForTitle({
+        index,
+        currentTitle: { ...tvShow, episode },
+        releaseGroups,
+        subtitleGroups,
+        isDebugging,
+        shouldUseTryCatch: true,
+      });
+    }
+  } catch (error) {
+    console.log("\n ~ indexMovieByName ~ error:", error);
+  }
+}
+
 // testing
-indexSeriesByYear(2024, true);
+// indexSeriesByYear(2024, true);
+indexSeriesByName({ name: "The Lost Symbol", year: 2021, isDebugging: true });
 saveReleaseGroupsToDb(supabase);

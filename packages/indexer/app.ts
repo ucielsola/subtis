@@ -7,6 +7,7 @@ import clipboard from "clipboardy";
 import download from "download";
 import extract from "extract-zip";
 import jschardet from "jschardet";
+import ms from "ms";
 import prettyBytes from "pretty-bytes";
 import replaceSpecialCharacters from "replace-special-characters";
 import invariant from "tiny-invariant";
@@ -83,6 +84,7 @@ type TitleWithEpisode = Pick<
 type SubtitleWithResolutionAndTorrentId = SubtitleData & { resolution: string; torrentId: number };
 
 // constants
+const MAX_TIMEOUT = ms("50s");
 const COMPRESSED_SUBTITLES_FOLDER_NAME = "compressed-subtitles";
 const UNCOMPRESSED_SUBTITLES_FOLDER_NAME = "uncompressed-subtitles";
 
@@ -627,11 +629,12 @@ async function getTitleTorrents(query: string, titleType: TitleTypes, imdbId: nu
   return [...ytsTorrents, ...thePirateBayTorrents].flat();
 }
 
-function getFilteredTorrents(torrents: TorrentResults, maxTorrents = 15, minSeeds = 15): TorrentResultWithId[] {
+function getFilteredTorrents(titleType: TitleTypes, torrents: TorrentResults, maxTorrents = 15): TorrentResultWithId[] {
   const CINEMA_RECORDING_REGEX =
     /\b(hdcam|hdcamrip|hqcam|hq-cam|telesync|hdts|hd-ts|c1nem4|qrips|hdrip|cam|soundtrack|xxx|clean|khz|ep)\b/gi;
 
   const seenSizes = new Set<number>();
+  const minSeeds = titleType === TitleTypes.tvShow ? 1 : 15;
 
   return torrents
     .toSorted((torrentA, torrentB) => {
@@ -642,7 +645,7 @@ function getFilteredTorrents(torrents: TorrentResults, maxTorrents = 15, minSeed
     })
     .slice(0, maxTorrents)
     .filter((torrent) => !torrent.title.match(CINEMA_RECORDING_REGEX))
-    .filter(({ seeds }) => seeds > minSeeds)
+    .filter(({ seeds }) => seeds >= minSeeds)
     .filter((torrent) => {
       if (seenSizes.has(torrent.size)) {
         return false;
@@ -661,8 +664,8 @@ export async function getTorrentFilesMetadata(torrent: TorrentResult): Promise<F
   const files = await new Promise<File[]>((resolve, reject) => {
     const timeoutId = setTimeout(() => {
       engine.destroy();
-      reject(new Error("Timeout: Tardo más de 30s puede ser por falta de seeds"));
-    }, 30000);
+      reject(new Error("Timeout: Tardo más de 50s puede ser por falta de seeds"));
+    }, MAX_TIMEOUT);
 
     engine.on("torrent", (data) => {
       clearTimeout(timeoutId);
@@ -741,7 +744,7 @@ export async function getSubtitlesForTitle({
   const titleProviderQuery = getQueryForTorrentProvider(currentTitle);
 
   const torrents = initialTorrents ?? (await getTitleTorrents(titleProviderQuery, titleType, imdbId));
-  const filteredTorrents = getFilteredTorrents(torrents);
+  const filteredTorrents = getFilteredTorrents(titleType, torrents);
 
   if (filteredTorrents.length === 0) {
     return console.log(`4.${index}) No se encontraron torrents para el titulo "${name}" \n`);

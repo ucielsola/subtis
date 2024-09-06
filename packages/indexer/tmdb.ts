@@ -349,10 +349,17 @@ const tmdbApiEndpoints = {
   },
   movieSearch: (title: string, year?: number) => {
     if (year) {
-      return `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}&primary_release_year=${year}`;
+      return `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}&primary_release_year=${year}&language=es-ES`;
     }
 
-    return `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}`;
+    return `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}&language=es-ES`;
+  },
+  tvShowSearch: (title: string, year?: number) => {
+    if (year) {
+      return `https://api.themoviedb.org/3/search/tv?query=${encodeURIComponent(title)}&primary_release_year=${year}&language=es-ES`;
+    }
+
+    return `https://api.themoviedb.org/3/search/tv?query=${encodeURIComponent(title)}&language=es-ES`;
   },
 };
 
@@ -655,6 +662,40 @@ export async function getTvShowsFromTmdb(page: number, year: number): Promise<Tm
   }
 
   return tvShows;
+}
+
+export async function getTmdbTvShowFromTitle(query: string, year?: number): Promise<TmdbTvShow> {
+  const url = tmdbApiEndpoints.tvShowSearch(query, year);
+
+  const response = await fetch(url, TMDB_OPTIONS);
+  const data = await response.json();
+
+  const { results } = tmdbDiscoverSerieSchema.parse(data);
+  const [tvShow] = results;
+
+  const {
+    id,
+    overview,
+    name: spanishName,
+    original_name: name,
+    first_air_date: releaseDate,
+    vote_average: voteAverage,
+    poster_path: posterPath,
+    backdrop_path: backdropPath,
+  } = tvShow;
+
+  const tvShowData = await getTvShowMetadataFromTmdbTvShow({
+    id,
+    name,
+    overview,
+    spanishName,
+    posterPath,
+    releaseDate,
+    voteAverage,
+    backdropPath,
+  });
+
+  return tvShowData;
 }
 
 async function getTmdbTvShoweLogoUrl(id: number): Promise<string | null> {
