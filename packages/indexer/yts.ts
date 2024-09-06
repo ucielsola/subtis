@@ -111,7 +111,7 @@ const ytsSchemaWithoutTorrents = z.object({
 export const ytsSchema = z.union([ytsSchemaWithTorrents, ytsSchemaWithoutTorrents]);
 
 // constants
-const TRACKERS = [
+export const YTS_TRACKERS = [
   "udp://open.demonii.com:1337/announce",
   "udp://tracker.openbittorrent.com:80",
   "udp://tracker.coppersurfer.tk:6969",
@@ -123,7 +123,7 @@ const TRACKERS = [
   "udp://tracker.leechers-paradise.org:6969",
   "udp://tracker.internetwarriors.net:1337",
 ];
-const trParameter = TRACKERS[0];
+const [FIRST_YTS_TRACKER] = YTS_TRACKERS;
 
 export async function getYtsTorrents(imdbId: number) {
   const response = await fetch(
@@ -142,7 +142,7 @@ export async function getYtsTorrents(imdbId: number) {
 
     return torrents.map((torrent) => {
       const dn = encodeURIComponent(yts.data.movie.title || yts.data.movie.title_long);
-      const trackerId = `magnet:?xt=urn:btih:${torrent.hash}&dn=${dn}&tr=${trParameter}`;
+      const trackerId = `magnet:?xt=urn:btih:${torrent.hash}&dn=${dn}&tr=${FIRST_YTS_TRACKER}`;
 
       return {
         tracker: "YTS",
@@ -180,7 +180,7 @@ export async function getYtsTorrent(imdbId: number, resolution: string) {
     invariant(torrent, "Torrent not found");
 
     const dn = encodeURIComponent(yts.data.movie.title || yts.data.movie.title_long);
-    const trackerId = `magnet:?xt=urn:btih:${torrent.hash}&dn=${dn}&tr=${trParameter}`;
+    const trackerId = `magnet:?xt=urn:btih:${torrent.hash}&dn=${dn}&tr=${FIRST_YTS_TRACKER}`;
 
     return {
       tracker: "YTS",

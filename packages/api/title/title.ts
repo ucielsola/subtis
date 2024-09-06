@@ -54,22 +54,12 @@ export const title = new Hono<{ Variables: AppVariables }>()
       .match({ year })
       .single();
 
-    if (error && error.code === "PGRST116") {
-      context.status(404);
-      return context.json({ message: "Title not found for file" });
-    }
-
-    if (error) {
+    if (error && error.code !== "PGRST116") {
       context.status(500);
       return context.json({ message: "An error occurred", error: error.message });
     }
 
-    const { success, data, error: teaserSchemaError } = teaserSchema.safeParse(titleData);
-
-    if (teaserSchemaError) {
-      context.status(500);
-      return context.json({ message: "An error occurred", error: teaserSchemaError.message });
-    }
+    const { success, data } = teaserSchema.safeParse(titleData);
 
     if (success) {
       return context.json({

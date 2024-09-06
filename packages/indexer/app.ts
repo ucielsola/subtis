@@ -41,7 +41,7 @@ import type { SubtitleData } from "./types";
 import { executeWithOptionalTryCatch, getSubtitleAuthor } from "./utils";
 import { getQueryForTorrentProvider } from "./utils/query";
 import { generateIdFromMagnet } from "./utils/torrent";
-import { getYtsTorrents } from "./yts";
+import { YTS_TRACKERS, getYtsTorrents } from "./yts";
 
 // types
 type TmdbTvShowEpisode = TmdbTvShow & { episode: string };
@@ -689,7 +689,15 @@ function getFilteredTorrents(titleType: TitleTypes, torrents: TorrentFound[], ma
 }
 
 export async function getTorrentFilesMetadata(torrent: TorrentFound): Promise<File[]> {
-  const engine = torrentStream(torrent.trackerId);
+  const trackers = match(torrent.tracker)
+    .with("1337x", () => [])
+    .with("ThePirateBay", () => [])
+    .with("YTS", () => YTS_TRACKERS)
+    .run();
+
+  const engine = torrentStream(torrent.trackerId, {
+    trackers,
+  });
 
   const files = await new Promise<File[]>((resolve, reject) => {
     const timeoutId = setTimeout(() => {
