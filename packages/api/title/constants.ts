@@ -89,6 +89,10 @@ const CURATED_CHANNELS = [
     name: "Pixar",
     ids: ["UC_IRYSp4auq7hKLvziWVH6w"], // MAIN
   },
+  {
+    name: "IGN",
+    ids: ["UCKy1dAqELo0zrOtPkf0eTMw"], // MAIN
+  },
 ] as const;
 
 export const OFFICIAL_SUBTIS_CHANNELS = CURATED_CHANNELS.map((channel) => ({
