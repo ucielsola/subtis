@@ -99,7 +99,8 @@ const builder = new addonBuilder({
   name: "Subtis (Version Alpha)",
   id: "org.subtis",
   version: "0.1.2",
-  description: "Subtis es tu buscador de subtitulos para tus películas y series favoritas. (Ten en cuenta que esto es una versión de prueba y el proyecto se lanza a fines de 2024)",
+  description:
+    "Subtis es tu buscador de subtitulos para tus películas y series favoritas. (Ten en cuenta que esto es una versión de prueba y el proyecto se lanza a fines de 2024)",
   catalogs: [],
   resources: ["subtitles"],
   types: ["movie", "series"],
