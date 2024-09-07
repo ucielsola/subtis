@@ -631,7 +631,7 @@ async function getTitleTorrents(query: string, titleType: TitleTypes, imdbId: nu
     }
   }
   const torrentSearchApiCategory = titleType === TitleTypes.tvShow ? "TV" : "Movies";
-  const torrents1337x = await TorrentSearchApi.search(query, torrentSearchApiCategory, 10);
+  const torrents1337x = await TorrentSearchApi.search(query, torrentSearchApiCategory, 15);
 
   type TorrentSearchApiExteneded = TorrentSearchApi.Torrent & { seeds: number };
 
@@ -659,11 +659,13 @@ async function getTitleTorrents(query: string, titleType: TitleTypes, imdbId: nu
   return [...ytsTorrents, ...torrents1337xWithMagnet, ...thePirateBayTorrents].flat();
 }
 
-function getFilteredTorrents(titleType: TitleTypes, torrents: TorrentFound[], maxTorrents = 40): TorrentFoundWithId[] {
+function getFilteredTorrents(titleType: TitleTypes, torrents: TorrentFound[], maxTorrents = 25): TorrentFoundWithId[] {
   const CINEMA_RECORDING_REGEX =
     /\b(hdcam|hdcamrip|hqcam|hq-cam|telesync|hdts|hd-ts|c1nem4|qrips|hdrip|cam|soundtrack|xxx|clean|khz|ep)\b/gi;
 
+  const seenTitles = new Set<string>();
   const seenSizes = new Set<string | number>();
+
   const minSeeds = titleType === TitleTypes.tvShow ? 5 : 15;
 
   return torrents
@@ -681,7 +683,12 @@ function getFilteredTorrents(titleType: TitleTypes, torrents: TorrentFound[], ma
         return false;
       }
 
+      if (seenTitles.has(torrent.title)) {
+        return false;
+      }
+
       seenSizes.add(torrent.size);
+      seenTitles.add(torrent.title);
 
       return true;
     })

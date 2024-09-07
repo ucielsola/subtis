@@ -440,7 +440,7 @@ export async function getMovieMetadataFromTmdbMovie({
       currentSeason: null,
     });
   } catch (error) {
-    console.log("\n ~ error getting title teaser:", error);
+    console.log("\n ~ error getting title teaser:", (error as Error).message);
   }
 
   return {
@@ -552,7 +552,7 @@ export async function getTvShowMetadataFromTmdbTvShow({
       currentSeason: 1,
     });
   } catch (error) {
-    console.log("\n ~ error getting title teaser:", error);
+    console.log("\n ~ error getting title teaser:", (error as Error).message);
   }
 
   const episodes = data.seasons.flatMap((season) => {
