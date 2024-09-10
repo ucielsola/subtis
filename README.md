@@ -53,6 +53,14 @@ bun run dev:indexer:tv-shows
 
 - Deploy API
 
+1. Login to Cloudfare (if you haven't already)
+
+```bash
+wrangler login
+```
+
+2. Run the following command
+
 ```bash
 bun run deploy:api
 ```
