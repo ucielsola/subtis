@@ -22,17 +22,17 @@
     "publish": "npx @raycast/api@latest publish"
   },
   "dependencies": {
-    "@raycast/api": "^1.82.3",
+    "@raycast/api": "^1.82.4",
     "delay": "^6.0.0",
     "node-fetch": "^3.3.2",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@raycast/eslint-config": "1.0.11",
-    "@types/bun": "^1.1.8",
+    "@types/bun": "^1.1.9",
     "@types/node": "22.5.4",
     "@types/node-fetch": "^2.6.11",
     "@types/react": "18.3.5",
-    "typescript": "^5.5.4"
+    "typescript": "^5.6.2"
   }
 }
