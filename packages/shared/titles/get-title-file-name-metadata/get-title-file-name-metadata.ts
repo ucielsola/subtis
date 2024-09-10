@@ -91,47 +91,40 @@ export function getTitleFileNameMetadata({
     };
   }
 
-  const resolutions = ["480p", "576p", "1080p", "720p", "2160p", "3D"];
+  const resolutionRegex = /(480p|576p|720p|1080p|2160p)/gi;
+  const [resolution] = titleFileName.match(resolutionRegex) ?? [".S"];
 
-  for (const resolution of resolutions) {
-    if (!parsedMovieFileName.includes(resolution)) {
-      continue;
-    }
+  const [rawTitleName, rawAttributes] = parsedMovieFileName.split(resolution);
+  const parsedTitleName = getTitleName(rawTitleName);
 
-    const [rawTitleName, rawAttributes] = parsedMovieFileName.split(resolution);
-    const parsedTitleName = getTitleName(rawTitleName);
+  const episode = getEpisode(rawTitleName);
+  const { current_season: currentSeason, current_episode: currentEpisode } = getSeasonAndEpisode(episode);
 
-    const episode = getEpisode(rawTitleName);
-    const { current_season: currentSeason, current_episode: currentEpisode } = getSeasonAndEpisode(episode);
+  const lowerCaseRawAttributes = rawAttributes.toLowerCase();
+  const parsedRawAttributes = lowerCaseRawAttributes.includes("YTS")
+    ? lowerCaseRawAttributes.replace("AAC", "")
+    : lowerCaseRawAttributes;
 
-    const lowerCaseRawAttributes = rawAttributes.toLowerCase();
-    const parsedRawAttributes = lowerCaseRawAttributes.includes("YTS")
-      ? lowerCaseRawAttributes.replace("AAC", "")
-      : lowerCaseRawAttributes;
+  const videoFileExtension = VIDEO_FILE_EXTENSIONS.find((videoFileExtension) =>
+    rawAttributes.includes(videoFileExtension),
+  );
+  z.string({ message: `Video file extension not supported: ${parsedMovieFileName}` }).parse(videoFileExtension);
 
-    const videoFileExtension = VIDEO_FILE_EXTENSIONS.find((videoFileExtension) =>
-      rawAttributes.includes(videoFileExtension),
+  const releaseGroup = Object.values(RELEASE_GROUPS).find((releaseGroupInternal) => {
+    return releaseGroupInternal.file_attributes.some((attribute) =>
+      parsedRawAttributes.includes(attribute.toLowerCase()),
     );
-    z.string({ message: `Video file extension not supported: ${parsedMovieFileName}` }).parse(videoFileExtension);
+  });
 
-    const releaseGroup = Object.values(RELEASE_GROUPS).find((releaseGroupInternal) => {
-      return releaseGroupInternal.file_attributes.some((attribute) =>
-        parsedRawAttributes.includes(attribute.toLowerCase()),
-      );
-    });
+  const fileNameWithoutExtension = getTitleFileNameWithoutExtension(parsedMovieFileName);
 
-    const fileNameWithoutExtension = getTitleFileNameWithoutExtension(parsedMovieFileName);
-
-    return {
-      year: null,
-      resolution,
-      releaseGroup,
-      currentSeason,
-      currentEpisode,
-      fileNameWithoutExtension,
-      name: titleName || parsedTitleName,
-    };
-  }
-
-  throw new Error("Couldn't parse the title file name metadata");
+  return {
+    year: null,
+    resolution,
+    releaseGroup,
+    currentSeason,
+    currentEpisode,
+    fileNameWithoutExtension,
+    name: titleName || parsedTitleName,
+  };
 }

@@ -48,6 +48,7 @@ declare module 'torrent-stream' {
     name: string
     offset: number
     path: string
+    createReadStream: (opts: { start: number, end: number }) => Readable
   }
 
   interface TorrentData {
@@ -66,7 +67,7 @@ declare module 'torrent-stream' {
 
   interface Engine extends EventEmitter {
     destroy: (cb?: (err?: Error) => void) => void
-    on: (event: 'torrent', listener: (data: TorrentData) => void) => this
+    on: (event: 'ready', listener: (data: TorrentData) => void) => this
   }
 
   function torrentStream(link: Buffer | string | torrentStream.Torrent, opts?: TorrentStreamOptions, cb?: (engine: Engine) => void): Engine

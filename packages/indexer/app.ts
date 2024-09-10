@@ -6,6 +6,8 @@ import unrar from "@continuata/unrar";
 import clipboard from "clipboardy";
 import download from "download";
 import extract from "extract-zip";
+import ffprobe from "ffprobe";
+import ffprobeStatic from "ffprobe-static";
 import jschardet from "jschardet";
 import ms from "ms";
 import prettyBytes from "pretty-bytes";
@@ -695,7 +697,13 @@ function getFilteredTorrents(titleType: TitleTypes, torrents: TorrentFound[], ma
     .map((torrent) => ({ ...torrent, id: generateIdFromMagnet(torrent.trackerId) }));
 }
 
-export async function getTorrentFilesMetadata(torrent: TorrentFound): Promise<File[]> {
+type VideoFile = {
+  name: string;
+  length: number;
+  resolution: string | null;
+};
+
+export async function getTorrentVideoFileMetadata(torrent: TorrentFound): Promise<VideoFile> {
   const trackers = match(torrent.tracker)
     .with("1337x", () => [])
     .with("ThePirateBay", () => [])
@@ -706,21 +714,69 @@ export async function getTorrentFilesMetadata(torrent: TorrentFound): Promise<Fi
     trackers,
   });
 
-  const files = await new Promise<File[]>((resolve, reject) => {
+  const videoFile = await new Promise<VideoFile>((resolve, reject) => {
     const timeoutId = setTimeout(() => {
       engine.destroy();
       reject(new Error("Timeout: Tardo más de 30s puede ser por falta de seeds"));
     }, MAX_TIMEOUT);
 
-    engine.on("torrent", (data) => {
-      clearTimeout(timeoutId);
-      resolve(data.files);
+    engine.on("ready", async () => {
+      const videoFile = getVideoFromFiles((engine as unknown as { files: File[] }).files);
+
+      const resolutionRegex = /(480p|576p|720p|1080p|2160p)/gi;
+
+      if (videoFile && !videoFile.name.match(resolutionRegex)) {
+        const FOUR_MEGABYTES = 4 * 1024 * 1024;
+
+        const stream = videoFile.createReadStream({
+          start: 0,
+          end: FOUR_MEGABYTES,
+        });
+
+        const tempFilePath = path.join(__dirname, "..", "indexer", `temp-${videoFile.name}`);
+        const writeStream = fs.createWriteStream(tempFilePath);
+
+        stream.pipe(writeStream);
+
+        await new Promise((resolve) => {
+          stream.on("end", async () => {
+            const info = await ffprobe(tempFilePath, { path: ffprobeStatic.path });
+            const [firstStream] = info.streams;
+
+            let resolution = "";
+
+            if (firstStream.width === 854 || firstStream.height === 480) {
+              resolution = "480p";
+            }
+
+            if (firstStream.width === 1280 || firstStream.height === 720) {
+              resolution = "720p";
+            }
+
+            if (firstStream.width === 1920 || firstStream.height === 1080) {
+              resolution = "1080p";
+            }
+
+            if (firstStream.width === 3840 || firstStream.width === 4096 || firstStream.height === 1440) {
+              resolution = "2160p";
+            }
+
+            clearTimeout(timeoutId);
+            resolve({ name: videoFile.name, length: videoFile.length, resolution });
+          });
+        });
+      }
+
+      if (videoFile) {
+        clearTimeout(timeoutId);
+        resolve({ name: videoFile.name, length: videoFile.length, resolution: null });
+      }
     });
   });
 
   engine.destroy();
 
-  return files;
+  return videoFile;
 }
 
 export function getVideoFromFiles(files: File[]): File | undefined {
@@ -881,27 +937,19 @@ export async function getSubtitlesForTitle({
     }
 
     console.log(`4.${index}.${torrentIndex}) Procesando torrent`, `"${torrent.title}"`, "\n");
-    const files = await executeWithOptionalTryCatch(
+    const videoFile = await executeWithOptionalTryCatch(
       true,
       async function processTorrent() {
-        return await getTorrentFilesMetadata(torrent);
+        return await getTorrentVideoFileMetadata(torrent);
       },
       `4.${index}.${torrentIndex}) No se encontraron archivos en el torrent\n`,
     );
 
-    if (!files || files.length === 0) {
-      console.log("No se encontraron archivos en el torrent\n");
-      continue;
-    }
-
-    const videoFile = getVideoFromFiles(files);
-
     if (!videoFile) {
-      console.log("No hay archivos de video en el torrent\n");
       continue;
     }
 
-    const { length: bytes, name: fileName } = videoFile;
+    const { length: bytes, name: fileName, resolution: resolutionFromVideoFile } = videoFile;
     let titleFileNameMetadata: TitleFileNameMetadata | null = null;
 
     try {
@@ -919,6 +967,7 @@ export async function getSubtitlesForTitle({
     }
 
     const { releaseGroup, resolution } = titleFileNameMetadata;
+    const finalResolution = resolution ?? resolutionFromVideoFile;
 
     if (!releaseGroup) {
       console.error(`No hay release group soportado para ${videoFile.name} \n`);
@@ -939,7 +988,7 @@ export async function getSubtitlesForTitle({
       {
         name,
         year,
-        resolution,
+        resolution: finalResolution,
         releaseGroup: releaseGroup.release_group_name,
         fileName,
         fileNameExtension,
@@ -959,13 +1008,13 @@ export async function getSubtitlesForTitle({
       async function getSubtitleFromProvider() {
         const foundSubtitleFromSubDivX = await filterSubDivXSubtitlesForTorrent({
           episode,
-          titleFileNameMetadata,
           subtitles: subtitlesFromSubDivX,
+          titleFileNameMetadata: { ...titleFileNameMetadata, resolution: finalResolution },
         });
 
         const { release_group_name: releaseGroupName } = releaseGroup;
         console.log(
-          `4.${index}.${torrentIndex}) Subtítulo encontrado en SubDivX para ${name} ${resolution} ${releaseGroupName} \n`,
+          `4.${index}.${torrentIndex}) Subtítulo encontrado en SubDivX para ${name} ${finalResolution} ${releaseGroupName} \n`,
         );
 
         await downloadAndStoreTitleAndSubtitle({
@@ -997,12 +1046,12 @@ export async function getSubtitlesForTitle({
           torrent,
           releaseGroupName,
           subtitleGroupName: foundSubtitleFromSubDivX.subtitleGroupName,
-          subtitle: { ...foundSubtitleFromSubDivX, resolution, torrentId: torrent.id },
+          subtitle: { ...foundSubtitleFromSubDivX, resolution: finalResolution, torrentId: torrent.id },
           releaseGroups,
           subtitleGroups,
         });
       },
-      `4.${index}.${torrentIndex}) Subtítulo no encontrado en SubDivX para ${name} ${resolution} ${releaseGroup.release_group_name} (Puede llegar a existir en OpenSubtitles) \n`,
+      `4.${index}.${torrentIndex}) Subtítulo no encontrado en SubDivX para ${name} ${finalResolution} ${releaseGroup.release_group_name} (Puede llegar a existir en OpenSubtitles) \n`,
     );
 
     const subtitleAlreadyExistsAgain = await hasSubtitleInDatabase(fileName);
@@ -1016,13 +1065,13 @@ export async function getSubtitlesForTitle({
       async function getSubtitleFromProvider() {
         const foundSubtitleFromOpenSubtitles = await filterOpenSubtitleSubtitlesForTorrent({
           episode,
-          titleFileNameMetadata,
+          titleFileNameMetadata: { ...titleFileNameMetadata, resolution: finalResolution },
           subtitles: subtitlesFromOpenSubtitles,
         });
 
         const { release_group_name: releaseGroupName } = releaseGroup;
         console.log(
-          `4.${index}.${torrentIndex}) Subtítulo encontrado en OpenSubtitles para ${name} ${resolution} ${releaseGroupName} \n`,
+          `4.${index}.${torrentIndex}) Subtítulo encontrado en OpenSubtitles para ${name} ${finalResolution} ${releaseGroupName} \n`,
         );
 
         await downloadAndStoreTitleAndSubtitle({
@@ -1054,12 +1103,12 @@ export async function getSubtitlesForTitle({
           torrent,
           releaseGroupName,
           subtitleGroupName: foundSubtitleFromOpenSubtitles.subtitleGroupName,
-          subtitle: { ...foundSubtitleFromOpenSubtitles, resolution, torrentId: torrent.id },
+          subtitle: { ...foundSubtitleFromOpenSubtitles, resolution: finalResolution, torrentId: torrent.id },
           releaseGroups,
           subtitleGroups,
         });
       },
-      `4.${index}.${torrentIndex}) Subtítulo no encontrado en OpenSubtitles para ${name} ${resolution} ${releaseGroup.release_group_name} \n`,
+      `4.${index}.${torrentIndex}) Subtítulo no encontrado en OpenSubtitles para ${name} ${finalResolution} ${releaseGroup.release_group_name} \n`,
     );
 
     if (isDebugging) {
