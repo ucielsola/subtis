@@ -200,7 +200,6 @@ export const titlesRowSchema = z.object({
   queried_times: z.number().nullable(),
   rating: z.number(),
   release_date: z.string(),
-  teaser: z.string().nullable(),
   title_name: z.string(),
   title_name_spa: z.string(),
   title_name_without_special_chars: z.string(),
@@ -221,7 +220,6 @@ export const titlesInsertSchema = z.object({
   queried_times: z.number().optional().nullable(),
   rating: z.number(),
   release_date: z.string(),
-  teaser: z.string().optional().nullable(),
   title_name: z.string(),
   title_name_spa: z.string(),
   title_name_without_special_chars: z.string(),
@@ -242,7 +240,6 @@ export const titlesUpdateSchema = z.object({
   queried_times: z.number().optional().nullable(),
   rating: z.number().optional(),
   release_date: z.string().optional(),
-  teaser: z.string().optional().nullable(),
   title_name: z.string().optional(),
   title_name_spa: z.string().optional(),
   title_name_without_special_chars: z.string().optional(),
@@ -260,7 +257,7 @@ export const torrentsRowSchema = z.object({
   torrent_link: z.string(),
   torrent_name: z.string(),
   torrent_seeds: z.number(),
-  torrent_size: z.number(),
+  torrent_size: z.string(),
   torrent_tracker: z.string(),
 });
 
@@ -270,7 +267,7 @@ export const torrentsInsertSchema = z.object({
   torrent_link: z.string(),
   torrent_name: z.string(),
   torrent_seeds: z.number(),
-  torrent_size: z.number(),
+  torrent_size: z.string(),
   torrent_tracker: z.string(),
 });
 
@@ -280,7 +277,7 @@ export const torrentsUpdateSchema = z.object({
   torrent_link: z.string().optional(),
   torrent_name: z.string().optional(),
   torrent_seeds: z.number().optional(),
-  torrent_size: z.number().optional(),
+  torrent_size: z.string().optional(),
   torrent_tracker: z.string().optional(),
 });
 

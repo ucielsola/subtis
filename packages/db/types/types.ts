@@ -188,7 +188,6 @@ export type Database = {
           queried_times: number | null;
           rating: number;
           release_date: string;
-          teaser: string | null;
           title_name: string;
           title_name_spa: string;
           title_name_without_special_chars: string;
@@ -208,7 +207,6 @@ export type Database = {
           queried_times?: number | null;
           rating: number;
           release_date: string;
-          teaser?: string | null;
           title_name: string;
           title_name_spa: string;
           title_name_without_special_chars: string;
@@ -228,7 +226,6 @@ export type Database = {
           queried_times?: number | null;
           rating?: number;
           release_date?: string;
-          teaser?: string | null;
           title_name?: string;
           title_name_spa?: string;
           title_name_without_special_chars?: string;
@@ -246,7 +243,7 @@ export type Database = {
           torrent_link: string;
           torrent_name: string;
           torrent_seeds: number;
-          torrent_size: number;
+          torrent_size: string;
           torrent_tracker: string;
         };
         Insert: {
@@ -255,7 +252,7 @@ export type Database = {
           torrent_link: string;
           torrent_name: string;
           torrent_seeds: number;
-          torrent_size: number;
+          torrent_size: string;
           torrent_tracker: string;
         };
         Update: {
@@ -264,7 +261,7 @@ export type Database = {
           torrent_link?: string;
           torrent_name?: string;
           torrent_seeds?: number;
-          torrent_size?: number;
+          torrent_size?: string;
           torrent_tracker?: string;
         };
         Relationships: [];
@@ -339,13 +336,13 @@ export type Database = {
           _bytes: number;
           _title_file_name: string;
         };
-        Returns: undefined;
+        Returns: boolean;
       };
       update_title_info: {
         Args: {
           _id: number;
         };
-        Returns: undefined;
+        Returns: boolean;
       };
     };
     Enums: {

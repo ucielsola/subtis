@@ -1,9 +1,6 @@
 // import dayjs from "dayjs";
 import z from "zod";
 
-// shared
-import { getTitleTeaser } from "@subtis/shared";
-
 // internals
 import { getStripedImdbId } from "./imdb";
 import { getNumbersArray } from "./utils";
@@ -378,7 +375,6 @@ export type TmdbTitle = {
   logo: string | null;
   poster: string | null;
   backdrop: string | null;
-  teaser: string | null;
 };
 
 export type TmdbTvShow = TmdbTitle & {
@@ -430,25 +426,11 @@ export async function getMovieMetadataFromTmdbMovie({
   // 4. Get movie title image
   const logo = await getTmdbMovieLogoUrl(id);
 
-  // 5. Get movie teaser
-  let teaser = "";
-
-  try {
-    teaser = await getTitleTeaser({
-      name,
-      year,
-      currentSeason: null,
-    });
-  } catch (error) {
-    console.log("\n ~ error getting title teaser:", (error as Error).message);
-  }
-
   return {
     year,
     name,
     logo,
     imdbId,
-    teaser,
     overview,
     spanishName,
     releaseDate,
@@ -542,19 +524,6 @@ export async function getTvShowMetadataFromTmdbTvShow({
   // 5. Get TV show logo
   const logo = await getTmdbTvShoweLogoUrl(id);
 
-  // 5. Get TV show teaser
-  let teaser = "";
-
-  try {
-    teaser = await getTitleTeaser({
-      name,
-      year,
-      currentSeason: 1,
-    });
-  } catch (error) {
-    console.log("\n ~ error getting title teaser:", (error as Error).message);
-  }
-
   const episodes = data.seasons.flatMap((season) => {
     const { season_number: seasonNumber, episode_count: episodeCount } = season;
 
@@ -578,7 +547,6 @@ export async function getTvShowMetadataFromTmdbTvShow({
     name,
     logo,
     imdbId,
-    teaser,
     overview,
     episodes,
     spanishName,

@@ -78,13 +78,13 @@ bun run deploy:cli
 1. Login to Supabase (if you haven't already)
 
 ```bash
-cd packages/db && bunx supabase login --token [TOKEN_FROM_ACCESS_TOKENS]
+bunx supabase login
 ```
 
 2. Create database type definitions and zod schemas
 
 ```bash
-bun run update:db
+bun run update:db:schemas
 ```
 
 ### Access Database

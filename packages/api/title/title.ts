@@ -15,16 +15,15 @@ import {
   youTubeSchema,
 } from "@subtis/shared";
 
-// db
-import { titlesRowSchema } from "@subtis/db/schemas";
-
 // internals
 import { getSupabaseClient } from "../shared/supabase";
 import type { AppVariables } from "../shared/types";
 import { getYoutubeApiKey } from "./youtube";
 
 // schemas
-const teaserSchema = titlesRowSchema.pick({ teaser: true });
+const teaserSchema = z.object({
+  teaser: z.string(),
+});
 
 // core
 export const title = new Hono<{ Variables: AppVariables }>()
@@ -137,7 +136,7 @@ export const title = new Hono<{ Variables: AppVariables }>()
       return context.json({ message: "An error occurred", error: error.message });
     }
 
-    if (data && data === false) {
+    if (typeof data === "boolean" && data === false) {
       context.status(404);
       return context.json({ message: "Title not found" });
     }

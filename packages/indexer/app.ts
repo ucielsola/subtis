@@ -78,7 +78,6 @@ type TitleWithEpisode = Pick<
   | "total_seasons"
   | "total_episodes"
   | "logo"
-  | "teaser"
 > & {
   episode: string | null;
 };
@@ -86,7 +85,7 @@ type TitleWithEpisode = Pick<
 type SubtitleWithResolutionAndTorrentId = SubtitleData & { resolution: string; torrentId: number };
 
 // constants
-const MAX_TIMEOUT = ms("30s");
+const MAX_TIMEOUT = ms("3m");
 const COMPRESSED_SUBTITLES_FOLDER_NAME = "compressed-subtitles";
 const UNCOMPRESSED_SUBTITLES_FOLDER_NAME = "uncompressed-subtitles";
 
@@ -282,6 +281,7 @@ async function storeSubtitleInSupabaseTable({
   titleFileNameFromNotFoundSubtitle?: string;
 }): Promise<void> {
   const { lang, downloadFileName, resolution, torrentId } = subtitle;
+  console.log("\n ~ torrentId:", torrentId);
 
   const { id: subtitleGroupId } = subtitleGroups[subtitleGroupName];
   const { id: releaseGroupId } = releaseGroups[releaseGroupName];
@@ -351,14 +351,19 @@ function parseTorrentTrackerId(trackerId: string) {
 async function storeTorrentInSupabaseTable(torrent: TorrentFoundWithId): Promise<void> {
   const { id, title, size, seeds, tracker, trackerId } = torrent;
 
-  await supabase.from("Torrents").upsert({
+  const { error } = await supabase.from("Torrents").upsert({
     id,
     torrent_name: title,
-    torrent_size: Number(size),
+    torrent_size: typeof size === "string" ? size : prettyBytes(size),
     torrent_seeds: seeds,
     torrent_tracker: tracker,
     torrent_link: parseTorrentTrackerId(trackerId),
   });
+
+  if (error) {
+    console.log("\n Error al guardar el torrent en la base de datos", error);
+    throw error;
+  }
 }
 
 function removeSubtitlesFromFileSystem(paths: string[]): void {
@@ -668,7 +673,7 @@ function getFilteredTorrents(titleType: TitleTypes, torrents: TorrentFound[], ma
   const seenTitles = new Set<string>();
   const seenSizes = new Set<string | number>();
 
-  const minSeeds = titleType === TitleTypes.tvShow ? 5 : 15;
+  const minSeeds = titleType === TitleTypes.tvShow ? 20 : 15;
 
   return torrents
     .toSorted((torrentA, torrentB) => {
@@ -722,7 +727,6 @@ export async function getTorrentVideoFileMetadata(torrent: TorrentFound): Promis
 
     engine.on("ready", async () => {
       const videoFile = getVideoFromFiles((engine as unknown as { files: File[] }).files);
-
       const resolutionRegex = /(480p|576p|720p|1080p|2160p)/gi;
 
       if (videoFile && !videoFile.name.match(resolutionRegex)) {
@@ -738,10 +742,11 @@ export async function getTorrentVideoFileMetadata(torrent: TorrentFound): Promis
 
         stream.pipe(writeStream);
 
-        await new Promise((resolve) => {
+        await new Promise(() => {
           stream.on("end", async () => {
             const info = await ffprobe(tempFilePath, { path: ffprobeStatic.path });
             const [firstStream] = info.streams;
+            console.log("\n ~ stream.on ~ firstStream:", firstStream);
 
             let resolution = "";
 
@@ -749,7 +754,7 @@ export async function getTorrentVideoFileMetadata(torrent: TorrentFound): Promis
               resolution = "480p";
             }
 
-            if (firstStream.width === 1280 || firstStream.height === 720) {
+            if (firstStream.width === 720 || firstStream.height === 720) {
               resolution = "720p";
             }
 
@@ -825,7 +830,6 @@ export async function getSubtitlesForTitle({
     name,
     year,
     logo,
-    teaser,
     imdbId,
     rating,
     releaseDate,
@@ -967,7 +971,7 @@ export async function getSubtitlesForTitle({
     }
 
     const { releaseGroup, resolution } = titleFileNameMetadata;
-    const finalResolution = resolution ?? resolutionFromVideoFile;
+    const finalResolution = resolution ? resolution : resolutionFromVideoFile ? resolutionFromVideoFile : "-";
 
     if (!releaseGroup) {
       console.error(`No hay release group soportado para ${videoFile.name} \n`);
@@ -1025,7 +1029,6 @@ export async function getSubtitlesForTitle({
             fileNameExtension,
           },
           title: {
-            teaser,
             id: imdbId,
             title_name: name,
             rating,
@@ -1043,7 +1046,7 @@ export async function getSubtitlesForTitle({
           },
           bytesFromNotFoundSubtitle,
           titleFileNameFromNotFoundSubtitle,
-          torrent,
+          torrent: { ...torrent, size: bytes },
           releaseGroupName,
           subtitleGroupName: foundSubtitleFromSubDivX.subtitleGroupName,
           subtitle: { ...foundSubtitleFromSubDivX, resolution: finalResolution, torrentId: torrent.id },
@@ -1082,7 +1085,6 @@ export async function getSubtitlesForTitle({
             fileNameExtension,
           },
           title: {
-            teaser,
             id: imdbId,
             title_name: name,
             rating,

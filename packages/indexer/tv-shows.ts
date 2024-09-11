@@ -131,5 +131,5 @@ export async function indexSeriesByName({
 
 // testing
 // indexSeriesByYear(2024, true);
-indexSeriesByName({ name: "Rabbit Hole", year: 2023, isDebugging: true });
+indexSeriesByName({ name: "The Lord of the Rings: The Rings of Power", year: 2022, isDebugging: true });
 saveReleaseGroupsToDb(supabase);

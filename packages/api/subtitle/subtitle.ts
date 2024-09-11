@@ -253,7 +253,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "An error occurred", error });
       }
 
-      if (data && data === false) {
+      if (typeof data === "boolean" && data === false) {
         context.status(404);
         return context.json({ message: "Subtitle not found" });
       }

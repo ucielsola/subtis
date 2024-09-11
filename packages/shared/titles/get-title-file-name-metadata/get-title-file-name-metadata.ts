@@ -120,11 +120,11 @@ export function getTitleFileNameMetadata({
 
   return {
     year: null,
-    resolution,
     releaseGroup,
     currentSeason,
     currentEpisode,
     fileNameWithoutExtension,
     name: titleName || parsedTitleName,
+    resolution: resolution === ".S" ? "" : resolution,
   };
 }
