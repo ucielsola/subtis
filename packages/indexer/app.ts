@@ -281,7 +281,6 @@ async function storeSubtitleInSupabaseTable({
   titleFileNameFromNotFoundSubtitle?: string;
 }): Promise<void> {
   const { lang, downloadFileName, resolution, torrentId } = subtitle;
-  console.log("\n ~ torrentId:", torrentId);
 
   const { id: subtitleGroupId } = subtitleGroups[subtitleGroupName];
   const { id: releaseGroupId } = releaseGroups[releaseGroupName];
