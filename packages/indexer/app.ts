@@ -11,7 +11,6 @@ import ffprobeStatic from "ffprobe-static";
 import jschardet from "jschardet";
 import ms from "ms";
 import prettyBytes from "pretty-bytes";
-import replaceSpecialCharacters from "replace-special-characters";
 import invariant from "tiny-invariant";
 import tg from "torrent-grabber";
 import TorrentSearchApi from "torrent-search-api";
@@ -28,6 +27,7 @@ import {
   VIDEO_FILE_EXTENSIONS,
   getDecodedSubtitleFile,
   getSeasonAndEpisode,
+  getStringWithoutSpecialCharacters,
   getTitleFileNameExtension,
   getTitleFileNameMetadata,
 } from "@subtis/shared";
@@ -251,7 +251,7 @@ async function storeTitleInSupabaseTable(title: TitleWithEpisode): Promise<void>
   const { episode, ...rest } = title;
   await supabase.from("Titles").upsert({
     ...rest,
-    title_name_without_special_chars: replaceSpecialCharacters(title.title_name).replaceAll(":", ""),
+    title_name_without_special_chars: getStringWithoutSpecialCharacters(title.title_name),
   });
 }
 

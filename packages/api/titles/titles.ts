@@ -64,9 +64,12 @@ export const titles = new Hono<{ Variables: AppVariables }>()
       return context.json({ message: "Query must be at least 3 characters" });
     }
 
-    const { data, error } = await getSupabaseClient(context).rpc("fuzzy_search_title", { query });
+    const { data, error } = await getSupabaseClient(context).rpc("fuzzy_search_title", {
+      query,
+    });
 
     if (error) {
+      console.log("\n ~ .get ~ error:", error);
       context.status(500);
       return context.json({ message: "An error occurred", error: error.message });
     }

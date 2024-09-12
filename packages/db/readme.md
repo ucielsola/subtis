@@ -25,7 +25,9 @@ BEGIN
     SELECT t.id, t.title_name, t.year, t.type, t.backdrop
     FROM "Titles" t
     WHERE (query % ANY(STRING_TO_ARRAY(t.title_name, ' '))
-       OR query % ANY(STRING_TO_ARRAY(t.title_name_spa, ' ')))
+       OR query % ANY(STRING_TO_ARRAY(t.title_name_spa, ' '))
+       OR query % t.title_name
+       OR query % t.title_name_spa)
     ORDER BY t.year DESC;
 END;
 $$ LANGUAGE plpgsql;

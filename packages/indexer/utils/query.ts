@@ -1,11 +1,13 @@
-import replaceSpecialCharacters from "replace-special-characters";
 import { P, match } from "ts-pattern";
+
+// shared
+import { getStringWithoutSpecialCharacters } from "@subtis/shared";
 
 // internals
 import type { CurrentTitle } from "../app";
 
 export function getQueryForTorrentProvider({ name, year, episode }: CurrentTitle): string {
-  const parsedName = replaceSpecialCharacters(name.replace(/'/g, ""));
+  const parsedName = getStringWithoutSpecialCharacters(name);
 
   return match(episode)
     .with(null, () => `${parsedName} ${year}`)

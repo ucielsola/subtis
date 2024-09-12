@@ -2,7 +2,6 @@ import querystring from "querystring";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { unescape as htmlUnescape } from "html-escaper";
-import replaceSpecialCharacters from "replace-special-characters";
 import { z } from "zod";
 
 // shared
@@ -10,6 +9,7 @@ import {
   OFFICIAL_SUBTIS_CHANNELS,
   type TitleFileNameMetadata,
   YOUTUBE_SEARCH_URL,
+  getStringWithoutSpecialCharacters,
   getTitleFileNameMetadata,
   videoFileNameSchema,
   youTubeSchema,
@@ -64,9 +64,7 @@ export const title = new Hono<{ Variables: AppVariables }>()
 
     const filteredTeasers = youtubeParsedData.data.items.filter(({ snippet }) => {
       const unescapedTitle = htmlUnescape(snippet.title);
-      const youtubeTitle = replaceSpecialCharacters(unescapedTitle.toLowerCase())
-        .replaceAll(":", "")
-        .replaceAll("'", "");
+      const youtubeTitle = getStringWithoutSpecialCharacters(unescapedTitle);
 
       return (
         youtubeTitle.includes(name.toLowerCase()) &&
