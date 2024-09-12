@@ -120,6 +120,6 @@ export async function indexMovieByName({
 indexMovieByName({
   year: 2024,
   isDebugging: true,
-  name: "Saving Bikini Bottom: The Sandy Cheeks Movie",
+  name: "Inside Out 2",
 });
 saveReleaseGroupsToDb(supabase);

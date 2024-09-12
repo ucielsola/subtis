@@ -665,7 +665,12 @@ async function getTitleTorrents(query: string, titleType: TitleTypes, imdbId: nu
   return [...ytsTorrents, ...torrents1337xWithMagnet, ...thePirateBayTorrents].flat();
 }
 
-function getFilteredTorrents(titleType: TitleTypes, torrents: TorrentFound[], maxTorrents = 25): TorrentFoundWithId[] {
+function getFilteredTorrents(
+  titleType: TitleTypes,
+  torrents: TorrentFound[],
+  titleName: string,
+  maxTorrents = 25,
+): TorrentFoundWithId[] {
   const CINEMA_RECORDING_REGEX =
     /\b(hdcam|hdcamrip|hqcam|hq-cam|telesync|hdts|hd-ts|c1nem4|qrips|hdrip|cam|soundtrack|xxx|clean|khz|ep)\b/gi;
 
@@ -682,6 +687,24 @@ function getFilteredTorrents(titleType: TitleTypes, torrents: TorrentFound[], ma
       return torrentB.seeds - torrentA.seeds;
     })
     .slice(0, maxTorrents)
+    .filter((torrent) => {
+      const { title } = torrent;
+
+      let parsedTorrentTitle = "";
+
+      if (title.includes(".")) {
+        parsedTorrentTitle = title
+          .split(/.\d{1}/)[0]
+          .split(".")
+          .join(" ");
+      } else if (title.match(/\d{4}\s{1}/)) {
+        parsedTorrentTitle = title.split(/\d{4}/)[0];
+      } else if (title.match(/\(\d{4}\)\s{1}/)) {
+        parsedTorrentTitle = title.split(/\(\d{4}\)/)[0];
+      }
+
+      return parsedTorrentTitle.toLowerCase().trim() === titleName.toLowerCase().trim();
+    })
     .filter((torrent) => !torrent.title.match(CINEMA_RECORDING_REGEX))
     .filter(({ seeds }) => seeds > minSeeds)
     .filter((torrent) => {
@@ -848,7 +871,7 @@ export async function getSubtitlesForTitle({
   const titleProviderQuery = getQueryForTorrentProvider(currentTitle);
 
   const torrents = initialTorrents ?? (await getTitleTorrents(titleProviderQuery, titleType, imdbId));
-  const filteredTorrents = getFilteredTorrents(titleType, torrents);
+  const filteredTorrents = getFilteredTorrents(titleType, torrents, name);
 
   if (filteredTorrents.length === 0) {
     return console.log(
