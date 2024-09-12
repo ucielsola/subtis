@@ -45,6 +45,10 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         .single();
 
       if (error && error.code === "PGRST116") {
+        await getSupabaseClient(context)
+          .from("SubtitlesNotFound")
+          .insert({ bytes: parsedBytes, title_file_name: fileName });
+
         context.status(404);
         return context.json({ message: "Subtitle not found for file" });
       }
