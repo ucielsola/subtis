@@ -116,10 +116,10 @@ export async function indexMovieByName({
 }
 
 // testing
-indexMoviesByYear(2024, false);
-// indexMovieByName({
-//   year: 2024,
-//   name: "Kill",
-//   isDebugging: true,
-// });
+// indexMoviesByYear(2024, false);
+indexMovieByName({
+  year: 2024,
+  isDebugging: true,
+  name: "Saving Bikini Bottom: The Sandy Cheeks Movie",
+});
 saveReleaseGroupsToDb(supabase);

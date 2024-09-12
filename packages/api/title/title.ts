@@ -20,11 +20,6 @@ import { getSupabaseClient } from "../shared/supabase";
 import type { AppVariables } from "../shared/types";
 import { getYoutubeApiKey } from "./youtube";
 
-// schemas
-const teaserSchema = z.object({
-  teaser: z.string(),
-});
-
 // core
 export const title = new Hono<{ Variables: AppVariables }>()
   .get("/teaser/:fileName", zValidator("param", z.object({ fileName: z.string() })), async (context) => {
@@ -45,28 +40,6 @@ export const title = new Hono<{ Variables: AppVariables }>()
     }
 
     const { name, year, currentSeason } = titleFileNameMetadata;
-
-    const { data: titleData, error } = await getSupabaseClient(context)
-      .from("Titles")
-      .select("teaser")
-      .or(`title_name_without_special_chars.ilike.%${name}%`)
-      .match({ year })
-      .single();
-
-    if (error && error.code !== "PGRST116") {
-      context.status(500);
-      return context.json({ message: "An error occurred", error: error.message });
-    }
-
-    const { success, data } = teaserSchema.safeParse(titleData);
-
-    if (success) {
-      return context.json({
-        name,
-        year,
-        url: data.teaser,
-      });
-    }
 
     const query = currentSeason ? `${name} season ${currentSeason} teaser` : `${name} ${year} teaser`;
 
