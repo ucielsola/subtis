@@ -692,11 +692,11 @@ function getFilteredTorrents(
 
       let parsedTorrentTitle = "";
 
-      if (title.includes(".")) {
+      if (title.match(/\.\d{3}/)) {
         parsedTorrentTitle = title
-          .split(/.\d{1}/)[0]
-          .split(".")
-          .join(" ");
+        .split(/\.\d{3}/)[0]
+        .split(".")
+        .join(" ");
       } else if (title.match(/\d{4}\s{1}/)) {
         parsedTorrentTitle = title.split(/\d{4}/)[0];
       } else if (title.match(/\(\d{4}\)\s{1}/)) {
@@ -871,7 +871,17 @@ export async function getSubtitlesForTitle({
   const titleProviderQuery = getQueryForTorrentProvider(currentTitle);
 
   const torrents = initialTorrents ?? (await getTitleTorrents(titleProviderQuery, titleType, imdbId));
+  console.log("\nTorrents without filter \n");
+  console.table(torrents);
+
   const filteredTorrents = getFilteredTorrents(titleType, torrents, name);
+  console.log("\nFiltered torrents \n");
+  console.table(filteredTorrents);
+
+  console.log("\nTorrents total", torrents.length);
+  console.log("Filtered torrents total", filteredTorrents.length);
+  console.log("Differences between torrents and filteredTorrents", torrents.length - filteredTorrents.length);
+  console.log("\n\n")
 
   if (filteredTorrents.length === 0) {
     return console.log(
