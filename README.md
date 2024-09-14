@@ -1,5 +1,12 @@
 # Subtis | Tu buscador de subtitulos
 
+## URLs
+
+| Name    | Link                   |
+|---------|------------------------|
+| API     | https://api.subt.is    |
+| Stremio | https://stremio.subt.is|
+
 ## Packages
 
 | Client-side | Server-side | Cross packages |
