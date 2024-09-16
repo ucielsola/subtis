@@ -60,7 +60,16 @@ export async function getSubtitlesFromSubDivXForTitle({
     body: `tabla=resultados&filtros=&buscar=${titleProviderQuery}`,
   });
 
+  if (!response.ok) {
+    throw new Error("Failed to fetch subtitles from SubDivX");
+  }
+
   const data = await response.json();
+
+  if (data === null) {
+    return { aaData: [], iTotalDisplayRecords: 0, iTotalRecords: 0, sEcho: "" };
+  }
+
   const subtitles = subdivxSchema.parse(data);
 
   if (subtitles.aaData.length === 0 && hasBeenExecutedOnce === false) {

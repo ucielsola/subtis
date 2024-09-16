@@ -694,9 +694,9 @@ function getFilteredTorrents(
 
       if (title.match(/\.\d{3}/)) {
         parsedTorrentTitle = title
-        .split(/\.\d{3}/)[0]
-        .split(".")
-        .join(" ");
+          .split(/\.\d{3}/)[0]
+          .split(".")
+          .join(" ");
       } else if (title.match(/\d{4}\s{1}/)) {
         parsedTorrentTitle = title.split(/\d{4}/)[0];
       } else if (title.match(/\(\d{4}\)\s{1}/)) {
@@ -881,7 +881,7 @@ export async function getSubtitlesForTitle({
   console.log("\nTorrents total", torrents.length);
   console.log("Filtered torrents total", filteredTorrents.length);
   console.log("Differences between torrents and filteredTorrents", torrents.length - filteredTorrents.length);
-  console.log("\n\n")
+  console.log("\n\n");
 
   if (filteredTorrents.length === 0) {
     return console.log(
@@ -907,12 +907,78 @@ export async function getSubtitlesForTitle({
     `👉 Nombre de titulo ${titleProviderQuery} guardado en el clipboard, para poder pegar directamente en proveedor de torrents o subtítulos \n`,
   );
 
-  console.log(`4.${index}) Buscando subtítulos en SubDivX \n`);
-  const subtitlesFromSubDivX = await getSubtitlesFromSubDivXForTitle({
-    titleProviderQuery,
-    hasBeenExecutedOnce: false,
-  });
-  console.log(`4.${index}) ${subtitlesFromSubDivX.aaData.length} subtitlos encontrados en SubDivX \n`);
+  const releaseGroupsqueryMatches = Object.values(releaseGroups)
+    .flatMap(({ query_matches }) => query_matches)
+    .map((queryMatch) => queryMatch.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+
+  const releaseGroupsRegex = new RegExp(`\\b(${releaseGroupsqueryMatches.join("|")})\\b`, "gi");
+  const resolutionRegex = /(480p|576p|720p|1080p|2160p|3d)/gi;
+
+  const subdivxSubtitles = await executeWithOptionalTryCatch(
+    true,
+    async function getSubtitlesFromSubDivXSafely() {
+      console.log(`4.${index}) Buscando subtítulos en SubDivX \n`);
+      const subtitlesFromSubDivX = await getSubtitlesFromSubDivXForTitle({
+        titleProviderQuery,
+        hasBeenExecutedOnce: false,
+      });
+      console.log(`4.${index}) ${subtitlesFromSubDivX.aaData.length} subtitlos encontrados en SubDivX \n`);
+
+      const releaseGroupsqueryMatches = Object.values(releaseGroups)
+        .flatMap(({ query_matches }) => query_matches)
+        .map((queryMatch) => queryMatch.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+
+      const releaseGroupsRegex = new RegExp(`\\b(${releaseGroupsqueryMatches.join("|")})\\b`, "gi");
+      const resolutionRegex = /(480p|576p|720p|1080p|2160p|3d)/gi;
+
+      const subdivxTable = subtitlesFromSubDivX.aaData.map(({ titulo, descripcion }) => {
+        const resolutions = descripcion.match(resolutionRegex);
+        const releaseGroups = descripcion.match(releaseGroupsRegex);
+
+        return {
+          title: titulo,
+          resolutions: resolutions ? [...new Set(resolutions)] : "",
+          releaseGroups: releaseGroups ? [...new Set(releaseGroups)] : "",
+        };
+      });
+
+      return [subtitlesFromSubDivX, subdivxTable];
+    },
+    `4.${index}) No se encontraron subtitulos en SubDivX\n`,
+  );
+
+  const [subtitlesFromSubDivX, subdivxTable] = (subdivxSubtitles ?? [null, null]) as
+    | [
+        {
+          aaData: {
+            cds: number;
+            comentarios: number;
+            descargas: number;
+            descripcion: string;
+            eliminado: 0 | 1;
+            formato: string;
+            fotos: string;
+            framerate: string;
+            id: number;
+            idmoderador: number;
+            nick: string;
+            promedio: string;
+            titulo: string;
+            calificacion?: string | undefined;
+            fecha?: string | undefined;
+          }[];
+          iTotalDisplayRecords: number;
+          iTotalRecords: number;
+          sEcho: string;
+        },
+        {
+          title: string;
+          resolutions: string | string[];
+          releaseGroups: string | string[];
+        }[],
+      ]
+    | [null, null];
+  console.log("\n ~ subdivxTable:", subdivxTable);
 
   console.log(`4.${index}) Buscando subtítulos en OpenSubtitles \n`);
   const subtitlesFromOpenSubtitles = await getSubtitlesFromOpenSubtitlesForTitle({
@@ -922,24 +988,6 @@ export async function getSubtitlesForTitle({
     currentEpisode,
   });
   console.log(`4.${index}) ${subtitlesFromOpenSubtitles.data.length} subtitlos encontrados en OpenSubtitles \n`);
-
-  const releaseGroupsqueryMatches = Object.values(releaseGroups)
-    .flatMap(({ query_matches }) => query_matches)
-    .map((queryMatch) => queryMatch.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
-
-  const releaseGroupsRegex = new RegExp(`\\b(${releaseGroupsqueryMatches.join("|")})\\b`, "gi");
-  const resolutionRegex = /(480p|576p|720p|1080p|2160p|3d)/gi;
-
-  const subdivxTable = subtitlesFromSubDivX.aaData.map(({ titulo, descripcion }) => {
-    const resolutions = descripcion.match(resolutionRegex);
-    const releaseGroups = descripcion.match(releaseGroupsRegex);
-
-    return {
-      title: titulo,
-      resolutions: resolutions ? [...new Set(resolutions)] : "",
-      releaseGroups: releaseGroups ? [...new Set(releaseGroups)] : "",
-    };
-  });
 
   const openSubtitlesTable = subtitlesFromOpenSubtitles.data.map(({ attributes }) => {
     const release = attributes.release.toLowerCase();
@@ -960,7 +1008,7 @@ export async function getSubtitlesForTitle({
     console.log("\n\n\n\n");
     console.log("-------------------------------------------------------------------");
 
-    if (subdivxTable.length > 0) {
+    if (subdivxTable && subdivxTable.length > 0) {
       console.log(`4.${index}.${torrentIndex}) Subtitulos encontrados en SubDivx:`);
       console.table(subdivxTable);
       console.log("\n");
@@ -1042,6 +1090,10 @@ export async function getSubtitlesForTitle({
     await executeWithOptionalTryCatch(
       shouldUseTryCatch,
       async function getSubtitleFromProvider() {
+        if (!subtitlesFromSubDivX) {
+          return;
+        }
+
         const foundSubtitleFromSubDivX = await filterSubDivXSubtitlesForTorrent({
           episode,
           subtitles: subtitlesFromSubDivX,
