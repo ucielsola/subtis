@@ -281,7 +281,7 @@ export const RELEASE_GROUPS = {
     query_matches: ["HHWEB", "265-HHWEB"],
   },
   BenTheMen: {
-    file_attributes: ["264-BEN.THE.MEN", "MP4-BEN.THE.MEN", "BEN.THE.MEN,", "265-BEN.THE.MEN"],
+    file_attributes: ["264-BEN.THE.MEN", "MP4-BEN.THE.MEN", "BEN.THE.MEN,", "265-BEN.THE.MEN","MKV-BEN.THE.MEN"],
     is_supported: true,
     release_group_name: "BEN THE MEN",
     query_matches: ["BEN THE MEN", "BEN.THE.MEN,"],
@@ -375,6 +375,36 @@ export const RELEASE_GROUPS = {
     is_supported: true,
     release_group_name: "Will1869",
     query_matches: ["Will1869"],
+  },
+  itspee: {
+    file_attributes: ["itspee","h265-itspee","h264-itspee"],
+    is_supported: true,
+    release_group_name: "itspee",
+    query_matches: ["itspee","h265-itspee","h264-itspee"],
+  },
+  ZoroSenpai : {
+    file_attributes: ["x264-ZoroSenpai","x265-ZoroSenpai","ZoroSenpai"],
+    is_supported: true,
+    release_group_name: "ZoroSenpai",
+    query_matches: ["x264-ZoroSenpai","x265-ZoroSenpai","ZoroSenpai"],
+  },
+  thismoviewillblowyouaway: {
+    file_attributes: ["thismoviewillblowyouaway","h264-thismoviewillblowyouaway","h265-thismoviewillblowyouaway"],
+    is_supported: true,
+    release_group_name: "thismoviewillblowyouaway",
+    query_matches: ["thismoviewillblowyouaway","h264-thismoviewillblowyouaway","h265-thismoviewillblowyouaway"],
+  },
+  privateberyloysterofdemocracy: {
+    file_attributes: ["privateberyloysterofdemocracy","h264-privateberyloysterofdemocracy","h265-privateberyloysterofdemocracy"],
+    is_supported: true,
+    release_group_name: "privateberyloysterofdemocracy",
+    query_matches: ["privateberyloysterofdemocracy","h264-privateberyloysterofdemocracy","h265-privateberyloysterofdemocracy"],
+  },
+  iseedeadpeople : {
+    file_attributes: ["iseedeadpeople","h264-iseedeadpeople","h265-iseedeadpeople"],
+    is_supported: true,
+    release_group_name: "iseedeadpeople",
+    query_matches: ["iseedeadpeople","h264-iseedeadpeople","h265-iseedeadpeople"],
   },
 } as const;
 
