@@ -34,7 +34,7 @@
     "deploy:stremio": "fly deploy",
     "bump:deps": "taze -r -w",
     "update:deps": "bun bump:deps && bun clean:install",
-    "clean:install": "bun pm cache rm && bun install --force"
+    "clean:install": "bun pm cache rm && bun install --force --concurrent-scripts 1"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.0",
