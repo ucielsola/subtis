@@ -978,7 +978,6 @@ export async function getSubtitlesForTitle({
         }[],
       ]
     | [null, null];
-  console.log("\n ~ subdivxTable:", subdivxTable);
 
   console.log(`4.${index}) Buscando subtítulos en OpenSubtitles \n`);
   const subtitlesFromOpenSubtitles = await getSubtitlesFromOpenSubtitlesForTitle({
