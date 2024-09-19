@@ -78,7 +78,21 @@ export async function getSubtitlesFromSubDivXForTitle({
     return getSubtitlesFromSubDivXForTitle({ titleProviderQuery: newTitleProviderQuery, hasBeenExecutedOnce: true });
   }
 
-  return subtitles;
+  // Filter similar titles
+  const filteredSubtitles = subtitles.aaData.filter((subtitle) => {
+    if (subtitle.titulo.length > titleProviderQuery.length + 10) {
+      return false;
+    }
+
+    return true;
+  });
+
+  const result = {
+    ...subtitles,
+    aaData: filteredSubtitles,
+  };
+
+  return result;
 }
 
 export async function filterSubDivXSubtitlesForTorrent({

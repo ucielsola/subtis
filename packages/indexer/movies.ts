@@ -120,6 +120,6 @@ indexMoviesByYear(2024, true);
 // indexMovieByName({
 //   year: 2024,
 //   isDebugging: true,
-//   name: "Inside Out 2",
+//   name: "Trap",
 // });
 saveReleaseGroupsToDb(supabase);
