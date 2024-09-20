@@ -85,7 +85,7 @@ type TitleWithEpisode = Pick<
 type SubtitleWithResolutionAndTorrentId = SubtitleData & { resolution: string; torrentId: number };
 
 // constants
-const MAX_TIMEOUT = ms("3m");
+const MAX_TIMEOUT = ms("30s");
 const COMPRESSED_SUBTITLES_FOLDER_NAME = "compressed-subtitles";
 const UNCOMPRESSED_SUBTITLES_FOLDER_NAME = "uncompressed-subtitles";
 
