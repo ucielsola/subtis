@@ -3,7 +3,7 @@ import { Hono } from "hono";
 import { z } from "zod";
 
 // shared
-import { getTitleFileNameMetadata, videoFileNameSchema } from "@subtis/shared";
+import { getStringWithoutSpecialCharacters, getTitleFileNameMetadata, videoFileNameSchema } from "@subtis/shared";
 
 // internals
 import { alternativeTitlesSchema, subtitleSchema, subtitleShortenerSchema, subtitlesQuery } from "../shared/schemas";
@@ -82,7 +82,12 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       titleFileName: videoFileName.data,
     });
 
-    const titleQuery = supabase.from("Titles").select("id").or(`title_name_without_special_chars.ilike.%${name}%`);
+    const parsedName = getStringWithoutSpecialCharacters(name);
+
+    const titleQuery = supabase
+      .from("Titles")
+      .select("id")
+      .or(`title_name_without_special_chars.ilike.%${parsedName}%`);
 
     if (year !== null) {
       titleQuery.eq("year", year);
