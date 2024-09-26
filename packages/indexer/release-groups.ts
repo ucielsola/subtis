@@ -206,6 +206,7 @@ export const RELEASE_GROUPS = {
       "YIFY",
       "[YTS.MX]",
       "x264-[YTS.AG]",
+      "(YTS)"
     ],
   },
   RMTeam: {
