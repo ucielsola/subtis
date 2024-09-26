@@ -76,6 +76,13 @@ async function getAlternativeSubtitle({
   return { subtitles: [subtitle] };
 }
 
+// constants
+const CACHE_SETTINGS = {
+  staleError: 0,
+  cacheMaxAge: 0,
+  staleRevalidate: 0,
+};
+
 // core
 async function getTitleSubtitle(args: Args): Promise<{ subtitles: Subtitle[] }> {
   try {
@@ -85,12 +92,12 @@ async function getTitleSubtitle(args: Args): Promise<{ subtitles: Subtitle[] }> 
 
     if (originalSubtitle === null) {
       const alternativeSubtitle = await getAlternativeSubtitle({ fileName });
-      return Promise.resolve(alternativeSubtitle);
+      return Promise.resolve({ ...alternativeSubtitle, ...CACHE_SETTINGS });
     }
 
-    return Promise.resolve(originalSubtitle);
+    return Promise.resolve({ ...originalSubtitle, ...CACHE_SETTINGS });
   } catch (error) {
-    return Promise.resolve({ subtitles: [] });
+    return Promise.resolve({ subtitles: [], ...CACHE_SETTINGS });
   }
 }
 
@@ -98,7 +105,7 @@ async function getTitleSubtitle(args: Args): Promise<{ subtitles: Subtitle[] }> 
 const builder = new addonBuilder({
   name: "Subtis (Version Alpha)",
   id: "org.subtis",
-  version: "0.1.2",
+  version: "0.1.3",
   description:
     "Subtis es tu buscador de subtitulos para tus películas y series favoritas. (Ten en cuenta que esto es una versión de prueba y el proyecto se lanza a fines de 2024)",
   catalogs: [],
