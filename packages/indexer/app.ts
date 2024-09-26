@@ -467,7 +467,7 @@ async function addWatermarkToSubtitle({
       const firstSubtitleTimestamp = timestamp.split(" ").at(0) as string;
 
       const firstTimestamp = halfTime(firstSubtitleTimestamp);
-      const secondTimestamp = modifySecondsInTimestamp(firstSubtitleTimestamp, -2);
+      const secondTimestamp = firstSubtitleTimestamp;
 
       return `-1
 00:00:00,000 --> ${firstTimestamp}
@@ -476,7 +476,7 @@ Link: https://subt.is
 
 0
 ${firstTimestamp} --> ${secondTimestamp}
-Contactanos por Twitter/X en <i>@subt_is</i>
+Contactanos por X en <i>@subt_is</i>
 Vía email a <i>soporte@subt.is</i>
 
 ${subtitleText}`;
@@ -507,7 +507,7 @@ Link: https://subt.is
 
 ${watermarkNextId + 1}
 ${secondTimestamp} --> ${thirdTimestamp}
-Contactanos por Twitter/X en <i>@subt_is</i>
+Contactanos por X en <i>@subt_is</i>
 Vía email a <i>soporte@subt.is</i>
 `;
     })

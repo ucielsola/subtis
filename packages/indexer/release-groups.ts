@@ -42,7 +42,7 @@ export const RELEASE_GROUPS = {
     query_matches: ["REVILS"],
   },
   SHITBOX: {
-    file_attributes: ["x264-SHITBOX", "0-SHITBOX", "1-SHITBOX"],
+    file_attributes: ["x264-SHITBOX", "x265-SHITBOX", "0-SHITBOX", "1-SHITBOX"],
     is_supported: true,
     release_group_name: "SHITBOX",
     query_matches: ["SHITBOX"],
@@ -94,6 +94,12 @@ export const RELEASE_GROUPS = {
     is_supported: true,
     release_group_name: "HEVC-CMRG",
     query_matches: ["HEVC-CMRG", "CMRG"],
+  },
+  "HEVC-CM": {
+    file_attributes: ["HEVC-CM", "x264-CM", "x265-CM"],
+    is_supported: true,
+    release_group_name: "HEVC-CM",
+    query_matches: ["HEVC-CM"],
   },
   "HEVC-PSA": {
     file_attributes: ["HEVC-PSA"],
@@ -413,6 +419,12 @@ export const RELEASE_GROUPS = {
     is_supported: true,
     release_group_name: "iseedeadpeople",
     query_matches: ["iseedeadpeople", "h264-iseedeadpeople", "h265-iseedeadpeople"],
+  },
+  RARBG: {
+    file_attributes: ["x264-RARBG", "x265-RARBG"],
+    is_supported: true,
+    release_group_name: "RARBG",
+    query_matches: ["RARBG", "AAC-RARBG"],
   },
 } as const;
 
