@@ -69,7 +69,6 @@ export const titles = new Hono<{ Variables: AppVariables }>()
     });
 
     if (error) {
-      console.log("\n ~ .get ~ error:", error);
       context.status(500);
       return context.json({ message: "An error occurred", error: error.message });
     }

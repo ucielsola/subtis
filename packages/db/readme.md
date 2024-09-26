@@ -24,10 +24,12 @@ BEGIN
     RETURN QUERY
     SELECT t.id, t.title_name, t.year, t.type, t.backdrop
     FROM "Titles" t
-    WHERE (query % ANY(STRING_TO_ARRAY(t.title_name, ' '))
-       OR query % ANY(STRING_TO_ARRAY(t.title_name_spa, ' '))
-       OR query % t.title_name
-       OR query % t.title_name_spa)
+    WHERE (
+        (query % t.title_name AND similarity(query, t.title_name) > 0.3)
+        OR (query % t.title_name_spa AND similarity(query, t.title_name_spa) > 0.3)
+        OR t.title_name ILIKE '%' || query || '%'
+        OR t.title_name_spa ILIKE '%' || query || '%'
+    )
     ORDER BY t.year DESC;
 END;
 $$ LANGUAGE plpgsql;
