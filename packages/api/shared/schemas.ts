@@ -5,8 +5,8 @@ import {
   titlesRowSchema,
 } from "@subtis/db/schemas";
 
-const subtitleGroupSchema = subtitleGroupsRowSchema.pick({ id: true });
-const releaseGroupSchema = releaseGroupsRowSchema.pick({ release_group_name: true });
+const subtitleGroupSchema = subtitleGroupsRowSchema.pick({ id: true, subtitle_group_name: true });
+const releaseGroupSchema = releaseGroupsRowSchema.pick({ id: true, release_group_name: true });
 const titleSchema = titlesRowSchema.pick({
   title_name: true,
   type: true,
@@ -47,7 +47,7 @@ export const subtitlesQuery = `
   subtitle_file_name,
   current_season,
   current_episode,
-  subtitleGroup: SubtitleGroups ( id ),
-  releaseGroup: ReleaseGroups ( release_group_name ),
+  releaseGroup: ReleaseGroups ( id, release_group_name ),
+  subtitleGroup: SubtitleGroups ( id, subtitle_group_name ),
   title: Titles ( title_name, type, year, poster, backdrop )
 `;
