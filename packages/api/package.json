@@ -11,7 +11,7 @@
   "dependencies": {
     "@hono/zod-validator": "^0.2.2",
     "@supabase/supabase-js": "^2.45.4",
-    "hono": "^4.6.2",
+    "hono": "^4.6.3",
     "html-escaper": "^3.0.3",
     "jszip": "^3.10.1",
     "slugify": "^1.6.6",
@@ -19,11 +19,11 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20240919.0",
-    "@types/bun": "^1.1.9",
+    "@cloudflare/workers-types": "^4.20240925.0",
+    "@types/bun": "^1.1.10",
     "@types/html-escaper": "^3.0.2",
     "@types/timestring": "^6.0.5",
     "typescript": "^5.6.2",
-    "wrangler": "^3.78.6"
+    "wrangler": "^3.78.10"
   }
 }
