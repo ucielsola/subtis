@@ -53,11 +53,11 @@ export async function getSubtitlesFromSubDivXForTitle({
   const response = await fetch(`${SUBDIVX_BASE_URL}/inc/ajax.php`, {
     headers: {
       "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-      Cookie: "sdx=h99js4a0iqvc651p69addd2i7i",
+      Cookie: "sdx=2e3f5o0t1c6e1stdtghrus4adj",
       "X-Requested-With": "XMLHttpRequest",
     },
     method: "POST",
-    body: `tabla=resultados&filtros=&buscar=${titleProviderQuery}`,
+    body: `tabla=resultados&filtros=&buscar393=${titleProviderQuery}&token=262dbc5e22b069e98566bb8150e7bbcc008ec1a82faf4a515eee2bde75eb3333`,
   });
 
   if (!response.ok) {
