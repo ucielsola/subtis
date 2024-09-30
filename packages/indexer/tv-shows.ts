@@ -80,7 +80,7 @@ export async function indexSeriesByYear(seriesYear: number, isDebugging: boolean
 
       for await (const [index, episode] of Object.entries(tvShow.episodes)) {
         // Only index the first 2 episodes for debugging mode
-        if (Number(index) > 1) {
+        if (Number(index) > 4) {
           break;
         }
 
@@ -137,6 +137,6 @@ export async function indexSeriesByName({
 }
 
 // testing
-// indexSeriesByYear(2024, true);
-indexSeriesByName({ name: "The Lord of the Rings: The Rings of Power", year: 2022, isDebugging: true });
+indexSeriesByYear(2024, true);
+// indexSeriesByName({ name: "The Lord of the Rings: The Rings of Power", year: 2022, isDebugging: true });
 saveReleaseGroupsToDb(supabase);

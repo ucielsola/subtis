@@ -96,6 +96,56 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
     },
   )
   .get(
+    "/tv-show/download/metadata/:id/:season",
+    zValidator("param", z.object({ id: z.string(), season: z.string() })),
+    async (context) => {
+      const { id, season } = context.req.valid("param");
+
+      const parsedId = Number.parseInt(id);
+
+      if (Number.isNaN(parsedId) || parsedId < 1) {
+        context.status(400);
+        return context.json({ message: "Invalid ID: it should be a positive integer number" });
+      }
+
+      const { data, error } = await getSupabaseClient(context)
+        .from("Subtitles")
+        .select(subtitlesQuery)
+        .order("subtitle_group_id")
+        .match({ title_id: parsedId, current_season: season });
+
+      if (error && error.code === "PGRST116") {
+        context.status(404);
+        return context.json({ message: "Subtitles not found for TV Show", error: error.message });
+      }
+
+      if (error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error: error.message });
+      }
+
+      const subtitles = subtitlesSchema.safeParse(data);
+
+      if (subtitles.error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error: subtitles.error.message });
+      }
+
+      const parsedData = subtitles.data.reduce<Record<string, [number, string][]>>((accumulator, subtitle) => {
+        const { resolution, releaseGroup } = subtitle;
+        const map = new Map<number, string>(accumulator[resolution] ?? []);
+        map.set(releaseGroup.id, releaseGroup.release_group_name);
+
+        return {
+          ...accumulator,
+          [resolution]: Array.from(map.entries()),
+        };
+      }, {});
+
+      return context.json(parsedData);
+    },
+  )
+  .get(
     "/tv-show/download/season/:id/:season/:resolution/:releaseGroupId",
     zValidator(
       "param",

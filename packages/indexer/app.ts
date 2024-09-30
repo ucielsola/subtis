@@ -688,6 +688,10 @@ function getFilteredTorrents(
     })
     .slice(0, maxTorrents)
     .filter((torrent) => {
+      if (titleType === TitleTypes.tvShow) {
+        return true;
+      }
+
       const { title } = torrent;
 
       let parsedTorrentTitle = "";
