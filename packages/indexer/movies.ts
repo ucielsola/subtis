@@ -9,6 +9,7 @@ import { supabase } from "@subtis/db";
 // internals
 import { getSubtitlesForTitle } from "./app";
 import { getReleaseGroups, saveReleaseGroupsToDb } from "./release-groups";
+import { getSubDivXToken } from "./subdivx";
 import { getSubtitleGroups } from "./subtitle-groups";
 import { getMoviesFromTmdb, getTmdbMovieFromTitle, getTmdbMoviesTotalPagesArray } from "./tmdb";
 
@@ -20,6 +21,7 @@ export async function indexMoviesByYear(year: number, isDebugging: boolean): Pro
 
     const releaseGroups = await getReleaseGroups(supabase);
     const subtitleGroups = await getSubtitleGroups(supabase);
+    const { token, cookie } = await getSubDivXToken();
 
     const { totalPages, totalResults } = await getTmdbMoviesTotalPagesArray(year, isDebugging);
     console.log(`\n1.1) Con un total de ${totalResults} titulos en el año ${year}`);
@@ -70,6 +72,8 @@ export async function indexMoviesByYear(year: number, isDebugging: boolean): Pro
           subtitleGroups,
           isDebugging,
           shouldUseTryCatch: true,
+          subdivxToken: token,
+          subdivxCookie: cookie,
         });
       }
     }
@@ -100,6 +104,7 @@ export async function indexMovieByName({
     const releaseGroups = await getReleaseGroups(supabase);
     const subtitleGroups = await getSubtitleGroups(supabase);
 
+    const { token, cookie } = await getSubDivXToken();
     const movie = await getTmdbMovieFromTitle(name, year);
 
     await getSubtitlesForTitle({
@@ -109,6 +114,8 @@ export async function indexMovieByName({
       subtitleGroups,
       isDebugging,
       shouldUseTryCatch: true,
+      subdivxToken: token,
+      subdivxCookie: cookie,
     });
   } catch (error) {
     console.log("\n ~ indexMovieByName ~ error:", error);
@@ -116,10 +123,10 @@ export async function indexMovieByName({
 }
 
 // testing
-indexMoviesByYear(2024, true);
-// indexMovieByName({
-//   year: 2024,
-//   isDebugging: true,
-//   name: "Trap",
-// });
+// indexMoviesByYear(2024, false);
+indexMovieByName({
+  year: 2005,
+  isDebugging: true,
+  name: "Kingdom of Heaven",
+});
 saveReleaseGroupsToDb(supabase);

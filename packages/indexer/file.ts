@@ -20,6 +20,7 @@ import {
 import { apiClient } from "./api-client";
 import { type TorrentFound, getSubtitlesForTitle } from "./app";
 import { getReleaseGroups } from "./release-groups";
+import { getSubDivXToken } from "./subdivx";
 import { getSubtitleGroups } from "./subtitle-groups";
 import {
   getMovieMetadataFromTmdbMovie,
@@ -195,6 +196,8 @@ export async function indexTitleByFileName({
 
       console.log("\n ~ indexTitleByFileName ~ torrent:", torrent);
 
+      const { token, cookie } = await getSubDivXToken();
+
       await getSubtitlesForTitle({
         index: "1",
         currentTitle: { ...tvShowData, episode },
@@ -206,6 +209,8 @@ export async function indexTitleByFileName({
         titleFileNameFromNotFoundSubtitle: titleFileName,
         shouldUseTryCatch: false,
         fromWebSocket: true,
+        subdivxToken: token,
+        subdivxCookie: cookie,
       });
 
       if (websocket) {
@@ -274,6 +279,8 @@ export async function indexTitleByFileName({
       .with(P._, () => getTorrentFromPirateBayOr1337x(query, title))
       .exhaustive();
 
+    const { token, cookie } = await getSubDivXToken();
+
     if (!torrent) {
       throw new Error("Torrent not found");
     }
@@ -289,6 +296,8 @@ export async function indexTitleByFileName({
       titleFileNameFromNotFoundSubtitle: titleFileName,
       shouldUseTryCatch: false,
       fromWebSocket: true,
+      subdivxToken: token,
+      subdivxCookie: cookie,
     });
 
     if (websocket) {

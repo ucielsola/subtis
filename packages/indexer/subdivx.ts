@@ -33,31 +33,49 @@ const subdivxSubtitleSchema = z.object({
   titulo: z.string(),
 });
 
-const subdivxSchema = z.object({
+const subdivxSubtitlesSchema = z.object({
   aaData: z.array(subdivxSubtitleSchema),
   iTotalDisplayRecords: z.number(),
   iTotalRecords: z.number(),
   sEcho: z.string(),
 });
 
-type SubDivXSubtitles = z.infer<typeof subdivxSchema>;
+const subdivxTokenSchema = z.object({
+  token: z.string(),
+});
+
+type SubDivXSubtitles = z.infer<typeof subdivxSubtitlesSchema>;
+type SubDivXToken = z.infer<typeof subdivxTokenSchema>;
+
+// helpers
+export async function getSubDivXToken(): Promise<SubDivXToken & { cookie: string | null }> {
+  const response = await fetch(`${SUBDIVX_BASE_URL}/inc/gt.php?gt=1`);
+  const data = await response.json();
+
+  const { token } = subdivxTokenSchema.parse(data);
+  return { token, cookie: response.headers.get("Set-Cookie") };
+}
 
 // core
 export async function getSubtitlesFromSubDivXForTitle({
+  subdivxToken,
+  subdivxCookie,
   titleProviderQuery,
   hasBeenExecutedOnce,
 }: {
+  subdivxToken: string;
+  subdivxCookie: string | null;
   titleProviderQuery: string;
   hasBeenExecutedOnce: boolean;
 }): Promise<SubDivXSubtitles> {
   const response = await fetch(`${SUBDIVX_BASE_URL}/inc/ajax.php`, {
     headers: {
-      "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-      Cookie: "sdx=2e3f5o0t1c6e1stdtghrus4adj",
+      Cookie: subdivxCookie ?? "",
       "X-Requested-With": "XMLHttpRequest",
+      "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
     },
     method: "POST",
-    body: `tabla=resultados&filtros=&buscar393=${titleProviderQuery}&token=262dbc5e22b069e98566bb8150e7bbcc008ec1a82faf4a515eee2bde75eb3333`,
+    body: `tabla=resultados&filtros=&buscar393=${encodeURIComponent(titleProviderQuery)}&token=${subdivxToken}`,
   });
 
   if (!response.ok) {
@@ -70,12 +88,17 @@ export async function getSubtitlesFromSubDivXForTitle({
     return { aaData: [], iTotalDisplayRecords: 0, iTotalRecords: 0, sEcho: "" };
   }
 
-  const subtitles = subdivxSchema.parse(data);
+  const subtitles = subdivxSubtitlesSchema.parse(data);
 
   if (subtitles.aaData.length === 0 && hasBeenExecutedOnce === false) {
     const lastCharacter = titleProviderQuery.at(-1);
     const newTitleProviderQuery = `${titleProviderQuery.slice(0, -1)}${Number(lastCharacter) - 1}`;
-    return getSubtitlesFromSubDivXForTitle({ titleProviderQuery: newTitleProviderQuery, hasBeenExecutedOnce: true });
+    return getSubtitlesFromSubDivXForTitle({
+      subdivxToken,
+      subdivxCookie,
+      hasBeenExecutedOnce: true,
+      titleProviderQuery: newTitleProviderQuery,
+    });
   }
 
   // Filter similar titles

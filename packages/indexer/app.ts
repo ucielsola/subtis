@@ -836,6 +836,8 @@ export async function getSubtitlesForTitle({
   titleFileNameFromNotFoundSubtitle,
   shouldUseTryCatch,
   fromWebSocket,
+  subdivxToken,
+  subdivxCookie,
 }: {
   index: string;
   initialTorrents?: TorrentFoundWithId[];
@@ -847,6 +849,8 @@ export async function getSubtitlesForTitle({
   bytesFromNotFoundSubtitle?: number;
   titleFileNameFromNotFoundSubtitle?: string;
   fromWebSocket?: boolean;
+  subdivxToken: string;
+  subdivxCookie: string | null;
 }): Promise<void> {
   const {
     name,
@@ -919,6 +923,8 @@ export async function getSubtitlesForTitle({
     async function getSubtitlesFromSubDivXSafely() {
       console.log(`4.${index}) Buscando subtítulos en SubDivX \n`);
       const subtitlesFromSubDivX = await getSubtitlesFromSubDivXForTitle({
+        subdivxToken,
+        subdivxCookie,
         titleProviderQuery,
         hasBeenExecutedOnce: false,
       });
