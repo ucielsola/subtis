@@ -126,7 +126,7 @@ export async function indexMovieByName({
 // indexMoviesByYear(2024, false);
 indexMovieByName({
   year: 2024,
+  name: "Prey",
   isDebugging: true,
-  name: "The Convert",
 });
 saveReleaseGroupsToDb(supabase);

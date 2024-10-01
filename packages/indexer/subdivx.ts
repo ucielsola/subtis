@@ -105,7 +105,7 @@ export async function getSubtitlesFromSubDivXForTitle({
 
   // Filter similar titles
   const filteredSubtitles = subtitles.aaData.filter((subtitle) => {
-    if (subtitle.titulo.length > titleProviderQuery.length + 10) {
+    if (subtitle.titulo.length > titleProviderQuery.length + 16) {
       return false;
     }
 
