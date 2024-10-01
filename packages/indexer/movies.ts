@@ -123,10 +123,10 @@ export async function indexMovieByName({
 }
 
 // testing
-indexMoviesByYear(2024, false);
-// indexMovieByName({
-//   year: 2005,
-//   isDebugging: true,
-//   name: "Kingdom of Heaven",
-// });
+// indexMoviesByYear(2024, false);
+indexMovieByName({
+  year: 2024,
+  isDebugging: true,
+  name: "The Convert",
+});
 saveReleaseGroupsToDb(supabase);

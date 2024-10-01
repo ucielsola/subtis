@@ -93,6 +93,8 @@ export async function getSubtitlesFromSubDivXForTitle({
   if (subtitles.aaData.length === 0 && hasBeenExecutedOnce === false) {
     const lastCharacter = titleProviderQuery.at(-1);
     const newTitleProviderQuery = `${titleProviderQuery.slice(0, -1)}${Number(lastCharacter) - 1}`;
+    await Bun.sleep(6000);
+
     return getSubtitlesFromSubDivXForTitle({
       subdivxToken,
       subdivxCookie,
