@@ -17,6 +17,34 @@ const alternativeSubtitlesSchema = z
 
 // core
 export const subtitle = new Hono<{ Variables: AppVariables }>()
+  .get("/metadata/:id", zValidator("param", z.object({ id: z.string() })), async (context) => {
+    const { id } = context.req.valid("param");
+
+    const parsedId = Number.parseInt(id);
+
+    if (Number.isNaN(parsedId) || parsedId < 1) {
+      context.status(400);
+      return context.json({ message: "Invalid ID: it should be a positive integer number" });
+    }
+
+    const supabase = getSupabaseClient(context);
+
+    const { data, error } = await supabase.from("Subtitles").select(subtitlesQuery).match({ id }).single();
+
+    if (error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error: error.message });
+    }
+
+    const subtitleByFileName = subtitleSchema.safeParse(data);
+
+    if (subtitleByFileName.error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error: subtitleByFileName.error.message });
+    }
+
+    return context.json(subtitleByFileName.data);
+  })
   .get(
     "/file/name/:bytes/:fileName",
     zValidator("param", z.object({ bytes: z.string(), fileName: z.string() })),
