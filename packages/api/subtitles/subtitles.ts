@@ -51,7 +51,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 
     if (subtitles.error) {
       context.status(500);
-      return context.json({ message: "An error occurred", error: subtitles.error.message });
+      return context.json({ message: "An error occurred", error: subtitles.error.issues[0].message });
     }
 
     return context.json(subtitles.data);
@@ -89,7 +89,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 
       if (subtitles.error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: subtitles.error.message });
+        return context.json({ message: "An error occurred", error: subtitles.error.issues[0].message });
       }
 
       return context.json(subtitles.data);
@@ -128,7 +128,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 
       if (subtitles.error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: subtitles.error.message });
+        return context.json({ message: "An error occurred", error: subtitles.error.issues[0].message });
       }
 
       const parsedData = subtitles.data.reduce<Record<string, [number, string][]>>((accumulator, subtitle) => {
@@ -200,7 +200,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 
       if (subtitles.error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: subtitles.error.message });
+        return context.json({ message: "An error occurred", error: subtitles.error.issues[0].message });
       }
 
       const zip = new JSZip();
@@ -263,7 +263,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 
     if (trendingSubtitles.error) {
       context.status(500);
-      return context.json({ message: "An error occurred", error: trendingSubtitles.error.message });
+      return context.json({ message: "An error occurred", error: trendingSubtitles.error.issues[0].message });
     }
 
     const subtitlesWithoutDuplicates = trendingSubtitles.data.filter(

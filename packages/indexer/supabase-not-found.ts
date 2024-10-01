@@ -34,8 +34,8 @@ export async function indexNotFoundSubtitlesFromSupabase() {
           return;
         }
 
-        console.log('User was trying to watch:')
-        console.table([{ title_file_name, bytes, email }])
+        console.log("User was trying to watch:");
+        console.table([{ title_file_name, bytes, email }]);
 
         const { ok } = await indexTitleByFileName({
           bytes: bytes,

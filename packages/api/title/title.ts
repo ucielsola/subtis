@@ -59,7 +59,7 @@ export const title = new Hono<{ Variables: AppVariables }>()
 
     if (youtubeParsedData.error) {
       context.status(500);
-      return context.json({ message: "An error occurred", error: youtubeParsedData.error.message });
+      return context.json({ message: "An error occurred", error: youtubeParsedData.error.issues[0].message });
     }
 
     const filteredTeasers = youtubeParsedData.data.items.filter(({ snippet }) => {

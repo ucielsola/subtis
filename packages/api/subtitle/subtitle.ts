@@ -40,7 +40,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
     if (subtitleByFileName.error) {
       context.status(500);
-      return context.json({ message: "An error occurred", error: subtitleByFileName.error.message });
+      return context.json({ message: "An error occurred", error: subtitleByFileName.error.issues[0].message });
     }
 
     return context.json(subtitleByFileName.data);
@@ -90,7 +90,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
       if (subtitleByFileName.error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: subtitleByFileName.error.message });
+        return context.json({ message: "An error occurred", error: subtitleByFileName.error.issues[0].message });
       }
 
       return context.json(subtitleByFileName.data);
@@ -137,7 +137,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
     if (titleByNameAndYear.error) {
       context.status(500);
-      return context.json({ message: "An error occurred", error: titleByNameAndYear.error.message });
+      return context.json({ message: "An error occurred", error: titleByNameAndYear.error.issues[0].message });
     }
 
     const subtitleQuery = supabase
@@ -159,6 +159,11 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       title_id: titleByNameAndYear.data.id,
     });
 
+    if (subtitleError && subtitleError.code === "PGRST116") {
+      context.status(404);
+      return context.json({ message: "Alternative subtitle not found for file" });
+    }
+
     if (subtitleError) {
       context.status(500);
       return context.json({ message: "An error occurred", error: subtitleError });
@@ -166,9 +171,9 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
     const subtitleByFileName = alternativeSubtitlesSchema.safeParse(subtitleData);
 
-    if (!subtitleByFileName.success) {
-      context.status(404);
-      return context.json({ message: "Subtitle not found for file" });
+    if (subtitleByFileName.error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error: subtitleByFileName.error.issues[0].message });
     }
 
     const filteredSubtitlesByResolution = subtitleByFileName.data
@@ -227,7 +232,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
     if (subtitleById.error) {
       context.status(500);
-      return context.json({ message: "An error occurred", error: subtitleById.error.message });
+      return context.json({ message: "An error occurred", error: subtitleById.error.issues[0].message });
     }
 
     return context.redirect(subtitleById.data.subtitle_link);

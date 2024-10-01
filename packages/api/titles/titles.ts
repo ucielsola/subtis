@@ -116,7 +116,7 @@ export const titles = new Hono<{ Variables: AppVariables }>()
 
     if (recentSubtitles.error) {
       context.status(500);
-      return context.json({ message: "An error occurred", error: recentSubtitles.error.message });
+      return context.json({ message: "An error occurred", error: recentSubtitles.error.issues[0].message });
     }
 
     return context.json(recentSubtitles.data);
@@ -156,8 +156,8 @@ export const titles = new Hono<{ Variables: AppVariables }>()
     const trendingSubtitles = trendingSubtitlesSchema.safeParse(data);
 
     if (trendingSubtitles.error) {
-      context.status(404);
-      return context.json({ message: trendingSubtitles.error.message });
+      context.status(500);
+      return context.json({ message: "An error occurred", error: trendingSubtitles.error.issues[0].message });
     }
 
     return context.json(trendingSubtitles.data);
