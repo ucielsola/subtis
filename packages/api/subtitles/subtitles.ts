@@ -266,10 +266,9 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       return context.json({ message: "An error occurred", error: trendingSubtitles.error.issues[0].message });
     }
 
-    const subtitlesWithoutDuplicates = trendingSubtitles.data.filter(
-      (subtitle, index, self) =>
-        index === self.slice(index).findIndex((s) => s.title.title_name === subtitle.title.title_name),
+    const uniqueTrendingSubtitles = trendingSubtitles.data.filter(
+      (subtitle, index, self) => index === self.findIndex((t) => t.title.id === subtitle.title.id),
     );
 
-    return context.json(subtitlesWithoutDuplicates);
+    return context.json(uniqueTrendingSubtitles);
   });

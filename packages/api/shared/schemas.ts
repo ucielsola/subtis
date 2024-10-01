@@ -8,6 +8,7 @@ import {
 const subtitleGroupSchema = subtitleGroupsRowSchema.pick({ id: true, subtitle_group_name: true });
 const releaseGroupSchema = releaseGroupsRowSchema.pick({ id: true, release_group_name: true });
 const titleSchema = titlesRowSchema.pick({
+  id: true,
   title_name: true,
   type: true,
   year: true,
@@ -49,5 +50,5 @@ export const subtitlesQuery = `
   current_episode,
   releaseGroup: ReleaseGroups ( id, release_group_name ),
   subtitleGroup: SubtitleGroups ( id, subtitle_group_name ),
-  title: Titles ( title_name, type, year, poster, backdrop )
+  title: Titles ( id, title_name, type, year, poster, backdrop )
 `;
