@@ -192,9 +192,7 @@ export async function indexTitleByFileName({
         websocket.send(JSON.stringify({ total: 0.75, message: "Buscando archivo con nuestros proveedores" }));
       }
 
-      const torrent = await getTorrentFromPirateBayOr1337x(query, title);
-
-      console.log("\n ~ indexTitleByFileName ~ torrent:", torrent);
+      const torrent = await getTorrentFromPirateBayOr1337x(`${title.name} S0${title.currentSeason}E${String(title.currentEpisode).length > 1 ? title.currentEpisode : `0${title.currentEpisode}`}`, title);
 
       const { token, cookie } = await getSubDivXToken();
 
