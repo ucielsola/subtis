@@ -1,6 +1,9 @@
 // db
 import { supabase } from "@subtis/db";
 
+// shared
+import { getIsTvShow } from "@subtis/shared";
+
 // api
 import { subtitleSchema } from "@subtis/api/shared/schemas";
 
@@ -22,6 +25,17 @@ export async function indexNotFoundSubtitlesFromSupabase() {
       async (payload) => {
         const { new: newSubtitleNotFound } = payload;
         const { title_file_name, bytes, email } = newSubtitleNotFound;
+
+        const isTvShow = getIsTvShow(title_file_name);
+
+        // TODO: Temporarily skipping tv shows
+        if (isTvShow) {
+          console.log("Skipping tv show", title_file_name);
+          return;
+        }
+
+        console.log('User was trying to watch:')
+        console.table([{ title_file_name, bytes, email }])
 
         const { ok } = await indexTitleByFileName({
           bytes: bytes,
