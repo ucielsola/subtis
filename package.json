@@ -29,6 +29,7 @@
     "dev:indexer:movies": "cd packages/indexer && bun run dev:movies",
     "dev:indexer:tv-shows": "cd packages/indexer && bun run dev:tv-shows",
     "dev:indexer:not-found": "cd packages/indexer && bun run dev:not-found",
+    "dev:indexer:supabase-not-found": "cd packages/indexer && bun run dev:supabase-not-found",
     "deploy:web": "cd packages/web && bun run deploy",
     "deploy:api": "cd packages/api && bun run deploy",
     "deploy:stremio": "fly deploy",

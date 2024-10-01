@@ -124,7 +124,9 @@ export async function indexTitleByFileName({
   try {
     const isTvShow = getIsTvShow(titleFileName);
     const title = getTitleFileNameMetadata({ titleFileName });
+    console.log("\n ~ title:", title);
     const query = getTitleFileNameWithoutExtension(titleFileName);
+    console.log("\n ~ query:", query);
 
     if (websocket) {
       websocket.send(JSON.stringify({ total: 0.15, message: `Catalogando ${title.name}` }));
@@ -192,7 +194,10 @@ export async function indexTitleByFileName({
         websocket.send(JSON.stringify({ total: 0.75, message: "Buscando archivo con nuestros proveedores" }));
       }
 
-      const torrent = await getTorrentFromPirateBayOr1337x(`${title.name} S0${title.currentSeason}E${String(title.currentEpisode).length > 1 ? title.currentEpisode : `0${title.currentEpisode}`}`, title);
+      const torrent = await getTorrentFromPirateBayOr1337x(
+        `${title.name} S0${title.currentSeason}E${String(title.currentEpisode).length > 1 ? title.currentEpisode : `0${title.currentEpisode}`}`,
+        title,
+      );
 
       const { token, cookie } = await getSubDivXToken();
 
