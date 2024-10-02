@@ -427,6 +427,12 @@ export const RELEASE_GROUPS = {
     release_group_name: "RARBG",
     query_matches: ["RARBG", "AAC-RARBG"],
   },
+  HEVC: {
+    file_attributes: ["HEVC", "x264-HEVC", "x265-HEVC"],
+    is_supported: true,
+    release_group_name: "HEVC",
+    query_matches: ["HEVC"],
+  },
 } as const;
 
 // types
