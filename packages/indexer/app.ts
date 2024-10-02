@@ -175,7 +175,14 @@ function getSubtitleInitialPath({
   if (["rar", "zip"].includes(fileExtension)) {
     const extractedSubtitleFiles = fs.readdirSync(extractedSubtitlePath);
 
-    const srtFile = extractedSubtitleFiles.find((file) => path.extname(file).toLowerCase() === ".srt");
+    const srtFilesBySize = extractedSubtitleFiles.sort((a, b) => {
+      const aSize = fs.statSync(path.join(extractedSubtitlePath, a)).size;
+      const bSize = fs.statSync(path.join(extractedSubtitlePath, b)).size;
+
+      return bSize - aSize;
+    });
+
+    const srtFile = srtFilesBySize.find((file) => path.extname(file).toLowerCase() === ".srt");
     invariant(srtFile, "SRT file not found");
 
     const extractedSrtFileNamePath = path.join(

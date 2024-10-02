@@ -125,8 +125,8 @@ export async function indexMovieByName({
 // testing
 // indexMoviesByYear(2024, false);
 indexMovieByName({
-  year: 2024,
-  name: "Prey",
+  year: 2018,
   isDebugging: true,
+  name: "Avengers Infinity War",
 });
 saveReleaseGroupsToDb(supabase);
