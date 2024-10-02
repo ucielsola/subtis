@@ -125,8 +125,8 @@ export async function indexMovieByName({
 // testing
 // indexMoviesByYear(2024, false);
 indexMovieByName({
-  year: 2018,
+  year: 2024,
   isDebugging: true,
-  name: "Avengers Infinity War",
+  name: "Bad Boys: Ride or Die",
 });
 saveReleaseGroupsToDb(supabase);

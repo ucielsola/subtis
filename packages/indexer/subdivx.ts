@@ -105,7 +105,9 @@ export async function getSubtitlesFromSubDivXForTitle({
 
   // Filter similar titles
   const filteredSubtitles = subtitles.aaData.filter((subtitle) => {
-    if (subtitle.titulo.length > titleProviderQuery.length + 16) {
+    const parsedSubtitleTitle = subtitle.titulo.replaceAll(" aka ", " ");
+
+    if (parsedSubtitleTitle.length > titleProviderQuery.length + 16) {
       return false;
     }
 
