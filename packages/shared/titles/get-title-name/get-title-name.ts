@@ -9,5 +9,9 @@ export function getTitleName(name: string): string {
     result = result.replaceAll("[ Torrent911 eu ] ", "");
   }
 
+  if (result.startsWith("[ Torrent911 tw ]")) {
+    result = result.replaceAll("[ Torrent911 tw ] ", "");
+  }
+
   return result;
 }
