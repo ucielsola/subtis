@@ -927,7 +927,7 @@ export async function getSubtitlesForTitle({
     .map((queryMatch) => queryMatch.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
 
   const releaseGroupsRegex = new RegExp(`\\b(${releaseGroupsqueryMatches.join("|")})\\b`, "gi");
-  const resolutionRegex = /(480p|576p|720p|1080p|2160p|3d)/gi;
+  const resolutionRegex = /(480p|576p|720p|1080p|2160p|4k|3d)/gi;
 
   const subdivxSubtitles = await executeWithOptionalTryCatch(
     true,
@@ -940,13 +940,6 @@ export async function getSubtitlesForTitle({
         hasBeenExecutedOnce: false,
       });
       console.log(`4.${index}) ${subtitlesFromSubDivX.aaData.length} subtitlos encontrados en SubDivX \n`);
-
-      const releaseGroupsqueryMatches = Object.values(releaseGroups)
-        .flatMap(({ query_matches }) => query_matches)
-        .map((queryMatch) => queryMatch.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
-
-      const releaseGroupsRegex = new RegExp(`\\b(${releaseGroupsqueryMatches.join("|")})\\b`, "gi");
-      const resolutionRegex = /(480p|576p|720p|1080p|2160p|3d)/gi;
 
       const subdivxTable = subtitlesFromSubDivX.aaData.map(({ titulo, descripcion }) => {
         const resolutions = descripcion.match(resolutionRegex);

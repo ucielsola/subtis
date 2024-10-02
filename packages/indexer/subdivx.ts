@@ -140,7 +140,14 @@ export async function filterSubDivXSubtitlesForTorrent({
   const subtitle = subtitles.aaData.find((subtitle) => {
     const movieDescription = subtitle.descripcion.toLowerCase();
 
-    const hasMovieResolution = movieDescription.includes(resolution);
+    let hasMovieResolution = false;
+
+    if (resolution === "2160p") {
+      hasMovieResolution = movieDescription.includes(resolution) || movieDescription.includes("4k");
+    } else {
+      hasMovieResolution = movieDescription.includes(resolution);
+    }
+
     const hasReleaseGroup = releaseGroup.query_matches.some((searchableSubDivXName) => {
       return movieDescription.includes(searchableSubDivXName.toLowerCase());
     });
