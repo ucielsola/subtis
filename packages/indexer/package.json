@@ -11,7 +11,7 @@
     "dev:not-found": "bun --watch not-found.ts",
     "dev:supabase-not-found": "bun --watch supabase-not-found.ts",
     "dev:ws": "bun --watch websocket-not-found.ts",
-    "start:ws": "bun run ws.ts",
+    "start:ws": "bun run websocket-not-found.ts",
     "start:cron": "bun run cron.ts"
   },
   "dependencies": {

@@ -2,23 +2,16 @@ import type { ServerWebSocket } from "bun";
 import invariant from "tiny-invariant";
 import tg from "torrent-grabber";
 import TorrentSearchApi from "torrent-search-api";
-import { P, match } from "ts-pattern";
 
 // db
 import { supabase } from "@subtis/db";
 
 // shared
-import {
-  type TitleFileNameMetadata,
-  getEpisode,
-  getIsTvShow,
-  getTitleFileNameMetadata,
-  getTitleFileNameWithoutExtension,
-} from "@subtis/shared";
+import { type TitleFileNameMetadata, getEpisode, getIsTvShow, getTitleFileNameMetadata } from "@subtis/shared";
 
 // internals
 import { apiClient } from "./api-client";
-import { type TorrentFound, getSubtitlesForTitle } from "./app";
+import { TitleTypes, type TorrentFound, getSubtitlesForTitle, getTitleTorrents } from "./app";
 import { getReleaseGroups } from "./release-groups";
 import { getSubDivXToken } from "./subdivx";
 import { getSubtitleGroups } from "./subtitle-groups";
@@ -28,8 +21,8 @@ import {
   tmdbDiscoverMovieSchema,
   tmdbDiscoverSerieSchema,
 } from "./tmdb";
+import { getQueryForTorrentProvider } from "./utils/query";
 import { generateIdFromMagnet } from "./utils/torrent";
-import { getYtsTorrent } from "./yts";
 
 async function getTorrentFromPirateBayOr1337x(query: string, title: TitleFileNameMetadata) {
   await tg.activate("ThePirateBay");
@@ -124,13 +117,13 @@ export async function indexTitleByFileName({
   try {
     const isTvShow = getIsTvShow(titleFileName);
     const title = getTitleFileNameMetadata({ titleFileName });
-    console.log("\n ~ title:", title);
-    const query = getTitleFileNameWithoutExtension(titleFileName);
-    console.log("\n ~ query:", query);
+    // const query = getTitleFileNameWithoutExtension(titleFileName);
 
     if (websocket) {
       websocket.send(JSON.stringify({ total: 0.15, message: `Catalogando ${title.name}` }));
     }
+
+    await tg.activate("ThePirateBay");
 
     const releaseGroups = await getReleaseGroups(supabase);
     const subtitleGroups = await getSubtitleGroups(supabase);
@@ -188,8 +181,6 @@ export async function indexTitleByFileName({
         websocket.send(JSON.stringify({ total: 0.6, message: "Buscando subtitulo en nuestros proveedores" }));
       }
 
-      console.log("\n ~ tvShowData:", tvShowData);
-
       if (websocket) {
         websocket.send(JSON.stringify({ total: 0.75, message: "Buscando archivo con nuestros proveedores" }));
       }
@@ -240,7 +231,6 @@ export async function indexTitleByFileName({
     const data = await response.json();
 
     const movies = tmdbDiscoverMovieSchema.parse(data);
-
     const [movie] = movies.results;
 
     const {
@@ -277,10 +267,36 @@ export async function indexTitleByFileName({
       websocket.send(JSON.stringify({ total: 0.75, message: "Buscando archivo con nuestros proveedores" }));
     }
 
-    const torrent = await match(title.releaseGroup?.release_group_name)
-      .with("YTS", () => getYtsTorrent(movieData.imdbId, title.resolution))
-      .with(P._, () => getTorrentFromPirateBayOr1337x(query, title))
-      .exhaustive();
+    const titleProviderQuery = getQueryForTorrentProvider({
+      ...movieData,
+      episode: null,
+      totalSeasons: null,
+      totalEpisodes: null,
+    });
+
+    const torrents = await getTitleTorrents(titleProviderQuery, TitleTypes.movie, movieData.imdbId);
+    console.log("\n ~ torrents:", torrents);
+    console.log("\n ~ includesFileAttributes ~ title:", title);
+
+    const torrent = torrents.find((torrent) => {
+      const lowerCaseTorrentTitle = torrent.title.toLowerCase();
+      console.log("\n ~ torrent ~ lowerCaseTorrentTitle:", lowerCaseTorrentTitle);
+
+      const includesResolution = lowerCaseTorrentTitle.includes(title.resolution.toLowerCase());
+      console.log("\n ~ torrent ~ includesResolution:", includesResolution);
+      const includesReleaseGroup = lowerCaseTorrentTitle.includes(
+        title.releaseGroup?.release_group_name.toLowerCase() ?? "",
+      );
+      console.log("\n ~ torrent ~ includesReleaseGroup:", includesReleaseGroup);
+
+      const includesFileAttributes = title.releaseGroup?.file_attributes.some((fileAttribute) => {
+        return lowerCaseTorrentTitle.includes(fileAttribute.toLowerCase());
+      });
+      console.log("\n ~ includesFileAttributes ~ includesFileAttributes:", includesFileAttributes);
+
+      return (includesFileAttributes || includesReleaseGroup) && includesResolution;
+    });
+    console.log("\n ~ torrent ~ torrent:", torrent);
 
     const { token, cookie } = await getSubDivXToken();
 
@@ -290,7 +306,7 @@ export async function indexTitleByFileName({
 
     await getSubtitlesForTitle({
       index: "1",
-      initialTorrents: [torrent],
+      initialTorrents: [{ ...torrent, id: generateIdFromMagnet(torrent.trackerId) }],
       currentTitle: { ...movieData, episode: null, totalEpisodes: null, totalSeasons: null },
       releaseGroups,
       subtitleGroups,

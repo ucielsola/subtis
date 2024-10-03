@@ -68,6 +68,8 @@ export async function getSubtitlesFromSubDivXForTitle({
   titleProviderQuery: string;
   hasBeenExecutedOnce: boolean;
 }): Promise<SubDivXSubtitles> {
+  const parsedTitleProviderQuery = titleProviderQuery.replace(" & ", " and ");
+
   const response = await fetch(`${SUBDIVX_BASE_URL}/inc/ajax.php`, {
     headers: {
       Cookie: subdivxCookie ?? "",
@@ -75,7 +77,7 @@ export async function getSubtitlesFromSubDivXForTitle({
       "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
     },
     method: "POST",
-    body: `tabla=resultados&filtros=&buscar393=${encodeURIComponent(titleProviderQuery)}&token=${subdivxToken}`,
+    body: `tabla=resultados&filtros=&buscar394=${encodeURIComponent(parsedTitleProviderQuery)}&token=${subdivxToken}`,
   });
 
   if (!response.ok) {

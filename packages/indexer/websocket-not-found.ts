@@ -12,6 +12,7 @@ const subtitleSchema = z.object({
 });
 
 Bun.serve({
+  port: process.env.PORT || 3000,
   fetch(req, server) {
     const success = server.upgrade(req);
     if (success) {
@@ -24,6 +25,7 @@ Bun.serve({
   },
   websocket: {
     async message(ws, message) {
+      console.log("\n ~ message ~ message:", message);
       if (typeof message !== "string") {
         ws.close(4000, "Invalid message");
         return;
@@ -31,6 +33,7 @@ Bun.serve({
 
       const parsedMessage = JSON.parse(message);
       const subtitle = subtitleSchema.safeParse(parsedMessage);
+      console.log("\n ~ message ~ subtitle:", subtitle);
 
       if (!subtitle.success) {
         ws.close(4000, "Invalid message");

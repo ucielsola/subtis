@@ -624,7 +624,7 @@ export type TorrentFound = {
 };
 type TorrentFoundWithId = TorrentFound & { id: number };
 
-async function getTitleTorrents(query: string, titleType: TitleTypes, imdbId: number): Promise<TorrentFound[]> {
+export async function getTitleTorrents(query: string, titleType: TitleTypes, imdbId: number): Promise<TorrentFound[]> {
   let thePirateBayTorrents: TorrentFound[] = [];
 
   try {
@@ -889,7 +889,9 @@ export async function getSubtitlesForTitle({
   console.log("\nTorrents without filter \n");
   console.table(torrents);
 
-  const filteredTorrents = getFilteredTorrents(titleType, torrents, name);
+  const filteredTorrents = (
+    fromWebSocket ? torrents : getFilteredTorrents(titleType, torrents, name)
+  ) as TorrentFoundWithId[];
   console.log("\nFiltered torrents \n");
   console.table(filteredTorrents);
 

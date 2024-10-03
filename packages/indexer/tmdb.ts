@@ -333,7 +333,7 @@ const tmdbApiEndpoints = {
     return generateTmdbDiscoverSeriesUrl(page, year);
   },
   movieDetail: (id: number) => {
-    return `https://api.themoviedb.org/3/movie/${id}`;
+    return `https://api.themoviedb.org/3/movie/${id}&language=es-ES&with_original_language=en`;
   },
   movieImages: (id: number) => {
     return `https://api.themoviedb.org/3/movie/${id}/images?include_image_language=en`;
