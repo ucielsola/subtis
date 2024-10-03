@@ -275,28 +275,21 @@ export async function indexTitleByFileName({
     });
 
     const torrents = await getTitleTorrents(titleProviderQuery, TitleTypes.movie, movieData.imdbId);
-    console.log("\n ~ torrents:", torrents);
-    console.log("\n ~ includesFileAttributes ~ title:", title);
 
     const torrent = torrents.find((torrent) => {
       const lowerCaseTorrentTitle = torrent.title.toLowerCase();
-      console.log("\n ~ torrent ~ lowerCaseTorrentTitle:", lowerCaseTorrentTitle);
 
       const includesResolution = lowerCaseTorrentTitle.includes(title.resolution.toLowerCase());
-      console.log("\n ~ torrent ~ includesResolution:", includesResolution);
       const includesReleaseGroup = lowerCaseTorrentTitle.includes(
         title.releaseGroup?.release_group_name.toLowerCase() ?? "",
       );
-      console.log("\n ~ torrent ~ includesReleaseGroup:", includesReleaseGroup);
 
       const includesFileAttributes = title.releaseGroup?.file_attributes.some((fileAttribute) => {
         return lowerCaseTorrentTitle.includes(fileAttribute.toLowerCase());
       });
-      console.log("\n ~ includesFileAttributes ~ includesFileAttributes:", includesFileAttributes);
 
       return (includesFileAttributes || includesReleaseGroup) && includesResolution;
     });
-    console.log("\n ~ torrent ~ torrent:", torrent);
 
     const { token, cookie } = await getSubDivXToken();
 
