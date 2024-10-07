@@ -22,4 +22,5 @@ export type IndexedBy =
   | "indexer-supabase"
   | "indexer-not-found"
   | "indexer-movie"
-  | "indexer-tv-show";
+  | "indexer-tv-show"
+  | "indexer-file";

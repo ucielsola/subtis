@@ -120,7 +120,6 @@ export async function indexTitleByFileName({
   try {
     const isTvShow = getIsTvShow(titleFileName);
     const title = getTitleFileNameMetadata({ titleFileName });
-    // const query = getTitleFileNameWithoutExtension(titleFileName);
 
     if (websocket) {
       websocket.send(JSON.stringify({ total: 0.15, message: `Catalogando ${title.name}` }));
@@ -223,7 +222,7 @@ export async function indexTitleByFileName({
     }
 
     const response = await fetch(
-      `https://api.themoviedb.org/3/search/movie?query=${title.name}&language=es-ES&page=1`,
+      `https://api.themoviedb.org/3/search/movie?query=${title.name}&language=es-ES&page=1&primary_release_year=${title.year}`,
       {
         headers: {
           Accept: "application/json",
@@ -339,16 +338,17 @@ export async function indexTitleByFileName({
 }
 
 // FILES
-// const bytes = 123123123;
 // const titleFileName = "Scenes.From.A.Marriage.1974.1080p.BluRay.x264-[YTS.AM].mp4";
 // const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
-// const titleFileName = "shogun.2024.s01e04.1080p.web.h264-successfulcrab.mkv";
+// const bytes = 123123123;
+// const titleFileName = "Inside.Out.2015.1080p.BluRay.x264.YIFY.mp4";
 
 // indexTitleByFileName({
 //   bytes,
 //   titleFileName,
 //   shouldStoreNotFoundSubtitle: true,
 //   isDebugging: true,
+//   indexedBy: "indexer-file",
 // });
 
 // GENERAL

@@ -127,8 +127,8 @@ export async function indexMovieByName({
 // testing
 // indexMoviesByYear(2024, true);
 indexMovieByName({
-  year: 2001,
+  year: 2015,
   isDebugging: true,
-  name: "The Fast and the Furious",
+  name: "Inside Out",
 });
 saveReleaseGroupsToDb(supabase);
