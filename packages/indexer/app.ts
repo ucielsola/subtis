@@ -894,7 +894,7 @@ export async function getSubtitlesForTitle({
 
   const torrents = initialTorrents ?? (await getTitleTorrents(titleProviderQuery, titleType, imdbId));
   console.log("\nTorrents without filter \n");
-  console.table(torrents);
+  console.table(torrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
 
   const filteredTorrents = (
     fromWebSocket ? torrents : getFilteredTorrents(titleType, torrents, name)
