@@ -21,6 +21,7 @@ import {
   tmdbDiscoverMovieSchema,
   tmdbDiscoverSerieSchema,
 } from "./tmdb";
+import type { IndexedBy } from "./types";
 import { getQueryForTorrentProvider } from "./utils/query";
 import { generateIdFromMagnet } from "./utils/torrent";
 
@@ -105,12 +106,14 @@ export async function indexTitleByFileName({
   shouldStoreNotFoundSubtitle,
   isDebugging,
   websocket,
+  indexedBy,
 }: {
   bytes: number;
   titleFileName: string;
   shouldStoreNotFoundSubtitle: boolean;
   isDebugging: boolean;
   websocket?: ServerWebSocket<unknown>;
+  indexedBy: IndexedBy;
 }): Promise<{ ok: boolean }> {
   console.time("Tardo en indexar");
 
@@ -193,6 +196,7 @@ export async function indexTitleByFileName({
       const { token, cookie } = await getSubDivXToken();
 
       await getSubtitlesForTitle({
+        indexedBy,
         index: "1",
         currentTitle: { ...tvShowData, episode },
         releaseGroups,
@@ -298,6 +302,7 @@ export async function indexTitleByFileName({
     }
 
     await getSubtitlesForTitle({
+      indexedBy,
       index: "1",
       initialTorrents: [{ ...torrent, id: generateIdFromMagnet(torrent.trackerId) }],
       currentTitle: { ...movieData, episode: null, totalEpisodes: null, totalSeasons: null },

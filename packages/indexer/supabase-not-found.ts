@@ -38,6 +38,7 @@ export async function indexNotFoundSubtitlesFromSupabase() {
         console.table([{ title_file_name, bytes, email }]);
 
         const { ok } = await indexTitleByFileName({
+          indexedBy: "indexer-supabase",
           bytes: bytes,
           titleFileName: title_file_name,
           shouldStoreNotFoundSubtitle: false,

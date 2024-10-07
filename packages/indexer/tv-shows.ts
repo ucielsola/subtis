@@ -85,6 +85,7 @@ export async function indexSeriesByYear(seriesYear: number, isDebugging: boolean
         }
 
         await getSubtitlesForTitle({
+          indexedBy: "indexer-cron",
           index,
           currentTitle: { ...tvShow, episode },
           releaseGroups,
@@ -121,6 +122,7 @@ export async function indexSeriesByName({
 
     for await (const [index, episode] of Object.entries(tvShow.episodes)) {
       await getSubtitlesForTitle({
+        indexedBy: "indexer-tv-show",
         index,
         currentTitle: { ...tvShow, episode },
         releaseGroups,

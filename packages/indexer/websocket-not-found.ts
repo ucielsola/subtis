@@ -41,6 +41,7 @@ Bun.serve({
       }
 
       const { ok } = await indexTitleByFileName({
+        indexedBy: "indexer-websocket",
         websocket: ws,
         bytes: subtitle.data.subtitle.bytes,
         titleFileName: subtitle.data.subtitle.titleFileName,

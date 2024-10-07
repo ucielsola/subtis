@@ -78,6 +78,7 @@ export async function indexNotFoundSubtitles() {
       }
 
       const { ok } = await indexTitleByFileName({
+        indexedBy: "indexer-not-found",
         bytes: notFoundSubtitle.bytes,
         titleFileName: notFoundSubtitle.title_file_name,
         shouldStoreNotFoundSubtitle: false,

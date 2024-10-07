@@ -39,7 +39,7 @@ import type { ReleaseGroupMap, ReleaseGroupNames } from "./release-groups";
 import { filterSubDivXSubtitlesForTorrent, getSubtitlesFromSubDivXForTitle } from "./subdivx";
 import type { SubtitleGroupMap, SubtitleGroupNames } from "./subtitle-groups";
 import type { TmdbTitle, TmdbTvShow } from "./tmdb";
-import type { SubtitleData } from "./types";
+import type { IndexedBy, SubtitleData } from "./types";
 import { executeWithOptionalTryCatch, getSubtitleAuthor } from "./utils";
 import { getQueryForTorrentProvider } from "./utils/query";
 import { generateIdFromMagnet } from "./utils/torrent";
@@ -263,6 +263,7 @@ async function storeTitleInSupabaseTable(title: TitleWithEpisode): Promise<void>
 }
 
 async function storeSubtitleInSupabaseTable({
+  indexedBy,
   title,
   titleFile,
   subtitle,
@@ -275,6 +276,7 @@ async function storeSubtitleInSupabaseTable({
   bytesFromNotFoundSubtitle,
   titleFileNameFromNotFoundSubtitle,
 }: {
+  indexedBy: IndexedBy;
   title: TitleWithEpisode;
   titleFile: TitleFile;
   subtitle: SubtitleWithResolutionAndTorrentId;
@@ -299,7 +301,7 @@ async function storeSubtitleInSupabaseTable({
     lang,
     author,
     reviewed: true,
-    uploaded_by: "indexer",
+    uploaded_by: indexedBy,
     bytes,
     torrent_id: torrentId,
     file_extension: fileNameExtension,
@@ -524,6 +526,7 @@ Vía email a <i>soporte@subt.is</i>
 }
 
 async function downloadAndStoreTitleAndSubtitle({
+  indexedBy,
   title,
   titleType,
   titleFile,
@@ -536,6 +539,7 @@ async function downloadAndStoreTitleAndSubtitle({
   bytesFromNotFoundSubtitle,
   titleFileNameFromNotFoundSubtitle,
 }: {
+  indexedBy: IndexedBy;
   titleFile: TitleFile;
   titleType: TitleTypes;
   title: TitleWithEpisode;
@@ -567,6 +571,7 @@ async function downloadAndStoreTitleAndSubtitle({
     await storeTorrentInSupabaseTable(torrent);
     await storeTitleInSupabaseTable(title);
     await storeSubtitleInSupabaseTable({
+      indexedBy,
       title,
       titleFile,
       subtitle,
@@ -849,6 +854,7 @@ export async function getSubtitlesForTitle({
   fromWebSocket,
   subdivxToken,
   subdivxCookie,
+  indexedBy,
 }: {
   index: string;
   initialTorrents?: TorrentFoundWithId[];
@@ -862,6 +868,7 @@ export async function getSubtitlesForTitle({
   fromWebSocket?: boolean;
   subdivxToken: string;
   subdivxCookie: string | null;
+  indexedBy: IndexedBy;
 }): Promise<void> {
   const {
     name,
@@ -1147,6 +1154,7 @@ export async function getSubtitlesForTitle({
           subtitle: { ...foundSubtitleFromSubDivX, resolution: finalResolution, torrentId: torrent.id },
           releaseGroups,
           subtitleGroups,
+          indexedBy,
         });
       },
       `4.${index}.${torrentIndex}) Subtítulo no encontrado en SubDivX para ${name} ${finalResolution} ${releaseGroup.release_group_name} (Puede llegar a existir en OpenSubtitles) \n`,
@@ -1173,6 +1181,7 @@ export async function getSubtitlesForTitle({
         );
 
         await downloadAndStoreTitleAndSubtitle({
+          indexedBy,
           titleType,
           titleFile: {
             bytes,

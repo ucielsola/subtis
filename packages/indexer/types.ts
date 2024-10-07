@@ -15,3 +15,11 @@ export type SubtitleData = {
   subtitleSrtFileName: string;
   lang: SupportedLanguages;
 };
+
+export type IndexedBy =
+  | "indexer-cron"
+  | "indexer-websocket"
+  | "indexer-supabase"
+  | "indexer-not-found"
+  | "indexer-movie"
+  | "indexer-tv-show";

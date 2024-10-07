@@ -66,6 +66,7 @@ export async function indexMoviesByYear(year: number, isDebugging: boolean): Pro
         }
 
         await getSubtitlesForTitle({
+          indexedBy: "indexer-cron",
           index,
           currentTitle: { ...movie, episode: null, totalEpisodes: null, totalSeasons: null },
           releaseGroups,
@@ -108,6 +109,7 @@ export async function indexMovieByName({
     const movie = await getTmdbMovieFromTitle(name, year);
 
     await getSubtitlesForTitle({
+      indexedBy: "indexer-movie",
       index: "1",
       currentTitle: { ...movie, episode: null, totalEpisodes: null, totalSeasons: null },
       releaseGroups,
