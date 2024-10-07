@@ -68,8 +68,6 @@ export async function getSubtitlesFromSubDivXForTitle({
   titleProviderQuery: string;
   hasBeenExecutedOnce: boolean;
 }): Promise<SubDivXSubtitles> {
-  const parsedTitleProviderQuery = titleProviderQuery.replace(" & ", " and ");
-
   const response = await fetch(`${SUBDIVX_BASE_URL}/inc/ajax.php`, {
     headers: {
       Cookie: subdivxCookie ?? "",
@@ -77,7 +75,7 @@ export async function getSubtitlesFromSubDivXForTitle({
       "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
     },
     method: "POST",
-    body: `tabla=resultados&filtros=&buscar394=${encodeURIComponent(parsedTitleProviderQuery)}&token=${subdivxToken}`,
+    body: `tabla=resultados&filtros=&buscar394d=${encodeURIComponent(titleProviderQuery)}&token=${subdivxToken}`,
   });
 
   if (!response.ok) {
@@ -91,6 +89,18 @@ export async function getSubtitlesFromSubDivXForTitle({
   }
 
   const subtitles = subdivxSubtitlesSchema.parse(data);
+
+  if (subtitles.aaData.length === 0 && hasBeenExecutedOnce === false && titleProviderQuery.includes("&")) {
+    const parsedTitleProviderQuery = titleProviderQuery.replace(" & ", " and ");
+    await Bun.sleep(6000);
+
+    return getSubtitlesFromSubDivXForTitle({
+      subdivxToken,
+      subdivxCookie,
+      hasBeenExecutedOnce: true,
+      titleProviderQuery: parsedTitleProviderQuery,
+    });
+  }
 
   if (subtitles.aaData.length === 0 && hasBeenExecutedOnce === false) {
     const lastCharacter = titleProviderQuery.at(-1);
@@ -107,7 +117,12 @@ export async function getSubtitlesFromSubDivXForTitle({
 
   // Filter similar titles
   const filteredSubtitles = subtitles.aaData.filter((subtitle) => {
-    const parsedSubtitleTitle = subtitle.titulo.replaceAll(" aka ", " ");
+    let parsedSubtitleTitle = subtitle.titulo;
+    const akaIndex = subtitle.titulo.indexOf("aka");
+
+    if (akaIndex !== -1) {
+      parsedSubtitleTitle = subtitle.titulo.slice(0, akaIndex);
+    }
 
     if (parsedSubtitleTitle.length > titleProviderQuery.length + 16) {
       return false;

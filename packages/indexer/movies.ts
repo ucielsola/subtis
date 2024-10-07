@@ -123,10 +123,10 @@ export async function indexMovieByName({
 }
 
 // testing
-indexMoviesByYear(2024, true);
-// indexMovieByName({
-//   year: 2024,
-//   isDebugging: true,
-//   name: "Bad Boys: Ride or Die",
-// });
+// indexMoviesByYear(2024, true);
+indexMovieByName({
+  year: 2001,
+  isDebugging: true,
+  name: "The Fast and the Furious",
+});
 saveReleaseGroupsToDb(supabase);

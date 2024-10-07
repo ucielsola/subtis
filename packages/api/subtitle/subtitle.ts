@@ -106,16 +106,19 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
     }
 
     const supabase = getSupabaseClient(context);
-    const { name, year, releaseGroup, resolution, currentEpisode, currentSeason } = getTitleFileNameMetadata({
-      titleFileName: videoFileName.data,
-    });
+
+    const titleFileNameMetadata = getTitleFileNameMetadata({ titleFileName: videoFileName.data });
+    const { name, year, releaseGroup, resolution, currentEpisode, currentSeason } = titleFileNameMetadata;
 
     const parsedName = getStringWithoutSpecialCharacters(name);
+    const alternativeParsedName = parsedName.replaceAll(" and ", " & ");
 
     const titleQuery = supabase
       .from("Titles")
       .select("id")
-      .or(`title_name_without_special_chars.ilike.%${parsedName}%`);
+      .or(
+        `title_name_without_special_chars.ilike.%${parsedName}%,title_name_without_special_chars.ilike.%${alternativeParsedName}%`,
+      );
 
     if (year !== null) {
       titleQuery.eq("year", year);
