@@ -68,6 +68,8 @@ export async function getSubtitlesFromSubDivXForTitle({
   titleProviderQuery: string;
   hasBeenExecutedOnce: boolean;
 }): Promise<SubDivXSubtitles> {
+  const titleOnlyWithoutYear = titleProviderQuery.replace(/\d{4}/gi, "").trim().toLowerCase();
+
   const response = await fetch(`${SUBDIVX_BASE_URL}/inc/ajax.php`, {
     headers: {
       Cookie: subdivxCookie ?? "",
@@ -125,6 +127,10 @@ export async function getSubtitlesFromSubDivXForTitle({
     }
 
     if (parsedSubtitleTitle.length > titleProviderQuery.length + 16) {
+      return false;
+    }
+
+    if (!subtitle.titulo.toLowerCase().includes(titleOnlyWithoutYear)) {
       return false;
     }
 
