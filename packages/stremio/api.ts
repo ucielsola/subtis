@@ -5,5 +5,5 @@ import { getApiClient } from "@subtis/shared";
 const isProduction = process.env.NODE_ENV === "production";
 
 export const apiClient = getApiClient({
-  apiBaseUrl: isProduction ? "https://api.subt.is" : "http://127.0.0.1:58602",
+  apiBaseUrl: isProduction ? process.env.PUBLIC_API_BASE_URL_PRODUCTION : process.env.PUBLIC_API_BASE_URL_DEVELOPMENT,
 });
