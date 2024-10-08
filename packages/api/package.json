@@ -9,7 +9,7 @@
     "test:watch": "bun --env-file=.env.development test --watch"
   },
   "dependencies": {
-    "@hono/zod-validator": "^0.2.2",
+    "@hono/zod-validator": "^0.4.1",
     "@supabase/supabase-js": "^2.45.4",
     "hono": "^4.6.3",
     "html-escaper": "^3.0.3",

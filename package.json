@@ -36,13 +36,13 @@
     "deploy:real-time-indexer": "fly deploy -c fly-real-time-indexer.toml",
     "bump:deps": "taze -r -w",
     "update:deps": "bun bump:deps && bun clean:install",
-    "clean:install": "bun pm cache rm && bun install --force --concurrent-scripts 1"
+    "clean:install": "bun pm cache rm && bun install --force"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.0",
+    "@biomejs/biome": "1.9.3",
     "jscpd": "^4.0.5",
     "npm-run-all": "^4.1.5",
-    "taze": "^0.16.9",
+    "taze": "^0.17.2",
     "typescript-coverage-report": "^1.0.0"
   }
 }
