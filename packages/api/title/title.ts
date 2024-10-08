@@ -16,12 +16,41 @@ import {
 } from "@subtis/shared";
 
 // internals
+import { titleSchema, titlesQuery } from "../shared/schemas";
 import { getSupabaseClient } from "../shared/supabase";
 import type { AppVariables } from "../shared/types";
 import { getYoutubeApiKey } from "./youtube";
 
 // core
 export const title = new Hono<{ Variables: AppVariables }>()
+  .get("/metadata/:id", zValidator("param", z.object({ id: z.string() })), async (context) => {
+    const { id } = context.req.valid("param");
+
+    const parsedId = Number.parseInt(id);
+
+    if (Number.isNaN(parsedId) || parsedId < 1) {
+      context.status(400);
+      return context.json({ message: "Invalid ID: it should be a positive integer number" });
+    }
+
+    const supabase = getSupabaseClient(context);
+
+    const { data, error } = await supabase.from("Titles").select(titlesQuery).match({ id }).single();
+
+    if (error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error: error.message });
+    }
+
+    const titleById = titleSchema.safeParse(data);
+
+    if (titleById.error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error: titleById.error.issues[0].message });
+    }
+
+    return context.json(titleById.data);
+  })
   .get("/teaser/:fileName", zValidator("param", z.object({ fileName: z.string() })), async (context) => {
     const { fileName } = context.req.valid("param");
 

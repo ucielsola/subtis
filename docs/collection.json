@@ -1,7 +1,7 @@
 {
-  "yaakVersion": "2024.10.1",
+  "yaakVersion": "2024.11.0-beta.3",
   "yaakSchema": 2,
-  "timestamp": "2024-10-01T01:14:23.646984",
+  "timestamp": "2024-10-08T04:49:41.934494",
   "resources": {
     "workspaces": [
       {
@@ -115,10 +115,10 @@
         "model": "folder",
         "id": "fl_xTpkMPcGuq",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-09-19T00:31:30",
+        "updatedAt": "2024-10-08T04:48:39",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": null,
-        "name": "Subtitle (5)",
+        "name": "Subtitle (6)",
         "sortPriority": 2000.0
       },
       {
@@ -135,10 +135,10 @@
         "model": "folder",
         "id": "fl_G3EShJi9ud",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-09-19T00:31:30",
+        "updatedAt": "2024-10-08T04:48:30",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": null,
-        "name": "Title (2)",
+        "name": "Title (3)",
         "sortPriority": 0.0
       },
       {
@@ -155,9 +155,38 @@
     "httpRequests": [
       {
         "model": "http_request",
+        "id": "rq_VL9z4jfn82",
+        "createdAt": "2024-10-08T04:47:13",
+        "updatedAt": "2024-10-08T04:47:13",
+        "workspaceId": "wk_SbrwnSjDzA",
+        "folderId": "fl_xTpkMPcGuq",
+        "authentication": {},
+        "authenticationType": null,
+        "body": {},
+        "bodyType": null,
+        "headers": [],
+        "method": "GET",
+        "name": "Get subtitle metadata (/v1/subtitle/metadata/:subtitleId)",
+        "sortPriority": 2000.0,
+        "url": "${[baseUrl]}/v1/subtitle/metadata/:subtitleId",
+        "urlParameters": [
+          {
+            "enabled": true,
+            "name": ":subtitleId",
+            "value": "7880"
+          },
+          {
+            "enabled": true,
+            "name": "",
+            "value": ""
+          }
+        ]
+      },
+      {
+        "model": "http_request",
         "id": "rq_om9XNHwzbJ",
         "createdAt": "2024-10-01T01:12:56",
-        "updatedAt": "2024-10-01T01:12:56",
+        "updatedAt": "2024-10-02T22:40:41",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
@@ -173,7 +202,7 @@
           {
             "enabled": true,
             "name": ":subtitleId",
-            "value": "7607"
+            "value": "7880"
           },
           {
             "enabled": true,
@@ -186,7 +215,7 @@
         "model": "http_request",
         "id": "rq_3XTRxeRF3X",
         "createdAt": "2024-09-30T22:57:14",
-        "updatedAt": "2024-09-30T22:57:14",
+        "updatedAt": "2024-10-04T22:47:35",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_I5qYzXaiKY",
         "authentication": {},
@@ -198,7 +227,33 @@
         "name": "Download subtitles for a TV show season (/v1/subtitles/tv-show/download/season/:id/:season/:resolution/:releaseGroupId)",
         "sortPriority": 3000.0,
         "url": "${[baseUrl]}/v1/subtitles/tv-show/download/season/:id/:season/:resolution/:releaseGroupId",
-        "urlParameters": []
+        "urlParameters": [
+          {
+            "enabled": true,
+            "name": ":id",
+            "value": "2788316"
+          },
+          {
+            "enabled": true,
+            "name": ":season",
+            "value": "1"
+          },
+          {
+            "enabled": true,
+            "name": ":resolution",
+            "value": "1080p"
+          },
+          {
+            "enabled": true,
+            "name": ":releaseGroupId",
+            "value": "1073"
+          },
+          {
+            "enabled": true,
+            "name": "",
+            "value": ""
+          }
+        ]
       },
       {
         "model": "http_request",
@@ -278,13 +333,13 @@
         "model": "http_request",
         "id": "rq_TSkZUrqOKj",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-09-08T05:31:41",
+        "updatedAt": "2024-10-01T23:22:07",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
         "authenticationType": null,
         "body": {
-          "text": "{\n  \"bytes\": 1704801878,\n  \"titleFileName\": \"Prey.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4\"\n}"
+          "text": "{\n  \"bytes\": 1067203117,\n  \"titleFileName\": \"The.Crow.2024.720p.WEBRip.x264.AAC-[YTS.MX].mp4\"\n}"
         },
         "bodyType": "application/json",
         "headers": [
@@ -330,23 +385,23 @@
         "model": "http_request",
         "id": "rq_k2QEcQF7uP",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-01T01:13:20",
+        "updatedAt": "2024-10-08T04:48:18",
         "workspaceId": "wk_SbrwnSjDzA",
-        "folderId": "fl_xTpkMPcGuq",
+        "folderId": "fl_G3EShJi9ud",
         "authentication": {},
         "authenticationType": null,
         "body": {},
         "bodyType": null,
         "headers": [],
         "method": "GET",
-        "name": "Get subtitle metadata (/v1/subtitle/metadata/:subtitleId)",
+        "name": "Get title metadata (/v1/subtitle/metadata/:subtitleId)",
         "sortPriority": 2000.0,
-        "url": "${[baseUrl]}/v1/subtitle/metadata/:subtitleId",
+        "url": "${[baseUrl]}/v1/title/metadata/:titleId",
         "urlParameters": [
           {
             "enabled": true,
-            "name": ":subtitleId",
-            "value": "7607"
+            "name": ":titleId",
+            "value": "120663"
           },
           {
             "enabled": true,
@@ -359,7 +414,7 @@
         "model": "http_request",
         "id": "rq_H9boP0jxGI",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-09-26T16:53:33",
+        "updatedAt": "2024-10-07T21:36:48",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
@@ -380,7 +435,7 @@
           {
             "enabled": true,
             "name": ":fileName",
-            "value": "Dune.2021.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4"
+            "value": "Deadpool.and.Wolverine.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv"
           },
           {
             "enabled": true,
@@ -393,7 +448,7 @@
         "model": "http_request",
         "id": "rq_0NmBIllZrD",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-09-26T16:29:30",
+        "updatedAt": "2024-10-07T22:18:15",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
@@ -409,7 +464,7 @@
           {
             "enabled": true,
             "name": ":fileName",
-            "value": "Avengers - Infinity War (2018) (2160p BluRay x265 10bit HDR Tigole).mkv"
+            "value": "Deadpool.and.Wolverine.2024.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.mkv"
           },
           {
             "enabled": true,
@@ -487,7 +542,7 @@
         "model": "http_request",
         "id": "rq_QsY5hKIlNW",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-09-30T23:10:11",
+        "updatedAt": "2024-10-04T22:44:59",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_I5qYzXaiKY",
         "authentication": {},
@@ -521,7 +576,7 @@
         "model": "http_request",
         "id": "rq_TWJn9mmiC7",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-01T01:14:04",
+        "updatedAt": "2024-10-01T23:30:59",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_sLYlejSo9e",
         "authentication": {},
@@ -533,19 +588,30 @@
         "name": "Get trending subtitles (/v1/subtitles/trending/:limit)",
         "sortPriority": 0.0,
         "url": "${[baseUrl]}/v1/subtitles/trending/:limit",
-        "urlParameters": []
+        "urlParameters": [
+          {
+            "enabled": true,
+            "name": ":limit",
+            "value": "10"
+          },
+          {
+            "enabled": true,
+            "name": "",
+            "value": ""
+          }
+        ]
       },
       {
         "model": "http_request",
         "id": "rq_lWYKCjbYhz",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-09-08T05:31:41",
+        "updatedAt": "2024-10-08T04:47:22",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_G3EShJi9ud",
         "authentication": {},
         "authenticationType": null,
         "body": {
-          "text": "{\n  \"id\": 2788316\n}"
+          "text": "{\n  \"id\": 14858658\n}"
         },
         "bodyType": "application/json",
         "headers": [
@@ -565,7 +631,7 @@
         "model": "http_request",
         "id": "rq_SGIsc4WgeJ",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-09-12T21:03:42",
+        "updatedAt": "2024-10-08T04:47:22",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_G3EShJi9ud",
         "authentication": {},
@@ -575,7 +641,7 @@
         "headers": [],
         "method": "GET",
         "name": "Get title teaser by file name (/v1/title/teaser/:fileName)",
-        "sortPriority": 0.0,
+        "sortPriority": 1000.0,
         "url": "${[baseUrl]}/v1/title/teaser/:fileName",
         "urlParameters": [
           {
@@ -641,7 +707,7 @@
         "model": "http_request",
         "id": "rq_CeZMoAtUiy",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-09-08T05:31:41",
+        "updatedAt": "2024-10-05T14:41:54",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_YERMf4idMs",
         "authentication": {},
@@ -657,12 +723,7 @@
           {
             "enabled": true,
             "name": ":limit",
-            "value": ""
-          },
-          {
-            "enabled": false,
-            "name": "",
-            "value": ""
+            "value": "10"
           },
           {
             "enabled": true,
