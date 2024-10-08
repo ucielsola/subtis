@@ -900,7 +900,7 @@ export async function getSubtitlesForTitle({
     fromWebSocket ? torrents : getFilteredTorrents(titleType, torrents, name)
   ) as TorrentFoundWithId[];
   console.log("\nFiltered torrents \n");
-  console.table(filteredTorrents);
+  console.table(filteredTorrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
 
   console.log("\nTorrents total", torrents.length);
   console.log("Filtered torrents total", filteredTorrents.length);

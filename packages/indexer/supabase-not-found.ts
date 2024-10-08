@@ -12,6 +12,10 @@ import { apiClient } from "./api-client";
 import { sendEmail } from "./email";
 import { indexTitleByFileName } from "./file";
 
+// constants
+const MAX_INDEXING_TITLES = 10;
+const torrentsIndexing = new Set<string>();
+
 export async function indexNotFoundSubtitlesFromSupabase() {
   supabase
     .channel("table-db-changes")
@@ -25,7 +29,6 @@ export async function indexNotFoundSubtitlesFromSupabase() {
       async (payload) => {
         const { new: newSubtitleNotFound } = payload;
         const { title_file_name, bytes, email } = newSubtitleNotFound;
-
         const isTvShow = getIsTvShow(title_file_name);
 
         // TODO: Temporarily skipping tv shows
@@ -37,6 +40,17 @@ export async function indexNotFoundSubtitlesFromSupabase() {
         console.log("User was trying to watch:");
         console.table([{ title_file_name, bytes, email }]);
 
+        const isIndexingTitleFileName = torrentsIndexing.has(title_file_name);
+        const isIndexingTooManyTitles = torrentsIndexing.size > MAX_INDEXING_TITLES;
+        const shouldSkipIndexation = isIndexingTitleFileName || isIndexingTooManyTitles;
+
+        if (shouldSkipIndexation) {
+          console.log("Already indexing, skipping");
+          return;
+        }
+
+        torrentsIndexing.add(title_file_name);
+
         const { ok } = await indexTitleByFileName({
           indexedBy: "indexer-supabase",
           bytes: bytes,
@@ -45,7 +59,9 @@ export async function indexNotFoundSubtitlesFromSupabase() {
           isDebugging: false,
         });
 
-        console.log("Subtitle found for ", title_file_name);
+        if (ok) {
+          console.log("Subtitle found for ", title_file_name);
+        }
 
         if (ok === true) {
           if (email) {
@@ -78,6 +94,8 @@ export async function indexNotFoundSubtitlesFromSupabase() {
             console.log("Subtitle removed from SubtitlesNotFound successfully");
           }
         }
+
+        torrentsIndexing.delete(title_file_name);
       },
     )
     .subscribe();

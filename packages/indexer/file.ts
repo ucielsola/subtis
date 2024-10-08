@@ -231,6 +231,10 @@ export async function indexTitleByFileName({
       },
     );
 
+    if (!response.ok) {
+      throw new Error("Failed to fetch movie data");
+    }
+
     const data = await response.json();
 
     const movies = tmdbDiscoverMovieSchema.parse(data);
@@ -279,13 +283,16 @@ export async function indexTitleByFileName({
 
     const torrents = await getTitleTorrents(titleProviderQuery, TitleTypes.movie, movieData.imdbId);
 
+    console.log("\n Torrents without filter \n");
+    console.table(torrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
+
     const torrent = torrents.find((torrent) => {
       const lowerCaseTorrentTitle = torrent.title.toLowerCase();
 
       const includesResolution = lowerCaseTorrentTitle.includes(title.resolution.toLowerCase());
-      const includesReleaseGroup = lowerCaseTorrentTitle.includes(
-        title.releaseGroup?.release_group_name.toLowerCase() ?? "",
-      );
+      const includesReleaseGroup = title.releaseGroup?.release_group_name
+        ? lowerCaseTorrentTitle.includes(title.releaseGroup.release_group_name.toLowerCase())
+        : false;
 
       const includesFileAttributes = title.releaseGroup?.file_attributes.some((fileAttribute) => {
         return lowerCaseTorrentTitle.includes(fileAttribute.toLowerCase());
@@ -299,6 +306,8 @@ export async function indexTitleByFileName({
     if (!torrent) {
       throw new Error("Torrent not found");
     }
+
+    console.table([torrent].map(({ title, size, seeds }) => ({ title, size, seeds })));
 
     await getSubtitlesForTitle({
       indexedBy,
