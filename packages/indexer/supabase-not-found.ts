@@ -42,10 +42,14 @@ export async function indexNotFoundSubtitlesFromSupabase() {
 
         const isIndexingTitleFileName = torrentsIndexing.has(title_file_name);
         const isIndexingTooManyTitles = torrentsIndexing.size > MAX_INDEXING_TITLES;
-        const shouldSkipIndexation = isIndexingTitleFileName || isIndexingTooManyTitles;
 
-        if (shouldSkipIndexation) {
-          console.log("Already indexing, skipping");
+        if (isIndexingTitleFileName) {
+          console.log(`Already indexing ${title_file_name}, skipping`);
+          return;
+        }
+
+        if (isIndexingTooManyTitles) {
+          console.log(`Too many titles being indexed, skipping ${title_file_name}`);
           return;
         }
 
