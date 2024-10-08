@@ -126,10 +126,10 @@ export const RELEASE_GROUPS = {
     query_matches: ["REMUX"],
   },
   EVO: {
-    file_attributes: ["x264-EVO", "x265-EVO"],
+    file_attributes: ["x264-EVO", "x265-EVO", "264-EVO[TGx]", "265-EVO[TGx]"],
     is_supported: true,
     release_group_name: "EVO",
-    query_matches: ["EVO"],
+    query_matches: ["EVO", "264-EVO", "265-EVO", "x264-EVO", "x265-EVO"],
   },
   "Atmos-SWTYBLZ": {
     file_attributes: ["Atmos-SWTYBLZ"],
@@ -422,7 +422,7 @@ export const RELEASE_GROUPS = {
     query_matches: ["iseedeadpeople", "h264-iseedeadpeople", "h265-iseedeadpeople"],
   },
   RARBG: {
-    file_attributes: ["x264-RARBG", "x265-RARBG"],
+    file_attributes: ["x264-RARBG", "x265-RARBG", "AAC-RARBG"],
     is_supported: true,
     release_group_name: "RARBG",
     query_matches: ["RARBG", "AAC-RARBG"],
