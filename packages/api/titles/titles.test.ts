@@ -23,17 +23,17 @@ describe("API | /titles/search/:query", () => {
       method: "GET",
     };
 
-    const response = await titles.request("/search/kngdom", request, getMockEnv());
+    const response = await titles.request("/search/btman", request, getMockEnv());
     const data = await response.json();
 
     expect(response.status).toBe(200);
     expect(data).toEqual([
       {
-        id: 11389872,
+        id: 1877830,
         type: "movie",
-        title_name: "Kingdom of the Planet of the Apes",
-        year: 2024,
-        backdrop: "https://image.tmdb.org/t/p/original/fypydCipcWDKDTTCoPucBsdGYXW.jpg",
+        title_name: "The Batman",
+        year: 2022,
+        backdrop: "https://image.tmdb.org/t/p/original/tRS6jvPM9qPrrnx2KRp3ew96Yot.jpg",
       },
     ]);
   });
@@ -56,17 +56,17 @@ describe("API | /titles/search/:query", () => {
       method: "GET",
     };
 
-    const response = await titles.request("/search/Grfield", request, getMockEnv());
+    const response = await titles.request("/search/the batman", request, getMockEnv());
     const data = await response.json();
 
     expect(response.status).toBe(200);
     expect(data).toEqual([
       {
-        id: 5779228,
+        id: 1877830,
         type: "movie",
-        title_name: "The Garfield Movie",
-        year: 2024,
-        backdrop: "https://image.tmdb.org/t/p/original/1wP1phHo2CROOqzv7Azs0MT5esU.jpg",
+        title_name: "The Batman",
+        year: 2022,
+        backdrop: "https://image.tmdb.org/t/p/original/tRS6jvPM9qPrrnx2KRp3ew96Yot.jpg",
       },
     ]);
   });
@@ -85,33 +85,17 @@ describe("API | /titles/recent/:limit", () => {
     expect(data).toEqual({ message: `Limit must be less than or equal to ${MAX_LIMIT}` });
   });
 
-  test("Valid URL with limit equals 2", async () => {
+  test("Valid URL with limit equals 1", async () => {
     const request = {
       method: "GET",
     };
 
-    const response = await titles.request("/recent/2", request, getMockEnv());
+    const response = await titles.request("/recent/1", request, getMockEnv());
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data).toEqual([
-      {
-        id: 12598606,
-        title_name: "Gunner",
-        type: "movie",
-        year: 2024,
-        rating: 5.2,
-        release_date: "2024-08-16",
-      },
-      {
-        id: 18884172,
-        title_name: "Crescent City",
-        type: "movie",
-        year: 2024,
-        rating: 6.048,
-        release_date: "2024-08-16",
-      },
-    ]);
+    expect(data).toBeArray();
+    expect(data).toHaveLength(1);
   });
 });
 

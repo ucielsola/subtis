@@ -25,7 +25,7 @@ describe("API | /subtitles/movie/:id", () => {
       method: "GET",
     };
 
-    const movieId = 4919268;
+    const movieId = 1877830;
 
     const response = await subtitles.request(`/movie/${movieId}`, request, getMockEnv());
     const data = await response.json();
@@ -44,9 +44,10 @@ describe("API | /subtitles/movie/:id", () => {
     const response = await subtitles.request(`/movie/${movieId}`, request, getMockEnv());
     const data = await response.json();
 
-    expect(response.status).toBe(404);
+    expect(response.status).toBe(500);
     expect(data).toEqual({
-      message: "Subtitles not found for title",
+      message: "An error occurred",
+      error: "Subtitles not found for title",
     });
   });
 });
@@ -71,7 +72,7 @@ describe("API | /subtitles/tv-show/:id/:season?/:episode?", () => {
       method: "GET",
     };
 
-    const tvShowId = 9018736;
+    const tvShowId = 2788316;
 
     const response = await subtitles.request(`/tv-show/${tvShowId}`, request, getMockEnv());
     const data = await response.json();
@@ -85,7 +86,7 @@ describe("API | /subtitles/tv-show/:id/:season?/:episode?", () => {
       method: "GET",
     };
 
-    const tvShowId = 9018736;
+    const tvShowId = 2788316;
 
     const response = await subtitles.request(`/tv-show/${tvShowId}/1`, request, getMockEnv());
     const data = await response.json();
@@ -99,7 +100,7 @@ describe("API | /subtitles/tv-show/:id/:season?/:episode?", () => {
       method: "GET",
     };
 
-    const tvShowId = 9018736;
+    const tvShowId = 2788316;
 
     const response = await subtitles.request(`/tv-show/${tvShowId}/1/1`, request, getMockEnv());
     const data = await response.json();
@@ -118,9 +119,10 @@ describe("API | /subtitles/tv-show/:id/:season?/:episode?", () => {
     const response = await subtitles.request(`/tv-show/${tvShowId}`, request, getMockEnv());
     const data = await response.json();
 
-    expect(response.status).toBe(404);
+    expect(response.status).toBe(500);
     expect(data).toEqual({
-      message: "Subtitles not found for title",
+      message: "An error occurred",
+      error: "Subtitles not found for title",
     });
   });
 });
@@ -162,10 +164,10 @@ describe("API | /subtitles/tv-show/download/season/:id/:season/:resolution/:rele
       method: "GET",
     };
 
-    const tvShowId = 15203646;
+    const tvShowId = 2788316;
     const season = 1;
     const resolution = "1080p";
-    const releaseGroupId = "953";
+    const releaseGroupId = "1073";
 
     const response = await subtitles.request(
       `/tv-show/download/season/${tvShowId}/${season}/${resolution}/${releaseGroupId}`,

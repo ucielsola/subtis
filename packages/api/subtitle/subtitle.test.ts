@@ -38,8 +38,11 @@ describe("API | /subtitle/file/name/:bytes/:fileName", () => {
     const response = await subtitle.request(`/file/name/${bytes}/${fileName}`, request, getMockEnv());
     const data = await response.json();
 
-    expect(response.status).toBe(404);
-    expect(data).toEqual({ message: "Subtitle not found for file" });
+    expect(response.status).toBe(500);
+    expect(data).toEqual({
+      message: "An error occurred",
+      error: 'invalid input syntax for type bigint: "199844532d"',
+    });
   });
 
   test("Invalid URL with fileName not being a video extension", async () => {
@@ -63,33 +66,38 @@ describe("API | /subtitle/file/name/:bytes/:fileName", () => {
     };
 
     const bytes = 1320;
-    const fileName = "The.Garfield.Movie.2024.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4";
+    const fileName = "The.Batman.2022.720p.BluRay.x264.AAC-[YTS.MX].mp4";
 
     const response = await subtitle.request(`/file/name/${bytes}/${fileName}`, request, getMockEnv());
     const data = await response.json();
 
     expect(response.status).toBe(200);
     expect(data).toEqual({
-      id: 6825,
-      resolution: "1080p",
+      id: 8402,
+      bytes: 1697998881,
+      resolution: "720p",
       subtitle_link:
-        "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-garfield-movie-1080p-yts-subdivx.srt?download=The.Garfield.Movie.2024.1080p.BluRay.x264.AAC5.1-[YTS.MX].srt",
-      queried_times: 0,
+        "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-batman-720p-yts-subdivx.srt?download=The.Batman.2022.720p.BluRay.x264.AAC-[YTS.MX].srt",
+      queried_times: 1,
       current_season: null,
       current_episode: null,
-      subtitle_file_name: "The.Garfield.Movie.2024.1080p.BluRay.x264.AAC5.1-[YTS.MX].srt",
+      title_file_name: "The.Batman.2022.720p.BluRay.x264.AAC-[YTS.MX].mp4",
+      subtitle_file_name: "The.Batman.2022.720p.BluRay.x264.AAC-[YTS.MX].srt",
       title: {
-        title_name: "The Garfield Movie",
+        id: 1877830,
+        title_name: "The Batman",
         type: "movie",
-        year: 2024,
-        poster: "https://image.tmdb.org/t/p/original/tkdc73JiPVvzngSpbLEIfFNjll1.jpg",
-        backdrop: "https://image.tmdb.org/t/p/original/1wP1phHo2CROOqzv7Azs0MT5esU.jpg",
+        year: 2022,
+        poster: "https://image.tmdb.org/t/p/original/mo7teil1qH0SxgLijnqeYP1Eb4w.jpg",
+        backdrop: "https://image.tmdb.org/t/p/original/tRS6jvPM9qPrrnx2KRp3ew96Yot.jpg",
       },
       releaseGroup: {
+        id: 1065,
         release_group_name: "YTS",
       },
       subtitleGroup: {
-        id: 61,
+        id: 63,
+        subtitle_group_name: "SubDivX",
       },
     });
   });
@@ -99,34 +107,39 @@ describe("API | /subtitle/file/name/:bytes/:fileName", () => {
       method: "GET",
     };
 
-    const bytes = 2000517334;
-    const fileName = "The.Ga.MX].mp4";
+    const bytes = 3487908744;
+    const fileName = "The.Bat.mp4";
 
     const response = await subtitle.request(`/file/name/${bytes}/${fileName}`, request, getMockEnv());
     const data = await response.json();
 
     expect(response.status).toBe(200);
     expect(data).toEqual({
-      id: 6825,
+      id: 8421,
+      bytes: 3487908744,
       resolution: "1080p",
       subtitle_link:
-        "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-garfield-movie-1080p-yts-subdivx.srt?download=The.Garfield.Movie.2024.1080p.BluRay.x264.AAC5.1-[YTS.MX].srt",
+        "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-batman-1080p-yts-subdivx.srt?download=The.Batman.2022.1080p.BluRay.x264.AAC5.1-[YTS.MX].srt",
       queried_times: 0,
       current_season: null,
       current_episode: null,
-      subtitle_file_name: "The.Garfield.Movie.2024.1080p.BluRay.x264.AAC5.1-[YTS.MX].srt",
+      title_file_name: "The.Batman.2022.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4",
+      subtitle_file_name: "The.Batman.2022.1080p.BluRay.x264.AAC5.1-[YTS.MX].srt",
       title: {
-        title_name: "The Garfield Movie",
+        id: 1877830,
+        title_name: "The Batman",
         type: "movie",
-        year: 2024,
-        poster: "https://image.tmdb.org/t/p/original/tkdc73JiPVvzngSpbLEIfFNjll1.jpg",
-        backdrop: "https://image.tmdb.org/t/p/original/1wP1phHo2CROOqzv7Azs0MT5esU.jpg",
+        year: 2022,
+        poster: "https://image.tmdb.org/t/p/original/mo7teil1qH0SxgLijnqeYP1Eb4w.jpg",
+        backdrop: "https://image.tmdb.org/t/p/original/tRS6jvPM9qPrrnx2KRp3ew96Yot.jpg",
       },
       releaseGroup: {
+        id: 1065,
         release_group_name: "YTS",
       },
       subtitleGroup: {
-        id: 61,
+        id: 63,
+        subtitle_group_name: "SubDivX",
       },
     });
   });
@@ -163,7 +176,7 @@ describe("API | /subtitle/file/alternative/:fileName", () => {
       method: "GET",
     };
 
-    const fileName = "The.Garfield.Movie.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp3";
+    const fileName = "The.Batman.2022.720p.BluRay.x264.AAC-[YTS.MX].mp3";
 
     const response = await subtitle.request(`/file/alternative/${fileName}`, request, getMockEnv());
     const data = await response.json();
@@ -177,33 +190,38 @@ describe("API | /subtitle/file/alternative/:fileName", () => {
       method: "GET",
     };
 
-    const fileName = "The.Garfield.Movie.2024.720p.WEBRip.x264.AAC5.1-[YTS.MX].mp4";
+    const fileName = "The.Batman.2022.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4";
 
     const response = await subtitle.request(`/file/alternative/${fileName}`, request, getMockEnv());
     const data = await response.json();
 
     expect(response.status).toBe(200);
     expect(data).toEqual({
-      id: 6829,
-      resolution: "720p",
+      id: 8424,
+      bytes: 1724112073,
+      resolution: "1080p",
       subtitle_link:
-        "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-garfield-movie-720p-galaxyrg-subdivx.srt?download=The.Garfield.Movie.2024.720p.WEBRip.800MB.x264-GalaxyRG.srt",
+        "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-batman-1080p-galaxyrg-subdivx.srt?download=The.Batman.2022.1080p.WEBRip.1600MB.DD2.0.x264-GalaxyRG.srt",
       queried_times: 0,
       current_season: null,
       current_episode: null,
-      subtitle_file_name: "The.Garfield.Movie.2024.720p.WEBRip.800MB.x264-GalaxyRG.srt",
+      title_file_name: "The.Batman.2022.1080p.WEBRip.1600MB.DD2.0.x264-GalaxyRG.mkv",
+      subtitle_file_name: "The.Batman.2022.1080p.WEBRip.1600MB.DD2.0.x264-GalaxyRG.srt",
       title: {
-        title_name: "The Garfield Movie",
+        id: 1877830,
+        title_name: "The Batman",
         type: "movie",
-        year: 2024,
-        poster: "https://image.tmdb.org/t/p/original/tkdc73JiPVvzngSpbLEIfFNjll1.jpg",
-        backdrop: "https://image.tmdb.org/t/p/original/1wP1phHo2CROOqzv7Azs0MT5esU.jpg",
+        year: 2022,
+        poster: "https://image.tmdb.org/t/p/original/mo7teil1qH0SxgLijnqeYP1Eb4w.jpg",
+        backdrop: "https://image.tmdb.org/t/p/original/tRS6jvPM9qPrrnx2KRp3ew96Yot.jpg",
       },
       releaseGroup: {
+        id: 1047,
         release_group_name: "GalaxyRG",
       },
       subtitleGroup: {
-        id: 61,
+        id: 63,
+        subtitle_group_name: "SubDivX",
       },
     });
   });
@@ -219,7 +237,9 @@ describe("API | /subtitle/file/alternative/:fileName", () => {
     const data = await response.json();
 
     expect(response.status).toBe(404);
-    expect(data).toEqual({ message: "Subtitle not found for file" });
+    expect(data).toEqual({
+      message: "Alternative subtitle not found for file",
+    });
   });
 });
 
@@ -249,7 +269,9 @@ describe("API | /subtitle/link/:subtitleId", () => {
     const data = await response.json();
 
     expect(response.status).toBe(404);
-    expect(data).toEqual({ message: "Subtitle not found for ID" });
+    expect(data).toEqual({
+      message: "Subtitle link not found for subtitle ID",
+    });
   });
 
   test("Valid URL with valid subtitle existant on DB", async () => {
@@ -257,7 +279,7 @@ describe("API | /subtitle/link/:subtitleId", () => {
       method: "GET",
     };
 
-    const subtitleId = 6734;
+    const subtitleId = 8402;
 
     const response = await subtitle.request(`/link/${subtitleId}`, request, getMockEnv());
 

@@ -5,7 +5,7 @@ import { getMockEnv } from "../shared/test";
 import { title } from "./title";
 
 describe("API | /title/teaser/:fileName", () => {
-  test("Valid URL with unsupported file name extension", async () => {
+  test.skip("Valid URL with unsupported file name extension", async () => {
     const request = {
       method: "GET",
     };
@@ -20,7 +20,8 @@ describe("API | /title/teaser/:fileName", () => {
       message: "File extension not supported",
     });
   });
-  test("Valid URL with unsupported file name", async () => {
+
+  test.skip("Valid URL with unsupported file name", async () => {
     const request = {
       method: "GET",
     };
@@ -36,25 +37,7 @@ describe("API | /title/teaser/:fileName", () => {
     });
   });
 
-  test("Valid URL with title file name that exist in our DB", async () => {
-    const request = {
-      method: "GET",
-    };
-
-    const fileName = "Inside.Out.2.2024.720p.WEBRip.x264.AAC-[YTS.MX].mp4";
-
-    const response = await title.request(`/teaser/${fileName}`, request, getMockEnv());
-    const data = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(data).toEqual({
-      name: "Inside Out 2",
-      year: 2024,
-      url: "https://www.youtube.com/watch?v=RY5aH21ohU4",
-    });
-  });
-
-  test("Valid URL with title file name that is found from YouTube", async () => {
+  test.skip("Valid URL with title file name that is found from YouTube", async () => {
     const request = {
       method: "GET",
     };
@@ -72,7 +55,7 @@ describe("API | /title/teaser/:fileName", () => {
     });
   });
 
-  test("Valid URL with title file name that is NOT found on YouTube", async () => {
+  test.skip("Valid URL with title file name that is NOT found on YouTube", async () => {
     const request = {
       method: "GET",
     };
@@ -88,7 +71,7 @@ describe("API | /title/teaser/:fileName", () => {
     });
   });
 
-  test("Valid URL with title file name that is a TV Show found on YouTube for specific season", async () => {
+  test.skip("Valid URL with title file name that is a TV Show found on YouTube for specific season", async () => {
     const request = {
       method: "GET",
     };

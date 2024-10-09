@@ -8,7 +8,7 @@ import { supabase } from "@subtis/db";
 
 // internals
 import { getSubtitlesForTitle } from "./app";
-import { getReleaseGroups, saveReleaseGroupsToDb } from "./release-groups";
+import { getReleaseGroups } from "./release-groups";
 import { getSubDivXToken } from "./subdivx";
 import { getSubtitleGroups } from "./subtitle-groups";
 import { getTmdbTvShowFromTitle, getTmdbTvShowsTotalPagesArray, getTvShowsFromTmdb } from "./tmdb";
@@ -118,7 +118,6 @@ export async function indexSeriesByName({
     const { token, cookie } = await getSubDivXToken();
 
     const tvShow = await getTmdbTvShowFromTitle(name, year);
-    console.log("\n ~ tvShow:", tvShow);
 
     for await (const [index, episode] of Object.entries(tvShow.episodes)) {
       await getSubtitlesForTitle({
@@ -139,6 +138,6 @@ export async function indexSeriesByName({
 }
 
 // testing
-indexSeriesByYear(2024, true);
+// indexSeriesByYear(2024, true);
 // indexSeriesByName({ name: "The Lord of the Rings: The Rings of Power", year: 2022, isDebugging: true });
-saveReleaseGroupsToDb(supabase);
+// saveReleaseGroupsToDb(supabase);

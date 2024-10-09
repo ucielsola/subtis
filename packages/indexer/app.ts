@@ -525,20 +525,7 @@ Vía email a <i>soporte@subt.is</i>
   await fs.promises.writeFile(path, subtitleTextWithWatermark, "utf-8");
 }
 
-async function downloadAndStoreTitleAndSubtitle({
-  indexedBy,
-  title,
-  titleType,
-  titleFile,
-  subtitle,
-  torrent,
-  releaseGroups,
-  subtitleGroups,
-  releaseGroupName,
-  subtitleGroupName,
-  bytesFromNotFoundSubtitle,
-  titleFileNameFromNotFoundSubtitle,
-}: {
+export async function downloadAndStoreTitleAndSubtitle(data: {
   indexedBy: IndexedBy;
   titleFile: TitleFile;
   titleType: TitleTypes;
@@ -553,6 +540,21 @@ async function downloadAndStoreTitleAndSubtitle({
   titleFileNameFromNotFoundSubtitle?: string;
 }): Promise<void> {
   try {
+    const {
+      indexedBy,
+      title,
+      titleType,
+      titleFile,
+      subtitle,
+      torrent,
+      releaseGroups,
+      subtitleGroups,
+      releaseGroupName,
+      subtitleGroupName,
+      bytesFromNotFoundSubtitle,
+      titleFileNameFromNotFoundSubtitle,
+    } = data;
+
     await downloadSubtitle(subtitle);
 
     const { subtitleCompressedAbsolutePath, extractedSubtitlePath } = getSubtitleAbsolutePaths(subtitle);

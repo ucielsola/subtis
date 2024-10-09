@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "wrangler dev api.ts --port 58602",
     "deploy": "wrangler deploy --minify api.ts",
-    "test:watch": "bun --env-file=.env.development test --watch"
+    "test": "bun test --env-file=.env.development",
+    "test:watch": "bun --env-file=.env.development test --watch",
+    "test:preload:db": "bun test --env-file=.env.development --preload ./setup.ts"
   },
   "dependencies": {
     "@hono/zod-validator": "^0.4.1",
