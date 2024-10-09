@@ -17,9 +17,9 @@
   },
   "devDependencies": {
     "@types/bun": "^1.1.10",
-    "supabase": ">=1.200.3",
+    "supabase": ">=1.203.0",
     "supabase-to-zod": "^1.0.7",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.3"
   },
   "trustedDependencies": [
     "supabase"
