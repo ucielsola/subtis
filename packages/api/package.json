@@ -22,10 +22,10 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241004.0",
-    "@types/bun": "^1.1.10",
+    "@types/bun": "^1.1.11",
     "@types/html-escaper": "^3.0.2",
     "@types/timestring": "^6.0.5",
     "typescript": "^5.6.3",
-    "wrangler": "^3.80.2"
+    "wrangler": "^3.80.3"
   }
 }
