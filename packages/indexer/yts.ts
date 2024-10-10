@@ -127,71 +127,71 @@ const [FIRST_YTS_TRACKER] = YTS_TRACKERS;
 
 export async function getYtsTorrents(imdbId: number) {
   const response = await fetch(
-    `https://yts.mx/api/v2/movie_details.json?imdb_id=${imdbId}&with_images=false&with_cast=false`,
+    `https://yts.am/api/v2/movie_details.json?imdb_id=${imdbId}&with_images=false&with_cast=false`,
   );
 
-  if (response.ok) {
-    const data = await response.json();
-    const yts = ytsSchema.parse(data);
-
-    if ("torrents" in yts.data.movie === false) {
-      return [];
-    }
-
-    const { torrents } = yts.data.movie;
-
-    return torrents.map((torrent) => {
-      const dn = encodeURIComponent(yts.data.movie.title || yts.data.movie.title_long);
-      const trackerId = `magnet:?xt=urn:btih:${torrent.hash}&dn=${dn}&tr=${FIRST_YTS_TRACKER}`;
-
-      return {
-        tracker: "YTS",
-        title: `${yts.data.movie.title_long} [${torrent.quality}] [${torrent.video_codec}] [${torrent.audio_channels}] YTS`,
-        size: torrent.size_bytes,
-        trackerId,
-        seeds: torrent.seeds,
-        isBytesFormatted: false,
-        id: generateIdFromMagnet(trackerId),
-      };
-    });
+  if (!response.ok) {
+    throw new Error("YTS API failed");
   }
 
-  throw new Error("YTS API failed");
-}
+  const data = await response.json();
+  const yts = ytsSchema.parse(data);
 
-// https://github.com/BrokenEmpire/YTS/blob/master/API.md
-export async function getYtsTorrent(imdbId: number, resolution: string) {
-  const response = await fetch(
-    `https://yts.mx/api/v2/movie_details.json?imdb_id=${imdbId}&with_images=false&with_cast=false`,
-  );
+  if ("torrents" in yts.data.movie === false) {
+    return [];
+  }
 
-  if (response.ok) {
-    const data = await response.json();
-    const yts = ytsSchema.parse(data);
+  const { torrents } = yts.data.movie;
 
-    if ("torrents" in yts.data.movie === false) {
-      return null;
-    }
-
-    const { torrents } = yts.data.movie;
-
-    const torrent = torrents.find((torrent) => torrent.quality === resolution);
-
-    invariant(torrent, "Torrent not found");
-
+  return torrents.map((torrent) => {
     const dn = encodeURIComponent(yts.data.movie.title || yts.data.movie.title_long);
     const trackerId = `magnet:?xt=urn:btih:${torrent.hash}&dn=${dn}&tr=${FIRST_YTS_TRACKER}`;
 
     return {
       tracker: "YTS",
-      title: `${yts.data.movie.title_long} YTS`,
+      title: `${yts.data.movie.title_long} [${torrent.quality}] [${torrent.video_codec}] [${torrent.audio_channels}] YTS`,
       size: torrent.size_bytes,
       trackerId,
       seeds: torrent.seeds,
       isBytesFormatted: false,
       id: generateIdFromMagnet(trackerId),
     };
+  });
+}
+
+// https://github.com/BrokenEmpire/YTS/blob/master/API.md
+export async function getYtsTorrent(imdbId: number, resolution: string) {
+  const response = await fetch(
+    `https://yts.am/api/v2/movie_details.json?imdb_id=${imdbId}&with_images=false&with_cast=false`,
+  );
+
+  if (!response.ok) {
+    throw new Error("YTS API failed");
   }
 
-  throw new Error("YTS API failed");
+  const data = await response.json();
+  const yts = ytsSchema.parse(data);
+
+  if ("torrents" in yts.data.movie === false) {
+    return null;
+  }
+
+  const { torrents } = yts.data.movie;
+
+  const torrent = torrents.find((torrent) => torrent.quality === resolution);
+
+  invariant(torrent, "Torrent not found");
+
+  const dn = encodeURIComponent(yts.data.movie.title || yts.data.movie.title_long);
+  const trackerId = `magnet:?xt=urn:btih:${torrent.hash}&dn=${dn}&tr=${FIRST_YTS_TRACKER}`;
+
+  return {
+    tracker: "YTS",
+    title: `${yts.data.movie.title_long} YTS`,
+    size: torrent.size_bytes,
+    trackerId,
+    seeds: torrent.seeds,
+    isBytesFormatted: false,
+    id: generateIdFromMagnet(trackerId),
+  };
 }
