@@ -2,7 +2,7 @@ import invariant from "tiny-invariant";
 import { z } from "zod";
 
 // shared
-import type { TitleFileNameMetadata } from "@subtis/shared";
+import { type TitleFileNameMetadata, getStringWithoutSpecialCharacters } from "@subtis/shared";
 
 // internals
 import { generateSubtitleFileNames } from "./subtitle-filenames";
@@ -130,7 +130,7 @@ export async function getSubtitlesFromSubDivXForTitle({
       return false;
     }
 
-    if (!subtitle.titulo.toLowerCase().includes(titleOnlyWithoutYear)) {
+    if (!getStringWithoutSpecialCharacters(subtitle.titulo).startsWith(`${titleOnlyWithoutYear} `)) {
       return false;
     }
 
