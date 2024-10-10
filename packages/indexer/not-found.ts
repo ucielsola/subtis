@@ -1,4 +1,4 @@
-import { confirm } from "@clack/prompts";
+// import { confirm } from "@clack/prompts";
 import { z } from "zod";
 
 // db
@@ -6,6 +6,9 @@ import { subtitlesNotFoundRowSchema, supabase } from "@subtis/db";
 
 // api
 import { subtitleSchema } from "@subtis/api/shared/schemas";
+
+// shared
+import { getIsTvShow } from "@subtis/shared";
 
 // internals
 import { apiClient } from "./api-client";
@@ -44,6 +47,14 @@ export async function indexNotFoundSubtitles() {
 
     for (const notFoundSubtitle of notFoundSubtitles.data) {
       console.table([notFoundSubtitle]);
+
+      const isTvShow = getIsTvShow(notFoundSubtitle.title_file_name);
+
+      // TODO: Temporarily skipping tv shows
+      if (isTvShow) {
+        console.log("Skipping tv show", notFoundSubtitle.title_file_name);
+        continue;
+      }
 
       const response = await apiClient.v1.subtitle.file.name[":bytes"][":fileName"].$get({
         param: {
@@ -126,9 +137,9 @@ export async function indexNotFoundSubtitles() {
         console.log("\n ~ forawait ~ response 3:", response);
       }
 
-      await confirm({
-        message: "¿Desea continuar al siguiente titulo?",
-      });
+      // await confirm({
+      //   message: "¿Desea continuar al siguiente titulo?",
+      // });
     }
 
     currentPage++;
