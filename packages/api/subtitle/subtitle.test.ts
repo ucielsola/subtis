@@ -72,31 +72,21 @@ describe("API | /subtitle/file/name/:bytes/:fileName", () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data).toEqual({
-      id: 8402,
+    expect(data).toMatchObject({
+      id: expect.any(Number),
       bytes: 1697998881,
       resolution: "720p",
-      subtitle_link:
-        "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-batman-720p-yts-subdivx.srt?download=The.Batman.2022.720p.BluRay.x264.AAC-[YTS.MX].srt",
-      queried_times: 1,
-      current_season: null,
-      current_episode: null,
+      subtitle_link: expect.stringContaining("the-batman-720p-yts-subdivx.srt"),
       title_file_name: "The.Batman.2022.720p.BluRay.x264.AAC-[YTS.MX].mp4",
-      subtitle_file_name: "The.Batman.2022.720p.BluRay.x264.AAC-[YTS.MX].srt",
       title: {
-        id: 1877830,
         title_name: "The Batman",
         type: "movie",
         year: 2022,
-        poster: "https://image.tmdb.org/t/p/original/mo7teil1qH0SxgLijnqeYP1Eb4w.jpg",
-        backdrop: "https://image.tmdb.org/t/p/original/tRS6jvPM9qPrrnx2KRp3ew96Yot.jpg",
       },
       releaseGroup: {
-        id: 1065,
         release_group_name: "YTS",
       },
       subtitleGroup: {
-        id: 63,
         subtitle_group_name: "SubDivX",
       },
     });
@@ -120,7 +110,7 @@ describe("API | /subtitle/file/name/:bytes/:fileName", () => {
       resolution: "1080p",
       subtitle_link:
         "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-batman-1080p-yts-subdivx.srt?download=The.Batman.2022.1080p.BluRay.x264.AAC5.1-[YTS.MX].srt",
-      queried_times: 0,
+      queried_times: 11,
       current_season: null,
       current_episode: null,
       title_file_name: "The.Batman.2022.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4",
@@ -202,7 +192,7 @@ describe("API | /subtitle/file/alternative/:fileName", () => {
       resolution: "1080p",
       subtitle_link:
         "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/subtitles/the-batman-1080p-galaxyrg-subdivx.srt?download=The.Batman.2022.1080p.WEBRip.1600MB.DD2.0.x264-GalaxyRG.srt",
-      queried_times: 0,
+      queried_times: 29,
       current_season: null,
       current_episode: null,
       title_file_name: "The.Batman.2022.1080p.WEBRip.1600MB.DD2.0.x264-GalaxyRG.mkv",

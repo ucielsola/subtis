@@ -23,19 +23,19 @@ import { getYoutubeApiKey } from "./youtube";
 
 // core
 export const title = new Hono<{ Variables: AppVariables }>()
-  .get("/metadata/:id", zValidator("param", z.object({ id: z.string() })), async (context) => {
-    const { id } = context.req.valid("param");
+  .get("/metadata/:titleId", zValidator("param", z.object({ titleId: z.string() })), async (context) => {
+    const { titleId } = context.req.valid("param");
 
-    const parsedId = Number.parseInt(id);
+    const parsedTitleId = Number.parseInt(titleId);
 
-    if (Number.isNaN(parsedId) || parsedId < 1) {
+    if (Number.isNaN(parsedTitleId) || parsedTitleId < 1) {
       context.status(400);
       return context.json({ message: "Invalid ID: it should be a positive integer number" });
     }
 
     const supabase = getSupabaseClient(context);
 
-    const { data, error } = await supabase.from("Titles").select(titlesQuery).match({ id }).single();
+    const { data, error } = await supabase.from("Titles").select(titlesQuery).match({ id: parsedTitleId }).single();
 
     if (error) {
       context.status(500);

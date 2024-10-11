@@ -5,7 +5,7 @@ import { MAX_LIMIT } from "../shared/constants";
 import { getMockEnv } from "../shared/test";
 import { subtitles } from "./subtitles";
 
-describe("API | /subtitles/movie/:id", () => {
+describe("API | /subtitles/movie/:titleId", () => {
   test("Invalid URL with ID being not a number", async () => {
     const request = {
       method: "GET",
@@ -52,7 +52,7 @@ describe("API | /subtitles/movie/:id", () => {
   });
 });
 
-describe("API | /subtitles/tv-show/:id/:season?/:episode?", () => {
+describe("API | /subtitles/tv-show/:titleId/:season?/:episode?", () => {
   test("Invalid URL with ID being not a number", async () => {
     const request = {
       method: "GET",
@@ -158,7 +158,7 @@ describe("API | /subtitles/trending/:limit", () => {
   });
 });
 
-describe("API | /subtitles/tv-show/download/season/:id/:season/:resolution/:releaseGroupId", () => {
+describe("API | /subtitles/tv-show/download/season/:titleId/:season/:resolution/:releaseGroupId", () => {
   test("Invalid URL with ID being not a number", async () => {
     const request = {
       method: "GET",

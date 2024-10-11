@@ -17,10 +17,10 @@ const alternativeSubtitlesSchema = z
 
 // core
 export const subtitle = new Hono<{ Variables: AppVariables }>()
-  .get("/metadata/:id", zValidator("param", z.object({ id: z.string() })), async (context) => {
-    const { id } = context.req.valid("param");
+  .get("/metadata/:subtitleId", zValidator("param", z.object({ subtitleId: z.string() })), async (context) => {
+    const { subtitleId } = context.req.valid("param");
 
-    const parsedId = Number.parseInt(id);
+    const parsedId = Number.parseInt(subtitleId);
 
     if (Number.isNaN(parsedId) || parsedId < 1) {
       context.status(400);
@@ -29,7 +29,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
     const supabase = getSupabaseClient(context);
 
-    const { data, error } = await supabase.from("Subtitles").select(subtitlesQuery).match({ id }).single();
+    const { data, error } = await supabase.from("Subtitles").select(subtitlesQuery).match({ id: subtitleId }).single();
 
     if (error) {
       context.status(500);
@@ -206,11 +206,11 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
     return context.json(subtitleByFileName.data.at(0));
   })
   .get("/link/:subtitleId", zValidator("param", z.object({ subtitleId: z.string() })), async (context) => {
-    const { subtitleId: id } = context.req.valid("param");
+    const { subtitleId } = context.req.valid("param");
 
-    const parsedId = Number.parseInt(id);
+    const parsedSubtitleId = Number.parseInt(subtitleId);
 
-    if (Number.isNaN(parsedId) || parsedId < 1) {
+    if (Number.isNaN(parsedSubtitleId) || parsedSubtitleId < 1) {
       context.status(400);
       return context.json({ message: "Invalid ID: it should be a positive integer number" });
     }
@@ -218,7 +218,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
     const { data, error } = await getSupabaseClient(context)
       .from("Subtitles")
       .select("subtitle_link")
-      .match({ id })
+      .match({ id: parsedSubtitleId })
       .single();
 
     if (error && error.code === "PGRST116") {

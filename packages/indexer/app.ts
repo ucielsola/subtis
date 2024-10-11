@@ -23,6 +23,7 @@ import { type Title, supabase } from "@subtis/db";
 
 // shared
 import {
+  RESOLUTION_REGEX,
   type TitleFileNameMetadata,
   VIDEO_FILE_EXTENSIONS,
   getDecodedSubtitleFile,
@@ -767,9 +768,8 @@ export async function getTorrentVideoFileMetadata(torrent: TorrentFound): Promis
 
     engine.on("ready", async () => {
       const videoFile = getVideoFromFiles((engine as unknown as { files: File[] }).files);
-      const resolutionRegex = /(480p|576p|720p|1080p|2160p)/gi;
 
-      if (videoFile && !videoFile.name.match(resolutionRegex)) {
+      if (videoFile && !videoFile.name.match(RESOLUTION_REGEX)) {
         const FOUR_MEGABYTES = 4 * 1024 * 1024;
 
         const stream = videoFile.createReadStream({
