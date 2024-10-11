@@ -18,38 +18,47 @@
 
 ## Development
 
-1. Install [bun](https://bun.sh/) runtime
+1. Request `.env.development` file from a team member
+
+2. Run initialization script
+
+```bash
+chmod +x ./setup.sh && ./setup.sh
+```
+
+3. Install [bun](https://bun.sh/) runtime
 
 ```bash
 curl -fsSL https://bun.sh/install | bash
 ```
 
-2. Install project dependencies
+4. Install project dependencies
 
 ```bash
-cd subtis && bun install
+bun install
 ```
 
-3. Download environment variables from 1Password and paste them to root project folder
-
-> or ask for a quick time expiration link
-
-4. Run subtis REST API first
+5. Run Subtis REST API
 
 ```bash
 bun run dev:api
 ```
 
-5. Run any of the desired client packages
+6. Run Subtis Web
 
 ```bash
 bun run dev:web
+```
+
+7. Run any of the desired client packages (Optional)
+
+```bash
 bun run dev:cli
 bun run dev:raycast
 bun run dev:stremio
 ```
 
-5. Run the indexer to fill DB
+8. Run the indexer to fill DB (Optional)
 
 ```bash
 bun run dev:indexer:movies
