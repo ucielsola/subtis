@@ -103,11 +103,11 @@ async function getTitleSubtitle(args: Args): Promise<{ subtitles: Subtitle[] }> 
 
 // addon
 const builder = new addonBuilder({
-  name: "Subtis (Version Alpha)",
+  name: "Subtis (Version Pre-Alpha)",
   id: "org.subtis",
-  version: "0.1.6",
+  version: "0.1.7",
   description:
-    "Subtis es tu fuente de subtitulos para tus películas y series favoritas. (Ten en cuenta que esto es una versión de prueba y el proyecto se lanza a fines de 2024)",
+    "Subtis es tu fuente de subtitulos para tus películas y series favoritas. Esta es una versión de prueba interna, solo para desarrolladores.",
   catalogs: [],
   resources: ["subtitles"],
   types: ["movie"],
