@@ -77,7 +77,7 @@ export async function getSubtitlesFromSubDivXForTitle({
       "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
     },
     method: "POST",
-    body: `tabla=resultados&filtros=&buscar394d=${encodeURIComponent(titleProviderQuery)}&token=${subdivxToken}`,
+    body: `tabla=resultados&filtros=&buscar395a=${encodeURIComponent(titleProviderQuery)}&token=${subdivxToken}`,
   });
 
   if (!response.ok) {
