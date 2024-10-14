@@ -36,7 +36,7 @@
     "torrent-grabber": "^1.0.2",
     "torrent-search-api": "^2.1.4",
     "torrent-stream": "^1.2.1",
-    "ts-pattern": "^5.4.0",
+    "ts-pattern": "^5.5.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {

@@ -6,10 +6,10 @@
     "test:watch": "bun test --watch"
   },
   "dependencies": {
-    "hono": "^4.6.3",
+    "hono": "^4.6.4",
     "html-escaper": "^3.0.3",
     "replace-special-characters": "^1.2.7",
-    "ts-pattern": "^5.4.0",
+    "ts-pattern": "^5.5.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
