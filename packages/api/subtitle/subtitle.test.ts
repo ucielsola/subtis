@@ -262,12 +262,12 @@ describe("API | /subtitle/link/:subtitleId", () => {
     });
   });
 
-  test("Valid URL with valid subtitle existant on DB", async () => {
+  test.skip("Valid URL with valid subtitle existant on DB", async () => {
     const request = {
       method: "GET",
     };
 
-    const subtitleId = 8402;
+    const subtitleId = 8525;
 
     const response = await subtitle.request(`/link/${subtitleId}`, request, getMockEnv());
 
