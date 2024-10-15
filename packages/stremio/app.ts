@@ -44,7 +44,6 @@ const builder = new addonBuilder({
   resources: ["subtitles"],
   types: ["movie"],
   idPrefixes: ["tt"],
-  background: "https://placehold.co/1920x1080/FFFFFF/FFFFFF",
   logo: "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/assets/stremio.jpg",
 });
 
