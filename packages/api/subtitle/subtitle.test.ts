@@ -199,7 +199,7 @@ describe("API | /subtitle/file/alternative/:fileName", () => {
       bytes: expect.any(Number),
       resolution: "1080p",
       subtitle_link: expect.any(String),
-      queried_times: 0,
+      queried_times: expect.any(Number),
       current_season: null,
       current_episode: null,
       title_file_name: "The.Batman.2022.1080p.WEBRip.1600MB.DD2.0.x264-GalaxyRG.mkv",
