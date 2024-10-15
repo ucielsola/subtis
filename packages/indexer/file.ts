@@ -215,7 +215,7 @@ export async function indexTitleByFileName({
         bytesFromNotFoundSubtitle: bytes,
         titleFileNameFromNotFoundSubtitle: titleFileName,
         shouldUseTryCatch: false,
-        fromWebSocket: true,
+        fromWebSocket: Boolean(websocket),
         subdivxToken: token,
         subdivxCookie: cookie,
       });
@@ -330,7 +330,7 @@ export async function indexTitleByFileName({
       bytesFromNotFoundSubtitle: bytes,
       titleFileNameFromNotFoundSubtitle: titleFileName,
       shouldUseTryCatch: false,
-      fromWebSocket: true,
+      fromWebSocket: Boolean(websocket),
       subdivxToken: token,
       subdivxCookie: cookie,
     });

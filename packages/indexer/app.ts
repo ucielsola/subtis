@@ -3,7 +3,6 @@ import fs from "node:fs";
 import path from "node:path";
 import { confirm } from "@clack/prompts";
 import unrar from "@continuata/unrar";
-import clipboard from "clipboardy";
 import download from "download";
 import extract from "extract-zip";
 import ffprobe from "ffprobe";
@@ -926,11 +925,6 @@ export async function getSubtitlesForTitle({
       title,
       tracker,
     })),
-  );
-
-  clipboard.writeSync(titleProviderQuery);
-  console.log(
-    `👉 Nombre de titulo ${titleProviderQuery} guardado en el clipboard, para poder pegar directamente en proveedor de torrents o subtítulos \n`,
   );
 
   const releaseGroupsqueryMatches = Object.values(releaseGroups)
