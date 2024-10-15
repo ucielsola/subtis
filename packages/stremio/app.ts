@@ -39,13 +39,13 @@ async function getTitleSubtitle(args: Args): Promise<{ subtitles: StremioSubtitl
 
     if (originalSubtitle === null) {
       const alternativeSubtitle = await getAlternativeSubtitle(apiClient, { fileName });
-      const subtitle = getSubtitleMetadata(alternativeSubtitle);
+      const alternativeSubtitleMetadata = getSubtitleMetadata(alternativeSubtitle);
 
-      return Promise.resolve({ subtitles: [subtitle], ...CACHE_SETTINGS });
+      return Promise.resolve({ subtitles: [alternativeSubtitleMetadata], ...CACHE_SETTINGS });
     }
 
-    const subtitle = getSubtitleMetadata(originalSubtitle);
-    return Promise.resolve({ subtitles: [subtitle], ...CACHE_SETTINGS });
+    const subtitleMetadata = getSubtitleMetadata(originalSubtitle);
+    return Promise.resolve({ subtitles: [subtitleMetadata], ...CACHE_SETTINGS });
   } catch (error) {
     return Promise.resolve({ subtitles: [], ...CACHE_SETTINGS });
   }
