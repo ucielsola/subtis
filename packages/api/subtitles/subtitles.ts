@@ -4,9 +4,12 @@ import JSZip from "jszip";
 import slugify from "slugify";
 import { z } from "zod";
 
+// shared
 import { RESOLUTION_REGEX } from "@subtis/shared";
+
 // internals
 import { MAX_LIMIT } from "../shared/constants";
+import { getSubtitleShortLink } from "../shared/links";
 import { subtitleSchema, subtitlesQuery } from "../shared/schemas";
 import { getSupabaseClient } from "../shared/supabase";
 import type { AppVariables } from "../shared/types";
@@ -55,7 +58,12 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       return context.json({ message: "An error occurred", error: subtitles.error.issues[0].message });
     }
 
-    return context.json(subtitles.data);
+    const subtitlesWithShortLink = subtitles.data.map((subtitle) => ({
+      ...subtitle,
+      subtitle_link: getSubtitleShortLink(subtitle.id),
+    }));
+
+    return context.json(subtitlesWithShortLink);
   })
   .get(
     "/tv-show/:titleId/:season?/:episode?",
@@ -110,7 +118,12 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "An error occurred", error: subtitles.error.issues[0].message });
       }
 
-      return context.json(subtitles.data);
+      const subtitlesWithShortLink = subtitles.data.map((subtitle) => ({
+        ...subtitle,
+        subtitle_link: getSubtitleShortLink(subtitle.id),
+      }));
+
+      return context.json(subtitlesWithShortLink);
     },
   )
   .get(
@@ -296,9 +309,12 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       return context.json({ message: "An error occurred", error: trendingSubtitles.error.issues[0].message });
     }
 
-    const uniqueTrendingSubtitles = trendingSubtitles.data.filter(
-      (subtitle, index, self) => index === self.findIndex((t) => t.title.id === subtitle.title.id),
-    );
+    const uniqueTrendingSubtitles = trendingSubtitles.data
+      .filter((subtitle, index, self) => index === self.findIndex((t) => t.title.id === subtitle.title.id))
+      .map((subtitle) => ({
+        ...subtitle,
+        subtitle_link: getSubtitleShortLink(subtitle.id),
+      }));
 
     return context.json(uniqueTrendingSubtitles);
   });

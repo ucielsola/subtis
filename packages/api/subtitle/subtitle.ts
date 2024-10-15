@@ -6,7 +6,14 @@ import { z } from "zod";
 import { getStringWithoutSpecialCharacters, getTitleFileNameMetadata, videoFileNameSchema } from "@subtis/shared";
 
 // internals
-import { alternativeTitlesSchema, subtitleSchema, subtitleShortenerSchema, subtitlesQuery } from "../shared/schemas";
+import { getSubtitleShortLink } from "../shared/links";
+import {
+  type SubtisSubtitle,
+  alternativeTitlesSchema,
+  subtitleSchema,
+  subtitleShortenerSchema,
+  subtitlesQuery,
+} from "../shared/schemas";
 import { getSupabaseClient } from "../shared/supabase";
 import type { AppVariables } from "../shared/types";
 
@@ -43,7 +50,10 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       return context.json({ message: "An error occurred", error: subtitleByFileName.error.issues[0].message });
     }
 
-    return context.json(subtitleByFileName.data);
+    return context.json({
+      ...subtitleByFileName.data,
+      subtitle_link: getSubtitleShortLink(subtitleByFileName.data.id),
+    });
   })
   .get(
     "/file/name/:bytes/:fileName",
@@ -93,7 +103,10 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "An error occurred", error: subtitleByFileName.error.issues[0].message });
       }
 
-      return context.json(subtitleByFileName.data);
+      return context.json({
+        ...subtitleByFileName.data,
+        subtitle_link: getSubtitleShortLink(subtitleByFileName.data.id),
+      });
     },
   )
   .get("/file/alternative/:fileName", zValidator("param", z.object({ fileName: z.string() })), async (context) => {
@@ -185,7 +198,13 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       .sort((a, b) => ((a.queried_times || 0) < (b.queried_times || 0) ? 1 : -1));
 
     if (filteredSubtitlesByResolution.length > 0) {
-      return context.json(filteredSubtitlesByResolution.at(0));
+      const firstSubtitle = subtitleByFileName.data.at(0) as SubtisSubtitle;
+      console.log("\n ~ .get ~ firstSubtitle:", firstSubtitle);
+
+      return context.json({
+        ...firstSubtitle,
+        subtitle_link: getSubtitleShortLink(firstSubtitle.id),
+      });
     }
 
     if (releaseGroup) {
@@ -203,7 +222,13 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       }
     }
 
-    return context.json(subtitleByFileName.data.at(0));
+    const firstSubtitle = subtitleByFileName.data.at(0) as SubtisSubtitle;
+    console.log("\n ~ .get ~ firstSubtitle:", firstSubtitle);
+
+    return context.json({
+      ...firstSubtitle,
+      subtitle_link: getSubtitleShortLink(firstSubtitle.id),
+    });
   })
   .get("/link/:subtitleId", zValidator("param", z.object({ subtitleId: z.string() })), async (context) => {
     const { subtitleId } = context.req.valid("param");
