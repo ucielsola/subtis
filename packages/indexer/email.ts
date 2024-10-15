@@ -2,7 +2,7 @@ import { Resend } from "resend";
 import type { z } from "zod";
 
 // constants
-const resend = new Resend(Bun.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // api
 import type { subtitleSchema } from "@subtis/api/shared/schemas";
