@@ -33,6 +33,7 @@
     "deploy:web": "cd packages/web && bun run deploy",
     "deploy:api": "cd packages/api && bun run deploy",
     "deploy:stremio": "fly deploy -c fly-stremio.toml",
+    "deploy:cli": "cd packages/cli && bun run build && bun run copy:bin",
     "deploy:real-time-indexer": "fly deploy -c fly-real-time-indexer.toml",
     "bump:deps": "taze -r -w",
     "update:deps": "bun bump:deps && bun clean:install",
