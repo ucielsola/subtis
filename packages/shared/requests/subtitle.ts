@@ -24,7 +24,7 @@ export async function getPrimarySubtitle(
   }
 
   if (!response.ok) {
-    throw new Error("Failed to fetch original subtitle");
+    throw new Error("Failed to fetch original subtitle", { cause: response.status });
   }
 
   const data = await response.json();
@@ -43,7 +43,7 @@ export async function getAlternativeSubtitle(apiClient: ApiClient, { fileName }:
   });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch alternative subtitle");
+    throw new Error("Failed to fetch alternative subtitle", { cause: response.status });
   }
 
   const data = await response.json();
