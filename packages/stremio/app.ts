@@ -6,6 +6,9 @@ import { getAlternativeSubtitle, getPrimarySubtitle } from "@subtis/shared";
 // api
 import type { SubtisSubtitle } from "@subtis/api/shared/schemas";
 
+// internals
+import { apiClient } from "./api";
+
 // types
 type Extra = { videoHash: string; videoSize: string };
 type Args = { id: string; extra: Extra; type: ContentType };
@@ -32,10 +35,10 @@ async function getTitleSubtitle(args: Args): Promise<{ subtitles: StremioSubtitl
   try {
     const { videoSize: bytes, filename: fileName } = args.extra as ExtraArgs;
 
-    const originalSubtitle = await getPrimarySubtitle({ bytes, fileName });
+    const originalSubtitle = await getPrimarySubtitle(apiClient, { bytes, fileName });
 
     if (originalSubtitle === null) {
-      const alternativeSubtitle = await getAlternativeSubtitle({ fileName });
+      const alternativeSubtitle = await getAlternativeSubtitle(apiClient, { fileName });
       const subtitle = getSubtitleMetadata(alternativeSubtitle);
 
       return Promise.resolve({ subtitles: [subtitle], ...CACHE_SETTINGS });
@@ -52,7 +55,7 @@ async function getTitleSubtitle(args: Args): Promise<{ subtitles: StremioSubtitl
 const builder = new addonBuilder({
   name: "Subtis (Version Pre-Alpha)",
   id: "org.subtis",
-  version: "0.2.1",
+  version: "0.2.2",
   description:
     "Subtis es tu fuente de subtitulos para tus películas y series favoritas. Esta es una versión de prueba interna, solo para desarrolladores.",
   catalogs: [],
