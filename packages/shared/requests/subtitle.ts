@@ -2,16 +2,19 @@
 import { subtitleSchema } from "@subtis/api/shared/schemas";
 
 // internals
-import { apiClient } from "../ui";
+import type { ApiClient } from "../ui/client";
 
 // helpers
-export async function getPrimarySubtitle({
-  bytes,
-  fileName,
-}: {
-  bytes: string;
-  fileName: string;
-}) {
+export async function getPrimarySubtitle(
+  apiClient: ApiClient,
+  {
+    bytes,
+    fileName,
+  }: {
+    bytes: string;
+    fileName: string;
+  },
+) {
   const response = await apiClient.v1.subtitle.file.name[":bytes"][":fileName"].$get({
     param: { bytes, fileName },
   });
@@ -34,11 +37,7 @@ export async function getPrimarySubtitle({
   return subtitleByFileName;
 }
 
-export async function getAlternativeSubtitle({
-  fileName,
-}: {
-  fileName: string;
-}) {
+export async function getAlternativeSubtitle(apiClient: ApiClient, { fileName }: { fileName: string }) {
   const response = await apiClient.v1.subtitle.file.alternative[":fileName"].$get({
     param: { fileName },
   });
