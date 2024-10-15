@@ -37,14 +37,14 @@ async function getTitleSubtitle(args: Args): Promise<{ subtitles: Subtitle[] }> 
 const builder = new addonBuilder({
   name: "Subtis (Version Pre-Alpha)",
   id: "org.subtis",
-  version: "0.1.8",
+  version: "0.2.0",
   description:
     "Subtis es tu fuente de subtitulos para tus películas y series favoritas. Esta es una versión de prueba interna, solo para desarrolladores.",
   catalogs: [],
   resources: ["subtitles"],
   types: ["movie"],
   idPrefixes: ["tt"],
-  background: "https://placehold.co/1920x1080/FFF/FFF",
+  background: "https://placehold.co/1920x1080/FFFFFF/FFFFFF",
   logo: "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/assets/stremio.jpg",
 });
 
