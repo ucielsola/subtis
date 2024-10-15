@@ -1,4 +1,4 @@
-import { intro, outro, spinner, confirm } from "@clack/prompts";
+import { confirm, intro, outro, select, spinner } from "@clack/prompts";
 import chalk from "chalk";
 import minimist from "minimist";
 import { z } from "zod";
@@ -25,12 +25,12 @@ const cliArgumentsSchema = z.union(
   [
     z.object({
       f: z.string().min(1, {
-        message: "🤔 El valor de -f debe ser una ruta de archivo válida",
+        message: "🤔 El valor de -f debe ser una ruta de archivo válida.",
       }),
     }),
     z.object({
       file: z.string().min(1, {
-        message: "🤔 El valor de --file debe ser una ruta de archivo válida",
+        message: "🤔 El valor de --file debe ser una ruta de archivo válida.",
       }),
     }),
   ],
@@ -38,7 +38,7 @@ const cliArgumentsSchema = z.union(
     errorMap: (_, context) => {
       if (context.defaultError === "Invalid input") {
         return {
-          message: "🤔 Debe proporcionar el flag --file [archivo] o bien -f [archivo]",
+          message: "🤔 Debe proporcionar el flag --file [archivo] o bien -f [archivo].",
         };
       }
 
@@ -46,6 +46,19 @@ const cliArgumentsSchema = z.union(
     },
   },
 );
+
+// constants
+const INSTRUCTIONS_MEDIA_PLAYERS = {
+  stremio: [
+    `${chalk.bold("Arrastra")} el subtítulo hacia la app de Stremio ${chalk.italic("mientras reproducís la película")}`,
+    `Te ${chalk.italic("recomendamos")} instalar la extensión de Subtis para Stremio en https://stremio.subt.is`,
+  ],
+  vlc: [
+    `${chalk.bold("Arrastra")} el subtítulo hacia el reproductor de VLC ${chalk.italic("mientras reproducís la película")}`,
+    `O bien podes ${chalk.bold("mover")} el archivo .srt a la carpeta donde se encuentra ${chalk.italic("el archivo de video de tu película")}`,
+    `Si el subtítulo no se reproduce, ${chalk.bold("selecciona")} el subtitulo en ${chalk.italic("Menú -> Subtítulos -> Pista de Subtítulos")}`,
+  ],
+};
 
 // helpers
 async function getSubtitleDownloadInstructions(subtitle: SubtisSubtitle) {
@@ -56,27 +69,44 @@ async function getSubtitleDownloadInstructions(subtitle: SubtisSubtitle) {
   outro(`🍿 Disfruta de ${chalk.bold(`${title_name} (${year})`)} en ${chalk.italic(resolution)} subtitulada`);
 
   const shouldDownloadSubtitle = await confirm({
-    message: `Desea descargar ${chalk.italic("automáticamente")} el subtítulo?`,
+    message: `¿Desea descargar ${chalk.italic("automáticamente")} el subtítulo?`,
+    active: "Si",
+    inactive: "No",
   });
 
   if (shouldDownloadSubtitle) {
     const newLoader = spinner();
     newLoader.start("⏳ Descargando subtítulo");
 
-    await Bun.sleep(1000);
+    await Bun.sleep(600);
     const result = await fetch(subtitle.subtitle_link);
     await Bun.write(`./${subtitle.subtitle_file_name}`, result);
 
     newLoader.stop("📥 Subtítulo descargado!");
-  } else {
-    console.log(chalk.bold("\nInstrucciones:"));
-    console.log(`1) Mueve el archivo descargado a la ${chalk.bold("misma carpeta")} de tu película`);
-    console.log(
-      `2) Si el subtítulo no se reproduce, ${chalk.bold("selecciona")} el subtitulo en ${chalk.italic(
-        "Menú -> Subtítulos -> Pista de Subtítulos",
-      )}\n`,
-    );
   }
+
+  const mediaPlayer = (await select({
+    message: "Selecciona tu reproductor de video para instrucciones:",
+    options: [
+      { value: "stremio", label: "Stremio" },
+      { value: "vlc", label: "VLC" },
+      { value: "cancel", label: "Cancelar" },
+    ],
+  })) as "stremio" | "vlc" | "cancel";
+
+  if (mediaPlayer === "cancel") {
+    return outro("👋 Hasta luego!");
+  }
+
+  const instructions = INSTRUCTIONS_MEDIA_PLAYERS[mediaPlayer];
+
+  if (!instructions) {
+    return;
+  }
+
+  instructions.forEach((instruction, index) => {
+    console.log(`   ${index + 1}) ${instruction}`);
+  });
 }
 
 // core
@@ -84,7 +114,7 @@ export async function mod(): Promise<void> {
   const loader = spinner();
 
   try {
-    intro(`👋 Hola, soy ${chalk.magenta("Subtis")}`);
+    intro(`👋 Hola, soy ${chalk.magenta("Subtis")} CLI.`);
 
     const parsedArguments = minimist(Bun.argv, { string: ["f", "file"] });
     const cliArgumentsResult = cliArgumentsSchema.safeParse(parsedArguments);
@@ -95,7 +125,7 @@ export async function mod(): Promise<void> {
 
     const fileNameResult = videoFileNameSchema.safeParse("file" in cliArguments ? cliArguments.file : cliArguments.f);
     if (!fileNameResult.success) {
-      return outro(chalk.yellow("🤔 Extensión de video no soportada. Prueba con otro archivo"));
+      return outro(chalk.yellow("🤔 Extensión de video no soportada. Prueba con otro archivo."));
     }
     const fileName = fileNameResult.data;
 
@@ -118,15 +148,10 @@ export async function mod(): Promise<void> {
     }
 
     const data = await new Promise<WsOk>((resolve) => {
-      const url =
-        Bun.env.NODE_ENV !== "production"
-          ? Bun.env.PUBLIC_WEBSOCKET_BASE_URL_PRODUCTION
-          : Bun.env.PUBLIC_WEBSOCKET_BASE_URL_DEVELOPMENT;
-
-      const ws = new WebSocket(url);
+      const ws = new WebSocket("https://socketdex.subt.is");
 
       ws.addEventListener("open", () => {
-        loader.message("🔎 Indexando subtítulo en tiempo real");
+        loader.message("🔎 Buscando subtítulo en tiempo real");
 
         const message = {
           subtitle: {
@@ -153,12 +178,12 @@ export async function mod(): Promise<void> {
           }
 
           if (okSafeParsed.success && okSafeParsed.data.ok === false) {
-            loader.message("😔 Subtítulo no indexado ");
+            loader.message("No pudimos encontrar el subtítulo en tiempo real.");
             resolve(okSafeParsed.data);
           }
 
           if (messageSafeParsed.success) {
-            loader.message(` - ${messageSafeParsed.data.total * 100}% ${messageSafeParsed.data.message}`);
+            loader.message(`${messageSafeParsed.data.total * 100}% ${messageSafeParsed.data.message}`);
           }
         },
       );
@@ -177,12 +202,15 @@ export async function mod(): Promise<void> {
       }
     }
 
+    loader.message("🔎 Buscando subtítulo alternativo");
     const alternativeSubtitle = await getAlternativeSubtitle(apiClient, { fileName });
 
     if (alternativeSubtitle) {
       loader.stop(`🥳 Descarga tu subtítulo alternativo en ${chalk.blue(alternativeSubtitle.subtitle_link)}`);
       return await getSubtitleDownloadInstructions(alternativeSubtitle);
     }
+
+    loader.stop("🔴 No se pudo encontrar tu subtítulo. Estamos trabajando en ello.");
   } catch (error) {
     if (error instanceof Error && typeof error.cause === "number") {
       const { description, title } = getMessageFromStatusCode(error.cause);

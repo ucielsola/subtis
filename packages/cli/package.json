@@ -9,7 +9,7 @@
     "test": "bun --env-file=.env.development test",
     "test:watch": "bun --env-file=.env.development test --watch",
     "test:coverage": "bun --env-file=.env.development test --coverage",
-    "build": "bun --env-file=.env.development build ./app.ts --outfile=./bin/subtis --compile --external electron",
+    "build": "bun build ./app.ts --outfile=./bin/subtis --compile --external electron",
     "copy:bin": "sudo chmod +x bin/subtis && sudo rm -f /usr/local/bin/subtis && sudo mv bin/subtis /usr/local/bin/"
   },
   "dependencies": {
