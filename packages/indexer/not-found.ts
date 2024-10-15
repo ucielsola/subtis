@@ -8,10 +8,9 @@ import { subtitlesNotFoundRowSchema, supabase } from "@subtis/db";
 import { subtitleSchema } from "@subtis/api/shared/schemas";
 
 // shared
-import { getIsTvShow } from "@subtis/shared";
+import { apiClient, getIsTvShow } from "@subtis/shared";
 
 // internals
-import { apiClient } from "./api-client";
 import { sendEmail } from "./email";
 import { indexTitleByFileName } from "./file";
 

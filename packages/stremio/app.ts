@@ -1,80 +1,12 @@
 import { type ContentType, type Subtitle, addonBuilder, serveHTTP } from "stremio-addon-sdk";
 
-// internals
-import { apiClient } from "./api";
-
 // api
-import { subtitleSchema } from "@subtis/api/shared/schemas";
+import { getAlternativeSubtitle, getPrimarySubtitle } from "@subtis/shared";
 
 // types
 type Extra = { videoHash: string; videoSize: string };
 type Args = { id: string; extra: Extra; type: ContentType };
 type ExtraArgs = Args["extra"] & { filename: string };
-
-// helpers
-async function getPrimarySubtitle({
-  bytes,
-  fileName,
-}: {
-  bytes: string;
-  fileName: string;
-}) {
-  const response = await apiClient.v1.subtitle.file.name[":bytes"][":fileName"].$get({
-    param: { bytes, fileName },
-  });
-
-  if (response.status === 404) {
-    return null;
-  }
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch original subtitle");
-  }
-
-  const data = await response.json();
-  const subtitleByFileName = subtitleSchema.parse(data);
-
-  const subtitle = {
-    lang: "spa",
-    id: String(subtitleByFileName.id),
-    url: subtitleByFileName.subtitle_link,
-  };
-
-  await apiClient.v1.subtitle.metrics.download.$patch({
-    json: { bytes: subtitleByFileName.bytes, titleFileName: subtitleByFileName.title_file_name },
-  });
-
-  return { subtitles: [subtitle] };
-}
-
-async function getAlternativeSubtitle({
-  fileName,
-}: {
-  fileName: string;
-}) {
-  const response = await apiClient.v1.subtitle.file.alternative[":fileName"].$get({
-    param: { fileName },
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch alternative subtitle");
-  }
-
-  const data = await response.json();
-  const subtitleByFileName = subtitleSchema.parse(data);
-
-  const subtitle = {
-    lang: "spa",
-    id: String(subtitleByFileName.id),
-    url: subtitleByFileName.subtitle_link,
-  };
-
-  await apiClient.v1.subtitle.metrics.download.$patch({
-    json: { bytes: subtitleByFileName.bytes, titleFileName: subtitleByFileName.title_file_name },
-  });
-
-  return { subtitles: [subtitle] };
-}
 
 // constants
 const CACHE_SETTINGS = {
@@ -105,13 +37,14 @@ async function getTitleSubtitle(args: Args): Promise<{ subtitles: Subtitle[] }> 
 const builder = new addonBuilder({
   name: "Subtis (Version Pre-Alpha)",
   id: "org.subtis",
-  version: "0.1.7",
+  version: "0.1.8",
   description:
     "Subtis es tu fuente de subtitulos para tus películas y series favoritas. Esta es una versión de prueba interna, solo para desarrolladores.",
   catalogs: [],
   resources: ["subtitles"],
   types: ["movie"],
   idPrefixes: ["tt"],
+  background: "https://placehold.co/1920x1080/FFF/FFF",
   logo: "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/assets/stremio.jpg",
 });
 

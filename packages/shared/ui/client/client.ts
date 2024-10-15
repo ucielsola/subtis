@@ -14,9 +14,15 @@ function getApiBaseUrl(apiBaseUrlConfig: ApiBaseUrlConfig): string {
   return apiBaseUrlConfigParsed.apiBaseUrl;
 }
 
-export function getApiClient(apiBaseUrlConfig: ApiBaseUrlConfig) {
+function getApiClient(apiBaseUrlConfig: ApiBaseUrlConfig) {
   const apiBaseUrl = getApiBaseUrl(apiBaseUrlConfig);
   const client = hc<AppType>(apiBaseUrl);
 
   return client;
 }
+
+const isProduction = process.env.NODE_ENV === "production";
+
+export const apiClient = getApiClient({
+  apiBaseUrl: isProduction ? process.env.PUBLIC_API_BASE_URL_PRODUCTION : process.env.PUBLIC_API_BASE_URL_DEVELOPMENT,
+});

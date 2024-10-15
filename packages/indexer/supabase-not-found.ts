@@ -2,13 +2,12 @@
 import { supabase } from "@subtis/db";
 
 // shared
-import { getIsTvShow } from "@subtis/shared";
+import { apiClient, getIsTvShow } from "@subtis/shared";
 
 // api
 import { subtitleSchema } from "@subtis/api/shared/schemas";
 
 // internals
-import { apiClient } from "./api-client";
 import { sendEmail } from "./email";
 import { indexTitleByFileName } from "./file";
 

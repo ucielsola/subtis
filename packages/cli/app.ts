@@ -4,13 +4,10 @@ import minimist from "minimist";
 import { z } from "zod";
 
 // shared
-import { getMessageFromStatusCode, getSubtitleShortLink, videoFileNameSchema } from "@subtis/shared";
+import { apiClient, getMessageFromStatusCode, getSubtitleShortLink, videoFileNameSchema } from "@subtis/shared";
 
 // api
 import { subtitleSchema } from "@subtis/api/shared/schemas";
-
-// internals
-import { apiClient } from "./api";
 
 // schemas
 const cliArgumentsSchema = z.union(

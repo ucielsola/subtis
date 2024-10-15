@@ -7,10 +7,15 @@ import TorrentSearchApi from "torrent-search-api";
 import { supabase } from "@subtis/db";
 
 // shared
-import { type TitleFileNameMetadata, getEpisode, getIsTvShow, getTitleFileNameMetadata } from "@subtis/shared";
+import {
+  type TitleFileNameMetadata,
+  apiClient,
+  getEpisode,
+  getIsTvShow,
+  getTitleFileNameMetadata,
+} from "@subtis/shared";
 
 // internals
-import { apiClient } from "./api-client";
 import { TitleTypes, type TorrentFound, getSubtitlesForTitle, getTitleTorrents } from "./app";
 import { getReleaseGroups } from "./release-groups";
 import { getSubDivXToken } from "./subdivx";
