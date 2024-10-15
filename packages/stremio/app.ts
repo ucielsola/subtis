@@ -1,7 +1,10 @@
-import { type ContentType, type Subtitle, addonBuilder, serveHTTP } from "stremio-addon-sdk";
+import { type ContentType, type Subtitle as StremioSubtitle, addonBuilder, serveHTTP } from "stremio-addon-sdk";
+
+// shared
+import { getAlternativeSubtitle, getPrimarySubtitle } from "@subtis/shared";
 
 // api
-import { getAlternativeSubtitle, getPrimarySubtitle } from "@subtis/shared";
+import type { SubtisSubtitle } from "@subtis/api/shared/schemas";
 
 // types
 type Extra = { videoHash: string; videoSize: string };
@@ -15,8 +18,17 @@ const CACHE_SETTINGS = {
   staleRevalidate: 0,
 };
 
+// helpers
+function getSubtitleMetadata(subtitle: SubtisSubtitle): StremioSubtitle {
+  return {
+    lang: "spa",
+    id: String(subtitle.id),
+    url: subtitle.subtitle_link,
+  };
+}
+
 // core
-async function getTitleSubtitle(args: Args): Promise<{ subtitles: Subtitle[] }> {
+async function getTitleSubtitle(args: Args): Promise<{ subtitles: StremioSubtitle[] }> {
   try {
     const { videoSize: bytes, filename: fileName } = args.extra as ExtraArgs;
 
@@ -24,10 +36,13 @@ async function getTitleSubtitle(args: Args): Promise<{ subtitles: Subtitle[] }> 
 
     if (originalSubtitle === null) {
       const alternativeSubtitle = await getAlternativeSubtitle({ fileName });
-      return Promise.resolve({ ...alternativeSubtitle, ...CACHE_SETTINGS });
+      const subtitle = getSubtitleMetadata(alternativeSubtitle);
+
+      return Promise.resolve({ subtitles: [subtitle], ...CACHE_SETTINGS });
     }
 
-    return Promise.resolve({ ...originalSubtitle, ...CACHE_SETTINGS });
+    const subtitle = getSubtitleMetadata(originalSubtitle);
+    return Promise.resolve({ subtitles: [subtitle], ...CACHE_SETTINGS });
   } catch (error) {
     return Promise.resolve({ subtitles: [], ...CACHE_SETTINGS });
   }
@@ -37,7 +52,7 @@ async function getTitleSubtitle(args: Args): Promise<{ subtitles: Subtitle[] }> 
 const builder = new addonBuilder({
   name: "Subtis (Version Pre-Alpha)",
   id: "org.subtis",
-  version: "0.2.0",
+  version: "0.2.1",
   description:
     "Subtis es tu fuente de subtitulos para tus películas y series favoritas. Esta es una versión de prueba interna, solo para desarrolladores.",
   catalogs: [],

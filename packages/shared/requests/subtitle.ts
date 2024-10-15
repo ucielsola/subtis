@@ -27,17 +27,11 @@ export async function getPrimarySubtitle({
   const data = await response.json();
   const subtitleByFileName = subtitleSchema.parse(data);
 
-  const subtitle = {
-    lang: "spa",
-    id: String(subtitleByFileName.id),
-    url: subtitleByFileName.subtitle_link,
-  };
-
   await apiClient.v1.subtitle.metrics.download.$patch({
     json: { bytes: subtitleByFileName.bytes, titleFileName: subtitleByFileName.title_file_name },
   });
 
-  return { subtitles: [subtitle] };
+  return subtitleByFileName;
 }
 
 export async function getAlternativeSubtitle({
@@ -56,15 +50,9 @@ export async function getAlternativeSubtitle({
   const data = await response.json();
   const subtitleByFileName = subtitleSchema.parse(data);
 
-  const subtitle = {
-    lang: "spa",
-    id: String(subtitleByFileName.id),
-    url: subtitleByFileName.subtitle_link,
-  };
-
   await apiClient.v1.subtitle.metrics.download.$patch({
     json: { bytes: subtitleByFileName.bytes, titleFileName: subtitleByFileName.title_file_name },
   });
 
-  return { subtitles: [subtitle] };
+  return subtitleByFileName;
 }
