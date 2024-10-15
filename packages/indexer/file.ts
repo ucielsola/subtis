@@ -185,10 +185,6 @@ export async function indexTitleByFileName({
       const episode = getEpisode(titleFileName);
 
       if (websocket) {
-        websocket.send(JSON.stringify({ total: 0.6, message: "Buscando subtitulo en nuestros proveedores" }));
-      }
-
-      if (websocket) {
         websocket.send(JSON.stringify({ total: 0.75, message: "Buscando archivo con nuestros proveedores" }));
       }
 
@@ -216,7 +212,7 @@ export async function indexTitleByFileName({
       });
 
       if (websocket) {
-        websocket.send(JSON.stringify({ total: 1, message: "Buscando subtitulo en nuestros proveedores" }));
+        websocket.send(JSON.stringify({ total: 1, message: "Subtitulo encontrado" }));
       }
 
       return { ok: true };
@@ -272,11 +268,7 @@ export async function indexTitleByFileName({
     });
 
     if (websocket) {
-      websocket.send(JSON.stringify({ total: 0.6, message: "Buscando subtitulo en nuestros proveedores" }));
-    }
-
-    if (websocket) {
-      websocket.send(JSON.stringify({ total: 0.75, message: "Buscando archivo con nuestros proveedores" }));
+      websocket.send(JSON.stringify({ total: 0.6, message: "Buscando archivo con nuestros proveedores" }));
     }
 
     const titleProviderQuery = getQueryForTorrentProvider({
@@ -314,6 +306,10 @@ export async function indexTitleByFileName({
 
     console.table([torrent].map(({ title, size, seeds }) => ({ title, size, seeds })));
 
+    if (websocket) {
+      websocket.send(JSON.stringify({ total: 0.75, message: "Buscando subtitulo en nuestros proveedores" }));
+    }
+
     await getSubtitlesForTitle({
       indexedBy,
       index: "1",
@@ -331,7 +327,7 @@ export async function indexTitleByFileName({
     });
 
     if (websocket) {
-      websocket.send(JSON.stringify({ total: 1, message: "Buscando subtitulo en nuestros proveedores" }));
+      websocket.send(JSON.stringify({ total: 1, message: "Subtitulo encontrado" }));
     }
 
     return { ok: true };
