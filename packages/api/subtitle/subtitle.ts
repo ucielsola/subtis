@@ -7,13 +7,7 @@ import { getStringWithoutSpecialCharacters, getTitleFileNameMetadata, videoFileN
 
 // internals
 import { getSubtitleShortLink } from "../shared/links";
-import {
-  type SubtisSubtitle,
-  alternativeTitlesSchema,
-  subtitleSchema,
-  subtitleShortenerSchema,
-  subtitlesQuery,
-} from "../shared/schemas";
+import { alternativeTitlesSchema, subtitleSchema, subtitleShortenerSchema, subtitlesQuery } from "../shared/schemas";
 import { getSupabaseClient } from "../shared/supabase";
 import type { AppVariables } from "../shared/types";
 
@@ -198,8 +192,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       .sort((a, b) => ((a.queried_times || 0) < (b.queried_times || 0) ? 1 : -1));
 
     if (filteredSubtitlesByResolution.length > 0) {
-      const firstSubtitle = subtitleByFileName.data.at(0) as SubtisSubtitle;
-      console.log("\n ~ .get ~ firstSubtitle:", firstSubtitle);
+      const firstSubtitle = filteredSubtitlesByResolution[0];
 
       return context.json({
         ...firstSubtitle,
@@ -222,8 +215,12 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       }
     }
 
-    const firstSubtitle = subtitleByFileName.data.at(0) as SubtisSubtitle;
-    console.log("\n ~ .get ~ firstSubtitle:", firstSubtitle);
+    if (subtitleByFileName.data.length === 0) {
+      context.status(404);
+      return context.json({ message: "Alternative subtitle not found for file" });
+    }
+
+    const firstSubtitle = subtitleByFileName.data[0];
 
     return context.json({
       ...firstSubtitle,
