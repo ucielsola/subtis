@@ -84,9 +84,10 @@ bun run deploy:api
 
 - Deploy CLI
 
-```bash
-bun run deploy:cli
-```
+1. Create new release in [Github Releases](https://github.com/lndgalante/homebrew-subtis/releases)
+
+2. Update `subtis.rb` with the new release version and push the changes
+
 
 ## Database
 
@@ -114,23 +115,13 @@ To check how the database schema looks like go to Supabase project, under `Datab
 
 ## CLI
 
-1. Download binary
+### Installation
 
 ```bash
-curl -L -o subtis https://subt.is/cli
+brew tap lndgalante/homebrew-subtis
+brew install subtis
 ```
 
-2. Give it write access
-
-```bash
-chmod +x ./subtis && ./subtis
-```
-
-3. Try it with some movie
-
-```bash
-./subtis --file [YOUR_MOVIE_FILE]
-```
 
 ## Good practices
 
