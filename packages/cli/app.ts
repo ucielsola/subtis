@@ -14,11 +14,20 @@ import {
 // api
 import type { SubtisSubtitle } from "@subtis/api/shared/schemas";
 
-// indexer
-import { type WsOk, wsMessageSchema, wsOkSchema } from "@subtis/indexer/file";
-
 // internals
 import { apiClient } from "./api";
+
+// constants
+const wsMessageSchema = z.object({
+  total: z.number(),
+  message: z.string(),
+});
+
+const wsOkSchema = z.object({
+  ok: z.boolean(),
+});
+
+type WsOk = z.infer<typeof wsOkSchema>;
 
 // schemas
 const cliArgumentsSchema = z.union(
