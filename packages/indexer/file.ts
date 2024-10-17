@@ -177,7 +177,7 @@ export async function indexTitleByFileName({
       } = tvShow;
 
       if (websocket) {
-        websocket.send(JSON.stringify({ total: 0.45, message: `Buscando más información de ${title.name}` }));
+        websocket.send(JSON.stringify({ total: 0.45, message: `Buscando más información sobre ${title.name}` }));
       }
 
       const tvShowData = await getTvShowMetadataFromTmdbTvShow({
@@ -194,13 +194,17 @@ export async function indexTitleByFileName({
       const episode = getEpisode(titleFileName);
 
       if (websocket) {
-        websocket.send(JSON.stringify({ total: 0.75, message: "Buscando archivo con nuestros proveedores" }));
+        websocket.send(JSON.stringify({ total: 0.6, message: "Buscando capitulo en nuestros proveedores" }));
       }
 
       const torrent = await getTorrentFromPirateBayOr1337x(
         `${title.name} S0${title.currentSeason}E${String(title.currentEpisode).length > 1 ? title.currentEpisode : `0${title.currentEpisode}`}`,
         title,
       );
+
+      if (websocket) {
+        websocket.send(JSON.stringify({ total: 0.75, message: "Buscando subtitulo en nuestros proveedores" }));
+      }
 
       const { token, cookie } = await getSubDivXToken();
 
@@ -262,7 +266,7 @@ export async function indexTitleByFileName({
     } = movie;
 
     if (websocket) {
-      websocket.send(JSON.stringify({ total: 0.45, message: `Buscando más información de ${title.name}` }));
+      websocket.send(JSON.stringify({ total: 0.45, message: `Buscando más información sobre ${title.name}` }));
     }
 
     const movieData = await getMovieMetadataFromTmdbMovie({
@@ -277,7 +281,7 @@ export async function indexTitleByFileName({
     });
 
     if (websocket) {
-      websocket.send(JSON.stringify({ total: 0.6, message: "Buscando archivo con nuestros proveedores" }));
+      websocket.send(JSON.stringify({ total: 0.6, message: "Buscando pelicula en nuestros proveedores" }));
     }
 
     const titleProviderQuery = getQueryForTorrentProvider({
