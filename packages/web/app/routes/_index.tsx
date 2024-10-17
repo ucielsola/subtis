@@ -1,6 +1,6 @@
 import type { AppLoadContext, LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
-import {getApiClient} from "~/utils/api-client.server"
+import {getApiClient} from "@subtis/shared"
 import { getEnv } from "~/utils/env.server";
 
 export async function loader({context}: LoaderFunctionArgs) {

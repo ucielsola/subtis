@@ -11,7 +11,6 @@ export interface Env {
 }
 
 export function getEnv(context: AppLoadContext): Env {
-  console.log("context.cloudflare.env", context.cloudflare.env)
   return context.cloudflare.env
 }
 
