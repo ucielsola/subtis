@@ -17,7 +17,7 @@ import type { SubtisSubtitle } from "@subtis/api/shared/schemas";
 // internals
 import { apiClient } from "./api";
 
-// constants
+// schemas
 const wsMessageSchema = z.object({
   total: z.number(),
   message: z.string(),
@@ -27,9 +27,6 @@ const wsOkSchema = z.object({
   ok: z.boolean(),
 });
 
-type WsOk = z.infer<typeof wsOkSchema>;
-
-// schemas
 const cliArgumentsSchema = z.union(
   [
     z.object({
@@ -55,6 +52,9 @@ const cliArgumentsSchema = z.union(
     },
   },
 );
+
+// types
+type WsOk = z.infer<typeof wsOkSchema>;
 
 // constants
 const INSTRUCTIONS_MEDIA_PLAYERS = {
@@ -156,7 +156,7 @@ export async function mod(): Promise<void> {
       return await getSubtitleDownloadInstructions(originalSubtitle);
     }
 
-    const data = await new Promise<WsOk>((resolve) => {
+    const websocketData = await new Promise<WsOk>((resolve) => {
       const ws = new WebSocket("https://socketdex.subt.is");
 
       ws.addEventListener("open", () => {
@@ -202,7 +202,7 @@ export async function mod(): Promise<void> {
       });
     });
 
-    if (data.ok === true) {
+    if (websocketData.ok === true) {
       const originalSubtitle = await getPrimarySubtitle(apiClient, { bytes, fileName });
 
       if (originalSubtitle) {
