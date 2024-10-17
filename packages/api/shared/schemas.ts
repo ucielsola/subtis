@@ -39,6 +39,7 @@ export const subtitleSchema = subtitlesRowSchema
   .pick({
     id: true,
     bytes: true,
+    is_valid: true,
     resolution: true,
     subtitle_link: true,
     queried_times: true,
@@ -60,6 +61,7 @@ export const subtitleShortenerSchema = subtitlesRowSchema.pick({ subtitle_link: 
 export const subtitlesQuery = `
   id,
   bytes,
+  is_valid,
   resolution,
   title_file_name,
   subtitle_link,

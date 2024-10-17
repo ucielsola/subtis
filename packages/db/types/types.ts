@@ -60,6 +60,7 @@ export type Database = {
           current_season: number | null;
           file_extension: string;
           id: number;
+          is_valid: boolean;
           lang: string;
           last_queried_at: string | null;
           queried_times: number | null;
@@ -82,6 +83,7 @@ export type Database = {
           current_season?: number | null;
           file_extension: string;
           id?: number;
+          is_valid: boolean;
           lang: string;
           last_queried_at?: string | null;
           queried_times?: number | null;
@@ -104,6 +106,7 @@ export type Database = {
           current_season?: number | null;
           file_extension?: string;
           id?: number;
+          is_valid?: boolean;
           lang?: string;
           last_queried_at?: string | null;
           queried_times?: number | null;
@@ -424,4 +427,17 @@ export type Enums<
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never;
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"] | { schema: keyof Database },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database;
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never;
