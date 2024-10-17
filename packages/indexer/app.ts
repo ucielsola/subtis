@@ -3,7 +3,6 @@ import fs from "node:fs";
 import path from "node:path";
 import { confirm } from "@clack/prompts";
 import unrar from "@continuata/unrar";
-import clipboard from "clipboardy";
 import download from "download";
 import extract from "extract-zip";
 import ffprobe from "ffprobe";
@@ -11,6 +10,8 @@ import ffprobeStatic from "ffprobe-static";
 import jschardet from "jschardet";
 import ms from "ms";
 import prettyBytes from "pretty-bytes";
+import srtParser2 from "srt-parser-2";
+import srtValidator from "srt-validator";
 import invariant from "tiny-invariant";
 import tg from "torrent-grabber";
 import TorrentSearchApi from "torrent-search-api";
@@ -23,6 +24,7 @@ import { type Title, supabase } from "@subtis/db";
 
 // shared
 import {
+  RESOLUTION_REGEX,
   type TitleFileNameMetadata,
   VIDEO_FILE_EXTENSIONS,
   getDecodedSubtitleFile,
@@ -267,6 +269,7 @@ async function storeSubtitleInSupabaseTable({
   title,
   titleFile,
   subtitle,
+  isValid,
   author,
   subtitleLink,
   subtitleGroups,
@@ -280,6 +283,7 @@ async function storeSubtitleInSupabaseTable({
   title: TitleWithEpisode;
   titleFile: TitleFile;
   subtitle: SubtitleWithResolutionAndTorrentId;
+  isValid: boolean;
   author: string | null;
   subtitleLink: string;
   subtitleGroups: SubtitleGroupMap;
@@ -300,6 +304,7 @@ async function storeSubtitleInSupabaseTable({
   const { error } = await supabase.from("Subtitles").insert({
     lang,
     author,
+    is_valid: isValid,
     reviewed: true,
     uploaded_by: indexedBy,
     bytes,
@@ -325,6 +330,7 @@ async function storeSubtitleInSupabaseTable({
       lang,
       author,
       reviewed: true,
+      is_valid: isValid,
       uploaded_by: "indexer",
       bytes: bytesFromNotFoundSubtitle,
       torrent_id: torrentId,
@@ -478,12 +484,12 @@ async function addWatermarkToSubtitle({
       const firstTimestamp = halfTime(firstSubtitleTimestamp);
       const secondTimestamp = firstSubtitleTimestamp;
 
-      return `-1
+      return `0
 00:00:00,000 --> ${firstTimestamp}
 Subtitulos descargados desde <b>Subtis</b>
 Link: https://subt.is
 
-0
+1
 ${firstTimestamp} --> ${secondTimestamp}
 Contactanos por X en <i>@subt_is</i>
 Vía email a <i>soporte@subt.is</i>
@@ -525,6 +531,25 @@ Vía email a <i>soporte@subt.is</i>
   await fs.promises.writeFile(path, subtitleTextWithWatermark, "utf-8");
 }
 
+function isValidSrt(srt: string): boolean {
+  const srtValidatorErrors = srtValidator(srt);
+  return srtValidatorErrors.length === 0;
+}
+
+async function generateSpecValidSrt(srt: string, path: string): Promise<boolean> {
+  const parser = new srtParser2();
+  const srtArray = parser.fromSrt(srt);
+
+  const parsedSrtArray = srtArray.map((item, index) => ({
+    ...item,
+    id: index === 0 || index === 1 ? String(Number(item.id) + 1) : String(Number(item.id) + 2),
+  }));
+  const srtString = parser.toSrt(parsedSrtArray);
+
+  await fs.promises.writeFile(path, srtString, "utf-8");
+
+  return isValidSrt(srtString);
+}
 export async function downloadAndStoreTitleAndSubtitle(data: {
   indexedBy: IndexedBy;
   titleFile: TitleFile;
@@ -566,7 +591,11 @@ export async function downloadAndStoreTitleAndSubtitle(data: {
     const subtitleFileToUpload = readSubtitleFile(path);
     const author = getSubtitleAuthor(subtitleFileToUpload);
 
-    const fullPath = await storeSubtitleInSupabaseStorage({ subtitle, subtitleFileToUpload });
+    const srtOriginalString = subtitleFileToUpload.toString();
+    const isValid = await generateSpecValidSrt(srtOriginalString, path);
+    const validSrtFileToUpload = readSubtitleFile(path);
+
+    const fullPath = await storeSubtitleInSupabaseStorage({ subtitle, subtitleFileToUpload: validSrtFileToUpload });
     removeSubtitlesFromFileSystem([subtitleCompressedAbsolutePath, extractedSubtitlePath]);
     const subtitleLink = getSupabaseSubtitleLink({ fullPath, subtitle });
 
@@ -577,6 +606,7 @@ export async function downloadAndStoreTitleAndSubtitle(data: {
       title,
       titleFile,
       subtitle,
+      isValid,
       author,
       subtitleLink,
       subtitleGroups,
@@ -767,9 +797,8 @@ export async function getTorrentVideoFileMetadata(torrent: TorrentFound): Promis
 
     engine.on("ready", async () => {
       const videoFile = getVideoFromFiles((engine as unknown as { files: File[] }).files);
-      const resolutionRegex = /(480p|576p|720p|1080p|2160p)/gi;
 
-      if (videoFile && !videoFile.name.match(resolutionRegex)) {
+      if (videoFile && !videoFile.name.match(RESOLUTION_REGEX)) {
         const FOUR_MEGABYTES = 4 * 1024 * 1024;
 
         const stream = videoFile.createReadStream({
@@ -926,11 +955,6 @@ export async function getSubtitlesForTitle({
       title,
       tracker,
     })),
-  );
-
-  clipboard.writeSync(titleProviderQuery);
-  console.log(
-    `👉 Nombre de titulo ${titleProviderQuery} guardado en el clipboard, para poder pegar directamente en proveedor de torrents o subtítulos \n`,
   );
 
   const releaseGroupsqueryMatches = Object.values(releaseGroups)

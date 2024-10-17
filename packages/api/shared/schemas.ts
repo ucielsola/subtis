@@ -1,3 +1,6 @@
+import type { z } from "zod";
+
+// db
 import {
   releaseGroupsRowSchema,
   subtitleGroupsRowSchema,
@@ -36,6 +39,7 @@ export const subtitleSchema = subtitlesRowSchema
   .pick({
     id: true,
     bytes: true,
+    is_valid: true,
     resolution: true,
     subtitle_link: true,
     queried_times: true,
@@ -50,11 +54,14 @@ export const subtitleSchema = subtitlesRowSchema
     subtitleGroup: subtitleGroupSchema,
   });
 
+export type SubtisSubtitle = z.infer<typeof subtitleSchema>;
+
 export const subtitleShortenerSchema = subtitlesRowSchema.pick({ subtitle_link: true });
 
 export const subtitlesQuery = `
   id,
   bytes,
+  is_valid,
   resolution,
   title_file_name,
   subtitle_link,

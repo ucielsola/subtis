@@ -1,7 +1,7 @@
 {
-  "yaakVersion": "2024.11.0-beta.3",
+  "yaakVersion": "2024.11.0-beta.7",
   "yaakSchema": 2,
-  "timestamp": "2024-10-08T04:49:41.934494",
+  "timestamp": "2024-10-11T01:47:12.994581",
   "resources": {
     "workspaces": [
       {
@@ -157,7 +157,7 @@
         "model": "http_request",
         "id": "rq_VL9z4jfn82",
         "createdAt": "2024-10-08T04:47:13",
-        "updatedAt": "2024-10-08T04:47:13",
+        "updatedAt": "2024-10-09T22:15:24",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
@@ -168,12 +168,12 @@
         "method": "GET",
         "name": "Get subtitle metadata (/v1/subtitle/metadata/:subtitleId)",
         "sortPriority": 2000.0,
-        "url": "${[baseUrl]}/v1/subtitle/metadata/:subtitleId",
+        "url": "${[ baseUrl ]}/v1/subtitle/metadata/:subtitleId",
         "urlParameters": [
           {
             "enabled": true,
             "name": ":subtitleId",
-            "value": "7880"
+            "value": "8427"
           },
           {
             "enabled": true,
@@ -186,7 +186,7 @@
         "model": "http_request",
         "id": "rq_om9XNHwzbJ",
         "createdAt": "2024-10-01T01:12:56",
-        "updatedAt": "2024-10-02T22:40:41",
+        "updatedAt": "2024-10-11T01:22:31",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
@@ -196,13 +196,13 @@
         "headers": [],
         "method": "GET",
         "name": "Get subtitle short link (/v1/subtitle/link/:subtitleId)",
-        "sortPriority": 2000.0,
+        "sortPriority": 1500.0,
         "url": "${[baseUrl]}/v1/subtitle/link/:subtitleId",
         "urlParameters": [
           {
             "enabled": true,
             "name": ":subtitleId",
-            "value": "7880"
+            "value": "8427"
           },
           {
             "enabled": true,
@@ -215,7 +215,7 @@
         "model": "http_request",
         "id": "rq_3XTRxeRF3X",
         "createdAt": "2024-09-30T22:57:14",
-        "updatedAt": "2024-10-04T22:47:35",
+        "updatedAt": "2024-10-11T01:19:31",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_I5qYzXaiKY",
         "authentication": {},
@@ -226,12 +226,12 @@
         "method": "GET",
         "name": "Download subtitles for a TV show season (/v1/subtitles/tv-show/download/season/:id/:season/:resolution/:releaseGroupId)",
         "sortPriority": 3000.0,
-        "url": "${[baseUrl]}/v1/subtitles/tv-show/download/season/:id/:season/:resolution/:releaseGroupId",
+        "url": "${[baseUrl]}/v1/subtitles/tv-show/download/season/:titleId/:season/:resolution/:releaseGroupId",
         "urlParameters": [
           {
             "enabled": true,
-            "name": ":id",
-            "value": "2788316"
+            "name": ":titleId",
+            "value": ""
           },
           {
             "enabled": true,
@@ -385,7 +385,7 @@
         "model": "http_request",
         "id": "rq_k2QEcQF7uP",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-08T04:48:18",
+        "updatedAt": "2024-10-11T01:21:04",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_G3EShJi9ud",
         "authentication": {},
@@ -394,7 +394,7 @@
         "bodyType": null,
         "headers": [],
         "method": "GET",
-        "name": "Get title metadata (/v1/subtitle/metadata/:subtitleId)",
+        "name": "Get title metadata (/v1/subtitle/metadata/:titleId)",
         "sortPriority": 2000.0,
         "url": "${[baseUrl]}/v1/title/metadata/:titleId",
         "urlParameters": [
@@ -414,7 +414,7 @@
         "model": "http_request",
         "id": "rq_H9boP0jxGI",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-07T21:36:48",
+        "updatedAt": "2024-10-09T00:39:27",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
@@ -430,7 +430,7 @@
           {
             "enabled": true,
             "name": ":bytes",
-            "value": "9707206"
+            "value": "9707206d"
           },
           {
             "enabled": true,
@@ -448,7 +448,7 @@
         "model": "http_request",
         "id": "rq_0NmBIllZrD",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-07T22:18:15",
+        "updatedAt": "2024-10-09T00:37:00",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
@@ -464,7 +464,7 @@
           {
             "enabled": true,
             "name": ":fileName",
-            "value": "Deadpool.and.Wolverine.2024.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.mkv"
+            "value": "The.Batman.2022.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4"
           },
           {
             "enabled": true,
@@ -477,7 +477,7 @@
         "model": "http_request",
         "id": "rq_N17uAhCV9T",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-01T00:59:32",
+        "updatedAt": "2024-10-11T01:18:20",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_XJ7aMDkIoi",
         "authentication": {},
@@ -486,14 +486,14 @@
         "bodyType": null,
         "headers": [],
         "method": "GET",
-        "name": "Get subtitles by movie ID (/v1/subtitles/movie/:id)",
+        "name": "Get subtitles by movie ID (/v1/subtitles/movie/:titleId)",
         "sortPriority": 0.0,
-        "url": "${[baseUrl]}/v1/subtitles/movie/:id",
+        "url": "${[baseUrl]}/v1/subtitles/movie/:titleId",
         "urlParameters": [
           {
             "enabled": true,
-            "name": ":id",
-            "value": "7607"
+            "name": ":titleId",
+            "value": ""
           },
           {
             "enabled": true,
@@ -506,7 +506,7 @@
         "model": "http_request",
         "id": "rq_gwu8UWD6zo",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-09-30T22:54:00",
+        "updatedAt": "2024-10-11T01:15:32",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_I5qYzXaiKY",
         "authentication": {},
@@ -515,16 +515,16 @@
         "bodyType": null,
         "headers": [],
         "method": "GET",
-        "name": "Get subtitles by TV show ID (/v1/subtitles/tv-show/:id)",
+        "name": "Get subtitles by TV show ID (/v1/subtitles/tv-show/:titleId)",
         "sortPriority": 0.0,
-        "url": "${[baseUrl]}/v1/subtitles/tv-show/:id",
+        "url": "${[baseUrl]}/v1/subtitles/tv-show/:titleId",
         "urlParameters": []
       },
       {
         "model": "http_request",
         "id": "rq_f8cnVpajeT",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-09-30T22:54:00",
+        "updatedAt": "2024-10-11T01:18:31",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_I5qYzXaiKY",
         "authentication": {},
@@ -533,16 +533,37 @@
         "bodyType": null,
         "headers": [],
         "method": "GET",
-        "name": "Get subtitles by TV show ID, season, and episode (/v1/subtitles/tv-show/:id/:season/:episode)",
+        "name": "Get subtitles by TV show ID, season, and episode (/v1/subtitles/tv-show/:titleId/:season/:episode)",
         "sortPriority": 2000.0,
-        "url": "${[baseUrl]}/v1/subtitles/tv-show/:id/:season/:episode",
-        "urlParameters": []
+        "url": "${[baseUrl]}/v1/subtitles/tv-show/:titleId/:season/:episode",
+        "urlParameters": [
+          {
+            "enabled": true,
+            "name": ":titleId",
+            "value": ""
+          },
+          {
+            "enabled": true,
+            "name": ":season",
+            "value": ""
+          },
+          {
+            "enabled": true,
+            "name": ":episode",
+            "value": ""
+          },
+          {
+            "enabled": true,
+            "name": "",
+            "value": ""
+          }
+        ]
       },
       {
         "model": "http_request",
         "id": "rq_QsY5hKIlNW",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-04T22:44:59",
+        "updatedAt": "2024-10-11T01:19:01",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_I5qYzXaiKY",
         "authentication": {},
@@ -551,19 +572,19 @@
         "bodyType": null,
         "headers": [],
         "method": "GET",
-        "name": "Get metadatada for download subtitles for a TV show (/v1/subtitles/tv-show/download/metadata/:id)",
+        "name": "Get metadatada for download subtitles for a TV show (/v1/subtitles/tv-show/download/metadata/:titleId)",
         "sortPriority": 2500.0,
-        "url": "${[baseUrl]}/v1/subtitles/tv-show/download/metadata/:id/:season",
+        "url": "${[baseUrl]}/v1/subtitles/tv-show/download/metadata/:titleId/:season",
         "urlParameters": [
-          {
-            "enabled": true,
-            "name": ":id",
-            "value": "2788316"
-          },
           {
             "enabled": true,
             "name": ":season",
             "value": "1"
+          },
+          {
+            "enabled": true,
+            "name": ":titleId",
+            "value": ""
           },
           {
             "enabled": true,
@@ -631,7 +652,7 @@
         "model": "http_request",
         "id": "rq_SGIsc4WgeJ",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-08T04:47:22",
+        "updatedAt": "2024-10-09T00:41:55",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_G3EShJi9ud",
         "authentication": {},
@@ -647,7 +668,7 @@
           {
             "enabled": true,
             "name": ":fileName",
-            "value": "The.London.Underground.Killer.2024.720p.WEBRip.800MB.x264-GalaxyRG.mkv"
+            "value": "game.of.thrones.s08e06.720p.web.h264-memento[eztv].mkv"
           },
           {
             "enabled": true,
@@ -660,7 +681,7 @@
         "model": "http_request",
         "id": "rq_22xbygIhlm",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-09-26T16:28:03",
+        "updatedAt": "2024-10-09T00:58:44",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_YERMf4idMs",
         "authentication": {},
@@ -676,7 +697,7 @@
           {
             "enabled": true,
             "name": ":query",
-            "value": "Avengers Infinity War (2018) (2160p BluRay x265 10bit HDR Tigole).mkv"
+            "value": "the btman"
           },
           {
             "enabled": true,

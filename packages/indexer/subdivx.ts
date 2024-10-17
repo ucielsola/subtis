@@ -2,7 +2,7 @@ import invariant from "tiny-invariant";
 import { z } from "zod";
 
 // shared
-import type { TitleFileNameMetadata } from "@subtis/shared";
+import { type TitleFileNameMetadata, getStringWithoutSpecialCharacters } from "@subtis/shared";
 
 // internals
 import { generateSubtitleFileNames } from "./subtitle-filenames";
@@ -77,7 +77,7 @@ export async function getSubtitlesFromSubDivXForTitle({
       "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
     },
     method: "POST",
-    body: `tabla=resultados&filtros=&buscar394d=${encodeURIComponent(titleProviderQuery)}&token=${subdivxToken}`,
+    body: `tabla=resultados&filtros=&buscar395a=${encodeURIComponent(titleProviderQuery)}&token=${subdivxToken}`,
   });
 
   if (!response.ok) {
@@ -130,7 +130,7 @@ export async function getSubtitlesFromSubDivXForTitle({
       return false;
     }
 
-    if (!subtitle.titulo.toLowerCase().includes(titleOnlyWithoutYear)) {
+    if (!getStringWithoutSpecialCharacters(subtitle.titulo).startsWith(`${titleOnlyWithoutYear} `)) {
       return false;
     }
 

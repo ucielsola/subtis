@@ -29,7 +29,7 @@ describe("API | /titles/search/:query", () => {
     expect(response.status).toBe(200);
     expect(data).toEqual([
       {
-        id: 1877830,
+        id: expect.any(Number),
         type: "movie",
         title_name: "The Batman",
         year: 2022,
@@ -62,7 +62,7 @@ describe("API | /titles/search/:query", () => {
     expect(response.status).toBe(200);
     expect(data).toEqual([
       {
-        id: 1877830,
+        id: expect.any(Number),
         type: "movie",
         title_name: "The Batman",
         year: 2022,

@@ -47,7 +47,6 @@ const recentTitlesQuery = `
   release_date
 `;
 
-// TODO: Remove queried_times when going to Prod (only for QA to test API)
 const trendingTitlesQuery = `
   id,
   title_name,

@@ -6,6 +6,7 @@ import { z } from "zod";
 import { getStringWithoutSpecialCharacters, getTitleFileNameMetadata, videoFileNameSchema } from "@subtis/shared";
 
 // internals
+import { getSubtitleShortLink } from "../shared/links";
 import { alternativeTitlesSchema, subtitleSchema, subtitleShortenerSchema, subtitlesQuery } from "../shared/schemas";
 import { getSupabaseClient } from "../shared/supabase";
 import type { AppVariables } from "../shared/types";
@@ -17,10 +18,10 @@ const alternativeSubtitlesSchema = z
 
 // core
 export const subtitle = new Hono<{ Variables: AppVariables }>()
-  .get("/metadata/:id", zValidator("param", z.object({ id: z.string() })), async (context) => {
-    const { id } = context.req.valid("param");
+  .get("/metadata/:subtitleId", zValidator("param", z.object({ subtitleId: z.string() })), async (context) => {
+    const { subtitleId } = context.req.valid("param");
 
-    const parsedId = Number.parseInt(id);
+    const parsedId = Number.parseInt(subtitleId);
 
     if (Number.isNaN(parsedId) || parsedId < 1) {
       context.status(400);
@@ -29,7 +30,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
     const supabase = getSupabaseClient(context);
 
-    const { data, error } = await supabase.from("Subtitles").select(subtitlesQuery).match({ id }).single();
+    const { data, error } = await supabase.from("Subtitles").select(subtitlesQuery).match({ id: subtitleId }).single();
 
     if (error) {
       context.status(500);
@@ -43,7 +44,10 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       return context.json({ message: "An error occurred", error: subtitleByFileName.error.issues[0].message });
     }
 
-    return context.json(subtitleByFileName.data);
+    return context.json({
+      ...subtitleByFileName.data,
+      subtitle_link: getSubtitleShortLink(subtitleByFileName.data.id),
+    });
   })
   .get(
     "/file/name/:bytes/:fileName",
@@ -93,7 +97,10 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "An error occurred", error: subtitleByFileName.error.issues[0].message });
       }
 
-      return context.json(subtitleByFileName.data);
+      return context.json({
+        ...subtitleByFileName.data,
+        subtitle_link: getSubtitleShortLink(subtitleByFileName.data.id),
+      });
     },
   )
   .get("/file/alternative/:fileName", zValidator("param", z.object({ fileName: z.string() })), async (context) => {
@@ -185,7 +192,12 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       .sort((a, b) => ((a.queried_times || 0) < (b.queried_times || 0) ? 1 : -1));
 
     if (filteredSubtitlesByResolution.length > 0) {
-      return context.json(filteredSubtitlesByResolution.at(0));
+      const firstSubtitle = filteredSubtitlesByResolution[0];
+
+      return context.json({
+        ...firstSubtitle,
+        subtitle_link: getSubtitleShortLink(firstSubtitle.id),
+      });
     }
 
     if (releaseGroup) {
@@ -203,14 +215,24 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       }
     }
 
-    return context.json(subtitleByFileName.data.at(0));
+    if (subtitleByFileName.data.length === 0) {
+      context.status(404);
+      return context.json({ message: "Alternative subtitle not found for file" });
+    }
+
+    const firstSubtitle = subtitleByFileName.data[0];
+
+    return context.json({
+      ...firstSubtitle,
+      subtitle_link: getSubtitleShortLink(firstSubtitle.id),
+    });
   })
   .get("/link/:subtitleId", zValidator("param", z.object({ subtitleId: z.string() })), async (context) => {
-    const { subtitleId: id } = context.req.valid("param");
+    const { subtitleId } = context.req.valid("param");
 
-    const parsedId = Number.parseInt(id);
+    const parsedSubtitleId = Number.parseInt(subtitleId);
 
-    if (Number.isNaN(parsedId) || parsedId < 1) {
+    if (Number.isNaN(parsedSubtitleId) || parsedSubtitleId < 1) {
       context.status(400);
       return context.json({ message: "Invalid ID: it should be a positive integer number" });
     }
@@ -218,7 +240,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
     const { data, error } = await getSupabaseClient(context)
       .from("Subtitles")
       .select("subtitle_link")
-      .match({ id })
+      .match({ id: parsedSubtitleId })
       .single();
 
     if (error && error.code === "PGRST116") {

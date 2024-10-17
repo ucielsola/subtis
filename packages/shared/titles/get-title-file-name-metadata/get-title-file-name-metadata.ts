@@ -5,7 +5,7 @@ import { z } from "zod";
 import { RELEASE_GROUPS } from "@subtis/indexer/release-groups";
 
 // shared
-import { getEpisode, getSeasonAndEpisode } from "@subtis/shared";
+import { RESOLUTION_REGEX, getEpisode, getSeasonAndEpisode } from "@subtis/shared";
 
 // internals
 import { VIDEO_FILE_EXTENSIONS } from "../../files";
@@ -91,8 +91,7 @@ export function getTitleFileNameMetadata({
     };
   }
 
-  const resolutionRegex = /(480p|576p|720p|1080p|2160p)/gi;
-  const [resolution] = titleFileName.match(resolutionRegex) ?? [".S"];
+  const [resolution] = titleFileName.match(RESOLUTION_REGEX) ?? [".S"];
 
   const [rawTitleName, rawAttributes] = parsedMovieFileName.split(resolution);
   const parsedTitleName = getTitleName(rawTitleName);

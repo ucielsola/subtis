@@ -3,7 +3,6 @@ uncompressed-subtitles
 compressed-subtitles
 .env
 .DS_Store
-*.mp4
 coverage
 node_modules
 *.zip

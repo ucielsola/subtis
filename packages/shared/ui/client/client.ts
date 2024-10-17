@@ -20,3 +20,5 @@ export function getApiClient(apiBaseUrlConfig: ApiBaseUrlConfig) {
 
   return client;
 }
+
+export type ApiClient = ReturnType<typeof getApiClient>;

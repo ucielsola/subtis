@@ -4,8 +4,12 @@ import JSZip from "jszip";
 import slugify from "slugify";
 import { z } from "zod";
 
+// shared
+import { RESOLUTION_REGEX } from "@subtis/shared";
+
 // internals
 import { MAX_LIMIT } from "../shared/constants";
+import { getSubtitleShortLink } from "../shared/links";
 import { subtitleSchema, subtitlesQuery } from "../shared/schemas";
 import { getSupabaseClient } from "../shared/supabase";
 import type { AppVariables } from "../shared/types";
@@ -21,12 +25,12 @@ const trendingSubtitlesSchema = z
 
 // core
 export const subtitles = new Hono<{ Variables: AppVariables }>()
-  .get("/movie/:id", zValidator("param", z.object({ id: z.string() })), async (context) => {
-    const { id } = context.req.valid("param");
+  .get("/movie/:titleId", zValidator("param", z.object({ titleId: z.string() })), async (context) => {
+    const { titleId } = context.req.valid("param");
 
-    const parsedId = Number.parseInt(id);
+    const parsedTitleId = Number.parseInt(titleId);
 
-    if (Number.isNaN(parsedId) || parsedId < 1) {
+    if (Number.isNaN(parsedTitleId) || parsedTitleId < 1) {
       context.status(400);
       return context.json({ message: "Invalid ID: it should be a positive integer number" });
     }
@@ -35,7 +39,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       .from("Subtitles")
       .select(subtitlesQuery)
       .order("subtitle_group_id")
-      .match({ title_id: Number(id) });
+      .match({ title_id: parsedTitleId });
 
     if (error && error.code === "PGRST116") {
       context.status(404);
@@ -54,26 +58,48 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       return context.json({ message: "An error occurred", error: subtitles.error.issues[0].message });
     }
 
-    return context.json(subtitles.data);
+    const subtitlesWithShortLink = subtitles.data.map((subtitle) => ({
+      ...subtitle,
+      subtitle_link: getSubtitleShortLink(subtitle.id),
+    }));
+
+    return context.json(subtitlesWithShortLink);
   })
   .get(
-    "/tv-show/:id/:season?/:episode?",
-    zValidator("param", z.object({ id: z.string(), season: z.string().optional(), episode: z.string().optional() })),
+    "/tv-show/:titleId/:season?/:episode?",
+    zValidator(
+      "param",
+      z.object({ titleId: z.string(), season: z.string().optional(), episode: z.string().optional() }),
+    ),
     async (context) => {
-      const { id, season = 1, episode = 1 } = context.req.valid("param");
+      const { titleId, season = "1", episode = "1" } = context.req.valid("param");
 
-      const parsedId = Number.parseInt(id);
+      const parsedTitleId = Number.parseInt(titleId);
 
-      if (Number.isNaN(parsedId) || parsedId < 1) {
+      if (Number.isNaN(parsedTitleId) || parsedTitleId < 1) {
         context.status(400);
         return context.json({ message: "Invalid ID: it should be a positive integer number" });
+      }
+
+      const parsedSeason = Number.parseInt(season);
+
+      if (Number.isNaN(parsedSeason) || parsedSeason < 1) {
+        context.status(400);
+        return context.json({ message: "Invalid Season: it should be a positive integer number" });
+      }
+
+      const parsedEpisode = Number.parseInt(episode);
+
+      if (Number.isNaN(parsedEpisode) || parsedEpisode < 1) {
+        context.status(400);
+        return context.json({ message: "Invalid Episode: it should be a positive integer number" });
       }
 
       const { data, error } = await getSupabaseClient(context)
         .from("Subtitles")
         .select(subtitlesQuery)
         .order("subtitle_group_id")
-        .match({ title_id: parsedId, current_season: season, current_episode: episode });
+        .match({ title_id: parsedTitleId, current_season: parsedSeason, current_episode: parsedEpisode });
 
       if (error && error.code === "PGRST116") {
         context.status(404);
@@ -92,27 +118,39 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "An error occurred", error: subtitles.error.issues[0].message });
       }
 
-      return context.json(subtitles.data);
+      const subtitlesWithShortLink = subtitles.data.map((subtitle) => ({
+        ...subtitle,
+        subtitle_link: getSubtitleShortLink(subtitle.id),
+      }));
+
+      return context.json(subtitlesWithShortLink);
     },
   )
   .get(
-    "/tv-show/download/metadata/:id/:season",
-    zValidator("param", z.object({ id: z.string(), season: z.string() })),
+    "/tv-show/download/metadata/:titleId/:season",
+    zValidator("param", z.object({ titleId: z.string(), season: z.string() })),
     async (context) => {
-      const { id, season } = context.req.valid("param");
+      const { titleId, season } = context.req.valid("param");
 
-      const parsedId = Number.parseInt(id);
+      const parsedTitleId = Number.parseInt(titleId);
 
-      if (Number.isNaN(parsedId) || parsedId < 1) {
+      if (Number.isNaN(parsedTitleId) || parsedTitleId < 1) {
         context.status(400);
         return context.json({ message: "Invalid ID: it should be a positive integer number" });
+      }
+
+      const parsedSeason = Number.parseInt(season);
+
+      if (Number.isNaN(parsedSeason) || parsedSeason < 1) {
+        context.status(400);
+        return context.json({ message: "Invalid Season: it should be a positive integer number" });
       }
 
       const { data, error } = await getSupabaseClient(context)
         .from("Subtitles")
         .select(subtitlesQuery)
         .order("subtitle_group_id")
-        .match({ title_id: parsedId, current_season: season });
+        .match({ title_id: parsedTitleId, current_season: parsedSeason });
 
       if (error && error.code === "PGRST116") {
         context.status(404);
@@ -146,24 +184,24 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
     },
   )
   .get(
-    "/tv-show/download/season/:id/:season/:resolution/:releaseGroupId",
+    "/tv-show/download/season/:titleId/:season/:resolution/:releaseGroupId",
     zValidator(
       "param",
-      z.object({ id: z.string(), season: z.string(), resolution: z.string(), releaseGroupId: z.string() }),
+      z.object({ titleId: z.string(), season: z.string(), resolution: z.string(), releaseGroupId: z.string() }),
     ),
     async (context) => {
-      const { id, season, resolution, releaseGroupId } = context.req.valid("param");
+      const { titleId, season, resolution, releaseGroupId } = context.req.valid("param");
 
-      const parsedId = Number.parseInt(id);
+      const parsedTitleId = Number.parseInt(titleId);
 
-      if (Number.isNaN(parsedId) || parsedId < 1) {
+      if (Number.isNaN(parsedTitleId) || parsedTitleId < 1) {
         context.status(400);
         return context.json({ message: "Invalid ID: it should be a positive integer number" });
       }
 
-      const parsedseason = Number.parseInt(season);
+      const parsedSeason = Number.parseInt(season);
 
-      if (Number.isNaN(parsedseason) || parsedseason < 1) {
+      if (Number.isNaN(parsedSeason) || parsedSeason < 1) {
         context.status(400);
         return context.json({ message: "Invalid Season: it should be a positive integer number" });
       }
@@ -175,14 +213,19 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "Invalid Release Group ID: it should be a positive integer number" });
       }
 
+      if (!resolution.match(RESOLUTION_REGEX)) {
+        context.status(400);
+        return context.json({ message: "Invalid Resolution: it should be a valid resolution" });
+      }
+
       const { data, error } = await getSupabaseClient(context)
         .from("Subtitles")
         .select(subtitlesQuery)
         .order("subtitle_group_id")
         .match({
           resolution,
-          title_id: parsedId,
-          current_season: parsedseason,
+          title_id: parsedTitleId,
+          current_season: parsedSeason,
           release_group_id: parsedReleaseGroupId,
         });
 
@@ -266,9 +309,12 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       return context.json({ message: "An error occurred", error: trendingSubtitles.error.issues[0].message });
     }
 
-    const uniqueTrendingSubtitles = trendingSubtitles.data.filter(
-      (subtitle, index, self) => index === self.findIndex((t) => t.title.id === subtitle.title.id),
-    );
+    const uniqueTrendingSubtitles = trendingSubtitles.data
+      .filter((subtitle, index, self) => index === self.findIndex((t) => t.title.id === subtitle.title.id))
+      .map((subtitle) => ({
+        ...subtitle,
+        subtitle_link: getSubtitleShortLink(subtitle.id),
+      }));
 
     return context.json(uniqueTrendingSubtitles);
   });

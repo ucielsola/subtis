@@ -1,41 +1,40 @@
 {
-  "name": "@subtis/web",
+  "name": "web",
   "private": true,
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "dev": "remix vite:dev",
     "build": "remix vite:build",
-    "deploy": "wrangler pages deploy ./build/client",
-    "lint": "// todo add linting command",
-    "lint:fix": "// todo add linting and fix command",
-    "start": "wrangler pages dev ./build/client",
-    "typecheck": "tsc",
-    "typegen": "wrangler types",
-    "preview": "wrangler pages dev ./build/client"
+    "dev": "remix vite:dev",
+    "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
+    "start": "remix-serve ./build/server/index.js",
+    "typecheck": "tsc"
   },
   "dependencies": {
-    "@remix-run/cloudflare": "^2.13.1",
-    "@remix-run/cloudflare-pages": "^2.13.1",
+    "@remix-run/node": "^2.13.1",
     "@remix-run/react": "^2.13.1",
-    "isbot": "^4.1.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "@remix-run/serve": "^2.13.1",
+    "isbot": "^5.1.17",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20240512.0",
     "@remix-run/dev": "^2.13.1",
-    "@types/react": "^18.2.20",
-    "@types/react-dom": "^18.2.7",
-    "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.4",
-    "typescript": "^5.1.6",
-    "vite": "^5.1.0",
-    "vite-tsconfig-paths": "^4.2.1",
-    "wrangler": "3.57.1"
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "@typescript-eslint/eslint-plugin": "^8.9.0",
+    "@typescript-eslint/parser": "^8.9.0",
+    "eslint": "^9.12.0",
+    "eslint-import-resolver-typescript": "^3.6.3",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jsx-a11y": "^6.10.0",
+    "eslint-plugin-react": "^7.37.1",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.9",
+    "vite-tsconfig-paths": "^5.0.1"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=18.0.0"
   }
 }

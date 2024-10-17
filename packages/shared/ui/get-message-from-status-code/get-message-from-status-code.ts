@@ -7,19 +7,19 @@ export function getMessageFromStatusCode(statusCode: number): {
 } {
   return match(statusCode)
     .with(415, () => ({
-      description: "Prueba con formatos como MKV, MP4, o AVI",
       title: "Extensión de archivo no soportada",
+      description: "Prueba con formatos como MKV, MP4, o AVI",
     }))
     .with(404, () => ({
-      description: "Nos pondremos a buscarlo",
       title: "Subtitulo no encontrado",
+      description: "Nos pondremos a buscarlo",
     }))
     .with(500, () => ({
-      description: "Estamos haciendo arreglos del servicio",
       title: "Error Inesperado",
+      description: "Estamos haciendo arreglos del servicio",
     }))
     .otherwise(() => ({
-      description: "Estamos haciendo arreglos del servicio",
       title: "Error desconocido",
+      description: "Estamos haciendo arreglos del servicio",
     }));
 }

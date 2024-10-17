@@ -78,7 +78,16 @@ export const RELEASE_GROUPS = {
     query_matches: ["FLUX8"],
   },
   GalaxyRG: {
-    file_attributes: ["GalaxyRG", "x264-Galax", "x265-Galax", "x264-GalaxyRG", "x265-GalaxyRG", "Galaxy"],
+    file_attributes: [
+      "GalaxyRG",
+      "x264-Galax",
+      "x265-Galax",
+      "x264-GalaxyRG",
+      "x265-GalaxyRG",
+      "Galaxy",
+      "10bit-GalaxyRG265",
+      "10bit-GalaxyRG264",
+    ],
     is_supported: true,
     release_group_name: "GalaxyRG",
     query_matches: ["GalaxyRG"],

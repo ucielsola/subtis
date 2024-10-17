@@ -2,10 +2,11 @@
 
 ## URLs
 
-| Name    | Link                   |
-|---------|------------------------|
-| API     | https://api.subt.is    |
-| Stremio | https://stremio.subt.is|
+| Name    | Link                        |
+|---------|-----------------------------|
+| API     | https://api.subt.is         |
+| Stremio | https://stremio.subt.is     |
+| WebSocket | https://socketdex.subt.is |
 
 ## Packages
 
@@ -18,38 +19,47 @@
 
 ## Development
 
-1. Install [bun](https://bun.sh/) runtime
+1. Request `.env.development` file from a team member
+
+2. Run initialization script
+
+```bash
+chmod +x ./setup.sh && ./setup.sh
+```
+
+3. Install [bun](https://bun.sh/) runtime
 
 ```bash
 curl -fsSL https://bun.sh/install | bash
 ```
 
-2. Install project dependencies
+4. Install project dependencies
 
 ```bash
-cd subtis && bun install
+bun install
 ```
 
-3. Download environment variables from 1Password and paste them to root project folder
-
-> or ask for a quick time expiration link
-
-4. Run subtis REST API first
+5. Run Subtis REST API
 
 ```bash
 bun run dev:api
 ```
 
-5. Run any of the desired client packages
+6. Run Subtis Web
 
 ```bash
 bun run dev:web
+```
+
+7. Run any of the desired client packages (Optional)
+
+```bash
 bun run dev:cli
 bun run dev:raycast
 bun run dev:stremio
 ```
 
-5. Run the indexer to fill DB
+8. Run the indexer to fill DB (Optional)
 
 ```bash
 bun run dev:indexer:movies
@@ -74,9 +84,10 @@ bun run deploy:api
 
 - Deploy CLI
 
-```bash
-bun run deploy:cli
-```
+1. Create new release in [Github Releases](https://github.com/lndgalante/homebrew-subtis/releases)
+
+2. Update `subtis.rb` with the new release version and push the changes
+
 
 ## Database
 
@@ -104,23 +115,13 @@ To check how the database schema looks like go to Supabase project, under `Datab
 
 ## CLI
 
-1. Download binary
+### Installation
 
 ```bash
-curl -L -o subtis https://subt.is/cli
+brew tap lndgalante/homebrew-subtis
+brew install subtis
 ```
 
-2. Give it write access
-
-```bash
-chmod +x ./subtis && ./subtis
-```
-
-3. Try it with some movie
-
-```bash
-./subtis --file [YOUR_MOVIE_FILE]
-```
 
 ## Good practices
 
