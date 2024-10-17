@@ -4,4 +4,4 @@ compatibility_date = "2023-12-01"
 [vars]
 SUPABASE_API_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InllbGhzbW52Znl5anVhbXhib2JzIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcyOTIwNjk4NSwiZXhwIjoyMDQ0NzgyOTg1fQ.0HvCy3pGIvQgSxtI6jpeMUJs0VAxxbUvIx5m0z2Q4MQ"
 SUPABASE_BASE_URL="https://yelhsmnvfyyjuamxbobs.supabase.co"
-YOUTUBE_API_KEY="AIzaSyAg0myBo7ZbDuwvVF8rAEqf3TJ9W-NYens"
+YOUTUBE_API_KEY="AIzaSyDonS74WrrIBxQq3tThF4AS5kEWz3X5Z-I"
