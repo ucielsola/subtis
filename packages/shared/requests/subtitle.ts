@@ -1,5 +1,5 @@
 // api
-import { subtitleSchema } from "@subtis/api/shared/schemas";
+import { type SubtisSubtitle, subtitleSchema } from "@subtis/api/shared/schemas";
 
 // internals
 import type { ApiClient } from "../ui/client";
@@ -14,7 +14,7 @@ export async function getPrimarySubtitle(
     bytes: string;
     fileName: string;
   },
-) {
+): Promise<SubtisSubtitle | null> {
   const response = await apiClient.v1.subtitle.file.name[":bytes"][":fileName"].$get({
     param: { bytes, fileName },
   });
@@ -24,20 +24,23 @@ export async function getPrimarySubtitle(
   }
 
   if (!response.ok) {
-    throw new Error("Failed to fetch original subtitle", { cause: response.status });
+    throw new Error("Failed to fetch primary subtitle", { cause: response.status });
   }
 
   const data = await response.json();
-  const subtitleByFileName = subtitleSchema.parse(data);
+  const primarySubtitle = subtitleSchema.parse(data);
 
   await apiClient.v1.subtitle.metrics.download.$patch({
-    json: { bytes: subtitleByFileName.bytes, titleFileName: subtitleByFileName.title_file_name },
+    json: { bytes: primarySubtitle.bytes, titleFileName: primarySubtitle.title_file_name },
   });
 
-  return subtitleByFileName;
+  return primarySubtitle;
 }
 
-export async function getAlternativeSubtitle(apiClient: ApiClient, { fileName }: { fileName: string }) {
+export async function getAlternativeSubtitle(
+  apiClient: ApiClient,
+  { fileName }: { fileName: string },
+): Promise<SubtisSubtitle> {
   const response = await apiClient.v1.subtitle.file.alternative[":fileName"].$get({
     param: { fileName },
   });
@@ -47,11 +50,11 @@ export async function getAlternativeSubtitle(apiClient: ApiClient, { fileName }:
   }
 
   const data = await response.json();
-  const subtitleByFileName = subtitleSchema.parse(data);
+  const alternativeSubtitle = subtitleSchema.parse(data);
 
   await apiClient.v1.subtitle.metrics.download.$patch({
-    json: { bytes: subtitleByFileName.bytes, titleFileName: subtitleByFileName.title_file_name },
+    json: { bytes: alternativeSubtitle.bytes, titleFileName: alternativeSubtitle.title_file_name },
   });
 
-  return subtitleByFileName;
+  return alternativeSubtitle;
 }

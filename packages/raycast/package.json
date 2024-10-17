@@ -10,8 +10,8 @@
   "commands": [
     {
       "name": "index",
-      "title": "Buscar Subtítulo",
-      "description": "Template for submitting a form",
+      "title": "Buscar subtítulo",
+      "description": "Encontra el subtítulo que buscas",
       "mode": "view"
     }
   ],
@@ -24,8 +24,8 @@
   },
   "dependencies": {
     "@raycast/api": "^1.84.3",
-    "delay": "^6.0.0",
     "node-fetch": "^3.3.2",
+    "ws": "^8.18.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
