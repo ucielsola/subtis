@@ -20,3 +20,11 @@ export function getApiClient(apiBaseUrlConfig: ApiBaseUrlConfig) {
 
   return client;
 }
+
+import getApiCLient from '..'
+export laoder({context}) = {
+  const config = {
+    apiBaseUrl: context.BASE_URL
+  }
+  getApiClient()
+}
