@@ -1,6 +1,6 @@
 import querystring from "querystring";
 import { zValidator } from "@hono/zod-validator";
-import { Hono } from "hono";
+import { type Context, Hono } from "hono";
 import { unescape as htmlUnescape } from "html-escaper";
 import { z } from "zod";
 
@@ -19,7 +19,28 @@ import {
 import { titleSchema, titlesQuery } from "../shared/schemas";
 import { getSupabaseClient } from "../shared/supabase";
 import type { AppVariables } from "../shared/types";
-import { getYoutubeApiKey } from "./youtube";
+import { getTmdbApiKey, getYoutubeApiKey } from "./api-keys";
+
+// schemas
+export const tmdbDiscoverMovieSchema = z.object({
+  results: z.array(z.object({ original_title: z.string() })),
+});
+
+// helpers
+function getTmdbHeaders(context: Context): RequestInit {
+  return {
+    method: "GET",
+    headers: { accept: "application/json", Authorization: `Bearer ${getTmdbApiKey(context)}` },
+  };
+}
+
+function getTmdbMovieSearchUrl(title: string, year?: number): string {
+  if (year) {
+    return `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}&primary_release_year=${year}&language=es-ES`;
+  }
+
+  return `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}&language=es-ES`;
+}
 
 // core
 export const title = new Hono<{ Variables: AppVariables }>()
@@ -69,17 +90,25 @@ export const title = new Hono<{ Variables: AppVariables }>()
     }
 
     const { name, year, currentSeason } = titleFileNameMetadata;
+    const url = getTmdbMovieSearchUrl(name, year ?? undefined);
+
+    const response = await fetch(url, getTmdbHeaders(context));
+    const data = await response.json();
+    const { data: tmdbData, success } = tmdbDiscoverMovieSchema.safeParse(data);
+
+    let queryName = name;
+    if (success && tmdbData) {
+      const [movie] = tmdbData.results;
+      queryName = movie.original_title;
+    }
 
     const query = currentSeason ? `${name} season ${currentSeason} teaser` : `${name} ${year} teaser`;
-
-    const params = {
+    const queryParams = querystring.stringify({
       q: query,
       maxResults: 12,
       part: "snippet",
       key: getYoutubeApiKey(context),
-    };
-
-    const queryParams = querystring.stringify(params);
+    });
 
     const youtubeResponse = await fetch(`${YOUTUBE_SEARCH_URL}?${queryParams}`);
     const youtubeData = await youtubeResponse.json();
@@ -96,7 +125,7 @@ export const title = new Hono<{ Variables: AppVariables }>()
       const youtubeTitle = getStringWithoutSpecialCharacters(unescapedTitle);
 
       return (
-        youtubeTitle.includes(name.toLowerCase()) &&
+        youtubeTitle.includes(queryName.toLowerCase()) &&
         (youtubeTitle.includes("teaser") || youtubeTitle.includes("trailer"))
       );
     });
@@ -116,9 +145,9 @@ export const title = new Hono<{ Variables: AppVariables }>()
     const teaser = `https://www.youtube.com/watch?v=${youTubeTeaser?.id.videoId}`;
 
     return context.json({
-      name,
-      year,
       url: teaser,
+      year,
+      name: queryName,
     });
   })
   .patch("/metrics/click", zValidator("json", z.object({ id: z.number() })), async (context) => {
