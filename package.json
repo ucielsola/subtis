@@ -41,7 +41,7 @@
     "clean:install": "bun pm cache rm && bun install --force"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.3",
+    "@biomejs/biome": "1.9.4",
     "jscpd": "^4.0.5",
     "taze": "^0.17.2",
     "typescript-coverage-report": "^1.0.0"
