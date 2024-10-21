@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@hono/zod-validator": "^0.4.1",
-    "@supabase/supabase-js": "^2.45.4",
+    "@supabase/supabase-js": "^2.45.6",
     "hono": "^4.6.5",
     "html-escaper": "^3.0.3",
     "jszip": "^3.10.1",
@@ -21,7 +21,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20241011.0",
+    "@cloudflare/workers-types": "^4.20241018.0",
     "@types/bun": "^1.1.11",
     "@types/html-escaper": "^3.0.2",
     "@types/timestring": "^6.0.5",
