@@ -56,7 +56,7 @@ async function getPrimarySubtitle({
   fetch(`${API_URL}/v1/subtitle/metrics/download`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ bytes, titleFileName: fileName }),
+    body: JSON.stringify({ titleId: primarySubtitle.title.id, subtitleId: primarySubtitle.id }),
   });
 
   return primarySubtitle;
@@ -75,7 +75,7 @@ export async function getAlternativeSubtitle({ fileName }: { fileName: string })
   fetch(`${API_URL}/v1/subtitle/metrics/download`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ bytes: alternativeSubtitle.bytes, titleFileName: alternativeSubtitle.title_file_name }),
+    body: JSON.stringify({ titleId: alternativeSubtitle.title.id, subtitleId: alternativeSubtitle.id }),
   });
 
   return alternativeSubtitle;
