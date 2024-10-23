@@ -21,7 +21,7 @@
     "fix-lint": "ray lint --fix",
     "lint": "ray lint",
     "publish": "npx @raycast/api@latest publish",
-    "deploy": "rm -rf .env.development && mv ../package-lock.json . && bun run build && npx @raycast/api@latest publish"
+    "deploy": "rm -rf .env.development && bun run build && npx @raycast/api@latest publish"
   },
   "dependencies": {
     "@raycast/api": "^1.84.3",
