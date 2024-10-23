@@ -21,7 +21,13 @@ __dump
 dist
 .wrangler
 .dev.vars
-packages/**/package-lock.json
+/package-lock.json
+packages/api/package-lock.json
+packages/cli/package-lock.json
+packages/db/package-lock.json
+packages/indexer/package-lock.json
+packages/shared/package-lock.json
+packages/stremio/package-lock.json
 yarn.lock
 pnpm-lock.yaml
 *.mkv
