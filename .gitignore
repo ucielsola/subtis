@@ -21,7 +21,7 @@ __dump
 dist
 .wrangler
 .dev.vars
-package-lock.json
+packages/**/package-lock.json
 yarn.lock
 pnpm-lock.yaml
 *.mkv
