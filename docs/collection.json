@@ -1,7 +1,7 @@
 {
   "yaakVersion": "2024.12.0-beta.3",
   "yaakSchema": 2,
-  "timestamp": "2024-10-23T01:21:26.116549",
+  "timestamp": "2024-10-23T04:46:33.554553",
   "resources": {
     "workspaces": [
       {
@@ -105,10 +105,10 @@
         "model": "folder",
         "id": "fl_ob31em44Zh",
         "createdAt": "2024-09-19T00:31:28",
-        "updatedAt": "2024-09-19T00:31:30",
+        "updatedAt": "2024-10-23T02:10:56",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": null,
-        "name": "Providers",
+        "name": "Providers (2)",
         "sortPriority": 4000.0
       },
       {
@@ -145,10 +145,10 @@
         "model": "folder",
         "id": "fl_YERMf4idMs",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-09-19T00:31:30",
+        "updatedAt": "2024-10-23T02:10:47",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": null,
-        "name": "Titles (3)",
+        "name": "Titles (4)",
         "sortPriority": 1000.0
       }
     ],
