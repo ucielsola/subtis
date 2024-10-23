@@ -276,11 +276,11 @@ const TMDB_OPTIONS = {
 };
 
 // helpers
-function generateTmdbDiscoverMovieUrl(page: number, _year: number, isDebugging: boolean) {
+function generateTmdbDiscoverMovieUrl(page: number, year: number, isDebugging: boolean) {
   if (isDebugging) {
-    return `https://api.themoviedb.org/3/discover/movie?language=es-ES&page=${page}&with_original_language=en`;
+    return `https://api.themoviedb.org/3/discover/movie?language=es-ES&page=${page}&with_original_language=en&primary_release_year=${year}`;
   }
-  return `https://api.themoviedb.org/3/discover/movie?language=es-ES&page=${page}&with_original_language=en`;
+  return `https://api.themoviedb.org/3/discover/movie?language=es-ES&page=${page}&with_original_language=en&primary_release_year=${year}`;
 
   // TODO: Check why the following filters doesn't work properly
   // return `https://api.themoviedb.org/3/discover/movie?language=es-ES&page=${page}&with_original_language=en&primary_release_date.gte=${dayjs(
