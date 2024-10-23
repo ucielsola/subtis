@@ -7,6 +7,7 @@ import { titlesRowSchema } from "@subtis/db/schemas";
 
 // internals
 import { MAX_LIMIT } from "../shared/constants";
+import { getResultsWithLength } from "../shared/results";
 import { getSupabaseClient } from "../shared/supabase";
 import type { AppVariables } from "../shared/types";
 
@@ -78,7 +79,7 @@ export const titles = new Hono<{ Variables: AppVariables }>()
       return context.json({ message: `Titles not found for query ${query}` });
     }
 
-    return context.json(titles.data);
+    return context.json(getResultsWithLength(titles.data));
   })
   .get("/recent/:limit", zValidator("param", z.object({ limit: z.string() })), async (context) => {
     const { limit } = context.req.valid("param");
@@ -118,7 +119,7 @@ export const titles = new Hono<{ Variables: AppVariables }>()
       return context.json({ message: "An error occurred", error: recentSubtitles.error.issues[0].message });
     }
 
-    return context.json(recentSubtitles.data);
+    return context.json(getResultsWithLength(recentSubtitles.data));
   })
   .get("/trending/:limit", zValidator("param", z.object({ limit: z.string() })), async (context) => {
     const { limit } = context.req.valid("param");
@@ -159,5 +160,5 @@ export const titles = new Hono<{ Variables: AppVariables }>()
       return context.json({ message: "An error occurred", error: trendingSubtitles.error.issues[0].message });
     }
 
-    return context.json(trendingSubtitles.data);
+    return context.json(getResultsWithLength(trendingSubtitles.data));
   });

@@ -10,6 +10,7 @@ import { RESOLUTION_REGEX } from "@subtis/shared";
 // internals
 import { MAX_LIMIT } from "../shared/constants";
 import { getSubtitleShortLink } from "../shared/links";
+import { getResultsWithLength } from "../shared/results";
 import { subtitleSchema, subtitlesQuery } from "../shared/schemas";
 import { getSupabaseClient } from "../shared/supabase";
 import type { AppVariables } from "../shared/types";
@@ -63,7 +64,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       subtitle_link: getSubtitleShortLink(subtitle.id),
     }));
 
-    return context.json(subtitlesWithShortLink);
+    return context.json(getResultsWithLength(subtitlesWithShortLink));
   })
   .get(
     "/tv-show/:titleId/:season?/:episode?",
@@ -123,7 +124,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
         subtitle_link: getSubtitleShortLink(subtitle.id),
       }));
 
-      return context.json(subtitlesWithShortLink);
+      return context.json(getResultsWithLength(subtitlesWithShortLink));
     },
   )
   .get(
@@ -316,5 +317,5 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
         subtitle_link: getSubtitleShortLink(subtitle.id),
       }));
 
-    return context.json(uniqueTrendingSubtitles);
+    return context.json(getResultsWithLength(uniqueTrendingSubtitles));
   });
