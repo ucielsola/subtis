@@ -2,11 +2,11 @@
 
 ## URLs
 
-| Name    | Link                        |
-|---------|-----------------------------|
-| API     | https://api.subt.is         |
-| Stremio | https://stremio.subt.is     |
-| WebSocket | https://socketdex.subt.is |
+| Name    | Link                        | Deeplink  |
+|---------|-----------------------------|-----------|
+| API     | https://api.subt.is         | -         |
+| WebSocket | https://socketdex.subt.is | -         |
+| Stremio | https://stremio.subt.is     | stremio://stremio.subt.is/manifest.json         |
 
 ## Packages
 
