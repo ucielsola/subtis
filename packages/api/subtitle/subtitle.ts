@@ -301,18 +301,23 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
   )
   .patch(
     "/metrics/download",
-    zValidator("json", z.object({ bytes: z.number(), titleFileName: z.string() })),
+    zValidator("json", z.object({ titleId: z.number(), subtitleId: z.number() })),
     async (context) => {
-      const { bytes, titleFileName } = context.req.valid("json");
+      const { titleId, subtitleId } = context.req.valid("json");
 
-      if (Number(bytes) < 1) {
+      if (Number.isNaN(titleId) || titleId < 1) {
         context.status(400);
-        return context.json({ message: "Invalid Bytes: it should be a positive integer number" });
+        return context.json({ message: "Invalid Title ID: it should be a positive integer number" });
       }
 
-      const { data, error } = await getSupabaseClient(context).rpc("update_subtitle_info", {
-        _bytes: bytes,
-        _title_file_name: titleFileName,
+      if (Number.isNaN(subtitleId) || subtitleId < 1) {
+        context.status(400);
+        return context.json({ message: "Invalid Subtitle ID: it should be a positive integer number" });
+      }
+
+      const { data, error } = await getSupabaseClient(context).rpc("update_subtitle_and_title_download_metrics", {
+        _title_id: titleId,
+        _subtitle_id: subtitleId,
       });
 
       if (error) {

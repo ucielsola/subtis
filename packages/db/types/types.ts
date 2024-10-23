@@ -191,6 +191,7 @@ export type Database = {
           queried_times: number | null;
           rating: number;
           release_date: string;
+          searched_times: number | null;
           title_name: string;
           title_name_spa: string;
           title_name_without_special_chars: string;
@@ -210,6 +211,7 @@ export type Database = {
           queried_times?: number | null;
           rating: number;
           release_date: string;
+          searched_times?: number | null;
           title_name: string;
           title_name_spa: string;
           title_name_without_special_chars: string;
@@ -229,6 +231,7 @@ export type Database = {
           queried_times?: number | null;
           rating?: number;
           release_date?: string;
+          searched_times?: number | null;
           title_name?: string;
           title_name_spa?: string;
           title_name_without_special_chars?: string;
@@ -316,12 +319,6 @@ export type Database = {
         };
         Returns: unknown;
       };
-      insert_subtitle_not_found: {
-        Args: {
-          _title_file_name: string;
-        };
-        Returns: undefined;
-      };
       set_limit: {
         Args: {
           "": number;
@@ -334,16 +331,16 @@ export type Database = {
         };
         Returns: string[];
       };
-      update_subtitle_info: {
+      update_subtitle_and_title_download_metrics: {
         Args: {
-          _bytes: number;
-          _title_file_name: string;
+          _title_id: number;
+          _subtitle_id: number;
         };
         Returns: boolean;
       };
-      update_title_info: {
+      update_title_search_metrics: {
         Args: {
-          _id: number;
+          _title_id: number;
         };
         Returns: boolean;
       };

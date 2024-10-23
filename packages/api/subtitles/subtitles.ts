@@ -271,7 +271,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       return context.body(zipContent);
     },
   )
-  .get("/trending/:limit", zValidator("param", z.object({ limit: z.string() })), async (context) => {
+  .get("/trending/download/:limit", zValidator("param", z.object({ limit: z.string() })), async (context) => {
     const { limit } = context.req.valid("param");
 
     const parsedLimit = Number.parseInt(limit);
@@ -310,12 +310,5 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       return context.json({ message: "An error occurred", error: trendingSubtitles.error.issues[0].message });
     }
 
-    const uniqueTrendingSubtitles = trendingSubtitles.data
-      .filter((subtitle, index, self) => index === self.findIndex((t) => t.title.id === subtitle.title.id))
-      .map((subtitle) => ({
-        ...subtitle,
-        subtitle_link: getSubtitleShortLink(subtitle.id),
-      }));
-
-    return context.json(getResultsWithLength(uniqueTrendingSubtitles));
+    return context.json(getResultsWithLength(trendingSubtitles.data));
   });

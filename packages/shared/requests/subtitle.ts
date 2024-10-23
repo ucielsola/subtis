@@ -31,7 +31,7 @@ export async function getPrimarySubtitle(
   const primarySubtitle = subtitleSchema.parse(data);
 
   await apiClient.v1.subtitle.metrics.download.$patch({
-    json: { bytes: primarySubtitle.bytes, titleFileName: primarySubtitle.title_file_name },
+    json: { titleId: primarySubtitle.title.id, subtitleId: primarySubtitle.id },
   });
 
   return primarySubtitle;
@@ -53,7 +53,7 @@ export async function getAlternativeSubtitle(
   const alternativeSubtitle = subtitleSchema.parse(data);
 
   await apiClient.v1.subtitle.metrics.download.$patch({
-    json: { bytes: alternativeSubtitle.bytes, titleFileName: alternativeSubtitle.title_file_name },
+    json: { titleId: alternativeSubtitle.title.id, subtitleId: alternativeSubtitle.id },
   });
 
   return alternativeSubtitle;
