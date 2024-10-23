@@ -249,7 +249,7 @@ export const RELEASE_GROUPS = {
     query_matches: ["HUZZAH"],
   },
   ETRG: {
-    file_attributes: ["x264-ETRG", "x265-ETRG"],
+    file_attributes: ["x264-ETRG", "x265-ETRG", "ETRG", "AAC-ETRG"],
     is_supported: true,
     release_group_name: "ETRG",
     query_matches: ["ETRG", "AAC-ETRG"],
@@ -441,6 +441,30 @@ export const RELEASE_GROUPS = {
     is_supported: true,
     release_group_name: "HEVC",
     query_matches: ["HEVC"],
+  },
+  DEPTH: {
+    file_attributes: ["DEPT", "x264-DEPT", "x265-DEPT"],
+    is_supported: true,
+    release_group_name: "DEPT",
+    query_matches: ["DEPT", "x264-DEPT", "x265-DEPT"],
+  },
+  Ozlem: {
+    file_attributes: ["Ozlem", "AAC - Ozlem"],
+    is_supported: true,
+    release_group_name: "Ozlem",
+    query_matches: ["Ozlem", "AAC - Ozlem"],
+  },
+  Tigole: {
+    file_attributes: ["Tigole"],
+    is_supported: true,
+    release_group_name: "Tigole",
+    query_matches: ["Tigole"],
+  },
+  Silence: {
+    file_attributes: ["Silence", "x265 Silence", "x264 Silence"],
+    is_supported: true,
+    release_group_name: "Silence",
+    query_matches: ["Silence", "x265 Silence", "x264 Silence"],
   },
 } as const;
 
