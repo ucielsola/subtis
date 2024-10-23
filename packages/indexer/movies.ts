@@ -8,7 +8,7 @@ import { supabase } from "@subtis/db";
 
 // internals
 import { getSubtitlesForTitle } from "./app";
-import { getReleaseGroups } from "./release-groups";
+import { getReleaseGroups, saveReleaseGroupsToDb } from "./release-groups";
 import { getSubDivXToken } from "./subdivx";
 import { getSubtitleGroups } from "./subtitle-groups";
 import { getMoviesFromTmdb, getTmdbMovieFromTitle, getTmdbMoviesTotalPagesArray } from "./tmdb";
@@ -125,10 +125,10 @@ export async function indexMovieByName({
 }
 
 // testing
-indexMoviesByYear(2024, true);
+// indexMoviesByYear(2024, true);
 // indexMovieByName({
 //   year: 2024,
 //   name: "Deadpool and Wolverine",
 //   isDebugging: true,
 // });
-// saveReleaseGroupsToDb(supabase);
+saveReleaseGroupsToDb(supabase);
