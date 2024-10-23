@@ -1,7 +1,7 @@
 {
   "yaakVersion": "2024.12.0-beta.3",
   "yaakSchema": 2,
-  "timestamp": "2024-10-22T23:47:19.517935",
+  "timestamp": "2024-10-23T01:21:26.116549",
   "resources": {
     "workspaces": [
       {
@@ -155,9 +155,38 @@
     "httpRequests": [
       {
         "model": "http_request",
+        "id": "rq_20vURhFflO",
+        "createdAt": "2024-10-23T00:46:17",
+        "updatedAt": "2024-10-23T01:06:38",
+        "workspaceId": "wk_SbrwnSjDzA",
+        "folderId": "fl_YERMf4idMs",
+        "authentication": {},
+        "authenticationType": null,
+        "body": {},
+        "bodyType": null,
+        "headers": [],
+        "method": "GET",
+        "name": "Get trending searched titles (/v1/titles/trending/search/:limit)",
+        "sortPriority": 2000.0,
+        "url": "${[baseUrl]}/v1/titles/trending/search/:limit",
+        "urlParameters": [
+          {
+            "enabled": true,
+            "name": ":limit",
+            "value": "6"
+          },
+          {
+            "enabled": true,
+            "name": "",
+            "value": ""
+          }
+        ]
+      },
+      {
+        "model": "http_request",
         "id": "rq_VL9z4jfn82",
         "createdAt": "2024-10-08T04:47:13",
-        "updatedAt": "2024-10-18T00:26:24",
+        "updatedAt": "2024-10-22T23:57:24",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
@@ -173,7 +202,7 @@
           {
             "enabled": true,
             "name": ":subtitleId",
-            "value": "8594"
+            "value": "8599"
           },
           {
             "enabled": true,
@@ -186,7 +215,7 @@
         "model": "http_request",
         "id": "rq_om9XNHwzbJ",
         "createdAt": "2024-10-01T01:12:56",
-        "updatedAt": "2024-10-18T00:26:13",
+        "updatedAt": "2024-10-22T23:57:16",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
@@ -202,7 +231,7 @@
           {
             "enabled": true,
             "name": ":subtitleId",
-            "value": "8594"
+            "value": "8599"
           },
           {
             "enabled": true,
@@ -333,13 +362,13 @@
         "model": "http_request",
         "id": "rq_TSkZUrqOKj",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-18T00:25:07",
+        "updatedAt": "2024-10-23T01:11:17",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
         "authenticationType": null,
         "body": {
-          "text": "{\n  \"bytes\": 1232482407,\n  \"titleFileName\": \"Deadpool.Wolverine.2024.720p.BluRay.x264.AAC-[YTS.MX].mp4\"\n}"
+          "text": "{\n  \"titleId\": 1300854,\n  \"subtitleId\": 8601\n}"
         },
         "bodyType": "application/json",
         "headers": [
@@ -477,7 +506,7 @@
         "model": "http_request",
         "id": "rq_N17uAhCV9T",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-18T00:28:02",
+        "updatedAt": "2024-10-23T01:14:38",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_XJ7aMDkIoi",
         "authentication": {},
@@ -506,7 +535,7 @@
         "model": "http_request",
         "id": "rq_gwu8UWD6zo",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-15T01:40:38",
+        "updatedAt": "2024-10-23T00:03:49",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_I5qYzXaiKY",
         "authentication": {},
@@ -535,7 +564,7 @@
         "model": "http_request",
         "id": "rq_f8cnVpajeT",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-15T01:40:47",
+        "updatedAt": "2024-10-23T00:03:56",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_I5qYzXaiKY",
         "authentication": {},
@@ -608,7 +637,7 @@
         "model": "http_request",
         "id": "rq_TWJn9mmiC7",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-18T00:27:45",
+        "updatedAt": "2024-10-23T01:12:43",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_sLYlejSo9e",
         "authentication": {},
@@ -617,9 +646,9 @@
         "bodyType": null,
         "headers": [],
         "method": "GET",
-        "name": "Get trending subtitles (/v1/subtitles/trending/:limit)",
+        "name": "Get trending downloaded subtitles (/v1/subtitles/trending/download/:limit)",
         "sortPriority": 0.0,
-        "url": "${[baseUrl]}/v1/subtitles/trending/:limit",
+        "url": "${[baseUrl]}/v1/subtitles/trending/download/:limit",
         "urlParameters": [
           {
             "enabled": true,
@@ -637,13 +666,13 @@
         "model": "http_request",
         "id": "rq_lWYKCjbYhz",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-18T00:20:47",
+        "updatedAt": "2024-10-23T01:04:55",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_G3EShJi9ud",
         "authentication": {},
         "authenticationType": null,
         "body": {
-          "text": "{\n  \"id\": 1300854\n}"
+          "text": "{\n  \"titleId\": 52357\n}"
         },
         "bodyType": "application/json",
         "headers": [
@@ -654,9 +683,9 @@
           }
         ],
         "method": "PATCH",
-        "name": "Update title click metrics (/v1/title/metrics/click)",
+        "name": "Update title search metrics (/v1/title/metrics/search)",
         "sortPriority": 0.0,
-        "url": "${[baseUrl]}/v1/title/metrics/click",
+        "url": "${[baseUrl]}/v1/title/metrics/search",
         "urlParameters": []
       },
       {
@@ -692,7 +721,7 @@
         "model": "http_request",
         "id": "rq_22xbygIhlm",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-18T00:22:04",
+        "updatedAt": "2024-10-23T00:56:17",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_YERMf4idMs",
         "authentication": {},
@@ -721,7 +750,7 @@
         "model": "http_request",
         "id": "rq_CulLwOZGid",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-18T00:22:28",
+        "updatedAt": "2024-10-23T00:56:17",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_YERMf4idMs",
         "authentication": {},
@@ -731,7 +760,7 @@
         "headers": [],
         "method": "GET",
         "name": "Get recent titles (/v1/titles/recent/:limit)",
-        "sortPriority": 0.0,
+        "sortPriority": 1000.0,
         "url": "${[baseUrl]}/v1/titles/recent/:limit",
         "urlParameters": [
           {
@@ -750,7 +779,7 @@
         "model": "http_request",
         "id": "rq_CeZMoAtUiy",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-18T00:23:17",
+        "updatedAt": "2024-10-23T01:08:06",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_YERMf4idMs",
         "authentication": {},
@@ -759,14 +788,14 @@
         "bodyType": null,
         "headers": [],
         "method": "GET",
-        "name": "Get trending titles (/v1/titles/trending/:limit)",
-        "sortPriority": 0.0,
-        "url": "${[baseUrl]}/v1/titles/trending/:limit",
+        "name": "Get trending downloaded titles (/v1/titles/trending/download/:limit)",
+        "sortPriority": 3000.0,
+        "url": "${[baseUrl]}/v1/titles/trending/download/:limit",
         "urlParameters": [
           {
             "enabled": true,
             "name": ":limit",
-            "value": "2"
+            "value": "8 "
           },
           {
             "enabled": true,
