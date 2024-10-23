@@ -31,12 +31,12 @@ const cliArgumentsSchema = z.union(
   [
     z.object({
       f: z.string().min(1, {
-        message: "🤔 El valor de -f debe ser una ruta de archivo válida.",
+        message: `🤔 El valor de -f debe ser una ruta de archivo válida.\n\nTips:\n\ - Ejemplo completo "subtis --file [NOMBRE_DE_ARCHIVO]" \n - Recordá posicionarte en el directorio donde se encuentra el archivo de video.`,
       }),
     }),
     z.object({
       file: z.string().min(1, {
-        message: "🤔 El valor de --file debe ser una ruta de archivo válida.",
+        message: `🤔 El valor de --file debe ser una ruta de archivo válida.\n\nTips:\n\ - Ejemplo completo "subtis --file [NOMBRE_DE_ARCHIVO]" \n - Recordá posicionarte en el directorio donde se encuentra el archivo de video.`,
       }),
     }),
   ],
@@ -44,7 +44,7 @@ const cliArgumentsSchema = z.union(
     errorMap: (_, context) => {
       if (context.defaultError === "Invalid input") {
         return {
-          message: "🤔 Debe proporcionar el flag --file [archivo] o bien -f [archivo].",
+          message: `🤔 Debe proporcionar el flag --file [archivo] o bien -f [archivo].\n\nTips:\n\ - Ejemplo completo "subtis --file [NOMBRE_DE_ARCHIVO]" \n - Recordá posicionarte en el directorio donde se encuentra el archivo de video.`,
         };
       }
 
