@@ -125,7 +125,7 @@ export const YTS_TRACKERS = [
 ];
 const [FIRST_YTS_TRACKER] = YTS_TRACKERS;
 
-export async function getYtsTorrents(imdbId: number) {
+export async function getYtsTorrents(imdbId: string) {
   const response = await fetch(
     `https://yts.am/api/v2/movie_details.json?imdb_id=${imdbId}&with_images=false&with_cast=false`,
   );

@@ -364,7 +364,7 @@ const tmdbApiEndpoints = {
 };
 
 export type TmdbTitle = {
-  imdbId: number;
+  imdbId: string;
   imdbLink: string;
   rating: number;
   overview: string;

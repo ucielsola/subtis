@@ -10,7 +10,7 @@ import {
 
 // titles
 export const titleSchema = titlesRowSchema.pick({
-  id: true,
+  imdb_id: true,
   title_name: true,
   type: true,
   year: true,
@@ -19,7 +19,7 @@ export const titleSchema = titlesRowSchema.pick({
 });
 
 export const titlesQuery = `
-  id,
+  imdb_id,
   type,
   year,
   poster,
@@ -27,7 +27,7 @@ export const titlesQuery = `
   title_name
 `;
 
-export const alternativeTitlesSchema = titlesRowSchema.pick({ id: true });
+export const alternativeTitlesSchema = titlesRowSchema.pick({ imdb_id: true });
 
 // release groups
 const releaseGroupSchema = releaseGroupsRowSchema.pick({ id: true, release_group_name: true });
@@ -71,5 +71,5 @@ export const subtitlesQuery = `
   current_episode,
   releaseGroup: ReleaseGroups ( id, release_group_name ),
   subtitleGroup: SubtitleGroups ( id, subtitle_group_name ),
-  title: Titles ( id, title_name, type, year, poster, backdrop )
+  title: Titles ( imdb_id, title_name, type, year, poster, backdrop )
 `;

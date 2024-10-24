@@ -150,13 +150,8 @@ export const title = new Hono<{ Variables: AppVariables }>()
       name: queryName,
     });
   })
-  .patch("/metrics/search", zValidator("json", z.object({ titleId: z.number() })), async (context) => {
+  .patch("/metrics/search", zValidator("json", z.object({ titleId: z.string() })), async (context) => {
     const { titleId: _title_id } = context.req.valid("json");
-
-    if (_title_id < 1) {
-      context.status(400);
-      return context.json({ message: "Invalid ID: it should be a positive integer number" });
-    }
 
     const { data, error } = await getSupabaseClient(context).rpc("update_title_search_metrics", { _title_id });
 

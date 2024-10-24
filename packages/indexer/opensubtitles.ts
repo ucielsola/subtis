@@ -136,7 +136,7 @@ export async function getSubtitlesFromOpenSubtitlesForTitle({
   currentSeason,
   currentEpisode,
 }: {
-  imdbId: number;
+  imdbId: string;
   titleType: TitleTypes;
   currentSeason: number | null;
   currentEpisode: number | null;
