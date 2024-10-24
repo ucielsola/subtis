@@ -1,8 +1,6 @@
 import { Hono } from "hono";
-import { cache } from "hono/cache";
 import { cors } from "hono/cors";
 import { secureHeaders } from "hono/secure-headers";
-import timestring from "timestring";
 
 // internals
 import { subtitle } from "./subtitle";
@@ -18,9 +16,6 @@ export function runApi() {
   // middlewares
   app.use("*", cors());
   app.use(secureHeaders());
-
-  // cache
-  app.get("*", cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("1 day")}` }));
 
   // routes
   const routes = app

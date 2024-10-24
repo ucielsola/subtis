@@ -1,5 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
+// import { cache } from "hono/cache";
+// import timestring from "timestring";
 import { z } from "zod";
 
 // db
@@ -89,125 +91,140 @@ export const titles = new Hono<{ Variables: AppVariables }>()
 
     return context.json(getResultsWithLength(titles.data));
   })
-  .get("/recent/:limit", zValidator("param", z.object({ limit: z.string() })), async (context) => {
-    const { limit } = context.req.valid("param");
+  .get(
+    "/recent/:limit",
+    zValidator("param", z.object({ limit: z.string() })),
+    async (context) => {
+      const { limit } = context.req.valid("param");
 
-    const parsedLimit = Number.parseInt(limit);
+      const parsedLimit = Number.parseInt(limit);
 
-    if (Number.isNaN(parsedLimit) || parsedLimit < 1) {
-      context.status(400);
-      return context.json({ message: "Invalid Limit: it should be a positive integer number" });
-    }
+      if (Number.isNaN(parsedLimit) || parsedLimit < 1) {
+        context.status(400);
+        return context.json({ message: "Invalid Limit: it should be a positive integer number" });
+      }
 
-    if (parsedLimit > MAX_LIMIT) {
-      context.status(400);
-      return context.json({ message: `Limit must be less than or equal to ${MAX_LIMIT}` });
-    }
+      if (parsedLimit > MAX_LIMIT) {
+        context.status(400);
+        return context.json({ message: `Limit must be less than or equal to ${MAX_LIMIT}` });
+      }
 
-    const { data, error } = await getSupabaseClient(context)
-      .from("Titles")
-      .select(recentTitlesQuery)
-      .order("release_date", { ascending: false })
-      .limit(parsedLimit);
+      const { data, error } = await getSupabaseClient(context)
+        .from("Titles")
+        .select(recentTitlesQuery)
+        .order("release_date", { ascending: false })
+        .limit(parsedLimit);
 
-    if (error && error.code === "PGRST116") {
-      context.status(404);
-      return context.json({ message: "Recent titles not found" });
-    }
+      if (error && error.code === "PGRST116") {
+        context.status(404);
+        return context.json({ message: "Recent titles not found" });
+      }
 
-    if (error) {
-      context.status(500);
-      return context.json({ message: "An error occurred", error: error.message });
-    }
+      if (error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error: error.message });
+      }
 
-    const recentSubtitles = recentTitlesSchema.safeParse(data);
+      const recentSubtitles = recentTitlesSchema.safeParse(data);
 
-    if (recentSubtitles.error) {
-      context.status(500);
-      return context.json({ message: "An error occurred", error: recentSubtitles.error.issues[0].message });
-    }
+      if (recentSubtitles.error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error: recentSubtitles.error.issues[0].message });
+      }
 
-    return context.json(getResultsWithLength(recentSubtitles.data));
-  })
-  .get("/trending/download/:limit", zValidator("param", z.object({ limit: z.string() })), async (context) => {
-    const { limit } = context.req.valid("param");
+      return context.json(getResultsWithLength(recentSubtitles.data));
+    },
+    // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("1 week")}` }),
+  )
+  .get(
+    "/trending/download/:limit",
+    zValidator("param", z.object({ limit: z.string() })),
+    async (context) => {
+      const { limit } = context.req.valid("param");
 
-    const parsedLimit = Number.parseInt(limit);
+      const parsedLimit = Number.parseInt(limit);
 
-    if (Number.isNaN(parsedLimit) || parsedLimit < 1) {
-      context.status(400);
-      return context.json({ message: "Invalid ID: it should be a positive integer number" });
-    }
+      if (Number.isNaN(parsedLimit) || parsedLimit < 1) {
+        context.status(400);
+        return context.json({ message: "Invalid ID: it should be a positive integer number" });
+      }
 
-    if (parsedLimit > MAX_LIMIT) {
-      context.status(400);
-      return context.json({ message: `Limit must be less than or equal to ${MAX_LIMIT}` });
-    }
+      if (parsedLimit > MAX_LIMIT) {
+        context.status(400);
+        return context.json({ message: `Limit must be less than or equal to ${MAX_LIMIT}` });
+      }
 
-    const { data, error } = await getSupabaseClient(context)
-      .from("Titles")
-      .select(trendingTitlesQuery)
-      .order("queried_times", { ascending: false })
-      .order("last_queried_at", { ascending: false })
-      .limit(parsedLimit);
+      const { data, error } = await getSupabaseClient(context)
+        .from("Titles")
+        .select(trendingTitlesQuery)
+        .order("queried_times", { ascending: false })
+        .order("last_queried_at", { ascending: false })
+        .limit(parsedLimit);
 
-    if (error && error.code === "PGRST116") {
-      context.status(404);
-      return context.json({ message: "Recent titles not found" });
-    }
+      if (error && error.code === "PGRST116") {
+        context.status(404);
+        return context.json({ message: "Recent titles not found" });
+      }
 
-    if (error) {
-      context.status(500);
-      return context.json({ message: "An error occurred", error: error.message });
-    }
+      if (error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error: error.message });
+      }
 
-    const trendingSubtitles = trendingSubtitlesSchema.safeParse(data);
+      const trendingSubtitles = trendingSubtitlesSchema.safeParse(data);
 
-    if (trendingSubtitles.error) {
-      context.status(500);
-      return context.json({ message: "An error occurred", error: trendingSubtitles.error.issues[0].message });
-    }
+      if (trendingSubtitles.error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error: trendingSubtitles.error.issues[0].message });
+      }
 
-    return context.json(getResultsWithLength(trendingSubtitles.data));
-  })
-  .get("/trending/search/:limit", zValidator("param", z.object({ limit: z.string() })), async (context) => {
-    const { limit } = context.req.valid("param");
+      return context.json(getResultsWithLength(trendingSubtitles.data));
+    },
+    // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("1 week")}` }),
+  )
+  .get(
+    "/trending/search/:limit",
+    zValidator("param", z.object({ limit: z.string() })),
+    async (context) => {
+      const { limit } = context.req.valid("param");
 
-    const parsedLimit = Number.parseInt(limit);
+      const parsedLimit = Number.parseInt(limit);
 
-    if (Number.isNaN(parsedLimit) || parsedLimit < 1) {
-      context.status(400);
-      return context.json({ message: "Invalid ID: it should be a positive integer number" });
-    }
+      if (Number.isNaN(parsedLimit) || parsedLimit < 1) {
+        context.status(400);
+        return context.json({ message: "Invalid ID: it should be a positive integer number" });
+      }
 
-    if (parsedLimit > MAX_LIMIT) {
-      context.status(400);
-      return context.json({ message: `Limit must be less than or equal to ${MAX_LIMIT}` });
-    }
+      if (parsedLimit > MAX_LIMIT) {
+        context.status(400);
+        return context.json({ message: `Limit must be less than or equal to ${MAX_LIMIT}` });
+      }
 
-    const { data, error } = await getSupabaseClient(context)
-      .from("Titles")
-      .select(trendingTitlesQuery)
-      .order("searched_times", { ascending: false })
-      .order("last_queried_at", { ascending: false })
-      .limit(parsedLimit);
+      const { data, error } = await getSupabaseClient(context)
+        .from("Titles")
+        .select(trendingTitlesQuery)
+        .order("searched_times", { ascending: false })
+        .order("last_queried_at", { ascending: false })
+        .limit(parsedLimit);
 
-    if (error && error.code === "PGRST116") {
-      context.status(404);
-      return context.json({ message: "Recent titles not found" });
-    }
+      if (error && error.code === "PGRST116") {
+        context.status(404);
+        return context.json({ message: "Recent titles not found" });
+      }
 
-    if (error) {
-      context.status(500);
-      return context.json({ message: "An error occurred", error: error.message });
-    }
+      if (error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error: error.message });
+      }
 
-    const trendingSubtitles = trendingSubtitlesSchema.safeParse(data);
+      const trendingSubtitles = trendingSubtitlesSchema.safeParse(data);
 
-    if (trendingSubtitles.error) {
-      context.status(500);
-      return context.json({ message: "An error occurred", error: trendingSubtitles.error.issues[0].message });
-    }
+      if (trendingSubtitles.error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error: trendingSubtitles.error.issues[0].message });
+      }
 
-    return context.json(getResultsWithLength(trendingSubtitles.data));
-  });
+      return context.json(getResultsWithLength(trendingSubtitles.data));
+    },
+    // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("1 day")}` }),
+  );

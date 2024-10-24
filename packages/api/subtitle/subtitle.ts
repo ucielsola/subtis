@@ -1,5 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
+// import { cache } from "hono/cache";
+// import timestring from "timestring";
 import { z } from "zod";
 
 // shared
@@ -18,37 +20,46 @@ const alternativeSubtitlesSchema = z
 
 // core
 export const subtitle = new Hono<{ Variables: AppVariables }>()
-  .get("/metadata/:subtitleId", zValidator("param", z.object({ subtitleId: z.string() })), async (context) => {
-    const { subtitleId } = context.req.valid("param");
+  .get(
+    "/metadata/:subtitleId",
+    zValidator("param", z.object({ subtitleId: z.string() })),
+    async (context) => {
+      const { subtitleId } = context.req.valid("param");
 
-    const parsedId = Number.parseInt(subtitleId);
+      const parsedId = Number.parseInt(subtitleId);
 
-    if (Number.isNaN(parsedId) || parsedId < 1) {
-      context.status(400);
-      return context.json({ message: "Invalid ID: it should be a positive integer number" });
-    }
+      if (Number.isNaN(parsedId) || parsedId < 1) {
+        context.status(400);
+        return context.json({ message: "Invalid ID: it should be a positive integer number" });
+      }
 
-    const supabase = getSupabaseClient(context);
+      const supabase = getSupabaseClient(context);
 
-    const { data, error } = await supabase.from("Subtitles").select(subtitlesQuery).match({ id: subtitleId }).single();
+      const { data, error } = await supabase
+        .from("Subtitles")
+        .select(subtitlesQuery)
+        .match({ id: subtitleId })
+        .single();
 
-    if (error) {
-      context.status(500);
-      return context.json({ message: "An error occurred", error: error.message });
-    }
+      if (error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error: error.message });
+      }
 
-    const subtitleByFileName = subtitleSchema.safeParse(data);
+      const subtitleByFileName = subtitleSchema.safeParse(data);
 
-    if (subtitleByFileName.error) {
-      context.status(500);
-      return context.json({ message: "An error occurred", error: subtitleByFileName.error.issues[0].message });
-    }
+      if (subtitleByFileName.error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error: subtitleByFileName.error.issues[0].message });
+      }
 
-    return context.json({
-      ...subtitleByFileName.data,
-      subtitle_link: getSubtitleShortLink(subtitleByFileName.data.id),
-    });
-  })
+      return context.json({
+        ...subtitleByFileName.data,
+        subtitle_link: getSubtitleShortLink(subtitleByFileName.data.id),
+      });
+    },
+    // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("2 weeks")}` }),
+  )
   .get(
     "/file/name/:bytes/:fileName",
     zValidator("param", z.object({ bytes: z.string(), fileName: z.string() })),
@@ -102,6 +113,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         subtitle_link: getSubtitleShortLink(subtitleByFileName.data.id),
       });
     },
+    // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("1 week")}` }),
   )
   .get("/file/alternative/:fileName", zValidator("param", z.object({ fileName: z.string() })), async (context) => {
     const { fileName } = context.req.valid("param");
@@ -227,41 +239,46 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       subtitle_link: getSubtitleShortLink(firstSubtitle.id),
     });
   })
-  .get("/link/:subtitleId", zValidator("param", z.object({ subtitleId: z.string() })), async (context) => {
-    const { subtitleId } = context.req.valid("param");
+  .get(
+    "/link/:subtitleId",
+    zValidator("param", z.object({ subtitleId: z.string() })),
+    async (context) => {
+      const { subtitleId } = context.req.valid("param");
 
-    const parsedSubtitleId = Number.parseInt(subtitleId);
+      const parsedSubtitleId = Number.parseInt(subtitleId);
 
-    if (Number.isNaN(parsedSubtitleId) || parsedSubtitleId < 1) {
-      context.status(400);
-      return context.json({ message: "Invalid ID: it should be a positive integer number" });
-    }
+      if (Number.isNaN(parsedSubtitleId) || parsedSubtitleId < 1) {
+        context.status(400);
+        return context.json({ message: "Invalid ID: it should be a positive integer number" });
+      }
 
-    const { data, error } = await getSupabaseClient(context)
-      .from("Subtitles")
-      .select("subtitle_link")
-      .match({ id: parsedSubtitleId })
-      .single();
+      const { data, error } = await getSupabaseClient(context)
+        .from("Subtitles")
+        .select("subtitle_link")
+        .match({ id: parsedSubtitleId })
+        .single();
 
-    if (error && error.code === "PGRST116") {
-      context.status(404);
-      return context.json({ message: "Subtitle link not found for subtitle ID" });
-    }
+      if (error && error.code === "PGRST116") {
+        context.status(404);
+        return context.json({ message: "Subtitle link not found for subtitle ID" });
+      }
 
-    if (error) {
-      context.status(500);
-      return context.json({ message: "An error occurred", error: error.message });
-    }
+      if (error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error: error.message });
+      }
 
-    const subtitleById = subtitleShortenerSchema.safeParse(data);
+      const subtitleById = subtitleShortenerSchema.safeParse(data);
 
-    if (subtitleById.error) {
-      context.status(500);
-      return context.json({ message: "An error occurred", error: subtitleById.error.issues[0].message });
-    }
+      if (subtitleById.error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error: subtitleById.error.issues[0].message });
+      }
 
-    return context.redirect(subtitleById.data.subtitle_link);
-  })
+      return context.redirect(subtitleById.data.subtitle_link);
+    },
+    // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("2 weeks")}` }),
+  )
   .post(
     "/not-found",
     zValidator(

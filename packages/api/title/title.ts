@@ -1,7 +1,9 @@
 import querystring from "querystring";
 import { zValidator } from "@hono/zod-validator";
 import { type Context, Hono } from "hono";
+// import { cache } from "hono/cache";
 import { unescape as htmlUnescape } from "html-escaper";
+// import timestring from "timestring";
 import { z } from "zod";
 
 // shared
@@ -44,112 +46,122 @@ function getTmdbMovieSearchUrl(title: string, year?: number): string {
 
 // core
 export const title = new Hono<{ Variables: AppVariables }>()
-  .get("/metadata/:titleId", zValidator("param", z.object({ titleId: z.string() })), async (context) => {
-    const { titleId } = context.req.valid("param");
+  .get(
+    "/metadata/:titleId",
+    zValidator("param", z.object({ titleId: z.string() })),
+    async (context) => {
+      const { titleId } = context.req.valid("param");
 
-    const parsedTitleId = Number.parseInt(titleId);
+      const parsedTitleId = Number.parseInt(titleId);
 
-    if (Number.isNaN(parsedTitleId) || parsedTitleId < 1) {
-      context.status(400);
-      return context.json({ message: "Invalid ID: it should be a positive integer number" });
-    }
+      if (Number.isNaN(parsedTitleId) || parsedTitleId < 1) {
+        context.status(400);
+        return context.json({ message: "Invalid ID: it should be a positive integer number" });
+      }
 
-    const supabase = getSupabaseClient(context);
+      const supabase = getSupabaseClient(context);
 
-    const { data, error } = await supabase.from("Titles").select(titlesQuery).match({ id: parsedTitleId }).single();
+      const { data, error } = await supabase.from("Titles").select(titlesQuery).match({ id: parsedTitleId }).single();
 
-    if (error) {
-      context.status(500);
-      return context.json({ message: "An error occurred", error: error.message });
-    }
+      if (error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error: error.message });
+      }
 
-    const titleById = titleSchema.safeParse(data);
+      const titleById = titleSchema.safeParse(data);
 
-    if (titleById.error) {
-      context.status(500);
-      return context.json({ message: "An error occurred", error: titleById.error.issues[0].message });
-    }
+      if (titleById.error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error: titleById.error.issues[0].message });
+      }
 
-    return context.json(titleById.data);
-  })
-  .get("/teaser/:fileName", zValidator("param", z.object({ fileName: z.string() })), async (context) => {
-    const { fileName } = context.req.valid("param");
+      return context.json(titleById.data);
+    },
+    // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("2 weeks")}` }),
+  )
+  .get(
+    "/teaser/:fileName",
+    zValidator("param", z.object({ fileName: z.string() })),
+    async (context) => {
+      const { fileName } = context.req.valid("param");
 
-    const videoFileName = videoFileNameSchema.safeParse(fileName);
-    if (!videoFileName.success) {
-      context.status(415);
-      return context.json({ message: videoFileName.error.issues[0].message });
-    }
+      const videoFileName = videoFileNameSchema.safeParse(fileName);
+      if (!videoFileName.success) {
+        context.status(415);
+        return context.json({ message: videoFileName.error.issues[0].message });
+      }
 
-    let titleFileNameMetadata: TitleFileNameMetadata | null = null;
-    try {
-      titleFileNameMetadata = getTitleFileNameMetadata({ titleFileName: videoFileName.data });
-    } catch (error) {
-      context.status(415);
-      return context.json({ message: "File name is not supported" });
-    }
+      let titleFileNameMetadata: TitleFileNameMetadata | null = null;
+      try {
+        titleFileNameMetadata = getTitleFileNameMetadata({ titleFileName: videoFileName.data });
+      } catch (error) {
+        context.status(415);
+        return context.json({ message: "File name is not supported" });
+      }
 
-    const { name, year, currentSeason } = titleFileNameMetadata;
-    const url = getTmdbMovieSearchUrl(name, year ?? undefined);
+      const { name, year, currentSeason } = titleFileNameMetadata;
+      const url = getTmdbMovieSearchUrl(name, year ?? undefined);
 
-    const response = await fetch(url, getTmdbHeaders(context));
-    const data = await response.json();
-    const { data: tmdbData, success } = tmdbDiscoverMovieSchema.safeParse(data);
+      const response = await fetch(url, getTmdbHeaders(context));
+      const data = await response.json();
+      const { data: tmdbData, success } = tmdbDiscoverMovieSchema.safeParse(data);
 
-    let queryName = name;
-    if (success && tmdbData) {
-      const [movie] = tmdbData.results;
-      queryName = movie.original_title;
-    }
+      let queryName = name;
+      if (success && tmdbData) {
+        const [movie] = tmdbData.results;
+        queryName = movie.original_title;
+      }
 
-    const query = currentSeason ? `${name} season ${currentSeason} teaser` : `${name} ${year} teaser`;
-    const queryParams = querystring.stringify({
-      q: query,
-      maxResults: 12,
-      part: "snippet",
-      key: getYoutubeApiKey(context),
-    });
+      const query = currentSeason ? `${name} season ${currentSeason} teaser` : `${name} ${year} teaser`;
+      const queryParams = querystring.stringify({
+        q: query,
+        maxResults: 12,
+        part: "snippet",
+        key: getYoutubeApiKey(context),
+      });
 
-    const youtubeResponse = await fetch(`${YOUTUBE_SEARCH_URL}?${queryParams}`);
-    const youtubeData = await youtubeResponse.json();
+      const youtubeResponse = await fetch(`${YOUTUBE_SEARCH_URL}?${queryParams}`);
+      const youtubeData = await youtubeResponse.json();
 
-    const youtubeParsedData = youTubeSchema.safeParse(youtubeData);
+      const youtubeParsedData = youTubeSchema.safeParse(youtubeData);
 
-    if (youtubeParsedData.error) {
-      context.status(500);
-      return context.json({ message: "An error occurred", error: youtubeParsedData.error.issues[0].message });
-    }
+      if (youtubeParsedData.error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error: youtubeParsedData.error.issues[0].message });
+      }
 
-    const filteredTeasers = youtubeParsedData.data.items.filter(({ snippet }) => {
-      const unescapedTitle = htmlUnescape(snippet.title);
-      const youtubeTitle = getStringWithoutSpecialCharacters(unescapedTitle);
+      const filteredTeasers = youtubeParsedData.data.items.filter(({ snippet }) => {
+        const unescapedTitle = htmlUnescape(snippet.title);
+        const youtubeTitle = getStringWithoutSpecialCharacters(unescapedTitle);
 
-      return (
-        youtubeTitle.includes(queryName.toLowerCase()) &&
-        (youtubeTitle.includes("teaser") || youtubeTitle.includes("trailer"))
-      );
-    });
+        return (
+          youtubeTitle.includes(queryName.toLowerCase()) &&
+          (youtubeTitle.includes("teaser") || youtubeTitle.includes("trailer"))
+        );
+      });
 
-    if (filteredTeasers.length === 0) {
-      context.status(404);
-      return context.json({ message: "No teaser found" });
-    }
+      if (filteredTeasers.length === 0) {
+        context.status(404);
+        return context.json({ message: "No teaser found" });
+      }
 
-    const curatedYouTubeTeaser = filteredTeasers.find(({ snippet }) => {
-      return OFFICIAL_SUBTIS_CHANNELS.some((curatedChannelsInLowerCase) =>
-        curatedChannelsInLowerCase.ids.includes(snippet.channelId.toLowerCase()),
-      );
-    });
+      const curatedYouTubeTeaser = filteredTeasers.find(({ snippet }) => {
+        return OFFICIAL_SUBTIS_CHANNELS.some((curatedChannelsInLowerCase) =>
+          curatedChannelsInLowerCase.ids.includes(snippet.channelId.toLowerCase()),
+        );
+      });
 
-    const youTubeTeaser = curatedYouTubeTeaser ?? filteredTeasers[0];
-    const teaser = `https://www.youtube.com/watch?v=${youTubeTeaser?.id.videoId}`;
+      const youTubeTeaser = curatedYouTubeTeaser ?? filteredTeasers[0];
+      const teaser = `https://www.youtube.com/watch?v=${youTubeTeaser?.id.videoId}`;
 
-    return context.json({
-      url: teaser,
-      year,
-      name: queryName,
-    });
-  })
+      return context.json({
+        url: teaser,
+        year,
+        name: queryName,
+      });
+    },
+    // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("1 week")}` }),
+  )
   .patch("/metrics/search", zValidator("json", z.object({ titleId: z.string() })), async (context) => {
     const { titleId: _title_id } = context.req.valid("json");
 

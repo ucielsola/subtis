@@ -1,7 +1,9 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
+// import { cache } from "hono/cache";
 import JSZip from "jszip";
 import slugify from "slugify";
+// import timestring from "timestring";
 import { z } from "zod";
 
 // shared
@@ -26,46 +28,51 @@ const trendingSubtitlesSchema = z
 
 // core
 export const subtitles = new Hono<{ Variables: AppVariables }>()
-  .get("/movie/:titleId", zValidator("param", z.object({ titleId: z.string() })), async (context) => {
-    const { titleId } = context.req.valid("param");
+  .get(
+    "/movie/:titleId",
+    zValidator("param", z.object({ titleId: z.string() })),
+    async (context) => {
+      const { titleId } = context.req.valid("param");
 
-    const parsedTitleId = Number.parseInt(titleId);
+      const parsedTitleId = Number.parseInt(titleId);
 
-    if (Number.isNaN(parsedTitleId) || parsedTitleId < 1) {
-      context.status(400);
-      return context.json({ message: "Invalid ID: it should be a positive integer number" });
-    }
+      if (Number.isNaN(parsedTitleId) || parsedTitleId < 1) {
+        context.status(400);
+        return context.json({ message: "Invalid ID: it should be a positive integer number" });
+      }
 
-    const { data, error } = await getSupabaseClient(context)
-      .from("Subtitles")
-      .select(subtitlesQuery)
-      .order("subtitle_group_id")
-      .match({ title_id: parsedTitleId });
+      const { data, error } = await getSupabaseClient(context)
+        .from("Subtitles")
+        .select(subtitlesQuery)
+        .order("subtitle_group_id")
+        .match({ title_id: parsedTitleId });
 
-    if (error && error.code === "PGRST116") {
-      context.status(404);
-      return context.json({ message: "Subtitles not found for movie ID" });
-    }
+      if (error && error.code === "PGRST116") {
+        context.status(404);
+        return context.json({ message: "Subtitles not found for movie ID" });
+      }
 
-    if (error) {
-      context.status(500);
-      return context.json({ message: "An error occurred", error: error.message });
-    }
+      if (error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error: error.message });
+      }
 
-    const subtitles = subtitlesSchema.safeParse(data);
+      const subtitles = subtitlesSchema.safeParse(data);
 
-    if (subtitles.error) {
-      context.status(500);
-      return context.json({ message: "An error occurred", error: subtitles.error.issues[0].message });
-    }
+      if (subtitles.error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error: subtitles.error.issues[0].message });
+      }
 
-    const subtitlesWithShortLink = subtitles.data.map((subtitle) => ({
-      ...subtitle,
-      subtitle_link: getSubtitleShortLink(subtitle.id),
-    }));
+      const subtitlesWithShortLink = subtitles.data.map((subtitle) => ({
+        ...subtitle,
+        subtitle_link: getSubtitleShortLink(subtitle.id),
+      }));
 
-    return context.json(getResultsWithLength(subtitlesWithShortLink));
-  })
+      return context.json(getResultsWithLength(subtitlesWithShortLink));
+    },
+    // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("2 weeks")}` }),
+  )
   .get(
     "/tv-show/:titleId/:season?/:episode?",
     zValidator(
@@ -126,6 +133,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 
       return context.json(getResultsWithLength(subtitlesWithShortLink));
     },
+    // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("2 weeks")}` }),
   )
   .get(
     "/tv-show/download/metadata/:titleId/:season",
@@ -183,6 +191,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 
       return context.json(parsedData);
     },
+    // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("1 week")}` }),
   )
   .get(
     "/tv-show/download/season/:titleId/:season/:resolution/:releaseGroupId",
@@ -270,6 +279,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 
       return context.body(zipContent);
     },
+    // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("1 week")}` }),
   )
   .get("/trending/download/:limit", zValidator("param", z.object({ limit: z.string() })), async (context) => {
     const { limit } = context.req.valid("param");

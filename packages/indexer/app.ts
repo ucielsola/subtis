@@ -551,28 +551,28 @@ async function generateSpecValidSrt(srt: string, path: string): Promise<boolean>
   return isValidSrt(srtString);
 }
 
-async function purgeCloudflareCache(files: string[]) {
-  const zoneId = process.env.CLOUDFLARE_ZONE_ID;
-  const apiToken = process.env.CLOUDFLARE_API_TOKEN;
+// async function purgeCloudflareCache(files: string[]) {
+//   const zoneId = process.env.CLOUDFLARE_ZONE_ID;
+//   const apiToken = process.env.CLOUDFLARE_API_TOKEN;
 
-  const response = await fetch(`https://api.cloudflare.com/client/v4/zones/${zoneId}/purge_cache`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiToken}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ files }),
-  });
-  console.log("\n ~ purgeCloudflareCache ~ response:", response.status);
+//   const response = await fetch(`https://api.cloudflare.com/client/v4/zones/${zoneId}/purge_cache`, {
+//     method: "POST",
+//     headers: {
+//       Authorization: `Bearer ${apiToken}`,
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({ files }),
+//   });
+//   console.log("\n ~ purgeCloudflareCache ~ response:", response.status);
 
-  if (!response.ok) {
-    const errorData = await response.json();
-    console.error("Failed to purge cache:", errorData);
-    throw new Error("Cache purge failed");
-  }
+//   if (!response.ok) {
+//     const errorData = await response.json();
+//     console.error("Failed to purge cache:", errorData);
+//     // throw new Error("Cache purge failed");
+//   }
 
-  console.log("Cache purged successfully!");
-}
+//   console.log("Cache purged successfully!");
+// }
 
 export async function downloadAndStoreTitleAndSubtitle(data: {
   indexedBy: IndexedBy;
@@ -641,10 +641,20 @@ export async function downloadAndStoreTitleAndSubtitle(data: {
       titleFileNameFromNotFoundSubtitle,
     });
 
-    await purgeCloudflareCache([
-      `https://api.subt.is/v1/subtitles/movie/${title.imdb_id}`,
-      `https://api.subt.is/v1/subtitles/tv-show/${title.imdb_id}`,
-    ]);
+    // const { current_season, current_episode } = getSeasonAndEpisode(title.episode);
+
+    // if (titleType === TitleTypes.movie) {
+    //   await purgeCloudflareCache([`https://api.subt.is/v1/subtitles/movie/${title.imdb_id}`]);
+    // }
+
+    // if (titleType === TitleTypes.tvShow) {
+    //   await purgeCloudflareCache([
+    //     `https://api.subt.is/v1/subtitles/tv-show/${title.imdb_id}`,
+    //     `https://api.subt.is/v1/subtitles/tv-show/${title.imdb_id}/${current_season}/${current_episode}`,
+    //     `https://api.subt.is/v1/subtitles/tv-show/download/metadata/${title.imdb_id}/${current_season}`,
+    //     `https://api.subt.is/v1/subtitles/tv-show/download/season/${title.imdb_id}/${current_season}/${subtitle.resolution}/${releaseGroups[releaseGroupName].id}`,
+    //   ]);
+    // }
 
     console.log("\n✅ Subtítulo guardado en la base de datos!\n");
 
