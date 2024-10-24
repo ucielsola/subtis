@@ -80,6 +80,12 @@ export function getTitleFileNameMetadata({
       );
     });
 
+    const name = titleName || parsedTitleName;
+    const filteredName = name
+      .replace(/\sdirectors\scut/gi, "")
+      .replace(/\sextended\sversion/gi, "")
+      .replace(/\sextended/gi, "");
+
     return {
       year,
       resolution,
@@ -87,7 +93,7 @@ export function getTitleFileNameMetadata({
       currentSeason,
       currentEpisode,
       fileNameWithoutExtension,
-      name: titleName || parsedTitleName,
+      name: filteredName,
     };
   }
 
@@ -117,13 +123,19 @@ export function getTitleFileNameMetadata({
 
   const fileNameWithoutExtension = getTitleFileNameWithoutExtension(parsedMovieFileName);
 
+  const name = titleName || parsedTitleName;
+  const filteredName = name
+    .replace(/\sdirectors\scut/gi, "")
+    .replace(/\sextended\sversion/gi, "")
+    .replace(/\sextended/gi, "");
+
   return {
     year: null,
     releaseGroup,
     currentSeason,
     currentEpisode,
     fileNameWithoutExtension,
-    name: titleName || parsedTitleName,
+    name: filteredName,
     resolution: resolution === ".S" ? "" : resolution,
   };
 }
