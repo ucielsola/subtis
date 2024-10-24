@@ -20,9 +20,7 @@ export function runApi() {
   app.use(secureHeaders());
 
   // cache
-  if (process.env.NODE_ENV === "production") {
-    app.get("*", cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("1 day")}` }));
-  }
+  app.get("*", cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("1 day")}` }));
 
   // routes
   const routes = app
