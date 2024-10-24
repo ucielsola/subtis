@@ -972,6 +972,7 @@ export async function getSubtitlesForTitle({
         imdbId,
         subdivxToken,
         subdivxCookie,
+        titleProviderQuery,
       });
       console.log(`4.${index}) ${subtitlesFromSubDivX.aaData.length} subtitlos encontrados en SubDivX \n`);
 

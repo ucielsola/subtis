@@ -2,7 +2,7 @@ import invariant from "tiny-invariant";
 import { z } from "zod";
 
 // shared
-import type { TitleFileNameMetadata } from "@subtis/shared";
+import { type TitleFileNameMetadata, getStringWithoutSpecialCharacters } from "@subtis/shared";
 
 // internals
 import { getFullImdbId } from "./imdb";
@@ -57,8 +57,95 @@ export async function getSubDivXToken(): Promise<SubDivXToken & { cookie: string
   return { token, cookie: response.headers.get("Set-Cookie") };
 }
 
-// core
-export async function getSubtitlesFromSubDivXForTitle({
+async function getSubtitlesFromSubDivXForTitleByQuery({
+  subdivxToken,
+  subdivxCookie,
+  titleProviderQuery,
+  hasBeenExecutedOnce,
+}: {
+  subdivxToken: string;
+  subdivxCookie: string | null;
+  titleProviderQuery: string;
+  hasBeenExecutedOnce: boolean;
+}): Promise<SubDivXSubtitles> {
+  const titleOnlyWithoutYear = titleProviderQuery.replace(/\d{4}/gi, "").trim().toLowerCase();
+
+  const response = await fetch(`${SUBDIVX_BASE_URL}/inc/ajax.php`, {
+    headers: {
+      Cookie: subdivxCookie ?? "",
+      "X-Requested-With": "XMLHttpRequest",
+      "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+    },
+    method: "POST",
+    body: `tabla=resultados&filtros=&buscar395a=${encodeURIComponent(titleProviderQuery)}&token=${subdivxToken}`,
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch subtitles from SubDivX");
+  }
+
+  const data = await response.json();
+
+  if (data === null) {
+    return { aaData: [], iTotalDisplayRecords: 0, iTotalRecords: 0, sEcho: "" };
+  }
+
+  const subtitles = subdivxSubtitlesSchema.parse(data);
+
+  if (subtitles.aaData.length === 0 && hasBeenExecutedOnce === false && titleProviderQuery.includes("&")) {
+    const parsedTitleProviderQuery = titleProviderQuery.replace(" & ", " and ");
+    await Bun.sleep(6000);
+
+    return getSubtitlesFromSubDivXForTitleByQuery({
+      subdivxToken,
+      subdivxCookie,
+      hasBeenExecutedOnce: true,
+      titleProviderQuery: parsedTitleProviderQuery,
+    });
+  }
+
+  if (subtitles.aaData.length === 0 && hasBeenExecutedOnce === false) {
+    const lastCharacter = titleProviderQuery.at(-1);
+    const newTitleProviderQuery = `${titleProviderQuery.slice(0, -1)}${Number(lastCharacter) - 1}`;
+    await Bun.sleep(6000);
+
+    return getSubtitlesFromSubDivXForTitleByQuery({
+      subdivxToken,
+      subdivxCookie,
+      hasBeenExecutedOnce: true,
+      titleProviderQuery: newTitleProviderQuery,
+    });
+  }
+
+  // Filter similar titles
+  const filteredSubtitles = subtitles.aaData.filter((subtitle) => {
+    let parsedSubtitleTitle = subtitle.titulo;
+    const akaIndex = subtitle.titulo.indexOf("aka");
+
+    if (akaIndex !== -1) {
+      parsedSubtitleTitle = subtitle.titulo.slice(0, akaIndex);
+    }
+
+    if (parsedSubtitleTitle.length > titleProviderQuery.length + 16) {
+      return false;
+    }
+
+    if (!getStringWithoutSpecialCharacters(subtitle.titulo).startsWith(`${titleOnlyWithoutYear} `)) {
+      return false;
+    }
+
+    return true;
+  });
+
+  const result = {
+    ...subtitles,
+    aaData: filteredSubtitles,
+  };
+
+  return result;
+}
+
+async function getSubtitlesFromSubDivXForTitleByImdbId({
   imdbId,
   subdivxToken,
   subdivxCookie,
@@ -92,6 +179,34 @@ export async function getSubtitlesFromSubDivXForTitle({
   return {
     ...subtitles,
   };
+}
+// core
+export async function getSubtitlesFromSubDivXForTitle({
+  imdbId,
+  subdivxToken,
+  subdivxCookie,
+  titleProviderQuery,
+}: {
+  imdbId: string;
+  subdivxToken: string;
+  subdivxCookie: string | null;
+  titleProviderQuery: string;
+}): Promise<SubDivXSubtitles> {
+  const subtitlesByImdbId = await getSubtitlesFromSubDivXForTitleByImdbId({ imdbId, subdivxToken, subdivxCookie });
+
+  if (subtitlesByImdbId.aaData.length > 0) {
+    return subtitlesByImdbId;
+  }
+
+  await Bun.sleep(6000);
+  const subtitlesByQuery = await getSubtitlesFromSubDivXForTitleByQuery({
+    subdivxToken,
+    subdivxCookie,
+    titleProviderQuery,
+    hasBeenExecutedOnce: false,
+  });
+
+  return subtitlesByQuery;
 }
 
 export async function filterSubDivXSubtitlesForTorrent({
