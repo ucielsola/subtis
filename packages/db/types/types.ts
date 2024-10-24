@@ -71,7 +71,7 @@ export type Database = {
           subtitle_group_id: number;
           subtitle_link: string;
           title_file_name: string;
-          title_id: number;
+          title_id: string | null;
           torrent_id: number;
           uploaded_by: string | null;
         };
@@ -94,7 +94,7 @@ export type Database = {
           subtitle_group_id: number;
           subtitle_link: string;
           title_file_name: string;
-          title_id: number;
+          title_id?: string | null;
           torrent_id: number;
           uploaded_by?: string | null;
         };
@@ -117,7 +117,7 @@ export type Database = {
           subtitle_group_id?: number;
           subtitle_link?: string;
           title_file_name?: string;
-          title_id?: number;
+          title_id?: string | null;
           torrent_id?: number;
           uploaded_by?: string | null;
         };
@@ -141,7 +141,7 @@ export type Database = {
             columns: ["title_id"];
             isOneToOne: false;
             referencedRelation: "Titles";
-            referencedColumns: ["id"];
+            referencedColumns: ["imdb_id"];
           },
           {
             foreignKeyName: "Subtitles_torrent_id_fkey";
@@ -183,7 +183,7 @@ export type Database = {
         Row: {
           backdrop: string | null;
           created_at: string;
-          id: number;
+          imdb_id: string;
           last_queried_at: string | null;
           logo: string | null;
           overview: string;
@@ -203,7 +203,7 @@ export type Database = {
         Insert: {
           backdrop?: string | null;
           created_at?: string;
-          id?: number;
+          imdb_id: string;
           last_queried_at?: string | null;
           logo?: string | null;
           overview: string;
@@ -223,7 +223,7 @@ export type Database = {
         Update: {
           backdrop?: string | null;
           created_at?: string;
-          id?: number;
+          imdb_id?: string;
           last_queried_at?: string | null;
           logo?: string | null;
           overview?: string;
@@ -333,14 +333,14 @@ export type Database = {
       };
       update_subtitle_and_title_download_metrics: {
         Args: {
-          _title_id: number;
+          _title_id: string;
           _subtitle_id: number;
         };
         Returns: boolean;
       };
       update_title_search_metrics: {
         Args: {
-          _title_id: number;
+          _title_id: string;
         };
         Returns: boolean;
       };

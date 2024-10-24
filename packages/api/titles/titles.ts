@@ -12,11 +12,17 @@ import { getSupabaseClient } from "../shared/supabase";
 import type { AppVariables } from "../shared/types";
 
 // schemas
-const searchTitleSchema = titlesRowSchema.pick({ id: true, type: true, title_name: true, year: true, backdrop: true });
+const searchTitleSchema = titlesRowSchema.pick({
+  imdb_id: true,
+  type: true,
+  title_name: true,
+  year: true,
+  backdrop: true,
+});
 const searchTitlesSchema = z.array(searchTitleSchema).min(1);
 
 const recentTitleSchema = titlesRowSchema.pick({
-  id: true,
+  imdb_id: true,
   title_name: true,
   type: true,
   year: true,
@@ -29,7 +35,7 @@ const recentTitlesSchema = z
   .min(1, { message: "Recent titles not found" });
 
 const trendingTitleSchema = titlesRowSchema.pick({
-  id: true,
+  imdb_id: true,
   title_name: true,
   queried_times: true,
   searched_times: true,
@@ -41,7 +47,7 @@ const trendingSubtitlesSchema = z
 
 // queries
 const recentTitlesQuery = `
-  id,
+  imdb_id,
   year,
   type,
   rating,
@@ -50,7 +56,7 @@ const recentTitlesQuery = `
 `;
 
 const trendingTitlesQuery = `
-  id,
+  imdb_id,
   title_name,
   queried_times,
   searched_times

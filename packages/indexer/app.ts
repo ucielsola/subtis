@@ -67,7 +67,7 @@ type TitleFile = {
 
 type TitleWithEpisode = Pick<
   Title,
-  | "id"
+  | "imdb_id"
   | "title_name"
   | "title_name_spa"
   | "overview"
@@ -312,7 +312,7 @@ async function storeSubtitleInSupabaseTable({
     file_extension: fileNameExtension,
     title_file_name: fileName,
     subtitle_file_name: downloadFileName,
-    title_id: title.id,
+    title_id: title.imdb_id,
     release_group_id: releaseGroupId,
     resolution,
     subtitle_group_id: subtitleGroupId,
@@ -337,7 +337,7 @@ async function storeSubtitleInSupabaseTable({
       file_extension: fileNameExtension,
       title_file_name: titleFileNameFromNotFoundSubtitle,
       subtitle_file_name: downloadFileName,
-      title_id: title.id,
+      title_id: title.imdb_id,
       release_group_id: releaseGroupId,
       resolution,
       subtitle_group_id: subtitleGroupId,
@@ -622,7 +622,7 @@ export async function downloadAndStoreTitleAndSubtitle(data: {
 
     console.table([
       {
-        imdbLink: getImdbLink(title.id),
+        imdbLink: getImdbLink(title.imdb_id),
         name: title.title_name,
         releaseGroupName,
         resolution: subtitle.resolution,
@@ -661,7 +661,7 @@ export type TorrentFound = {
 };
 type TorrentFoundWithId = TorrentFound & { id: number };
 
-export async function getTitleTorrents(query: string, titleType: TitleTypes, imdbId: number): Promise<TorrentFound[]> {
+export async function getTitleTorrents(query: string, titleType: TitleTypes, imdbId: string): Promise<TorrentFound[]> {
   let thePirateBayTorrents: TorrentFound[] = [];
 
   try {
@@ -969,10 +969,9 @@ export async function getSubtitlesForTitle({
     async function getSubtitlesFromSubDivXSafely() {
       console.log(`4.${index}) Buscando subtítulos en SubDivX \n`);
       const subtitlesFromSubDivX = await getSubtitlesFromSubDivXForTitle({
+        imdbId,
         subdivxToken,
         subdivxCookie,
-        titleProviderQuery,
-        hasBeenExecutedOnce: false,
       });
       console.log(`4.${index}) ${subtitlesFromSubDivX.aaData.length} subtitlos encontrados en SubDivX \n`);
 
@@ -1157,7 +1156,7 @@ export async function getSubtitlesForTitle({
             fileNameExtension,
           },
           title: {
-            id: imdbId,
+            imdb_id: imdbId,
             title_name: name,
             rating,
             overview,
@@ -1215,7 +1214,7 @@ export async function getSubtitlesForTitle({
             fileNameExtension,
           },
           title: {
-            id: imdbId,
+            imdb_id: imdbId,
             title_name: name,
             rating,
             overview,

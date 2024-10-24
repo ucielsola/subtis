@@ -434,7 +434,7 @@ export const RELEASE_GROUPS = {
     file_attributes: ["x264-RARBG", "x265-RARBG", "AAC-RARBG"],
     is_supported: true,
     release_group_name: "RARBG",
-    query_matches: ["RARBG", "AAC-RARBG"],
+    query_matches: ["RARBG", "AAC-RARBG", "(-MiLLENiUM)(-RARBG)", "(-RARBG)"],
   },
   HEVC: {
     file_attributes: ["HEVC", "x264-HEVC", "x265-HEVC"],

@@ -57,7 +57,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
       const parsedBytes = Number.parseInt(bytes);
 
-      if (Number.isNaN(parsedBytes) || parsedBytes < 1) {
+      if (Number.isNaN(parsedBytes) || parsedBytes < 0) {
         context.status(400);
         return context.json({ message: "Invalid Bytes: it should be a positive integer number" });
       }
@@ -166,7 +166,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
     }
 
     const { data: subtitleData, error: subtitleError } = await subtitleQuery.match({
-      title_id: titleByNameAndYear.data.id,
+      title_id: titleByNameAndYear.data.imdb_id,
     });
 
     if (subtitleError && subtitleError.code === "PGRST116") {
@@ -301,14 +301,9 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
   )
   .patch(
     "/metrics/download",
-    zValidator("json", z.object({ titleId: z.number(), subtitleId: z.number() })),
+    zValidator("json", z.object({ titleId: z.string(), subtitleId: z.number() })),
     async (context) => {
       const { titleId, subtitleId } = context.req.valid("json");
-
-      if (Number.isNaN(titleId) || titleId < 1) {
-        context.status(400);
-        return context.json({ message: "Invalid Title ID: it should be a positive integer number" });
-      }
 
       if (Number.isNaN(subtitleId) || subtitleId < 1) {
         context.status(400);

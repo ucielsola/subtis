@@ -36,7 +36,7 @@ $$ LANGUAGE plpgsql;
 ```
 
 ```sql
-CREATE OR REPLACE FUNCTION update_subtitle_and_title_download_metrics(_title_id int8, _subtitle_id int8)
+CREATE OR REPLACE FUNCTION update_subtitle_and_title_download_metrics(_title_id text, _subtitle_id int8)
 RETURNS boolean AS $$
 DECLARE
     success boolean;
@@ -61,7 +61,7 @@ $$ LANGUAGE plpgsql;
 ```
 
 ```sql
-CREATE OR REPLACE FUNCTION update_title_search_metrics(_title_id int8)
+CREATE OR REPLACE FUNCTION update_title_search_metrics(_title_id text)
 RETURNS boolean AS $$
 DECLARE
     success boolean;

@@ -125,7 +125,7 @@ export async function indexMovieByName({
 }
 
 // testing
-// indexMoviesByYear(2024, true);
+indexMoviesByYear(2024, false);
 // indexMovieByName({
 //   year: 2024,
 //   name: "Deadpool and Wolverine",
