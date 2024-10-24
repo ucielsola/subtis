@@ -125,10 +125,10 @@ export async function indexMovieByName({
 }
 
 // testing
-indexMoviesByYear(2004, true);
-// indexMovieByName({
-//   year: 2024,
-//   name: "Deadpool and Wolverine",
-//   isDebugging: true,
-// });
-saveReleaseGroupsToDb(supabase);
+// indexMoviesByYear(2004, true);
+indexMovieByName({
+  year: 2004,
+  isDebugging: true,
+  name: "Hellboy",
+});
+// saveReleaseGroupsToDb(supabase);

@@ -751,6 +751,7 @@ function getFilteredTorrents(
   titleType: TitleTypes,
   torrents: TorrentFound[],
   titleName: string,
+  spanishName: string,
   maxTorrents = 25,
 ): TorrentFoundWithId[] {
   const CINEMA_RECORDING_REGEX =
@@ -760,6 +761,8 @@ function getFilteredTorrents(
   const seenSizes = new Set<string | number>();
 
   const minSeeds = titleType === TitleTypes.tvShow ? 20 : 15;
+  const parsedTitleName = getStringWithoutSpecialCharacters(titleName).trim();
+  const parsedSpanishTitleName = getStringWithoutSpecialCharacters(spanishName).trim();
 
   return torrents
     .toSorted((torrentA, torrentB) => {
@@ -775,7 +778,6 @@ function getFilteredTorrents(
       }
 
       const { title } = torrent;
-
       let parsedTorrentTitle = "";
 
       if (title.match(/\.\d{3}/)) {
@@ -789,7 +791,13 @@ function getFilteredTorrents(
         parsedTorrentTitle = title.split(/\(\d{4}\)/)[0];
       }
 
-      return parsedTorrentTitle.toLowerCase().trim() === titleName.toLowerCase().trim();
+      const parsedTorrentTitleWithoutSpecialChars = getStringWithoutSpecialCharacters(parsedTorrentTitle).trim();
+      // return parsedTorrentTitle.toLowerCase().trim() === titleName.toLowerCase().trim();
+
+      return (
+        parsedTorrentTitleWithoutSpecialChars === parsedTitleName ||
+        parsedTorrentTitleWithoutSpecialChars === parsedSpanishTitleName
+      );
     })
     .filter((torrent) => !torrent.title.match(CINEMA_RECORDING_REGEX))
     .filter(({ seeds }) => seeds > minSeeds)
@@ -966,7 +974,7 @@ export async function getSubtitlesForTitle({
   console.table(torrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
 
   const filteredTorrents = (
-    fromWebSocket ? torrents : getFilteredTorrents(titleType, torrents, name)
+    fromWebSocket ? torrents : getFilteredTorrents(titleType, torrents, name, spanishName)
   ) as TorrentFoundWithId[];
   console.log("\nFiltered torrents \n");
   console.table(filteredTorrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
