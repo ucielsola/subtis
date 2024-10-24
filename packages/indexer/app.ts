@@ -550,6 +550,30 @@ async function generateSpecValidSrt(srt: string, path: string): Promise<boolean>
 
   return isValidSrt(srtString);
 }
+
+async function purgeCloudflareCache(files: string[]) {
+  const zoneId = process.env.CLOUDFLARE_ZONE_ID;
+  const apiToken = process.env.CLOUDFLARE_API_TOKEN;
+
+  const response = await fetch(`https://api.cloudflare.com/client/v4/zones/${zoneId}/purge_cache`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiToken}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ files }),
+  });
+  console.log("\n ~ purgeCloudflareCache ~ response:", response.status);
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    console.error("Failed to purge cache:", errorData);
+    throw new Error("Cache purge failed");
+  }
+
+  console.log("Cache purged successfully!");
+}
+
 export async function downloadAndStoreTitleAndSubtitle(data: {
   indexedBy: IndexedBy;
   titleFile: TitleFile;
@@ -617,7 +641,11 @@ export async function downloadAndStoreTitleAndSubtitle(data: {
       titleFileNameFromNotFoundSubtitle,
     });
 
-    // play sound when a subtitle was found
+    await purgeCloudflareCache([
+      `https://api.subt.is/v1/subtitles/movie/${title.imdb_id}`,
+      `https://api.subt.is/v1/subtitles/tv-show/${title.imdb_id}`,
+    ]);
+
     console.log("\n✅ Subtítulo guardado en la base de datos!\n");
 
     console.table([
