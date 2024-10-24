@@ -466,6 +466,32 @@ export const RELEASE_GROUPS = {
     release_group_name: "Silence",
     query_matches: ["Silence", "x265 Silence", "x264 Silence"],
   },
+  AMIABLE: {
+    file_attributes: ["AMIABLE","X264-AMIABLE","X265-AMIABLE"],
+    is_supported: true,
+    release_group_name: "AMIABLE",
+    query_matches: ["AMIABLE","X264-AMIABLE","X265-AMIABLE"],
+  },
+  HD4U: {
+    file_attributes: ["hd4u","x264-hd4u","x264-hd4u"],
+    is_supported: true,
+    release_group_name: "HD4U",
+    query_matches: ["hd4u","x264-hd4u","x264-hd4u"],
+  },
+  EDGE2020: {
+    file_attributes: ["EDGE2020","x264-EDGE2020","x265-EDGE2020"],
+    is_supported: true,
+    release_group_name: "EDGE2020",
+    query_matches: ["EDGE2020","x264-EDGE2020","x265-EDGE2020"],
+  },
+  SiNNERS: {
+    file_attributes: ["SiNNERS","x264-SiNNERS","x265-SiNNERS"],
+    is_supported: true,
+    release_group_name: "SiNNERS",
+    query_matches: ["SiNNERS","x264-SiNNERS","x265-SiNNERS"],
+  },
+
+
 } as const;
 
 // types
