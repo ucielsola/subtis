@@ -192,13 +192,6 @@ export async function getSubtitlesFromSubDivXForTitle({
   subdivxCookie: string | null;
   titleProviderQuery: string;
 }): Promise<SubDivXSubtitles> {
-  const subtitlesByImdbId = await getSubtitlesFromSubDivXForTitleByImdbId({ imdbId, subdivxToken, subdivxCookie });
-
-  if (subtitlesByImdbId.aaData.length > 0) {
-    return subtitlesByImdbId;
-  }
-
-  await Bun.sleep(6000);
   const subtitlesByQuery = await getSubtitlesFromSubDivXForTitleByQuery({
     subdivxToken,
     subdivxCookie,
@@ -206,7 +199,14 @@ export async function getSubtitlesFromSubDivXForTitle({
     hasBeenExecutedOnce: false,
   });
 
-  return subtitlesByQuery;
+  if (subtitlesByQuery.aaData.length > 0) {
+    return subtitlesByQuery;
+  }
+
+  await Bun.sleep(6000);
+  const subtitlesByImdbId = await getSubtitlesFromSubDivXForTitleByImdbId({ imdbId, subdivxToken, subdivxCookie });
+
+  return subtitlesByImdbId;
 }
 
 export async function filterSubDivXSubtitlesForTorrent({
