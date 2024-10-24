@@ -122,13 +122,10 @@ brew tap lndgalante/homebrew-subtis
 brew install subtis
 ```
 
-### Clean installation
+### Upgrade
 
 ```bash
-brew uninstall subtis \
-  && brew untap lndgalante/homebrew-subtis \
-  && brew tap lndgalante/homebrew-subtis \
-  && brew install subtis
+brew upgrade subtis
 ```
 
 
