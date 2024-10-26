@@ -36,9 +36,14 @@ import {
 
 // internals
 import { getImdbLink } from "./imdb";
-import { filterOpenSubtitleSubtitlesForTorrent, getSubtitlesFromOpenSubtitlesForTitle } from "./opensubtitles";
+import {
+  type OpenSubtitlesSubtitles,
+  filterOpenSubtitleSubtitlesForTorrent,
+  getSubtitlesFromOpenSubtitlesForTitle,
+} from "./opensubtitles";
 import type { ReleaseGroupMap, ReleaseGroupNames } from "./release-groups";
-import { filterSubDivXSubtitlesForTorrent, getSubtitlesFromSubDivXForTitle } from "./subdivx";
+import { type SubDivXSubtitles, filterSubDivXSubtitlesForTorrent, getSubtitlesFromSubDivXForTitle } from "./subdivx";
+import { type SubdlSubtitles, filterSubdlSubtitlesForTorrent, getSubtitlesFromSubdl } from "./subdl";
 import type { SubtitleGroupMap, SubtitleGroupNames } from "./subtitle-groups";
 import type { TmdbTitle, TmdbTvShow } from "./tmdb";
 import type { IndexedBy, SubtitleData } from "./types";
@@ -467,8 +472,13 @@ async function addWatermarkToSubtitle({
     subtitleText = subtitleBuffer.toString("utf-8");
   }
 
+  if (subtitleGroupName === "SUBDL") {
+    subtitleText = subtitleBuffer.toString("utf-8");
+  }
+
   const splitter = match(subtitleGroupName)
     .with("SubDivX", () => /\r\n\r\n/)
+    .with("SUBDL", () => /\n\n/)
     .with("OpenSubtitles", () => /\n\n/)
     .run();
 
@@ -751,8 +761,8 @@ function getFilteredTorrents(
   titleType: TitleTypes,
   torrents: TorrentFound[],
   titleName: string,
-  spanishName: string,
   maxTorrents = 25,
+  // spanishName: string,
 ): TorrentFoundWithId[] {
   const CINEMA_RECORDING_REGEX =
     /\b(hdcam|hdcamrip|hqcam|hq-cam|telesync|hdts|hd-ts|c1nem4|qrips|hdrip|cam|soundtrack|xxx|clean|khz|ep|camrip|dvdscr)\b/gi;
@@ -761,8 +771,8 @@ function getFilteredTorrents(
   const seenSizes = new Set<string | number>();
 
   const minSeeds = titleType === TitleTypes.tvShow ? 20 : 15;
-  const parsedTitleName = getStringWithoutSpecialCharacters(titleName).trim();
-  const parsedSpanishTitleName = getStringWithoutSpecialCharacters(spanishName).trim();
+  // const parsedTitleName = getStringWithoutSpecialCharacters(titleName).trim();
+  // const parsedSpanishTitleName = getStringWithoutSpecialCharacters(spanishName).trim();
 
   return torrents
     .toSorted((torrentA, torrentB) => {
@@ -791,13 +801,13 @@ function getFilteredTorrents(
         parsedTorrentTitle = title.split(/\(\d{4}\)/)[0];
       }
 
-      const parsedTorrentTitleWithoutSpecialChars = getStringWithoutSpecialCharacters(parsedTorrentTitle).trim();
-      // return parsedTorrentTitle.toLowerCase().trim() === titleName.toLowerCase().trim();
+      return parsedTorrentTitle.toLowerCase().trim() === titleName.toLowerCase().trim();
 
-      return (
-        parsedTorrentTitleWithoutSpecialChars === parsedTitleName ||
-        parsedTorrentTitleWithoutSpecialChars === parsedSpanishTitleName
-      );
+      // const parsedTorrentTitleWithoutSpecialChars = getStringWithoutSpecialCharacters(parsedTorrentTitle).trim();
+      // return (
+      //   parsedTorrentTitleWithoutSpecialChars === parsedTitleName ||
+      //   parsedTorrentTitleWithoutSpecialChars === parsedSpanishTitleName
+      // );
     })
     .filter((torrent) => !torrent.title.match(CINEMA_RECORDING_REGEX))
     .filter(({ seeds }) => seeds > minSeeds)
@@ -917,6 +927,89 @@ async function hasSubtitleInDatabase(title_file_name: string): Promise<boolean> 
   return subtitles ? subtitles.length > 0 : false;
 }
 
+type SubtitleProvider = "subdivx" | "subdl" | "openSubtitles";
+
+async function getAllSubtitlesFromProviders({
+  imdbId,
+  titleType,
+  providers,
+  currentSeason,
+  currentEpisode,
+  subdivxToken,
+  subdivxCookie,
+  titleProviderQuery,
+}: {
+  imdbId: string;
+  titleType: TitleTypes;
+  currentSeason: number | null;
+  currentEpisode: number | null;
+  subdivxToken: string;
+  subdivxCookie: string | null;
+  providers: SubtitleProvider[];
+  titleProviderQuery: string;
+}) {
+  const providersGetters = [
+    { getSubtitles: getSubtitlesFromSubDivXForTitle, provider: "subdivx" },
+    { getSubtitles: getSubtitlesFromSubdl, provider: "subdl" },
+    { getSubtitles: getSubtitlesFromOpenSubtitlesForTitle, provider: "openSubtitles" },
+  ] as const;
+
+  const filteredProviders = providersGetters.filter(({ provider }) => providers.includes(provider));
+  console.log("\n ~ filteredProviders:", filteredProviders);
+
+  const subtitles = await Promise.all(
+    filteredProviders.map(async ({ getSubtitles, provider }) => {
+      if (provider === "subdivx") {
+        const results = await getSubtitles({
+          imdbId,
+          subdivxToken,
+          subdivxCookie,
+          titleProviderQuery,
+        });
+
+        return { provider, results };
+      }
+
+      if (provider === "subdl") {
+        const results = await getSubtitles({
+          imdbId,
+          titleType,
+          currentSeason,
+          currentEpisode,
+        });
+
+        return { provider, results };
+      }
+
+      if (provider === "openSubtitles") {
+        const results = await getSubtitles({
+          imdbId,
+          titleType,
+          currentSeason,
+          currentEpisode,
+        });
+
+        return { provider, results };
+      }
+    }),
+  );
+
+  return subtitles.reduce<{
+    subdivx: SubDivXSubtitles | null;
+    subdl: SubdlSubtitles | null;
+    openSubtitles: OpenSubtitlesSubtitles | null;
+  }>(
+    (accumulator, subtitle) => {
+      if (!subtitle) {
+        return accumulator;
+      }
+
+      return { ...accumulator, [subtitle.provider]: subtitle.results };
+    },
+    { subdivx: null, subdl: null, openSubtitles: null },
+  );
+}
+
 // core
 export async function getSubtitlesForTitle({
   index,
@@ -974,7 +1067,7 @@ export async function getSubtitlesForTitle({
   console.table(torrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
 
   const filteredTorrents = (
-    fromWebSocket ? torrents : getFilteredTorrents(titleType, torrents, name, spanishName)
+    fromWebSocket ? torrents : getFilteredTorrents(titleType, torrents, name)
   ) as TorrentFoundWithId[];
   console.log("\nFiltered torrents \n");
   console.table(filteredTorrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
@@ -1010,105 +1103,83 @@ export async function getSubtitlesForTitle({
   const releaseGroupsRegex = new RegExp(`\\b(${releaseGroupsqueryMatches.join("|")})\\b`, "gi");
   const resolutionRegex = /(480p|576p|720p|1080p|2160p|4k|3d)/gi;
 
-  const subdivxSubtitles = await executeWithOptionalTryCatch(
-    true,
-    async function getSubtitlesFromSubDivXSafely() {
-      console.log(`4.${index}) Buscando subtítulos en SubDivX \n`);
-      const subtitlesFromSubDivX = await getSubtitlesFromSubDivXForTitle({
-        imdbId,
-        subdivxToken,
-        subdivxCookie,
-        titleProviderQuery,
-      });
-      console.log(`4.${index}) ${subtitlesFromSubDivX.aaData.length} subtitlos encontrados en SubDivX \n`);
-
-      const subdivxTable = subtitlesFromSubDivX.aaData.map(({ titulo, descripcion }) => {
-        const resolutions = descripcion.match(resolutionRegex);
-        const releaseGroups = descripcion.match(releaseGroupsRegex);
-
-        return {
-          title: titulo,
-          resolutions: resolutions ? [...new Set(resolutions)] : "",
-          releaseGroups: releaseGroups ? [...new Set(releaseGroups)] : "",
-        };
-      });
-
-      return [subtitlesFromSubDivX, subdivxTable];
-    },
-    `4.${index}) No se encontraron subtitulos en SubDivX\n`,
-  );
-
-  const [subtitlesFromSubDivX, subdivxTable] = (subdivxSubtitles ?? [null, null]) as
-    | [
-        {
-          aaData: {
-            cds: number;
-            comentarios: number;
-            descargas: number;
-            descripcion: string;
-            eliminado: 0 | 1;
-            formato: string;
-            fotos: string;
-            framerate: string;
-            id: number;
-            idmoderador: number;
-            nick: string;
-            promedio: string;
-            titulo: string;
-            calificacion?: string | undefined;
-            fecha?: string | undefined;
-          }[];
-          iTotalDisplayRecords: number;
-          iTotalRecords: number;
-          sEcho: string;
-        },
-        {
-          title: string;
-          resolutions: string | string[];
-          releaseGroups: string | string[];
-        }[],
-      ]
-    | [null, null];
-
-  console.log(`4.${index}) Buscando subtítulos en OpenSubtitles \n`);
-  const subtitlesFromOpenSubtitles = await getSubtitlesFromOpenSubtitlesForTitle({
+  const enabledProviders = ["subdivx", "subdl", "openSubtitles"] as SubtitleProvider[];
+  // const enabledProviders = ["subdl"] as SubtitleProvider[];
+  const subtitles = await getAllSubtitlesFromProviders({
     imdbId,
     titleType,
     currentSeason,
     currentEpisode,
+    subdivxToken,
+    subdivxCookie,
+    providers: enabledProviders,
+    titleProviderQuery,
   });
-  console.log(`4.${index}) ${subtitlesFromOpenSubtitles.data.length} subtitlos encontrados en OpenSubtitles \n`);
 
-  const openSubtitlesTable = subtitlesFromOpenSubtitles.data.map(({ attributes }) => {
-    const release = attributes.release.toLowerCase();
-    const comments = attributes?.comments?.toLowerCase() ?? "";
+  if (subtitles.subdivx) {
+    console.log(`4.${index}) ${subtitles.subdivx.aaData.length} subtitlos encontrados en SubDivX \n`);
 
-    const resolutions = release.match(resolutionRegex) || comments.match(resolutionRegex);
-    const releaseGroups = release.match(releaseGroupsRegex) || comments.match(releaseGroupsRegex);
+    const subdivxTable = subtitles.subdivx.aaData.map(({ titulo, descripcion }) => {
+      const resolutions = descripcion.match(resolutionRegex);
+      const releaseGroups = descripcion.match(releaseGroupsRegex);
 
-    return {
-      title: attributes.feature_details.title,
-      name: attributes.feature_details.movie_name,
-      resolutions: resolutions ? [...new Set(resolutions)] : "",
-      releaseGroups: releaseGroups ? [...new Set(releaseGroups)] : "",
-    };
-  });
+      return {
+        title: titulo,
+        resolutions: resolutions ? [...new Set(resolutions)] : "",
+        releaseGroups: releaseGroups ? [...new Set(releaseGroups)] : "",
+      };
+    });
+
+    console.table(subdivxTable);
+    console.log("\n\n");
+  }
+
+  if (subtitles.subdl) {
+    console.log(`4.${index}) ${subtitles.subdl.length} subtitlos encontrados en SubDL \n`);
+
+    const subdlTable = subtitles.subdl.map(({ name, release_name }) => {
+      const resolutions = release_name.match(resolutionRegex);
+      const releaseGroups = release_name.match(releaseGroupsRegex);
+
+      return {
+        title: name,
+        releaseName: release_name,
+        resolutions: resolutions ? [...new Set(resolutions)] : "",
+        releaseGroups: releaseGroups ? [...new Set(releaseGroups)] : "",
+      };
+    });
+
+    console.table(subdlTable);
+    console.log("\n\n");
+  }
+
+  if (subtitles.openSubtitles) {
+    console.log(`4.${index}) ${subtitles.openSubtitles.data.length} subtitlos encontrados en OpenSubtitles \n`);
+
+    const openSubtitlesTable = subtitles.openSubtitles.data.map(({ attributes }) => {
+      const release = attributes.release.toLowerCase();
+      const comments = attributes?.comments?.toLowerCase() ?? "";
+
+      const resolutions = release.match(resolutionRegex) || comments.match(resolutionRegex);
+      const releaseGroups = release.match(releaseGroupsRegex) || comments.match(releaseGroupsRegex);
+
+      return {
+        title: attributes.feature_details.title,
+        name: attributes.feature_details.movie_name,
+        resolutions: resolutions ? [...new Set(resolutions)] : "",
+        releaseGroups: releaseGroups ? [...new Set(releaseGroups)] : "",
+      };
+    });
+
+    console.table(openSubtitlesTable);
+    console.log("\n\n");
+  }
+
+  // --------------------------------------------
 
   for await (const [torrentIndex, torrent] of Object.entries(filteredTorrents)) {
     console.log("\n\n\n\n");
     console.log("-------------------------------------------------------------------");
-
-    if (subdivxTable && subdivxTable.length > 0) {
-      console.log(`4.${index}.${torrentIndex}) Subtitulos encontrados en SubDivx:`);
-      console.table(subdivxTable);
-      console.log("\n");
-    }
-
-    if (openSubtitlesTable.length > 0) {
-      console.log(`4.${index}.${torrentIndex}) Subtitulos encontrados en OpenSubtitles:`);
-      console.table(openSubtitlesTable);
-      console.log("\n");
-    }
 
     console.log(`4.${index}.${torrentIndex}) Procesando torrent`, `"${torrent.title}"`, "\n");
     const videoFile = await executeWithOptionalTryCatch(
@@ -1148,8 +1219,8 @@ export async function getSubtitlesForTitle({
 
       if (isDebugging) {
         await confirm({
-          message: "¿Desea continuar? (Revisar si tiene sentido agregar el release group)",
           initialValue: true,
+          message: "¿Desea continuar? (Revisar si tiene sentido agregar el release group)",
         });
       }
 
@@ -1180,13 +1251,13 @@ export async function getSubtitlesForTitle({
     await executeWithOptionalTryCatch(
       shouldUseTryCatch,
       async function getSubtitleFromProvider() {
-        if (!subtitlesFromSubDivX) {
+        if (!subtitles.subdivx) {
           return;
         }
 
         const foundSubtitleFromSubDivX = await filterSubDivXSubtitlesForTorrent({
           episode,
-          subtitles: subtitlesFromSubDivX,
+          subtitles: subtitles.subdivx,
           titleFileNameMetadata: { ...titleFileNameMetadata, resolution: finalResolution },
         });
 
@@ -1232,8 +1303,8 @@ export async function getSubtitlesForTitle({
       `4.${index}.${torrentIndex}) Subtítulo no encontrado en SubDivX para ${name} ${finalResolution} ${releaseGroup.release_group_name} (Puede llegar a existir en OpenSubtitles) \n`,
     );
 
-    const subtitleAlreadyExistsAgain = await hasSubtitleInDatabase(fileName);
-    if (subtitleAlreadyExistsAgain) {
+    const subtitleAlreadyExistsForSubDivX = await hasSubtitleInDatabase(fileName);
+    if (subtitleAlreadyExistsForSubDivX) {
       console.log(`4.${index}.${torrentIndex}) Subtítulo ya existe en la base de datos 🙌`);
       continue;
     }
@@ -1241,10 +1312,75 @@ export async function getSubtitlesForTitle({
     await executeWithOptionalTryCatch(
       shouldUseTryCatch,
       async function getSubtitleFromProvider() {
+        if (!subtitles.subdl) {
+          return;
+        }
+
+        const foundSubtitleFromSubdl = await filterSubdlSubtitlesForTorrent({
+          episode,
+          subtitles: subtitles.subdl,
+          titleFileNameMetadata: { ...titleFileNameMetadata, resolution: finalResolution },
+        });
+
+        const { release_group_name: releaseGroupName } = releaseGroup;
+        console.log(
+          `4.${index}.${torrentIndex}) Subtítulo encontrado en OpenSubtitles para ${name} ${finalResolution} ${releaseGroupName} \n`,
+        );
+
+        await downloadAndStoreTitleAndSubtitle({
+          indexedBy,
+          titleType,
+          titleFile: {
+            bytes,
+            fileName,
+            fileNameExtension,
+          },
+          title: {
+            imdb_id: imdbId,
+            title_name: name,
+            rating,
+            overview,
+            title_name_spa: spanishName,
+            release_date: releaseDate,
+            year,
+            logo,
+            poster,
+            backdrop,
+            total_episodes: totalEpisodes,
+            total_seasons: totalSeasons,
+            type: episode ? TitleTypes.tvShow : TitleTypes.movie,
+            episode,
+          },
+          bytesFromNotFoundSubtitle,
+          titleFileNameFromNotFoundSubtitle,
+          torrent,
+          releaseGroupName,
+          subtitleGroupName: foundSubtitleFromSubdl.subtitleGroupName,
+          subtitle: { ...foundSubtitleFromSubdl, resolution: finalResolution, torrentId: torrent.id },
+          releaseGroups,
+          subtitleGroups,
+        });
+      },
+      `4.${index}.${torrentIndex}) Subtítulo no encontrado en SUBDL para ${name} ${finalResolution} ${releaseGroup.release_group_name} \n`,
+    );
+
+    const subtitleAlreadyExistsForSubdl = await hasSubtitleInDatabase(fileName);
+    if (subtitleAlreadyExistsForSubdl) {
+      console.log(`4.${index}.${torrentIndex}) Subtítulo ya existe en la base de datos 🙌`);
+      continue;
+    }
+
+    await executeWithOptionalTryCatch(
+      shouldUseTryCatch,
+      async function getSubtitleFromProvider() {
+        if (!subtitles.openSubtitles) {
+          return;
+        }
+
         const foundSubtitleFromOpenSubtitles = await filterOpenSubtitleSubtitlesForTorrent({
           episode,
+          subtitles: subtitles.openSubtitles,
           titleFileNameMetadata: { ...titleFileNameMetadata, resolution: finalResolution },
-          subtitles: subtitlesFromOpenSubtitles,
         });
 
         const { release_group_name: releaseGroupName } = releaseGroup;

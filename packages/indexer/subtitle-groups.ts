@@ -9,6 +9,10 @@ export const SUBTITLE_GROUPS = {
     subtitle_group_name: "SubDivX",
     website: "https://subdivx.com",
   },
+  SUBDL: {
+    subtitle_group_name: "SUBDL",
+    website: "https://subdl.com",
+  },
   OPEN_SUBTITLES: {
     subtitle_group_name: "OpenSubtitles",
     website: "https://www.opensubtitles.org",

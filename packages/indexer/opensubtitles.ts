@@ -127,7 +127,7 @@ const downloadSchema = z.object({
   uk: z.string(),
 });
 
-type Subtitles = z.infer<typeof subtitlesSchema>;
+export type OpenSubtitlesSubtitles = z.infer<typeof subtitlesSchema>;
 
 // core
 export async function getSubtitlesFromOpenSubtitlesForTitle({
@@ -140,7 +140,7 @@ export async function getSubtitlesFromOpenSubtitlesForTitle({
   titleType: TitleTypes;
   currentSeason: number | null;
   currentEpisode: number | null;
-}): Promise<Subtitles> {
+}): Promise<OpenSubtitlesSubtitles> {
   const titleTypeParam = titleType === "movie" ? "imdb_id" : "parent_imdb_id";
   const tvShowParam = titleType === "tv-show" ? `&season_number=${currentSeason}&episode_number=${currentEpisode}` : "";
 
@@ -164,8 +164,8 @@ export async function filterOpenSubtitleSubtitlesForTorrent({
   subtitles,
   titleFileNameMetadata,
 }: {
-  subtitles: Subtitles;
   episode: string | null;
+  subtitles: OpenSubtitlesSubtitles;
   titleFileNameMetadata: TitleFileNameMetadata;
 }): Promise<SubtitleData> {
   const { fileNameWithoutExtension, name, releaseGroup, resolution } = titleFileNameMetadata;

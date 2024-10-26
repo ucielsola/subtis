@@ -45,7 +45,7 @@ const subdivxTokenSchema = z.object({
   token: z.string(),
 });
 
-type SubDivXSubtitles = z.infer<typeof subdivxSubtitlesSchema>;
+export type SubDivXSubtitles = z.infer<typeof subdivxSubtitlesSchema>;
 type SubDivXToken = z.infer<typeof subdivxTokenSchema>;
 
 // helpers

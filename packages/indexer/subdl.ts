@@ -1,11 +1,19 @@
+import invariant from "tiny-invariant";
 import { z } from "zod";
+
+// shared
+import type { TitleFileNameMetadata } from "@subtis/shared";
 
 // internals
 import type { TitleTypes } from "./app";
 import { getFullImdbId } from "./imdb";
+import { generateSubtitleFileNames } from "./subtitle-filenames";
+import { SUBTITLE_GROUPS } from "./subtitle-groups";
+import type { SubtitleData } from "./types";
 
 // constants
 const SUBDL_API_BASE_URL = "https://api.subdl.com/api/v1/subtitles";
+const SUBDL_BREADCRUMB_ERROR = "SUBDL_ERROR" as const;
 
 // schemas
 const errorSchema = z.object({
@@ -48,7 +56,11 @@ const dataSchema = z.object({
 
 // types
 type SubdlSubtitle = z.infer<typeof subtitleSchema>;
-export type SubdlSubtitles = SubdlSubtitle[];
+
+type SubdlSubtitleData = SubdlSubtitle & {
+  subtitleLink: string;
+};
+export type SubdlSubtitles = SubdlSubtitleData[];
 
 export async function getSubtitlesFromSubdl({
   imdbId,
@@ -74,10 +86,7 @@ export async function getSubtitlesFromSubdl({
   });
 
   const data = await response.json();
-  console.log("\n ~ data:", data);
-
   const errorData = errorSchema.safeParse(data);
-  console.log("\n ~ errorData:", errorData);
 
   if (errorData.success && errorData.data.status === false) {
     return null;
@@ -97,4 +106,58 @@ export async function getSubtitlesFromSubdl({
   }
 
   return null;
+}
+
+export async function filterSubdlSubtitlesForTorrent({
+  episode,
+  subtitles,
+  titleFileNameMetadata,
+}: {
+  episode: string | null;
+  subtitles: SubdlSubtitles;
+  titleFileNameMetadata: TitleFileNameMetadata;
+}): Promise<SubtitleData> {
+  const { fileNameWithoutExtension, name, releaseGroup, resolution } = titleFileNameMetadata;
+
+  if (!releaseGroup) {
+    throw new Error("Release group undefined");
+  }
+
+  const foundSubtitle = subtitles.find((subtitle) => {
+    const release = subtitle.release_name.toLowerCase();
+
+    const hasResolution = release.includes(resolution);
+    const hasReleaseGroup = releaseGroup.query_matches.some((queryMatch) => {
+      const lowerCaseQueryMatch = queryMatch.toLowerCase();
+      return release.includes(lowerCaseQueryMatch);
+    });
+
+    const isSameFileName = subtitle.release_name.toLowerCase() === fileNameWithoutExtension.toLowerCase();
+
+    return isSameFileName || (hasResolution && hasReleaseGroup);
+  });
+
+  invariant(foundSubtitle, `[${SUBDL_BREADCRUMB_ERROR}]: No subtitle data found`);
+
+  const fileExtension = "zip";
+  const subtitleLink = foundSubtitle.subtitleLink;
+  const subtitleGroupName = SUBTITLE_GROUPS.SUBDL.subtitle_group_name;
+
+  const subtitleFileNames = generateSubtitleFileNames({
+    name,
+    episode,
+    resolution,
+    fileExtension,
+    subtitleGroupName,
+    fileNameWithoutExtension,
+    releaseGroupName: releaseGroup.release_group_name,
+  });
+
+  return {
+    lang: "es",
+    subtitleLink,
+    fileExtension,
+    subtitleGroupName,
+    ...subtitleFileNames,
+  };
 }
