@@ -263,6 +263,19 @@ function getSupabaseSubtitleLink({
 
 async function storeTitleInSupabaseTable(title: TitleWithEpisode): Promise<void> {
   const { episode, ...rest } = title;
+
+  const { data } = await supabase.from("Titles").select("id").match({ imdb_id: title.imdb_id }).single();
+
+  if (data) {
+    await supabase.from("Titles").upsert({
+      ...rest,
+      id: data.id,
+      title_name_without_special_chars: getStringWithoutSpecialCharacters(title.title_name),
+    });
+
+    return;
+  }
+
   await supabase.from("Titles").upsert({
     ...rest,
     title_name_without_special_chars: getStringWithoutSpecialCharacters(title.title_name),
@@ -317,7 +330,7 @@ async function storeSubtitleInSupabaseTable({
     file_extension: fileNameExtension,
     title_file_name: fileName,
     subtitle_file_name: downloadFileName,
-    title_id: title.imdb_id,
+    title_imdb_id: title.imdb_id,
     release_group_id: releaseGroupId,
     resolution,
     subtitle_group_id: subtitleGroupId,
@@ -342,7 +355,7 @@ async function storeSubtitleInSupabaseTable({
       file_extension: fileNameExtension,
       title_file_name: titleFileNameFromNotFoundSubtitle,
       subtitle_file_name: downloadFileName,
-      title_id: title.imdb_id,
+      title_imdb_id: title.imdb_id,
       release_group_id: releaseGroupId,
       resolution,
       subtitle_group_id: subtitleGroupId,
@@ -955,7 +968,6 @@ async function getAllSubtitlesFromProviders({
   ] as const;
 
   const filteredProviders = providersGetters.filter(({ provider }) => providers.includes(provider));
-  console.log("\n ~ filteredProviders:", filteredProviders);
 
   const subtitles = await Promise.all(
     filteredProviders.map(async ({ getSubtitles, provider }) => {

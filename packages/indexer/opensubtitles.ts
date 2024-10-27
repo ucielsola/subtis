@@ -22,11 +22,13 @@ function getOpenSubtitlesApiKey(): string {
 
 function getOpenSubtitlesHeaders(): {
   "Api-Key": string;
+  "User-Agent": string;
   "Content-Type": "application/json";
 } {
   return {
-    "Api-Key": getOpenSubtitlesApiKey(),
+    "User-Agent": "Subtis v0.3.5",
     "Content-Type": "application/json",
+    "Api-Key": getOpenSubtitlesApiKey(),
   };
 }
 
@@ -140,23 +142,29 @@ export async function getSubtitlesFromOpenSubtitlesForTitle({
   titleType: TitleTypes;
   currentSeason: number | null;
   currentEpisode: number | null;
-}): Promise<OpenSubtitlesSubtitles> {
-  const titleTypeParam = titleType === "movie" ? "imdb_id" : "parent_imdb_id";
-  const tvShowParam = titleType === "tv-show" ? `&season_number=${currentSeason}&episode_number=${currentEpisode}` : "";
+}): Promise<OpenSubtitlesSubtitles | null> {
+  try {
+    const titleTypeParam = titleType === "movie" ? "imdb_id" : "parent_imdb_id";
+    const tvShowParam =
+      titleType === "tv-show" ? `&season_number=${currentSeason}&episode_number=${currentEpisode}` : "";
 
-  const URL = `${OPEN_SUBTITLES_BASE_URL}/subtitles?${titleTypeParam}=${imdbId}${tvShowParam}&languages=es`;
+    const URL = `${OPEN_SUBTITLES_BASE_URL}/subtitles?${titleTypeParam}=${imdbId}${tvShowParam}&languages=es`;
 
-  const response = await fetch(URL, {
-    headers: getOpenSubtitlesHeaders(),
-  });
+    const headers = getOpenSubtitlesHeaders();
+    const response = await fetch(URL, { headers });
 
-  if (!response.ok) {
-    throw new Error(`[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: ${response.statusText}`);
+    if (!response.ok) {
+      throw new Error(`[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+
+    return subtitlesSchema.parse(data);
+  } catch (error) {
+    console.log("Couldn't get subtitles from OpenSubtitles");
+    console.log("\n ~ getSubtitlesFromOpenSubtitlesForTitle ~ error:", error);
+    return null;
   }
-
-  const data = await response.json();
-
-  return subtitlesSchema.parse(data);
 }
 
 export async function filterOpenSubtitleSubtitlesForTorrent({

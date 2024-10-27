@@ -79,7 +79,7 @@ export const subtitlesRowSchema = z.object({
   subtitle_group_id: z.number(),
   subtitle_link: z.string(),
   title_file_name: z.string(),
-  title_id: z.string().nullable(),
+  title_imdb_id: z.string(),
   torrent_id: z.number(),
   uploaded_by: z.string().nullable(),
 });
@@ -103,7 +103,7 @@ export const subtitlesInsertSchema = z.object({
   subtitle_group_id: z.number(),
   subtitle_link: z.string(),
   title_file_name: z.string(),
-  title_id: z.string().optional().nullable(),
+  title_imdb_id: z.string(),
   torrent_id: z.number(),
   uploaded_by: z.string().optional().nullable(),
 });
@@ -127,7 +127,7 @@ export const subtitlesUpdateSchema = z.object({
   subtitle_group_id: z.number().optional(),
   subtitle_link: z.string().optional(),
   title_file_name: z.string().optional(),
-  title_id: z.string().optional().nullable(),
+  title_imdb_id: z.string().optional(),
   torrent_id: z.number().optional(),
   uploaded_by: z.string().optional().nullable(),
 });
@@ -148,8 +148,8 @@ export const subtitlesRelationshipsSchema = z.tuple([
     referencedColumns: z.tuple([z.literal("id")]),
   }),
   z.object({
-    foreignKeyName: z.literal("Subtitles_title_id_fkey"),
-    columns: z.tuple([z.literal("title_id")]),
+    foreignKeyName: z.literal("Subtitles_title_imdb_id_fkey"),
+    columns: z.tuple([z.literal("title_imdb_id")]),
     isOneToOne: z.literal(false),
     referencedRelation: z.literal("Titles"),
     referencedColumns: z.tuple([z.literal("imdb_id")]),
@@ -195,6 +195,7 @@ export const subtitlesNotFoundRelationshipsSchema = z.tuple([]);
 export const titlesRowSchema = z.object({
   backdrop: z.string().nullable(),
   created_at: z.string(),
+  id: z.number(),
   imdb_id: z.string(),
   last_queried_at: z.string().nullable(),
   logo: z.string().nullable(),
@@ -216,6 +217,7 @@ export const titlesRowSchema = z.object({
 export const titlesInsertSchema = z.object({
   backdrop: z.string().optional().nullable(),
   created_at: z.string().optional(),
+  id: z.number().optional(),
   imdb_id: z.string(),
   last_queried_at: z.string().optional().nullable(),
   logo: z.string().optional().nullable(),
@@ -237,6 +239,7 @@ export const titlesInsertSchema = z.object({
 export const titlesUpdateSchema = z.object({
   backdrop: z.string().optional().nullable(),
   created_at: z.string().optional(),
+  id: z.number().optional(),
   imdb_id: z.string().optional(),
   last_queried_at: z.string().optional().nullable(),
   logo: z.string().optional().nullable(),

@@ -1,14 +1,19 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
+import { z } from "zod";
 // import { cache } from "hono/cache";
 // import timestring from "timestring";
-import { z } from "zod";
 
 // shared
-import { getStringWithoutSpecialCharacters, getTitleFileNameMetadata, videoFileNameSchema } from "@subtis/shared";
+import {
+  getIsTvShow,
+  getStringWithoutSpecialCharacters,
+  getTitleFileNameMetadata,
+  videoFileNameSchema,
+} from "@subtis/shared";
 
 // internals
-import { getSubtitleShortLink } from "../shared/links";
+import { getSubtitleNormalized } from "../shared/parsers";
 import { alternativeTitlesSchema, subtitleSchema, subtitleShortenerSchema, subtitlesQuery } from "../shared/schemas";
 import { getSupabaseClient } from "../shared/supabase";
 import type { AppVariables } from "../shared/types";
@@ -33,9 +38,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "Invalid ID: it should be a positive integer number" });
       }
 
-      const supabase = getSupabaseClient(context);
-
-      const { data, error } = await supabase
+      const { data, error } = await getSupabaseClient(context)
         .from("Subtitles")
         .select(subtitlesQuery)
         .match({ id: subtitleId })
@@ -53,10 +56,9 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "An error occurred", error: subtitleByFileName.error.issues[0].message });
       }
 
-      return context.json({
-        ...subtitleByFileName.data,
-        subtitle_link: getSubtitleShortLink(subtitleByFileName.data.id),
-      });
+      const normalizedSubtitle = getSubtitleNormalized(subtitleByFileName.data);
+
+      return context.json(normalizedSubtitle);
     },
     // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("2 weeks")}` }),
   )
@@ -88,9 +90,11 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         .single();
 
       if (error && error.code === "PGRST116") {
-        await getSupabaseClient(context)
-          .from("SubtitlesNotFound")
-          .insert({ bytes: parsedBytes, title_file_name: fileName });
+        const isTvShow = getIsTvShow(fileName);
+
+        if (!isTvShow) {
+          await supabase.from("SubtitlesNotFound").insert({ bytes: parsedBytes, title_file_name: fileName });
+        }
 
         context.status(404);
         return context.json({ message: "Subtitle not found for file" });
@@ -108,10 +112,9 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "An error occurred", error: subtitleByFileName.error.issues[0].message });
       }
 
-      return context.json({
-        ...subtitleByFileName.data,
-        subtitle_link: getSubtitleShortLink(subtitleByFileName.data.id),
-      });
+      const normalizedSubtitle = getSubtitleNormalized(subtitleByFileName.data);
+
+      return context.json(normalizedSubtitle);
     },
     // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("1 week")}` }),
   )
@@ -134,7 +137,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
     const titleQuery = supabase
       .from("Titles")
-      .select("id")
+      .select("imdb_id")
       .or(
         `title_name_without_special_chars.ilike.%${parsedName}%,title_name_without_special_chars.ilike.%${alternativeParsedName}%`,
       );
@@ -178,7 +181,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
     }
 
     const { data: subtitleData, error: subtitleError } = await subtitleQuery.match({
-      title_id: titleByNameAndYear.data.imdb_id,
+      title_imdb_id: titleByNameAndYear.data.imdb_id,
     });
 
     if (subtitleError && subtitleError.code === "PGRST116") {
@@ -206,10 +209,9 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
     if (filteredSubtitlesByResolution.length > 0) {
       const firstSubtitle = filteredSubtitlesByResolution[0];
 
-      return context.json({
-        ...firstSubtitle,
-        subtitle_link: getSubtitleShortLink(firstSubtitle.id),
-      });
+      const normalizedSubtitle = getSubtitleNormalized(firstSubtitle);
+
+      return context.json(normalizedSubtitle);
     }
 
     if (releaseGroup) {
@@ -223,7 +225,8 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         .sort((a, b) => ((a.queried_times || 0) < (b.queried_times || 0) ? 1 : -1));
 
       if (filteredSubtitles.length > 0) {
-        return context.json(filteredSubtitles.at(0));
+        const normalizedSubtitle = getSubtitleNormalized(filteredSubtitles[0]);
+        return context.json(normalizedSubtitle);
       }
     }
 
@@ -233,11 +236,9 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
     }
 
     const firstSubtitle = subtitleByFileName.data[0];
+    const normalizedSubtitle = getSubtitleNormalized(firstSubtitle);
 
-    return context.json({
-      ...firstSubtitle,
-      subtitle_link: getSubtitleShortLink(firstSubtitle.id),
-    });
+    return context.json(normalizedSubtitle);
   })
   .get(
     "/link/:subtitleId",
@@ -318,7 +319,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
   )
   .patch(
     "/metrics/download",
-    zValidator("json", z.object({ titleId: z.string(), subtitleId: z.number() })),
+    zValidator("json", z.object({ titleId: z.number(), subtitleId: z.number() })),
     async (context) => {
       const { titleId, subtitleId } = context.req.valid("json");
 

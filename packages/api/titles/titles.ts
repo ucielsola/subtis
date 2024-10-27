@@ -1,68 +1,28 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
+import { z } from "zod";
 // import { cache } from "hono/cache";
 // import timestring from "timestring";
-import { z } from "zod";
-
-// db
-import { titlesRowSchema } from "@subtis/db/schemas";
 
 // internals
 import { MAX_LIMIT } from "../shared/constants";
-import { getResultsWithLength } from "../shared/results";
+import { getResultsWithLength } from "../shared/parsers";
+import { titleSchema, titlesQuery } from "../shared/schemas";
 import { getSupabaseClient } from "../shared/supabase";
 import type { AppVariables } from "../shared/types";
 
 // schemas
-const searchTitleSchema = titlesRowSchema.pick({
-  imdb_id: true,
-  type: true,
-  title_name: true,
-  year: true,
-  backdrop: true,
-});
-const searchTitlesSchema = z.array(searchTitleSchema).min(1);
-
-const recentTitleSchema = titlesRowSchema.pick({
-  imdb_id: true,
-  title_name: true,
-  type: true,
-  year: true,
-  rating: true,
-  release_date: true,
-});
+const searchTitlesSchema = z
+  .array(titleSchema, { invalid_type_error: "Search titles not found" })
+  .min(1, { message: "Search titles not found" });
 
 const recentTitlesSchema = z
-  .array(recentTitleSchema, { invalid_type_error: "Recent titles not found" })
+  .array(titleSchema, { invalid_type_error: "Recent titles not found" })
   .min(1, { message: "Recent titles not found" });
-
-const trendingTitleSchema = titlesRowSchema.pick({
-  imdb_id: true,
-  title_name: true,
-  queried_times: true,
-  searched_times: true,
-});
 
 const trendingSubtitlesSchema = z
-  .array(trendingTitleSchema, { invalid_type_error: "Recent titles not found" })
-  .min(1, { message: "Recent titles not found" });
-
-// queries
-const recentTitlesQuery = `
-  imdb_id,
-  year,
-  type,
-  rating,
-  title_name,
-  release_date
-`;
-
-const trendingTitlesQuery = `
-  imdb_id,
-  title_name,
-  queried_times,
-  searched_times
-`;
+  .array(titleSchema, { invalid_type_error: "Trending titles not found" })
+  .min(1, { message: "Trending titles not found" });
 
 // core
 export const titles = new Hono<{ Variables: AppVariables }>()
@@ -111,7 +71,7 @@ export const titles = new Hono<{ Variables: AppVariables }>()
 
       const { data, error } = await getSupabaseClient(context)
         .from("Titles")
-        .select(recentTitlesQuery)
+        .select(titlesQuery)
         .order("release_date", { ascending: false })
         .limit(parsedLimit);
 
@@ -156,14 +116,14 @@ export const titles = new Hono<{ Variables: AppVariables }>()
 
       const { data, error } = await getSupabaseClient(context)
         .from("Titles")
-        .select(trendingTitlesQuery)
+        .select(titlesQuery)
         .order("queried_times", { ascending: false })
         .order("last_queried_at", { ascending: false })
         .limit(parsedLimit);
 
       if (error && error.code === "PGRST116") {
         context.status(404);
-        return context.json({ message: "Recent titles not found" });
+        return context.json({ message: "Trending titles not found" });
       }
 
       if (error) {
@@ -202,14 +162,14 @@ export const titles = new Hono<{ Variables: AppVariables }>()
 
       const { data, error } = await getSupabaseClient(context)
         .from("Titles")
-        .select(trendingTitlesQuery)
+        .select(titlesQuery)
         .order("searched_times", { ascending: false })
         .order("last_queried_at", { ascending: false })
         .limit(parsedLimit);
 
       if (error && error.code === "PGRST116") {
         context.status(404);
-        return context.json({ message: "Recent titles not found" });
+        return context.json({ message: "Search titles not found" });
       }
 
       if (error) {

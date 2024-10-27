@@ -19,10 +19,10 @@
 
 ```sql
 CREATE OR REPLACE FUNCTION public.fuzzy_search_title(query text)
-RETURNS TABLE (id int8, title_name text, year int8, type text, backdrop text) AS $$
+RETURNS TABLE (id int8, imdb_id text, title_name text, year int8, type text, backdrop text, poster text, searched_times int2, queried_times int2) AS $$
 BEGIN
     RETURN QUERY
-    SELECT t.id, t.title_name, t.year, t.type, t.backdrop
+    SELECT t.id, t.imdb_id, t.title_name, t.year, t.type, t.backdrop, t.poster, t.searched_times, t.queried_times
     FROM "Titles" t
     WHERE (
         (query % t.title_name AND similarity(query, t.title_name) > 0.3)
@@ -36,7 +36,7 @@ $$ LANGUAGE plpgsql;
 ```
 
 ```sql
-CREATE OR REPLACE FUNCTION update_subtitle_and_title_download_metrics(_title_id text, _subtitle_id int8)
+CREATE OR REPLACE FUNCTION update_subtitle_and_title_download_metrics(_title_id int8, _subtitle_id int8)
 RETURNS boolean AS $$
 DECLARE
     success boolean;
@@ -61,7 +61,7 @@ $$ LANGUAGE plpgsql;
 ```
 
 ```sql
-CREATE OR REPLACE FUNCTION update_title_search_metrics(_title_id text)
+CREATE OR REPLACE FUNCTION update_title_search_metrics(_title_id int8)
 RETURNS boolean AS $$
 DECLARE
     success boolean;

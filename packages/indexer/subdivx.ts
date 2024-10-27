@@ -191,22 +191,28 @@ export async function getSubtitlesFromSubDivXForTitle({
   subdivxToken: string;
   subdivxCookie: string | null;
   titleProviderQuery: string;
-}): Promise<SubDivXSubtitles> {
-  const subtitlesByQuery = await getSubtitlesFromSubDivXForTitleByQuery({
-    subdivxToken,
-    subdivxCookie,
-    titleProviderQuery,
-    hasBeenExecutedOnce: false,
-  });
+}): Promise<SubDivXSubtitles | null> {
+  try {
+    const subtitlesByQuery = await getSubtitlesFromSubDivXForTitleByQuery({
+      subdivxToken,
+      subdivxCookie,
+      titleProviderQuery,
+      hasBeenExecutedOnce: false,
+    });
 
-  if (subtitlesByQuery.aaData.length > 0) {
-    return subtitlesByQuery;
+    if (subtitlesByQuery.aaData.length > 0) {
+      return subtitlesByQuery;
+    }
+
+    await Bun.sleep(6000);
+    const subtitlesByImdbId = await getSubtitlesFromSubDivXForTitleByImdbId({ imdbId, subdivxToken, subdivxCookie });
+
+    return subtitlesByImdbId;
+  } catch (error) {
+    console.log("Couldn't get subtitles from OpenSubtitles");
+    console.log("\n ~ getSubtitlesFromOpenSubtitlesForTitle ~ error:", error);
+    return null;
   }
-
-  await Bun.sleep(6000);
-  const subtitlesByImdbId = await getSubtitlesFromSubDivXForTitleByImdbId({ imdbId, subdivxToken, subdivxCookie });
-
-  return subtitlesByImdbId;
 }
 
 export async function filterSubDivXSubtitlesForTorrent({

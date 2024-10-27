@@ -71,7 +71,7 @@ export type Database = {
           subtitle_group_id: number;
           subtitle_link: string;
           title_file_name: string;
-          title_id: string | null;
+          title_imdb_id: string;
           torrent_id: number;
           uploaded_by: string | null;
         };
@@ -94,7 +94,7 @@ export type Database = {
           subtitle_group_id: number;
           subtitle_link: string;
           title_file_name: string;
-          title_id?: string | null;
+          title_imdb_id: string;
           torrent_id: number;
           uploaded_by?: string | null;
         };
@@ -117,7 +117,7 @@ export type Database = {
           subtitle_group_id?: number;
           subtitle_link?: string;
           title_file_name?: string;
-          title_id?: string | null;
+          title_imdb_id?: string;
           torrent_id?: number;
           uploaded_by?: string | null;
         };
@@ -137,8 +137,8 @@ export type Database = {
             referencedColumns: ["id"];
           },
           {
-            foreignKeyName: "Subtitles_title_id_fkey";
-            columns: ["title_id"];
+            foreignKeyName: "Subtitles_title_imdb_id_fkey";
+            columns: ["title_imdb_id"];
             isOneToOne: false;
             referencedRelation: "Titles";
             referencedColumns: ["imdb_id"];
@@ -183,6 +183,7 @@ export type Database = {
         Row: {
           backdrop: string | null;
           created_at: string;
+          id: number;
           imdb_id: string;
           last_queried_at: string | null;
           logo: string | null;
@@ -203,6 +204,7 @@ export type Database = {
         Insert: {
           backdrop?: string | null;
           created_at?: string;
+          id?: number;
           imdb_id: string;
           last_queried_at?: string | null;
           logo?: string | null;
@@ -223,6 +225,7 @@ export type Database = {
         Update: {
           backdrop?: string | null;
           created_at?: string;
+          id?: number;
           imdb_id?: string;
           last_queried_at?: string | null;
           logo?: string | null;
@@ -283,10 +286,14 @@ export type Database = {
         };
         Returns: {
           id: number;
+          imdb_id: string;
           title_name: string;
           year: number;
           type: string;
           backdrop: string;
+          poster: string;
+          searched_times: number;
+          queried_times: number;
         }[];
       };
       gtrgm_compress: {
@@ -333,14 +340,14 @@ export type Database = {
       };
       update_subtitle_and_title_download_metrics: {
         Args: {
-          _title_id: string;
+          _title_id: number;
           _subtitle_id: number;
         };
         Returns: boolean;
       };
       update_title_search_metrics: {
         Args: {
-          _title_id: string;
+          _title_id: number;
         };
         Returns: boolean;
       };

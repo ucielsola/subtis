@@ -2,7 +2,7 @@ import type { Context } from "hono";
 import { z } from "zod";
 
 // internals
-import type { AppVariables } from "../shared/types";
+import type { AppVariables } from "./types";
 
 // helpers
 export function getYoutubeApiKey(context: Context<{ Variables: AppVariables }>) {

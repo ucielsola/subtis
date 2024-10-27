@@ -434,9 +434,9 @@ export async function getMovieMetadataFromTmdbMovie({
     overview,
     spanishName,
     releaseDate,
-    rating: voteAverage,
     poster: generateTmdbImageUrl(posterPath),
     backdrop: generateTmdbImageUrl(backdropPath),
+    rating: Number(Number(voteAverage).toFixed(1)),
     imdbLink: imdbId ? `https://www.imdb.com/title/tt${imdbId}` : "-",
   };
 }

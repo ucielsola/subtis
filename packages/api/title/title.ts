@@ -1,10 +1,10 @@
 import querystring from "querystring";
 import { zValidator } from "@hono/zod-validator";
 import { type Context, Hono } from "hono";
-// import { cache } from "hono/cache";
 import { unescape as htmlUnescape } from "html-escaper";
-// import timestring from "timestring";
 import { z } from "zod";
+// import { cache } from "hono/cache";
+// import timestring from "timestring";
 
 // shared
 import {
@@ -18,10 +18,10 @@ import {
 } from "@subtis/shared";
 
 // internals
+import { getTmdbApiKey, getYoutubeApiKey } from "../shared/api-keys";
 import { titleSchema, titlesQuery } from "../shared/schemas";
 import { getSupabaseClient } from "../shared/supabase";
 import type { AppVariables } from "../shared/types";
-import { getTmdbApiKey, getYoutubeApiKey } from "./api-keys";
 
 // schemas
 export const tmdbDiscoverMovieSchema = z.object({
@@ -59,9 +59,11 @@ export const title = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "Invalid ID: it should be a positive integer number" });
       }
 
-      const supabase = getSupabaseClient(context);
-
-      const { data, error } = await supabase.from("Titles").select(titlesQuery).match({ id: parsedTitleId }).single();
+      const { data, error } = await getSupabaseClient(context)
+        .from("Titles")
+        .select(titlesQuery)
+        .match({ id: parsedTitleId })
+        .single();
 
       if (error) {
         context.status(500);
@@ -162,10 +164,15 @@ export const title = new Hono<{ Variables: AppVariables }>()
     },
     // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("1 week")}` }),
   )
-  .patch("/metrics/search", zValidator("json", z.object({ titleId: z.string() })), async (context) => {
-    const { titleId: _title_id } = context.req.valid("json");
+  .patch("/metrics/search", zValidator("json", z.object({ titleId: z.number() })), async (context) => {
+    const { titleId } = context.req.valid("json");
 
-    const { data, error } = await getSupabaseClient(context).rpc("update_title_search_metrics", { _title_id });
+    if (Number.isNaN(titleId) || titleId < 1) {
+      context.status(400);
+      return context.json({ message: "Invalid ID: it should be a positive integer number" });
+    }
+
+    const { data, error } = await getSupabaseClient(context).rpc("update_title_search_metrics", { _title_id: titleId });
 
     if (error) {
       context.status(500);

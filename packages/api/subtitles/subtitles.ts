@@ -1,18 +1,17 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
-// import { cache } from "hono/cache";
 import JSZip from "jszip";
 import slugify from "slugify";
-// import timestring from "timestring";
 import { z } from "zod";
+// import { cache } from "hono/cache";
+// import timestring from "timestring";
 
 // shared
 import { RESOLUTION_REGEX } from "@subtis/shared";
 
 // internals
 import { MAX_LIMIT } from "../shared/constants";
-import { getSubtitleShortLink } from "../shared/links";
-import { getResultsWithLength } from "../shared/results";
+import { getResultsWithLength, getSubtitleNormalized } from "../shared/parsers";
 import { subtitleSchema, subtitlesQuery } from "../shared/schemas";
 import { getSupabaseClient } from "../shared/supabase";
 import type { AppVariables } from "../shared/types";
@@ -45,7 +44,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
         .from("Subtitles")
         .select(subtitlesQuery)
         .order("subtitle_group_id")
-        .match({ title_id: parsedTitleId });
+        .match({ title_imdb_id: parsedTitleId });
 
       if (error && error.code === "PGRST116") {
         context.status(404);
@@ -64,12 +63,9 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "An error occurred", error: subtitles.error.issues[0].message });
       }
 
-      const subtitlesWithShortLink = subtitles.data.map((subtitle) => ({
-        ...subtitle,
-        subtitle_link: getSubtitleShortLink(subtitle.id),
-      }));
+      const subtitlesNormalized = subtitles.data.map((subtitle) => getSubtitleNormalized(subtitle));
 
-      return context.json(getResultsWithLength(subtitlesWithShortLink));
+      return context.json(getResultsWithLength(subtitlesNormalized));
     },
     // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("2 weeks")}` }),
   )
@@ -107,7 +103,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
         .from("Subtitles")
         .select(subtitlesQuery)
         .order("subtitle_group_id")
-        .match({ title_id: parsedTitleId, current_season: parsedSeason, current_episode: parsedEpisode });
+        .match({ title_imdb_id: parsedTitleId, current_season: parsedSeason, current_episode: parsedEpisode });
 
       if (error && error.code === "PGRST116") {
         context.status(404);
@@ -126,12 +122,9 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "An error occurred", error: subtitles.error.issues[0].message });
       }
 
-      const subtitlesWithShortLink = subtitles.data.map((subtitle) => ({
-        ...subtitle,
-        subtitle_link: getSubtitleShortLink(subtitle.id),
-      }));
+      const subtitlesNormalized = subtitles.data.map((subtitle) => getSubtitleNormalized(subtitle));
 
-      return context.json(getResultsWithLength(subtitlesWithShortLink));
+      return context.json(getResultsWithLength(subtitlesNormalized));
     },
     // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("2 weeks")}` }),
   )
@@ -159,7 +152,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
         .from("Subtitles")
         .select(subtitlesQuery)
         .order("subtitle_group_id")
-        .match({ title_id: parsedTitleId, current_season: parsedSeason });
+        .match({ title_imdb_id: parsedTitleId, current_season: parsedSeason });
 
       if (error && error.code === "PGRST116") {
         context.status(404);
@@ -320,5 +313,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       return context.json({ message: "An error occurred", error: trendingSubtitles.error.issues[0].message });
     }
 
-    return context.json(getResultsWithLength(trendingSubtitles.data));
+    const trendingSubtitlesNormalized = trendingSubtitles.data.map((subtitle) => getSubtitleNormalized(subtitle));
+
+    return context.json(getResultsWithLength(trendingSubtitlesNormalized));
   });

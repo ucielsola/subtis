@@ -10,16 +10,22 @@ import {
 
 // titles
 export const titleSchema = titlesRowSchema.pick({
+  id: true,
   imdb_id: true,
-  title_name: true,
+  queried_times: true,
+  searched_times: true,
   type: true,
   year: true,
+  title_name: true,
   poster: true,
   backdrop: true,
 });
 
 export const titlesQuery = `
+  id,
   imdb_id,
+  queried_times,
+  searched_times,
   type,
   year,
   poster,
@@ -71,5 +77,5 @@ export const subtitlesQuery = `
   current_episode,
   releaseGroup: ReleaseGroups ( id, release_group_name ),
   subtitleGroup: SubtitleGroups ( id, subtitle_group_name ),
-  title: Titles ( imdb_id, title_name, type, year, poster, backdrop )
+  title: Titles ( ${titlesQuery} )
 `;

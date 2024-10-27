@@ -73,39 +73,45 @@ export async function getSubtitlesFromSubdl({
   currentSeason: number | null;
   currentEpisode: number | null;
 }) {
-  const baseUrl = `${SUBDL_API_BASE_URL}?api_key=${process.env.SUBDL_API_KEY}&imdb_id=${getFullImdbId(imdbId)}&subs_per_page=30&languages=es`;
+  try {
+    const baseUrl = `${SUBDL_API_BASE_URL}?api_key=${process.env.SUBDL_API_KEY}&imdb_id=${getFullImdbId(imdbId)}&subs_per_page=30&languages=es`;
 
-  const movieSubdlUrl = baseUrl;
-  const tvShowSubdlUrl = `${baseUrl}&season_number=${currentSeason}&episode_number=${currentEpisode}`;
+    const movieSubdlUrl = baseUrl;
+    const tvShowSubdlUrl = `${baseUrl}&season_number=${currentSeason}&episode_number=${currentEpisode}`;
 
-  const subdlUrl = titleType === "movie" ? movieSubdlUrl : tvShowSubdlUrl;
+    const subdlUrl = titleType === "movie" ? movieSubdlUrl : tvShowSubdlUrl;
 
-  const response = await fetch(subdlUrl, {
-    method: "GET",
-    headers: { Accept: "application/json" },
-  });
+    const response = await fetch(subdlUrl, {
+      method: "GET",
+      headers: { Accept: "application/json" },
+    });
 
-  const data = await response.json();
-  const errorData = errorSchema.safeParse(data);
+    const data = await response.json();
+    const errorData = errorSchema.safeParse(data);
 
-  if (errorData.success && errorData.data.status === false) {
+    if (errorData.success && errorData.data.status === false) {
+      return null;
+    }
+
+    const parsedData = dataSchema.safeParse(data);
+
+    if (parsedData.success && parsedData.data.status === false) {
+      return null;
+    }
+
+    if (parsedData.success) {
+      return parsedData.data.subtitles.map((subtitle) => ({
+        ...subtitle,
+        subtitleLink: `https://dl.subdl.com${subtitle.url}`,
+      }));
+    }
+
+    return null;
+  } catch (error) {
+    console.log("Couldn't get subtitles from Subdl");
+    console.log("\n ~ getSubtitlesFromSubdl ~ error:", error);
     return null;
   }
-
-  const parsedData = dataSchema.safeParse(data);
-
-  if (parsedData.success && parsedData.data.status === false) {
-    return null;
-  }
-
-  if (parsedData.success) {
-    return parsedData.data.subtitles.map((subtitle) => ({
-      ...subtitle,
-      subtitleLink: `https://dl.subdl.com${subtitle.url}`,
-    }));
-  }
-
-  return null;
 }
 
 export async function filterSubdlSubtitlesForTorrent({
