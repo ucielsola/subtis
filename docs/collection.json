@@ -1,7 +1,7 @@
 {
-  "yaakVersion": "2024.12.0-beta.3",
+  "yaakVersion": "2024.12.0-beta.6",
   "yaakSchema": 2,
-  "timestamp": "2024-10-23T04:46:33.554553",
+  "timestamp": "2024-10-27T08:57:51.442282",
   "resources": {
     "workspaces": [
       {
@@ -85,10 +85,10 @@
         "model": "folder",
         "id": "fl_I5qYzXaiKY",
         "createdAt": "2024-09-30T22:53:48",
-        "updatedAt": "2024-09-30T22:53:53",
+        "updatedAt": "2024-10-27T07:41:55",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_CqsEDHtsiK",
-        "name": "TV Shows",
+        "name": "TV Shows (WIP)",
         "sortPriority": 500.0
       },
       {
@@ -157,7 +157,7 @@
         "model": "http_request",
         "id": "rq_20vURhFflO",
         "createdAt": "2024-10-23T00:46:17",
-        "updatedAt": "2024-10-23T01:06:38",
+        "updatedAt": "2024-10-27T07:04:55",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_YERMf4idMs",
         "authentication": {},
@@ -173,7 +173,7 @@
           {
             "enabled": true,
             "name": ":limit",
-            "value": "6"
+            "value": "2"
           },
           {
             "enabled": true,
@@ -186,7 +186,7 @@
         "model": "http_request",
         "id": "rq_VL9z4jfn82",
         "createdAt": "2024-10-08T04:47:13",
-        "updatedAt": "2024-10-22T23:57:24",
+        "updatedAt": "2024-10-27T07:31:08",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
@@ -202,7 +202,7 @@
           {
             "enabled": true,
             "name": ":subtitleId",
-            "value": "8599"
+            "value": "9262"
           },
           {
             "enabled": true,
@@ -215,7 +215,7 @@
         "model": "http_request",
         "id": "rq_om9XNHwzbJ",
         "createdAt": "2024-10-01T01:12:56",
-        "updatedAt": "2024-10-22T23:57:16",
+        "updatedAt": "2024-10-27T07:15:38",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
@@ -231,7 +231,7 @@
           {
             "enabled": true,
             "name": ":subtitleId",
-            "value": "8599"
+            "value": "9262"
           },
           {
             "enabled": true,
@@ -362,13 +362,13 @@
         "model": "http_request",
         "id": "rq_TSkZUrqOKj",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-23T01:11:17",
+        "updatedAt": "2024-10-27T07:30:34",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
         "authenticationType": null,
         "body": {
-          "text": "{\n  \"titleId\": 1300854,\n  \"subtitleId\": 8601\n}"
+          "text": "{\n  \"titleId\": 4,\n  \"subtitleId\": 9262\n}"
         },
         "bodyType": "application/json",
         "headers": [
@@ -414,7 +414,7 @@
         "model": "http_request",
         "id": "rq_k2QEcQF7uP",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-18T00:20:38",
+        "updatedAt": "2024-10-27T07:16:56",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_G3EShJi9ud",
         "authentication": {},
@@ -430,7 +430,7 @@
           {
             "enabled": true,
             "name": ":titleId",
-            "value": "1300854"
+            "value": "4"
           },
           {
             "enabled": true,
@@ -443,7 +443,7 @@
         "model": "http_request",
         "id": "rq_H9boP0jxGI",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-18T00:27:09",
+        "updatedAt": "2024-10-27T07:38:28",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
@@ -459,12 +459,12 @@
           {
             "enabled": true,
             "name": ":bytes",
-            "value": "97072062323"
+            "value": "402323"
           },
           {
             "enabled": true,
             "name": ":fileName",
-            "value": "Deadpool.Wolverine.2024.720p.BluRay.x264.AAC-[YTS.MX].mp4"
+            "value": "The.Wild.Robot.2024.720p.WEBRip.x264.AAC-[YTS.MX].mp4"
           },
           {
             "enabled": true,
@@ -477,7 +477,7 @@
         "model": "http_request",
         "id": "rq_0NmBIllZrD",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-18T00:27:20",
+        "updatedAt": "2024-10-27T07:33:59",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
@@ -493,7 +493,7 @@
           {
             "enabled": true,
             "name": ":fileName",
-            "value": "Beetlejuice.Beetlejuice.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4"
+            "value": "The.Wild.Robot.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4"
           },
           {
             "enabled": true,
@@ -506,7 +506,7 @@
         "model": "http_request",
         "id": "rq_N17uAhCV9T",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-23T01:14:38",
+        "updatedAt": "2024-10-27T07:41:21",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_XJ7aMDkIoi",
         "authentication": {},
@@ -522,7 +522,7 @@
           {
             "enabled": true,
             "name": ":titleId",
-            "value": "1300854"
+            "value": "29623480"
           },
           {
             "enabled": true,
@@ -666,13 +666,13 @@
         "model": "http_request",
         "id": "rq_lWYKCjbYhz",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-23T01:04:55",
+        "updatedAt": "2024-10-27T07:22:47",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_G3EShJi9ud",
         "authentication": {},
         "authenticationType": null,
         "body": {
-          "text": "{\n  \"titleId\": 52357\n}"
+          "text": "{\n  \"titleId\": 5\n}"
         },
         "bodyType": "application/json",
         "headers": [
@@ -692,7 +692,7 @@
         "model": "http_request",
         "id": "rq_SGIsc4WgeJ",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-18T00:30:08",
+        "updatedAt": "2024-10-27T06:47:14",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_G3EShJi9ud",
         "authentication": {},
@@ -708,7 +708,7 @@
           {
             "enabled": true,
             "name": ":fileName",
-            "value": "Deadpool.Wolverine.2024.720p.BluRay.x264.AAC-[YTS.MX].mp4"
+            "value": "The.Wild.Robot.2024.1080p.WEBRip.x265.10bit.AAC5.1-[YTS.MX].mp4"
           },
           {
             "enabled": true,
@@ -721,7 +721,7 @@
         "model": "http_request",
         "id": "rq_22xbygIhlm",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-23T00:56:17",
+        "updatedAt": "2024-10-27T07:18:15",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_YERMf4idMs",
         "authentication": {},
@@ -737,7 +737,7 @@
           {
             "enabled": true,
             "name": ":query",
-            "value": "iron mn"
+            "value": "the wild"
           },
           {
             "enabled": true,
@@ -750,7 +750,7 @@
         "model": "http_request",
         "id": "rq_CulLwOZGid",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-23T00:56:17",
+        "updatedAt": "2024-10-27T07:20:03",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_YERMf4idMs",
         "authentication": {},
@@ -779,7 +779,7 @@
         "model": "http_request",
         "id": "rq_CeZMoAtUiy",
         "createdAt": "2024-09-08T05:31:41",
-        "updatedAt": "2024-10-23T01:08:06",
+        "updatedAt": "2024-10-27T07:23:00",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_YERMf4idMs",
         "authentication": {},
@@ -795,7 +795,7 @@
           {
             "enabled": true,
             "name": ":limit",
-            "value": "8 "
+            "value": "1"
           },
           {
             "enabled": true,
