@@ -245,7 +245,9 @@ export async function filterSubDivXSubtitlesForTorrent({
       return movieDescription.includes(searchableSubDivXName.toLowerCase());
     });
 
-    return hasMovieResolution && hasReleaseGroup;
+    const hasFileName = movieDescription.includes(fileNameWithoutExtension.toLowerCase());
+
+    return hasFileName || (hasMovieResolution && hasReleaseGroup);
   });
 
   invariant(subtitle, `[${SUBDIVX_BREADCRUMB_ERROR}]: Subtitle doesn't exists`);
