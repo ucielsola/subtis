@@ -157,8 +157,8 @@ export async function mod(): Promise<void> {
     }
 
     const websocketData = await new Promise<WsOk>((resolve) => {
-      // const ws = new WebSocket("https://socketdex.subt.is");
-      const ws = new WebSocket("ws://localhost:3000");
+      const ws = new WebSocket("https://socketdex.subt.is");
+      // const ws = new WebSocket("ws://localhost:3000");
 
       ws.addEventListener("open", () => {
         loader.message("🔎 Buscando subtítulo en tiempo real");
