@@ -4,7 +4,7 @@ import { type ContentType, type Subtitle as StremioSubtitle, addonBuilder, serve
 import { getAlternativeSubtitle, getPrimarySubtitle } from "@subtis/shared";
 
 // api
-import type { SubtisSubtitle } from "@subtis/api/shared/schemas";
+import type { SubtisSubtitleNormalized } from "@subtis/api/shared/parsers";
 
 // internals
 import { apiClient } from "./api";
@@ -22,11 +22,11 @@ const CACHE_SETTINGS = {
 };
 
 // helpers
-function getSubtitleMetadata(subtitle: SubtisSubtitle): StremioSubtitle {
+function getSubtitleMetadata(subtitle: SubtisSubtitleNormalized): StremioSubtitle {
   return {
     lang: "spa",
-    id: String(subtitle.id),
-    url: subtitle.subtitle_link,
+    id: String(subtitle.subtitle.id),
+    url: subtitle.subtitle.subtitle_link,
   };
 }
 
@@ -55,7 +55,7 @@ async function getTitleSubtitle(args: Args): Promise<{ subtitles: StremioSubtitl
 const builder = new addonBuilder({
   name: "Subtis (Version Pre-Alpha)",
   id: "org.subtis",
-  version: "0.3.6",
+  version: "0.3.7",
   description:
     "Subtis es tu fuente de subtitulos para tus películas y series favoritas. Esta es una versión de prueba interna, solo para desarrolladores.",
   catalogs: [],

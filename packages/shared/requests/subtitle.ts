@@ -1,5 +1,5 @@
 // api
-import { type SubtisSubtitle, subtitleSchema } from "@subtis/api/shared/schemas";
+import { type SubtisSubtitleNormalized, subtitleNormalizedSchema } from "@subtis/api/shared/parsers";
 
 // internals
 import type { ApiClient } from "../ui/client";
@@ -14,7 +14,7 @@ export async function getPrimarySubtitle(
     bytes: string;
     fileName: string;
   },
-): Promise<SubtisSubtitle | null> {
+): Promise<SubtisSubtitleNormalized | null> {
   const response = await apiClient.v1.subtitle.file.name[":bytes"][":fileName"].$get({
     param: { bytes, fileName },
   });
@@ -28,10 +28,10 @@ export async function getPrimarySubtitle(
   }
 
   const data = await response.json();
-  const primarySubtitle = subtitleSchema.parse(data);
+  const primarySubtitle = subtitleNormalizedSchema.parse(data);
 
   await apiClient.v1.subtitle.metrics.download.$patch({
-    json: { titleId: primarySubtitle.title.id, subtitleId: primarySubtitle.id },
+    json: { titleId: primarySubtitle.title.id, subtitleId: primarySubtitle.subtitle.id },
   });
 
   return primarySubtitle;
@@ -40,7 +40,7 @@ export async function getPrimarySubtitle(
 export async function getAlternativeSubtitle(
   apiClient: ApiClient,
   { fileName }: { fileName: string },
-): Promise<SubtisSubtitle> {
+): Promise<SubtisSubtitleNormalized> {
   const response = await apiClient.v1.subtitle.file.alternative[":fileName"].$get({
     param: { fileName },
   });
@@ -50,10 +50,10 @@ export async function getAlternativeSubtitle(
   }
 
   const data = await response.json();
-  const alternativeSubtitle = subtitleSchema.parse(data);
+  const alternativeSubtitle = subtitleNormalizedSchema.parse(data);
 
   await apiClient.v1.subtitle.metrics.download.$patch({
-    json: { titleId: alternativeSubtitle.title.id, subtitleId: alternativeSubtitle.id },
+    json: { titleId: alternativeSubtitle.title.id, subtitleId: alternativeSubtitle.subtitle.id },
   });
 
   return alternativeSubtitle;

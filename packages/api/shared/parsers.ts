@@ -1,6 +1,11 @@
+import { z } from "zod";
+
+// db
+import { releaseGroupsRowSchema, subtitleGroupsRowSchema } from "@subtis/db/schemas";
+
 // internals
 import { getSubtitleShortLink } from "./links";
-import type { SubtisSubtitle } from "./schemas";
+import { type SubtisSubtitle, subtitleSchema, titleSchema } from "./schemas";
 
 // types
 type SubtitleNormalized = {
@@ -25,6 +30,15 @@ export function getSubtitleNormalized(subtisSubtitle: SubtisSubtitle): SubtitleN
     subtitle: { ...subtitle, subtitle_link: getSubtitleShortLink(subtitle.id) },
   };
 }
+
+export const subtitleNormalizedSchema = z.object({
+  title: titleSchema,
+  releaseGroup: releaseGroupsRowSchema,
+  subtitleGroup: subtitleGroupsRowSchema,
+  subtitle: subtitleSchema.omit({ title: true, releaseGroup: true, subtitleGroup: true }),
+});
+
+export type SubtisSubtitleNormalized = z.infer<typeof subtitleNormalizedSchema>;
 
 export function getResultsWithLength<T>(results: T[]): ResultsWithLength<T> {
   return {

@@ -12,7 +12,7 @@ import {
 } from "@subtis/shared";
 
 // api
-import type { SubtisSubtitle } from "@subtis/api/shared/schemas";
+import type { SubtisSubtitleNormalized } from "@subtis/api/shared/parsers";
 
 // internals
 import { apiClient } from "./api";
@@ -70,10 +70,10 @@ const INSTRUCTIONS_MEDIA_PLAYERS = {
 };
 
 // helpers
-async function getSubtitleDownloadInstructions(subtitle: SubtisSubtitle) {
+async function getSubtitleDownloadInstructions(subtitle: SubtisSubtitleNormalized) {
   const {
-    resolution,
     title: { title_name, year },
+    subtitle: { resolution, subtitle_link, subtitle_file_name },
   } = subtitle;
   outro(`🍿 Disfruta de ${chalk.bold(`${title_name} (${year})`)} en ${chalk.italic(resolution)} subtitulada`);
 
@@ -88,8 +88,8 @@ async function getSubtitleDownloadInstructions(subtitle: SubtisSubtitle) {
     newLoader.start("⏳ Descargando subtítulo");
 
     await Bun.sleep(600);
-    const result = await fetch(subtitle.subtitle_link);
-    await Bun.write(`./${subtitle.subtitle_file_name}`, result);
+    const result = await fetch(subtitle_link);
+    await Bun.write(`./${subtitle_file_name}`, result);
 
     newLoader.stop("📥 Subtítulo descargado!");
   }
@@ -152,7 +152,7 @@ export async function mod(): Promise<void> {
     const originalSubtitle = await getPrimarySubtitle(apiClient, { bytes, fileName });
 
     if (originalSubtitle) {
-      loader.stop(`🥳 Descarga tu subtítulo en ${chalk.blue(originalSubtitle.subtitle_link)}`);
+      loader.stop(`🥳 Descarga tu subtítulo en ${chalk.blue(originalSubtitle.subtitle.subtitle_link)}`);
       return await getSubtitleDownloadInstructions(originalSubtitle);
     }
 
@@ -206,7 +206,7 @@ export async function mod(): Promise<void> {
       const originalSubtitle = await getPrimarySubtitle(apiClient, { bytes, fileName });
 
       if (originalSubtitle) {
-        loader.stop(`🥳 Descarga tu subtítulo en ${chalk.blue(originalSubtitle.subtitle_link)}`);
+        loader.stop(`🥳 Descarga tu subtítulo en ${chalk.blue(originalSubtitle.subtitle.subtitle_link)}`);
         return await getSubtitleDownloadInstructions(originalSubtitle);
       }
     }
@@ -215,7 +215,7 @@ export async function mod(): Promise<void> {
     const alternativeSubtitle = await getAlternativeSubtitle(apiClient, { fileName });
 
     if (alternativeSubtitle) {
-      loader.stop(`🥳 Descarga tu subtítulo alternativo en ${chalk.blue(alternativeSubtitle.subtitle_link)}`);
+      loader.stop(`🥳 Descarga tu subtítulo alternativo en ${chalk.blue(alternativeSubtitle.subtitle.subtitle_link)}`);
       return await getSubtitleDownloadInstructions(alternativeSubtitle);
     }
 
