@@ -36,10 +36,10 @@ export const titlesQuery = `
 export const alternativeTitlesSchema = titlesRowSchema.pick({ imdb_id: true });
 
 // release groups
-const releaseGroupSchema = releaseGroupsRowSchema.pick({ id: true, release_group_name: true });
+export const releaseGroupSchema = releaseGroupsRowSchema.pick({ id: true, release_group_name: true });
 
 // subtitles
-const subtitleGroupSchema = subtitleGroupsRowSchema.pick({ id: true, subtitle_group_name: true });
+export const subtitleGroupSchema = subtitleGroupsRowSchema.pick({ id: true, subtitle_group_name: true });
 
 export const subtitleSchema = subtitlesRowSchema
   .pick({
