@@ -5,7 +5,7 @@ import { z } from "zod";
 import { subtitlesNotFoundRowSchema, supabase } from "@subtis/db";
 
 // api
-import { subtitleSchema } from "@subtis/api/shared/schemas";
+import { subtitleNormalizedSchema } from "@subtis/api/shared/parsers";
 
 // shared
 import { getIsTvShow } from "@subtis/shared";
@@ -64,7 +64,7 @@ export async function indexNotFoundSubtitles() {
       });
       const data = await response.json();
 
-      const subtitleAlreadyExists = subtitleSchema.safeParse(data);
+      const subtitleAlreadyExists = subtitleNormalizedSchema.safeParse(data);
 
       if (subtitleAlreadyExists.success) {
         if (notFoundSubtitle.email) {
@@ -109,7 +109,7 @@ export async function indexNotFoundSubtitles() {
             });
 
             const data = await response.json();
-            const subtitleByFileName = subtitleSchema.safeParse(data);
+            const subtitleByFileName = subtitleNormalizedSchema.safeParse(data);
 
             if (!subtitleByFileName.success) {
               throw new Error("Subtitle not found in some way");
