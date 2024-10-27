@@ -1,6 +1,6 @@
 {
   "name": "@subtis/shared",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "license": "MIT",
   "scripts": {
     "test:watch": "bun test --watch"
