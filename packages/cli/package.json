@@ -1,6 +1,6 @@
 {
   "name": "@subtis/cli",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "license": "MIT",
   "main": "app.ts",
   "scripts": {
@@ -15,12 +15,11 @@
   "dependencies": {
     "@clack/prompts": "^0.7.0",
     "chalk": "^5.3.0",
-    "minimist": "^1.2.8",
+    "commander": "^12.1.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/bun": "^1.1.12",
-    "@types/minimist": "^1.2.5",
     "typescript": "^5.6.3"
   }
 }

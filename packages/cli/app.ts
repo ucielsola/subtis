@@ -1,6 +1,6 @@
 import { confirm, intro, outro, select, spinner } from "@clack/prompts";
 import chalk from "chalk";
-import minimist from "minimist";
+import { Command } from "commander";
 import { z } from "zod";
 
 // shared
@@ -27,31 +27,11 @@ const wsOkSchema = z.object({
   ok: z.boolean(),
 });
 
-const cliArgumentsSchema = z.union(
-  [
-    z.object({
-      f: z.string().min(1, {
-        message: `🤔 El valor de -f debe ser una ruta de archivo válida.\n\nTips:\n\ - Ejemplo completo "subtis --file [NOMBRE_DE_ARCHIVO]" \n - Recordá posicionarte en el directorio donde se encuentra el archivo de video.`,
-      }),
-    }),
-    z.object({
-      file: z.string().min(1, {
-        message: `🤔 El valor de --file debe ser una ruta de archivo válida.\n\nTips:\n\ - Ejemplo completo "subtis --file [NOMBRE_DE_ARCHIVO]" \n - Recordá posicionarte en el directorio donde se encuentra el archivo de video.`,
-      }),
-    }),
-  ],
-  {
-    errorMap: (_, context) => {
-      if (context.defaultError === "Invalid input") {
-        return {
-          message: `🤔 Debe proporcionar el flag --file [archivo] o bien -f [archivo].\n\nTips:\n\ - Ejemplo completo "subtis --file [NOMBRE_DE_ARCHIVO]" \n - Recordá posicionarte en el directorio donde se encuentra el archivo de video.`,
-        };
-      }
-
-      return { message: context.defaultError };
-    },
-  },
-);
+const cliArgumentsSchema = z.object({
+  file: z.string().min(1, {
+    message: `🤔 El valor de --file debe ser una ruta de archivo válida.\n\nTips:\n\ - Ejemplo completo "subtis search [NOMBRE_DE_ARCHIVO]" \n - Recordá posicionarte en el directorio donde se encuentra el archivo de video.`,
+  }),
+});
 
 // types
 type WsOk = z.infer<typeof wsOkSchema>;
@@ -119,20 +99,19 @@ async function getSubtitleDownloadInstructions(subtitle: SubtisSubtitleNormalize
 }
 
 // core
-export async function mod(): Promise<void> {
+export async function mod(titleFileName: string): Promise<void> {
   const loader = spinner();
 
   try {
     intro(`👋 Hola, soy ${chalk.magenta("Subtis")} CLI.`);
 
-    const parsedArguments = minimist(Bun.argv, { string: ["f", "file"] });
-    const cliArgumentsResult = cliArgumentsSchema.safeParse(parsedArguments);
+    const cliArgumentsResult = cliArgumentsSchema.safeParse({ file: titleFileName });
     if (!cliArgumentsResult.success) {
       return outro(chalk.yellow(cliArgumentsResult.error.errors[0].message));
     }
     const cliArguments = cliArgumentsResult.data;
 
-    const fileNameResult = videoFileNameSchema.safeParse("file" in cliArguments ? cliArguments.file : cliArguments.f);
+    const fileNameResult = videoFileNameSchema.safeParse(cliArguments.file);
     if (!fileNameResult.success) {
       return outro(chalk.yellow("🤔 Extensión de video no soportada. Prueba con otro archivo."));
     }
@@ -237,4 +216,16 @@ export async function mod(): Promise<void> {
   }
 }
 
-mod();
+// cli
+const program = new Command();
+
+program
+  .name("subtis")
+  .description("CLI para buscar subtítulos de películas")
+  .version("0.4.1")
+  .command("search")
+  .description("Busca subtítulos para un archivo de video")
+  .argument("<file>", "Archivo de video")
+  .action((file) => mod(file));
+
+program.parse();
