@@ -47,7 +47,7 @@
     "@types/ffprobe": "^1.1.8",
     "@types/ffprobe-static": "^2.0.3",
     "@types/lodash.times": "^4.3.9",
-    "@types/node": "^22.8.1",
+    "@types/node": "^22.8.4",
     "@types/node-cron": "^3.0.11",
     "@types/rimraf": "^4.0.5",
     "@types/sound-play": "^1.1.3",
