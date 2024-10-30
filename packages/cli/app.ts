@@ -201,7 +201,6 @@ export async function mod(titleFileName: string): Promise<void> {
 
     loader.stop("🔴 No se pudo encontrar tu subtítulo. Estamos trabajando en ello.");
   } catch (error) {
-    console.log("\n ~ mod ~ error:", error);
     if (error instanceof Error && typeof error.cause === "number") {
       const { description, title } = getMessageFromStatusCode(error.cause);
       loader.stop(`😥 ${title}`);
