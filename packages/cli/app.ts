@@ -99,7 +99,7 @@ async function getSubtitleDownloadInstructions(subtitle: SubtisSubtitleNormalize
 }
 
 // core
-export async function mod(titleFileName: string): Promise<void> {
+async function mod(titleFileName: string): Promise<void> {
   const loader = spinner();
 
   try {
@@ -220,11 +220,11 @@ const program = new Command();
 
 program
   .name("subtis")
-  .description("CLI para buscar subtítulos de películas")
-  .version("0.4.1")
+  .description("CLI to search for movie subtitles")
+  .version("0.4.2")
   .command("search")
-  .description("Busca subtítulos para un archivo de video")
-  .argument("<file>", "Archivo de video")
+  .description("Search for subtitles for a video file")
+  .argument("<file>", "Video file")
   .action((file) => mod(file));
 
 program.parse();
