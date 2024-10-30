@@ -1,5 +1,9 @@
+import invariant from "tiny-invariant";
 // import dayjs from "dayjs";
 import z from "zod";
+
+// db
+import type { Genre, SupabaseClient } from "@subtis/db";
 
 // internals
 import { getStripedImdbId } from "./imdb";
@@ -326,6 +330,9 @@ export async function getTmdbTvShowsTotalPagesArray(
 }
 
 const tmdbApiEndpoints = {
+  movieGenres: () => {
+    return "https://api.themoviedb.org/3/genre/movie/list?language=es";
+  },
   discoverMovies: (page: number, year: number, isDebugging: boolean) => {
     return generateTmdbDiscoverMovieUrl(page, year, isDebugging);
   },
@@ -367,6 +374,7 @@ export type TmdbTitle = {
   imdbId: string;
   imdbLink: string;
   rating: number;
+  genres: number[];
   overview: string;
   spanishName: string;
   releaseDate: string;
@@ -394,6 +402,7 @@ function generateTmdbImageUrl(path: string | null): string | null {
 export async function getMovieMetadataFromTmdbMovie({
   id,
   name,
+  genres,
   spanishName,
   overview,
   posterPath,
@@ -403,6 +412,7 @@ export async function getMovieMetadataFromTmdbMovie({
 }: {
   id: number;
   name: string;
+  genres: number[];
   spanishName: string;
   overview: string;
   releaseDate: string;
@@ -431,6 +441,7 @@ export async function getMovieMetadataFromTmdbMovie({
     name,
     logo,
     imdbId,
+    genres,
     overview,
     spanishName,
     releaseDate,
@@ -456,6 +467,7 @@ export async function getMoviesFromTmdb(page: number, year: number, isDebugging:
     const {
       id,
       overview,
+      genre_ids: genres,
       title: spanishName,
       original_title: name,
       release_date: releaseDate,
@@ -467,6 +479,7 @@ export async function getMoviesFromTmdb(page: number, year: number, isDebugging:
     const movieData = await getMovieMetadataFromTmdbMovie({
       id,
       name,
+      genres,
       overview,
       spanishName,
       posterPath,
@@ -483,6 +496,7 @@ export async function getMoviesFromTmdb(page: number, year: number, isDebugging:
 
 export async function getTvShowMetadataFromTmdbTvShow({
   id,
+  genres,
   name,
   overview,
   spanishName,
@@ -493,6 +507,7 @@ export async function getTvShowMetadataFromTmdbTvShow({
 }: {
   id: number;
   name: string;
+  genres: number[];
   spanishName: string;
   overview: string;
   releaseDate: string;
@@ -547,6 +562,7 @@ export async function getTvShowMetadataFromTmdbTvShow({
     name,
     logo,
     imdbId,
+    genres,
     overview,
     episodes,
     spanishName,
@@ -576,6 +592,7 @@ export async function getTvShowsFromTmdb(page: number, year: number): Promise<Tm
       id,
       overview,
       name: spanishName,
+      genre_ids: genres,
       original_name: name,
       first_air_date: releaseDate,
       vote_average: voteAverage,
@@ -586,6 +603,7 @@ export async function getTvShowsFromTmdb(page: number, year: number): Promise<Tm
     const tvShowData = await getTvShowMetadataFromTmdbTvShow({
       id,
       name,
+      genres,
       overview,
       spanishName,
       posterPath,
@@ -613,6 +631,7 @@ export async function getTmdbTvShowFromTitle(query: string, year?: number): Prom
     id,
     overview,
     name: spanishName,
+    genre_ids: genres,
     original_name: name,
     first_air_date: releaseDate,
     vote_average: voteAverage,
@@ -623,6 +642,7 @@ export async function getTmdbTvShowFromTitle(query: string, year?: number): Prom
   const tvShowData = await getTvShowMetadataFromTmdbTvShow({
     id,
     name,
+    genres,
     overview,
     spanishName,
     posterPath,
@@ -678,6 +698,7 @@ export async function getTmdbMovieFromTitle(query: string, year?: number): Promi
   const {
     id,
     overview,
+    genre_ids: genres,
     title: spanishName,
     original_title: name,
     release_date: releaseDate,
@@ -689,6 +710,7 @@ export async function getTmdbMovieFromTitle(query: string, year?: number): Promi
   const movieData = await getMovieMetadataFromTmdbMovie({
     id,
     name,
+    genres,
     overview,
     spanishName,
     posterPath,
@@ -698,4 +720,44 @@ export async function getTmdbMovieFromTitle(query: string, year?: number): Promi
   });
 
   return movieData;
+}
+
+const genresSchema = z.object({
+  genres: z.array(z.object({ id: z.number(), name: z.string() })),
+});
+
+async function getTmdbMovieGenres() {
+  const url = tmdbApiEndpoints.movieGenres();
+
+  const response = await fetch(url, TMDB_OPTIONS);
+  const data = await response.json();
+
+  const validatedData = genresSchema.parse(data);
+  const sortedGenres = validatedData.genres.toSorted((a, b) => a.id - b.id);
+
+  return sortedGenres;
+}
+
+export async function saveTmdbMovieGenresToDb(supabaseClient: SupabaseClient): Promise<void> {
+  const genres = await getTmdbMovieGenres();
+
+  for (const genre of genres) {
+    const { id, name } = genre;
+
+    // Check if the genre already exists in the database
+    const { data: existingGenres } = await supabaseClient.from("Genres").select("id").eq("genre_id", id).single();
+
+    if (existingGenres) {
+      await supabaseClient.from("Genres").update({ name }).eq("genre_id", existingGenres.id);
+    } else {
+      await supabaseClient.from("Genres").insert({ genre_id: id, name });
+    }
+  }
+}
+
+export async function getGenresFromDb(supabaseClient: SupabaseClient): Promise<Genre[]> {
+  const { data } = await supabaseClient.from("Genres").select("*");
+  invariant(data, "Genres not found in database");
+
+  return data;
 }

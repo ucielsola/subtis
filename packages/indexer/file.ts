@@ -168,6 +168,7 @@ export async function indexTitleByFileName({
       const {
         id,
         overview,
+        genre_ids: genres,
         name: spanishName,
         original_name: name,
         first_air_date: releaseDate,
@@ -183,6 +184,7 @@ export async function indexTitleByFileName({
       const tvShowData = await getTvShowMetadataFromTmdbTvShow({
         id,
         name,
+        genres,
         overview,
         spanishName,
         posterPath,
@@ -257,6 +259,7 @@ export async function indexTitleByFileName({
     const {
       id,
       overview,
+      genre_ids: genres,
       title: spanishName,
       original_title: name,
       release_date: releaseDate,
@@ -272,6 +275,7 @@ export async function indexTitleByFileName({
     const movieData = await getMovieMetadataFromTmdbMovie({
       id,
       name,
+      genres,
       overview,
       spanishName,
       posterPath,

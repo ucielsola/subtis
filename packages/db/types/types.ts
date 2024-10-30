@@ -3,6 +3,27 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export type Database = {
   public: {
     Tables: {
+      Genres: {
+        Row: {
+          created_at: string;
+          genre_id: number;
+          id: number;
+          name: string;
+        };
+        Insert: {
+          created_at?: string;
+          genre_id: number;
+          id?: number;
+          name: string;
+        };
+        Update: {
+          created_at?: string;
+          genre_id?: number;
+          id?: number;
+          name?: string;
+        };
+        Relationships: [];
+      };
       ReleaseGroups: {
         Row: {
           created_at: string;
@@ -178,6 +199,42 @@ export type Database = {
           title_file_name?: string;
         };
         Relationships: [];
+      };
+      TitleGenres: {
+        Row: {
+          created_at: string;
+          genre_id: number;
+          id: number;
+          title_id: number;
+        };
+        Insert: {
+          created_at?: string;
+          genre_id: number;
+          id?: number;
+          title_id: number;
+        };
+        Update: {
+          created_at?: string;
+          genre_id?: number;
+          id?: number;
+          title_id?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "TitleGenres_genre_id_fkey";
+            columns: ["genre_id"];
+            isOneToOne: false;
+            referencedRelation: "Genres";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "TitleGenres_title_id_fkey";
+            columns: ["title_id"];
+            isOneToOne: false;
+            referencedRelation: "Titles";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       Titles: {
         Row: {

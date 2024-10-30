@@ -8,6 +8,29 @@ export const jsonSchema: z.ZodSchema<Json> = z.lazy(() =>
     .nullable(),
 );
 
+export const genresRowSchema = z.object({
+  created_at: z.string(),
+  genre_id: z.number(),
+  id: z.number(),
+  name: z.string(),
+});
+
+export const genresInsertSchema = z.object({
+  created_at: z.string().optional(),
+  genre_id: z.number(),
+  id: z.number().optional(),
+  name: z.string(),
+});
+
+export const genresUpdateSchema = z.object({
+  created_at: z.string().optional(),
+  genre_id: z.number().optional(),
+  id: z.number().optional(),
+  name: z.string().optional(),
+});
+
+export const genresRelationshipsSchema = z.tuple([]);
+
 export const releaseGroupsRowSchema = z.object({
   created_at: z.string(),
   file_attributes: z.array(z.string()),
@@ -191,6 +214,44 @@ export const subtitlesNotFoundUpdateSchema = z.object({
 });
 
 export const subtitlesNotFoundRelationshipsSchema = z.tuple([]);
+
+export const titleGenresRowSchema = z.object({
+  created_at: z.string(),
+  genre_id: z.number(),
+  id: z.number(),
+  title_id: z.number(),
+});
+
+export const titleGenresInsertSchema = z.object({
+  created_at: z.string().optional(),
+  genre_id: z.number(),
+  id: z.number().optional(),
+  title_id: z.number(),
+});
+
+export const titleGenresUpdateSchema = z.object({
+  created_at: z.string().optional(),
+  genre_id: z.number().optional(),
+  id: z.number().optional(),
+  title_id: z.number().optional(),
+});
+
+export const titleGenresRelationshipsSchema = z.tuple([
+  z.object({
+    foreignKeyName: z.literal("TitleGenres_genre_id_fkey"),
+    columns: z.tuple([z.literal("genre_id")]),
+    isOneToOne: z.literal(false),
+    referencedRelation: z.literal("Genres"),
+    referencedColumns: z.tuple([z.literal("id")]),
+  }),
+  z.object({
+    foreignKeyName: z.literal("TitleGenres_title_id_fkey"),
+    columns: z.tuple([z.literal("title_id")]),
+    isOneToOne: z.literal(false),
+    referencedRelation: z.literal("Titles"),
+    referencedColumns: z.tuple([z.literal("id")]),
+  }),
+]);
 
 export const titlesRowSchema = z.object({
   backdrop: z.string().nullable(),

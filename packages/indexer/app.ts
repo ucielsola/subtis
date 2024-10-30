@@ -261,7 +261,7 @@ function getSupabaseSubtitleLink({
   return `${publicUrlGenerated}${downloadFileName}`;
 }
 
-async function storeTitleInSupabaseTable(title: TitleWithEpisode): Promise<void> {
+async function storeTitleInSupabaseTable(title: TitleWithEpisode): Promise<number> {
   const { episode, ...rest } = title;
 
   const { data } = await supabase.from("Titles").select("id").match({ imdb_id: title.imdb_id }).single();
@@ -273,13 +273,41 @@ async function storeTitleInSupabaseTable(title: TitleWithEpisode): Promise<void>
       title_name_without_special_chars: getStringWithoutSpecialCharacters(title.title_name),
     });
 
-    return;
+    return data.id;
   }
 
-  await supabase.from("Titles").upsert({
-    ...rest,
-    title_name_without_special_chars: getStringWithoutSpecialCharacters(title.title_name),
-  });
+  const { data: titleData } = await supabase
+    .from("Titles")
+    .upsert({
+      ...rest,
+      title_name_without_special_chars: getStringWithoutSpecialCharacters(title.title_name),
+    })
+    .select("id")
+    .single();
+
+  return titleData?.id ?? 0;
+}
+
+async function storeTitleGenresInSupabaseTable(titleId: number, genres: number[]): Promise<void> {
+  for await (const genreId of genres) {
+    const { data } = await supabase
+      .from("TitleGenres")
+      .select("id")
+      .match({
+        title_id: titleId,
+        genre_id: genreId,
+      })
+      .single();
+
+    if (data?.id) {
+      continue;
+    }
+
+    await supabase.from("TitleGenres").insert({
+      title_id: titleId,
+      genre_id: genreId,
+    });
+  }
 }
 
 async function storeSubtitleInSupabaseTable({
@@ -597,10 +625,13 @@ async function generateSpecValidSrt(srt: string, path: string): Promise<boolean>
 //   console.log("Cache purged successfully!");
 // }
 
+type TitleGenres = number[];
+
 export async function downloadAndStoreTitleAndSubtitle(data: {
   indexedBy: IndexedBy;
   titleFile: TitleFile;
   titleType: TitleTypes;
+  titleGenres: TitleGenres;
   title: TitleWithEpisode;
   torrent: TorrentFoundWithId;
   releaseGroups: ReleaseGroupMap;
@@ -615,6 +646,7 @@ export async function downloadAndStoreTitleAndSubtitle(data: {
     const {
       indexedBy,
       title,
+      titleGenres,
       titleType,
       titleFile,
       subtitle,
@@ -647,7 +679,8 @@ export async function downloadAndStoreTitleAndSubtitle(data: {
     const subtitleLink = getSupabaseSubtitleLink({ fullPath, subtitle });
 
     await storeTorrentInSupabaseTable(torrent);
-    await storeTitleInSupabaseTable(title);
+    const titleId = await storeTitleInSupabaseTable(title);
+    await storeTitleGenresInSupabaseTable(titleId, titleGenres);
     await storeSubtitleInSupabaseTable({
       indexedBy,
       title,
@@ -1056,6 +1089,7 @@ export async function getSubtitlesForTitle({
     name,
     year,
     logo,
+    genres,
     imdbId,
     rating,
     releaseDate,
@@ -1280,6 +1314,7 @@ export async function getSubtitlesForTitle({
 
         await downloadAndStoreTitleAndSubtitle({
           titleType,
+          titleGenres: genres,
           titleFile: {
             bytes,
             fileName,
@@ -1342,6 +1377,7 @@ export async function getSubtitlesForTitle({
         await downloadAndStoreTitleAndSubtitle({
           indexedBy,
           titleType,
+          titleGenres: genres,
           titleFile: {
             bytes,
             fileName,
@@ -1403,6 +1439,7 @@ export async function getSubtitlesForTitle({
         await downloadAndStoreTitleAndSubtitle({
           indexedBy,
           titleType,
+          titleGenres: genres,
           titleFile: {
             bytes,
             fileName,

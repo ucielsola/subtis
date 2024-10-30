@@ -131,4 +131,6 @@ indexMoviesByYear(2024, true);
 //   isDebugging: true,
 //   name: "Deadpool & Wolverine",
 // });
+
 // saveReleaseGroupsToDb(supabase);
+// saveTmdbMovieGenresToDb(supabase);

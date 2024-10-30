@@ -77,7 +77,7 @@ async function getSubtitlesFromSubDivXForTitleByQuery({
       "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
     },
     method: "POST",
-    body: `tabla=resultados&filtros=&buscar395a=${encodeURIComponent(titleProviderQuery)}&token=${subdivxToken}`,
+    body: `tabla=resultados&filtros=&buscar396d=${encodeURIComponent(titleProviderQuery)}&token=${subdivxToken}`,
   });
 
   if (!response.ok) {
@@ -161,7 +161,7 @@ async function getSubtitlesFromSubDivXForTitleByImdbId({
       "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
     },
     method: "POST",
-    body: `tabla=resultados&filtros=&buscar395a=${getFullImdbId(imdbId)}&token=${subdivxToken}`,
+    body: `tabla=resultados&filtros=&buscar396d=${getFullImdbId(imdbId)}&token=${subdivxToken}`,
   });
 
   if (!response.ok) {
