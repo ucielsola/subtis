@@ -2,20 +2,31 @@
 
 ## URLs
 
-| Name    | Link                        | Deeplink  |
-|---------|-----------------------------|-----------|
-| API     | https://api.subt.is         | -         |
-| WebSocket | https://socketdex.subt.is | -         |
-| Stremio | https://stremio.subt.is     | stremio://stremio.subt.is/manifest.json         |
+| Name      | Link                      | Deeplink                                |
+| --------- | ------------------------- | --------------------------------------- |
+| API       | https://api.subt.is       | -                                       |
+| WebSocket | https://socketdex.subt.is | -                                       |
+| Stremio   | https://stremio.subt.is   | stremio://stremio.subt.is/manifest.json |
 
 ## Packages
 
-| Client-side | Server-side | Cross packages |
-|-------------|-------------|----------------|
-| [Web](/packages/web/) | [DB](/packages/db/) | [Shared](/packages/shared/) |
-| [CLI](/packages/cli/) | [API](/packages/api/) |  |
-| [Raycast](/packages/raycast/) |[Indexer](/packages/indexer/)  |
-| [Stremio](/packages/stremio/) |                |
+| Client-side                   | Server-side                   | Cross packages              |
+| ----------------------------- | ----------------------------- | --------------------------- |
+| [Web](/packages/web/)         | [DB](/packages/db/)           | [Shared](/packages/shared/) |
+| [CLI](/packages/cli/)         | [API](/packages/api/)         |                             |
+| [Raycast](/packages/raycast/) | [Indexer](/packages/indexer/) |
+| [Stremio](/packages/stremio/) |                               |
+
+## Features
+| Client  | API search | Real-time search | Title search | AI translation | Email notifications |
+| ------- | ---------- | ---------------- | ------------ | -------------- | ------------------- |
+| Web     | ✅         | ✅               | ✅           | 🚧             | ✅                  |
+| CLI     | ✅         | ✅               | ❌           | ❌             | ❌                  |
+| Raycast | ✅         | ✅               | ❌           | ❌             | ❌                  |
+| Stremio | ✅         | ❌               | ❌           | ❌             | ❌                  |
+| VLC     | ✅         | ❌               | ❌           | ❌             | ❌                  |
+
+
 
 ## Development
 
@@ -88,7 +99,6 @@ bun run deploy:api
 
 2. Update `subtis.rb` with the new release version and push the changes
 
-
 ## Database
 
 ### Updating Database Types and Schemas
@@ -128,7 +138,6 @@ brew install subtis
 brew upgrade subtis
 ```
 
-
 ## Good practices
 
 - Generate SQL dump
@@ -140,6 +149,7 @@ bun run update:db:dump
 - Bump DB schemas
 
   1. Remove the following 4 lines
+
   ```typescript
   show_limit: {
     Args: Record<PropertyKey, never>;
@@ -148,6 +158,7 @@ bun run update:db:dump
   ```
 
   2. Run the following command
+
   ```bash
   bun run update:db:schemas
   ```
