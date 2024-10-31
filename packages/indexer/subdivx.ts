@@ -14,7 +14,7 @@ import { getIsLinkAlive } from "./utils";
 // constants
 const SUBDIVX_BASE_URL = "https://subdivx.com" as const;
 const SUBDIVX_BREADCRUMB_ERROR = "SUBDIVX_ERROR" as const;
-const DYNAMIC_PARAMETER = "buscar396e" as const;
+const DYNAMIC_PARAMETER = "buscar396f" as const;
 
 // schemas
 const subdivxSubtitleSchema = z.object({
