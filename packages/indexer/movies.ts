@@ -8,7 +8,7 @@ import { supabase } from "@subtis/db";
 
 // internals
 import { getSubtitlesForTitle } from "./app";
-import { getReleaseGroups } from "./release-groups";
+import { getReleaseGroups, saveReleaseGroupsToDb } from "./release-groups";
 import { getSubDivXToken } from "./subdivx";
 import { getSubtitleGroups } from "./subtitle-groups";
 import { getMoviesFromTmdb, getTmdbMovieFromTitle, getTmdbMoviesTotalPagesArray } from "./tmdb";
@@ -132,5 +132,5 @@ indexMoviesByYear(2024, true);
 //   name: "Deadpool & Wolverine",
 // });
 
-// saveReleaseGroupsToDb(supabase);
+saveReleaseGroupsToDb(supabase);
 // saveTmdbMovieGenresToDb(supabase);
