@@ -24,7 +24,7 @@
     "deploy": "rm -rf .env.development && bun run build && npx @raycast/api@latest publish"
   },
   "dependencies": {
-    "@raycast/api": "^1.84.7",
+    "@raycast/api": "^1.84.8",
     "node-fetch": "^3.3.2",
     "ts-pattern": "^5.5.0",
     "ws": "^8.18.0",
