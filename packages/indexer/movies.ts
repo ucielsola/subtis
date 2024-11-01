@@ -10,6 +10,7 @@ import { supabase } from "@subtis/db";
 import { getSubtitlesForTitle } from "./app";
 import { getReleaseGroups, saveReleaseGroupsToDb } from "./release-groups";
 import { getSubDivXToken } from "./subdivx";
+import { getSubDivxParameter } from "./subdivx-parameter";
 import { getSubtitleGroups } from "./subtitle-groups";
 import { getMoviesFromTmdb, getTmdbMovieFromTitle, getTmdbMoviesTotalPagesArray } from "./tmdb";
 
@@ -21,6 +22,8 @@ export async function indexMoviesByYear(year: number, isDebugging: boolean): Pro
 
     const releaseGroups = await getReleaseGroups(supabase);
     const subtitleGroups = await getSubtitleGroups(supabase);
+
+    const parameter = await getSubDivxParameter();
     const { token, cookie } = await getSubDivXToken();
 
     const { totalPages, totalResults } = await getTmdbMoviesTotalPagesArray(year, isDebugging);
@@ -75,6 +78,7 @@ export async function indexMoviesByYear(year: number, isDebugging: boolean): Pro
           shouldUseTryCatch: true,
           subdivxToken: token,
           subdivxCookie: cookie,
+          subdivxParameter: parameter,
         });
       }
     }
@@ -105,7 +109,9 @@ export async function indexMovieByName({
     const releaseGroups = await getReleaseGroups(supabase);
     const subtitleGroups = await getSubtitleGroups(supabase);
 
+    const parameter = await getSubDivxParameter();
     const { token, cookie } = await getSubDivXToken();
+
     const movie = await getTmdbMovieFromTitle(name, year);
 
     await getSubtitlesForTitle({
@@ -118,6 +124,7 @@ export async function indexMovieByName({
       shouldUseTryCatch: true,
       subdivxToken: token,
       subdivxCookie: cookie,
+      subdivxParameter: parameter,
     });
   } catch (error) {
     console.log("\n ~ indexMovieByName ~ error:", error);

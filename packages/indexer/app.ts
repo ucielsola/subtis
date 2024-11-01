@@ -983,6 +983,7 @@ async function getAllSubtitlesFromProviders({
   currentEpisode,
   subdivxToken,
   subdivxCookie,
+  subdivxParameter,
   titleProviderQuery,
 }: {
   imdbId: string;
@@ -991,6 +992,7 @@ async function getAllSubtitlesFromProviders({
   currentEpisode: number | null;
   subdivxToken: string;
   subdivxCookie: string | null;
+  subdivxParameter: string;
   providers: SubtitleProvider[];
   titleProviderQuery: string;
 }) {
@@ -1009,6 +1011,7 @@ async function getAllSubtitlesFromProviders({
           imdbId,
           subdivxToken,
           subdivxCookie,
+          subdivxParameter,
           titleProviderQuery,
         });
 
@@ -1070,6 +1073,7 @@ export async function getSubtitlesForTitle({
   subdivxToken,
   subdivxCookie,
   indexedBy,
+  subdivxParameter,
 }: {
   index: string;
   initialTorrents?: TorrentFoundWithId[];
@@ -1083,6 +1087,7 @@ export async function getSubtitlesForTitle({
   fromWebSocket?: boolean;
   subdivxToken: string;
   subdivxCookie: string | null;
+  subdivxParameter: string;
   indexedBy: IndexedBy;
 }): Promise<void> {
   const {
@@ -1158,6 +1163,7 @@ export async function getSubtitlesForTitle({
     currentEpisode,
     subdivxToken,
     subdivxCookie,
+    subdivxParameter,
     providers: enabledProviders,
     titleProviderQuery,
   });

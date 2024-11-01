@@ -10,6 +10,7 @@ import { supabase } from "@subtis/db";
 import { getSubtitlesForTitle } from "./app";
 import { getReleaseGroups } from "./release-groups";
 import { getSubDivXToken } from "./subdivx";
+import { getSubDivxParameter } from "./subdivx-parameter";
 import { getSubtitleGroups } from "./subtitle-groups";
 import { getTmdbTvShowFromTitle, getTmdbTvShowsTotalPagesArray, getTvShowsFromTmdb } from "./tmdb";
 
@@ -20,6 +21,8 @@ export async function indexSeriesByYear(seriesYear: number, isDebugging: boolean
 
   const releaseGroups = await getReleaseGroups(supabase);
   const subtitleGroups = await getSubtitleGroups(supabase);
+
+  const parameter = await getSubDivxParameter();
   const { token, cookie } = await getSubDivXToken();
 
   const { totalPages, totalResults } = await getTmdbTvShowsTotalPagesArray(seriesYear);
@@ -94,6 +97,7 @@ export async function indexSeriesByYear(seriesYear: number, isDebugging: boolean
           shouldUseTryCatch: true,
           subdivxToken: token,
           subdivxCookie: cookie,
+          subdivxParameter: parameter,
         });
       }
     }
@@ -115,6 +119,8 @@ export async function indexSeriesByName({
 
     const releaseGroups = await getReleaseGroups(supabase);
     const subtitleGroups = await getSubtitleGroups(supabase);
+
+    const parameter = await getSubDivxParameter();
     const { token, cookie } = await getSubDivXToken();
 
     const tvShow = await getTmdbTvShowFromTitle(name, year);
@@ -130,6 +136,7 @@ export async function indexSeriesByName({
         shouldUseTryCatch: true,
         subdivxToken: token,
         subdivxCookie: cookie,
+        subdivxParameter: parameter,
       });
     }
   } catch (error) {

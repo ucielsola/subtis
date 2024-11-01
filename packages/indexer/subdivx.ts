@@ -14,7 +14,6 @@ import { getIsLinkAlive } from "./utils";
 // constants
 const SUBDIVX_BASE_URL = "https://subdivx.com" as const;
 const SUBDIVX_BREADCRUMB_ERROR = "SUBDIVX_ERROR" as const;
-const DYNAMIC_PARAMETER = "buscar396f" as const;
 
 // schemas
 const subdivxSubtitleSchema = z.object({
@@ -61,11 +60,13 @@ export async function getSubDivXToken(): Promise<SubDivXToken & { cookie: string
 async function getSubtitlesFromSubDivXForTitleByQuery({
   subdivxToken,
   subdivxCookie,
+  subdivxParameter,
   titleProviderQuery,
   hasBeenExecutedOnce,
 }: {
   subdivxToken: string;
   subdivxCookie: string | null;
+  subdivxParameter: string;
   titleProviderQuery: string;
   hasBeenExecutedOnce: boolean;
 }): Promise<SubDivXSubtitles> {
@@ -78,7 +79,7 @@ async function getSubtitlesFromSubDivXForTitleByQuery({
       "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
     },
     method: "POST",
-    body: `tabla=resultados&filtros=&${DYNAMIC_PARAMETER}=${encodeURIComponent(titleProviderQuery)}&token=${subdivxToken}`,
+    body: `tabla=resultados&filtros=&${subdivxParameter}=${encodeURIComponent(titleProviderQuery)}&token=${subdivxToken}`,
   });
 
   if (!response.ok) {
@@ -100,6 +101,7 @@ async function getSubtitlesFromSubDivXForTitleByQuery({
     return getSubtitlesFromSubDivXForTitleByQuery({
       subdivxToken,
       subdivxCookie,
+      subdivxParameter,
       hasBeenExecutedOnce: true,
       titleProviderQuery: parsedTitleProviderQuery,
     });
@@ -113,6 +115,7 @@ async function getSubtitlesFromSubDivXForTitleByQuery({
     return getSubtitlesFromSubDivXForTitleByQuery({
       subdivxToken,
       subdivxCookie,
+      subdivxParameter,
       hasBeenExecutedOnce: true,
       titleProviderQuery: newTitleProviderQuery,
     });
@@ -150,10 +153,12 @@ async function getSubtitlesFromSubDivXForTitleByImdbId({
   imdbId,
   subdivxToken,
   subdivxCookie,
+  subdivxParameter,
 }: {
   imdbId: string;
   subdivxToken: string;
   subdivxCookie: string | null;
+  subdivxParameter: string;
 }): Promise<SubDivXSubtitles> {
   const response = await fetch(`${SUBDIVX_BASE_URL}/inc/ajax.php`, {
     headers: {
@@ -162,7 +167,7 @@ async function getSubtitlesFromSubDivXForTitleByImdbId({
       "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
     },
     method: "POST",
-    body: `tabla=resultados&filtros=&${DYNAMIC_PARAMETER}=${getFullImdbId(imdbId)}&token=${subdivxToken}`,
+    body: `tabla=resultados&filtros=&${subdivxParameter}=${getFullImdbId(imdbId)}&token=${subdivxToken}`,
   });
 
   if (!response.ok) {
@@ -186,17 +191,20 @@ export async function getSubtitlesFromSubDivXForTitle({
   imdbId,
   subdivxToken,
   subdivxCookie,
+  subdivxParameter,
   titleProviderQuery,
 }: {
   imdbId: string;
   subdivxToken: string;
   subdivxCookie: string | null;
+  subdivxParameter: string;
   titleProviderQuery: string;
 }): Promise<SubDivXSubtitles | null> {
   try {
     const subtitlesByQuery = await getSubtitlesFromSubDivXForTitleByQuery({
       subdivxToken,
       subdivxCookie,
+      subdivxParameter,
       titleProviderQuery,
       hasBeenExecutedOnce: false,
     });
@@ -206,7 +214,12 @@ export async function getSubtitlesFromSubDivXForTitle({
     }
 
     await Bun.sleep(6000);
-    const subtitlesByImdbId = await getSubtitlesFromSubDivXForTitleByImdbId({ imdbId, subdivxToken, subdivxCookie });
+    const subtitlesByImdbId = await getSubtitlesFromSubDivXForTitleByImdbId({
+      imdbId,
+      subdivxToken,
+      subdivxCookie,
+      subdivxParameter,
+    });
 
     return subtitlesByImdbId;
   } catch (error) {
