@@ -14,8 +14,7 @@ import { type TitleFileNameMetadata, getEpisode, getIsTvShow, getTitleFileNameMe
 import { apiClient } from "./api";
 import { TitleTypes, type TorrentFound, getSubtitlesForTitle, getTitleTorrents } from "./app";
 import { getReleaseGroups } from "./release-groups";
-import { getSubDivXToken } from "./subdivx";
-import { getSubDivxParameter } from "./subdivx-parameter";
+import { getSubDivXParameter, getSubDivXToken } from "./subdivx";
 import { getSubtitleGroups } from "./subtitle-groups";
 import {
   getMovieMetadataFromTmdbMovie,
@@ -209,7 +208,7 @@ export async function indexTitleByFileName({
         websocket.send(JSON.stringify({ total: 0.75, message: "Buscando subtitulo en nuestros proveedores" }));
       }
 
-      const parameter = await getSubDivxParameter();
+      const parameter = await getSubDivXParameter();
       const { token, cookie } = await getSubDivXToken();
 
       await getSubtitlesForTitle({
@@ -318,7 +317,7 @@ export async function indexTitleByFileName({
       return (includesFileAttributes || includesReleaseGroup) && includesResolution;
     });
 
-    const parameter = await getSubDivxParameter();
+    const parameter = await getSubDivXParameter();
     const { token, cookie } = await getSubDivXToken();
 
     if (!torrent) {

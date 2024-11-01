@@ -1,3 +1,4 @@
+import * as cheerio from "cheerio";
 import invariant from "tiny-invariant";
 import { z } from "zod";
 
@@ -49,6 +50,23 @@ export type SubDivXSubtitles = z.infer<typeof subdivxSubtitlesSchema>;
 type SubDivXToken = z.infer<typeof subdivxTokenSchema>;
 
 // helpers
+export async function getSubDivXParameter(): Promise<string> {
+  const response = await fetch(SUBDIVX_BASE_URL);
+  const html = await response.text();
+
+  const $ = cheerio.load(html);
+  const versionElement = $("#vs");
+
+  if (!versionElement) {
+    throw new Error("Version not found");
+  }
+
+  const version = versionElement.text();
+  const parsedVersion = version?.replace(".", "").replace("v", "");
+
+  return `buscar${parsedVersion}`;
+}
+
 export async function getSubDivXToken(): Promise<SubDivXToken & { cookie: string | null }> {
   const response = await fetch(`${SUBDIVX_BASE_URL}/inc/gt.php?gt=1`);
   const data = await response.json();
