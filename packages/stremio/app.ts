@@ -1,7 +1,7 @@
 import { type ContentType, type Subtitle as StremioSubtitle, addonBuilder, serveHTTP } from "stremio-addon-sdk";
 
 // shared
-import { getAlternativeSubtitle, getPrimarySubtitle } from "@subtis/shared";
+import { getAlternativeSubtitle, getIsTvShow, getPrimarySubtitle } from "@subtis/shared";
 
 // api
 import type { SubtisSubtitleNormalized } from "@subtis/api/shared/parsers";
@@ -34,6 +34,12 @@ function getSubtitleMetadata(subtitle: SubtisSubtitleNormalized): StremioSubtitl
 async function getTitleSubtitle(args: Args): Promise<{ subtitles: StremioSubtitle[] }> {
   try {
     const { videoSize: bytes, filename: fileName } = args.extra as ExtraArgs;
+
+    const isTvShow = getIsTvShow(fileName);
+
+    if (isTvShow) {
+      return Promise.resolve({ subtitles: [], ...CACHE_SETTINGS });
+    }
 
     const originalSubtitle = await getPrimarySubtitle(apiClient, { bytes, fileName });
 
