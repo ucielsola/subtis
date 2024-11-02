@@ -24,7 +24,7 @@
     "deploy": "rm -rf .env.development && bun run build && npx @raycast/api@latest publish"
   },
   "dependencies": {
-    "@raycast/api": "^1.84.9",
+    "@raycast/api": "^1.84.10",
     "node-fetch": "^3.3.2",
     "ts-pattern": "^5.5.0",
     "ws": "^8.18.0",
@@ -32,8 +32,8 @@
   },
   "devDependencies": {
     "@raycast/eslint-config": "1.0.11",
-    "@types/bun": "^1.1.12",
-    "@types/node": "22.8.1",
+    "@types/bun": "^1.1.13",
+    "@types/node": "22.8.6",
     "@types/node-fetch": "^2.6.11",
     "@types/react": "18.3.12",
     "eslint": "8.51.0",

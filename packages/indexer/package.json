@@ -42,13 +42,13 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@types/ms": "^0.7.34",
-    "@types/bun": "^1.1.12",
+    "@types/bun": "^1.1.13",
     "@types/cli-progress": "^3.11.6",
     "@types/download": "^8.0.5",
     "@types/ffprobe": "^1.1.8",
     "@types/ffprobe-static": "^2.0.3",
     "@types/lodash.times": "^4.3.9",
+    "@types/ms": "^0.7.34",
     "@types/node": "^22.8.6",
     "@types/node-cron": "^3.0.11",
     "@types/rimraf": "^4.0.5",
