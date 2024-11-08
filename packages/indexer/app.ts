@@ -1353,7 +1353,7 @@ export async function getSubtitlesForTitle({
           indexedBy,
         });
       },
-      `4.${index}.${torrentIndex}) Subtítulo no encontrado en SubDivX para ${name} ${finalResolution} ${releaseGroup.release_group_name} (Puede llegar a existir en OpenSubtitles) \n`,
+      `4.${index}.${torrentIndex}) Subtítulo no encontrado en SubDivX para ${name} ${finalResolution} ${releaseGroup.release_group_name} (Puede llegar a existir en otro proveedor) \n`,
     );
 
     const subtitleAlreadyExistsForSubDivX = await hasSubtitleInDatabase(fileName);
@@ -1415,7 +1415,7 @@ export async function getSubtitlesForTitle({
           subtitleGroups,
         });
       },
-      `4.${index}.${torrentIndex}) Subtítulo no encontrado en SUBDL para ${name} ${finalResolution} ${releaseGroup.release_group_name} \n`,
+      `4.${index}.${torrentIndex}) Subtítulo no encontrado en SUBDL para ${name} ${finalResolution} ${releaseGroup.release_group_name} (Puede llegar a existir en otro proveedor) \n`,
     );
 
     const subtitleAlreadyExistsForSubdl = await hasSubtitleInDatabase(fileName);
@@ -1477,7 +1477,7 @@ export async function getSubtitlesForTitle({
           subtitleGroups,
         });
       },
-      `4.${index}.${torrentIndex}) Subtítulo no encontrado en OpenSubtitles para ${name} ${finalResolution} ${releaseGroup.release_group_name} \n`,
+      `4.${index}.${torrentIndex}) Subtítulo no encontrado en OpenSubtitles para ${name} ${finalResolution} ${releaseGroup.release_group_name} (Puede llegar a existir en otro proveedor) \n`,
     );
 
     if (isDebugging) {

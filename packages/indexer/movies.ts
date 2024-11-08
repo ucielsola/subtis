@@ -131,12 +131,12 @@ export async function indexMovieByName({
 }
 
 // testing
-indexMoviesByYear(2024, true);
-// indexMovieByName({
-//   year: 2024,
-//   isDebugging: true,
-//   name: "Deadpool & Wolverine",
-// });
+// indexMoviesByYear(2024, true);
+indexMovieByName({
+  year: 2005,
+  isDebugging: true,
+  name: "Pride & Prejudice",
+});
 
 saveReleaseGroupsToDb(supabase);
 // saveTmdbMovieGenresToDb(supabase);
