@@ -223,7 +223,7 @@ program
   .description("CLI to search for movie subtitles")
   .version("0.4.3")
   .command("search")
-  .description("Search for subtitles for a video file")
+  .description("Search a subtitle for a video file")
   .argument("<file>", "Video file")
   .action((file) => mod(file));
 
