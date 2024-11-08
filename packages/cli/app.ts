@@ -77,9 +77,9 @@ async function getSubtitleDownloadInstructions(subtitle: SubtisSubtitleNormalize
   const mediaPlayer = (await select({
     message: "Selecciona tu reproductor de video para instrucciones:",
     options: [
+      { value: "cancel", label: "Cancelar" },
       { value: "stremio", label: "Stremio" },
       { value: "vlc", label: "VLC" },
-      { value: "cancel", label: "Cancelar" },
     ],
   })) as "stremio" | "vlc" | "cancel";
 
