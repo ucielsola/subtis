@@ -1,4 +1,4 @@
-import { confirm, intro, outro, select, spinner } from "@clack/prompts";
+import { confirm, intro, outro, select, spinner, text } from "@clack/prompts";
 import chalk from "chalk";
 import { Command } from "commander";
 import { z } from "zod";
@@ -96,6 +96,30 @@ async function getSubtitleDownloadInstructions(subtitle: SubtisSubtitleNormalize
   instructions.forEach((instruction, index) => {
     console.log(`   ${index + 1}) ${instruction}`);
   });
+}
+
+async function askForEmail(bytes: string, fileName: string) {
+  const email = await text({
+    message: "📬 Si queres nos podes dejar tu email para avisarte cuando esté disponible el subtítulo",
+    placeholder: "john@doe.com",
+    validate(value) {
+      if (z.string().email().safeParse(value).success) {
+        return;
+      }
+
+      return "El email no es válido. Intenta de nuevo.";
+    },
+  });
+
+  await apiClient.v1.subtitle["not-found"].$post({
+    json: {
+      bytes: Number(bytes),
+      email: email as string,
+      titleFileName: fileName,
+    },
+  });
+
+  outro("🙌 Gracias por tu paciencia! Pronto te avisaremos cuando esté disponible el subtítulo.");
 }
 
 // core
@@ -198,12 +222,23 @@ async function mod(titleFileName: string): Promise<void> {
       loader.stop(`🥳 Descarga tu subtítulo alternativo en ${chalk.blue(alternativeSubtitle.subtitle.subtitle_link)}`);
       return await getSubtitleDownloadInstructions(alternativeSubtitle);
     }
-
-    loader.stop("🔴 No se pudo encontrar tu subtítulo. Estamos trabajando en ello.");
   } catch (error) {
     if (error instanceof Error && typeof error.cause === "number") {
       const { description, title } = getMessageFromStatusCode(error.cause);
-      loader.stop(`😥 ${title}`);
+
+      if (error.cause === 404) {
+        loader.stop("🥲 No pudimos encontrar el subtítulo que estás buscando.");
+
+        const file = Bun.file(titleFileName);
+        const bytes =
+          Bun.env.NODE_ENV === "production"
+            ? String(file.size)
+            : String(Math.floor(Math.random() * 10000000) + 1000000);
+
+        return await askForEmail(bytes, titleFileName);
+      }
+
+      loader.stop(`🥲 ${title}`);
       return outro(`⛏ ${description}`);
     }
 
