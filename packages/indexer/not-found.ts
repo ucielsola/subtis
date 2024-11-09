@@ -48,6 +48,14 @@ export async function indexNotFoundSubtitles() {
     for (const notFoundSubtitle of notFoundSubtitles.data) {
       console.table([notFoundSubtitle]);
 
+      // const continueToNextTitle = await confirm({
+      //   message: `¿Desea indexar el siguiente titulo? ${notFoundSubtitle.title_file_name}`,
+      // });
+
+      // if (!continueToNextTitle) {
+      //   continue;
+      // }
+
       const isTvShow = getIsTvShow(notFoundSubtitle.title_file_name);
 
       // TODO: Temporarily skipping tv shows
@@ -94,6 +102,7 @@ export async function indexNotFoundSubtitles() {
         titleFileName: notFoundSubtitle.title_file_name,
         shouldStoreNotFoundSubtitle: false,
         isDebugging: false,
+        shouldIndexAllTorrents: true,
       });
 
       if (ok === true) {

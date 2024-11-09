@@ -47,6 +47,7 @@ Bun.serve({
         titleFileName: subtitle.data.subtitle.titleFileName,
         isDebugging: false,
         shouldStoreNotFoundSubtitle: false,
+        shouldIndexAllTorrents: false,
       });
 
       ws.send(JSON.stringify({ ok }));

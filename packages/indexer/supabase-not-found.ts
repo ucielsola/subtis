@@ -61,6 +61,7 @@ export async function indexNotFoundSubtitlesFromSupabase() {
           titleFileName: title_file_name,
           shouldStoreNotFoundSubtitle: false,
           isDebugging: false,
+          shouldIndexAllTorrents: true,
         });
 
         if (ok) {

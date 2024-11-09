@@ -121,6 +121,7 @@ export async function indexTitleByFileName({
   isDebugging,
   websocket,
   indexedBy,
+  shouldIndexAllTorrents,
 }: {
   bytes: number;
   titleFileName: string;
@@ -128,6 +129,7 @@ export async function indexTitleByFileName({
   isDebugging: boolean;
   websocket?: ServerWebSocket<unknown>;
   indexedBy: IndexedBy;
+  shouldIndexAllTorrents: boolean;
 }): Promise<{ ok: boolean }> {
   console.time("Tardo en indexar");
 
@@ -218,7 +220,7 @@ export async function indexTitleByFileName({
         releaseGroups,
         subtitleGroups,
         isDebugging,
-        initialTorrents: [torrent],
+        initialTorrents: shouldIndexAllTorrents ? undefined : [torrent],
         bytesFromNotFoundSubtitle: bytes,
         titleFileNameFromNotFoundSubtitle: titleFileName,
         shouldUseTryCatch: false,
@@ -297,34 +299,40 @@ export async function indexTitleByFileName({
       totalEpisodes: null,
     });
 
-    const torrents = await getTitleTorrents(titleProviderQuery, TitleTypes.movie, movieData.imdbId);
+    let torrent: TorrentFound | undefined;
 
-    console.log("\n Torrents without filter \n");
-    console.table(torrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
+    if (!shouldIndexAllTorrents) {
+      const torrents = await getTitleTorrents(titleProviderQuery, TitleTypes.movie, movieData.imdbId);
 
-    const torrent = torrents.find((torrent) => {
-      const lowerCaseTorrentTitle = torrent.title.toLowerCase();
+      console.log("\n Torrents without filter \n");
+      console.table(torrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
 
-      const includesResolution = lowerCaseTorrentTitle.includes(title.resolution.toLowerCase());
-      const includesReleaseGroup = title.releaseGroup?.release_group_name
-        ? lowerCaseTorrentTitle.includes(title.releaseGroup.release_group_name.toLowerCase())
-        : false;
+      torrent = torrents.find((torrent) => {
+        const lowerCaseTorrentTitle = torrent.title.toLowerCase();
 
-      const includesFileAttributes = title.releaseGroup?.file_attributes.some((fileAttribute) => {
-        return lowerCaseTorrentTitle.includes(fileAttribute.toLowerCase());
+        const includesResolution = lowerCaseTorrentTitle.includes(title.resolution.toLowerCase());
+        const includesReleaseGroup = title.releaseGroup?.release_group_name
+          ? lowerCaseTorrentTitle.includes(title.releaseGroup.release_group_name.toLowerCase())
+          : false;
+
+        const includesFileAttributes = title.releaseGroup?.file_attributes.some((fileAttribute) => {
+          return lowerCaseTorrentTitle.includes(fileAttribute.toLowerCase());
+        });
+
+        const result = (includesFileAttributes || includesReleaseGroup) && includesResolution;
+
+        return result;
       });
+    }
 
-      return (includesFileAttributes || includesReleaseGroup) && includesResolution;
-    });
+    if (!shouldIndexAllTorrents && !torrent) {
+      throw new Error("Torrent not found");
+    }
 
     const parameter = await getSubDivXParameter();
     const { token, cookie } = await getSubDivXToken();
 
-    if (!torrent) {
-      throw new Error("Torrent not found");
-    }
-
-    console.table([torrent].map(({ title, size, seeds }) => ({ title, size, seeds })));
+    console.table(torrent ? [torrent].map(({ title, size, seeds }) => ({ title, size, seeds })) : []);
 
     if (websocket) {
       websocket.send(JSON.stringify({ total: 0.75, message: "Buscando subtitulo en nuestros proveedores" }));
@@ -333,7 +341,11 @@ export async function indexTitleByFileName({
     await getSubtitlesForTitle({
       indexedBy,
       index: "1",
-      initialTorrents: [{ ...torrent, id: generateIdFromMagnet(torrent.trackerId) }],
+      initialTorrents: shouldIndexAllTorrents
+        ? undefined
+        : torrent
+          ? [{ ...torrent, id: generateIdFromMagnet(torrent.trackerId) }]
+          : [],
       currentTitle: { ...movieData, episode: null, totalEpisodes: null, totalSeasons: null },
       releaseGroups,
       subtitleGroups,
@@ -371,16 +383,16 @@ export async function indexTitleByFileName({
 // FILES
 // const titleFileName = "Scenes.From.A.Marriage.1974.1080p.BluRay.x264-[YTS.AM].mp4";
 // const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
-const bytes = 1935789982;
-const titleFileName = "Pride.and.Prejudice.2005.1080p.BrRip.x264.BOKUTOX.YIFY.mp4";
+// const bytes = 1935789982;
+// const titleFileName = "Pride.and.Prejudice.2005.1080p.BrRip.x264.BOKUTOX.YIFY.mp4";
 
-indexTitleByFileName({
-  bytes,
-  titleFileName,
-  shouldStoreNotFoundSubtitle: true,
-  isDebugging: true,
-  indexedBy: "indexer-file",
-});
+// indexTitleByFileName({
+//   bytes,
+//   titleFileName,
+//   shouldStoreNotFoundSubtitle: true,
+//   isDebugging: true,
+//   indexedBy: "indexer-file",
+// });
 
 // GENERAL
 // saveReleaseGroupsToDb(supabase);
