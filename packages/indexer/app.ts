@@ -887,7 +887,17 @@ export async function getTorrentVideoFileMetadata(torrent: TorrentFound): Promis
     .with("YTS", () => YTS_TRACKERS)
     .run();
 
-  const engine = torrentStream(torrent.trackerId, {
+  const parsedTrackerId = encodeURI(
+    decodeURIComponent(torrent.trackerId)
+      .split("&")
+      .filter((url) => {
+        const port = Number(url.match(/(?<=:)\d+(?=\/)/)?.[0] ?? "1");
+        return port > 0 && port < 65536;
+      })
+      .join("&"),
+  );
+
+  const engine = torrentStream(parsedTrackerId, {
     trackers,
   });
 

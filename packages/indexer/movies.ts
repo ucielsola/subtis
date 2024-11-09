@@ -131,12 +131,12 @@ export async function indexMovieByName({
 }
 
 // testing
-// indexMoviesByYear(2024, true);
-indexMovieByName({
-  year: 2005,
-  isDebugging: true,
-  name: "Pride & Prejudice",
-});
+indexMoviesByYear(2024, true);
+// indexMovieByName({
+//   year: 2005,
+//   isDebugging: true,
+//   name: "Constantine",
+// });
 
 saveReleaseGroupsToDb(supabase);
 // saveTmdbMovieGenresToDb(supabase);
