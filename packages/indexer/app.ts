@@ -28,6 +28,7 @@ import {
   type TitleFileNameMetadata,
   VIDEO_FILE_EXTENSIONS,
   getDecodedSubtitleFile,
+  getIsCinemaRecording,
   getSeasonAndEpisode,
   getStringWithoutSpecialCharacters,
   getTitleFileNameExtension,
@@ -810,9 +811,6 @@ function getFilteredTorrents(
   maxTorrents = 25,
   // spanishName: string,
 ): TorrentFoundWithId[] {
-  const CINEMA_RECORDING_REGEX =
-    /\b(hdcam|hdcamrip|hqcam|hq-cam|telesync|hdts|hd-ts|c1nem4|qrips|hdrip|cam|soundtrack|xxx|clean|khz|ep|camrip|dvdscr)\b/gi;
-
   const seenTitles = new Set<string>();
   const seenSizes = new Set<string | number>();
 
@@ -855,7 +853,7 @@ function getFilteredTorrents(
       //   parsedTorrentTitleWithoutSpecialChars === parsedSpanishTitleName
       // );
     })
-    .filter((torrent) => !torrent.title.match(CINEMA_RECORDING_REGEX))
+    .filter((torrent) => !getIsCinemaRecording(torrent.title))
     .filter(({ seeds }) => seeds > minSeeds)
     .filter((torrent) => {
       if (seenSizes.has(torrent.size)) {

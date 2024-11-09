@@ -6,6 +6,7 @@ import { z } from "zod";
 
 // shared
 import {
+  getIsCinemaRecording,
   getIsTvShow,
   getStringWithoutSpecialCharacters,
   getTitleFileNameMetadata,
@@ -91,8 +92,9 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
       if (error && error.code === "PGRST116") {
         const isTvShow = getIsTvShow(fileName);
+        const isCinemaRecording = getIsCinemaRecording(fileName);
 
-        if (!isTvShow) {
+        if (!isTvShow && !isCinemaRecording) {
           await supabase.from("SubtitlesNotFound").insert({ bytes: parsedBytes, title_file_name: fileName });
         }
 
