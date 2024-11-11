@@ -65,6 +65,11 @@ export const title = new Hono<{ Variables: AppVariables }>()
         .match({ id: parsedTitleId })
         .single();
 
+      if (error && error.code === "PGRST116") {
+        context.status(404);
+        return context.json({ message: "Title not found" });
+      }
+
       if (error) {
         context.status(500);
         return context.json({ message: "An error occurred", error: error.message });
