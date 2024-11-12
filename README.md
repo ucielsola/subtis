@@ -21,7 +21,7 @@
 | Client  | API search | Real-time search | Title search | AI translation | Email notifications |
 | ------- | ---------- | ---------------- | ------------ | -------------- | ------------------- |
 | Web     | ✅         | ✅               | ✅           | 🚧             | ✅                  |
-| CLI     | ✅         | ✅               | ❌           | ❌             | ❌                  |
+| CLI     | ✅         | ✅               | ❌           | ❌             | ✅                 |
 | Raycast | ✅         | ✅               | ❌           | ❌             | ❌                  |
 | Stremio | ✅         | ❌               | ❌           | ❌             | ❌                  |
 | VLC     | ✅         | ❌               | ❌           | ❌             | ❌                  |
@@ -148,7 +148,19 @@ bun run update:db:dump
 
 - Bump DB schemas
 
-  1. Remove the following 4 lines
+  1. Move to `packages/db` directory
+
+  ```bash
+  cd packages/db
+  ```
+
+  2. Run the following command
+
+  ```bash
+  bun run supabase:type:definitions
+  ```
+
+  3. Remove the following 4 lines
 
   ```typescript
   show_limit: {
@@ -157,10 +169,10 @@ bun run update:db:dump
   };
   ```
 
-  2. Run the following command
+  4. Generate new zod schemas
 
   ```bash
-  bun run update:db:schemas
+  bun run supabase:schemas
   ```
 
 - Bump project dependencies
