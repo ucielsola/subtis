@@ -490,6 +490,30 @@ export const RELEASE_GROUPS = {
     release_group_name: "SiNNERS",
     query_matches: ["SiNNERS", "x264-SiNNERS", "x265-SiNNERS"],
   },
+  FAMiLYFOREVER: {
+    file_attributes: ["265-FAMiLYFOREVER", "264-FAMiLYFOREVER"],
+    is_supported: true,
+    release_group_name: "FAMiLYFOREVER",
+    query_matches: ["FAMiLYFOREVER", "265-FAMiLYFOREVER", "264-FAMiLYFOREVER"],
+  },
+  TheBiscuitMan: {
+    file_attributes: ["TheBiscuitMan", "264-TheBiscuitMan", "265-TheBiscuitMan"],
+    is_supported: true,
+    release_group_name: "TheBiscuitMan",
+    query_matches: ["TheBiscuitMan", "264-TheBiscuitMan", "265-TheBiscuitMan"],
+  },
+  Chivaman: {
+    file_attributes: ["Chivaman", "1-Chivaman"],
+    is_supported: true,
+    release_group_name: "Chivaman",
+    query_matches: ["Chivaman", "1-Chivaman"],
+  },
+  SAMPA: {
+    file_attributes: ["SAMPA", "x265 SAMPA", "x264 SAMPA"],
+    is_supported: true,
+    release_group_name: "SAMPA",
+    query_matches: ["SAMPA"],
+  },
 } as const;
 
 // types
