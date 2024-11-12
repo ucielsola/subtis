@@ -1364,7 +1364,6 @@ export async function getSubtitlesForTitle({
     );
 
     const subtitleAlreadyExistsForSubDivX = await hasSubtitleInDatabase(fileName);
-    console.log("\n ~ forawait ~ subtitleAlreadyExistsForSubDivX:", subtitleAlreadyExistsForSubDivX);
     if (subtitleAlreadyExistsForSubDivX) {
       console.log(`4.${index}.${torrentIndex}) Subtítulo ya existe en la base de datos 🙌`);
       continue;
