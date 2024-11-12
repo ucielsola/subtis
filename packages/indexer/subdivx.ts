@@ -92,6 +92,8 @@ async function getSubtitlesFromSubDivXForTitleByQuery({
   const encodedTitleProviderQuery = phpurlencode(titleProviderQuery);
   const titleOnlyWithoutYear = titleProviderQuery.replace(/\d{4}/gi, "").trim().toLowerCase();
 
+  const bodyURL = `tabla=resultados&filtros=&${subdivxParameter}=${encodedTitleProviderQuery}&token=${subdivxToken}`;
+
   const response = await fetch(`${SUBDIVX_BASE_URL}/inc/ajax.php`, {
     headers: {
       Cookie: subdivxCookie ?? "",
@@ -99,7 +101,7 @@ async function getSubtitlesFromSubDivXForTitleByQuery({
       "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
     },
     method: "POST",
-    body: `tabla=resultados&filtros=&${subdivxParameter}=${encodedTitleProviderQuery}&token=${subdivxToken}`,
+    body: bodyURL,
   });
 
   if (!response.ok) {
@@ -181,6 +183,7 @@ async function getSubtitlesFromSubDivXForTitleByImdbId({
   subdivxParameter: string;
 }): Promise<SubDivXSubtitles> {
   const fullImdbId = getFullImdbId(imdbId);
+  const bodyURL = `tabla=resultados&filtros=&${subdivxParameter}=${fullImdbId}&token=${subdivxToken}`;
 
   const response = await fetch(`${SUBDIVX_BASE_URL}/inc/ajax.php`, {
     headers: {
@@ -189,7 +192,7 @@ async function getSubtitlesFromSubDivXForTitleByImdbId({
       "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
     },
     method: "POST",
-    body: `tabla=resultados&filtros=&${subdivxParameter}=${fullImdbId}&token=${subdivxToken}`,
+    body: bodyURL,
   });
 
   if (!response.ok) {
