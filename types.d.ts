@@ -76,3 +76,7 @@ declare module 'torrent-stream' {
 
   export = torrentStream
 }
+
+declare module 'unrar-promise' {
+  export function unrar(src: string, dest: string): Promise<string>
+}

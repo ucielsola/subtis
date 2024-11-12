@@ -384,7 +384,7 @@ export async function indexTitleByFileName({
 // const titleFileName = "Scenes.From.A.Marriage.1974.1080p.BluRay.x264-[YTS.AM].mp4";
 // const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
 // const bytes = 1935789982;
-// const titleFileName = "Pride.and.Prejudice.2005.1080p.BrRip.x264.BOKUTOX.YIFY.mp4";
+// const titleFileName = "Moon.2009.1080p.BluRay.x264.YIFY.mp4";
 
 // indexTitleByFileName({
 //   bytes,
@@ -392,6 +392,7 @@ export async function indexTitleByFileName({
 //   shouldStoreNotFoundSubtitle: true,
 //   isDebugging: true,
 //   indexedBy: "indexer-file",
+//   shouldIndexAllTorrents: false,
 // });
 
 // GENERAL

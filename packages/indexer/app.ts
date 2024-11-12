@@ -2,7 +2,6 @@ import { Buffer } from "node:buffer";
 import fs from "node:fs";
 import path from "node:path";
 import { confirm } from "@clack/prompts";
-import unrar from "@continuata/unrar";
 import download from "download";
 import extract from "extract-zip";
 import ffprobe from "ffprobe";
@@ -17,6 +16,7 @@ import tg from "torrent-grabber";
 import TorrentSearchApi from "torrent-search-api";
 import torrentStream, { type File } from "torrent-stream";
 import { match } from "ts-pattern";
+import { unrar } from "unrar-promise";
 import { z } from "zod";
 
 // db
@@ -149,12 +149,7 @@ async function uncompressSubtitle({
 
   await match(fileExtension)
     .with("rar", async () => {
-      await unrar.uncompress({
-        command: "e",
-        dest: toRoute,
-        src: fromRoute,
-        switches: ["-o+", "-idcd"],
-      });
+      await unrar(fromRoute, toRoute);
     })
     .with("zip", async () => {
       await extract(fromRoute, { dir: toRoute });

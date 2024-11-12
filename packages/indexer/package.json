@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
-    "@continuata/unrar": "^1.6.0",
     "cheerio": "^1.0.0",
     "cli-progress": "^3.12.0",
     "dayjs": "^1.11.13",
@@ -39,6 +38,7 @@
     "torrent-search-api": "^2.1.4",
     "torrent-stream": "^1.2.1",
     "ts-pattern": "^5.5.0",
+    "unrar-promise": "^3.1.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
