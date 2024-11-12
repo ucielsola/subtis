@@ -80,3 +80,7 @@ declare module 'torrent-stream' {
 declare module 'unrar-promise' {
   export function unrar(src: string, dest: string): Promise<string>
 }
+
+declare module 'phpurlencode' {
+  export default function phpurlencode(str: string): string
+}
