@@ -352,7 +352,7 @@ export async function indexTitleByFileName({
       isDebugging,
       bytesFromNotFoundSubtitle: bytes,
       titleFileNameFromNotFoundSubtitle: titleFileName,
-      shouldUseTryCatch: false,
+      shouldUseTryCatch: true,
       fromWebSocket: Boolean(websocket),
       subdivxToken: token,
       subdivxCookie: cookie,
@@ -383,17 +383,17 @@ export async function indexTitleByFileName({
 // FILES
 // const titleFileName = "Scenes.From.A.Marriage.1974.1080p.BluRay.x264-[YTS.AM].mp4";
 // const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
-// const bytes = 1935789982;
-// const titleFileName = "Moon.2009.1080p.BluRay.x264.YIFY.mp4";
+const bytes = 1935789982;
+const titleFileName = "12.Angry.Men.1957.1080p.BluRay.x264-[YTS.AM].mp4";
 
-// indexTitleByFileName({
-//   bytes,
-//   titleFileName,
-//   shouldStoreNotFoundSubtitle: true,
-//   isDebugging: true,
-//   indexedBy: "indexer-file",
-//   shouldIndexAllTorrents: false,
-// });
+indexTitleByFileName({
+  bytes,
+  titleFileName,
+  shouldStoreNotFoundSubtitle: true,
+  isDebugging: true,
+  indexedBy: "indexer-file",
+  shouldIndexAllTorrents: false,
+});
 
 // GENERAL
 // saveReleaseGroupsToDb(supabase);
