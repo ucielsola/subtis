@@ -31,7 +31,7 @@ export async function getPrimarySubtitle(
   const primarySubtitle = subtitleNormalizedSchema.parse(data);
 
   await apiClient.v1.subtitle.metrics.download.$patch({
-    json: { titleId: primarySubtitle.title.id, subtitleId: primarySubtitle.subtitle.id },
+    json: { imdbId: primarySubtitle.title.imdb_id, subtitleId: primarySubtitle.subtitle.id },
   });
 
   return primarySubtitle;
@@ -53,7 +53,7 @@ export async function getAlternativeSubtitle(
   const alternativeSubtitle = subtitleNormalizedSchema.parse(data);
 
   await apiClient.v1.subtitle.metrics.download.$patch({
-    json: { titleId: alternativeSubtitle.title.id, subtitleId: alternativeSubtitle.subtitle.id },
+    json: { imdbId: alternativeSubtitle.title.imdb_id, subtitleId: alternativeSubtitle.subtitle.id },
   });
 
   return alternativeSubtitle;

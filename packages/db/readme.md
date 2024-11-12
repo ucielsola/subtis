@@ -36,7 +36,7 @@ $$ LANGUAGE plpgsql;
 ```
 
 ```sql
-CREATE OR REPLACE FUNCTION update_subtitle_and_title_download_metrics(_title_id int8, _subtitle_id int8)
+CREATE OR REPLACE FUNCTION update_subtitle_and_title_download_metrics(_imdb_id text, _subtitle_id int8)
 RETURNS boolean AS $$
 DECLARE
     success boolean;
@@ -51,7 +51,7 @@ BEGIN
         UPDATE "Titles"
         SET last_queried_at = CURRENT_TIMESTAMP,
             queried_times = queried_times + 1
-        WHERE id = _title_id
+        WHERE imdb_id = _imdb_id
         RETURNING true INTO success;
     END IF;
 
@@ -61,7 +61,7 @@ $$ LANGUAGE plpgsql;
 ```
 
 ```sql
-CREATE OR REPLACE FUNCTION update_title_search_metrics(_title_id int8)
+CREATE OR REPLACE FUNCTION update_title_search_metrics(_imdb_id text)
 RETURNS boolean AS $$
 DECLARE
     success boolean;
@@ -69,7 +69,7 @@ BEGIN
     UPDATE "Titles"
     SET last_queried_at = CURRENT_TIMESTAMP,
         searched_times = searched_times + 1
-    WHERE id = _title_id
+    WHERE imdb_id = _imdb_id
     RETURNING true INTO success;
 
     RETURN COALESCE(success, false);

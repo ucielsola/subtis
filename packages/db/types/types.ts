@@ -225,7 +225,7 @@ export type Database = {
             columns: ["genre_id"];
             isOneToOne: false;
             referencedRelation: "Genres";
-            referencedColumns: ["id"];
+            referencedColumns: ["genre_id"];
           },
           {
             foreignKeyName: "TitleGenres_title_id_fkey";
@@ -397,14 +397,14 @@ export type Database = {
       };
       update_subtitle_and_title_download_metrics: {
         Args: {
-          _title_id: number;
+          _imdb_id: string;
           _subtitle_id: number;
         };
         Returns: boolean;
       };
       update_title_search_metrics: {
         Args: {
-          _title_id: number;
+          _imdb_id: string;
         };
         Returns: boolean;
       };

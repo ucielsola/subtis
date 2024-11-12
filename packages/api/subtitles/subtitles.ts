@@ -28,23 +28,16 @@ const trendingSubtitlesSchema = z
 // core
 export const subtitles = new Hono<{ Variables: AppVariables }>()
   .get(
-    "/movie/:titleId",
-    zValidator("param", z.object({ titleId: z.string() })),
+    "/movie/:imdbId",
+    zValidator("param", z.object({ imdbId: z.string() })),
     async (context) => {
-      const { titleId } = context.req.valid("param");
-
-      const parsedTitleId = Number.parseInt(titleId);
-
-      if (Number.isNaN(parsedTitleId) || parsedTitleId < 1) {
-        context.status(400);
-        return context.json({ message: "Invalid ID: it should be a positive integer number" });
-      }
+      const { imdbId } = context.req.valid("param");
 
       const { data, error } = await getSupabaseClient(context)
         .from("Subtitles")
         .select(subtitlesQuery)
         .order("subtitle_group_id")
-        .match({ title_imdb_id: parsedTitleId });
+        .match({ title_imdb_id: imdbId });
 
       if (error && error.code === "PGRST116") {
         context.status(404);
@@ -70,20 +63,13 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
     // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("2 weeks")}` }),
   )
   .get(
-    "/tv-show/:titleId/:season?/:episode?",
+    "/tv-show/:imdbId/:season?/:episode?",
     zValidator(
       "param",
-      z.object({ titleId: z.string(), season: z.string().optional(), episode: z.string().optional() }),
+      z.object({ imdbId: z.string(), season: z.string().optional(), episode: z.string().optional() }),
     ),
     async (context) => {
-      const { titleId, season = "1", episode = "1" } = context.req.valid("param");
-
-      const parsedTitleId = Number.parseInt(titleId);
-
-      if (Number.isNaN(parsedTitleId) || parsedTitleId < 1) {
-        context.status(400);
-        return context.json({ message: "Invalid ID: it should be a positive integer number" });
-      }
+      const { imdbId, season = "1", episode = "1" } = context.req.valid("param");
 
       const parsedSeason = Number.parseInt(season);
 
@@ -103,7 +89,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
         .from("Subtitles")
         .select(subtitlesQuery)
         .order("subtitle_group_id")
-        .match({ title_imdb_id: parsedTitleId, current_season: parsedSeason, current_episode: parsedEpisode });
+        .match({ title_imdb_id: imdbId, current_season: parsedSeason, current_episode: parsedEpisode });
 
       if (error && error.code === "PGRST116") {
         context.status(404);
@@ -129,17 +115,10 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
     // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("2 weeks")}` }),
   )
   .get(
-    "/tv-show/download/metadata/:titleId/:season",
-    zValidator("param", z.object({ titleId: z.string(), season: z.string() })),
+    "/tv-show/download/metadata/:imdbId/:season",
+    zValidator("param", z.object({ imdbId: z.string(), season: z.string() })),
     async (context) => {
-      const { titleId, season } = context.req.valid("param");
-
-      const parsedTitleId = Number.parseInt(titleId);
-
-      if (Number.isNaN(parsedTitleId) || parsedTitleId < 1) {
-        context.status(400);
-        return context.json({ message: "Invalid ID: it should be a positive integer number" });
-      }
+      const { imdbId, season } = context.req.valid("param");
 
       const parsedSeason = Number.parseInt(season);
 
@@ -152,7 +131,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
         .from("Subtitles")
         .select(subtitlesQuery)
         .order("subtitle_group_id")
-        .match({ title_imdb_id: parsedTitleId, current_season: parsedSeason });
+        .match({ title_imdb_id: imdbId, current_season: parsedSeason });
 
       if (error && error.code === "PGRST116") {
         context.status(404);
@@ -187,20 +166,13 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
     // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("1 week")}` }),
   )
   .get(
-    "/tv-show/download/season/:titleId/:season/:resolution/:releaseGroupId",
+    "/tv-show/download/season/:imdbId/:season/:resolution/:releaseGroupId",
     zValidator(
       "param",
-      z.object({ titleId: z.string(), season: z.string(), resolution: z.string(), releaseGroupId: z.string() }),
+      z.object({ imdbId: z.string(), season: z.string(), resolution: z.string(), releaseGroupId: z.string() }),
     ),
     async (context) => {
-      const { titleId, season, resolution, releaseGroupId } = context.req.valid("param");
-
-      const parsedTitleId = Number.parseInt(titleId);
-
-      if (Number.isNaN(parsedTitleId) || parsedTitleId < 1) {
-        context.status(400);
-        return context.json({ message: "Invalid ID: it should be a positive integer number" });
-      }
+      const { imdbId, season, resolution, releaseGroupId } = context.req.valid("param");
 
       const parsedSeason = Number.parseInt(season);
 
@@ -227,7 +199,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
         .order("subtitle_group_id")
         .match({
           resolution,
-          title_id: parsedTitleId,
+          title_imdb_id: imdbId,
           current_season: parsedSeason,
           release_group_id: parsedReleaseGroupId,
         });

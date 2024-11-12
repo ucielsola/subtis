@@ -45,6 +45,11 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         .match({ id: subtitleId })
         .single();
 
+      if (error && error.code === "PGRST116") {
+        context.status(404);
+        return context.json({ message: "Subtitle not found for ID" });
+      }
+
       if (error) {
         context.status(500);
         return context.json({ message: "An error occurred", error: error.message });
@@ -321,9 +326,9 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
   )
   .patch(
     "/metrics/download",
-    zValidator("json", z.object({ titleId: z.number(), subtitleId: z.number() })),
+    zValidator("json", z.object({ imdbId: z.string(), subtitleId: z.number() })),
     async (context) => {
-      const { titleId, subtitleId } = context.req.valid("json");
+      const { imdbId, subtitleId } = context.req.valid("json");
 
       if (Number.isNaN(subtitleId) || subtitleId < 1) {
         context.status(400);
@@ -331,7 +336,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       }
 
       const { data, error } = await getSupabaseClient(context).rpc("update_subtitle_and_title_download_metrics", {
-        _title_id: titleId,
+        _imdb_id: imdbId,
         _subtitle_id: subtitleId,
       });
 

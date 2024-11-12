@@ -242,7 +242,7 @@ export const titleGenresRelationshipsSchema = z.tuple([
     columns: z.tuple([z.literal("genre_id")]),
     isOneToOne: z.literal(false),
     referencedRelation: z.literal("Genres"),
-    referencedColumns: z.tuple([z.literal("id")]),
+    referencedColumns: z.tuple([z.literal("genre_id")]),
   }),
   z.object({
     foreignKeyName: z.literal("TitleGenres_title_id_fkey"),

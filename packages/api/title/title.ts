@@ -47,22 +47,15 @@ function getTmdbMovieSearchUrl(title: string, year?: number): string {
 // core
 export const title = new Hono<{ Variables: AppVariables }>()
   .get(
-    "/metadata/:titleId",
-    zValidator("param", z.object({ titleId: z.string() })),
+    "/metadata/:imdbId",
+    zValidator("param", z.object({ imdbId: z.string() })),
     async (context) => {
-      const { titleId } = context.req.valid("param");
-
-      const parsedTitleId = Number.parseInt(titleId);
-
-      if (Number.isNaN(parsedTitleId) || parsedTitleId < 1) {
-        context.status(400);
-        return context.json({ message: "Invalid ID: it should be a positive integer number" });
-      }
+      const { imdbId } = context.req.valid("param");
 
       const { data, error } = await getSupabaseClient(context)
         .from("Titles")
         .select(titlesQuery)
-        .match({ id: parsedTitleId })
+        .match({ imdb_id: imdbId })
         .single();
 
       if (error && error.code === "PGRST116") {
@@ -169,15 +162,12 @@ export const title = new Hono<{ Variables: AppVariables }>()
     },
     // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("1 week")}` }),
   )
-  .patch("/metrics/search", zValidator("json", z.object({ titleId: z.number() })), async (context) => {
-    const { titleId } = context.req.valid("json");
+  .patch("/metrics/search", zValidator("json", z.object({ imdbId: z.string() })), async (context) => {
+    const { imdbId } = context.req.valid("json");
 
-    if (Number.isNaN(titleId) || titleId < 1) {
-      context.status(400);
-      return context.json({ message: "Invalid ID: it should be a positive integer number" });
-    }
-
-    const { data, error } = await getSupabaseClient(context).rpc("update_title_search_metrics", { _title_id: titleId });
+    const { data, error } = await getSupabaseClient(context).rpc("update_title_search_metrics", {
+      _imdb_id: imdbId,
+    });
 
     if (error) {
       context.status(500);
