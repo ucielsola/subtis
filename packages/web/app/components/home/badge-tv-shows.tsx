@@ -1,0 +1,23 @@
+import { useAnimation } from "framer-motion";
+
+// ui
+import { Badge } from "~/components/ui/badge";
+
+// icons
+import { RocketIcon } from "~/components/icons/rocket";
+
+export function BadgeTvShows() {
+  const controls = useAnimation();
+
+  return (
+    <Badge
+      variant="outline"
+      className="w-fit"
+      onMouseEnter={() => controls.start("animate")}
+      onMouseLeave={() => controls.start("normal")}
+    >
+      <RocketIcon controls={controls} size={14} />
+      <span className="ml-[2px]">Próximamente soporte para Series!</span>
+    </Badge>
+  );
+}

@@ -13,7 +13,6 @@
     "rules": {
       "recommended": true,
       "nursery": {
-        "useSortedClasses": "warn",
         "noDuplicateElseIf": "warn"
       },
       "performance": {
