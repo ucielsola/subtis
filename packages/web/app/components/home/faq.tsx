@@ -11,7 +11,7 @@ export function HomeFaq() {
         <FaqQuestions />
         <p className="text-slate-600 text-sm mt-8">
           Te quedaron dudas? Podes escribirnos a{" "}
-          <a href="mailto:soporte@subt.is" className="underline">
+          <a href="mailto:soporte@subt.is" className="underline hover:text-slate-950 transition-colors duration-300">
             soporte@subt.is
           </a>
         </p>
