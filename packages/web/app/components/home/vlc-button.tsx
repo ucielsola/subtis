@@ -288,7 +288,7 @@ export function VlcButton() {
         className="bg-slate-950 group border-[#E26400] border relative overflow-hidden"
         onClick={handleToggleIsOpen}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-[#E26400] to-[#FF9800] transition-transform duration-300 -translate-y-full group-hover:translate-y-0" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#E26400] to-[#FF9800] transition-transform duration-300 -translate-y-full group-hover:translate-y-0 w-24" />
         <div className="relative flex items-center gap-2">
           <div className="relative size-6">
             <VlcColouredLogo
