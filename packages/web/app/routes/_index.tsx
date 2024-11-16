@@ -4,6 +4,7 @@ import type { MetaFunction } from "@remix-run/node";
 import { HomeAlert } from "~/components/home/alert";
 import { HomeFaq } from "~/components/home/faq";
 import { HomeFeatures } from "~/components/home/features";
+import { HomeFooter } from "~/components/home/footer";
 import { HomeHero } from "~/components/home/hero";
 import { SearchButton } from "~/components/home/search-button";
 import { HomeTrending } from "~/components/home/trending";
@@ -62,6 +63,7 @@ export default function Index() {
         <HomeFeatures />
         <HomeFaq />
         <HomeAlert />
+        <HomeFooter />
       </div>
     </main>
   );
