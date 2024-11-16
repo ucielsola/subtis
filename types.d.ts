@@ -84,3 +84,8 @@ declare module 'unrar-promise' {
 declare module 'phpurlencode' {
   export default function phpurlencode(str: string): string
 }
+
+declare module '*.css?url' {
+  const value: string;
+  export default value;
+}

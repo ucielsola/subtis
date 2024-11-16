@@ -1,4 +1,4 @@
-// ui
+// internals
 import { FaqQuestions } from "~/components/home/faq-questions";
 
 export function HomeFaq() {

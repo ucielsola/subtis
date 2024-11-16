@@ -2,11 +2,11 @@ import { useAnimation } from "framer-motion";
 
 // icons
 import { AudioLinesIcon } from "~/components/icons/audio-lines";
+import { CircleCheckIcon } from "~/components/icons/circle-check";
 import { LanguagesIcon } from "~/components/icons/languages";
+import { SquareStackIcon } from "~/components/icons/square-stack";
 import { TimerIcon } from "~/components/icons/timer";
 import { TrendingUpIcon } from "~/components/icons/trending-up";
-import { CircleCheckIcon } from "~/components/icons/circle-check";
-import { SquareStackIcon } from "~/components/icons/square-stack";
 
 export function HomeFeatures() {
   const audiolinesControls = useAnimation();

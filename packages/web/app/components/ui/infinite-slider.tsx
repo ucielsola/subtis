@@ -1,5 +1,5 @@
-import { useMotionValue, animate, motion, type AnimationControls } from "framer-motion";
-import { useState, useEffect } from "react";
+import { type AnimationPlaybackControls, animate, motion, useMotionValue } from "framer-motion";
+import { useEffect, useState } from "react";
 import useMeasure from "react-use-measure";
 
 // lib
@@ -28,10 +28,9 @@ export function InfiniteSlider({
   const [ref, { width, height }] = useMeasure();
   const translation = useMotionValue(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [key, setKey] = useState(0);
 
   useEffect(() => {
-    let controls: AnimationControls;
+    let controls: AnimationPlaybackControls;
     const size = direction === "horizontal" ? width : height;
     const contentSize = size + gap;
     const from = reverse ? -contentSize / 2 : 0;
@@ -43,7 +42,6 @@ export function InfiniteSlider({
         duration: currentDuration * Math.abs((translation.get() - to) / contentSize),
         onComplete: () => {
           setIsTransitioning(false);
-          setKey((prevKey) => prevKey + 1);
         },
       });
     } else {
@@ -60,7 +58,7 @@ export function InfiniteSlider({
     }
 
     return controls?.stop;
-  }, [key, translation, currentDuration, width, height, gap, isTransitioning, direction, reverse]);
+  }, [translation, currentDuration, width, height, gap, isTransitioning, direction, reverse]);
 
   const hoverProps = durationOnHover
     ? {

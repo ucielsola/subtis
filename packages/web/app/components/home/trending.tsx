@@ -1,6 +1,7 @@
-// ui
-import { TrendingSlider } from "~/components/home/trending-slider";
+// internals
 import { NewsSlider } from "~/components/home/news-slider";
+import { TrendingSlider } from "~/components/home/trending-slider";
+
 export function HomeTrending() {
   return (
     <section className="py-16 flex flex-col gap-32">

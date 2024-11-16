@@ -1,12 +1,12 @@
 import type { MetaFunction } from "@remix-run/node";
 
-// components
-import { SearchButton } from "~/components/home/search-button";
-import { HomeHero } from "~/components/home/hero";
-import { HomeFeatures } from "~/components/home/features";
-import { HomeTrending } from "~/components/home/trending";
-import { HomeFaq } from "~/components/home/faq";
+// home
 import { HomeAlert } from "~/components/home/alert";
+import { HomeFaq } from "~/components/home/faq";
+import { HomeFeatures } from "~/components/home/features";
+import { HomeHero } from "~/components/home/hero";
+import { SearchButton } from "~/components/home/search-button";
+import { HomeTrending } from "~/components/home/trending";
 
 // shared
 import { getApiClient } from "@subtis/shared";
@@ -54,7 +54,7 @@ export default function Index() {
     <main className="min-h-screen bg-[url('/background.png')] bg-contain bg-no-repeat bg-slate-50">
       <div className="container mx-auto px-4">
         <nav className="flex items-center justify-between py-4">
-          <img src="/logo.png" alt="logo" className="max-w-24" />
+          <img src="/logo.png" alt="Subtis" className="max-w-24" />
           <SearchButton />
         </nav>
         <HomeHero />

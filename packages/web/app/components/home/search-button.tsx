@@ -14,7 +14,7 @@ export function SearchButton() {
     <Link to="/search">
       <Button
         variant="ghost"
-        className="backdrop-blur-sm bg-white/60 hover:bg-white/100 transition-colors duration-300"
+        className="backdrop-blur-sm hover:bg-white transition-colors duration-300"
         onMouseEnter={() => controls.start("animate")}
         onMouseLeave={() => controls.start("normal")}
       >

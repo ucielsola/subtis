@@ -1,5 +1,5 @@
-import Dropzone from "react-dropzone-esm";
 import { useAnimation } from "framer-motion";
+import Dropzone from "react-dropzone-esm";
 
 // ui
 import { Button } from "~/components/ui/button";
@@ -18,6 +18,7 @@ export function VideoDropzone() {
             <input {...getInputProps()} />
             <Button
               variant="outline"
+              className="backdrop-blur-sm hover:bg-slate-50 transition-colors duration-300"
               onMouseEnter={() => controls.start("animate")}
               onMouseLeave={() => controls.start("normal")}
             >

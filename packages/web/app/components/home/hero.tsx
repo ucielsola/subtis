@@ -1,10 +1,10 @@
 // home
 import { BadgeTvShows } from "~/components/home/badge-tv-shows";
-import { TerminalLogo } from "~/components/home/terminal-logo";
-import { StremioButton } from "~/components/home/stremio-button";
-import { VlcButton } from "~/components/home/vlc-button";
 import { RaycastLogo } from "~/components/home/raycast-logo";
+import { StremioButton } from "~/components/home/stremio-button";
+import { TerminalLogo } from "~/components/home/terminal-logo";
 import { VideoDropzone } from "~/components/home/video-dropzone";
+import { VlcButton } from "~/components/home/vlc-button";
 
 // ui
 import { AspectRatio } from "~/components/ui/aspect-ratio";

@@ -17,5 +17,8 @@
     "noEmit": true,
     "verbatimModuleSyntax": true,
     "skipLibCheck": true,
+    "paths": {
+      "~/*": ["./packages/web/app/*"]
+    }
   }
 }

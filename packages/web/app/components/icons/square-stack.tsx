@@ -1,7 +1,5 @@
-"use client";
-
 import type { AnimationControls, Variants } from "framer-motion";
-import { motion, useAnimation } from "framer-motion";
+import { motion } from "framer-motion";
 
 const rectVariants: Variants = {
   normal: { scale: 1 },
