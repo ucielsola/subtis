@@ -3,9 +3,6 @@ import { useLoaderData } from "@remix-run/react";
 // routes
 import type { loader } from "~/routes/_index";
 
-// ui
-import { InfiniteSlider } from "~/components/ui/infinite-slider";
-
 export function TrendingSlider() {
   const { trendingDownloadedTitles } = useLoaderData<typeof loader>();
 
@@ -14,22 +11,21 @@ export function TrendingSlider() {
   }
 
   return (
-    <InfiniteSlider durationOnHover={300} duration={65} gap={24}>
+    <div className="carousel carousel-center rounded-sm gap-3 py-3">
       {trendingDownloadedTitles.results.map((title) => {
         if (!title.poster) {
           return null;
         }
 
         return (
-          <div key={title.id} className="max-w-56 cursor-pointer group rounded-sm overflow-hidden">
-            <img
-              alt={title.title_name}
-              src={title.poster}
-              className="w-full h-full object-cover group-hover:scale-105 transition-all duration-300"
-            />
+          <div
+            key={title.id}
+            className="carousel-item hover:scale-105 transition-all rounded-sm overflow-hidden will-change-transform"
+          >
+            <img alt={title.title_name} src={title.poster} className="max-w-56" />
           </div>
         );
       })}
-    </InfiniteSlider>
+    </div>
   );
 }
