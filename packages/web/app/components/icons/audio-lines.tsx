@@ -14,7 +14,7 @@ export function AudioLinesIcon({ size, controls }: { size: number; controls: Ani
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <title>Audio Lines</title>
+        <title>Lineas de audio</title>
         <path d="M2 10v3" />
         <motion.path
           variants={{

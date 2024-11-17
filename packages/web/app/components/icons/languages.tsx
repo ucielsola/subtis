@@ -50,7 +50,7 @@ export function LanguagesIcon({
         variants={svgVariants}
         animate={svgControls}
       >
-        <title>Languages</title>
+        <title>Idiomas</title>
         <motion.path d="m5 8 6 6" variants={pathVariants} custom={3} animate={pathControls} />
         <motion.path d="m4 14 6-6 3-3" variants={pathVariants} custom={2} animate={pathControls} />
         <motion.path d="M2 5h12" variants={pathVariants} custom={1} animate={pathControls} />

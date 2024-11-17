@@ -11,7 +11,7 @@ export function TrendingSlider() {
   }
 
   return (
-    <div className="carousel carousel-center rounded-sm gap-3 py-3">
+    <div className="carousel carousel-start rounded-sm gap-3 py-3">
       {trendingDownloadedTitles.results.map((title) => {
         if (!title.poster) {
           return null;
@@ -20,9 +20,9 @@ export function TrendingSlider() {
         return (
           <div
             key={title.id}
-            className="carousel-item hover:scale-105 transition-all rounded-sm overflow-hidden will-change-transform"
+            className="carousel-item hover:scale-105 transition-all rounded-sm overflow-hidden will-change-transform cursor-pointer"
           >
-            <img alt={title.title_name} src={title.poster} className="max-w-56" />
+            <img alt={title.title_name} src={title.poster} className="w-56 h-[336px] object-cover" />
           </div>
         );
       })}

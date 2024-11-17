@@ -1,7 +1,7 @@
 export function HomeFooter() {
   return (
     <footer className="pt-8 pb-20 flex flex-col gap-6 border-t border-slate-200">
-      <img src="/logo.png" alt="Subtis" className="max-w-24" />
+      <img src="/logo.png" alt="Subtis" className="w-24 h-[38.9px]" />
       <div className="flex flex-row justify-between items-center">
         <span className="text-xs font-medium text-slate-600">
           Creado por{" "}

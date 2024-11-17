@@ -8,7 +8,7 @@ const FAQ_QUESTIONS = [
   {
     id: "faq-1",
     question: "Qué es Subtis?",
-    answer: "Subtis es un servicio que te permite descargar subtítulos para tus películas y series.",
+    answer: "Subtis es un servicio que te permite descargar subtítulos para tus películas.",
   },
   {
     id: "faq-2",

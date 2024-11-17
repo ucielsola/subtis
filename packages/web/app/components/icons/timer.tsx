@@ -50,7 +50,7 @@ export function TimerIcon({ size, controls }: { size: number; controls: Animatio
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <title>Timer</title>
+        <title>Temporizador</title>
         <motion.line x1="10" x2="14" y1="2" y2="2" animate={controls} variants={buttonVariants} />
         <motion.line x1="12" x2="15" y1="14" y2="11" initial="normal" animate={controls} variants={handVariants} />
         <circle cx="12" cy="14" r="8" />

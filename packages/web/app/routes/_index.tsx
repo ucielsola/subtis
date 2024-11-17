@@ -19,7 +19,7 @@ export const meta: MetaFunction = () => {
 
 export const loader = async () => {
   const apiClient = getApiClient({
-    apiBaseUrl: process.env.PUBLIC_API_BASE_URL_PRODUCTION as string,
+    apiBaseUrl: "https://api.subt.is" as string,
   });
 
   const [trendingDownloadedTitlesResponse, recentDownloadedTitlesResponse] = await Promise.all([
@@ -55,7 +55,7 @@ export default function Index() {
     <main className="min-h-screen bg-[url('/background.png')] bg-contain bg-no-repeat bg-slate-50">
       <div className="container mx-auto px-4">
         <nav className="flex items-center justify-between py-4">
-          <img src="/logo.png" alt="Subtis" className="max-w-24" />
+          <img src="/logo.png" alt="Subtis" className="w-24 h-[38.9px]" />
           <SearchButton />
         </nav>
         <HomeHero />

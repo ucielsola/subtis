@@ -30,7 +30,7 @@ export function SquareStackIcon({ size, controls }: { size: number; controls: An
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <title>Square Stack</title>
+        <title>Cuadrado de pilas</title>
         <motion.path
           variants={pathVariants}
           animate={controls}

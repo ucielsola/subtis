@@ -34,7 +34,7 @@ export function CircleCheckIcon({ size, controls }: { size: number; controls: An
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <title>Circle Check</title>
+        <title>Circulo de verificación</title>
         <circle cx="12" cy="12" r="10" />
         <motion.path variants={pathVariants} initial="normal" animate={controls} d="m9 12 2 2 4-4" />
       </svg>
