@@ -1,4 +1,4 @@
-import { useAnimation } from "framer-motion";
+import { useAnimation } from "motion/react";
 import Dropzone from "react-dropzone-esm";
 
 // ui

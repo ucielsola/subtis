@@ -1,4 +1,4 @@
-import { useAnimation } from "framer-motion";
+import { useAnimation } from "motion/react";
 
 // ui
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";

@@ -1,5 +1,5 @@
 import { Link } from "@remix-run/react";
-import { useAnimation } from "framer-motion";
+import { useAnimation } from "motion/react";
 
 // icons
 import { SearchIcon } from "~/components/icons/search";

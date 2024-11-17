@@ -1,4 +1,4 @@
-import { type AnimationControls, motion } from "framer-motion";
+import { type AnimationControls, motion } from "motion/react";
 
 export function SearchIcon({ controls }: { controls: AnimationControls }) {
   return (

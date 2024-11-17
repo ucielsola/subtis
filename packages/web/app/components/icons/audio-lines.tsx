@@ -1,4 +1,4 @@
-import { type AnimationControls, motion } from "framer-motion";
+import { type AnimationControls, motion } from "motion/react";
 
 export function AudioLinesIcon({ size, controls }: { size: number; controls: AnimationControls }) {
   return (

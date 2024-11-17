@@ -1,4 +1,4 @@
-import { useAnimation } from "framer-motion";
+import { useAnimation } from "motion/react";
 
 // ui
 import { Badge } from "~/components/ui/badge";

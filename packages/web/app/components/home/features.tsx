@@ -1,4 +1,4 @@
-import { useAnimation } from "framer-motion";
+import { useAnimation } from "motion/react";
 
 // icons
 import { AudioLinesIcon } from "~/components/icons/audio-lines";

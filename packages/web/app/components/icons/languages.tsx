@@ -1,5 +1,4 @@
-import type { AnimationControls, Variants } from "framer-motion";
-import { motion } from "framer-motion";
+import { type AnimationControls, type Variants, motion } from "motion/react";
 
 const pathVariants: Variants = {
   initial: { opacity: 1, pathLength: 1, pathOffset: 0 },

@@ -23,10 +23,10 @@
     "clsx": "^2.1.1",
     "isbot": "^4.4.0",
     "lucide-react": "^0.456.0",
+    "motion": "^11.11.17",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-dropzone-esm": "^15.0.1",
-    "react-use-measure": "^2.1.1",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7"
   },
