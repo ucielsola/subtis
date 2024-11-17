@@ -22,7 +22,7 @@ export function TrendingSlider() {
             <img
               alt={title.title_name}
               src={title.poster}
-              className="w-56 h-[336px] object-cover hover:scale-105 transition-all ease-in-out"
+              className="w-56 h-[336px] object-cover hover:scale-110 transition-all ease-in-out"
             />
           </div>
         );
