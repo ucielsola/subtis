@@ -57,6 +57,11 @@ const FAQ_QUESTIONS = [
     answer:
       "Por el momento no lo soportamos pero podes contactarnos al email enviándonos la versión que estas buscando.",
   },
+  {
+    id: "faq-11",
+    question: "Si utilizo la búsqueda por archivo, el video se sube a algún servidor?",
+    answer: "No, el video no se sube a ningún lado. Solo obtenemos la metadata del archivo.",
+  },
 ];
 
 export function FaqQuestions() {
