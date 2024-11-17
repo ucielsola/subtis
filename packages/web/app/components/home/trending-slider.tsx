@@ -18,11 +18,14 @@ export function TrendingSlider() {
         }
 
         return (
-          <div key={title.id} className="carousel-item rounded-sm overflow-hidden cursor-pointer">
+          <div
+            key={title.id}
+            className="carousel-item rounded-sm overflow-hidden cursor-pointer group/trending-card hover:drop-shadow-md transition-all ease-in-out"
+          >
             <img
               alt={title.title_name}
               src={title.poster}
-              className="w-56 h-[336px] object-cover hover:scale-110 transition-all ease-in-out"
+              className="w-56 h-[336px] object-cover group-hover/trending-card:scale-110 transition-all ease-in-out"
             />
           </div>
         );
