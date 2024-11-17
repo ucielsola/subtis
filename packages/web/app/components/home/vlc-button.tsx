@@ -288,16 +288,16 @@ export function VlcButton() {
         className="bg-slate-950 group border-[#E26400] border relative overflow-hidden"
         onClick={handleToggleIsOpen}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-[#E26400] to-[#FF9800] transition-transform duration-300 -translate-y-full group-hover:translate-y-0 w-24" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#E26400] to-[#FF9800] transition-all ease-in-out -translate-y-full group-hover:translate-y-0 w-24" />
         <div className="relative flex items-center gap-2">
           <div className="relative size-6">
             <VlcColouredLogo
               size={24}
-              className="!size-auto absolute transition-opacity duration-300 group-hover:opacity-0"
+              className="!size-auto absolute transition-all ease-in-out group-hover:opacity-0"
             />
             <VlcWhiteLogo
               size={24}
-              className="!size-auto absolute transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+              className="!size-auto absolute transition-all ease-in-out opacity-0 group-hover:opacity-100"
             />
           </div>
           VLC

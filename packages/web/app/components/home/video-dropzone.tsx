@@ -18,7 +18,7 @@ export function VideoDropzone() {
             <input {...getInputProps()} />
             <Button
               variant="outline"
-              className="backdrop-blur-sm hover:bg-slate-50 transition-colors duration-300"
+              className="backdrop-blur-sm hover:bg-slate-50 transition-all ease-in-out"
               onMouseEnter={() => controls.start("animate")}
               onMouseLeave={() => controls.start("normal")}
             >

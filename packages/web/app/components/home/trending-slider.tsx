@@ -18,11 +18,12 @@ export function TrendingSlider() {
         }
 
         return (
-          <div
-            key={title.id}
-            className="carousel-item hover:scale-105 transition-all rounded-sm overflow-hidden will-change-transform cursor-pointer"
-          >
-            <img alt={title.title_name} src={title.poster} className="w-56 h-[336px] object-cover" />
+          <div key={title.id} className="carousel-item rounded-sm overflow-hidden cursor-pointer">
+            <img
+              alt={title.title_name}
+              src={title.poster}
+              className="w-56 h-[336px] object-cover hover:scale-105 transition-all ease-in-out"
+            />
           </div>
         );
       })}

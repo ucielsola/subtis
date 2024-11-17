@@ -125,16 +125,16 @@ export function StremioButton() {
         className="bg-slate-950 group border-[#1155D9] border relative overflow-hidden"
         onClick={handleToggleIsOpen}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1155D9] to-[#7B5BF5] transition-transform duration-300 -translate-y-full group-hover:translate-y-0" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1155D9] to-[#7B5BF5] transition-all ease-in-out -translate-y-full group-hover:translate-y-0" />
         <div className="relative flex items-center gap-2">
           <div className="relative size-6">
             <StremioColouredLogo
               size={24}
-              className="!size-auto absolute transition-opacity duration-300 group-hover:opacity-0"
+              className="!size-auto absolute transition-all ease-in-out group-hover:opacity-0"
             />
             <StremioWhiteLogo
               size={24}
-              className="!size-auto absolute transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+              className="!size-auto absolute transition-all ease-in-out opacity-0 group-hover:opacity-100"
             />
           </div>
           Stremio

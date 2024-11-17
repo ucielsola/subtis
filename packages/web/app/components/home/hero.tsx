@@ -32,18 +32,18 @@ export function HomeHero() {
             </div>
             <span className="text-slate-600 text-sm flex flex-row items-center">
               También disponible en{" "}
-              <span className="inline-flex flex-row items-center gap-1 px-1.5 text-slate-700 hover:text-slate-950 transition-colors duration-300 group/raycast cursor-pointer">
+              <span className="inline-flex flex-row items-center gap-1 px-1.5 text-slate-700 hover:text-slate-950 transition-all ease-in-out group/raycast cursor-pointer">
                 <RaycastLogo
                   size={16}
-                  className="group-hover/raycast:fill-slate-950 fill-slate-700 transition-colors duration-300"
+                  className="group-hover/raycast:fill-slate-950 fill-slate-700 transition-all ease-in-out"
                 />
                 Raycast
               </span>{" "}
               y
-              <span className="inline-flex flex-row items-center gap-1 px-1.5 text-slate-700  hover:text-slate-950 transition-colors duration-300 group/cli cursor-pointer  ">
+              <span className="inline-flex flex-row items-center gap-1 px-1.5 text-slate-700  hover:text-slate-950 transition-all ease-in-out group/cli cursor-pointer  ">
                 <TerminalLogo
                   size={16}
-                  className="group-hover/cli:fill-slate-950 group-hover/cli:stroke-transparent fill-transparent stroke-slate-700 transition-colors duration-300"
+                  className="group-hover/cli:fill-slate-950 group-hover/cli:stroke-transparent fill-transparent stroke-slate-700 transition-all ease-in-out"
                 />
                 CLI
               </span>
