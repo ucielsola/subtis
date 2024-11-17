@@ -2,7 +2,7 @@ import { type AnimationControls, motion } from "framer-motion";
 
 export function SearchIcon({ controls }: { controls: AnimationControls }) {
   return (
-    <div className="cursor-pointer select-none p-1 flex items-center justify-center overflow-hidden">
+    <div className="cursor-pointer select-none p-[2px] flex items-center justify-center overflow-hidden">
       <motion.svg
         xmlns="http://www.w3.org/2000/svg"
         width="28"
@@ -17,7 +17,7 @@ export function SearchIcon({ controls }: { controls: AnimationControls }) {
           normal: { x: 0, y: 0 },
           animate: {
             x: [0, 0, -3, 0],
-            y: [0, -4, 0, 0],
+            y: [0, -3, 0, 0],
           },
         }}
         transition={{

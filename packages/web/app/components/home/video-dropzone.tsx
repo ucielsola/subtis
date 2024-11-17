@@ -5,7 +5,7 @@ import Dropzone from "react-dropzone-esm";
 import { Button } from "~/components/ui/button";
 
 // icons
-import { UploadIcon } from "~/components/icons/upload";
+import { AttachFileIcon } from "~/components/icons/attach-file";
 
 export function VideoDropzone() {
   const controls = useAnimation();
@@ -22,7 +22,7 @@ export function VideoDropzone() {
               onMouseEnter={() => controls.start("animate")}
               onMouseLeave={() => controls.start("normal")}
             >
-              <UploadIcon controls={controls} />
+              <AttachFileIcon controls={controls} />
               Seleccionar archivo
             </Button>
             <p className="text-xs text-slate-600">.mp4, .mkv, .avi</p>
