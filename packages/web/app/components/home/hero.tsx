@@ -37,7 +37,7 @@ export function HomeHero() {
                   size={16}
                   className="group-hover/raycast:fill-slate-950 fill-slate-700 transition-all ease-in-out"
                 />
-                Raycast
+                <span className="group-hover/raycast:underline">Raycast</span>
               </span>{" "}
               y
               <span className="inline-flex flex-row items-center gap-1 px-1.5 text-slate-700  hover:text-slate-950 transition-all ease-in-out group/cli cursor-pointer  ">
@@ -45,7 +45,7 @@ export function HomeHero() {
                   size={16}
                   className="group-hover/cli:fill-slate-950 group-hover/cli:stroke-transparent fill-transparent stroke-slate-700 transition-all ease-in-out"
                 />
-                CLI
+                <span className="group-hover/cli:underline">CLI</span>
               </span>
             </span>
           </div>

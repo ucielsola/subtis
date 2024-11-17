@@ -293,11 +293,11 @@ export function VlcButton() {
           <div className="relative size-6">
             <VlcColouredLogo
               size={24}
-              className="!size-auto absolute transition-all ease-in-out group-hover:opacity-0"
+              className="!size-auto absolute transition-all ease-in-out group-hover:opacity-0 delay-75"
             />
             <VlcWhiteLogo
               size={24}
-              className="!size-auto absolute transition-all ease-in-out opacity-0 group-hover:opacity-100"
+              className="!size-auto absolute transition-all ease-in-out opacity-0 group-hover:opacity-100 delay-75"
             />
           </div>
           VLC
