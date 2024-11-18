@@ -247,7 +247,7 @@ export function VlcButton() {
                 <div className="flex flex-col items-center">
                   <div className="h-8 border border-dashed border-slate-200 w-[1px]" />
                   <div className="size-8 flex items-center justify-center rounded-full bg-slate-100">
-                    <span className="text-slate-600 text-sm">1</span>
+                    <span className="text-slate-600 text-sm">2</span>
                   </div>
                 </div>
                 <div className="text-slate-950 pb-1">Second title</div>
@@ -266,7 +266,7 @@ export function VlcButton() {
                 <div className="flex flex-col items-center">
                   <div className="h-8 border border-dashed border-slate-200 w-[1px]" />
                   <div className="size-8 flex items-center justify-center rounded-full bg-slate-100">
-                    <span className="text-slate-600 text-sm">1</span>
+                    <span className="text-slate-600 text-sm">3</span>
                   </div>
                 </div>
                 <div className="text-slate-950 pb-1">Third title</div>

@@ -1,6 +1,10 @@
 import type { LinksFunction } from "@remix-run/node";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
 
+// layout
+import { HomeFooter } from "~/components/layout/footer";
+import { SearchButton } from "~/components/layout/search-button";
+
 // internals
 import styles from "./tailwind.css?url";
 
@@ -39,5 +43,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <main className="min-h-screen bg-[url('/background.png')] bg-contain bg-no-repeat bg-slate-50">
+      <div className="container mx-auto px-4">
+        <nav className="flex items-center justify-between py-4">
+          <img src="/logo.png" alt="Subtis" className="w-24 h-[38.9px]" />
+          <SearchButton />
+        </nav>
+        <Outlet />
+        <HomeFooter />
+      </div>
+    </main>
+  );
 }
