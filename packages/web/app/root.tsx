@@ -44,7 +44,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return (
-    <main className="min-h-screen bg-[url('/background.png')] bg-contain bg-no-repeat bg-slate-50">
+    <main className="min-h-screen bg-[url('/background.png')] bg-contain bg-no-repeat bg-slate-50 bg-right-top">
       <div className="container mx-auto px-4">
         <nav className="flex items-center justify-between py-4">
           <img src="/logo.png" alt="Subtis" className="w-24 h-[38.9px]" />

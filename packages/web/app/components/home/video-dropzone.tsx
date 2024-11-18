@@ -1,3 +1,4 @@
+import { useNavigate } from "@remix-run/react";
 import { useAnimation } from "motion/react";
 import Dropzone from "react-dropzone-esm";
 
@@ -8,10 +9,21 @@ import { Button } from "~/components/ui/button";
 import { AttachFileIcon } from "~/components/icons/attach-file";
 
 export function VideoDropzone() {
+  // remix hooks
+  const navigate = useNavigate();
+
+  // motion hooks
   const controls = useAnimation();
 
   return (
-    <Dropzone onDrop={(acceptedFiles) => console.log(acceptedFiles)}>
+    <Dropzone
+      onDrop={(acceptedFiles) => {
+        const bytes = acceptedFiles[0].size;
+        const fileName = acceptedFiles[0].name;
+
+        navigate(`/subtitle/file/name/${bytes}/${fileName}`);
+      }}
+    >
       {({ getRootProps, getInputProps }) => (
         <section className="w-full h-full cursor-pointer">
           <div {...getRootProps()} className="w-full h-full flex flex-col gap-2 items-center justify-center">
