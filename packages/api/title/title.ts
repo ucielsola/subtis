@@ -11,7 +11,6 @@ import {
   OFFICIAL_SUBTIS_CHANNELS,
   type TitleFileNameMetadata,
   YOUTUBE_SEARCH_URL,
-  getStringWithoutSpecialCharacters,
   getTitleFileNameMetadata,
   videoFileNameSchema,
   youTubeSchema,
@@ -112,7 +111,7 @@ export const title = new Hono<{ Variables: AppVariables }>()
         queryName = movie.original_title;
       }
 
-      const query = currentSeason ? `${name} season ${currentSeason} teaser` : `${name} ${year} teaser`;
+      const query = currentSeason ? `${queryName} season ${currentSeason} teaser` : `${queryName} ${year} teaser`;
       const queryParams = querystring.stringify({
         q: query,
         maxResults: 12,
@@ -131,8 +130,7 @@ export const title = new Hono<{ Variables: AppVariables }>()
       }
 
       const filteredTeasers = youtubeParsedData.data.items.filter(({ snippet }) => {
-        const unescapedTitle = htmlUnescape(snippet.title);
-        const youtubeTitle = getStringWithoutSpecialCharacters(unescapedTitle);
+        const youtubeTitle = htmlUnescape(snippet.title).toLowerCase();
 
         return (
           youtubeTitle.includes(queryName.toLowerCase()) &&
