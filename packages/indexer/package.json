@@ -29,7 +29,7 @@
     "node-cron": "^3.0.3",
     "phpurlencode": "^1.1.2",
     "pretty-bytes": "^6.1.1",
-    "resend": "^4.0.0",
+    "resend": "^4.0.1",
     "rimraf": "^6.0.1",
     "slugify": "^1.6.6",
     "srt-parser-2": "^1.2.3",
