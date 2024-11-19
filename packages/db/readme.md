@@ -39,23 +39,37 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION update_subtitle_and_title_download_metrics(_imdb_id text, _subtitle_id int8)
 RETURNS boolean AS $$
 DECLARE
+    exists_in_subtitles boolean;
     success boolean;
 BEGIN
-    UPDATE "Subtitles"
-    SET last_queried_at = CURRENT_TIMESTAMP,
-        queried_times = queried_times + 1
-    WHERE id = _subtitle_id
-    RETURNING true INTO success;
+    -- Check if the provided _imdb_id exists in the Subtitles table
+    SELECT EXISTS (
+        SELECT 1
+        FROM "Subtitles"
+        WHERE title_imdb_id = _imdb_id
+    ) INTO exists_in_subtitles;
 
-    IF success THEN
-        UPDATE "Titles"
+    -- If it exists, perform the updates
+    IF exists_in_subtitles THEN
+        UPDATE "Subtitles"
         SET last_queried_at = CURRENT_TIMESTAMP,
             queried_times = queried_times + 1
-        WHERE imdb_id = _imdb_id
+        WHERE id = _subtitle_id
         RETURNING true INTO success;
+
+        IF success THEN
+            UPDATE "Titles"
+            SET last_queried_at = CURRENT_TIMESTAMP,
+                queried_times = queried_times + 1
+            WHERE imdb_id = _imdb_id
+            RETURNING true INTO success;
+        END IF;
+
+        RETURN COALESCE(success, false);
     END IF;
 
-    RETURN COALESCE(success, false);
+    -- If not exists, return false
+    RETURN false;
 END;
 $$ LANGUAGE plpgsql;
 ```
