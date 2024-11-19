@@ -242,7 +242,7 @@ export async function indexTitleByFileName({
     }
 
     const response = await fetch(
-      `https://api.themoviedb.org/3/search/movie?query=${title.name}&language=es-ES&page=1&primary_release_year=${title.year}`,
+      `https://api.themoviedb.org/3/search/movie?query=${title.name}&year=${title.year}&language=es-ES`,
       {
         headers: {
           Accept: "application/json",
@@ -258,7 +258,9 @@ export async function indexTitleByFileName({
     const data = await response.json();
 
     const movies = tmdbDiscoverMovieSchema.parse(data);
+    console.log("\n ~ movies:", movies);
     const [movie] = movies.results;
+    console.log("\n ~ movie:", movie);
 
     const {
       id,
@@ -383,17 +385,18 @@ export async function indexTitleByFileName({
 // FILES
 // const titleFileName = "Scenes.From.A.Marriage.1974.1080p.BluRay.x264-[YTS.AM].mp4";
 // const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
-// const bytes = 1935789982;
-// const titleFileName = "12.Angry.Men.1957.1080p.BluRay.x264-[YTS.AM].mp4";
 
-// indexTitleByFileName({
-//   bytes,
-//   titleFileName,
-//   shouldStoreNotFoundSubtitle: true,
-//   isDebugging: true,
-//   indexedBy: "indexer-file",
-//   shouldIndexAllTorrents: false,
-// });
+const bytes = 232323123544323;
+const titleFileName = "Enemy.2013.1080p.BluRay.x264.YIFY.mp4";
+
+indexTitleByFileName({
+  bytes,
+  titleFileName,
+  shouldStoreNotFoundSubtitle: true,
+  isDebugging: true,
+  indexedBy: "indexer-file",
+  shouldIndexAllTorrents: true,
+});
 
 // GENERAL
 // saveReleaseGroupsToDb(supabase);

@@ -282,9 +282,9 @@ const TMDB_OPTIONS = {
 // helpers
 function generateTmdbDiscoverMovieUrl(page: number, year: number, isDebugging: boolean) {
   if (isDebugging) {
-    return `https://api.themoviedb.org/3/discover/movie?language=es-ES&page=${page}&with_original_language=en&primary_release_year=${year}`;
+    return `https://api.themoviedb.org/3/discover/movie?language=es-ES&page=${page}&with_original_language=en&year=${year}`;
   }
-  return `https://api.themoviedb.org/3/discover/movie?language=es-ES&page=${page}&with_original_language=en&primary_release_year=${year}`;
+  return `https://api.themoviedb.org/3/discover/movie?language=es-ES&page=${page}&with_original_language=en&year=${year}`;
 
   // TODO: Check why the following filters doesn't work properly
   // return `https://api.themoviedb.org/3/discover/movie?language=es-ES&page=${page}&with_original_language=en&primary_release_date.gte=${dayjs(
@@ -356,14 +356,14 @@ const tmdbApiEndpoints = {
   },
   movieSearch: (title: string, year?: number) => {
     if (year) {
-      return `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}&primary_release_year=${year}&language=es-ES`;
+      return `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}&year=${year}&language=es-ES`;
     }
 
     return `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}&language=es-ES`;
   },
   tvShowSearch: (title: string, year?: number) => {
     if (year) {
-      return `https://api.themoviedb.org/3/search/tv?query=${encodeURIComponent(title)}&primary_release_year=${year}&language=es-ES`;
+      return `https://api.themoviedb.org/3/search/tv?query=${encodeURIComponent(title)}&year=${year}&language=es-ES`;
     }
 
     return `https://api.themoviedb.org/3/search/tv?query=${encodeURIComponent(title)}&language=es-ES`;
