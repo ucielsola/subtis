@@ -6,6 +6,7 @@ import download from "download";
 import extract from "extract-zip";
 import ffprobe from "ffprobe";
 import ffprobeStatic from "ffprobe-static";
+import jschardet from "jschardet";
 import ms from "ms";
 import prettyBytes from "pretty-bytes";
 import srtParser2 from "srt-parser-2";
