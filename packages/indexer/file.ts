@@ -354,7 +354,7 @@ export async function indexTitleByFileName({
       bytesFromNotFoundSubtitle: bytes,
       titleFileNameFromNotFoundSubtitle: titleFileName,
       shouldUseTryCatch: true,
-      // fromWebSocket: Boolean(websocket) || !shouldIndexAllTorrents,
+      // fromWebSocket: Boolean(websocket) || !shouldIndexAllTorrents, // Only for testing
       fromWebSocket: Boolean(websocket),
       subdivxToken: token,
       subdivxCookie: cookie,
@@ -388,8 +388,8 @@ export async function indexTitleByFileName({
 // const titleFileName = "Scenes.From.A.Marriage.1974.1080p.BluRay.x264-[YTS.AM].mp4";
 // const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
 
-// const bytes = 22325443874584;
-// const titleFileName = "Terrifier.2.2022.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4";
+// const bytes = 338675124222131;
+// const titleFileName = "The Super Mario Bros Movie 2023 1080p WEBRip H265-CODY.mkv";
 
 // indexTitleByFileName({
 //   bytes,

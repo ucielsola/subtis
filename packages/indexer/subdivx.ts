@@ -239,7 +239,6 @@ export async function getSubtitlesFromSubDivXForTitle({
       titleProviderQuery,
       hasBeenExecutedOnce: false,
     });
-    console.log("\n ~ subtitlesByQuery:", subtitlesByQuery);
 
     if (subtitlesByQuery.aaData.length > 0) {
       return subtitlesByQuery;
