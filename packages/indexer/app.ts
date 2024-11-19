@@ -907,7 +907,6 @@ export async function getTorrentVideoFileMetadata(torrent: TorrentFound): Promis
           stream.on("end", async () => {
             const info = await ffprobe(tempFilePath, { path: ffprobeStatic.path });
             const [firstStream] = info.streams;
-            console.log("\n ~ stream.on ~ firstStream:", firstStream);
 
             let resolution = "";
 

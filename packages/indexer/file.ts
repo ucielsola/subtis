@@ -258,9 +258,7 @@ export async function indexTitleByFileName({
     const data = await response.json();
 
     const movies = tmdbDiscoverMovieSchema.parse(data);
-    console.log("\n ~ movies:", movies);
     const [movie] = movies.results;
-    console.log("\n ~ movie:", movie);
 
     const {
       id,
