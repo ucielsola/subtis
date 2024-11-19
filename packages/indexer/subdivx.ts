@@ -109,12 +109,14 @@ async function getSubtitlesFromSubDivXForTitleByQuery({
   }
 
   const data = await response.json();
+  console.log("\n ~ data:", data);
 
   if (data === null) {
     return { aaData: [], iTotalDisplayRecords: 0, iTotalRecords: 0, sEcho: "" };
   }
 
   const subtitles = subdivxSubtitlesSchema.parse(data);
+  console.log("\n ~ subtitles:", subtitles);
 
   if (subtitles.aaData.length === 0 && hasBeenExecutedOnce === false && titleProviderQuery.includes("&")) {
     const parsedTitleProviderQuery = titleProviderQuery.replace(" & ", " and ");
@@ -145,18 +147,28 @@ async function getSubtitlesFromSubDivXForTitleByQuery({
 
   // Filter similar titles
   const filteredSubtitles = subtitles.aaData.filter((subtitle) => {
-    let parsedSubtitleTitle = subtitle.titulo;
-    const akaIndex = subtitle.titulo.indexOf("aka");
+    let parsedSubtitleTitle = subtitle.titulo.toLowerCase();
+
+    const akaIndex = parsedSubtitleTitle.indexOf("aka");
+    const directorsCutIndex = parsedSubtitleTitle.indexOf("director");
 
     if (akaIndex !== -1) {
-      parsedSubtitleTitle = subtitle.titulo.slice(0, akaIndex);
+      console.log("a");
+      parsedSubtitleTitle = parsedSubtitleTitle.slice(0, akaIndex);
     }
 
-    if (parsedSubtitleTitle.length > titleProviderQuery.length + 16) {
+    if (directorsCutIndex !== -1) {
+      console.log("b");
+      parsedSubtitleTitle = parsedSubtitleTitle.slice(0, directorsCutIndex);
+    }
+
+    if (!getStringWithoutSpecialCharacters(parsedSubtitleTitle).startsWith(`${titleOnlyWithoutYear} `)) {
+      console.log("c");
       return false;
     }
 
-    if (!getStringWithoutSpecialCharacters(subtitle.titulo).startsWith(`${titleOnlyWithoutYear} `)) {
+    if (parsedSubtitleTitle.length > titleProviderQuery.length + 16) {
+      console.log("d");
       return false;
     }
 
@@ -225,6 +237,8 @@ export async function getSubtitlesFromSubDivXForTitle({
   subdivxParameter: string;
   titleProviderQuery: string;
 }): Promise<SubDivXSubtitles | null> {
+  console.log("\n ~ subdivxToken:", subdivxToken);
+  console.log("\n ~ subdivxParameter:", subdivxParameter);
   try {
     const subtitlesByQuery = await getSubtitlesFromSubDivXForTitleByQuery({
       subdivxToken,
@@ -233,6 +247,7 @@ export async function getSubtitlesFromSubDivXForTitle({
       titleProviderQuery,
       hasBeenExecutedOnce: false,
     });
+    console.log("\n ~ subtitlesByQuery:", subtitlesByQuery);
 
     if (subtitlesByQuery.aaData.length > 0) {
       return subtitlesByQuery;

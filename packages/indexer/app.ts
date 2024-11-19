@@ -6,8 +6,6 @@ import download from "download";
 import extract from "extract-zip";
 import ffprobe from "ffprobe";
 import ffprobeStatic from "ffprobe-static";
-import { decode } from "iconv-lite";
-import jschardet from "jschardet";
 import ms from "ms";
 import prettyBytes from "pretty-bytes";
 import srtParser2 from "srt-parser-2";
@@ -498,7 +496,9 @@ async function addWatermarkToSubtitle({
   const subtitleBuffer = await fs.promises.readFile(path);
 
   const { encoding } = jschardet.detect(subtitleBuffer);
-  const subtitleText = decode(subtitleBuffer, encoding);
+
+  const parsedEncoding = encoding === "windows-1251" ? "iso-8859-1" : encoding;
+  const subtitleText = new TextDecoder(parsedEncoding).decode(subtitleBuffer);
 
   const splitter = match(subtitleGroupName)
     .with("SubDivX", () => /\r\n\r\n/)
