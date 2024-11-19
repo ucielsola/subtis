@@ -33,7 +33,6 @@ Bun.serve({
 
       const parsedMessage = JSON.parse(message);
       const subtitle = subtitleSchema.safeParse(parsedMessage);
-      console.log("\n ~ message ~ subtitle:", subtitle);
 
       if (!subtitle.success) {
         ws.close(4000, "Invalid message");

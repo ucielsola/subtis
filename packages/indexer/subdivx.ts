@@ -297,7 +297,6 @@ export async function filterSubDivXSubtitlesForTorrent({
   });
 
   invariant(subtitle, `[${SUBDIVX_BREADCRUMB_ERROR}]: Subtitle doesn't exists`);
-  console.log("\n ~ subtitle ~ subtitle:", subtitle);
 
   let subtitleLink = "";
   let fileExtension: FileExtension | null = null;
