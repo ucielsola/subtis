@@ -129,7 +129,7 @@ export const RELEASE_GROUPS = {
     query_matches: ["ACEM"],
   },
   EVO: {
-    file_attributes: ["x264-EVO", "x265-EVO", "264-EVO[TGx]", "265-EVO[TGx]"],
+    file_attributes: ["x264-EVO", "x265-EVO", "264-EVO[TGx]", "265-EVO[TGx]", "264-EVO"],
     is_supported: true,
     release_group_name: "EVO",
     query_matches: ["EVO", "264-EVO", "265-EVO", "x264-EVO", "x265-EVO"],
