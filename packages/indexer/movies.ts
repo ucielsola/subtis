@@ -132,10 +132,11 @@ export async function indexMovieByName({
 
 // testing
 indexMoviesByYear(2022, false);
+
 // indexMovieByName({
 //   year: 2022,
 //   isDebugging: true,
-//   name: "The Batman",
+//   name: "Sonic the Hedgehog 2",
 // });
 
 saveReleaseGroupsToDb(supabase);
