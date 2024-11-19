@@ -294,6 +294,7 @@ export async function indexTitleByFileName({
 
     const titleProviderQuery = getQueryForTorrentProvider({
       ...movieData,
+      year: title.year ?? movieData.year,
       episode: null,
       totalSeasons: null,
       totalEpisodes: null,
@@ -353,6 +354,7 @@ export async function indexTitleByFileName({
       bytesFromNotFoundSubtitle: bytes,
       titleFileNameFromNotFoundSubtitle: titleFileName,
       shouldUseTryCatch: true,
+      // fromWebSocket: Boolean(websocket) || !shouldIndexAllTorrents,
       fromWebSocket: Boolean(websocket),
       subdivxToken: token,
       subdivxCookie: cookie,
@@ -365,6 +367,8 @@ export async function indexTitleByFileName({
 
     return { ok: true };
   } catch (error) {
+    console.log("\n ~ error:", error);
+
     if (shouldStoreNotFoundSubtitle) {
       await apiClient.v1.subtitle["not-found"].$post({
         json: { bytes, titleFileName },
@@ -385,7 +389,7 @@ export async function indexTitleByFileName({
 // const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
 
 // const bytes = 22325443874584;
-// const titleFileName = "Requiem.For.A.Dream.DIRECTORS.CUT.2000.1080p.BrRip.x264.YIFY.mp4";
+// const titleFileName = "Under.the.Skin.2013.1080p.BluRay.REMUX.AVC.DTS-HD.MA 5.1-RARBG.mkv";
 
 // indexTitleByFileName({
 //   bytes,
