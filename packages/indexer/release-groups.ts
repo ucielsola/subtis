@@ -111,7 +111,7 @@ export const RELEASE_GROUPS = {
     query_matches: ["HEVC-CM"],
   },
   "HEVC-PSA": {
-    file_attributes: ["HEVC-PSA"],
+    file_attributes: ["HEVC-PSA", "HEVC"],
     is_supported: true,
     release_group_name: "HEVC-PSA",
     query_matches: ["HEVC-PSA"],
@@ -200,7 +200,6 @@ export const RELEASE_GROUPS = {
     release_group_name: "YTS",
     query_matches: [
       "YTS MX",
-      "YTS.MX",
       "YTS",
       "YTS.LT",
       "x264-[YTS.LT]",
