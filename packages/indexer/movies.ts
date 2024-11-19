@@ -131,7 +131,7 @@ export async function indexMovieByName({
 }
 
 // testing
-// indexMoviesByYear(2024, true);
+indexMoviesByYear(2022, true);
 // indexMovieByName({
 //   year: 2010,
 //   isDebugging: true,
