@@ -139,4 +139,5 @@ export async function indexMovieByName({
 // });
 
 saveReleaseGroupsToDb(supabase);
+// saveSubtitleGroupsToDb(supabase);
 // saveTmdbMovieGenresToDb(supabase);
