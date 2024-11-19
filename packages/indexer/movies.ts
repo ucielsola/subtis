@@ -131,11 +131,11 @@ export async function indexMovieByName({
 }
 
 // testing
-indexMoviesByYear(2022, true);
+indexMoviesByYear(2022, false);
 // indexMovieByName({
-//   year: 2010,
+//   year: 2022,
 //   isDebugging: true,
-//   name: "Black Swan",
+//   name: "The Batman",
 // });
 
 saveReleaseGroupsToDb(supabase);

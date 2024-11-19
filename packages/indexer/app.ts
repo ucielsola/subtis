@@ -6,6 +6,7 @@ import download from "download";
 import extract from "extract-zip";
 import ffprobe from "ffprobe";
 import ffprobeStatic from "ffprobe-static";
+import { decode } from "iconv-lite";
 import jschardet from "jschardet";
 import ms from "ms";
 import prettyBytes from "pretty-bytes";
@@ -18,7 +19,6 @@ import torrentStream, { type File } from "torrent-stream";
 import { match } from "ts-pattern";
 import { unrar } from "unrar-promise";
 import { z } from "zod";
-import { decode } from "iconv-lite";
 
 // db
 import { type Title, supabase } from "@subtis/db";
@@ -805,15 +805,14 @@ function getFilteredTorrents(
   titleType: TitleTypes,
   torrents: TorrentFound[],
   titleName: string,
-  maxTorrents = 25,
+  maxTorrents: number,
   // spanishName: string,
 ): TorrentFoundWithId[] {
   const seenTitles = new Set<string>();
   const seenSizes = new Set<string | number>();
 
   const minSeeds = titleType === TitleTypes.tvShow ? 20 : 15;
-  // const parsedTitleName = getStringWithoutSpecialCharacters(titleName).trim();
-  // const parsedSpanishTitleName = getStringWithoutSpecialCharacters(spanishName).trim();
+  const parsedTitleName = getStringWithoutSpecialCharacters(titleName).trim();
 
   return torrents
     .toSorted((torrentA, torrentB) => {
@@ -829,26 +828,10 @@ function getFilteredTorrents(
       }
 
       const { title } = torrent;
-      let parsedTorrentTitle = "";
+      const lowerCaseTitle = title.toLowerCase();
+      const parsedTorrentTitle = /\s/.test(lowerCaseTitle) ? lowerCaseTitle : lowerCaseTitle.replaceAll(".", " ");
 
-      if (title.match(/\.\d{3}/)) {
-        parsedTorrentTitle = title
-          .split(/\.\d{3}/)[0]
-          .split(".")
-          .join(" ");
-      } else if (title.match(/\d{4}\s{1}/)) {
-        parsedTorrentTitle = title.split(/\d{4}/)[0];
-      } else if (title.match(/\(\d{4}\)\s{1}/)) {
-        parsedTorrentTitle = title.split(/\(\d{4}\)/)[0];
-      }
-
-      return parsedTorrentTitle.toLowerCase().trim() === titleName.toLowerCase().trim();
-
-      // const parsedTorrentTitleWithoutSpecialChars = getStringWithoutSpecialCharacters(parsedTorrentTitle).trim();
-      // return (
-      //   parsedTorrentTitleWithoutSpecialChars === parsedTitleName ||
-      //   parsedTorrentTitleWithoutSpecialChars === parsedSpanishTitleName
-      // );
+      return parsedTorrentTitle.includes(parsedTitleName);
     })
     .filter((torrent) => !getIsCinemaRecording(torrent.title))
     .filter(({ seeds }) => seeds > minSeeds)
@@ -1122,7 +1105,7 @@ export async function getSubtitlesForTitle({
   console.table(torrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
 
   const filteredTorrents = (
-    fromWebSocket ? torrents : getFilteredTorrents(titleType, torrents, name)
+    fromWebSocket ? torrents : getFilteredTorrents(titleType, torrents, name, 25)
   ) as TorrentFoundWithId[];
   console.log("\nFiltered torrents \n");
   console.table(filteredTorrents.map(({ title, size, seeds }) => ({ title, size, seeds })));

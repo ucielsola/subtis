@@ -37,7 +37,6 @@ describe("getTitleFileNameMetadata", () => {
         release_group_name: "YTS",
         query_matches: [
           "YTS MX",
-          "YTS.MX",
           "YTS",
           "YTS.LT",
           "x264-[YTS.LT]",
@@ -71,7 +70,6 @@ describe("getTitleFileNameMetadata", () => {
         release_group_name: "YTS",
         query_matches: [
           "YTS MX",
-          "YTS.MX",
           "YTS",
           "YTS.LT",
           "x264-[YTS.LT]",
@@ -106,7 +104,6 @@ describe("getTitleFileNameMetadata", () => {
         release_group_name: "YTS",
         query_matches: [
           "YTS MX",
-          "YTS.MX",
           "YTS",
           "YTS.LT",
           "x264-[YTS.LT]",
@@ -140,7 +137,6 @@ describe("getTitleFileNameMetadata", () => {
         release_group_name: "YTS",
         query_matches: [
           "YTS MX",
-          "YTS.MX",
           "YTS",
           "YTS.LT",
           "x264-[YTS.LT]",
@@ -174,7 +170,6 @@ describe("getTitleFileNameMetadata", () => {
         release_group_name: "YTS",
         query_matches: [
           "YTS MX",
-          "YTS.MX",
           "YTS",
           "YTS.LT",
           "x264-[YTS.LT]",
@@ -285,7 +280,6 @@ describe("getTitleFileNameMetadata", () => {
         release_group_name: "YTS",
         query_matches: [
           "YTS MX",
-          "YTS.MX",
           "YTS",
           "YTS.LT",
           "x264-[YTS.LT]",
