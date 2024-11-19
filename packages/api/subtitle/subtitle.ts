@@ -335,7 +335,20 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "Invalid Subtitle ID: it should be a positive integer number" });
       }
 
-      const { data, error } = await getSupabaseClient(context).rpc("update_subtitle_and_title_download_metrics", {
+      const supabase = getSupabaseClient(context);
+
+      const { error: subtitleError } = await supabase
+        .from("Subtitles")
+        .select(subtitlesQuery)
+        .match({ title_imdb_id: imdbId, id: subtitleId })
+        .single();
+
+      if (subtitleError) {
+        context.status(404);
+        return context.json({ message: "Subtitle not found" });
+      }
+
+      const { data, error } = await supabase.rpc("update_subtitle_and_title_download_metrics", {
         _imdb_id: imdbId,
         _subtitle_id: subtitleId,
       });
