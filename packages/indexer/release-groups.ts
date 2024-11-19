@@ -128,12 +128,6 @@ export const RELEASE_GROUPS = {
     release_group_name: "ACEM",
     query_matches: ["ACEM"],
   },
-  REMUX: {
-    file_attributes: ["REMUX"],
-    is_supported: true,
-    release_group_name: "REMUX",
-    query_matches: ["REMUX"],
-  },
   EVO: {
     file_attributes: ["x264-EVO", "x265-EVO", "264-EVO[TGx]", "265-EVO[TGx]"],
     is_supported: true,
@@ -519,6 +513,12 @@ export const RELEASE_GROUPS = {
     is_supported: true,
     release_group_name: "ViSiON",
     query_matches: ["ViSiON"],
+  },
+  REMUX: {
+    file_attributes: ["REMUX"],
+    is_supported: true,
+    release_group_name: "REMUX",
+    query_matches: ["REMUX"],
   },
 } as const;
 
