@@ -99,6 +99,25 @@ async function getSubtitleDownloadInstructions(subtitle: SubtisSubtitleNormalize
 }
 
 async function askForEmail(bytes: string, fileName: string) {
+  const shouldAskForEmail = await confirm({
+    message: "¿Desea que te avisemos cuando esté disponible el subtítulo?",
+    active: "Si",
+    inactive: "No",
+  });
+
+  if (!shouldAskForEmail) {
+    await apiClient.v1.subtitle["not-found"].$post({
+      json: {
+        bytes: Number(bytes),
+        titleFileName: fileName,
+      },
+    });
+
+    outro("⛏ Estaremos buscando el subtítulo para vos!");
+
+    return;
+  }
+
   const email = await text({
     message: "📬 Si queres nos podes dejar tu email para avisarte cuando esté disponible el subtítulo",
     placeholder: "john@doe.com",
