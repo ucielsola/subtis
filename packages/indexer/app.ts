@@ -903,29 +903,33 @@ export async function getTorrentVideoFileMetadata(torrent: TorrentFound): Promis
 
         await new Promise(() => {
           stream.on("end", async () => {
-            const info = await ffprobe(tempFilePath, { path: ffprobeStatic.path });
-            const [firstStream] = info.streams;
+            try {
+              const info = await ffprobe(tempFilePath, { path: ffprobeStatic.path });
+              const [firstStream] = info.streams;
 
-            let resolution = "";
+              let resolution = "";
 
-            if (firstStream.width === 854 || firstStream.height === 480) {
-              resolution = "480p";
+              if (firstStream.width === 854 || firstStream.height === 480) {
+                resolution = "480p";
+              }
+
+              if (firstStream.width === 720 || firstStream.height === 720) {
+                resolution = "720p";
+              }
+
+              if (firstStream.width === 1920 || firstStream.height === 1080) {
+                resolution = "1080p";
+              }
+
+              if (firstStream.width === 3840 || firstStream.width === 4096 || firstStream.height === 1440) {
+                resolution = "2160p";
+              }
+
+              clearTimeout(timeoutId);
+              resolve({ name: videoFile.name, length: videoFile.length, resolution });
+            } catch (error) {
+              reject(error);
             }
-
-            if (firstStream.width === 720 || firstStream.height === 720) {
-              resolution = "720p";
-            }
-
-            if (firstStream.width === 1920 || firstStream.height === 1080) {
-              resolution = "1080p";
-            }
-
-            if (firstStream.width === 3840 || firstStream.width === 4096 || firstStream.height === 1440) {
-              resolution = "2160p";
-            }
-
-            clearTimeout(timeoutId);
-            resolve({ name: videoFile.name, length: videoFile.length, resolution });
           });
         });
       }
