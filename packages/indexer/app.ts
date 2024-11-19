@@ -18,6 +18,7 @@ import torrentStream, { type File } from "torrent-stream";
 import { match } from "ts-pattern";
 import { unrar } from "unrar-promise";
 import { z } from "zod";
+import { decode } from "iconv-lite";
 
 // db
 import { type Title, supabase } from "@subtis/db";
@@ -505,7 +506,14 @@ async function addWatermarkToSubtitle({
   const { encoding } = jschardet.detect(subtitleBuffer);
 
   const parsedEncoding = encoding === "windows-1251" ? "iso-8859-1" : encoding;
-  const subtitleText = new TextDecoder(parsedEncoding).decode(subtitleBuffer);
+  let subtitleText = "";
+
+  try {
+    subtitleText = new TextDecoder(parsedEncoding).decode(subtitleBuffer);
+  } catch (error) {
+    subtitleText = decode(subtitleBuffer, parsedEncoding);
+    console.log("\n ~ addWatermarkToSubtitle ~ error:", error);
+  }
 
   const splitter = match(subtitleGroupName)
     .with("SubDivX", () => /\r\n\r\n/)
