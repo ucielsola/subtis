@@ -201,7 +201,7 @@ export const RELEASE_GROUPS = {
     query_matches: ["RiGHTNOW"],
   },
   YTS: {
-    file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM", "YTS.AG"],
+    file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM", "YTS.AG", "YIFY", "YTS"],
     is_supported: true,
     release_group_name: "YTS",
     query_matches: [

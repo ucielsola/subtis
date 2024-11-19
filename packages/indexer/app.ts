@@ -6,6 +6,7 @@ import download from "download";
 import extract from "extract-zip";
 import ffprobe from "ffprobe";
 import ffprobeStatic from "ffprobe-static";
+import { decode } from "iconv-lite";
 import jschardet from "jschardet";
 import ms from "ms";
 import prettyBytes from "pretty-bytes";
@@ -27,7 +28,6 @@ import {
   RESOLUTION_REGEX,
   type TitleFileNameMetadata,
   VIDEO_FILE_EXTENSIONS,
-  getDecodedSubtitleFile,
   getIsCinemaRecording,
   getSeasonAndEpisode,
   getStringWithoutSpecialCharacters,
@@ -497,21 +497,8 @@ async function addWatermarkToSubtitle({
 }): Promise<void> {
   const subtitleBuffer = await fs.promises.readFile(path);
 
-  let subtitleText = "";
-
-  if (subtitleGroupName === "SubDivX") {
-    const { encoding } = jschardet.detect(subtitleBuffer);
-    subtitleText = getDecodedSubtitleFile(subtitleBuffer, encoding);
-  }
-
-  if (subtitleGroupName === "OpenSubtitles") {
-    // TODO: If the subtitle is not correct try to use the same solution from SubDivX to get the encoding
-    subtitleText = subtitleBuffer.toString("utf-8");
-  }
-
-  if (subtitleGroupName === "SUBDL") {
-    subtitleText = subtitleBuffer.toString("utf-8");
-  }
+  const { encoding } = jschardet.detect(subtitleBuffer);
+  const subtitleText = decode(subtitleBuffer, encoding);
 
   const splitter = match(subtitleGroupName)
     .with("SubDivX", () => /\r\n\r\n/)
