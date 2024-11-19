@@ -514,6 +514,12 @@ export const RELEASE_GROUPS = {
     release_group_name: "SAMPA",
     query_matches: ["SAMPA"],
   },
+  ViSiON: {
+    file_attributes: ["ViSiON", "x264-ViSiON", "x265-ViSiON", "AC3-ViSiON"],
+    is_supported: true,
+    release_group_name: "ViSiON",
+    query_matches: ["ViSiON"],
+  },
 } as const;
 
 // types
