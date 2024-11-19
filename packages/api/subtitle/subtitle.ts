@@ -191,14 +191,14 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       title_imdb_id: titleByNameAndYear.data.imdb_id,
     });
 
-    if (subtitleError && subtitleError.code === "PGRST116") {
-      context.status(404);
-      return context.json({ message: "Alternative subtitle not found for file" });
-    }
-
     if (subtitleError) {
       context.status(500);
       return context.json({ message: "An error occurred", error: subtitleError });
+    }
+
+    if (subtitleData.length === 0) {
+      context.status(404);
+      return context.json({ message: "Alternative subtitle not found for file" });
     }
 
     const subtitleByFileName = alternativeSubtitlesSchema.safeParse(subtitleData);
