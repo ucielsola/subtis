@@ -62,7 +62,8 @@ export function getTitleFileNameMetadata({
       ? lowerCaseRawAttributes.replace("AAC", "")
       : lowerCaseRawAttributes;
 
-    const ripType = rawAttributes.match(RIP_TYPES_REGEX)?.[0]?.toLowerCase() || null;
+    const result = lowerCaseRawAttributes.match(RIP_TYPES_REGEX);
+    const ripType = result?.length ? result.filter(Boolean)[0].toLowerCase() : null;
 
     const videoFileExtension = VIDEO_FILE_EXTENSIONS.find((videoFileExtension) =>
       rawAttributes.includes(videoFileExtension),
@@ -117,7 +118,8 @@ export function getTitleFileNameMetadata({
     ? lowerCaseRawAttributes.replace("AAC", "")
     : lowerCaseRawAttributes;
 
-  const ripType = rawAttributes.match(RIP_TYPES_REGEX)?.[0]?.toLowerCase() || null;
+  const result = lowerCaseRawAttributes.match(RIP_TYPES_REGEX);
+  const ripType = result?.length ? result.filter(Boolean)[0].toLowerCase() : null;
 
   const videoFileExtension = VIDEO_FILE_EXTENSIONS.find((videoFileExtension) =>
     rawAttributes.includes(videoFileExtension),
