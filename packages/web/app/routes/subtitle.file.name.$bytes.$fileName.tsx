@@ -40,8 +40,6 @@ export default function Subtitle() {
     return null;
   }
 
-  console.log("\n ~ Subtitle ~ data:", data);
-
   return (
     <div className="pt-24 pb-48 flex flex-row justify-between gap-4">
       <div>
