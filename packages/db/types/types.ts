@@ -88,6 +88,7 @@ export type Database = {
           release_group_id: number;
           resolution: string;
           reviewed: boolean;
+          rip_type: string | null;
           subtitle_file_name: string;
           subtitle_group_id: number;
           subtitle_link: string;
@@ -111,6 +112,7 @@ export type Database = {
           release_group_id: number;
           resolution: string;
           reviewed: boolean;
+          rip_type?: string | null;
           subtitle_file_name: string;
           subtitle_group_id: number;
           subtitle_link: string;
@@ -134,6 +136,7 @@ export type Database = {
           release_group_id?: number;
           resolution?: string;
           reviewed?: boolean;
+          rip_type?: string | null;
           subtitle_file_name?: string;
           subtitle_group_id?: number;
           subtitle_link?: string;

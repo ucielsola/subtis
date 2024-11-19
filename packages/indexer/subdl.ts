@@ -138,9 +138,10 @@ export async function filterSubdlSubtitlesForTorrent({
       return release.includes(lowerCaseQueryMatch);
     });
 
-    const isSameFileName = subtitle.release_name.toLowerCase() === fileNameWithoutExtension.toLowerCase();
+    const hasRipType = release.includes(titleFileNameMetadata.ripType ?? "");
+    const isSameFileName = release === fileNameWithoutExtension.toLowerCase();
 
-    return isSameFileName || (hasResolution && hasReleaseGroup);
+    return isSameFileName || (hasResolution && hasReleaseGroup && hasRipType);
   });
 
   invariant(foundSubtitle, `[${SUBDL_BREADCRUMB_ERROR}]: No subtitle data found`);

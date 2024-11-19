@@ -53,6 +53,7 @@ describe("getTitleFileNameMetadata", () => {
       year: 2023,
       currentSeason: null,
       currentEpisode: null,
+      ripType: "BluRay",
     });
   });
 
@@ -86,6 +87,7 @@ describe("getTitleFileNameMetadata", () => {
       year: 2023,
       currentSeason: null,
       currentEpisode: null,
+      ripType: "BluRay",
     });
   });
 
@@ -97,6 +99,7 @@ describe("getTitleFileNameMetadata", () => {
     expect(data).toEqual({
       fileNameWithoutExtension: "The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX]",
       name: "The Super Mario Bros Movie",
+      ripType: "BluRay",
       releaseGroup: {
         file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM", "YTS.AG", "YIFY", "YTS"],
         is_supported: true,
@@ -130,6 +133,7 @@ describe("getTitleFileNameMetadata", () => {
     expect(data).toEqual({
       fileNameWithoutExtension: "The.Super.Mario.Bros..Movie.2023.2160p.BluRay.x264.AAC5.1-[YTS.MX]",
       name: "The Super Mario Bros Movie",
+      ripType: "BluRay",
       releaseGroup: {
         file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM", "YTS.AG", "YIFY", "YTS"],
         is_supported: true,
@@ -163,6 +167,7 @@ describe("getTitleFileNameMetadata", () => {
     expect(data).toEqual({
       fileNameWithoutExtension: "The.Super.Mario.Bros..Movie.2023.3D.BluRay.x264.AAC5.1-[YTS.MX]",
       name: "The Super Mario Bros Movie",
+      ripType: "BluRay",
       releaseGroup: {
         file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM", "YTS.AG", "YIFY", "YTS"],
         is_supported: true,
@@ -196,6 +201,7 @@ describe("getTitleFileNameMetadata", () => {
     expect(data).toEqual({
       fileNameWithoutExtension: "The.Super.Mario.Bros.Movie.2023.1080p.WEBRip.H265-CODY",
       name: "The Super Mario Bros Movie",
+      ripType: "WEB-DL",
       releaseGroup: {
         file_attributes: ["CODY"],
         is_supported: true,
@@ -231,6 +237,7 @@ describe("getTitleFileNameMetadata", () => {
     };
     expect(data).toEqual({
       fileNameWithoutExtension: "Evil.Dead.Rise.2023.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG",
+      ripType: "WEB-DL",
       name: "Evil Dead Rise",
       releaseGroup,
       resolution: "1080p",
@@ -255,6 +262,7 @@ describe("getTitleFileNameMetadata", () => {
       fileNameWithoutExtension: "The.Flash.2023.1080p.WEB-DL.H.264-RiGHTNOW",
       name: "The Flash",
       releaseGroup,
+      ripType: "WEB-DL",
       resolution: "1080p",
       year: 2023,
       currentSeason: null,
@@ -270,6 +278,7 @@ describe("getTitleFileNameMetadata", () => {
     expect(result).toEqual({
       fileNameWithoutExtension: "Avatar.(2009).1080p.x264.YTS.MX",
       name: "Avatar",
+      ripType: null,
       releaseGroup: {
         file_attributes: ["YTS.MX", "YTS.LT", "YIFY", "YTS.AM", "YTS.AG", "YIFY", "YTS"],
         is_supported: true,

@@ -197,7 +197,10 @@ export async function filterOpenSubtitleSubtitlesForTorrent({
       release.includes(fileNameWithoutExtension.toLowerCase()) ||
       comments.includes(fileNameWithoutExtension.toLowerCase());
 
-    return hasFileName || (hasResolution && hasReleaseGroup);
+    const hasRipType =
+      release.includes(titleFileNameMetadata.ripType ?? "") || comments.includes(titleFileNameMetadata.ripType ?? "");
+
+    return hasFileName || (hasResolution && hasReleaseGroup && hasRipType);
   });
 
   invariant(firstResult, `[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: No subtitle data found`);

@@ -89,7 +89,11 @@ type TitleWithEpisode = Pick<
   episode: string | null;
 };
 
-type SubtitleWithResolutionAndTorrentId = SubtitleData & { resolution: string; torrentId: number };
+type SubtitleWithResolutionAndTorrentId = SubtitleData & {
+  resolution: string;
+  torrentId: number;
+  ripType: string | null;
+};
 
 // constants
 const MAX_TIMEOUT = ms("30s");
@@ -334,7 +338,7 @@ async function storeSubtitleInSupabaseTable({
   bytesFromNotFoundSubtitle?: number;
   titleFileNameFromNotFoundSubtitle?: string;
 }): Promise<void> {
-  const { lang, downloadFileName, resolution, torrentId } = subtitle;
+  const { lang, downloadFileName, resolution, torrentId, ripType } = subtitle;
 
   const { id: subtitleGroupId } = subtitleGroups[subtitleGroupName];
   const { id: releaseGroupId } = releaseGroups[releaseGroupName];
@@ -345,6 +349,7 @@ async function storeSubtitleInSupabaseTable({
   const { error } = await supabase.from("Subtitles").insert({
     lang,
     author,
+    rip_type: ripType,
     is_valid: isValid,
     reviewed: true,
     uploaded_by: indexedBy,
@@ -1253,7 +1258,7 @@ export async function getSubtitlesForTitle({
       continue;
     }
 
-    const { releaseGroup, resolution } = titleFileNameMetadata;
+    const { releaseGroup, resolution, ripType } = titleFileNameMetadata;
     const finalResolution = resolution ? resolution : resolutionFromVideoFile ? resolutionFromVideoFile : "-";
 
     if (!releaseGroup) {
@@ -1275,6 +1280,7 @@ export async function getSubtitlesForTitle({
       {
         name,
         year,
+        ripType,
         resolution: finalResolution,
         releaseGroup: releaseGroup.release_group_name,
         fileName,
@@ -1341,7 +1347,12 @@ export async function getSubtitlesForTitle({
           torrent: { ...torrent, size: bytes },
           releaseGroupName,
           subtitleGroupName: foundSubtitleFromSubDivX.subtitleGroupName,
-          subtitle: { ...foundSubtitleFromSubDivX, resolution: finalResolution, torrentId: torrent.id },
+          subtitle: {
+            ...foundSubtitleFromSubDivX,
+            resolution: finalResolution,
+            torrentId: torrent.id,
+            ripType,
+          },
           releaseGroups,
           subtitleGroups,
           indexedBy,
@@ -1404,7 +1415,12 @@ export async function getSubtitlesForTitle({
           torrent,
           releaseGroupName,
           subtitleGroupName: foundSubtitleFromSubdl.subtitleGroupName,
-          subtitle: { ...foundSubtitleFromSubdl, resolution: finalResolution, torrentId: torrent.id },
+          subtitle: {
+            ...foundSubtitleFromSubdl,
+            resolution: finalResolution,
+            torrentId: torrent.id,
+            ripType,
+          },
           releaseGroups,
           subtitleGroups,
         });
@@ -1466,7 +1482,12 @@ export async function getSubtitlesForTitle({
           torrent,
           releaseGroupName,
           subtitleGroupName: foundSubtitleFromOpenSubtitles.subtitleGroupName,
-          subtitle: { ...foundSubtitleFromOpenSubtitles, resolution: finalResolution, torrentId: torrent.id },
+          subtitle: {
+            ...foundSubtitleFromOpenSubtitles,
+            resolution: finalResolution,
+            torrentId: torrent.id,
+            ripType,
+          },
           releaseGroups,
           subtitleGroups,
         });

@@ -239,6 +239,7 @@ export async function getSubtitlesFromSubDivXForTitle({
       titleProviderQuery,
       hasBeenExecutedOnce: false,
     });
+    console.log("\n ~ subtitlesByQuery:", subtitlesByQuery);
 
     if (subtitlesByQuery.aaData.length > 0) {
       return subtitlesByQuery;
@@ -290,12 +291,14 @@ export async function filterSubDivXSubtitlesForTorrent({
       return movieDescription.includes(searchableSubDivXName.toLowerCase());
     });
 
+    const hasRipType = movieDescription.includes(titleFileNameMetadata.ripType ?? "");
     const hasFileName = movieDescription.includes(fileNameWithoutExtension.toLowerCase());
 
-    return hasFileName || (hasMovieResolution && hasReleaseGroup);
+    return hasFileName || (hasMovieResolution && hasReleaseGroup && hasRipType);
   });
 
   invariant(subtitle, `[${SUBDIVX_BREADCRUMB_ERROR}]: Subtitle doesn't exists`);
+  console.log("\n ~ subtitle ~ subtitle:", subtitle);
 
   let subtitleLink = "";
   let fileExtension: FileExtension | null = null;

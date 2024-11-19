@@ -15,6 +15,9 @@ import { getTitleName } from "../get-title-name";
 // types
 export type TitleFileNameMetadata = ReturnType<typeof getTitleFileNameMetadata>;
 
+// constants
+const RIP_TYPES_REGEX = /bluray|bdrip|brrip|webdl|web-dl|webrip|hdrip/gi;
+
 export function getTitleFileNameMetadata({
   titleFileName,
   titleName,
@@ -25,6 +28,7 @@ export function getTitleFileNameMetadata({
   name: string;
   resolution: string;
   year: number | null;
+  ripType: string | null;
   currentSeason: number | null;
   currentEpisode: number | null;
   fileNameWithoutExtension: string;
@@ -58,6 +62,8 @@ export function getTitleFileNameMetadata({
       ? lowerCaseRawAttributes.replace("AAC", "")
       : lowerCaseRawAttributes;
 
+    const ripType = rawAttributes.match(RIP_TYPES_REGEX)?.[0]?.toLowerCase() || null;
+
     const videoFileExtension = VIDEO_FILE_EXTENSIONS.find((videoFileExtension) =>
       rawAttributes.includes(videoFileExtension),
     );
@@ -88,6 +94,7 @@ export function getTitleFileNameMetadata({
 
     return {
       year,
+      ripType,
       resolution,
       releaseGroup,
       currentSeason,
@@ -110,6 +117,8 @@ export function getTitleFileNameMetadata({
     ? lowerCaseRawAttributes.replace("AAC", "")
     : lowerCaseRawAttributes;
 
+  const ripType = rawAttributes.match(RIP_TYPES_REGEX)?.[0]?.toLowerCase() || null;
+
   const videoFileExtension = VIDEO_FILE_EXTENSIONS.find((videoFileExtension) =>
     rawAttributes.includes(videoFileExtension),
   );
@@ -130,6 +139,7 @@ export function getTitleFileNameMetadata({
     .replace(/\sextended/gi, "");
 
   return {
+    ripType,
     year: null,
     releaseGroup,
     currentSeason,
