@@ -61,7 +61,7 @@ export function HomeHero() {
               <VideoDropzone />
               <DotPattern
                 className={cn(
-                  "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)] opacity-40 group-hover/video:opacity-80 group-hover/video:scale-105 transition-all ease-in-out",
+                  "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)] opacity-40 group-hover/video:opacity-60 group-hover/video:scale-105 transition-all ease-in-out",
                 )}
               />
             </AspectRatio>
