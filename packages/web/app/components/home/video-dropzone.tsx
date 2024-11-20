@@ -30,14 +30,14 @@ export function VideoDropzone() {
             <input {...getInputProps()} />
             <Button
               variant="outline"
-              className="backdrop-blur-sm hover:bg-slate-50 transition-all ease-in-out"
+              className=" hover:bg-slate-50 transition-all ease-in-out z-10"
               onMouseEnter={() => controls.start("animate")}
               onMouseLeave={() => controls.start("normal")}
             >
               <AttachFileIcon controls={controls} />
               Seleccionar archivo
             </Button>
-            <p className="text-xs text-slate-600">.mp4, .mkv, .avi</p>
+            <p className="text-xs text-slate-600 z-10 bg-white rounded-sm">.mp4, .mkv, .avi</p>
           </div>
         </section>
       )}

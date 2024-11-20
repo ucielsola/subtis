@@ -8,6 +8,10 @@ import { VlcButton } from "~/components/home/vlc-button";
 
 // ui
 import { AspectRatio } from "~/components/ui/aspect-ratio";
+import { DotPattern } from "~/components/ui/dot-pattern";
+
+// lib
+import { cn } from "~/lib/utils";
 
 export function HomeHero() {
   return (
@@ -53,8 +57,13 @@ export function HomeHero() {
 
         <div className="flex-1 flex flex-col items-end justify-center lg:pt-8 xl:pt-20 w-full">
           <div className="lg:max-w-[488px] w-full h-full flex flex-col gap-2">
-            <AspectRatio ratio={16 / 9} className="bg-white rounded-md border-slate-200 border-dashed border-2">
+            <AspectRatio ratio={16 / 9} className="bg-white rounded-md shadow-sm group/video overflow-hidden">
               <VideoDropzone />
+              <DotPattern
+                className={cn(
+                  "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)] opacity-40 group-hover/video:opacity-80 group-hover/video:scale-105 transition-all ease-in-out",
+                )}
+              />
             </AspectRatio>
             <p className="text-sm text-slate-600 text-center px-4">
               Si contas con el archivo de video podes arrastrarlo acá
