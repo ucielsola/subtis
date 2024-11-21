@@ -182,7 +182,11 @@ export async function filterOpenSubtitleSubtitlesForTorrent({
     throw new Error("Release group undefined");
   }
 
-  const firstResult = subtitles.data.find((subtitle) => {
+  const sortedSubtitlesByDownloads = subtitles.data.toSorted((a, b) =>
+    a.attributes.download_count < b.attributes.download_count ? 1 : -1,
+  );
+
+  const firstResult = sortedSubtitlesByDownloads.find((subtitle) => {
     const release = subtitle.attributes.release.toLowerCase();
     const comments = subtitle.attributes?.comments?.toLowerCase() ?? "";
 

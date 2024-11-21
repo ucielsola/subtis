@@ -275,7 +275,9 @@ export async function filterSubDivXSubtitlesForTorrent({
     throw new Error("release group undefined");
   }
 
-  const subtitle = subtitles.aaData.find((subtitle) => {
+  const sortedSubtitlesByDownloads = subtitles.aaData.toSorted((a, b) => (a.descargas < b.descargas ? 1 : -1));
+
+  const subtitle = sortedSubtitlesByDownloads.find((subtitle) => {
     const movieDescription = subtitle.descripcion.toLowerCase();
 
     let hasMovieResolution = false;
