@@ -424,10 +424,10 @@ export const RELEASE_GROUPS = {
     query_matches: ["iseedeadpeople", "h264-iseedeadpeople", "h265-iseedeadpeople"],
   },
   RARBG: {
-    file_attributes: ["x264-RARBG", "x265-RARBG", "AAC-RARBG", "5.1-RARBG"],
+    file_attributes: ["x264-RARBG", "x265-RARBG", "AAC-RARBG", "5.1-RARBG", " DTS-RARBG"],
     is_supported: true,
     release_group_name: "RARBG",
-    query_matches: ["RARBG", "AAC-RARBG", "(-MiLLENiUM)(-RARBG)", "(-RARBG)"],
+    query_matches: ["RARBG", "AAC-RARBG", "(-MiLLENiUM)(-RARBG)", "(-RARBG)", " DTS-RARBG"],
   },
   HEVC: {
     file_attributes: ["HEVC", "x264-HEVC", "x265-HEVC"],
