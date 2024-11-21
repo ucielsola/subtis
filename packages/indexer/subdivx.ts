@@ -295,7 +295,11 @@ export async function filterSubDivXSubtitlesForTorrent({
     const hasRipType = movieDescription.includes(titleFileNameMetadata.ripType ?? "");
     const hasFileName = movieDescription.includes(fileNameWithoutExtension.toLowerCase());
 
-    return hasFileName || (hasMovieResolution && hasReleaseGroup && hasRipType);
+    if (hasRipType) {
+      return hasFileName || (hasMovieResolution && hasReleaseGroup);
+    }
+
+    return hasFileName || (hasMovieResolution && hasReleaseGroup);
   });
 
   invariant(subtitle, `[${SUBDIVX_BREADCRUMB_ERROR}]: Subtitle doesn't exists`);
