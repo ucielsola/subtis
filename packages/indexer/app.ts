@@ -505,8 +505,12 @@ async function addWatermarkToSubtitle({
 
   const { encoding } = jschardet.detect(subtitleBuffer);
 
-  const parsedEncoding = encoding === "windows-1251" ? "iso-8859-1" : encoding;
+  let parsedEncoding = encoding === "windows-1251" ? "iso-8859-1" : encoding.toLowerCase();
   let subtitleText = "";
+
+  if (parsedEncoding === "utf-16le") {
+    parsedEncoding = "utf-16";
+  }
 
   try {
     subtitleText = new TextDecoder(parsedEncoding).decode(subtitleBuffer);
