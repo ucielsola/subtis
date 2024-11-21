@@ -111,7 +111,7 @@ export const RELEASE_GROUPS = {
     query_matches: ["HEVC-CM"],
   },
   "HEVC-PSA": {
-    file_attributes: ["HEVC-PSA", "HEVC"],
+    file_attributes: ["HEVC-PSA"],
     is_supported: true,
     release_group_name: "HEVC-PSA",
     query_matches: ["HEVC-PSA"],
