@@ -141,7 +141,11 @@ export async function filterSubdlSubtitlesForTorrent({
     const hasRipType = release.includes(titleFileNameMetadata.ripType ?? "");
     const isSameFileName = release === fileNameWithoutExtension.toLowerCase();
 
-    return isSameFileName || (hasResolution && hasReleaseGroup && hasRipType);
+    if (hasRipType) {
+      return isSameFileName || (hasResolution && hasReleaseGroup);
+    }
+
+    return isSameFileName || (hasResolution && hasReleaseGroup);
   });
 
   invariant(foundSubtitle, `[${SUBDL_BREADCRUMB_ERROR}]: No subtitle data found`);
@@ -160,11 +164,14 @@ export async function filterSubdlSubtitlesForTorrent({
     releaseGroupName: releaseGroup.release_group_name,
   });
 
+  const subtitleId = subtitleLink.split(/\//gi)[2].split(".")[0];
+
   return {
     lang: "es",
     subtitleLink,
     fileExtension,
     subtitleGroupName,
+    externalId: subtitleId,
     ...subtitleFileNames,
   };
 }

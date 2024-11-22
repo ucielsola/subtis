@@ -340,7 +340,7 @@ async function storeSubtitleInSupabaseTable({
   bytesFromNotFoundSubtitle?: number;
   titleFileNameFromNotFoundSubtitle?: string;
 }): Promise<void> {
-  const { lang, downloadFileName, resolution, torrentId, ripType } = subtitle;
+  const { lang, downloadFileName, resolution, torrentId, ripType, externalId } = subtitle;
 
   const { id: subtitleGroupId } = subtitleGroups[subtitleGroupName];
   const { id: releaseGroupId } = releaseGroups[releaseGroupName];
@@ -357,6 +357,7 @@ async function storeSubtitleInSupabaseTable({
     uploaded_by: indexedBy,
     bytes,
     torrent_id: torrentId,
+    external_id: externalId,
     file_extension: fileNameExtension,
     title_file_name: fileName,
     subtitle_file_name: downloadFileName,
@@ -382,6 +383,7 @@ async function storeSubtitleInSupabaseTable({
       uploaded_by: "indexer",
       bytes: bytesFromNotFoundSubtitle,
       torrent_id: torrentId,
+      external_id: externalId,
       file_extension: fileNameExtension,
       title_file_name: titleFileNameFromNotFoundSubtitle,
       subtitle_file_name: downloadFileName,

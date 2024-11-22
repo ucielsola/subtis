@@ -342,6 +342,7 @@ export async function filterSubDivXSubtitlesForTorrent({
     subtitleLink,
     fileExtension,
     subtitleGroupName,
+    externalId: String(subtitle.id),
     ...subtitleFileNames,
   };
 }

@@ -204,7 +204,11 @@ export async function filterOpenSubtitleSubtitlesForTorrent({
     const hasRipType =
       release.includes(titleFileNameMetadata.ripType ?? "") || comments.includes(titleFileNameMetadata.ripType ?? "");
 
-    return hasFileName || (hasResolution && hasReleaseGroup && hasRipType);
+    if (hasRipType) {
+      return hasFileName || (hasResolution && hasReleaseGroup);
+    }
+
+    return hasFileName || (hasResolution && hasReleaseGroup);
   });
 
   invariant(firstResult, `[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: No subtitle data found`);
@@ -240,6 +244,7 @@ export async function filterOpenSubtitleSubtitlesForTorrent({
     subtitleLink,
     fileExtension,
     subtitleGroupName,
+    externalId: firstResult.id,
     ...subtitleFileNames,
   };
 }
