@@ -2,7 +2,6 @@
 import { BadgeTvShows } from "~/components/home/badge-tv-shows";
 import { RaycastLogo } from "~/components/home/raycast-logo";
 import { StremioButton } from "~/components/home/stremio-button";
-import { TerminalLogo } from "~/components/home/terminal-logo";
 import { VideoDropzone } from "~/components/home/video-dropzone";
 import { VlcButton } from "~/components/home/vlc-button";
 
@@ -13,6 +12,9 @@ import { DotPattern } from "~/components/ui/dot-pattern";
 // lib
 import { cn } from "~/lib/utils";
 
+// internals
+import { TerminalLogo } from "./terminal-logo";
+
 export function HomeHero() {
   return (
     <section className="py-16">
@@ -20,12 +22,12 @@ export function HomeHero() {
         <div className="flex flex-col gap-3 lg:max-w-[624px]">
           <BadgeTvShows />
 
-          <div className="flex flex-col gap-4">
-            <h1 className="text-slate-950 text-5xl font-bold text-balance">
-              El buscador de subtítulos que necesitabas
+          <div className="flex flex-col gap-1">
+            <h1 className="text-slate-950 text-5xl font-bold text-balance leading-[1.075]">
+              El mejor buscador de subtítulos en internet
             </h1>
             <h2 className="text-slate-600 text-balance">
-              Encontra los subtítulos en español latino que sincronizan perfectamente con todas tus películas favoritas.
+              Encontra el subtítulo para tu película o serie perfectamente sincronizado.
             </h2>
           </div>
 
