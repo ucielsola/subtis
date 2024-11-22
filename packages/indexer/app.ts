@@ -98,7 +98,7 @@ type SubtitleWithResolutionAndTorrentId = SubtitleData & {
 };
 
 // constants
-const MAX_TIMEOUT = ms("30s");
+const MAX_TIMEOUT = ms("1m");
 const COMPRESSED_SUBTITLES_FOLDER_NAME = "compressed-subtitles";
 const UNCOMPRESSED_SUBTITLES_FOLDER_NAME = "uncompressed-subtitles";
 
