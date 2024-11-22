@@ -63,7 +63,7 @@ export function getTitleFileNameMetadata({
       : lowerCaseRawAttributes;
 
     const result = lowerCaseRawAttributes.match(RIP_TYPES_REGEX);
-    const ripType = result?.length ? result.filter(Boolean)[0].toLowerCase() : null;
+    const ripType = result?.length ? (result.filter(Boolean)?.[0] ?? "")?.toLowerCase() : null;
 
     const videoFileExtension = VIDEO_FILE_EXTENSIONS.find((videoFileExtension) =>
       rawAttributes.includes(videoFileExtension),
@@ -119,7 +119,7 @@ export function getTitleFileNameMetadata({
     : lowerCaseRawAttributes;
 
   const result = lowerCaseRawAttributes.match(RIP_TYPES_REGEX);
-  const ripType = result?.length ? result.filter(Boolean)[0].toLowerCase() : null;
+  const ripType = result?.length ? (result.filter(Boolean)?.[0] ?? "")?.toLowerCase() : null;
 
   const videoFileExtension = VIDEO_FILE_EXTENSIONS.find((videoFileExtension) =>
     rawAttributes.includes(videoFileExtension),
