@@ -139,7 +139,7 @@ export function StremioButton() {
       </Sheet>
 
       <Button
-        className="bg-slate-950 group border-[#1155D9] border relative overflow-hidden"
+        className="bg-slate-950 group border-[#1155D9] border-2 relative overflow-hidden"
         onClick={handleToggleIsOpen}
       >
         <div className="absolute inset-0 bg-gradient-to-br from-[#1155D9] to-[#7B5BF5] transition-all ease-in-out -translate-y-full group-hover:translate-y-0" />
