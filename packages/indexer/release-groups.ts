@@ -519,6 +519,12 @@ export const RELEASE_GROUPS = {
     release_group_name: "REMUX",
     query_matches: ["REMUX"],
   },
+  Grym: {
+    file_attributes: ["Grym", "(Short)-Grym@BTNET", "x264-Grym@BTNET", "x265-Grym@BTNET", "x264-Grym", "x265-Grym"],
+    is_supported: true,
+    release_group_name: "Grym",
+    query_matches: ["Grym", "(Short)-Grym@BTNET", "x264-Grym@BTNET", "x265-Grym@BTNET", "x264-Grym", "x265-Grym"],
+  },
 } as const;
 
 // types
