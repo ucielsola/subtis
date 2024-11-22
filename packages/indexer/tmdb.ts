@@ -406,10 +406,8 @@ export async function getMovieMetadataFromTmdbMovie({
   genres,
   spanishName,
   overview,
-  posterPath,
   releaseDate,
   voteAverage,
-  backdropPath,
 }: {
   id: number;
   name: string;
@@ -418,8 +416,6 @@ export async function getMovieMetadataFromTmdbMovie({
   overview: string;
   releaseDate: string;
   voteAverage: number;
-  posterPath: string | null;
-  backdropPath: string | null;
 }) {
   // 1. Get IMDB ID from TMDB movie detail
   const url = tmdbApiEndpoints.movieDetail(id);
@@ -437,17 +433,23 @@ export async function getMovieMetadataFromTmdbMovie({
   // 4. Get movie title image
   const logo = await getTmdbMovieLogoUrl(id);
 
+  // 5. Get movie backdrop
+  const backdrop = await getTmdbMovieBackdropUrl(id);
+
+  // 6. Get movie poster
+  const poster = await getTmdbMoviePosterUrl(id);
+
   return {
     year,
     name,
     logo,
+    poster,
     imdbId,
     genres,
+    backdrop,
     overview,
     spanishName,
     releaseDate,
-    poster: generateTmdbImageUrl(posterPath),
-    backdrop: generateTmdbImageUrl(backdropPath),
     rating: Number(Number(voteAverage).toFixed(1)),
     imdbLink: imdbId ? `https://www.imdb.com/title/tt${imdbId}` : "-",
   };
@@ -473,8 +475,6 @@ export async function getMoviesFromTmdb(page: number, year: number, isDebugging:
       original_title: name,
       release_date: releaseDate,
       vote_average: voteAverage,
-      poster_path: posterPath,
-      backdrop_path: backdropPath,
     } = movie;
 
     const movieData = await getMovieMetadataFromTmdbMovie({
@@ -483,10 +483,8 @@ export async function getMoviesFromTmdb(page: number, year: number, isDebugging:
       genres,
       overview,
       spanishName,
-      posterPath,
       releaseDate,
       voteAverage,
-      backdropPath,
     });
 
     movies.push(movieData);
@@ -501,10 +499,8 @@ export async function getTvShowMetadataFromTmdbTvShow({
   name,
   overview,
   spanishName,
-  posterPath,
   releaseDate,
   voteAverage,
-  backdropPath,
 }: {
   id: number;
   name: string;
@@ -513,8 +509,6 @@ export async function getTvShowMetadataFromTmdbTvShow({
   overview: string;
   releaseDate: string;
   voteAverage: number;
-  posterPath: string | null;
-  backdropPath: string | null;
 }) {
   // 1. Get IMDB ID from TMDB movie detail
   const tvShowExternalIdsUrl = tmdbApiEndpoints.tvShowExternalIds(id);
@@ -538,7 +532,13 @@ export async function getTvShowMetadataFromTmdbTvShow({
   const data = tmdbTvShowSchema.parse(tvShowDetailData);
 
   // 5. Get TV show logo
-  const logo = await getTmdbTvShoweLogoUrl(id);
+  const logo = await getTmdbTvShowLogoUrl(id);
+
+  // 6. Get TV show backdrop
+  const backdrop = await getTmdbTvShowBackdropUrl(id);
+
+  // 7. Get TV show poster
+  const poster = await getTmdbTvShowPosterUrl(id);
 
   const episodes = data.seasons.flatMap((season) => {
     const { season_number: seasonNumber, episode_count: episodeCount } = season;
@@ -562,8 +562,10 @@ export async function getTvShowMetadataFromTmdbTvShow({
     year,
     name,
     logo,
+    poster,
     imdbId,
     genres,
+    backdrop,
     overview,
     episodes,
     spanishName,
@@ -571,8 +573,6 @@ export async function getTvShowMetadataFromTmdbTvShow({
     rating: voteAverage,
     totalSeasons: data.number_of_seasons,
     totalEpisodes: data.number_of_episodes,
-    poster: generateTmdbImageUrl(posterPath),
-    backdrop: generateTmdbImageUrl(backdropPath),
     imdbLink: imdbId ? `https://www.imdb.com/title/tt${imdbId}` : "-",
   };
 }
@@ -597,8 +597,6 @@ export async function getTvShowsFromTmdb(page: number, year: number): Promise<Tm
       original_name: name,
       first_air_date: releaseDate,
       vote_average: voteAverage,
-      poster_path: posterPath,
-      backdrop_path: backdropPath,
     } = tvShow;
 
     const tvShowData = await getTvShowMetadataFromTmdbTvShow({
@@ -607,10 +605,8 @@ export async function getTvShowsFromTmdb(page: number, year: number): Promise<Tm
       genres,
       overview,
       spanishName,
-      posterPath,
       releaseDate,
       voteAverage,
-      backdropPath,
     });
 
     tvShows.push(tvShowData);
@@ -636,8 +632,6 @@ export async function getTmdbTvShowFromTitle(query: string, year?: number): Prom
     original_name: name,
     first_air_date: releaseDate,
     vote_average: voteAverage,
-    poster_path: posterPath,
-    backdrop_path: backdropPath,
   } = tvShow;
 
   const tvShowData = await getTvShowMetadataFromTmdbTvShow({
@@ -646,16 +640,14 @@ export async function getTmdbTvShowFromTitle(query: string, year?: number): Prom
     genres,
     overview,
     spanishName,
-    posterPath,
     releaseDate,
     voteAverage,
-    backdropPath,
   });
 
   return tvShowData;
 }
 
-async function getTmdbTvShoweLogoUrl(id: number): Promise<string | null> {
+async function getTmdbTvShowLogoUrl(id: number): Promise<string | null> {
   const response = await fetch(tmdbApiEndpoints.tvShowImages(id), TMDB_OPTIONS);
   const data = await response.json();
 
@@ -669,6 +661,34 @@ async function getTmdbTvShoweLogoUrl(id: number): Promise<string | null> {
   }
 
   return generateTmdbImageUrl(logo.file_path);
+}
+
+async function getTmdbTvShowBackdropUrl(id: number): Promise<string | null> {
+  const response = await fetch(tmdbApiEndpoints.tvShowImages(id), TMDB_OPTIONS);
+  const data = await response.json();
+
+  const images = tmdbImageSchema.parse(data);
+  const [backdrop] = images.backdrops;
+
+  if (!backdrop) {
+    return null;
+  }
+
+  return generateTmdbImageUrl(backdrop.file_path);
+}
+
+async function getTmdbTvShowPosterUrl(id: number): Promise<string | null> {
+  const response = await fetch(tmdbApiEndpoints.tvShowImages(id), TMDB_OPTIONS);
+  const data = await response.json();
+
+  const images = tmdbImageSchema.parse(data);
+  const [poster] = images.posters;
+
+  if (!poster) {
+    return null;
+  }
+
+  return generateTmdbImageUrl(poster.file_path);
 }
 
 async function getTmdbMovieLogoUrl(id: number): Promise<string | null> {
@@ -685,6 +705,34 @@ async function getTmdbMovieLogoUrl(id: number): Promise<string | null> {
   }
 
   return generateTmdbImageUrl(logo.file_path);
+}
+
+async function getTmdbMovieBackdropUrl(id: number): Promise<string | null> {
+  const response = await fetch(tmdbApiEndpoints.movieImages(id), TMDB_OPTIONS);
+  const data = await response.json();
+
+  const images = tmdbImageSchema.parse(data);
+  const [backdrop] = images.backdrops;
+
+  if (!backdrop) {
+    return null;
+  }
+
+  return generateTmdbImageUrl(backdrop.file_path);
+}
+
+async function getTmdbMoviePosterUrl(id: number): Promise<string | null> {
+  const response = await fetch(tmdbApiEndpoints.movieImages(id), TMDB_OPTIONS);
+  const data = await response.json();
+
+  const images = tmdbImageSchema.parse(data);
+  const [poster] = images.posters;
+
+  if (!poster) {
+    return null;
+  }
+
+  return generateTmdbImageUrl(poster.file_path);
 }
 
 export async function getTmdbMovieFromTitle(query: string, year?: number): Promise<TmdbTitle> {
@@ -705,8 +753,6 @@ export async function getTmdbMovieFromTitle(query: string, year?: number): Promi
     original_title: name,
     release_date: releaseDate,
     vote_average: voteAverage,
-    poster_path: posterPath,
-    backdrop_path: backdropPath,
   } = movie;
 
   const movieData = await getMovieMetadataFromTmdbMovie({
@@ -715,10 +761,8 @@ export async function getTmdbMovieFromTitle(query: string, year?: number): Promi
     genres,
     overview,
     spanishName,
-    posterPath,
     releaseDate,
     voteAverage,
-    backdropPath,
   });
 
   return movieData;

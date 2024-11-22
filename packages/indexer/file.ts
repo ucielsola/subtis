@@ -175,8 +175,6 @@ export async function indexTitleByFileName({
         original_name: name,
         first_air_date: releaseDate,
         vote_average: voteAverage,
-        poster_path: posterPath,
-        backdrop_path: backdropPath,
       } = tvShow;
 
       if (websocket) {
@@ -189,10 +187,8 @@ export async function indexTitleByFileName({
         genres,
         overview,
         spanishName,
-        posterPath,
         releaseDate,
         voteAverage,
-        backdropPath,
       });
 
       const episode = getEpisode(titleFileName);
@@ -270,8 +266,6 @@ export async function indexTitleByFileName({
       original_title: name,
       release_date: releaseDate,
       vote_average: voteAverage,
-      poster_path: posterPath,
-      backdrop_path: backdropPath,
     } = movie;
 
     if (websocket) {
@@ -284,10 +278,8 @@ export async function indexTitleByFileName({
       genres,
       overview,
       spanishName,
-      posterPath,
       releaseDate,
       voteAverage,
-      backdropPath,
     });
     console.log("\n ~ movieData:", movieData);
 

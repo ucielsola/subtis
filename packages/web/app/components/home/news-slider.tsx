@@ -23,7 +23,7 @@ export function NewsSlider() {
             className="box-content flex flex-none [scroll-snap-align:start] rounded-sm overflow-hidden cursor-pointer"
           >
             <div className="w-72 h-[162.05px] relative rounded-sm overflow-hidden group/new-card">
-              <div className="absolute bottom-0 left-0 right-0 p-1.5 bg-black/40 backdrop-blur-sm flex items-center justify-center rounded-b-sm group-hover/new-card:translate-y-full transition-all ease-in-out z-10">
+              <div className="absolute bottom-0 left-0 right-0 p-1.5 bg-black/40 backdrop-blur-sm flex items-center justify-center rounded-sm group-hover/new-card:opacity-0 transition-all ease-in-out z-10">
                 <span className="text-white text-sm">{title.title_name}</span>
               </div>
               <img
