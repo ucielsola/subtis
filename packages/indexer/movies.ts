@@ -131,12 +131,12 @@ export async function indexMovieByName({
 }
 
 // testing
-indexMoviesByYear(2024, true);
+// indexMoviesByYear(2024, true);
 
 // indexMovieByName({
-//   year: 2022,
+//   year: 2018,
 //   isDebugging: true,
-//   name: "Sonic the Hedgehog 2",
+//   name: "Ralph Breaks the Internet",
 // });
 
 saveReleaseGroupsToDb(supabase);
