@@ -215,11 +215,11 @@ export function VlcButton() {
   return (
     <Fragment>
       <Sheet open={isOpen} onOpenChange={handleToggleIsOpen}>
-        <SheetContent className="overflow-auto">
+        <SheetContent className="overflow-auto dark:bg-zinc-950 dark:border-zinc-800">
           <SheetHeader className="mb-10">
-            <SheetTitle className="text-zinc-950">Gracias por descargar Subtis para Stremio!</SheetTitle>
-            <SheetDescription className="text-zinc-600 text-sm">
-              Seguí estos pasos para poder integrar Subtis con Stremio correctamente
+            <SheetTitle className="text-zinc-950 dark:text-zinc-50">Gracias por descargar Subtis para VLC!</SheetTitle>
+            <SheetDescription className="text-zinc-600 dark:text-zinc-400 text-sm">
+              Seguí estos pasos para poder integrar Subtis con VLC correctamente
             </SheetDescription>
           </SheetHeader>
           <div className="flex flex-col gap-10">
@@ -229,17 +229,17 @@ export function VlcButton() {
                   <div className="flex flex-col items-center">
                     <div className="h-8 border border-dashed border-zinc-200 w-[1px]" />
                     <div className="size-8 flex items-center justify-center rounded-full bg-zinc-100">
-                      <span className="text-zinc-600 text-sm">1</span>
+                      <span className="text-zinc-600 dark:text-zinc-700 text-sm">1</span>
                     </div>
                   </div>
-                  <div className="text-zinc-950 pb-1">First title</div>
+                  <div className="text-zinc-950 dark:text-zinc-50 pb-1">First title</div>
                 </div>
                 <div className="flex flex-row gap-4">
                   <div className="min-w-44 h-24 border border-zinc-200 rounded-sm overflow-hidden">
                     <img src="https://placehold.co/176x96" alt="Placeholder" />
                   </div>
-                  <p className="text-zinc-600 text-sm">
-                    Seguí estos pasos para poder integrar Subtis con Stremio correctamente
+                  <p className="text-zinc-600 dark:text-zinc-400 text-sm">
+                    Seguí estos pasos para poder integrar Subtis con VLC correctamente
                   </p>
                 </div>
               </div>
@@ -248,17 +248,17 @@ export function VlcButton() {
                   <div className="flex flex-col items-center">
                     <div className="h-8 border border-dashed border-zinc-200 w-[1px]" />
                     <div className="size-8 flex items-center justify-center rounded-full bg-zinc-100">
-                      <span className="text-zinc-600 text-sm">2</span>
+                      <span className="text-zinc-600 dark:text-zinc-700 text-sm">2</span>
                     </div>
                   </div>
-                  <div className="text-zinc-950 pb-1">Second title</div>
+                  <div className="text-zinc-950 dark:text-zinc-50 pb-1">Second title</div>
                 </div>
                 <div className="flex flex-row gap-4">
                   <div className="min-w-44 h-24 border border-zinc-200 rounded-sm overflow-hidden">
                     <img src="https://placehold.co/176x96" alt="Placeholder" />
                   </div>
-                  <p className="text-zinc-600 text-sm">
-                    Seguí estos pasos para poder integrar Subtis con Stremio correctamente
+                  <p className="text-zinc-600 dark:text-zinc-400 text-sm">
+                    Seguí estos pasos para poder integrar Subtis con VLC correctamente
                   </p>
                 </div>
               </div>
@@ -267,25 +267,25 @@ export function VlcButton() {
                   <div className="flex flex-col items-center">
                     <div className="h-8 border border-dashed border-zinc-200 w-[1px]" />
                     <div className="size-8 flex items-center justify-center rounded-full bg-zinc-100">
-                      <span className="text-zinc-600 text-sm">3</span>
+                      <span className="text-zinc-600 dark:text-zinc-700 text-sm">3</span>
                     </div>
                   </div>
-                  <div className="text-zinc-950 pb-1">Third title</div>
+                  <div className="text-zinc-950 dark:text-zinc-50 pb-1">Third title</div>
                 </div>
                 <div className="flex flex-row gap-4">
                   <div className="min-w-44 h-24 border border-zinc-200 rounded-sm overflow-hidden">
                     <img src="https://placehold.co/176x96" alt="Placeholder" />
                   </div>
-                  <p className="text-zinc-600 text-sm">
-                    Seguí estos pasos para poder integrar Subtis con Stremio correctamente
+                  <p className="text-zinc-600 dark:text-zinc-400 text-sm">
+                    Seguí estos pasos para poder integrar Subtis con VLC correctamente
                   </p>
                 </div>
               </div>
             </section>
             <section className="flex flex-col gap-6">
               <div className="flex flex-col gap-1">
-                <p className="text-zinc-950 text-lg font-semibold">Te quedaron dudas?</p>
-                <p className="text-zinc-600 text-sm">Mirate este video tutorial</p>
+                <p className="text-zinc-950 dark:text-zinc-50 text-lg font-semibold">Te quedaron dudas?</p>
+                <p className="text-zinc-600 dark:text-zinc-400 text-sm">Mirate este video tutorial</p>
               </div>
               <iframe
                 src="https://www.youtube.com/embed/Way9Dexny3w?si=lArvXxxaxXgVZnyw"
