@@ -258,7 +258,9 @@ export async function indexTitleByFileName({
     const data = await response.json();
 
     const movies = tmdbDiscoverMovieSchema.parse(data);
-    const [movie] = movies.results;
+    const sortedMoviesByVoteCount = movies.results.toSorted((a, b) => (a.vote_count < b.vote_count ? 1 : -1));
+
+    const [movie] = sortedMoviesByVoteCount;
 
     const {
       id,
@@ -287,6 +289,7 @@ export async function indexTitleByFileName({
       voteAverage,
       backdropPath,
     });
+    console.log("\n ~ movieData:", movieData);
 
     if (websocket) {
       websocket.send(JSON.stringify({ total: 0.6, message: "Buscando pelicula en nuestros proveedores" }));
@@ -389,7 +392,7 @@ export async function indexTitleByFileName({
 // const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
 
 // const bytes = 33862232322131;
-// const titleFileName = "Requiem.For.A.Dream.DIRECTORS.CUT.2000.1080p.BrRip.x264.YIFY.mp4";
+// const titleFileName = "X-Men.2000.1080p.BrRip.x264.YIFY.mp4";
 
 // indexTitleByFileName({
 //   bytes,

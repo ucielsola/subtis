@@ -24,7 +24,7 @@ import type { AppVariables } from "../shared/types";
 
 // schemas
 export const tmdbDiscoverMovieSchema = z.object({
-  results: z.array(z.object({ original_title: z.string() })),
+  results: z.array(z.object({ original_title: z.string(), vote_count: z.number() })),
 });
 
 // helpers
@@ -107,7 +107,9 @@ export const title = new Hono<{ Variables: AppVariables }>()
 
       let queryName = name;
       if (success && tmdbData) {
-        const [movie] = tmdbData.results;
+        const sortedMoviesByVoteCount = tmdbData.results.toSorted((a, b) => (a.vote_count < b.vote_count ? 1 : -1));
+        const [movie] = sortedMoviesByVoteCount;
+
         queryName = movie.original_title;
       }
 

@@ -694,7 +694,8 @@ export async function getTmdbMovieFromTitle(query: string, year?: number): Promi
   const data = await response.json();
 
   const { results } = tmdbDiscoverMovieSchema.parse(data);
-  const [movie] = results;
+  const sortedMoviesByVoteCount = results.toSorted((a, b) => (a.vote_count < b.vote_count ? 1 : -1));
+  const [movie] = sortedMoviesByVoteCount;
 
   const {
     id,
