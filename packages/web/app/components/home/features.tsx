@@ -31,8 +31,8 @@ export function HomeFeatures() {
   return (
     <section className="py-16 flex flex-col gap-16 items-center justify-center">
       <div className="flex flex-col gap-4 items-center justify-center text-center">
-        <h2 className="text-slate-950 text-4xl font-bold text-balance">Las Mejores Features</h2>
-        <h3 className="text-slate-600 text-balance max-w-[624px]">
+        <h2 className="text-zinc-950 dark:text-zinc-50 text-4xl font-bold text-balance">Las Mejores Features</h2>
+        <h3 className="text-zinc-600 dark:text-zinc-400 text-balance max-w-[624px]">
           Subtis está pensada y armada para que siempre encuentres el subtítulo perfecto para tu película de una manera
           rápida y efectiva.
         </h3>
@@ -44,7 +44,7 @@ export function HomeFeatures() {
           onMouseLeave={() => audiolinesControls.start("normal")}
         >
           <AudioLinesIcon size={72} controls={audiolinesControls} />
-          <span className="text-3xl font-bold">Sincronización perfecta</span>
+          <span className="text-3xl font-bold text-zinc-950 dark:text-zinc-50">Sincronización perfecta</span>
         </div>
         <div
           className="flex flex-col items-center text-center gap-2"
@@ -52,7 +52,7 @@ export function HomeFeatures() {
           onMouseLeave={onAnimationEnd}
         >
           <LanguagesIcon size={72} svgControls={svgControls} pathControls={pathControls} />
-          <span className="text-3xl font-bold">Español latino</span>
+          <span className="text-3xl font-bold text-zinc-950 dark:text-zinc-50">Español latino</span>
         </div>
         <div
           className="flex flex-col items-center text-center gap-2"
@@ -60,7 +60,7 @@ export function HomeFeatures() {
           onMouseLeave={() => timerControls.start("normal")}
         >
           <TimerIcon size={72} controls={timerControls} />
-          <span className="text-3xl font-bold">Búsqueda en tiempo real</span>
+          <span className="text-3xl font-bold text-zinc-950 dark:text-zinc-50">Búsqueda en tiempo real</span>
         </div>
         <div
           className="flex flex-col items-center text-center gap-2"
@@ -68,7 +68,7 @@ export function HomeFeatures() {
           onMouseLeave={() => trendingUpControls.start("normal")}
         >
           <TrendingUpIcon size={72} controls={trendingUpControls} />
-          <span className="text-3xl font-bold">+9 mil subtítulos</span>
+          <span className="text-3xl font-bold text-zinc-950 dark:text-zinc-50">+9 mil subtítulos</span>
         </div>
         <div
           className="flex flex-col items-center text-center gap-2"
@@ -76,7 +76,7 @@ export function HomeFeatures() {
           onMouseLeave={() => squareStackControls.start("normal")}
         >
           <SquareStackIcon size={72} controls={squareStackControls} />
-          <span className="text-3xl font-bold">Múltiples clientes</span>
+          <span className="text-3xl font-bold text-zinc-950 dark:text-zinc-50">Múltiples clientes</span>
         </div>
         <div
           className="flex flex-col items-center text-center gap-2"
@@ -84,7 +84,7 @@ export function HomeFeatures() {
           onMouseLeave={() => circleCheckControls.start("normal")}
         >
           <CircleCheckIcon size={72} controls={circleCheckControls} />
-          <span className="text-3xl font-bold">SRT spec compatible</span>
+          <span className="text-3xl font-bold text-zinc-950 dark:text-zinc-50">SRT spec compatible</span>
         </div>
       </div>
     </section>

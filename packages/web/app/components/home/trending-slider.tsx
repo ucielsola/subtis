@@ -67,7 +67,7 @@ export function TrendingSlider() {
           return (
             <div
               key={title.id}
-              className="box-content flex flex-none [scroll-snap-align:start] rounded-sm overflow-hidden cursor-pointer group/trending-card hover:drop-shadow-md transition-all ease-in-out"
+              className="box-content flex flex-none [scroll-snap-align:start] rounded-sm overflow-hidden cursor-pointer group/trending-card transition-all ease-in-out border-2 border-transparent hover:border-zinc-200 dark:hover:border-zinc-800"
             >
               <img
                 alt={title.title_name}
@@ -85,7 +85,7 @@ export function TrendingSlider() {
         className={`absolute -left-11 top-1/2 -translate-y-1/2 rounded-sm h-[336px] w-8 flex items-center justify-center ${isAtStart ? "opacity-0" : "opacity-100"} hidden lg:block`}
         aria-label="Scroll left"
       >
-        <ChevronLeft className="size-6 text-stone-950" />
+        <ChevronLeft className="size-6 text-zinc-950 dark:text-zinc-50" />
       </button>
 
       <button
@@ -94,7 +94,7 @@ export function TrendingSlider() {
         className={`absolute -right-11 top-1/2 -translate-y-1/2 rounded-sm h-[336px] w-8 flex items-center justify-center ${isAtEnd ? "opacity-0" : "opacity-100"} hidden lg:block`}
         aria-label="Scroll right"
       >
-        <ChevronRight className="size-6 text-stone-950" />
+        <ChevronRight className="size-6 text-zinc-950 dark:text-zinc-50" />
       </button>
     </div>
   );

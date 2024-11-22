@@ -77,8 +77,8 @@ export function FaqQuestions() {
     <Accordion onValueChange={handleExpandedChange} value={expanded} type="single">
       {FAQ_QUESTIONS.map((question) => (
         <AccordionItem key={question.id} value={question.id}>
-          <AccordionTrigger className="text-slate-950 text-sm">{question.question}</AccordionTrigger>
-          <AccordionContent className="text-slate-600 text-sm">{question.answer}</AccordionContent>
+          <AccordionTrigger className="text-zinc-950 dark:text-zinc-50 text-sm">{question.question}</AccordionTrigger>
+          <AccordionContent className="text-zinc-600 dark:text-zinc-400 text-sm">{question.answer}</AccordionContent>
         </AccordionItem>
       ))}
     </Accordion>

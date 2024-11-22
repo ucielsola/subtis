@@ -12,7 +12,7 @@ export function BadgeTvShows() {
   return (
     <Badge
       variant="outline"
-      className="w-fit"
+      className="w-fit bg-zinc-50 dark:bg-zinc-900"
       onMouseEnter={() => controls.start("animate")}
       onMouseLeave={() => controls.start("normal")}
     >

@@ -24,7 +24,7 @@ export const links: LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -42,10 +42,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return (
-    <main className="min-h-screen bg-[url('/background.png')] bg-contain bg-no-repeat bg-slate-50 bg-right-top">
+    <main className="min-h-screen bg-right-top bg-[url('/background.png')] dark:bg-[url('/background-dark.png')] bg-contain bg-no-repeat bg-zinc-50 dark:bg-zinc-950 ">
       <div className="container mx-auto px-4">
         <nav className="flex items-center justify-between py-4">
-          <img src="/logo.png" alt="Subtis" className="w-24 h-[38.9px]" />
+          <img src="/logo.png" alt="Subtis" className="w-24 h-[38.9px] dark:hidden" />
+          <img src="/logo-dark.png" alt="Subtis" className="w-24 h-[38.9px] hidden dark:block" />
           <SearchButton />
         </nav>
         <Outlet />
