@@ -18,7 +18,7 @@ import {
 
 // internals
 import { getTmdbApiKey, getYoutubeApiKey } from "../shared/api-keys";
-import { titleSchema, titlesQuery } from "../shared/schemas";
+import { titleMetadataQuery, titleMetadataSchema } from "../shared/schemas";
 import { getSupabaseClient } from "../shared/supabase";
 import type { AppVariables } from "../shared/types";
 
@@ -45,39 +45,37 @@ function getTmdbMovieSearchUrl(title: string, year?: number): string {
 
 // core
 export const title = new Hono<{ Variables: AppVariables }>()
-  .get(
-    "/metadata/:imdbId",
-    zValidator("param", z.object({ imdbId: z.string() })),
-    async (context) => {
-      const { imdbId } = context.req.valid("param");
+  .get("/metadata/:imdbId", zValidator("param", z.object({ imdbId: z.string() })), async (context) => {
+    const { imdbId } = context.req.valid("param");
 
-      const { data, error } = await getSupabaseClient(context)
-        .from("Titles")
-        .select(titlesQuery)
-        .match({ imdb_id: imdbId })
-        .single();
+    const { data, error } = await getSupabaseClient(context)
+      .from("Titles")
+      .select(titleMetadataQuery)
+      .match({ imdb_id: imdbId })
+      .single();
 
-      if (error && error.code === "PGRST116") {
-        context.status(404);
-        return context.json({ message: "Title not found" });
-      }
+    if (error && error.code === "PGRST116") {
+      context.status(404);
+      return context.json({ message: "Title not found" });
+    }
 
-      if (error) {
-        context.status(500);
-        return context.json({ message: "An error occurred", error: error.message });
-      }
+    if (error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error: error.message });
+    }
 
-      const titleById = titleSchema.safeParse(data);
+    const titleById = titleMetadataSchema.safeParse(data);
 
-      if (titleById.error) {
-        context.status(500);
-        return context.json({ message: "An error occurred", error: titleById.error.issues[0].message });
-      }
+    if (titleById.error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error: titleById.error.issues[0].message });
+    }
 
-      return context.json(titleById.data);
-    },
-    // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("2 weeks")}` }),
-  )
+    const { subtitles, ...rest } = titleById.data;
+    const total_subtitles = subtitles.length;
+
+    return context.json({ ...rest, total_subtitles });
+  })
   .get(
     "/teaser/:fileName",
     zValidator("param", z.object({ fileName: z.string() })),

@@ -1,4 +1,4 @@
-import type { z } from "zod";
+import { z } from "zod";
 
 // db
 import {
@@ -7,6 +7,36 @@ import {
   subtitlesRowSchema,
   titlesRowSchema,
 } from "@subtis/db/schemas";
+
+// title
+export const titleMetadataQuery = `
+  id,
+  imdb_id,
+  queried_times,
+  searched_times,
+  type,
+  year,
+  poster,
+  backdrop,
+  title_name,
+  subtitles: Subtitles ( id )
+`;
+
+export const titleMetadataSchema = titlesRowSchema
+  .pick({
+    id: true,
+    imdb_id: true,
+    queried_times: true,
+    searched_times: true,
+    type: true,
+    year: true,
+    title_name: true,
+    poster: true,
+    backdrop: true,
+  })
+  .extend({
+    subtitles: z.array(subtitlesRowSchema.pick({ id: true })),
+  });
 
 // titles
 export const titleSchema = titlesRowSchema.pick({
