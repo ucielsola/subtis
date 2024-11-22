@@ -11,7 +11,7 @@ import { RESOLUTION_REGEX } from "@subtis/shared";
 
 // internals
 import { MAX_LIMIT } from "../shared/constants";
-import { getResultsWithLength, getSubtitleNormalized } from "../shared/parsers";
+import { getResultsWithLength, getSubtitleNormalized, getSubtitlesNormalized } from "../shared/parsers";
 import { subtitleSchema, subtitlesQuery } from "../shared/schemas";
 import { getSupabaseClient } from "../shared/supabase";
 import type { AppVariables } from "../shared/types";
@@ -56,9 +56,11 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "An error occurred", error: subtitles.error.issues[0].message });
       }
 
-      const subtitlesNormalized = subtitles.data.map((subtitle) => getSubtitleNormalized(subtitle));
+      const { title } = subtitles.data[0];
+      const subtitlesNormalized = subtitles.data.map((subtitle) => getSubtitlesNormalized(subtitle));
+      const { results, total } = getResultsWithLength(subtitlesNormalized);
 
-      return context.json(getResultsWithLength(subtitlesNormalized));
+      return context.json({ total, title, results });
     },
     // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("2 weeks")}` }),
   )
@@ -108,9 +110,11 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "An error occurred", error: subtitles.error.issues[0].message });
       }
 
-      const subtitlesNormalized = subtitles.data.map((subtitle) => getSubtitleNormalized(subtitle));
+      const { title } = subtitles.data[0];
+      const subtitlesNormalized = subtitles.data.map((subtitle) => getSubtitlesNormalized(subtitle));
+      const { results, total } = getResultsWithLength(subtitlesNormalized);
 
-      return context.json(getResultsWithLength(subtitlesNormalized));
+      return context.json({ total, title, results });
     },
     // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("2 weeks")}` }),
   )

@@ -12,6 +12,12 @@ type SubtitleNormalized = {
   subtitle: Omit<SubtisSubtitle, "title" | "releaseGroup" | "subtitleGroup">;
 };
 
+type SubtitlesNormalized = {
+  releaseGroup: SubtisSubtitle["releaseGroup"];
+  subtitleGroup: SubtisSubtitle["subtitleGroup"];
+  subtitle: Omit<SubtisSubtitle, "title" | "releaseGroup" | "subtitleGroup">;
+};
+
 type ResultsWithLength<T> = {
   results: T[];
   total: number;
@@ -22,6 +28,16 @@ export function getSubtitleNormalized(subtisSubtitle: SubtisSubtitle): SubtitleN
 
   return {
     title,
+    releaseGroup,
+    subtitleGroup,
+    subtitle: { ...subtitle, subtitle_link: getSubtitleShortLink(subtitle.id) },
+  };
+}
+
+export function getSubtitlesNormalized(subtisSubtitle: SubtisSubtitle): SubtitlesNormalized {
+  const { title: _title, releaseGroup, subtitleGroup, ...subtitle } = subtisSubtitle;
+
+  return {
     releaseGroup,
     subtitleGroup,
     subtitle: { ...subtitle, subtitle_link: getSubtitleShortLink(subtitle.id) },
