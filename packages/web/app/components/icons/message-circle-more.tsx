@@ -26,7 +26,7 @@ const dotVariants: Variants = {
 
 export function MessageCircleMoreIcon({ size, controls }: { size: number; controls: AnimationControls }) {
   return (
-    <div className="cursor-pointer select-none inline-flex items-center justify-center overflow-hidden">
+    <div className="select-none inline-flex items-center justify-center overflow-hidden">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width={size}

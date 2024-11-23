@@ -42,7 +42,7 @@ const fireVariants: Variants = {
 export function RocketIcon({ controls, size }: { controls: AnimationControls; size: number }) {
   return (
     <div
-      className="cursor-pointer select-none p-[2px] rounded-md flex items-center justify-center"
+      className="select-none p-[2px] rounded-md flex items-center justify-center"
       onMouseEnter={() => {
         controls.start("animate");
       }}

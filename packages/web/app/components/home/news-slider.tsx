@@ -26,7 +26,7 @@ export function NewsSlider() {
               <img
                 alt={title.title_name}
                 src={title.backdrop}
-                className="w-full h-full object-cover group-hover/new-card:scale-110 transition-all ease-in-out rounded-sm"
+                className="w-full h-full object-cover group-hover/new-card:scale-110 transition-all ease-in-out rounded-sm will-change-transform"
               />
             </div>
           </div>

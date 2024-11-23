@@ -18,7 +18,7 @@ export function DownloadIcon() {
 
   return (
     <div
-      className="cursor-pointer select-none flex items-center justify-center"
+      className="select-none flex items-center justify-center"
       onMouseEnter={() => controls.start("animate")}
       onMouseLeave={() => controls.start("normal")}
     >

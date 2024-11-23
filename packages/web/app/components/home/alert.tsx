@@ -13,7 +13,7 @@ export function HomeAlert() {
     <section className="py-16 flex flex-col gap-16 items-center justify-center">
       <div className="mx-auto w-full max-w-screen-md">
         <Alert
-          className="bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-start gap-4"
+          className="bg-zinc-100/40 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 flex items-start gap-4"
           onMouseEnter={() => controls.start("animate")}
           onMouseLeave={() => controls.start("normal")}
         >
