@@ -950,6 +950,8 @@ export async function getTorrentVideoFileMetadata(torrent: TorrentFound): Promis
               resolve({ name: videoFile.name, length: videoFile.length, resolution });
             } catch (error) {
               reject(error);
+            } finally {
+              await fs.promises.rm(tempFilePath, { recursive: true, force: true });
             }
           });
         });
