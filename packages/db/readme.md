@@ -19,16 +19,37 @@
 
 ```sql
 CREATE OR REPLACE FUNCTION public.fuzzy_search_title(query text)
-RETURNS TABLE (id int8, imdb_id text, title_name text, year int8, type text, backdrop text, poster text, searched_times int2, queried_times int2) AS $$
+RETURNS TABLE (
+    id int8,
+    imdb_id text,
+    title_name text,
+    year int8,
+    type text,
+    backdrop text,
+    poster text,
+    searched_times int2,
+    queried_times int2
+) AS $$
 BEGIN
     RETURN QUERY
-    SELECT t.id, t.imdb_id, t.title_name, t.year, t.type, t.backdrop, t.poster, t.searched_times, t.queried_times
+    SELECT
+        t.id,
+        t.imdb_id,
+        t.title_name,
+        t.year,
+        t.type,
+        t.backdrop,
+        t.poster,
+        t.searched_times,
+        t.queried_times
     FROM "Titles" t
     WHERE (
         (query % t.title_name AND similarity(query, t.title_name) > 0.3)
         OR (query % t.title_name_spa AND similarity(query, t.title_name_spa) > 0.3)
+        OR (query % t.title_name_ja AND similarity(query, t.title_name_ja) > 0.3)
         OR t.title_name ILIKE '%' || query || '%'
         OR t.title_name_spa ILIKE '%' || query || '%'
+        OR t.title_name_ja ILIKE '%' || query || '%'
     )
     ORDER BY t.year DESC;
 END;
