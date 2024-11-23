@@ -34,28 +34,25 @@ export const genresRelationshipsSchema = z.tuple([]);
 
 export const releaseGroupsRowSchema = z.object({
   created_at: z.string(),
-  file_attributes: z.array(z.string()),
   id: z.number(),
   is_supported: z.boolean().nullable(),
-  query_matches: z.array(z.string()),
+  matches: z.array(z.string()),
   release_group_name: z.string(),
 });
 
 export const releaseGroupsInsertSchema = z.object({
   created_at: z.string().optional(),
-  file_attributes: z.array(z.string()),
   id: z.number().optional(),
   is_supported: z.boolean().optional().nullable(),
-  query_matches: z.array(z.string()),
+  matches: z.array(z.string()),
   release_group_name: z.string(),
 });
 
 export const releaseGroupsUpdateSchema = z.object({
   created_at: z.string().optional(),
-  file_attributes: z.array(z.string()).optional(),
   id: z.number().optional(),
   is_supported: z.boolean().optional().nullable(),
-  query_matches: z.array(z.string()).optional(),
+  matches: z.array(z.string()).optional(),
   release_group_name: z.string().optional(),
 });
 

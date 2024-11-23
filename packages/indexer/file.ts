@@ -104,9 +104,8 @@ async function getTorrentFromPirateBayOr1337x(query: string, title: TitleFileNam
     const lowerCaseTorrentTitle = torrent.title.toLowerCase();
 
     return (
-      title.releaseGroup?.file_attributes.some((fileAttribute) =>
-        lowerCaseTorrentTitle.includes(fileAttribute.toLowerCase()),
-      ) && lowerCaseTorrentTitle.includes(title.resolution.toLowerCase())
+      title.releaseGroup?.matches.some((match) => lowerCaseTorrentTitle.includes(match.toLowerCase())) &&
+      lowerCaseTorrentTitle.includes(title.resolution.toLowerCase())
     );
   });
 
@@ -315,8 +314,8 @@ export async function indexTitleByFileName({
           ? lowerCaseTorrentTitle.includes(title.releaseGroup.release_group_name.toLowerCase())
           : false;
 
-        const includesFileAttributes = title.releaseGroup?.file_attributes.some((fileAttribute) => {
-          return lowerCaseTorrentTitle.includes(fileAttribute.toLowerCase());
+        const includesFileAttributes = title.releaseGroup?.matches.some((match) => {
+          return lowerCaseTorrentTitle.includes(match.toLowerCase());
         });
 
         const includesRipType = title.ripType ? lowerCaseTorrentTitle.includes(title.ripType) : false;
@@ -335,8 +334,8 @@ export async function indexTitleByFileName({
             ? lowerCaseTorrentTitle.includes(title.releaseGroup.release_group_name.toLowerCase())
             : false;
 
-          const includesFileAttributes = title.releaseGroup?.file_attributes.some((fileAttribute) => {
-            return lowerCaseTorrentTitle.includes(fileAttribute.toLowerCase());
+          const includesFileAttributes = title.releaseGroup?.matches.some((match) => {
+            return lowerCaseTorrentTitle.includes(match.toLowerCase());
           });
 
           const result = (includesFileAttributes || includesReleaseGroup) && includesResolution;

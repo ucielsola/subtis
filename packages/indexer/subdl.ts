@@ -139,9 +139,9 @@ export async function filterSubdlSubtitlesForTorrent({
     const release = subtitle.release_name.toLowerCase();
 
     const matchesResolution = release.includes(resolution);
-    const matchesReleaseGroup = releaseGroup.query_matches.some((queryMatch) => {
-      const lowerCaseQueryMatch = queryMatch.toLowerCase();
-      return release.includes(lowerCaseQueryMatch);
+    const matchesReleaseGroup = releaseGroup.matches.some((match) => {
+      const lowerCaseMatch = match.toLowerCase();
+      return release.includes(lowerCaseMatch);
     });
 
     const matchesRipType = titleFileNameMetadata.ripType ? release.includes(titleFileNameMetadata.ripType) : false;
@@ -155,9 +155,9 @@ export async function filterSubdlSubtitlesForTorrent({
       const release = subtitle.release_name.toLowerCase();
 
       const matchesResolution = release.includes(resolution);
-      const matchesReleaseGroup = releaseGroup.query_matches.some((queryMatch) => {
-        const lowerCaseQueryMatch = queryMatch.toLowerCase();
-        return release.includes(lowerCaseQueryMatch);
+      const matchesReleaseGroup = releaseGroup.matches.some((match) => {
+        const lowerCaseMatch = match.toLowerCase();
+        return release.includes(lowerCaseMatch);
       });
 
       const isSameFileName = release === fileNameWithoutExtension.toLowerCase();
@@ -171,9 +171,9 @@ export async function filterSubdlSubtitlesForTorrent({
       const release = subtitle.release_name.toLowerCase();
 
       const matchesResolution = release.includes(resolution);
-      const matchesReleaseGroup = releaseGroup.query_matches.some((queryMatch) => {
-        const lowerCaseQueryMatch = queryMatch.toLowerCase();
-        return release.includes(lowerCaseQueryMatch);
+      const matchesReleaseGroup = releaseGroup.matches.some((match) => {
+        const lowerCaseMatch = match.toLowerCase();
+        return release.includes(lowerCaseMatch);
       });
 
       const matchesRipType = titleFileNameMetadata.ripType ? release.includes(titleFileNameMetadata.ripType) : false;
@@ -187,9 +187,9 @@ export async function filterSubdlSubtitlesForTorrent({
         const release = subtitle.release_name.toLowerCase();
 
         const matchesResolution = release.includes(resolution);
-        const matchesReleaseGroup = releaseGroup.query_matches.some((queryMatch) => {
-          const lowerCaseQueryMatch = queryMatch.toLowerCase();
-          return release.includes(lowerCaseQueryMatch);
+        const matchesReleaseGroup = releaseGroup.matches.some((match) => {
+          const lowerCaseMatch = match.toLowerCase();
+          return release.includes(lowerCaseMatch);
         });
 
         const isSameFileName = release === fileNameWithoutExtension.toLowerCase();

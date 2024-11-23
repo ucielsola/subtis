@@ -200,10 +200,10 @@ export async function filterOpenSubtitleSubtitlesForTorrent({
     const comments = subtitle.attributes?.comments?.toLowerCase() ?? "";
 
     const matchesResolution = release.includes(resolution) || comments.includes(resolution);
-    const matchesReleaseGroup = releaseGroup.query_matches.some((queryMatch) => {
-      const lowerCaseQueryMatch = queryMatch.toLowerCase();
+    const matchesReleaseGroup = releaseGroup.matches.some((match) => {
+      const lowerCaseMatch = match.toLowerCase();
 
-      return release.includes(lowerCaseQueryMatch) || comments.includes(lowerCaseQueryMatch);
+      return release.includes(lowerCaseMatch) || comments.includes(lowerCaseMatch);
     });
 
     const hasFileName =
@@ -223,10 +223,10 @@ export async function filterOpenSubtitleSubtitlesForTorrent({
       const comments = subtitle.attributes?.comments?.toLowerCase() ?? "";
 
       const matchesResolution = release.includes(resolution) || comments.includes(resolution);
-      const matchesReleaseGroup = releaseGroup.query_matches.some((queryMatch) => {
-        const lowerCaseQueryMatch = queryMatch.toLowerCase();
+      const matchesReleaseGroup = releaseGroup.matches.some((match) => {
+        const lowerCaseMatch = match.toLowerCase();
 
-        return release.includes(lowerCaseQueryMatch) || comments.includes(lowerCaseQueryMatch);
+        return release.includes(lowerCaseMatch) || comments.includes(lowerCaseMatch);
       });
 
       const hasFileName =
@@ -243,10 +243,10 @@ export async function filterOpenSubtitleSubtitlesForTorrent({
       const comments = subtitle.attributes?.comments?.toLowerCase() ?? "";
 
       const matchesResolution = release.includes(resolution) || comments.includes(resolution);
-      const matchesReleaseGroup = releaseGroup.query_matches.some((queryMatch) => {
-        const lowerCaseQueryMatch = queryMatch.toLowerCase();
+      const matchesReleaseGroup = releaseGroup.matches.some((match) => {
+        const lowerCaseMatch = match.toLowerCase();
 
-        return release.includes(lowerCaseQueryMatch) || comments.includes(lowerCaseQueryMatch);
+        return release.includes(lowerCaseMatch) || comments.includes(lowerCaseMatch);
       });
 
       const hasFileName =
@@ -266,10 +266,10 @@ export async function filterOpenSubtitleSubtitlesForTorrent({
         const comments = subtitle.attributes?.comments?.toLowerCase() ?? "";
 
         const matchesResolution = release.includes(resolution) || comments.includes(resolution);
-        const matchesReleaseGroup = releaseGroup.query_matches.some((queryMatch) => {
-          const lowerCaseQueryMatch = queryMatch.toLowerCase();
+        const matchesReleaseGroup = releaseGroup.matches.some((match) => {
+          const lowerCaseMatch = match.toLowerCase();
 
-          return release.includes(lowerCaseQueryMatch) || comments.includes(lowerCaseQueryMatch);
+          return release.includes(lowerCaseMatch) || comments.includes(lowerCaseMatch);
         });
 
         const hasFileName =

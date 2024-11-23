@@ -82,9 +82,7 @@ export function getTitleFileNameMetadata({
     const fileNameWithoutExtension = getTitleFileNameWithoutExtension(parsedMovieFileName);
 
     const releaseGroup = Object.values(RELEASE_GROUPS).find((releaseGroupInternal) => {
-      return releaseGroupInternal.file_attributes.some((attribute) =>
-        parsedRawAttributes.includes(attribute.toLowerCase()),
-      );
+      return releaseGroupInternal.matches.some((attribute) => parsedRawAttributes.includes(attribute.toLowerCase()));
     });
 
     const name = titleName || parsedTitleName;
@@ -127,9 +125,7 @@ export function getTitleFileNameMetadata({
   z.string({ message: `Video file extension not supported: ${parsedMovieFileName}` }).parse(videoFileExtension);
 
   const releaseGroup = Object.values(RELEASE_GROUPS).find((releaseGroupInternal) => {
-    return releaseGroupInternal.file_attributes.some((attribute) =>
-      parsedRawAttributes.includes(attribute.toLowerCase()),
-    );
+    return releaseGroupInternal.matches.some((attribute) => parsedRawAttributes.includes(attribute.toLowerCase()));
   });
 
   const fileNameWithoutExtension = getTitleFileNameWithoutExtension(parsedMovieFileName);

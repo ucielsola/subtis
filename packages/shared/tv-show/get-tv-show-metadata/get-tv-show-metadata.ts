@@ -44,7 +44,7 @@ export function getTvShowMetadata(tvShowFileName: string, tvShowQuery: string, t
   const fileNameWithoutExtension = getTitleFileNameWithoutExtension(tvShowFileName);
 
   const releaseGroup = Object.values(RELEASE_GROUPS).find((releaseGroupInternal) => {
-    return releaseGroupInternal.file_attributes.some((attribute) => {
+    return releaseGroupInternal.matches.some((attribute) => {
       return parsedRawAttributes.includes(attribute.toLowerCase());
     });
   });

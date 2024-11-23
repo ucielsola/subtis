@@ -295,8 +295,8 @@ export async function filterSubDivXSubtitlesForTorrent({
       matchesResolution = movieDescription.includes(resolution);
     }
 
-    const matchesReleaseGroup = releaseGroup.query_matches.some((searchableSubDivXName) => {
-      return movieDescription.includes(searchableSubDivXName.toLowerCase());
+    const matchesReleaseGroup = releaseGroup.matches.some((match) => {
+      return movieDescription.includes(match.toLowerCase());
     });
 
     const matchesRipType = titleFileNameMetadata.ripType
@@ -319,8 +319,8 @@ export async function filterSubDivXSubtitlesForTorrent({
         matchesResolution = movieDescription.includes(resolution);
       }
 
-      const matchesReleaseGroup = releaseGroup.query_matches.some((searchableSubDivXName) => {
-        return movieDescription.includes(searchableSubDivXName.toLowerCase());
+      const matchesReleaseGroup = releaseGroup.matches.some((match) => {
+        return movieDescription.includes(match.toLowerCase());
       });
 
       const matchesFileName = movieDescription.includes(fileNameWithoutExtension.toLowerCase());
@@ -341,8 +341,8 @@ export async function filterSubDivXSubtitlesForTorrent({
         matchesResolution = movieDescription.includes(resolution);
       }
 
-      const matchesReleaseGroup = releaseGroup.query_matches.some((searchableSubDivXName) => {
-        return movieDescription.includes(searchableSubDivXName.toLowerCase());
+      const matchesReleaseGroup = releaseGroup.matches.some((match) => {
+        return movieDescription.includes(match.toLowerCase());
       });
 
       const matchesRipType = titleFileNameMetadata.ripType
@@ -365,8 +365,8 @@ export async function filterSubDivXSubtitlesForTorrent({
           matchesResolution = movieDescription.includes(resolution);
         }
 
-        const matchesReleaseGroup = releaseGroup.query_matches.some((searchableSubDivXName) => {
-          return movieDescription.includes(searchableSubDivXName.toLowerCase());
+        const matchesReleaseGroup = releaseGroup.matches.some((match) => {
+          return movieDescription.includes(match.toLowerCase());
         });
 
         const matchesFileName = movieDescription.includes(fileNameWithoutExtension.toLowerCase());
