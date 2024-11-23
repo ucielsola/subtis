@@ -48,6 +48,7 @@ const subdivxTokenSchema = z.object({
 });
 
 export type SubDivXSubtitles = z.infer<typeof subdivxSubtitlesSchema>;
+type SubDivXSubtitle = z.infer<typeof subdivxSubtitleSchema>;
 type SubDivXToken = z.infer<typeof subdivxTokenSchema>;
 
 // helpers
@@ -277,30 +278,52 @@ export async function filterSubDivXSubtitlesForTorrent({
 
   const sortedSubtitlesByDownloads = subtitles.aaData.toSorted((a, b) => (a.descargas < b.descargas ? 1 : -1));
 
-  const subtitle = sortedSubtitlesByDownloads.find((subtitle) => {
+  let subtitle: SubDivXSubtitle | undefined;
+
+  subtitle = sortedSubtitlesByDownloads.find((subtitle) => {
     const movieDescription = subtitle.descripcion.toLowerCase();
 
-    let hasMovieResolution = false;
+    let matchesResolution = false;
 
     if (resolution === "2160p") {
-      hasMovieResolution = movieDescription.includes(resolution) || movieDescription.includes("4k");
+      matchesResolution = movieDescription.includes(resolution) || movieDescription.includes("4k");
     } else {
-      hasMovieResolution = movieDescription.includes(resolution);
+      matchesResolution = movieDescription.includes(resolution);
     }
 
-    const hasReleaseGroup = releaseGroup.query_matches.some((searchableSubDivXName) => {
+    const matchesReleaseGroup = releaseGroup.query_matches.some((searchableSubDivXName) => {
       return movieDescription.includes(searchableSubDivXName.toLowerCase());
     });
 
-    const hasRipType = movieDescription.includes(titleFileNameMetadata.ripType ?? "");
-    const hasFileName = movieDescription.includes(fileNameWithoutExtension.toLowerCase());
+    const matchesRipType = titleFileNameMetadata.ripType
+      ? movieDescription.includes(titleFileNameMetadata.ripType)
+      : false;
+    const matchesFileName = movieDescription.includes(fileNameWithoutExtension.toLowerCase());
 
-    if (hasRipType) {
-      return hasFileName || (hasMovieResolution && hasReleaseGroup);
-    }
-
-    return hasFileName || (hasMovieResolution && hasReleaseGroup);
+    return matchesFileName || (matchesResolution && matchesReleaseGroup && matchesRipType);
   });
+
+  if (!subtitle) {
+    subtitle = sortedSubtitlesByDownloads.find((subtitle) => {
+      const movieDescription = subtitle.descripcion.toLowerCase();
+
+      let matchesResolution = false;
+
+      if (resolution === "2160p") {
+        matchesResolution = movieDescription.includes(resolution) || movieDescription.includes("4k");
+      } else {
+        matchesResolution = movieDescription.includes(resolution);
+      }
+
+      const matchesReleaseGroup = releaseGroup.query_matches.some((searchableSubDivXName) => {
+        return movieDescription.includes(searchableSubDivXName.toLowerCase());
+      });
+
+      const matchesFileName = movieDescription.includes(fileNameWithoutExtension.toLowerCase());
+
+      return matchesFileName || (matchesResolution && matchesReleaseGroup);
+    });
+  }
 
   invariant(subtitle, `[${SUBDIVX_BREADCRUMB_ERROR}]: Subtitle doesn't exists`);
 

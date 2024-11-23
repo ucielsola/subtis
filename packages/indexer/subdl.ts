@@ -129,29 +129,43 @@ export async function filterSubdlSubtitlesForTorrent({
     throw new Error("Release group undefined");
   }
 
-  const foundSubtitle = subtitles.find((subtitle) => {
+  let subtitle: SubdlSubtitleData | undefined;
+
+  subtitle = subtitles.find((subtitle) => {
     const release = subtitle.release_name.toLowerCase();
 
-    const hasResolution = release.includes(resolution);
-    const hasReleaseGroup = releaseGroup.query_matches.some((queryMatch) => {
+    const matchesResolution = release.includes(resolution);
+    const matchesReleaseGroup = releaseGroup.query_matches.some((queryMatch) => {
       const lowerCaseQueryMatch = queryMatch.toLowerCase();
       return release.includes(lowerCaseQueryMatch);
     });
 
-    const hasRipType = release.includes(titleFileNameMetadata.ripType ?? "");
+    const matchesRipType = titleFileNameMetadata.ripType ? release.includes(titleFileNameMetadata.ripType) : false;
     const isSameFileName = release === fileNameWithoutExtension.toLowerCase();
 
-    if (hasRipType) {
-      return isSameFileName || (hasResolution && hasReleaseGroup);
-    }
-
-    return isSameFileName || (hasResolution && hasReleaseGroup);
+    return isSameFileName || (matchesResolution && matchesReleaseGroup && matchesRipType);
   });
 
-  invariant(foundSubtitle, `[${SUBDL_BREADCRUMB_ERROR}]: No subtitle data found`);
+  if (!subtitle) {
+    subtitle = subtitles.find((subtitle) => {
+      const release = subtitle.release_name.toLowerCase();
+
+      const matchesResolution = release.includes(resolution);
+      const matchesReleaseGroup = releaseGroup.query_matches.some((queryMatch) => {
+        const lowerCaseQueryMatch = queryMatch.toLowerCase();
+        return release.includes(lowerCaseQueryMatch);
+      });
+
+      const isSameFileName = release === fileNameWithoutExtension.toLowerCase();
+
+      return isSameFileName || (matchesResolution && matchesReleaseGroup);
+    });
+  }
+
+  invariant(subtitle, `[${SUBDL_BREADCRUMB_ERROR}]: No subtitle data found`);
 
   const fileExtension = "zip";
-  const subtitleLink = foundSubtitle.subtitleLink;
+  const subtitleLink = subtitle.subtitleLink;
   const subtitleGroupName = SUBTITLE_GROUPS.SUBDL.subtitle_group_name;
 
   const subtitleFileNames = generateSubtitleFileNames({

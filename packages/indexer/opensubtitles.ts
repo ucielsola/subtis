@@ -129,6 +129,7 @@ const downloadSchema = z.object({
   uk: z.string(),
 });
 
+type OpenSubtitlesSubtitle = z.infer<typeof subtitleDataSchema>;
 export type OpenSubtitlesSubtitles = z.infer<typeof subtitlesSchema>;
 
 // core
@@ -186,12 +187,14 @@ export async function filterOpenSubtitleSubtitlesForTorrent({
     a.attributes.download_count < b.attributes.download_count ? 1 : -1,
   );
 
-  const firstResult = sortedSubtitlesByDownloads.find((subtitle) => {
+  let subtitle: OpenSubtitlesSubtitle | undefined;
+
+  subtitle = sortedSubtitlesByDownloads.find((subtitle) => {
     const release = subtitle.attributes.release.toLowerCase();
     const comments = subtitle.attributes?.comments?.toLowerCase() ?? "";
 
-    const hasResolution = release.includes(resolution) || comments.includes(resolution);
-    const hasReleaseGroup = releaseGroup.query_matches.some((queryMatch) => {
+    const matchesResolution = release.includes(resolution) || comments.includes(resolution);
+    const matchesReleaseGroup = releaseGroup.query_matches.some((queryMatch) => {
       const lowerCaseQueryMatch = queryMatch.toLowerCase();
 
       return release.includes(lowerCaseQueryMatch) || comments.includes(lowerCaseQueryMatch);
@@ -201,19 +204,36 @@ export async function filterOpenSubtitleSubtitlesForTorrent({
       release.includes(fileNameWithoutExtension.toLowerCase()) ||
       comments.includes(fileNameWithoutExtension.toLowerCase());
 
-    const hasRipType =
-      release.includes(titleFileNameMetadata.ripType ?? "") || comments.includes(titleFileNameMetadata.ripType ?? "");
+    const matchesRipType = titleFileNameMetadata.ripType
+      ? release.includes(titleFileNameMetadata.ripType) || comments.includes(titleFileNameMetadata.ripType)
+      : false;
 
-    if (hasRipType) {
-      return hasFileName || (hasResolution && hasReleaseGroup);
-    }
-
-    return hasFileName || (hasResolution && hasReleaseGroup);
+    return hasFileName || (matchesResolution && matchesReleaseGroup && matchesRipType);
   });
 
-  invariant(firstResult, `[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: No subtitle data found`);
+  if (!subtitle) {
+    subtitle = sortedSubtitlesByDownloads.find((subtitle) => {
+      const release = subtitle.attributes.release.toLowerCase();
+      const comments = subtitle.attributes?.comments?.toLowerCase() ?? "";
 
-  const { files } = firstResult.attributes;
+      const matchesResolution = release.includes(resolution) || comments.includes(resolution);
+      const matchesReleaseGroup = releaseGroup.query_matches.some((queryMatch) => {
+        const lowerCaseQueryMatch = queryMatch.toLowerCase();
+
+        return release.includes(lowerCaseQueryMatch) || comments.includes(lowerCaseQueryMatch);
+      });
+
+      const hasFileName =
+        release.includes(fileNameWithoutExtension.toLowerCase()) ||
+        comments.includes(fileNameWithoutExtension.toLowerCase());
+
+      return hasFileName || (matchesResolution && matchesReleaseGroup);
+    });
+  }
+
+  invariant(subtitle, `[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: No subtitle data found`);
+
+  const { files } = subtitle.attributes;
   const { file_id } = files[0];
 
   const downloadResponse = await fetch(`${OPEN_SUBTITLES_BASE_URL}/download`, {
@@ -244,7 +264,7 @@ export async function filterOpenSubtitleSubtitlesForTorrent({
     subtitleLink,
     fileExtension,
     subtitleGroupName,
-    externalId: firstResult.id,
+    externalId: subtitle.id,
     ...subtitleFileNames,
   };
 }
