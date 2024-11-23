@@ -242,7 +242,7 @@ export async function indexTitleByFileName({
     }
 
     const response = await fetch(
-      `https://api.themoviedb.org/3/search/movie?query=${title.name}&year=${title.year}&language=es-ES`,
+      `https://api.themoviedb.org/3/search/movie?query=${title.name}&year=${title.year}&language=en-US`,
       {
         headers: {
           Accept: "application/json",
@@ -283,7 +283,6 @@ export async function indexTitleByFileName({
       releaseDate,
       voteAverage,
     });
-    console.log("\n ~ movieData:", movieData);
 
     if (websocket) {
       websocket.send(JSON.stringify({ total: 0.6, message: "Buscando pelicula en nuestros proveedores" }));
@@ -411,7 +410,7 @@ export async function indexTitleByFileName({
 // const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
 
 // const bytes = 3388821395222131;
-// const titleFileName = "Ralph.Breaks.The.Internet.2018.1080p.WEBRip.x264-[YTS.AM].mp4";
+// const titleFileName = "Cloud.Atlas.2012.1080p.BrRip.x264.YIFY.mp4";
 
 // indexTitleByFileName({
 //   bytes,
