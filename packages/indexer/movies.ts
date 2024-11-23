@@ -131,12 +131,12 @@ export async function indexMovieByName({
 }
 
 // testing
-indexMoviesByYear(2024, false);
+// indexMoviesByYear(2024, false);
 
 // indexMovieByName({
-//   year: 2018,
+//   year: 2001,
 //   isDebugging: true,
-//   name: "Ralph Breaks the Internet",
+//   name: "Spirited Away",
 // });
 
 saveReleaseGroupsToDb(supabase);
