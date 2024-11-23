@@ -1,5 +1,4 @@
 import invariant from "tiny-invariant";
-// import dayjs from "dayjs";
 import z from "zod";
 
 // db
@@ -433,7 +432,6 @@ export async function getMovieMetadataFromTmdbMovie({
   const response = await fetch(url, TMDB_OPTIONS);
   const data = await response.json();
   const { imdb_id, title: spanishName, original_language } = tmdbMovieSchema.parse(data);
-  console.log("\n ~ original_language:", original_language);
 
   // 2. Parse raw imdb_id
   const imdbId = getStripedImdbId(imdb_id ?? "");
