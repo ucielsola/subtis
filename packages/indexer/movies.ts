@@ -131,7 +131,7 @@ export async function indexMovieByName({
 }
 
 // testing
-// indexMoviesByYear(2021, false);
+// indexMoviesByYear(2024, false);
 
 // indexMovieByName({
 //   year: 1999,
