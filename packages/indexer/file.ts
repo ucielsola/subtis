@@ -313,10 +313,31 @@ export async function indexTitleByFileName({
           return lowerCaseTorrentTitle.includes(fileAttribute.toLowerCase());
         });
 
-        const result = (includesFileAttributes || includesReleaseGroup) && includesResolution;
+        const includesRipType = title.ripType ? lowerCaseTorrentTitle.includes(title.ripType) : false;
+
+        const result = (includesFileAttributes || includesReleaseGroup) && includesResolution && includesRipType;
 
         return result;
       });
+
+      if (!torrent) {
+        torrent = torrents.find((torrent) => {
+          const lowerCaseTorrentTitle = torrent.title.toLowerCase();
+
+          const includesResolution = lowerCaseTorrentTitle.includes(title.resolution.toLowerCase());
+          const includesReleaseGroup = title.releaseGroup?.release_group_name
+            ? lowerCaseTorrentTitle.includes(title.releaseGroup.release_group_name.toLowerCase())
+            : false;
+
+          const includesFileAttributes = title.releaseGroup?.file_attributes.some((fileAttribute) => {
+            return lowerCaseTorrentTitle.includes(fileAttribute.toLowerCase());
+          });
+
+          const result = (includesFileAttributes || includesReleaseGroup) && includesResolution;
+
+          return result;
+        });
+      }
     }
 
     if (!shouldIndexAllTorrents && !torrent) {

@@ -4,12 +4,6 @@ import { useLoaderData } from "@remix-run/react";
 // shared
 import { getApiClient } from "@subtis/shared";
 
-// ui
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~/components/ui/table";
-
-// icons
-import { DownloadIcon } from "~/components/icons/download";
-
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { bytes, fileName } = params;
 
