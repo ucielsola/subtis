@@ -79,7 +79,7 @@ export type Database = {
           created_at: string;
           current_episode: number | null;
           current_season: number | null;
-          external_id: string | null;
+          external_id: string;
           file_extension: string;
           id: number;
           is_valid: boolean;
@@ -104,7 +104,7 @@ export type Database = {
           created_at?: string;
           current_episode?: number | null;
           current_season?: number | null;
-          external_id?: string | null;
+          external_id: string;
           file_extension: string;
           id?: number;
           is_valid: boolean;
@@ -129,7 +129,7 @@ export type Database = {
           created_at?: string;
           current_episode?: number | null;
           current_season?: number | null;
-          external_id?: string | null;
+          external_id?: string;
           file_extension?: string;
           id?: number;
           is_valid?: boolean;
@@ -257,6 +257,7 @@ export type Database = {
           release_date: string;
           searched_times: number | null;
           title_name: string;
+          title_name_jp: string | null;
           title_name_spa: string;
           title_name_without_special_chars: string;
           total_episodes: number | null;
@@ -278,6 +279,7 @@ export type Database = {
           release_date: string;
           searched_times?: number | null;
           title_name: string;
+          title_name_jp?: string | null;
           title_name_spa: string;
           title_name_without_special_chars: string;
           total_episodes?: number | null;
@@ -299,6 +301,7 @@ export type Database = {
           release_date?: string;
           searched_times?: number | null;
           title_name?: string;
+          title_name_jp?: string | null;
           title_name_spa?: string;
           title_name_without_special_chars?: string;
           total_episodes?: number | null;
