@@ -77,6 +77,7 @@ type TitleWithEpisode = Pick<
   | "imdb_id"
   | "title_name"
   | "title_name_spa"
+  | "title_name_ja"
   | "overview"
   | "rating"
   | "release_date"
@@ -1094,6 +1095,7 @@ export async function getSubtitlesForTitle({
     genres,
     imdbId,
     rating,
+    japanaseName,
     releaseDate,
     poster,
     backdrop,
@@ -1153,6 +1155,11 @@ export async function getSubtitlesForTitle({
 
   const enabledProviders = ["subdivx", "subdl", "openSubtitles"] as SubtitleProvider[];
   // const enabledProviders = ["subdl"] as SubtitleProvider[];
+
+  const subtitleProviderQuery = japanaseName
+    ? getQueryForTorrentProvider({ ...currentTitle, name: japanaseName })
+    : titleProviderQuery;
+
   const subtitles = await getAllSubtitlesFromProviders({
     imdbId,
     titleType,
@@ -1162,7 +1169,7 @@ export async function getSubtitlesForTitle({
     subdivxCookie,
     subdivxParameter,
     providers: enabledProviders,
-    titleProviderQuery,
+    titleProviderQuery: subtitleProviderQuery,
   });
 
   if (subtitles.subdivx) {
@@ -1341,6 +1348,7 @@ export async function getSubtitlesForTitle({
             rating,
             overview,
             title_name_spa: spanishName,
+            title_name_ja: japanaseName,
             release_date: releaseDate,
             year,
             logo,
@@ -1409,6 +1417,7 @@ export async function getSubtitlesForTitle({
             rating,
             overview,
             title_name_spa: spanishName,
+            title_name_ja: japanaseName,
             release_date: releaseDate,
             year,
             logo,
@@ -1476,6 +1485,7 @@ export async function getSubtitlesForTitle({
             rating,
             overview,
             title_name_spa: spanishName,
+            title_name_ja: japanaseName,
             release_date: releaseDate,
             year,
             logo,

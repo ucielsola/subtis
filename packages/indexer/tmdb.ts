@@ -270,6 +270,11 @@ const tmdbImageSchema = z.object({
   ),
 });
 
+const tmdbMovieAlternativeTitleSchema = z.object({
+  id: z.number(),
+  titles: z.array(z.object({ iso_3166_1: z.string(), title: z.string(), type: z.string() })),
+});
+
 // constants
 const TMDB_OPTIONS = {
   headers: {
@@ -343,6 +348,9 @@ const tmdbApiEndpoints = {
   movieDetail: (id: number) => {
     return `https://api.themoviedb.org/3/movie/${id}?language=es-ES&with_original_language=en`;
   },
+  movieDetailAlternativeTitleJapanese: (id: number) => {
+    return `https://api.themoviedb.org/3/movie/${id}/alternative_titles?country=JP`;
+  },
   movieImages: (id: number) => {
     return `https://api.themoviedb.org/3/movie/${id}/images?include_image_language=en`;
   },
@@ -369,6 +377,9 @@ const tmdbApiEndpoints = {
 
     return `https://api.themoviedb.org/3/search/tv?query=${encodeURIComponent(title)}&language=es-ES`;
   },
+  tvShowAlternativeTitleJapanese: (id: number) => {
+    return `https://api.themoviedb.org/3/tv/${id}/alternative_titles?country=JP`;
+  },
 };
 
 export type TmdbTitle = {
@@ -378,6 +389,7 @@ export type TmdbTitle = {
   genres: number[];
   overview: string;
   spanishName: string;
+  japanaseName: string | null;
   releaseDate: string;
   name: string;
   year: number;
@@ -420,7 +432,8 @@ export async function getMovieMetadataFromTmdbMovie({
 
   const response = await fetch(url, TMDB_OPTIONS);
   const data = await response.json();
-  const { imdb_id, title: spanishName } = tmdbMovieSchema.parse(data);
+  const { imdb_id, title: spanishName, original_language } = tmdbMovieSchema.parse(data);
+  console.log("\n ~ original_language:", original_language);
 
   // 2. Parse raw imdb_id
   const imdbId = getStripedImdbId(imdb_id ?? "");
@@ -437,6 +450,20 @@ export async function getMovieMetadataFromTmdbMovie({
   // 6. Get movie poster
   const poster = await getTmdbMoviePosterUrl(id);
 
+  let japanaseName = null;
+
+  if (original_language === "ja") {
+    const url = tmdbApiEndpoints.movieDetailAlternativeTitleJapanese(id);
+
+    const response = await fetch(url, TMDB_OPTIONS);
+    const data = await response.json();
+
+    const { titles } = tmdbMovieAlternativeTitleSchema.parse(data);
+    const [firstTitle] = titles;
+
+    japanaseName = firstTitle.title;
+  }
+
   return {
     year,
     name,
@@ -448,6 +475,7 @@ export async function getMovieMetadataFromTmdbMovie({
     overview,
     spanishName,
     releaseDate,
+    japanaseName,
     rating: Number(Number(voteAverage).toFixed(1)),
     imdbLink: imdbId ? `https://www.imdb.com/title/tt${imdbId}` : "-",
   };
@@ -554,6 +582,20 @@ export async function getTvShowMetadataFromTmdbTvShow({
     return seasonEpisodes;
   });
 
+  let japanaseName = null;
+
+  if (data.original_language === "ja") {
+    const url = tmdbApiEndpoints.tvShowAlternativeTitleJapanese(id);
+
+    const response = await fetch(url, TMDB_OPTIONS);
+    const data = await response.json();
+
+    const { titles } = tmdbMovieAlternativeTitleSchema.parse(data);
+    const [firstTitle] = titles;
+
+    japanaseName = firstTitle.title;
+  }
+
   return {
     year,
     name,
@@ -566,6 +608,7 @@ export async function getTvShowMetadataFromTmdbTvShow({
     episodes,
     spanishName,
     releaseDate,
+    japanaseName,
     rating: voteAverage,
     totalSeasons: data.number_of_seasons,
     totalEpisodes: data.number_of_episodes,

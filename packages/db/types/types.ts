@@ -257,7 +257,7 @@ export type Database = {
           release_date: string;
           searched_times: number | null;
           title_name: string;
-          title_name_jp: string | null;
+          title_name_ja: string | null;
           title_name_spa: string;
           title_name_without_special_chars: string;
           total_episodes: number | null;
@@ -279,7 +279,7 @@ export type Database = {
           release_date: string;
           searched_times?: number | null;
           title_name: string;
-          title_name_jp?: string | null;
+          title_name_ja?: string | null;
           title_name_spa: string;
           title_name_without_special_chars: string;
           total_episodes?: number | null;
@@ -301,7 +301,7 @@ export type Database = {
           release_date?: string;
           searched_times?: number | null;
           title_name?: string;
-          title_name_jp?: string | null;
+          title_name_ja?: string | null;
           title_name_spa?: string;
           title_name_without_special_chars?: string;
           total_episodes?: number | null;
