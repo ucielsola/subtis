@@ -261,9 +261,8 @@ export async function indexTitleByFileName({
     const {
       id,
       overview,
+      title: name,
       genre_ids: genres,
-      title: spanishName,
-      original_title: name,
       release_date: releaseDate,
       vote_average: voteAverage,
     } = movie;
@@ -277,7 +276,6 @@ export async function indexTitleByFileName({
       name,
       genres,
       overview,
-      spanishName,
       releaseDate,
       voteAverage,
     });

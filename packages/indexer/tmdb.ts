@@ -282,10 +282,10 @@ const TMDB_OPTIONS = {
 // helpers
 function generateTmdbDiscoverMovieUrl(page: number, year: number, isDebugging: boolean) {
   if (isDebugging) {
-    return `https://api.themoviedb.org/3/discover/movie?language=es-ES&page=${page}&with_original_language=en&primary_release_year=${year}`;
+    return `https://api.themoviedb.org/3/discover/movie?language=en-US&page=${page}&with_original_language=en&primary_release_year=${year}`;
   }
 
-  return `https://api.themoviedb.org/3/discover/movie?language=es-ES&page=${page}&with_original_language=en&primary_release_year=${year}`;
+  return `https://api.themoviedb.org/3/discover/movie?language=en-US&page=${page}&with_original_language=en&primary_release_year=${year}`;
 
   // TODO: Check why the following filters doesn't work properly
   // return `https://api.themoviedb.org/3/discover/movie?language=es-ES&page=${page}&with_original_language=en&primary_release_date.gte=${dayjs(
@@ -341,7 +341,7 @@ const tmdbApiEndpoints = {
     return generateTmdbDiscoverSeriesUrl(page, year);
   },
   movieDetail: (id: number) => {
-    return `https://api.themoviedb.org/3/movie/${id}&language=es-ES&with_original_language=en`;
+    return `https://api.themoviedb.org/3/movie/${id}?language=es-ES&with_original_language=en`;
   },
   movieImages: (id: number) => {
     return `https://api.themoviedb.org/3/movie/${id}/images?include_image_language=en`;
@@ -357,10 +357,10 @@ const tmdbApiEndpoints = {
   },
   movieSearch: (title: string, year?: number) => {
     if (year) {
-      return `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}&year=${year}&language=es-ES`;
+      return `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}&year=${year}&language=en-US`;
     }
 
-    return `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}&language=es-ES`;
+    return `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}&language=en-US`;
   },
   tvShowSearch: (title: string, year?: number) => {
     if (year) {
@@ -404,7 +404,6 @@ export async function getMovieMetadataFromTmdbMovie({
   id,
   name,
   genres,
-  spanishName,
   overview,
   releaseDate,
   voteAverage,
@@ -412,7 +411,6 @@ export async function getMovieMetadataFromTmdbMovie({
   id: number;
   name: string;
   genres: number[];
-  spanishName: string;
   overview: string;
   releaseDate: string;
   voteAverage: number;
@@ -422,7 +420,7 @@ export async function getMovieMetadataFromTmdbMovie({
 
   const response = await fetch(url, TMDB_OPTIONS);
   const data = await response.json();
-  const { imdb_id } = tmdbMovieSchema.parse(data);
+  const { imdb_id, title: spanishName } = tmdbMovieSchema.parse(data);
 
   // 2. Parse raw imdb_id
   const imdbId = getStripedImdbId(imdb_id ?? "");
@@ -470,9 +468,8 @@ export async function getMoviesFromTmdb(page: number, year: number, isDebugging:
     const {
       id,
       overview,
+      title: name,
       genre_ids: genres,
-      title: spanishName,
-      original_title: name,
       release_date: releaseDate,
       vote_average: voteAverage,
     } = movie;
@@ -482,7 +479,6 @@ export async function getMoviesFromTmdb(page: number, year: number, isDebugging:
       name,
       genres,
       overview,
-      spanishName,
       releaseDate,
       voteAverage,
     });
@@ -745,22 +741,13 @@ export async function getTmdbMovieFromTitle(query: string, year?: number): Promi
   const sortedMoviesByVoteCount = results.toSorted((a, b) => (a.vote_count < b.vote_count ? 1 : -1));
   const [movie] = sortedMoviesByVoteCount;
 
-  const {
-    id,
-    overview,
-    genre_ids: genres,
-    title: spanishName,
-    original_title: name,
-    release_date: releaseDate,
-    vote_average: voteAverage,
-  } = movie;
+  const { id, overview, title: name, genre_ids: genres, release_date: releaseDate, vote_average: voteAverage } = movie;
 
   const movieData = await getMovieMetadataFromTmdbMovie({
     id,
     name,
     genres,
     overview,
-    spanishName,
     releaseDate,
     voteAverage,
   });
