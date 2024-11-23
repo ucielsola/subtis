@@ -134,9 +134,9 @@ export async function indexMovieByName({
 // indexMoviesByYear(2024, false);
 
 // indexMovieByName({
-//   year: 2001,
+//   year: 1999,
 //   isDebugging: true,
-//   name: "Spirited Away",
+//   name: "Fight Club",
 // });
 
 saveReleaseGroupsToDb(supabase);
