@@ -525,6 +525,12 @@ export const RELEASE_GROUPS = {
     release_group_name: "Grym",
     query_matches: ["Grym", "(Short)-Grym@BTNET", "x264-Grym@BTNET", "x265-Grym@BTNET", "x264-Grym", "x265-Grym"],
   },
+  NAISU: {
+    file_attributes: ["NAISU", "H264-NAISU", "H265-NAISU"],
+    is_supported: true,
+    release_group_name: "NAISU",
+    query_matches: ["NAISU", "H264-NAISU", "H265-NAISU"],
+  },
 } as const;
 
 // types
