@@ -1,4 +1,6 @@
 import type { ServerWebSocket } from "bun";
+import filesizeParser from "filesize-parser";
+import prettyBytes from "pretty-bytes";
 import invariant from "tiny-invariant";
 import tg from "torrent-grabber";
 import TorrentSearchApi from "torrent-search-api";
@@ -12,7 +14,7 @@ import { type TitleFileNameMetadata, getEpisode, getIsTvShow, getTitleFileNameMe
 
 // internals
 import { apiClient } from "./api";
-import { TitleTypes, type TorrentFound, getSubtitlesForTitle, getTitleTorrents } from "./app";
+import { TitleTypes, type TorrentFound, type TorrentFoundWithId, getSubtitlesForTitle, getTitleTorrents } from "./app";
 import { getReleaseGroups } from "./release-groups";
 import { getSubDivXParameter, getSubDivXToken } from "./subdivx";
 import { getSubtitleGroups } from "./subtitle-groups";
@@ -110,7 +112,10 @@ async function getTorrentFromPirateBayOr1337x(query: string, title: TitleFileNam
 
   invariant(torrent, "Torrent not found");
 
-  return { ...torrent, id: generateIdFromMagnet(torrent.trackerId) };
+  const bytes = torrent.isBytesFormatted ? filesizeParser(torrent.size) : (torrent.size as number);
+  const formattedBytes = prettyBytes(bytes);
+
+  return { ...torrent, id: generateIdFromMagnet(torrent.trackerId), bytes, formattedBytes };
 }
 
 // core
@@ -294,6 +299,7 @@ export async function indexTitleByFileName({
     });
 
     let torrent: TorrentFound | undefined;
+    let torrentWithId: TorrentFoundWithId | undefined;
 
     if (!shouldIndexAllTorrents) {
       const torrents = await getTitleTorrents(titleProviderQuery, TitleTypes.movie, movieData.imdbId);
@@ -338,6 +344,13 @@ export async function indexTitleByFileName({
           return result;
         });
       }
+
+      if (torrent) {
+        const bytes = torrent.isBytesFormatted ? filesizeParser(torrent.size) : (torrent.size as number);
+        const formattedBytes = prettyBytes(bytes);
+
+        torrentWithId = { ...torrent, id: generateIdFromMagnet(torrent.trackerId), bytes, formattedBytes };
+      }
     }
 
     if (!shouldIndexAllTorrents && !torrent) {
@@ -347,7 +360,7 @@ export async function indexTitleByFileName({
     const parameter = await getSubDivXParameter();
     const { token, cookie } = await getSubDivXToken();
 
-    console.table(torrent ? [torrent].map(({ title, size, seeds }) => ({ title, size, seeds })) : []);
+    console.table(torrentWithId ? [torrentWithId].map(({ title, size, seeds }) => ({ title, size, seeds })) : []);
 
     if (websocket) {
       websocket.send(JSON.stringify({ total: 0.75, message: "Buscando subtitulo en nuestros proveedores" }));
@@ -356,11 +369,7 @@ export async function indexTitleByFileName({
     await getSubtitlesForTitle({
       indexedBy,
       index: "1",
-      initialTorrents: shouldIndexAllTorrents
-        ? undefined
-        : torrent
-          ? [{ ...torrent, id: generateIdFromMagnet(torrent.trackerId) }]
-          : [],
+      initialTorrents: shouldIndexAllTorrents ? undefined : torrentWithId ? [torrentWithId] : [],
       currentTitle: { ...movieData, episode: null, totalEpisodes: null, totalSeasons: null },
       releaseGroups,
       subtitleGroups,

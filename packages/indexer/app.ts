@@ -6,6 +6,7 @@ import download from "download";
 import extract from "extract-zip";
 import ffprobe from "ffprobe";
 import ffprobeStatic from "ffprobe-static";
+import filesizeParser from "filesize-parser";
 import { decode } from "iconv-lite";
 import jschardet from "jschardet";
 import ms from "ms";
@@ -100,6 +101,8 @@ type SubtitleWithResolutionAndTorrentId = SubtitleData & {
 
 // constants
 const MAX_TIMEOUT = ms("1m");
+const MIN_BYTES = filesizeParser("500MB");
+
 const COMPRESSED_SUBTITLES_FOLDER_NAME = "compressed-subtitles";
 const UNCOMPRESSED_SUBTITLES_FOLDER_NAME = "uncompressed-subtitles";
 
@@ -414,12 +417,13 @@ function parseTorrentTrackerId(trackerId: string) {
 }
 
 async function storeTorrentInSupabaseTable(torrent: TorrentFoundWithId): Promise<void> {
-  const { id, title, size, seeds, tracker, trackerId } = torrent;
+  const { id, title, formattedBytes, bytes, seeds, tracker, trackerId } = torrent;
 
   const { error } = await supabase.from("Torrents").upsert({
     id,
     torrent_name: title,
-    torrent_size: typeof size === "string" ? size : prettyBytes(size),
+    torrent_bytes: bytes,
+    torrent_size: formattedBytes,
     torrent_seeds: seeds,
     torrent_tracker: tracker,
     torrent_link: parseTorrentTrackerId(trackerId),
@@ -758,7 +762,7 @@ export type TorrentFound = {
   seeds: number;
   isBytesFormatted: boolean;
 };
-type TorrentFoundWithId = TorrentFound & { id: number };
+export type TorrentFoundWithId = TorrentFound & { id: number; formattedBytes: string; bytes: number };
 
 export async function getTitleTorrents(query: string, titleType: TitleTypes, imdbId: string): Promise<TorrentFound[]> {
   let thePirateBayTorrents: TorrentFound[] = [];
@@ -842,6 +846,11 @@ function getFilteredTorrents(
     })
     .filter((torrent) => !getIsCinemaRecording(torrent.title))
     .filter(({ seeds }) => seeds > minSeeds)
+    .filter(({ size, isBytesFormatted }) => {
+      const bytes = isBytesFormatted ? filesizeParser(size) : (size as number);
+
+      return bytes > MIN_BYTES;
+    })
     .filter((torrent) => {
       if (seenSizes.has(torrent.size)) {
         return false;
@@ -856,7 +865,12 @@ function getFilteredTorrents(
 
       return true;
     })
-    .map((torrent) => ({ ...torrent, id: generateIdFromMagnet(torrent.trackerId) }));
+    .map((torrent) => {
+      const bytes = torrent.isBytesFormatted ? filesizeParser(torrent.size) : (torrent.size as number);
+      const formattedBytes = prettyBytes(bytes);
+
+      return { ...torrent, id: generateIdFromMagnet(torrent.trackerId), bytes, formattedBytes };
+    });
 }
 
 type VideoFile = {
@@ -1137,10 +1151,10 @@ export async function getSubtitlesForTitle({
     `4.${index}) Torrents (${filteredTorrents.length}) encontrados para el título "${name}" con query ${titleProviderQuery} \n`,
   );
   console.table(
-    filteredTorrents.map(({ seeds, size, title, tracker, isBytesFormatted }) => ({
+    filteredTorrents.map(({ seeds, title, tracker, formattedBytes }) => ({
       query: titleProviderQuery,
       seeds,
-      size: isBytesFormatted ? size : prettyBytes((size as number) ?? 0),
+      size: formattedBytes,
       title,
       tracker,
     })),
@@ -1361,7 +1375,7 @@ export async function getSubtitlesForTitle({
           },
           bytesFromNotFoundSubtitle,
           titleFileNameFromNotFoundSubtitle,
-          torrent: { ...torrent, size: bytes },
+          torrent: { ...torrent, bytes },
           releaseGroupName,
           subtitleGroupName: foundSubtitleFromSubDivX.subtitleGroupName,
           subtitle: {

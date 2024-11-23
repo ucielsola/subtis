@@ -315,6 +315,7 @@ export type Database = {
         Row: {
           created_at: string;
           id: number;
+          torrent_bytes: number;
           torrent_link: string;
           torrent_name: string;
           torrent_seeds: number;
@@ -324,6 +325,7 @@ export type Database = {
         Insert: {
           created_at?: string;
           id?: number;
+          torrent_bytes: number;
           torrent_link: string;
           torrent_name: string;
           torrent_seeds: number;
@@ -333,6 +335,7 @@ export type Database = {
         Update: {
           created_at?: string;
           id?: number;
+          torrent_bytes?: number;
           torrent_link?: string;
           torrent_name?: string;
           torrent_seeds?: number;
