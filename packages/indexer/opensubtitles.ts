@@ -2,7 +2,7 @@ import invariant from "tiny-invariant";
 import { z } from "zod";
 
 // shared
-import type { TitleFileNameMetadata } from "@subtis/shared";
+import { type TitleFileNameMetadata, getIsCinemaRecording } from "@subtis/shared";
 
 // internals
 import type { TitleTypes } from "./app";
@@ -189,7 +189,13 @@ export async function filterOpenSubtitleSubtitlesForTorrent({
 
   let subtitle: OpenSubtitlesSubtitle | undefined;
 
-  subtitle = sortedSubtitlesByDownloads.find((subtitle) => {
+  const subtitlesWithoutCinemaRecordings = sortedSubtitlesByDownloads.filter((subtitle) => {
+    return (
+      !getIsCinemaRecording(subtitle.attributes.release) || !getIsCinemaRecording(subtitle?.attributes?.comments ?? "")
+    );
+  });
+
+  subtitle = subtitlesWithoutCinemaRecordings.find((subtitle) => {
     const release = subtitle.attributes.release.toLowerCase();
     const comments = subtitle.attributes?.comments?.toLowerCase() ?? "";
 
@@ -212,7 +218,7 @@ export async function filterOpenSubtitleSubtitlesForTorrent({
   });
 
   if (!subtitle) {
-    subtitle = sortedSubtitlesByDownloads.find((subtitle) => {
+    subtitle = subtitlesWithoutCinemaRecordings.find((subtitle) => {
       const release = subtitle.attributes.release.toLowerCase();
       const comments = subtitle.attributes?.comments?.toLowerCase() ?? "";
 
@@ -229,6 +235,50 @@ export async function filterOpenSubtitleSubtitlesForTorrent({
 
       return hasFileName || (matchesResolution && matchesReleaseGroup);
     });
+  }
+
+  if (!subtitle) {
+    subtitle = sortedSubtitlesByDownloads.find((subtitle) => {
+      const release = subtitle.attributes.release.toLowerCase();
+      const comments = subtitle.attributes?.comments?.toLowerCase() ?? "";
+
+      const matchesResolution = release.includes(resolution) || comments.includes(resolution);
+      const matchesReleaseGroup = releaseGroup.query_matches.some((queryMatch) => {
+        const lowerCaseQueryMatch = queryMatch.toLowerCase();
+
+        return release.includes(lowerCaseQueryMatch) || comments.includes(lowerCaseQueryMatch);
+      });
+
+      const hasFileName =
+        release.includes(fileNameWithoutExtension.toLowerCase()) ||
+        comments.includes(fileNameWithoutExtension.toLowerCase());
+
+      const matchesRipType = titleFileNameMetadata.ripType
+        ? release.includes(titleFileNameMetadata.ripType) || comments.includes(titleFileNameMetadata.ripType)
+        : false;
+
+      return hasFileName || (matchesResolution && matchesReleaseGroup && matchesRipType);
+    });
+
+    if (!subtitle) {
+      subtitle = sortedSubtitlesByDownloads.find((subtitle) => {
+        const release = subtitle.attributes.release.toLowerCase();
+        const comments = subtitle.attributes?.comments?.toLowerCase() ?? "";
+
+        const matchesResolution = release.includes(resolution) || comments.includes(resolution);
+        const matchesReleaseGroup = releaseGroup.query_matches.some((queryMatch) => {
+          const lowerCaseQueryMatch = queryMatch.toLowerCase();
+
+          return release.includes(lowerCaseQueryMatch) || comments.includes(lowerCaseQueryMatch);
+        });
+
+        const hasFileName =
+          release.includes(fileNameWithoutExtension.toLowerCase()) ||
+          comments.includes(fileNameWithoutExtension.toLowerCase());
+
+        return hasFileName || (matchesResolution && matchesReleaseGroup);
+      });
+    }
   }
 
   invariant(subtitle, `[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: No subtitle data found`);

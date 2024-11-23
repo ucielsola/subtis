@@ -2,7 +2,7 @@ import invariant from "tiny-invariant";
 import { z } from "zod";
 
 // shared
-import type { TitleFileNameMetadata } from "@subtis/shared";
+import { type TitleFileNameMetadata, getIsCinemaRecording } from "@subtis/shared";
 
 // internals
 import type { TitleTypes } from "./app";
@@ -131,7 +131,11 @@ export async function filterSubdlSubtitlesForTorrent({
 
   let subtitle: SubdlSubtitleData | undefined;
 
-  subtitle = subtitles.find((subtitle) => {
+  const subtitlesWithoutCinemaRecordings = subtitles.filter((subtitle) => {
+    return !getIsCinemaRecording(subtitle.release_name);
+  });
+
+  subtitle = subtitlesWithoutCinemaRecordings.find((subtitle) => {
     const release = subtitle.release_name.toLowerCase();
 
     const matchesResolution = release.includes(resolution);
@@ -147,7 +151,7 @@ export async function filterSubdlSubtitlesForTorrent({
   });
 
   if (!subtitle) {
-    subtitle = subtitles.find((subtitle) => {
+    subtitle = subtitlesWithoutCinemaRecordings.find((subtitle) => {
       const release = subtitle.release_name.toLowerCase();
 
       const matchesResolution = release.includes(resolution);
@@ -160,6 +164,39 @@ export async function filterSubdlSubtitlesForTorrent({
 
       return isSameFileName || (matchesResolution && matchesReleaseGroup);
     });
+  }
+
+  if (!subtitle) {
+    subtitle = subtitles.find((subtitle) => {
+      const release = subtitle.release_name.toLowerCase();
+
+      const matchesResolution = release.includes(resolution);
+      const matchesReleaseGroup = releaseGroup.query_matches.some((queryMatch) => {
+        const lowerCaseQueryMatch = queryMatch.toLowerCase();
+        return release.includes(lowerCaseQueryMatch);
+      });
+
+      const matchesRipType = titleFileNameMetadata.ripType ? release.includes(titleFileNameMetadata.ripType) : false;
+      const isSameFileName = release === fileNameWithoutExtension.toLowerCase();
+
+      return isSameFileName || (matchesResolution && matchesReleaseGroup && matchesRipType);
+    });
+
+    if (!subtitle) {
+      subtitle = subtitles.find((subtitle) => {
+        const release = subtitle.release_name.toLowerCase();
+
+        const matchesResolution = release.includes(resolution);
+        const matchesReleaseGroup = releaseGroup.query_matches.some((queryMatch) => {
+          const lowerCaseQueryMatch = queryMatch.toLowerCase();
+          return release.includes(lowerCaseQueryMatch);
+        });
+
+        const isSameFileName = release === fileNameWithoutExtension.toLowerCase();
+
+        return isSameFileName || (matchesResolution && matchesReleaseGroup);
+      });
+    }
   }
 
   invariant(subtitle, `[${SUBDL_BREADCRUMB_ERROR}]: No subtitle data found`);
