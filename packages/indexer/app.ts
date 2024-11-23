@@ -1169,15 +1169,15 @@ export async function getSubtitlesForTitle({
     console.log(`4.${index}) ${subtitles.subdivx.aaData.length} subtitlos encontrados en SubDivX \n`);
 
     const subdivxTable = subtitles.subdivx.aaData.map(({ titulo, descripcion }) => {
-      const ripTypes = descripcion.match(RIP_TYPES_REGEX);
+      const ripTypes = descripcion.match(RIP_TYPES_REGEX)?.filter(Boolean);
       const resolutions = descripcion.match(resolutionRegex);
       const releaseGroups = descripcion.match(releaseGroupsRegex);
 
       return {
         title: titulo,
-        ripTypes: ripTypes ? [...new Set(ripTypes)] : "",
-        resolutions: resolutions ? [...new Set(resolutions)] : "",
-        releaseGroups: releaseGroups ? [...new Set(releaseGroups)] : "",
+        ripTypes: ripTypes?.length ? [...new Set(ripTypes)] : "",
+        resolutions: resolutions?.length ? [...new Set(resolutions)] : "",
+        releaseGroups: releaseGroups?.length ? [...new Set(releaseGroups)] : "",
       };
     });
 
@@ -1189,16 +1189,16 @@ export async function getSubtitlesForTitle({
     console.log(`4.${index}) ${subtitles.subdl.length} subtitlos encontrados en SubDL \n`);
 
     const subdlTable = subtitles.subdl.map(({ name, release_name }) => {
-      const ripTypes = release_name.match(RIP_TYPES_REGEX);
+      const ripTypes = release_name.match(RIP_TYPES_REGEX)?.filter(Boolean);
       const resolutions = release_name.match(resolutionRegex);
       const releaseGroups = release_name.match(releaseGroupsRegex);
 
       return {
         title: name,
         releaseName: release_name,
-        ripTypes: ripTypes ? [...new Set(ripTypes)] : "",
-        resolutions: resolutions ? [...new Set(resolutions)] : "",
-        releaseGroups: releaseGroups ? [...new Set(releaseGroups)] : "",
+        ripTypes: ripTypes?.length ? [...new Set(ripTypes)] : "",
+        resolutions: resolutions?.length ? [...new Set(resolutions)] : "",
+        releaseGroups: releaseGroups?.length ? [...new Set(releaseGroups)] : "",
       };
     });
 
@@ -1213,16 +1213,17 @@ export async function getSubtitlesForTitle({
       const release = attributes.release.toLowerCase();
       const comments = attributes?.comments?.toLowerCase() ?? "";
 
-      const ripTypes = release.match(RIP_TYPES_REGEX) || comments.match(RIP_TYPES_REGEX);
+      const ripTypes =
+        release.match(RIP_TYPES_REGEX)?.filter(Boolean) || comments.match(RIP_TYPES_REGEX)?.filter(Boolean);
       const resolutions = release.match(resolutionRegex) || comments.match(resolutionRegex);
       const releaseGroups = release.match(releaseGroupsRegex) || comments.match(releaseGroupsRegex);
 
       return {
         title: attributes.feature_details.title,
         name: attributes.feature_details.movie_name,
-        ripTypes: ripTypes ? [...new Set(ripTypes)] : "",
-        resolutions: resolutions ? [...new Set(resolutions)] : "",
-        releaseGroups: releaseGroups ? [...new Set(releaseGroups)] : "",
+        ripTypes: ripTypes?.length ? [...new Set(ripTypes)] : "",
+        resolutions: resolutions?.length ? [...new Set(resolutions)] : "",
+        releaseGroups: releaseGroups?.length ? [...new Set(releaseGroups)] : "",
       };
     });
 
