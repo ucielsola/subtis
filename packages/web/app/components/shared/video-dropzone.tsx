@@ -1,3 +1,4 @@
+import { Fragment } from "react/jsx-runtime";
 import { useNavigate } from "@remix-run/react";
 import { useAnimation } from "motion/react";
 import Dropzone from "react-dropzone-esm";
@@ -24,20 +25,26 @@ export function VideoDropzone() {
         navigate(`/subtitle/file/name/${bytes}/${fileName}`);
       }}
     >
-      {({ getRootProps, getInputProps }) => (
+      {({ getRootProps, getInputProps, isDragActive }) => (
         <section className="w-full h-full cursor-pointer">
           <div {...getRootProps()} className="w-full h-full flex flex-col gap-2 items-center justify-center">
             <input {...getInputProps()} />
-            <Button
-              variant="outline"
-              className="hover:bg-zinc-950 bg-zinc-950 border border-zinc-800 transition-all ease-in-out z-10"
-              onMouseEnter={() => controls.start("animate")}
-              onMouseLeave={() => controls.start("normal")}
-            >
-              <AttachFileIcon controls={controls} />
-              Seleccionar archivo
-            </Button>
-            <p className="text-xs text-zinc-400 z-10 bg-zinc-950 rounded-sm">.mp4, .mkv, .avi</p>
+            {isDragActive ? (
+              <p className="text-sm text-zinc-400 z-10 bg-zinc-950 rounded-sm">Soltar para buscar subtítulo</p>
+            ) : (
+              <Fragment>
+                <Button
+                  variant="outline"
+                  className="hover:bg-zinc-950 bg-zinc-950 border border-zinc-800 transition-all ease-in-out z-10"
+                  onMouseEnter={() => controls.start("animate")}
+                  onMouseLeave={() => controls.start("normal")}
+                >
+                  <AttachFileIcon controls={controls} />
+                  Seleccionar archivo
+                </Button>
+                <p className="text-xs text-zinc-400 z-10 bg-zinc-950 rounded-sm">.mp4, .mkv, .avi</p>
+              </Fragment>
+            )}
           </div>
         </section>
       )}
