@@ -15,11 +15,7 @@ const pathVariants: Variants = {
 
 export function AttachFileIcon({ controls }: { controls: AnimationControls }) {
   return (
-    <div
-      className="select-none hover:bg-accent rounded-md transition-colors duration-200 flex items-center justify-center"
-      onMouseEnter={() => controls.start("animate")}
-      onMouseLeave={() => controls.start("normal")}
-    >
+    <div onMouseEnter={() => controls.start("animate")} onMouseLeave={() => controls.start("normal")}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="28"

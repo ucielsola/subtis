@@ -38,4 +38,5 @@ function defineRoutes() {
 
 // exports
 export * from "./subtitles";
+export * from "./shared/parsers";
 export type AppType = ReturnType<typeof defineRoutes>;

@@ -155,9 +155,9 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       }
 
       const parsedData = subtitles.data.reduce<Record<string, [number, string][]>>((accumulator, subtitle) => {
-        const { resolution, releaseGroup } = subtitle;
+        const { resolution, release_group } = subtitle;
         const map = new Map<number, string>(accumulator[resolution] ?? []);
-        map.set(releaseGroup.id, releaseGroup.release_group_name);
+        map.set(release_group.id, release_group.release_group_name);
 
         return {
           ...accumulator,
@@ -240,7 +240,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
 
       const [firstSubtitle] = subtitles.data;
       const zipFileName = slugify(
-        `${firstSubtitle.title.title_name}-Temporada-${firstSubtitle.current_season}-${resolution}-${firstSubtitle.releaseGroup.release_group_name}.zip`,
+        `${firstSubtitle.title.title_name}-Temporada-${firstSubtitle.current_season}-${resolution}-${firstSubtitle.release_group.release_group_name}.zip`,
       );
 
       context.header("Content-Type", "application/zip");

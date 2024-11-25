@@ -2,8 +2,8 @@
 import { BadgeTvShows } from "~/components/home/badge-tv-shows";
 import { RaycastLogo } from "~/components/home/raycast-logo";
 import { StremioButton } from "~/components/home/stremio-button";
-import { VideoDropzone } from "~/components/home/video-dropzone";
 import { VlcButton } from "~/components/home/vlc-button";
+import { VideoDropzone } from "~/components/shared/video-dropzone";
 
 // ui
 import { AspectRatio } from "~/components/ui/aspect-ratio";
@@ -58,7 +58,7 @@ export function HomeHero() {
           <div className="lg:max-w-[488px] w-full h-full flex flex-col gap-2">
             <AspectRatio
               ratio={16 / 9}
-              className="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-md group/video overflow-hidden"
+              className="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-sm group/video overflow-hidden"
             >
               <VideoDropzone />
               <DotPattern

@@ -136,7 +136,7 @@ export async function indexMovieByName({
 // indexMovieByName({
 //   year: 1999,
 //   isDebugging: false,
-//   name: "Fight Club",
+//   name: "Eyes Wide Shut",
 // });
 
 saveReleaseGroupsToDb(supabase);

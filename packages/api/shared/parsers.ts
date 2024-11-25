@@ -5,17 +5,17 @@ import { getSubtitleShortLink } from "./links";
 import { type SubtisSubtitle, releaseGroupSchema, subtitleGroupSchema, subtitleSchema, titleSchema } from "./schemas";
 
 // types
-type SubtitleNormalized = {
+export type SubtitleNormalized = {
   title: SubtisSubtitle["title"];
-  releaseGroup: SubtisSubtitle["releaseGroup"];
-  subtitleGroup: SubtisSubtitle["subtitleGroup"];
-  subtitle: Omit<SubtisSubtitle, "title" | "releaseGroup" | "subtitleGroup">;
+  release_group: SubtisSubtitle["release_group"];
+  subtitle_group: SubtisSubtitle["subtitle_group"];
+  subtitle: Omit<SubtisSubtitle, "title" | "release_group" | "subtitle_group">;
 };
 
 type SubtitlesNormalized = {
-  releaseGroup: SubtisSubtitle["releaseGroup"];
-  subtitleGroup: SubtisSubtitle["subtitleGroup"];
-  subtitle: Omit<SubtisSubtitle, "title" | "releaseGroup" | "subtitleGroup">;
+  release_group: SubtisSubtitle["release_group"];
+  subtitle_group: SubtisSubtitle["subtitle_group"];
+  subtitle: Omit<SubtisSubtitle, "title" | "release_group" | "subtitle_group">;
 };
 
 type ResultsWithLength<T> = {
@@ -56,7 +56,7 @@ function getParsedRipType(ripType: string | null) {
 }
 
 export function getSubtitleNormalized(subtisSubtitle: SubtisSubtitle): SubtitleNormalized {
-  const { title, releaseGroup, subtitleGroup, ...subtitle } = subtisSubtitle;
+  const { title, release_group, subtitle_group, ...subtitle } = subtisSubtitle;
 
   const { rip_type: rawRipType, ...rest } = subtitle;
   const rip_type = getParsedRipType(rawRipType);
@@ -64,8 +64,8 @@ export function getSubtitleNormalized(subtisSubtitle: SubtisSubtitle): SubtitleN
 
   return {
     title,
-    releaseGroup,
-    subtitleGroup,
+    release_group,
+    subtitle_group,
     subtitle: {
       ...rest,
       rip_type,
@@ -75,15 +75,15 @@ export function getSubtitleNormalized(subtisSubtitle: SubtisSubtitle): SubtitleN
 }
 
 export function getSubtitlesNormalized(subtisSubtitle: SubtisSubtitle): SubtitlesNormalized {
-  const { title: _title, releaseGroup, subtitleGroup, ...subtitle } = subtisSubtitle;
+  const { title: _title, release_group, subtitle_group, ...subtitle } = subtisSubtitle;
 
   const { rip_type: rawRipType, ...rest } = subtitle;
   const rip_type = getParsedRipType(rawRipType);
   const subtitle_link = getSubtitleShortLink(subtitle.id);
 
   return {
-    releaseGroup,
-    subtitleGroup,
+    release_group,
+    subtitle_group,
     subtitle: {
       ...rest,
       rip_type,
@@ -94,9 +94,9 @@ export function getSubtitlesNormalized(subtisSubtitle: SubtisSubtitle): Subtitle
 
 export const subtitleNormalizedSchema = z.object({
   title: titleSchema,
-  releaseGroup: releaseGroupSchema,
-  subtitleGroup: subtitleGroupSchema,
-  subtitle: subtitleSchema.omit({ title: true, releaseGroup: true, subtitleGroup: true }),
+  release_group: releaseGroupSchema,
+  subtitle_group: subtitleGroupSchema,
+  subtitle: subtitleSchema.omit({ title: true, release_group: true, subtitle_group: true }),
 });
 
 export type SubtisSubtitleNormalized = z.infer<typeof subtitleNormalizedSchema>;

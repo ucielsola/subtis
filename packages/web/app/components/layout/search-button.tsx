@@ -14,12 +14,12 @@ export function SearchButton() {
     <Link to="/search">
       <Button
         variant="ghost"
-        className="backdrop-blur-[8px] hover:bg-zinc-50 dark:hover:bg-zinc-950 border border-transparent dark:hover:border-zinc-800 transition-all ease-in-out"
+        className="backdrop-blur-[8px] hover:bg-zinc-50 dark:hover:bg-zinc-950 border border-transparent dark:hover:border-zinc-800 transition-all ease-in-out rounded-sm"
         onMouseEnter={() => controls.start("animate")}
         onMouseLeave={() => controls.start("normal")}
       >
         <SearchIcon controls={controls} />
-        Buscar por película
+        <span className="pr-1">Buscar por película</span>
       </Button>
     </Link>
   );

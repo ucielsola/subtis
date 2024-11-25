@@ -210,7 +210,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
     const filteredSubtitlesByResolution = subtitleByFileName.data
       .filter((subtitle) => subtitle.resolution === resolution)
-      .sort((a, b) => (a.releaseGroup.release_group_name < b.releaseGroup.release_group_name ? 1 : -1))
+      .sort((a, b) => (a.release_group.release_group_name < b.release_group.release_group_name ? 1 : -1))
       .sort((a, b) => ((a.queried_times || 0) < (b.queried_times || 0) ? 1 : -1));
 
     if (filteredSubtitlesByResolution.length > 0) {
@@ -225,10 +225,10 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       const filteredSubtitles = subtitleByFileName.data
         .filter(
           (subtitle) =>
-            subtitle.releaseGroup.release_group_name === releaseGroup.release_group_name ||
+            subtitle.release_group.release_group_name === releaseGroup.release_group_name ||
             subtitle.resolution === resolution,
         )
-        .sort((a, b) => (a.releaseGroup.release_group_name < b.releaseGroup.release_group_name ? 1 : -1))
+        .sort((a, b) => (a.release_group.release_group_name < b.release_group.release_group_name ? 1 : -1))
         .sort((a, b) => ((a.queried_times || 0) < (b.queried_times || 0) ? 1 : -1));
 
       if (filteredSubtitles.length > 0) {

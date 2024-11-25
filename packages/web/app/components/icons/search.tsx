@@ -2,7 +2,7 @@ import { type AnimationControls, motion } from "motion/react";
 
 export function SearchIcon({ controls }: { controls: AnimationControls }) {
   return (
-    <div className="select-none p-[2px] flex items-center justify-center overflow-hidden">
+    <div className="select-none p-[2px]">
       <motion.svg
         xmlns="http://www.w3.org/2000/svg"
         width="28"
