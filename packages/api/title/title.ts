@@ -153,9 +153,10 @@ export const title = new Hono<{ Variables: AppVariables }>()
       const teaser = `https://www.youtube.com/watch?v=${youTubeTeaser?.id.videoId}`;
 
       return context.json({
-        url: teaser,
-        year,
         name: queryName,
+        year,
+        url: teaser,
+        id: youTubeTeaser.id.videoId,
       });
     },
     // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("1 week")}` }),
