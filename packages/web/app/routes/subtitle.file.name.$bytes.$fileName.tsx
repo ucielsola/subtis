@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { redirect, useLoaderData } from "@remix-run/react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useAnimation } from "motion/react";
 
@@ -79,16 +79,20 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     apiBaseUrl: "https://api.subt.is" as string,
   });
 
-  const subtitleResponse = await apiClient.v1.subtitle.file.name[":bytes"][":fileName"].$get({
+  const primarySubtitleResponse = await apiClient.v1.subtitle.file.name[":bytes"][":fileName"].$get({
     param: {
       bytes,
       fileName,
     },
   });
 
-  const data = await subtitleResponse.json();
+  if (primarySubtitleResponse.status === 404) {
+    return redirect(`/real-time-search/${bytes}/${fileName}`);
+  }
 
-  return data;
+  const primarySubtitle = await primarySubtitleResponse.json();
+
+  return primarySubtitle;
 };
 
 export default function Subtitle() {
@@ -125,16 +129,16 @@ export default function Subtitle() {
         </section>
       </article>
       {data.title.poster ? (
-        <div className="max-w-sm pt-12 hidden lg:flex flex-col items-center gap-2">
+        <figure className="max-w-sm pt-12 hidden lg:flex flex-col items-center gap-2">
           <img
             alt={data.title.title_name}
             src={data.title.poster}
             className="object-cover rounded-sm border border-zinc-700/80"
           />
-          <span className="text-zinc-400 text-sm">
+          <figcaption className="text-zinc-400 text-sm">
             {data.title.title_name} ({data.title.year})
-          </span>
-        </div>
+          </figcaption>
+        </figure>
       ) : null}
     </div>
   );
