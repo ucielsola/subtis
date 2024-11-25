@@ -55,7 +55,7 @@ export function HomeHero() {
           <div className="lg:max-w-[488px] w-full h-full flex flex-col gap-2">
             <AspectRatio
               ratio={16 / 9}
-              className="bg-zinc-950 border border-zinc-700 rounded-sm group/video overflow-hidden"
+              className="bg-zinc-950 border border-zinc-700 rounded-md group/video overflow-hidden"
             >
               <VideoDropzone />
               <DotPattern

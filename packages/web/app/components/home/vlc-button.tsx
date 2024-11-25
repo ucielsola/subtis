@@ -302,7 +302,7 @@ export function VlcButton() {
       </Sheet>
 
       <Button
-        className="bg-zinc-950 text-zinc-50 group border-[#E26400] border-2 relative overflow-hidden"
+        className="bg-zinc-950 text-zinc-50 group border-[#E26400] border-2 relative overflow-hidden rounded-md"
         onClick={handleToggleIsOpen}
       >
         <div className="absolute inset-0 bg-gradient-to-br from-[#E26400] to-[#FF9800] transition-all ease-in-out -translate-y-full group-hover:translate-y-0" />

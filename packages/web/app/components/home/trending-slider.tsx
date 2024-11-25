@@ -59,7 +59,7 @@ export function TrendingSlider() {
     <div className="relative">
       <div
         ref={scrollContainerRef}
-        className="inline-flex overflow-x-scroll [scroll-snap-type:x_mandatory] [scroll-behavior:smooth] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-sm gap-3 py-3"
+        className="inline-flex overflow-x-scroll [scroll-snap-type:x_mandatory] [scroll-behavior:smooth] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-md gap-3 py-3"
       >
         {trendingDownloadedTitles.results.map((title) => {
           if (!title.poster) return null;
@@ -67,7 +67,7 @@ export function TrendingSlider() {
           return (
             <div
               key={title.id}
-              className="box-content flex flex-none [scroll-snap-align:start] rounded-sm overflow-hidden cursor-pointer group/trending-card transition-all ease-in-out border-2 border-transparent hover:border-zinc-800"
+              className="box-content flex flex-none [scroll-snap-align:start] rounded-md overflow-hidden cursor-pointer group/trending-card transition-all ease-in-out border-2 border-transparent hover:border-zinc-800"
             >
               <img
                 alt={title.title_name}
@@ -82,7 +82,7 @@ export function TrendingSlider() {
       <button
         type="button"
         onClick={() => scroll("left")}
-        className={`absolute -left-11 top-1/2 -translate-y-1/2 rounded-sm h-[336px] w-8 flex items-center justify-center ${isAtStart ? "opacity-0" : "opacity-100"} hidden lg:block`}
+        className={`absolute -left-11 top-1/2 -translate-y-1/2 rounded-md h-[336px] w-8 flex items-center justify-center ${isAtStart ? "opacity-0" : "opacity-100"} hidden lg:block`}
         aria-label="Scroll left"
       >
         <ChevronLeft className="size-6 text-zinc-50" />
@@ -91,7 +91,7 @@ export function TrendingSlider() {
       <button
         type="button"
         onClick={() => scroll("right")}
-        className={`absolute -right-11 top-1/2 -translate-y-1/2 rounded-sm h-[336px] w-8 flex items-center justify-center ${isAtEnd ? "opacity-0" : "opacity-100"} hidden lg:block`}
+        className={`absolute -right-11 top-1/2 -translate-y-1/2 rounded-md h-[336px] w-8 flex items-center justify-center ${isAtEnd ? "opacity-0" : "opacity-100"} hidden lg:block`}
         aria-label="Scroll right"
       >
         <ChevronRight className="size-6 text-zinc-50" />
