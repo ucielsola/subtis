@@ -51,7 +51,19 @@ export const columns: ColumnDef<SubtitleNormalized>[] = [
     accessorKey: "",
     header: "Acciones",
     cell: ({ row }) => {
+      // motion hooks
       const controls = useAnimation();
+
+      // handlers
+      async function handleDownloadSubtitle() {
+        const apiClient = getApiClient({
+          apiBaseUrl: "https://api.subt.is" as string,
+        });
+
+        await apiClient.v1.subtitle.metrics.download.$patch({
+          json: { imdbId: row.original.title.imdb_id, subtitleId: row.original.subtitle.id },
+        });
+      }
 
       return (
         <a
@@ -60,6 +72,7 @@ export const columns: ColumnDef<SubtitleNormalized>[] = [
           className="inline-block"
           onMouseEnter={() => controls.start("animate")}
           onMouseLeave={() => controls.start("normal")}
+          onClick={handleDownloadSubtitle}
         >
           <DownloadIcon size={16} controls={controls} />
         </a>
@@ -96,7 +109,10 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 };
 
 export default function Subtitle() {
+  // remix hooks
   const data = useLoaderData<typeof loader>();
+
+  // handlers
 
   if ("message" in data) {
     return null;
