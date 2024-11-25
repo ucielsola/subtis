@@ -93,7 +93,6 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
 export default function Subtitle() {
   const data = useLoaderData<typeof loader>();
-  console.log("\n ~ Subtitle ~ data:", data);
 
   if ("message" in data) {
     return null;
@@ -104,24 +103,18 @@ export default function Subtitle() {
       <article>
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-2">
-            <h1 className="text-zinc-950 dark:text-zinc-50 text-5xl font-bold">Subtítulo encontrado!</h1>
-            <h2 className="text-zinc-600 dark:text-zinc-400">
-              Descarga el siguiente subtítulo para disfrutar de tu película.
-            </h2>
+            <h1 className="text-zinc-50 text-5xl font-bold">Subtítulo encontrado!</h1>
+            <h2 className="text-zinc-400">Descarga el siguiente subtítulo para disfrutar de tu película.</h2>
           </div>
           <DataTable columns={columns} data={[data]} />
         </section>
 
         <section className="flex flex-col gap-12 mt-16">
           <div className="flex flex-col gap-2">
-            <h3 className="text-zinc-950 text-2xl font-semibold dark:text-zinc-50">
-              Buscar nuevo subtítulo por archivo
-            </h3>
-            <h4 className="text-zinc-600 dark:text-zinc-400">
-              Querés buscar un subtítulo nuevo? Arrastra el archivo acá:
-            </h4>
+            <h3 className="text-2xl font-semibold text-zinc-50">Buscar nuevo subtítulo por archivo</h3>
+            <h4 className="text-zinc-400">Querés buscar un subtítulo nuevo? Arrastra el archivo acá:</h4>
           </div>
-          <div className="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-sm group/video overflow-hidden h-64 relative">
+          <div className="bg-zinc-950 border border-zinc-700 rounded-sm group/video overflow-hidden h-64 relative">
             <VideoDropzone />
             <DotPattern
               className={cn(
@@ -136,9 +129,9 @@ export default function Subtitle() {
           <img
             alt={data.title.title_name}
             src={data.title.poster}
-            className="object-cover rounded-sm border border-zinc-200 dark:border-zinc-700/80"
+            className="object-cover rounded-sm border border-zinc-700/80"
           />
-          <span className="text-zinc-600 dark:text-zinc-400 text-sm">
+          <span className="text-zinc-400 text-sm">
             {data.title.title_name} ({data.title.year})
           </span>
         </div>

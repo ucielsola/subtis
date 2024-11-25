@@ -13,16 +13,16 @@ export function HomeAlert() {
     <section className="py-16 flex flex-col gap-16 items-center justify-center">
       <div className="mx-auto w-full max-w-screen-md">
         <Alert
-          className="bg-zinc-100/40 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 flex items-start gap-4"
+          className="bg-zinc-900/80 border border-zinc-800 flex items-start gap-4"
           onMouseEnter={() => controls.start("animate")}
           onMouseLeave={() => controls.start("normal")}
         >
           <MessageCircleMoreIcon size={24} controls={controls} />
           <div className="pt-1">
-            <AlertTitle className="text-zinc-950 dark:text-zinc-50 text-sm">
+            <AlertTitle className="text-zinc-50 text-sm">
               Actualmente contamos con todas las películas del 2024 y el Top 300 de Rotten Tomatoes.
             </AlertTitle>
-            <AlertDescription className="text-zinc-600 dark:text-zinc-400 text-sm font-normal">
+            <AlertDescription className="text-zinc-400 text-sm font-normal">
               Estamos catalogando los años anteriores. Te pedimos por favor paciencia.
             </AlertDescription>
           </div>

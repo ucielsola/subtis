@@ -16,14 +16,14 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
   });
 
   return (
-    <div className="rounded-sm border dark:bg-zinc-950 dark:border-zinc-700 overflow-hidden">
+    <div className="rounded-sm border bg-zinc-950 border-zinc-700 overflow-hidden">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id} className="dark:border-zinc-800 dark:hover:bg-zinc-800 dark:bg-zinc-800">
+            <TableRow key={headerGroup.id} className="border-zinc-800 hover:bg-zinc-800 bg-zinc-800">
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id} className=" dark:text-zinc-50 h-8 text-sm">
+                  <TableHead key={header.id} className=" text-zinc-50 h-8 text-sm">
                     {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 );
@@ -37,7 +37,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                className="dark:hover:bg-zinc-900 text-sm"
+                className="hover:bg-zinc-900 text-sm"
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>

@@ -1,4 +1,5 @@
 import type { LinksFunction } from "@remix-run/node";
+import { Link } from "@remix-run/react";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
 
 // layout
@@ -42,11 +43,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return (
-    <main className="min-h-screen bg-right-top bg-[url('/background.png')] dark:bg-[url('/background-dark.png')] bg-contain bg-no-repeat bg-zinc-50 dark:bg-zinc-950 ">
+    <main className="min-h-screen bg-right-top bg-[url('/hero-bg.png')] bg-contain bg-no-repeat">
       <div className="container mx-auto px-4">
         <nav className="flex items-center justify-between py-4">
-          <img src="/logo.png" alt="Subtis" className="w-24 h-[38.9px] dark:hidden" />
-          <img src="/logo-dark.png" alt="Subtis" className="w-24 h-[38.9px] hidden dark:block" />
+          <Link to="/">
+            <img src="/logo.png" alt="Subtis" className="w-24 h-[38.9px] hover:scale-105 transition-all ease-in-out" />
+          </Link>
           <SearchButton />
         </nav>
         <Outlet />

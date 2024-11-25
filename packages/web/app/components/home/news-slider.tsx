@@ -20,7 +20,7 @@ export function NewsSlider() {
         return (
           <div
             key={title.id}
-            className="box-content flex flex-none [scroll-snap-align:start] rounded-sm overflow-hidden cursor-pointer border-2 border-transparent hover:border-zinc-200 dark:hover:border-zinc-800"
+            className="box-content flex flex-none [scroll-snap-align:start] rounded-sm overflow-hidden cursor-pointer border-2 border-transparent hover:border-zinc-800"
           >
             <div className="w-72 h-[162.05px] relative rounded-sm overflow-hidden group/new-card">
               <img

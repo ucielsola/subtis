@@ -7,18 +7,16 @@ export function HomeTrending() {
     <section className="py-16 flex flex-col gap-32">
       <div className="flex flex-col gap-2">
         <div className="flex flex-col gap-2">
-          <h3 className="text-zinc-950 dark:text-zinc-50 text-3xl font-semibold">Subtítulos más buscados</h3>
-          <h4 className="text-zinc-600 dark:text-zinc-400">Descubrí los subtítulos más descargados del momento.</h4>
+          <h3 className="text-zinc-50 text-3xl font-semibold">Subtítulos más buscados</h3>
+          <h4 className="text-zinc-400">Descubrí los subtítulos más descargados del momento.</h4>
         </div>
         <TrendingSlider />
       </div>
 
       <div className="flex flex-col gap-2">
         <div className="flex flex-col gap-2">
-          <h3 className="text-zinc-950 dark:text-zinc-50 text-3xl font-semibold">Últimos subtítulos cargados</h3>
-          <h4 className="text-zinc-600 dark:text-zinc-400">
-            Descarga los subtítulos para las últimas películas agregadas.
-          </h4>
+          <h3 className="text-zinc-50 text-3xl font-semibold">Últimos subtítulos cargados</h3>
+          <h4 className="text-zinc-400">Descarga los subtítulos para las últimas películas agregadas.</h4>
         </div>
         <NewsSlider />
       </div>
