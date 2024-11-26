@@ -105,8 +105,8 @@ export const title = new Hono<{ Variables: AppVariables }>()
 
       let queryName = name;
       if (success && tmdbData) {
-        const sortedMoviesByVoteCount = tmdbData.results.toSorted((a, b) => (a.vote_count < b.vote_count ? 1 : -1));
-        const [movie] = sortedMoviesByVoteCount;
+        // const sortedMoviesByVoteCount = tmdbData.results.toSorted((a, b) => (a.vote_count < b.vote_count ? 1 : -1));
+        const [movie] = tmdbData.results;
 
         queryName = movie.original_title;
       }

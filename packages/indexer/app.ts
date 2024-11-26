@@ -763,7 +763,13 @@ export type TorrentFound = {
   seeds: number;
   isBytesFormatted: boolean;
 };
+export type TorrentFoundWithVideoFile = TorrentFound & { videoFile: VideoFile | undefined };
 export type TorrentFoundWithId = TorrentFound & { id: number; formattedBytes: string; bytes: number };
+export type TorrentFoundWithVideoFileAndId = TorrentFoundWithVideoFile & {
+  id: number;
+  formattedBytes: string;
+  bytes: number;
+};
 
 export async function getTitleTorrents(query: string, titleType: TitleTypes, imdbId: string): Promise<TorrentFound[]> {
   let thePirateBayTorrents: TorrentFound[] = [];
@@ -816,15 +822,12 @@ export async function getTitleTorrents(query: string, titleType: TitleTypes, imd
 function getFilteredTorrents(
   titleType: TitleTypes,
   torrents: TorrentFound[],
-  titleName: string,
   maxTorrents: number,
-  // spanishName: string,
 ): TorrentFoundWithId[] {
   const seenTitles = new Set<string>();
   const seenSizes = new Set<string | number>();
 
-  const minSeeds = titleType === TitleTypes.tvShow ? 20 : 15;
-  const parsedTitleName = getStringWithoutSpecialCharacters(titleName).trim();
+  const minSeeds = titleType === TitleTypes.tvShow ? 20 : 14;
 
   return torrents
     .toSorted((torrentA, torrentB) => {
@@ -834,19 +837,8 @@ function getFilteredTorrents(
       return torrentB.seeds - torrentA.seeds;
     })
     .slice(0, maxTorrents)
-    .filter((torrent) => {
-      if (titleType === TitleTypes.tvShow) {
-        return true;
-      }
-
-      const { title } = torrent;
-      const lowerCaseTitle = title.toLowerCase();
-      const parsedTorrentTitle = /\s/.test(lowerCaseTitle) ? lowerCaseTitle : lowerCaseTitle.replaceAll(".", " ");
-
-      return parsedTorrentTitle.includes(parsedTitleName);
-    })
     .filter((torrent) => !getIsCinemaRecording(torrent.title))
-    .filter(({ seeds }) => seeds > minSeeds)
+    .filter(({ seeds }) => seeds >= minSeeds)
     .filter(({ size, isBytesFormatted }) => {
       const bytes = isBytesFormatted ? filesizeParser(size) : (size as number);
 
@@ -872,6 +864,40 @@ function getFilteredTorrents(
 
       return { ...torrent, id: generateIdFromMagnet(torrent.trackerId), bytes, formattedBytes };
     });
+}
+
+function getSpecificTorrents(
+  torrents: TorrentFoundWithVideoFileAndId[],
+  titleName: string,
+  titleType: TitleTypes,
+  titleFileName: string | undefined,
+): TorrentFoundWithVideoFileAndId[] {
+  const results = torrents.filter((torrent) => {
+    if (titleType === TitleTypes.tvShow) {
+      return true;
+    }
+
+    if (torrent.videoFile && titleFileName) {
+      const { name: fileName } = torrent.videoFile;
+      return fileName.toLowerCase() === titleFileName.toLowerCase();
+    }
+
+    return false;
+  });
+
+  if (results.length > 0) {
+    return results;
+  }
+
+  const parsedTitleName = getStringWithoutSpecialCharacters(titleName).trim();
+
+  return torrents.filter((torrent) => {
+    const { title } = torrent;
+    const lowerCaseTitle = title.toLowerCase();
+    const parsedTorrentTitle = /\s/.test(lowerCaseTitle) ? lowerCaseTitle : lowerCaseTitle.replaceAll(".", " ");
+
+    return parsedTorrentTitle.includes(parsedTitleName);
+  });
 }
 
 type VideoFile = {
@@ -1091,7 +1117,7 @@ export async function getSubtitlesForTitle({
   subdivxParameter,
 }: {
   index: string;
-  initialTorrents?: TorrentFoundWithId[];
+  initialTorrents?: TorrentFound[];
   currentTitle: CurrentTitle;
   releaseGroups: ReleaseGroupMap;
   subtitleGroups: SubtitleGroupMap;
@@ -1133,33 +1159,71 @@ export async function getSubtitlesForTitle({
   console.log("\nTorrents without filter \n");
   console.table(torrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
 
-  const filteredTorrents = (
-    fromWebSocket ? torrents : getFilteredTorrents(titleType, torrents, name, 25)
-  ) as TorrentFoundWithId[];
+  const filteredTorrents = getFilteredTorrents(titleType, torrents, 25);
+
   console.log("\nFiltered torrents \n");
   console.table(filteredTorrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
 
-  console.log("\nTorrents total", torrents.length);
-  console.log("Filtered torrents total", filteredTorrents.length);
-  console.log("Differences between torrents and filteredTorrents", torrents.length - filteredTorrents.length);
+  const torrentsWithVideoFile = await Promise.all(
+    filteredTorrents.map(async (torrent, torrentIndex) => {
+      const videoFile = await executeWithOptionalTryCatch(
+        true,
+        async function processTorrent() {
+          return await getTorrentVideoFileMetadata(torrent);
+        },
+        `4.${index}.${torrentIndex}) No se encontraron archivos en el torrent\n`,
+      );
+
+      return { ...torrent, videoFile };
+    }),
+  );
+  console.log("\nTorrents with video file \n");
+  console.table(
+    torrentsWithVideoFile.map(({ title, size, seeds, videoFile }) => ({
+      title,
+      size,
+      seeds,
+      fileName: videoFile?.name,
+    })),
+  );
+
+  const specificTorrents = getSpecificTorrents(
+    torrentsWithVideoFile,
+    name,
+    titleType,
+    titleFileNameFromNotFoundSubtitle,
+  );
+
+  console.log("\nSpecific torrents \n");
+  console.table(
+    specificTorrents.map(({ title, size, seeds, videoFile }) => ({ title, size, seeds, fileName: videoFile?.name })),
+  );
+
+  console.log("\nTorrents total", torrentsWithVideoFile.length);
+  console.log("Filtered torrents total", specificTorrents.length);
+  console.log(
+    "Differences between torrents and specificTorrents",
+    torrentsWithVideoFile.length - specificTorrents.length,
+  );
   console.log("\n\n");
 
-  if (filteredTorrents.length === 0) {
+  if (specificTorrents.length === 0) {
     return console.log(
       `4.${index}) No se encontraron torrents para el titulo "${name}" con query ${titleProviderQuery} \n`,
     );
   }
 
   console.log(
-    `4.${index}) Torrents (${filteredTorrents.length}) encontrados para el título "${name}" con query ${titleProviderQuery} \n`,
+    `4.${index}) Torrents (${specificTorrents.length}) encontrados para el título "${name}" con query ${titleProviderQuery} \n`,
   );
   console.table(
-    filteredTorrents.map(({ seeds, title, tracker, formattedBytes }) => ({
+    specificTorrents.map(({ seeds, title, tracker, formattedBytes, videoFile }) => ({
       query: titleProviderQuery,
       seeds,
       size: formattedBytes,
       title,
       tracker,
+      videoFile: videoFile?.name,
     })),
   );
 
@@ -1192,12 +1256,13 @@ export async function getSubtitlesForTitle({
   if (subtitles.subdivx) {
     console.log(`4.${index}) ${subtitles.subdivx.aaData.length} subtitlos encontrados en SubDivX \n`);
 
-    const subdivxTable = subtitles.subdivx.aaData.map(({ titulo, descripcion }) => {
+    const subdivxTable = subtitles.subdivx.aaData.map(({ id, titulo, descripcion }) => {
       const ripTypes = descripcion.match(RIP_TYPES_REGEX)?.filter(Boolean);
       const resolutions = descripcion.match(resolutionRegex);
       const releaseGroups = descripcion.match(releaseGroupsRegex);
 
       return {
+        id,
         title: titulo,
         ripTypes: ripTypes?.length ? [...new Set(ripTypes)] : "",
         resolutions: resolutions?.length ? [...new Set(resolutions)] : "",
@@ -1212,12 +1277,15 @@ export async function getSubtitlesForTitle({
   if (subtitles.subdl) {
     console.log(`4.${index}) ${subtitles.subdl.length} subtitlos encontrados en SubDL \n`);
 
-    const subdlTable = subtitles.subdl.map(({ name, release_name }) => {
+    const subdlTable = subtitles.subdl.map(({ name, release_name, subtitleLink }) => {
+      const subtitleId = subtitleLink.split(/\//gi)[2].split(".")[0];
+
       const ripTypes = release_name.match(RIP_TYPES_REGEX)?.filter(Boolean);
       const resolutions = release_name.match(resolutionRegex);
       const releaseGroups = release_name.match(releaseGroupsRegex);
 
       return {
+        id: subtitleId,
         title: name,
         releaseName: release_name,
         ripTypes: ripTypes?.length ? [...new Set(ripTypes)] : "",
@@ -1233,7 +1301,7 @@ export async function getSubtitlesForTitle({
   if (subtitles.openSubtitles) {
     console.log(`4.${index}) ${subtitles.openSubtitles.data.length} subtitlos encontrados en OpenSubtitles \n`);
 
-    const openSubtitlesTable = subtitles.openSubtitles.data.map(({ attributes }) => {
+    const openSubtitlesTable = subtitles.openSubtitles.data.map(({ attributes, id }) => {
       const release = attributes.release.toLowerCase();
       const comments = attributes?.comments?.toLowerCase() ?? "";
 
@@ -1243,6 +1311,7 @@ export async function getSubtitlesForTitle({
       const releaseGroups = release.match(releaseGroupsRegex) || comments.match(releaseGroupsRegex);
 
       return {
+        id,
         title: attributes.feature_details.title,
         name: attributes.feature_details.movie_name,
         ripTypes: ripTypes?.length ? [...new Set(ripTypes)] : "",
@@ -1257,24 +1326,15 @@ export async function getSubtitlesForTitle({
 
   // --------------------------------------------
 
-  for await (const [torrentIndex, torrent] of Object.entries(filteredTorrents)) {
+  for await (const [torrentIndex, torrent] of Object.entries(specificTorrents)) {
     console.log("\n\n\n\n");
     console.log("-------------------------------------------------------------------");
 
-    console.log(`4.${index}.${torrentIndex}) Procesando torrent`, `"${torrent.title}"`, "\n");
-    const videoFile = await executeWithOptionalTryCatch(
-      true,
-      async function processTorrent() {
-        return await getTorrentVideoFileMetadata(torrent);
-      },
-      `4.${index}.${torrentIndex}) No se encontraron archivos en el torrent\n`,
-    );
-
-    if (!videoFile) {
+    if (!torrent.videoFile) {
       continue;
     }
 
-    const { length: bytes, name: fileName, resolution: resolutionFromVideoFile } = videoFile;
+    const { length: bytes, name: fileName, resolution: resolutionFromVideoFile } = torrent.videoFile;
     let titleFileNameMetadata: TitleFileNameMetadata | null = null;
 
     try {
@@ -1295,7 +1355,7 @@ export async function getSubtitlesForTitle({
     const finalResolution = resolution ? resolution : resolutionFromVideoFile ? resolutionFromVideoFile : "-";
 
     if (!releaseGroup) {
-      console.error(`No hay release group soportado para ${videoFile.name} \n`);
+      console.error(`No hay release group soportado para ${torrent.videoFile.name} \n`);
 
       if (isDebugging) {
         await confirm({
@@ -1348,7 +1408,7 @@ export async function getSubtitlesForTitle({
 
         const { release_group_name: releaseGroupName } = releaseGroup;
         console.log(
-          `4.${index}.${torrentIndex}) Subtítulo encontrado en SubDivX para ${name} ${finalResolution} ${releaseGroupName} \n`,
+          `4.${index}.${torrentIndex}) Subtítulo encontrado en SubDivX (ID: ${foundSubtitleFromSubDivX.externalId}) para ${name} ${finalResolution} ${releaseGroupName} \n`,
         );
 
         await downloadAndStoreTitleAndSubtitle({
@@ -1416,7 +1476,7 @@ export async function getSubtitlesForTitle({
 
         const { release_group_name: releaseGroupName } = releaseGroup;
         console.log(
-          `4.${index}.${torrentIndex}) Subtítulo encontrado en OpenSubtitles para ${name} ${finalResolution} ${releaseGroupName} \n`,
+          `4.${index}.${torrentIndex}) Subtítulo encontrado en SubDL (ID: ${foundSubtitleFromSubdl.externalId}) para ${name} ${finalResolution} ${releaseGroupName} \n`,
         );
 
         await downloadAndStoreTitleAndSubtitle({
@@ -1484,7 +1544,7 @@ export async function getSubtitlesForTitle({
 
         const { release_group_name: releaseGroupName } = releaseGroup;
         console.log(
-          `4.${index}.${torrentIndex}) Subtítulo encontrado en OpenSubtitles para ${name} ${finalResolution} ${releaseGroupName} \n`,
+          `4.${index}.${torrentIndex}) Subtítulo encontrado en OpenSubtitles (ID: ${foundSubtitleFromOpenSubtitles.externalId}) para ${name} ${finalResolution} ${releaseGroupName} \n`,
         );
 
         await downloadAndStoreTitleAndSubtitle({

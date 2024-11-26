@@ -14,7 +14,7 @@ import { type TitleFileNameMetadata, getEpisode, getIsTvShow, getTitleFileNameMe
 
 // internals
 import { apiClient } from "./api";
-import { TitleTypes, type TorrentFound, type TorrentFoundWithId, getSubtitlesForTitle, getTitleTorrents } from "./app";
+import { TitleTypes, type TorrentFound, getSubtitlesForTitle, getTitleTorrents } from "./app";
 import { getReleaseGroups } from "./release-groups";
 import { getSubDivXParameter, getSubDivXToken } from "./subdivx";
 import { getSubtitleGroups } from "./subtitle-groups";
@@ -258,9 +258,10 @@ export async function indexTitleByFileName({
     const data = await response.json();
 
     const movies = tmdbDiscoverMovieSchema.parse(data);
-    const sortedMoviesByVoteCount = movies.results.toSorted((a, b) => (a.vote_count < b.vote_count ? 1 : -1));
+    // const sortedMoviesByVoteCount = movies.results.toSorted((a, b) => (a.vote_count < b.vote_count ? 1 : -1));
+    // console.log("\n ~ sortedMoviesByVoteCount:", sortedMoviesByVoteCount);
 
-    const [movie] = sortedMoviesByVoteCount;
+    const [movie] = movies.results;
 
     const {
       id,
@@ -296,94 +297,39 @@ export async function indexTitleByFileName({
       totalEpisodes: null,
     });
 
-    let torrent: TorrentFound | undefined;
-    let torrentWithId: TorrentFoundWithId | undefined;
-
     if (!shouldIndexAllTorrents) {
       const torrents = await getTitleTorrents(titleProviderQuery, TitleTypes.movie, movieData.imdbId);
 
       console.log("\n Torrents without filter \n");
       console.table(torrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
 
-      torrent = torrents.find((torrent) => {
-        const lowerCaseTorrentTitle = torrent.title.toLowerCase();
+      const parameter = await getSubDivXParameter();
+      const { token, cookie } = await getSubDivXToken();
 
-        const includesResolution = lowerCaseTorrentTitle.includes(title.resolution.toLowerCase());
-        const includesReleaseGroup = title.releaseGroup?.release_group_name
-          ? lowerCaseTorrentTitle.includes(title.releaseGroup.release_group_name.toLowerCase())
-          : false;
+      if (websocket) {
+        websocket.send(JSON.stringify({ total: 0.75, message: "Buscando subtitulo en nuestros proveedores" }));
+      }
 
-        const includesFileAttributes = title.releaseGroup?.matches.some((match) => {
-          return lowerCaseTorrentTitle.includes(match.toLowerCase());
-        });
-
-        const includesRipType = title.ripType ? lowerCaseTorrentTitle.includes(title.ripType) : false;
-
-        const result = (includesFileAttributes || includesReleaseGroup) && includesResolution && includesRipType;
-
-        return result;
+      await getSubtitlesForTitle({
+        indexedBy,
+        index: "1",
+        initialTorrents: shouldIndexAllTorrents ? undefined : torrents,
+        currentTitle: { ...movieData, episode: null, totalEpisodes: null, totalSeasons: null },
+        releaseGroups,
+        subtitleGroups,
+        isDebugging,
+        bytesFromNotFoundSubtitle: bytes,
+        titleFileNameFromNotFoundSubtitle: titleFileName,
+        shouldUseTryCatch: true,
+        fromWebSocket: Boolean(websocket),
+        subdivxToken: token,
+        subdivxCookie: cookie,
+        subdivxParameter: parameter,
       });
 
-      if (!torrent) {
-        torrent = torrents.find((torrent) => {
-          const lowerCaseTorrentTitle = torrent.title.toLowerCase();
-
-          const includesResolution = lowerCaseTorrentTitle.includes(title.resolution.toLowerCase());
-          const includesReleaseGroup = title.releaseGroup?.release_group_name
-            ? lowerCaseTorrentTitle.includes(title.releaseGroup.release_group_name.toLowerCase())
-            : false;
-
-          const includesFileAttributes = title.releaseGroup?.matches.some((match) => {
-            return lowerCaseTorrentTitle.includes(match.toLowerCase());
-          });
-
-          const result = (includesFileAttributes || includesReleaseGroup) && includesResolution;
-
-          return result;
-        });
+      if (websocket) {
+        websocket.send(JSON.stringify({ total: 1, message: "Subtitulo encontrado" }));
       }
-
-      if (torrent) {
-        const bytes = torrent.isBytesFormatted ? filesizeParser(torrent.size) : (torrent.size as number);
-        const formattedBytes = prettyBytes(bytes);
-
-        torrentWithId = { ...torrent, id: generateIdFromMagnet(torrent.trackerId), bytes, formattedBytes };
-      }
-    }
-
-    if (!shouldIndexAllTorrents && !torrent) {
-      throw new Error("Torrent not found");
-    }
-
-    const parameter = await getSubDivXParameter();
-    const { token, cookie } = await getSubDivXToken();
-
-    console.table(torrentWithId ? [torrentWithId].map(({ title, size, seeds }) => ({ title, size, seeds })) : []);
-
-    if (websocket) {
-      websocket.send(JSON.stringify({ total: 0.75, message: "Buscando subtitulo en nuestros proveedores" }));
-    }
-
-    await getSubtitlesForTitle({
-      indexedBy,
-      index: "1",
-      initialTorrents: shouldIndexAllTorrents ? undefined : torrentWithId ? [torrentWithId] : [],
-      currentTitle: { ...movieData, episode: null, totalEpisodes: null, totalSeasons: null },
-      releaseGroups,
-      subtitleGroups,
-      isDebugging,
-      bytesFromNotFoundSubtitle: bytes,
-      titleFileNameFromNotFoundSubtitle: titleFileName,
-      shouldUseTryCatch: true,
-      // fromWebSocket: Boolean(websocket) || !shouldIndexAllTorrents, // Only for testing
-      fromWebSocket: Boolean(websocket),
-      subdivxToken: token,
-      subdivxCookie: cookie,
-      subdivxParameter: parameter,
-    });
-
-    if (websocket) {
-      websocket.send(JSON.stringify({ total: 1, message: "Subtitulo encontrado" }));
     }
 
     return { ok: true };
@@ -404,13 +350,12 @@ export async function indexTitleByFileName({
     console.timeEnd("Tardo en indexar");
   }
 }
-
 // FILES
 // const titleFileName = "Scenes.From.A.Marriage.1974.1080p.BluRay.x264-[YTS.AM].mp4";
 // const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
 
-// const bytes = 33822223782131;
-// const titleFileName = "Ralph.Breaks.The.Internet.2018.1080p.WEBRip.x264-[YTS.AM].mp4";
+// const bytes = 12842768453623128;
+// const titleFileName = "Goodfellas 1990 Remastered 1080p BluRay HEVC x265 5.1 BONE.mkv";
 
 // indexTitleByFileName({
 //   bytes,
