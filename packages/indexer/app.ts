@@ -382,9 +382,10 @@ async function storeSubtitleInSupabaseTable({
     const { error } = await supabase.from("Subtitles").insert({
       lang,
       author,
-      reviewed: true,
+      rip_type: ripType,
       is_valid: isValid,
-      uploaded_by: "indexer",
+      reviewed: true,
+      uploaded_by: indexedBy,
       bytes: bytesFromNotFoundSubtitle,
       torrent_id: torrentId,
       external_id: externalId,
