@@ -32,12 +32,12 @@
   },
   "devDependencies": {
     "@raycast/eslint-config": "1.0.11",
-    "@types/bun": "^1.1.13",
-    "@types/node": "^22.9.4",
+    "@types/bun": "^1.1.14",
+    "@types/node": "^22.10.0",
     "@types/node-fetch": "^2.6.12",
     "@types/react": "18.3.12",
     "eslint": "8.51.0",
-    "prettier": "^3.3.3",
+    "prettier": "^3.4.0",
     "typescript": "^5.7.2"
   }
 }
