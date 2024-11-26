@@ -69,12 +69,13 @@ export const columns: ColumnDef<SubtitleNormalized>[] = [
         <a
           href={row.original.subtitle.subtitle_link}
           download
-          className="inline-block"
+          className="inline-flex items-center gap-1"
           onMouseEnter={() => controls.start("animate")}
           onMouseLeave={() => controls.start("normal")}
           onClick={handleDownloadSubtitle}
         >
           <DownloadIcon size={16} controls={controls} />
+          <span className="text-sm">Bajar</span>
         </a>
       );
     },
