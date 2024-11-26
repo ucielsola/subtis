@@ -131,12 +131,12 @@ export async function indexMovieByName({
 }
 
 // testing
-indexMoviesByYear(2024, false);
+// indexMoviesByYear(2024, false);
 
 // indexMovieByName({
-//   year: 1999,
+//   year: 2001,
 //   isDebugging: false,
-//   name: "Eyes Wide Shut",
+//   name: "Spirited Away",
 // });
 
 saveReleaseGroupsToDb(supabase);

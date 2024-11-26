@@ -819,15 +819,9 @@ export async function getTitleTorrents(query: string, titleType: TitleTypes, imd
   return [...ytsTorrents, ...torrents1337xWithMagnet, ...thePirateBayTorrents].flat();
 }
 
-function getFilteredTorrents(
-  titleType: TitleTypes,
-  torrents: TorrentFound[],
-  maxTorrents: number,
-): TorrentFoundWithId[] {
-  const seenTitles = new Set<string>();
+function getFilteredTorrents(torrents: TorrentFound[], maxTorrents: number): TorrentFoundWithId[] {
+  const MIN_SEEDS = 10;
   const seenSizes = new Set<string | number>();
-
-  const minSeeds = titleType === TitleTypes.tvShow ? 20 : 14;
 
   return torrents
     .toSorted((torrentA, torrentB) => {
@@ -838,7 +832,7 @@ function getFilteredTorrents(
     })
     .slice(0, maxTorrents)
     .filter((torrent) => !getIsCinemaRecording(torrent.title))
-    .filter(({ seeds }) => seeds >= minSeeds)
+    .filter(({ seeds }) => seeds >= MIN_SEEDS)
     .filter(({ size, isBytesFormatted }) => {
       const bytes = isBytesFormatted ? filesizeParser(size) : (size as number);
 
@@ -849,12 +843,7 @@ function getFilteredTorrents(
         return false;
       }
 
-      if (seenTitles.has(torrent.title)) {
-        return false;
-      }
-
       seenSizes.add(torrent.size);
-      seenTitles.add(torrent.title);
 
       return true;
     })
@@ -1159,7 +1148,7 @@ export async function getSubtitlesForTitle({
   console.log("\nTorrents without filter \n");
   console.table(torrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
 
-  const filteredTorrents = getFilteredTorrents(titleType, torrents, 25);
+  const filteredTorrents = getFilteredTorrents(torrents, 25);
 
   console.log("\nFiltered torrents \n");
   console.table(filteredTorrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
