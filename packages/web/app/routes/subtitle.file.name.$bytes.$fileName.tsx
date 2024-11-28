@@ -14,13 +14,17 @@ import { VideoDropzone } from "~/components/shared/video-dropzone";
 
 // icons
 import { DownloadIcon } from "~/components/icons/download";
+import { CheckIcon } from "~/components/icons/check";
 
 // lib
 import { cn } from "~/lib/utils";
 
 // ui
+import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { DataTable } from "~/components/ui/data-table";
 import DotPattern from "~/components/ui/dot-pattern";
+import { Separator } from "~/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 
 // constants
 export const columns: ColumnDef<SubtitleNormalized>[] = [
@@ -113,7 +117,9 @@ export default function Subtitle() {
   // remix hooks
   const data = useLoaderData<typeof loader>();
 
-  // handlers
+  // motion hooks
+  const videoTipControl = useAnimation();
+  const stremioTipControl = useAnimation();
 
   if ("message" in data) {
     return null;
@@ -143,6 +149,52 @@ export default function Subtitle() {
               )}
             />
           </div>
+        </section>
+
+        <Separator className="my-16 bg-zinc-700" />
+
+        <section className="flex flex-col gap-12 mt-16">
+          <div className="flex flex-col gap-2">
+            <h3 className="text-2xl font-semibold text-zinc-50">SubTips</h3>
+            <h4 className="text-zinc-400">Te dejamos algunos tips para una mejor experiencia</h4>
+          </div>
+          <Tabs defaultValue="play-subtitle" className="max-w-[535.45px]">
+            <TabsList>
+              <TabsTrigger value="play-subtitle" className="text-sm">
+                ¿Cómo reproduzco un subtítulo?
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="play-subtitle" className="mt-6 flex flex-col gap-4">
+              <Alert
+                className="bg-zinc-950 border border-zinc-800 flex items-start gap-4"
+                onMouseEnter={() => videoTipControl.start("animate")}
+                onMouseLeave={() => videoTipControl.start("normal")}
+              >
+                <CheckIcon size={24} controls={videoTipControl} />
+                <div className="pt-1">
+                  <AlertTitle className="text-zinc-50">Si vas a usar un reproductor de video...</AlertTitle>
+                  <AlertDescription className="text-zinc-400 text-sm font-normal">
+                    Recorda mover el archivo del subtítulo a donde esté tu carpeta o bien reproducir la película y
+                    arrastrar el subtítulo al reproductor.
+                  </AlertDescription>
+                </div>
+              </Alert>
+              <Alert
+                className="bg-zinc-950 border border-zinc-800 flex items-start gap-4"
+                onMouseEnter={() => stremioTipControl.start("animate")}
+                onMouseLeave={() => stremioTipControl.start("normal")}
+              >
+                <CheckIcon size={24} controls={stremioTipControl} />
+                <div className="pt-1">
+                  <AlertTitle className="text-zinc-50">Si vas a usar Stremio...</AlertTitle>
+                  <AlertDescription className="text-zinc-400 text-sm font-normal">
+                    Te recomendamos usar el add-on oficial, y en caso que no quieras utilizar el add-on de Subtis,
+                    también podes arrastrar el subtítulo al reproductor de Stremio.
+                  </AlertDescription>
+                </div>
+              </Alert>
+            </TabsContent>
+          </Tabs>
         </section>
       </article>
       {data.title.poster ? (
