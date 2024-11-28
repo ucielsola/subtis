@@ -177,7 +177,7 @@ export default function RealTimeSearchPage() {
         </section>
       </article>
       <figure className="flex-1 hidden lg:flex justify-center">
-        <img src="/loading.png" alt="Cargando" className="w-[136.44px] h-[144px]" />
+        <img src="/loading-logo.png" alt="Cargando" className="size-64" />
       </figure>
     </div>
   );

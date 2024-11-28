@@ -308,18 +308,9 @@ export default function NotFoundSubtitlePage() {
           </Fragment>
         )}
       </article>
-      {"message" in data ? null : data.title.poster ? (
-        <figure className="max-w-sm pt-12 hidden lg:flex flex-col items-center gap-2">
-          <img
-            alt={data.title.title_name}
-            src={data.title.poster}
-            className="object-cover rounded-md border border-zinc-700/80"
-          />
-          <figcaption className="text-zinc-400 text-sm">
-            {data.title.title_name} ({data.title.year})
-          </figcaption>
-        </figure>
-      ) : null}
+      <figure className="flex-1 hidden lg:flex justify-center">
+        <img src="/broken-logo.png" alt="Cargando" className="size-64" />
+      </figure>
     </div>
   );
 }
