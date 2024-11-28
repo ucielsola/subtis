@@ -60,10 +60,6 @@ function getParsedRipType(ripType: string | null) {
     return "WEB";
   }
 
-  if (ripType === "repack") {
-    return "REPACK";
-  }
-
   return ripType;
 }
 
