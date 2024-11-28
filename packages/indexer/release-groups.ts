@@ -93,7 +93,7 @@ export const RELEASE_GROUPS = {
   "HEVC-CMRG": {
     is_supported: true,
     release_group_name: "HEVC-CMRG",
-    matches: ["HEVC-CMRG", "CMRG", "x264-CMRG", "x265-CMRG"],
+    matches: ["HEVC-CMRG", "CMRG", "x264-CMRG", "x265-CMRG","H264-CMRG","H265-CMRG","CM","H264-CM","H265-CM"],
   },
   "HEVC-CM": {
     is_supported: true,
@@ -381,6 +381,8 @@ export const RELEASE_GROUPS = {
       "x264-RARBG",
       "x265-RARBG",
       "5.1-RARBG",
+      "x265-RBG",
+      "x264-RBG",
     ],
   },
   HEVC: {
@@ -472,6 +474,16 @@ export const RELEASE_GROUPS = {
     is_supported: true,
     release_group_name: "NOGRP",
     matches: ["NOGRP", "x264-NOGRP", "x265-NOGRP", "1-NOGRP"],
+  },
+  ProLover: {
+    is_supported: true,
+    release_group_name: "ProLover",
+    matches: ["ProLover","x264 - ProLover",],
+  },
+  SMURF: {
+    is_supported: true,
+    release_group_name: "SMURF",
+    matches: ["SMURF","x264-SMURF","x265-SMURF"],
   },
 } as const;
 
