@@ -17,13 +17,13 @@ import { getApiClient } from "@subtis/shared";
 import { VideoDropzone } from "~/components/shared/video-dropzone";
 
 // icons
+import { AirplaneIcon } from "~/components/icons/airplane";
 import { CheckIcon } from "~/components/icons/check";
 import { DownloadIcon } from "~/components/icons/download";
 
 // lib
 import { cn } from "~/lib/utils";
 
-import { AirplaneIcon } from "~/components/icons/airplane";
 // ui
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Button } from "~/components/ui/button";
@@ -33,6 +33,10 @@ import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Separator } from "~/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { ToastAction } from "~/components/ui/toast";
+
+// hooks
+import { useToast } from "~/hooks/use-toast";
 
 // schemas
 const formSchema = z.object({
@@ -71,6 +75,9 @@ export const columns: ColumnDef<SubtitleNormalized>[] = [
       // motion hooks
       const controls = useAnimation();
 
+      // toast hooks
+      const { toast } = useToast();
+
       // handlers
       async function handleDownloadSubtitle() {
         const apiClient = getApiClient({
@@ -79,6 +86,16 @@ export const columns: ColumnDef<SubtitleNormalized>[] = [
 
         await apiClient.v1.subtitle.metrics.download.$patch({
           json: { imdbId: row.original.title.imdb_id, subtitleId: row.original.subtitle.id },
+        });
+
+        toast({
+          title: "Disfruta de tu subtítulo!",
+          description: "Compartí tu experiencia en X",
+          action: (
+            <ToastAction altText="Compartir en X" onClick={() => {}}>
+              Compartir
+            </ToastAction>
+          ),
         });
       }
 

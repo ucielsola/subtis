@@ -24,7 +24,11 @@ import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { DataTable } from "~/components/ui/data-table";
 import DotPattern from "~/components/ui/dot-pattern";
 import { Separator } from "~/components/ui/separator";
+import { ToastAction } from "~/components/ui/toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+
+// hooks
+import { useToast } from "~/hooks/use-toast";
 
 // constants
 export const columns: ColumnDef<SubtitleNormalized>[] = [
@@ -58,6 +62,9 @@ export const columns: ColumnDef<SubtitleNormalized>[] = [
       // motion hooks
       const controls = useAnimation();
 
+      // toast hooks
+      const { toast } = useToast();
+
       // handlers
       async function handleDownloadSubtitle() {
         const apiClient = getApiClient({
@@ -66,6 +73,16 @@ export const columns: ColumnDef<SubtitleNormalized>[] = [
 
         await apiClient.v1.subtitle.metrics.download.$patch({
           json: { imdbId: row.original.title.imdb_id, subtitleId: row.original.subtitle.id },
+        });
+
+        toast({
+          title: "Disfruta de tu subtítulo!",
+          description: "Compartí tu experiencia en X",
+          action: (
+            <ToastAction altText="Compartir en X" onClick={() => {}}>
+              Compartir
+            </ToastAction>
+          ),
         });
       }
 

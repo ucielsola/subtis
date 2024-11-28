@@ -6,6 +6,9 @@ import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/reac
 import { HomeFooter } from "~/components/layout/footer";
 import { SearchButton } from "~/components/layout/search-button";
 
+// ui
+import { Toaster } from "~/components/ui/toaster";
+
 // internals
 import styles from "./tailwind.css?url";
 
@@ -54,6 +57,7 @@ export default function App() {
         <Outlet />
         <HomeFooter />
       </div>
+      <Toaster />
     </main>
   );
 }
