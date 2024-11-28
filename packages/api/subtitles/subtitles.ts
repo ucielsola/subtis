@@ -36,7 +36,7 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
       const { data, error } = await getSupabaseClient(context)
         .from("Subtitles")
         .select(subtitlesQuery)
-        .order("subtitle_group_id")
+        .order("queried_times", { ascending: false })
         .match({ title_imdb_id: imdbId });
 
       if (error && error.code === "PGRST116") {
