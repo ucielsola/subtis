@@ -22,7 +22,7 @@ const FAQ_QUESTIONS = [
   },
   {
     id: "faq-4",
-    question: "Todavía no recibí mi subtítulo en mi email. ¿cuando lo recibiré?",
+    question: "Todavía no recibí mi subtítulo en mi email. ¿Cuando lo recibiré?",
     answer: "Si todavía no recibiste tu subtítulo por email, es probable que aún no esté disponible.",
   },
   {
