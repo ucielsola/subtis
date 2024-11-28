@@ -13,8 +13,8 @@ import { getApiClient } from "@subtis/shared";
 import { VideoDropzone } from "~/components/shared/video-dropzone";
 
 // icons
-import { DownloadIcon } from "~/components/icons/download";
 import { CheckIcon } from "~/components/icons/check";
+import { DownloadIcon } from "~/components/icons/download";
 
 // lib
 import { cn } from "~/lib/utils";
@@ -113,7 +113,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   return primarySubtitle;
 };
 
-export default function Subtitle() {
+export default function SubtitlePage() {
   // remix hooks
   const data = useLoaderData<typeof loader>();
 
@@ -202,7 +202,7 @@ export default function Subtitle() {
           <img
             alt={data.title.title_name}
             src={data.title.poster}
-            className="object-cover rounded-sm border border-zinc-700/80"
+            className="object-cover rounded-md border border-zinc-700/80"
           />
           <figcaption className="text-zinc-400 text-sm">
             {data.title.title_name} ({data.title.year})

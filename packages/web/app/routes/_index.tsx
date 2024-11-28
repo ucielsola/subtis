@@ -1,4 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
+import { Fragment } from "react/jsx-runtime";
 
 // home
 import { HomeAlert } from "~/components/home/alert";
@@ -7,9 +8,8 @@ import { HomeFeatures } from "~/components/home/features";
 import { HomeHero } from "~/components/home/hero";
 import { HomeTrending } from "~/components/home/trending";
 
-// shared
+// shared external
 import { getApiClient } from "@subtis/shared";
-import { Fragment } from "react/jsx-runtime";
 
 // meta
 export const meta: MetaFunction = () => {

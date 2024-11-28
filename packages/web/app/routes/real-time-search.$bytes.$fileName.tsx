@@ -40,20 +40,16 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   }
 
   const data = await response.json();
-  console.log("\n ~ loader ~ data:", data);
 
   return data;
 };
 
-export default function RealTimeSearch() {
+export default function RealTimeSearchPage() {
   // remix hooks
   const teaser = useLoaderData<typeof loader>();
-  console.log("\n ~ RealTimeSearch ~ teaser:", teaser);
 
+  // navigation hooks
   const { bytes, fileName } = useParams();
-  console.log("\n ~ RealTimeSearch ~ bytes:", bytes);
-  console.log("\n ~ RealTimeSearch ~ fileName:", fileName);
-
   const navigate = useNavigate();
 
   // react hooks
@@ -109,9 +105,7 @@ export default function RealTimeSearch() {
             const parsedData = JSON.parse(messageEvent.data);
 
             const okSafeParsed = wsOkSchema.safeParse(parsedData);
-            console.log("\n ~ websocketData ~ okSafeParsed:", okSafeParsed);
             const messageSafeParsed = wsMessageSchema.safeParse(parsedData);
-            console.log("\n ~ websocketData ~ messageSafeParsed:", messageSafeParsed);
 
             if (okSafeParsed.success && okSafeParsed.data.ok === true) {
               resolve(okSafeParsed.data);
@@ -133,7 +127,6 @@ export default function RealTimeSearch() {
         });
       });
 
-      console.log("\n ~ searchSubtitleInRealTime ~ websocketData:", websocketData);
       if (websocketData.ok === true) {
         return navigate(`/subtitle/file/name/${bytes}/${fileName}`);
       }
