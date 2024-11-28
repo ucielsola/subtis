@@ -1,4 +1,5 @@
 import { useLoaderData } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -65,8 +66,9 @@ export function TrendingSlider() {
           if (!title.poster) return null;
 
           return (
-            <div
+            <Link
               key={title.id}
+              to={`/subtitles/movie/${title.imdb_id}`}
               className="box-content flex flex-none [scroll-snap-align:start] rounded-md overflow-hidden cursor-pointer group/trending-card transition-all ease-in-out border-2 border-transparent hover:border-zinc-800"
             >
               <img
@@ -74,7 +76,7 @@ export function TrendingSlider() {
                 src={title.poster}
                 className="w-56 h-[336px] object-cover group-hover/trending-card:scale-110 transition-all ease-in-out will-change-transform"
               />
-            </div>
+            </Link>
           );
         })}
       </div>

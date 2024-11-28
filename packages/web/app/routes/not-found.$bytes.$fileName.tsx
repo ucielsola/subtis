@@ -45,7 +45,7 @@ export const columns: ColumnDef<SubtitleNormalized>[] = [
     accessorKey: "index",
     header: "#",
     cell: ({ row }) => {
-      return <span>{row.index + 1}</span>;
+      return <div className="w-6">{row.index + 1}</div>;
     },
   },
   {

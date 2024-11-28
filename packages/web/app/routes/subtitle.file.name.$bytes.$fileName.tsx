@@ -32,7 +32,7 @@ export const columns: ColumnDef<SubtitleNormalized>[] = [
     accessorKey: "index",
     header: "#",
     cell: ({ row }) => {
-      return <span>{row.index + 1}</span>;
+      return <div className="w-6">{row.index + 1}</div>;
     },
   },
   {
@@ -123,8 +123,8 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   }
 
   return [
-    { title: `Subtis | Subtitulos para ${data.title.title_name}` },
-    { name: "description", content: `Subtitulos para ${data.title.title_name}` },
+    { title: `Subtis | Subtitulo para ${data.title.title_name} (${data.subtitle.title_file_name})` },
+    { name: "description", content: `Subtitulo para ${data.title.title_name} (${data.subtitle.title_file_name})` },
   ];
 };
 

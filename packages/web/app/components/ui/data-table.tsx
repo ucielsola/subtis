@@ -1,6 +1,8 @@
 import { type ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { useState } from "react";
 
-// ui
+// internals
+import { Button } from "./button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./table";
 
 interface DataTableProps<TData, TValue> {
@@ -9,11 +11,16 @@ interface DataTableProps<TData, TValue> {
 }
 
 export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+  const [showAll, setShowAll] = useState(false);
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+
+  const rows = table.getRowModel().rows;
+  const displayedRows = showAll ? rows : rows.slice(0, 3);
+  const hasMore = rows.length > 3;
 
   return (
     <div className="rounded-sm border bg-zinc-950 border-zinc-700 overflow-hidden">
@@ -23,7 +30,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
             <TableRow key={headerGroup.id} className="border-zinc-800 hover:bg-zinc-800 bg-zinc-800">
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id} className=" text-zinc-50 h-8 text-sm">
+                  <TableHead key={header.id} className="text-zinc-50 h-8 text-sm">
                     {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 );
@@ -32,18 +39,34 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
           ))}
         </TableHeader>
         <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-                className="hover:bg-zinc-900 text-sm"
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-                ))}
-              </TableRow>
-            ))
+          {displayedRows.length ? (
+            <>
+              {displayedRows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                  className="hover:bg-zinc-900 border-b border-zinc-800 text-sm"
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                  ))}
+                </TableRow>
+              ))}
+              {hasMore ? (
+                <TableRow className="border-b border-zinc-800 text-sm hover:bg-zinc-950">
+                  <TableCell colSpan={columns.length} className="text-center p-0">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => setShowAll(!showAll)}
+                      className="text-sm text-zinc-300 hover:text-zinc-50 w-full h-full bg-zinc-950 hover:bg-zinc-950 border-none hover:border-none py-3"
+                    >
+                      {showAll ? "Cargar menos opciones" : "Cargar más opciones"}
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ) : null}
+            </>
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
