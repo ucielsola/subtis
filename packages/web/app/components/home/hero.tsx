@@ -26,7 +26,7 @@ export function HomeHero() {
             <h1 className="text-zinc-50 text-5xl font-bold text-balance leading-[1.075]">
               El mejor buscador de subtítulos en internet
             </h1>
-            <h2 className="text-zinc-200 text-balance">
+            <h2 className="text-zinc-50 text-balance">
               Encontra el subtítulo para tu película o serie perfectamente sincronizado.
             </h2>
           </div>

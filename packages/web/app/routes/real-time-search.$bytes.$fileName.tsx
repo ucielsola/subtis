@@ -156,7 +156,7 @@ export default function RealTimeSearchPage() {
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-2">
             <h1 className="text-zinc-50 text-5xl font-bold">Buscando subtítulo...</h1>
-            <h2 className="text-zinc-400 text-balance">{message ?? "Este proceso puede durar hasta 20 segundos."}</h2>
+            <h2 className="text-zinc-50">{message ?? "Este proceso puede durar hasta 20 segundos."}</h2>
           </div>
           {!teaser || "message" in teaser ? null : (
             <div className="flex flex-col items-center gap-2">

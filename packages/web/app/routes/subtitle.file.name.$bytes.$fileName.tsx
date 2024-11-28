@@ -146,7 +146,7 @@ export default function SubtitlePage() {
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-2">
             <h1 className="text-zinc-50 text-5xl font-bold">Subtítulo encontrado!</h1>
-            <h2 className="text-zinc-400 text-balance">
+            <h2 className="text-zinc-50 text-balance">
               Descarga el siguiente subtítulo para disfrutar de tu película.
             </h2>
           </div>
@@ -173,7 +173,7 @@ export default function SubtitlePage() {
         <section className="flex flex-col gap-12 mt-16">
           <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold text-zinc-50">SubTips</h3>
-            <h4 className="text-zinc-400">Te recomendamos algunos tips para una mejor experiencia</h4>
+            <h4 className="text-zinc-50">Te recomendamos algunos tips para una mejor experiencia</h4>
           </div>
           <Tabs defaultValue="play-subtitle">
             <TabsList>

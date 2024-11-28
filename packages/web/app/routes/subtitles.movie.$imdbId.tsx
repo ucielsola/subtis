@@ -144,17 +144,27 @@ export default function SubtitlesPage() {
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-2">
             <h1 className="text-zinc-50 text-5xl font-bold">Subtítulo encontrado!</h1>
-            <h2 className="text-zinc-400 text-balance">
+            <h2 className="text-zinc-50 text-balance">
               Descarga el siguiente subtítulo para disfrutar de tu película.
             </h2>
           </div>
-          {"message" in data ? null : <DataTable columns={columns} data={data.results} />}
+          {"message" in data ? null : (
+            <div>
+              <DataTable columns={columns} data={data.results} />
+              <p className="text-sm mt-2 text-zinc-400">
+                Si no encontras tu subtítulo acá, podés escribirnos a{" "}
+                <a href="mailto:soporte@subt.is" className="underline hover:text-zinc-50 transition-all ease-in-out">
+                  soporte@subt.is
+                </a>
+              </p>
+            </div>
+          )}
         </section>
 
         <section className="flex flex-col gap-12 mt-16">
           <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold text-zinc-50">Buscar nuevo subtítulo por archivo</h3>
-            <h4 className="text-zinc-400">Querés buscar un subtítulo nuevo? Arrastra el archivo debajo.</h4>
+            <h4 className="text-zinc-50">Querés buscar un subtítulo nuevo? Arrastra el archivo debajo.</h4>
           </div>
           <div className="bg-zinc-950 border border-zinc-700 rounded-sm group/video overflow-hidden h-64 relative">
             <VideoDropzone />
@@ -171,7 +181,7 @@ export default function SubtitlesPage() {
         <section className="flex flex-col gap-12 mt-16">
           <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold text-zinc-50">SubTips</h3>
-            <h4 className="text-zinc-400">Te recomendamos algunos tips para una mejor experiencia</h4>
+            <h4 className="text-zinc-50">Te recomendamos algunos tips para una mejor experiencia</h4>
           </div>
           <Tabs defaultValue="choose-subtitle" className="min-h-[390px]">
             <TabsList className="mb-6">

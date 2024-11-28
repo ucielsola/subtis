@@ -176,7 +176,7 @@ export default function NotFoundSubtitlePage() {
           <section className="flex flex-col gap-12">
             <div className="flex flex-col gap-2">
               <h1 className="text-zinc-50 text-5xl font-bold">Lo sentimos :(</h1>
-              <h2 className="text-zinc-400 text-balance">
+              <h2 className="text-zinc-50 text-balance">
                 No encontramos ningún subtítulo para este archivo. Podes dejarnos tu email y te avisaremos cuando
                 subamos un subtítulo para este archivo.
               </h2>
@@ -234,7 +234,7 @@ export default function NotFoundSubtitlePage() {
           <section className="flex flex-col gap-12">
             <div className="flex flex-col gap-2">
               <h1 className="text-zinc-50 text-5xl font-bold">Lo sentimos :(</h1>
-              <h2 className="text-zinc-400 text-balance">
+              <h2 className="text-zinc-50">
                 No encontramos ningún subtítulo para este archivo. Te recomendamos que pruebes el siguiente subtítulo
                 alternativo.
               </h2>
@@ -246,7 +246,7 @@ export default function NotFoundSubtitlePage() {
         <section className="flex flex-col gap-12 mt-16">
           <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold text-zinc-50">Buscar nuevo subtítulo por archivo</h3>
-            <h4 className="text-zinc-400">Querés buscar un subtítulo nuevo? Arrastra el archivo debajo.</h4>
+            <h4 className="text-zinc-50">Querés buscar un subtítulo nuevo? Arrastra el archivo debajo.</h4>
           </div>
           <div className="bg-zinc-950 border border-zinc-700 rounded-sm group/video overflow-hidden h-64 relative">
             <VideoDropzone />
@@ -265,7 +265,7 @@ export default function NotFoundSubtitlePage() {
             <section className="flex flex-col gap-12 mt-16">
               <div className="flex flex-col gap-2">
                 <h3 className="text-2xl font-semibold text-zinc-50">SubTips</h3>
-                <h4 className="text-zinc-400">Te recomendamos algunos tips para una mejor experiencia</h4>
+                <h4 className="text-zinc-50">Te recomendamos algunos tips para una mejor experiencia</h4>
               </div>
               <Tabs defaultValue="play-subtitle">
                 <TabsList>
