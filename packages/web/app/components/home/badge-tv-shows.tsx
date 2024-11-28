@@ -17,7 +17,7 @@ export function BadgeTvShows() {
       onMouseLeave={() => controls.start("normal")}
     >
       <RocketIcon controls={controls} size={14} />
-      <span className="ml-[4px]">Próximamente soporte para Series!</span>
+      <span className="ml-[4px] text-xs">Próximamente soporte para Series!</span>
     </Badge>
   );
 }

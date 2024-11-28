@@ -310,7 +310,7 @@ export async function indexTitleByFileName({
         websocket.send(JSON.stringify({ total: 0.75, message: "Buscando subtitulo en nuestros proveedores" }));
       }
 
-      await getSubtitlesForTitle({
+      const wsSubtitleHasBeenFound = await getSubtitlesForTitle({
         indexedBy,
         index: "1",
         initialTorrents: shouldIndexAllTorrents ? undefined : torrents,
@@ -327,8 +327,18 @@ export async function indexTitleByFileName({
         subdivxParameter: parameter,
       });
 
-      if (websocket) {
-        websocket.send(JSON.stringify({ total: 1, message: "Subtitulo encontrado" }));
+      if (wsSubtitleHasBeenFound) {
+        if (websocket) {
+          websocket.send(JSON.stringify({ total: 1, message: "Subtitulo encontrado" }));
+        }
+      }
+
+      if (!wsSubtitleHasBeenFound) {
+        if (websocket) {
+          websocket.send(JSON.stringify({ total: 1, message: "No se encontró subtítulo" }));
+        }
+
+        throw new Error("No se encontró subtítulo");
       }
     }
 

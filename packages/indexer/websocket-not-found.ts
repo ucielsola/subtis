@@ -14,14 +14,11 @@ const subtitleSchema = z.object({
 Bun.serve({
   port: process.env.PORT || 3000,
   fetch(req, server) {
-    const success = server.upgrade(req);
-    if (success) {
-      // Bun automatically returns a 101 Switching Protocols if the upgrade succeeds
-      return undefined;
+    if (server.upgrade(req)) {
+      return;
     }
 
-    // handle HTTP request normally
-    return new Response("Hello world!");
+    return new Response("Upgrade failed", { status: 500 });
   },
   websocket: {
     async message(ws, message) {

@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import { redirect, useLoaderData } from "@remix-run/react";
+import { type MetaFunction, redirect, useLoaderData } from "@remix-run/react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useAnimation } from "motion/react";
 
@@ -79,7 +79,6 @@ export const columns: ColumnDef<SubtitleNormalized>[] = [
           onClick={handleDownloadSubtitle}
         >
           <DownloadIcon size={16} controls={controls} />
-          <span className="text-sm">Bajar</span>
         </a>
       );
     },
@@ -108,9 +107,25 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     return redirect(`/real-time-search/${bytes}/${fileName}`);
   }
 
+  if (!primarySubtitleResponse.ok) {
+    return redirect(`/not-found/${bytes}/${fileName}`);
+  }
+
   const primarySubtitle = await primarySubtitleResponse.json();
 
   return primarySubtitle;
+};
+
+// meta
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  if (!data || "message" in data) {
+    return [{ title: "Subtis" }, { name: "description", content: "Encontra tus subtítulos rápidamente!" }];
+  }
+
+  return [
+    { title: `Subtis | Subtitulos para ${data.title.title_name}` },
+    { name: "description", content: `Subtitulos para ${data.title.title_name}` },
+  ];
 };
 
 export default function SubtitlePage() {
@@ -127,11 +142,13 @@ export default function SubtitlePage() {
 
   return (
     <div className="pt-24 pb-48 flex flex-col lg:flex-row justify-between gap-4">
-      <article>
+      <article className="max-w-xl w-full">
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-2">
             <h1 className="text-zinc-50 text-5xl font-bold">Subtítulo encontrado!</h1>
-            <h2 className="text-zinc-400">Descarga el siguiente subtítulo para disfrutar de tu película.</h2>
+            <h2 className="text-zinc-400 text-balance">
+              Descarga el siguiente subtítulo para disfrutar de tu película.
+            </h2>
           </div>
           <DataTable columns={columns} data={[data]} />
         </section>
@@ -158,7 +175,7 @@ export default function SubtitlePage() {
             <h3 className="text-2xl font-semibold text-zinc-50">SubTips</h3>
             <h4 className="text-zinc-400">Te recomendamos algunos tips para una mejor experiencia</h4>
           </div>
-          <Tabs defaultValue="play-subtitle" className="max-w-[535.45px]">
+          <Tabs defaultValue="play-subtitle">
             <TabsList>
               <TabsTrigger value="play-subtitle" className="text-sm">
                 ¿Cómo reproduzco un subtítulo?

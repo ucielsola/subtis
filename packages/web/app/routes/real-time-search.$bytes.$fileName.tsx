@@ -1,6 +1,7 @@
+import { useEffectOnce } from "@custom-react-hooks/use-effect-once";
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import { useLoaderData, useNavigate, useParams } from "@remix-run/react";
-import { useEffect, useState } from "react";
+import { type MetaFunction, useLoaderData, useNavigate, useParams } from "@remix-run/react";
+import { useState } from "react";
 import { z } from "zod";
 
 // shared external
@@ -37,6 +38,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   });
 
   if (!response.ok) {
+    return null;
   }
 
   const data = await response.json();
@@ -44,6 +46,13 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   return data;
 };
 
+// meta
+export const meta: MetaFunction<typeof loader> = () => {
+  return [
+    { title: "Subtis | Buscando subtítulo en tiempo real" },
+    { name: "description", content: "Buscando subtítulo en tiempo real" },
+  ];
+};
 export default function RealTimeSearchPage() {
   // remix hooks
   const teaser = useLoaderData<typeof loader>();
@@ -56,7 +65,7 @@ export default function RealTimeSearchPage() {
   const [message, setMessage] = useState<string | null>(null);
 
   // effects
-  useEffect(() => {
+  useEffectOnce(() => {
     async function searchSubtitleInRealTime() {
       if (!bytes || !fileName) {
         return;
@@ -103,6 +112,7 @@ export default function RealTimeSearchPage() {
             data: string;
           }) => {
             const parsedData = JSON.parse(messageEvent.data);
+            console.log("\n ~ websocketData ~ parsedData:", parsedData);
 
             const okSafeParsed = wsOkSchema.safeParse(parsedData);
             const messageSafeParsed = wsMessageSchema.safeParse(parsedData);
@@ -128,50 +138,47 @@ export default function RealTimeSearchPage() {
       });
 
       if (websocketData.ok === true) {
-        return navigate(`/subtitle/file/name/${bytes}/${fileName}`);
+        console.log("navigate");
+        navigate(`/subtitle/file/name/${bytes}/${fileName}`);
+        return;
       }
 
-      return navigate("/not-found");
+      navigate(`/not-found/${bytes}/${fileName}`);
+      return;
     }
 
-    const timeoutId = setTimeout(searchSubtitleInRealTime, 2000);
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [bytes, fileName, navigate]);
-
-  if ("message" in teaser) {
-    return null;
-  }
+    searchSubtitleInRealTime();
+  });
 
   return (
     <div className="pt-24 pb-48 flex flex-col lg:flex-row justify-between gap-4">
-      <article>
+      <article className="max-w-xl w-full">
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-2">
             <h1 className="text-zinc-50 text-5xl font-bold">Buscando subtítulo...</h1>
-            <h2 className="text-zinc-400">{message ?? "Este proceso puede durar hasta 20 segundos."}</h2>
+            <h2 className="text-zinc-400 text-balance">{message ?? "Este proceso puede durar hasta 20 segundos."}</h2>
           </div>
-          <div className="flex flex-col items-center gap-2">
-            <iframe
-              width="560"
-              height="315"
-              src={`https://www.youtube.com/embed/${teaser.id}?autoplay=1&mute=1`}
-              title={teaser.name}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              className="rounded-md border border-zinc-700"
-            />{" "}
-            <span className="text-zinc-400 text-sm">
-              {teaser.name} ({teaser.year})
-            </span>
-          </div>
+          {!teaser || "message" in teaser ? null : (
+            <div className="flex flex-col items-center gap-2">
+              <iframe
+                width="560"
+                height="315"
+                src={`https://www.youtube.com/embed/${teaser.id}?autoplay=1&mute=1`}
+                title={teaser.name}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="rounded-md shadow-sm shadow-zinc-900"
+              />{" "}
+              <span className="text-zinc-400 text-sm">
+                {teaser.name} ({teaser.year})
+              </span>
+            </div>
+          )}
         </section>
       </article>
-      <div className="flex flex-1 justify-center">
+      <figure className="flex-1 hidden lg:flex justify-center">
         <img src="/loading.png" alt="Cargando" className="w-[136.44px] h-[144px]" />
-      </div>
+      </figure>
     </div>
   );
 }

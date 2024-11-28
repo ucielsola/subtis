@@ -1119,7 +1119,7 @@ export async function getSubtitlesForTitle({
   subdivxCookie: string | null;
   subdivxParameter: string;
   indexedBy: IndexedBy;
-}): Promise<void> {
+}): Promise<boolean> {
   const {
     name,
     year,
@@ -1197,9 +1197,8 @@ export async function getSubtitlesForTitle({
   console.log("\n\n");
 
   if (specificTorrents.length === 0) {
-    return console.log(
-      `4.${index}) No se encontraron torrents para el titulo "${name}" con query ${titleProviderQuery} \n`,
-    );
+    console.log(`4.${index}) No se encontraron torrents para el titulo "${name}" con query ${titleProviderQuery} \n`);
+    return false;
   }
 
   console.log(
@@ -1315,6 +1314,8 @@ export async function getSubtitlesForTitle({
 
   // --------------------------------------------
 
+  let wsSubtitleHasBeenFound = false;
+
   for await (const [torrentIndex, torrent] of Object.entries(specificTorrents)) {
     console.log("\n\n\n\n");
     console.log("-------------------------------------------------------------------");
@@ -1395,6 +1396,8 @@ export async function getSubtitlesForTitle({
           titleFileNameMetadata: { ...titleFileNameMetadata, resolution: finalResolution },
         });
 
+        wsSubtitleHasBeenFound = true;
+
         const { release_group_name: releaseGroupName } = releaseGroup;
         console.log(
           `4.${index}.${torrentIndex}) Subtítulo encontrado en SubDivX (ID: ${foundSubtitleFromSubDivX.externalId}) para ${name} ${finalResolution} ${releaseGroupName} \n`,
@@ -1462,6 +1465,8 @@ export async function getSubtitlesForTitle({
           subtitles: subtitles.subdl,
           titleFileNameMetadata: { ...titleFileNameMetadata, resolution: finalResolution },
         });
+
+        wsSubtitleHasBeenFound = true;
 
         const { release_group_name: releaseGroupName } = releaseGroup;
         console.log(
@@ -1531,6 +1536,8 @@ export async function getSubtitlesForTitle({
           titleFileNameMetadata: { ...titleFileNameMetadata, resolution: finalResolution },
         });
 
+        wsSubtitleHasBeenFound = true;
+
         const { release_group_name: releaseGroupName } = releaseGroup;
         console.log(
           `4.${index}.${torrentIndex}) Subtítulo encontrado en OpenSubtitles (ID: ${foundSubtitleFromOpenSubtitles.externalId}) para ${name} ${finalResolution} ${releaseGroupName} \n`,
@@ -1594,6 +1601,8 @@ export async function getSubtitlesForTitle({
     console.log(`4.${index}) Pasando al siguiente titulo... \n`);
     console.log("------------------------------ \n");
   }
+
+  return wsSubtitleHasBeenFound;
 }
 
 // ----------------------- WS

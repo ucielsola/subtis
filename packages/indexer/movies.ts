@@ -134,9 +134,9 @@ export async function indexMovieByName({
 // indexMoviesByYear(2024, false);
 
 // indexMovieByName({
-//   year: 2001,
+//   year: 2005,
 //   isDebugging: false,
-//   name: "Spirited Away",
+//   name: "Kingdom of Heaven",
 // });
 
 saveReleaseGroupsToDb(supabase);

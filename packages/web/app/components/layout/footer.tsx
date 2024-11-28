@@ -6,18 +6,7 @@ export function HomeFooter() {
       <Link to="/">
         <img src="/logo.png" alt="Subtis" className="w-24 h-[38.9px] hover:scale-105 transition-all ease-in-out" />
       </Link>
-      <div className="flex flex-col md:flex-row justify-between md:items-center gap-6">
-        <span className="text-xs font-medium text-zinc-400">
-          Creado por{" "}
-          <a
-            href="https://www.leonardogalante.com"
-            target="_blank"
-            className="underline hover:text-zinc-50"
-            rel="noreferrer"
-          >
-            Leonardo Galante
-          </a>
-        </span>
+      <div className="flex flex-col-reverse md:flex-row justify-between md:items-center gap-6">
         <div className="flex flex-row gap-4">
           <a
             href="https://x.com/subt_is"
@@ -34,6 +23,7 @@ export function HomeFooter() {
             Términos y Condiciones
           </Link>
         </div>
+        <span className="text-xs font-medium text-zinc-50">Subtis &#169; 2024</span>
       </div>
     </footer>
   );
