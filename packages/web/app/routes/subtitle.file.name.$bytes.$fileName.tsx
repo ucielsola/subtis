@@ -139,7 +139,7 @@ export default function Subtitle() {
         <section className="flex flex-col gap-12 mt-16">
           <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold text-zinc-50">Buscar nuevo subtítulo por archivo</h3>
-            <h4 className="text-zinc-400">Querés buscar un subtítulo nuevo? Arrastra el archivo acá:</h4>
+            <h4 className="text-zinc-400">Querés buscar un subtítulo nuevo? Arrastra el archivo debajo.</h4>
           </div>
           <div className="bg-zinc-950 border border-zinc-700 rounded-sm group/video overflow-hidden h-64 relative">
             <VideoDropzone />
@@ -156,7 +156,7 @@ export default function Subtitle() {
         <section className="flex flex-col gap-12 mt-16">
           <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold text-zinc-50">SubTips</h3>
-            <h4 className="text-zinc-400">Te dejamos algunos tips para una mejor experiencia</h4>
+            <h4 className="text-zinc-400">Te recomendamos algunos tips para una mejor experiencia</h4>
           </div>
           <Tabs defaultValue="play-subtitle" className="max-w-[535.45px]">
             <TabsList>
