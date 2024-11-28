@@ -32,6 +32,18 @@ function getParsedRipType(ripType: string | null) {
     return "BluRay";
   }
 
+  if (ripType === "blu-ray") {
+    return "BluRay";
+  }
+
+  if (ripType === "hdrip") {
+    return "HDRip";
+  }
+
+  if (ripType === "theater") {
+    return "Theater";
+  }
+
   if (ripType === "brrip") {
     return "BrRip";
   }
