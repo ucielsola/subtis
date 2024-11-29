@@ -92,7 +92,7 @@ export const columns: ColumnDef<SubtitleNormalized>[] = [
           title: "Disfruta de tu subtítulo!",
           description: "Compartí tu experiencia en X",
           action: (
-            <ToastAction altText="Compartir en X" onClick={() => {}}>
+            <ToastAction altText="Compartir" onClick={() => {}}>
               Compartir
             </ToastAction>
           ),
@@ -168,8 +168,6 @@ export default function NotFoundSubtitlePage() {
     resolver: zodResolver(formSchema),
     defaultValues: { email: "" },
   });
-
-  console.log("form submitted", form.formState);
 
   // handlers
   async function onSubmit(values: z.infer<typeof formSchema>) {

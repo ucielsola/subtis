@@ -24,8 +24,8 @@ import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { DataTable } from "~/components/ui/data-table";
 import DotPattern from "~/components/ui/dot-pattern";
 import { Separator } from "~/components/ui/separator";
-import { ToastAction } from "~/components/ui/toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { ToastAction } from "~/components/ui/toast";
 
 // hooks
 import { useToast } from "~/hooks/use-toast";
@@ -79,7 +79,7 @@ export const columns: ColumnDef<SubtitleNormalized>[] = [
           title: "Disfruta de tu subtítulo!",
           description: "Compartí tu experiencia en X",
           action: (
-            <ToastAction altText="Compartir en X" onClick={() => {}}>
+            <ToastAction altText="Compartir" onClick={() => {}}>
               Compartir
             </ToastAction>
           ),
@@ -232,16 +232,18 @@ export default function SubtitlePage() {
         </section>
       </article>
       {data.title.poster ? (
-        <figure className="max-w-sm pt-12 hidden lg:flex flex-col items-center gap-2">
-          <img
-            alt={data.title.title_name}
-            src={data.title.poster}
-            className="object-cover rounded-md border border-zinc-700/80"
-          />
-          <figcaption className="text-zinc-400 text-sm">
-            {data.title.title_name} ({data.title.year})
-          </figcaption>
-        </figure>
+        <div className="hidden lg:flex flex-1 items-center">
+          <figure className="max-w-sm pt-12 flex flex-col items-center gap-2">
+            <img
+              alt={data.title.title_name}
+              src={data.title.poster}
+              className="object-cover rounded-md border border-zinc-700/80"
+            />
+            <figcaption className="text-zinc-400 text-sm">
+              {data.title.title_name} ({data.title.year})
+            </figcaption>
+          </figure>
+        </div>
       ) : null}
     </div>
   );

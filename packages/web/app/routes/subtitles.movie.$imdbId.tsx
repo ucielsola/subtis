@@ -25,10 +25,11 @@ import { DataTable } from "~/components/ui/data-table";
 import DotPattern from "~/components/ui/dot-pattern";
 import { Separator } from "~/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { ToastAction } from "~/components/ui/toast";
+import { useToast } from "~/hooks/use-toast";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { imdbId } = params;
-  console.log("\n ~ loader ~ imdbId:", imdbId);
 
   if (!imdbId) {
     throw new Error("Missing imdbId");
@@ -45,7 +46,6 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   });
 
   const primarySubtitle = await primarySubtitleResponse.json();
-  console.log("\n ~ loader ~ primarySubtitle:", primarySubtitle);
 
   return primarySubtitle;
 };
@@ -103,9 +103,11 @@ export default function SubtitlesPage() {
       accessorKey: "",
       header: "Acciones",
       cell: ({ row }) => {
-        console.log("\n ~ row:", row);
         // motion hooks
         const controls = useAnimation();
+
+        // toast hooks
+        const { toast } = useToast();
 
         // handlers
         async function handleDownloadSubtitle() {
@@ -119,6 +121,16 @@ export default function SubtitlesPage() {
 
           await apiClient.v1.subtitle.metrics.download.$patch({
             json: { imdbId: data.title.imdb_id, subtitleId: row.original.subtitle.id },
+          });
+
+          toast({
+            title: "Disfruta de tu subtítulo!",
+            description: "Compartí tu experiencia en X",
+            action: (
+              <ToastAction altText="Compartir" onClick={() => {}}>
+                Compartir
+              </ToastAction>
+            ),
           });
         }
 
@@ -275,16 +287,18 @@ export default function SubtitlesPage() {
         </section>
       </article>
       {"message" in data ? null : data.title.poster ? (
-        <figure className="max-w-sm pt-12 hidden lg:flex flex-col items-center gap-2">
-          <img
-            alt={data.title.title_name}
-            src={data.title.poster}
-            className="object-cover rounded-md border border-zinc-700/80"
-          />
-          <figcaption className="text-zinc-400 text-sm">
-            {data.title.title_name} ({data.title.year})
-          </figcaption>
-        </figure>
+        <div className="hidden lg:flex flex-1 justify-center">
+          <figure className="max-w-sm pt-12 flex flex-col items-center gap-2">
+            <img
+              alt={data.title.title_name}
+              src={data.title.poster}
+              className="object-cover rounded-md border border-zinc-700/80"
+            />
+            <figcaption className="text-zinc-400 text-sm">
+              {data.title.title_name} ({data.title.year})
+            </figcaption>
+          </figure>
+        </div>
       ) : null}
     </div>
   );

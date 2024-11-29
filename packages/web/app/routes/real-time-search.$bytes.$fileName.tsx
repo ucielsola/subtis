@@ -70,7 +70,6 @@ export default function RealTimeSearchPage() {
       if (!bytes || !fileName) {
         return;
       }
-      console.log("entered once");
 
       setMessage("Chequeando si el subtítulo ya existe...");
 
@@ -112,7 +111,6 @@ export default function RealTimeSearchPage() {
             data: string;
           }) => {
             const parsedData = JSON.parse(messageEvent.data);
-            console.log("\n ~ websocketData ~ parsedData:", parsedData);
 
             const okSafeParsed = wsOkSchema.safeParse(parsedData);
             const messageSafeParsed = wsMessageSchema.safeParse(parsedData);
@@ -138,7 +136,6 @@ export default function RealTimeSearchPage() {
       });
 
       if (websocketData.ok === true) {
-        console.log("navigate");
         navigate(`/subtitle/file/name/${bytes}/${fileName}`);
         return;
       }
