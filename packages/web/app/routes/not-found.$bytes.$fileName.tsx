@@ -4,7 +4,6 @@ import { type MetaFunction, useLoaderData, useParams } from "@remix-run/react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { AnimatePresence, motion, useAnimation } from "motion/react";
 import { useForm } from "react-hook-form";
-import { Fragment } from "react/jsx-runtime";
 import { z } from "zod";
 
 // api
@@ -18,21 +17,19 @@ import { VideoDropzone } from "~/components/shared/video-dropzone";
 
 // icons
 import { AirplaneIcon } from "~/components/icons/airplane";
-import { CheckIcon } from "~/components/icons/check";
+import { BadgeAlertIcon } from "~/components/icons/badge-alert";
 import { DownloadIcon } from "~/components/icons/download";
 
 // lib
 import { cn } from "~/lib/utils";
 
 // ui
-import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Button } from "~/components/ui/button";
 import { DataTable } from "~/components/ui/data-table";
 import DotPattern from "~/components/ui/dot-pattern";
 import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Separator } from "~/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { ToastAction } from "~/components/ui/toast";
 
 // hooks
@@ -159,10 +156,6 @@ export default function NotFoundSubtitlePage() {
   // navigation hooks
   const { bytes, fileName } = useParams();
 
-  // motion hooks
-  const videoTipControl = useAnimation();
-  const stremioTipControl = useAnimation();
-
   // form hooks
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -187,76 +180,77 @@ export default function NotFoundSubtitlePage() {
   return (
     <div className="pt-24 pb-48 flex flex-col lg:flex-row justify-between gap-4">
       <article className="max-w-xl w-full">
-        {"message" in data ? (
-          <section className="flex flex-col gap-12">
-            <div className="flex flex-col gap-2">
-              <h1 className="text-zinc-50 text-5xl font-bold">Lo sentimos :(</h1>
-              <h2 className="text-zinc-50 text-balance">
-                No encontramos ningún subtítulo para este archivo. Podes dejarnos tu email y te avisaremos cuando
-                subamos un subtítulo para este archivo.
-              </h2>
-            </div>
-            <AnimatePresence mode="wait">
-              {!form.formState.isSubmitSuccessful ? (
-                <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                  <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-row gap-2">
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem className="w-full">
-                            <FormControl>
-                              <Input
-                                placeholder="tom@cruise.com"
-                                className="w-full bg-zinc-950 border border-zinc-700 placeholder:text-zinc-400 focus:border-zinc-400 focus-visible:ring-0"
-                                {...field}
-                              />
-                            </FormControl>
-                            {form.formState.errors.email ? (
+        <section className="flex flex-col gap-12">
+          <div className="flex flex-col gap-2">
+            <h1 className="text-zinc-50 text-5xl font-bold">Lo sentimos :(</h1>
+            <h2 className="text-zinc-50 text-balance">
+              No encontramos el subtítulo específico para tu archivo.{" "}
+              {"message" in data ? null : "Te recomendamos que pruebes el siguiente subtítulo alternativo."}
+            </h2>
+          </div>
+
+          {"message" in data ? null : <DataTable columns={columns} data={[data]} />}
+
+          <AnimatePresence mode="wait">
+            {!form.formState.isSubmitSuccessful ? (
+              <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                {"message" in data ? null : (
+                  <div className="flex flex-col gap-2 mb-12">
+                    <p className="text-zinc-50 text-3xl font-semibold">¿Querés que te avisemos?</p>
+                    <p className="text-zinc-50 text-balance">
+                      Podés dejarnos tu e-mail y te enviamos el subtítulo apenas lo encontremos.
+                    </p>
+                  </div>
+                )}
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-row gap-2">
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormControl>
+                            <Input
+                              placeholder="tom@cruise.com"
+                              className="w-full bg-zinc-950 border border-zinc-700 placeholder:text-zinc-400 focus:border-zinc-400 focus-visible:ring-0"
+                              {...field}
+                            />
+                          </FormControl>
+                          {form.formState.errors.email ? (
+                            <div className="flex flex-row items-center gap-2 ">
+                              <BadgeAlertIcon size={16} className="text-zinc-400" />
                               <p className="text-zinc-400 text-sm">Por favor ingresa un correo electrónico válido.</p>
-                            ) : (
-                              <p className="text-zinc-400 text-sm">
-                                Ingresa una dirección de correo válida para recibir tu subtítulo.
-                              </p>
-                            )}
-                          </FormItem>
-                        )}
-                      />
-                      <Button type="submit" disabled={form.formState.isSubmitting} className="w-36 flex-shrink-0">
-                        {form.formState.isSubmitting ? "Enviando..." : "Recibir subtítulo"}
-                      </Button>
-                    </form>
-                  </Form>
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="success"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  className="flex flex-row items-center gap-2 h-[68px]"
-                >
-                  <AirplaneIcon size={24} className="text-zinc-400" />
-                  <span className="text-zinc-400 text-sm">
-                    Te haremos saber cuando tengamos tu subtítulo disponible.
-                  </span>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </section>
-        ) : (
-          <section className="flex flex-col gap-12">
-            <div className="flex flex-col gap-2">
-              <h1 className="text-zinc-50 text-5xl font-bold">Lo sentimos :(</h1>
-              <h2 className="text-zinc-50">
-                No encontramos ningún subtítulo para este archivo. Te recomendamos que pruebes el siguiente subtítulo
-                alternativo.
-              </h2>
-            </div>
-            <DataTable columns={columns} data={[data]} />
-          </section>
-        )}
+                            </div>
+                          ) : (
+                            <p className="text-zinc-400 text-sm">
+                              Ingresa una dirección de correo válida para recibir tu subtítulo.
+                            </p>
+                          )}
+                        </FormItem>
+                      )}
+                    />
+                    <Button type="submit" disabled={form.formState.isSubmitting} className="w-36 flex-shrink-0">
+                      {form.formState.isSubmitting ? "Enviando..." : "Recibir subtítulo"}
+                    </Button>
+                  </form>
+                </Form>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="success"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="flex flex-row items-center gap-2 h-[68px]"
+              >
+                <AirplaneIcon size={24} className="text-zinc-400" />
+                <span className="text-zinc-400 text-sm">Te haremos saber cuando tengamos tu subtítulo disponible.</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </section>
+
+        <Separator className="my-16 bg-zinc-700" />
 
         <section className="flex flex-col gap-12 mt-16">
           <div className="flex flex-col gap-2">
@@ -272,56 +266,6 @@ export default function NotFoundSubtitlePage() {
             />
           </div>
         </section>
-
-        {"message" in data ? null : (
-          <Fragment>
-            <Separator className="my-16 bg-zinc-700" />
-
-            <section className="flex flex-col gap-12 mt-16">
-              <div className="flex flex-col gap-2">
-                <h3 className="text-2xl font-semibold text-zinc-50">SubTips</h3>
-                <h4 className="text-zinc-50">Te recomendamos algunos tips para una mejor experiencia</h4>
-              </div>
-              <Tabs defaultValue="play-subtitle">
-                <TabsList>
-                  <TabsTrigger value="play-subtitle" className="text-sm">
-                    ¿Cómo reproduzco un subtítulo?
-                  </TabsTrigger>
-                </TabsList>
-                <TabsContent value="play-subtitle" className="mt-6 flex flex-col gap-4">
-                  <Alert
-                    className="bg-zinc-950 border border-zinc-800 flex items-start gap-4"
-                    onMouseEnter={() => videoTipControl.start("animate")}
-                    onMouseLeave={() => videoTipControl.start("normal")}
-                  >
-                    <CheckIcon size={24} controls={videoTipControl} />
-                    <div className="pt-1">
-                      <AlertTitle className="text-zinc-50">Si vas a usar un reproductor de video...</AlertTitle>
-                      <AlertDescription className="text-zinc-400 text-sm font-normal">
-                        Recorda mover el archivo del subtítulo a donde esté tu carpeta o bien reproducir la película y
-                        arrastrar el subtítulo al reproductor.
-                      </AlertDescription>
-                    </div>
-                  </Alert>
-                  <Alert
-                    className="bg-zinc-950 border border-zinc-800 flex items-start gap-4"
-                    onMouseEnter={() => stremioTipControl.start("animate")}
-                    onMouseLeave={() => stremioTipControl.start("normal")}
-                  >
-                    <CheckIcon size={24} controls={stremioTipControl} />
-                    <div className="pt-1">
-                      <AlertTitle className="text-zinc-50">Si vas a usar Stremio...</AlertTitle>
-                      <AlertDescription className="text-zinc-400 text-sm font-normal">
-                        Te recomendamos usar el add-on oficial, y en caso que no quieras utilizar el add-on de Subtis,
-                        también podes arrastrar el subtítulo al reproductor de Stremio.
-                      </AlertDescription>
-                    </div>
-                  </Alert>
-                </TabsContent>
-              </Tabs>
-            </section>
-          </Fragment>
-        )}
       </article>
       <figure className="flex-1 hidden lg:flex justify-center">
         <img src="/broken-logo.png" alt="Cargando" className="size-64" />

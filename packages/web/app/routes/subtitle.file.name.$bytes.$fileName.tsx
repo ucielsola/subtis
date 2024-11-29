@@ -232,7 +232,7 @@ export default function SubtitlePage() {
         </section>
       </article>
       {data.title.poster ? (
-        <div className="hidden lg:flex flex-1 items-center">
+        <div className="hidden lg:flex flex-1 justify-center">
           <figure className="max-w-sm pt-12 flex flex-col items-center gap-2">
             <img
               alt={data.title.title_name}
