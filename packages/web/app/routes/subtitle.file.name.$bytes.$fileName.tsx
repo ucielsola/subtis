@@ -162,7 +162,7 @@ export default function SubtitlePage() {
       <article className="max-w-xl w-full">
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-2">
-            <h1 className="text-zinc-50 text-5xl font-bold">Subtítulo encontrado!</h1>
+            <h1 className="text-zinc-50 text-5xl font-bold">¡Subtítulo encontrado!</h1>
             <h2 className="text-zinc-50 text-balance">
               Descarga el siguiente subtítulo para disfrutar de tu película.
             </h2>
