@@ -381,8 +381,6 @@ export const RELEASE_GROUPS = {
       "x264-RARBG",
       "x265-RARBG",
       "5.1-RARBG",
-      "x265-RBG",
-      "x264-RBG",
     ],
   },
   HEVC: {
