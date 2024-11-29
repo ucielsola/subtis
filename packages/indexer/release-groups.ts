@@ -485,6 +485,12 @@ export const RELEASE_GROUPS = {
     release_group_name: "SMURF",
     matches: ["SMURF","x264-SMURF","x265-SMURF"],
   },
+  RBG: {
+    is_supported: true,
+    release_group_name: "RBG",
+    matches: ["RBG","x265-RBG","x264-RBG"],
+  },
+
 } as const;
 
 // types
