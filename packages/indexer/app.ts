@@ -820,7 +820,7 @@ export async function getTitleTorrents(query: string, titleType: TitleTypes, imd
 }
 
 function getFilteredTorrents(torrents: TorrentFound[], maxTorrents: number): TorrentFoundWithId[] {
-  const MIN_SEEDS = 10;
+  const MIN_SEEDS = 8;
   const seenSizes = new Set<string | number>();
 
   return torrents
