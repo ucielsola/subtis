@@ -246,8 +246,8 @@ export default function SubtitlesPage() {
                   <AlertTitle className="text-zinc-50">Asegurate que el publicador matchee correctamente</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
                     Por ejemplo para “The.Matrix.1999.720p.BrRip.264.
-                    <span className="font-semibold text-zinc-50">YIFI</span> selecciona el subtítulo cuyo publicador sea{" "}
-                    <span className="font-semibold text-zinc-50">YIFI</span>.
+                    <span className="font-semibold text-zinc-50">YIFI</span>” selecciona el subtítulo cuyo publicador
+                    sea <span className="font-semibold text-zinc-50">YIFI</span>.
                   </AlertDescription>
                 </div>
               </Alert>
