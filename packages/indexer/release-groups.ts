@@ -507,6 +507,11 @@ export const RELEASE_GROUPS = {
       "h265-freecrystaltarantulaofsunshine",
     ],
   },
+  MgB: {
+    is_supported: true,
+    release_group_name: "MgB",
+    matches: ["MgB", "H.265-MgB", "265-MgB", "H265-MgB", "H.264-MgB", "264-MgB", "H264-MgB"],
+  },
 } as const;
 
 // types
