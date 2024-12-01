@@ -307,18 +307,18 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: videoFileName.error.issues[0].message });
       }
 
-      const { error } = await getSupabaseClient(context)
-        .from("SubtitlesNotFound")
-        .insert({ email, bytes, title_file_name: titleFileName });
+      const isTvShow = getIsTvShow(titleFileName);
+      const isCinemaRecording = getIsCinemaRecording(titleFileName);
 
-      if (error && error.code === "PGRST116") {
-        context.status(404);
-        return context.json({ message: "Subtitle not found for file" });
-      }
+      if (!isTvShow && !isCinemaRecording) {
+        const { error } = await getSupabaseClient(context)
+          .from("SubtitlesNotFound")
+          .insert({ email, bytes, title_file_name: titleFileName });
 
-      if (error) {
-        context.status(500);
-        return context.json({ message: "An error occurred", error: error.message });
+        if (error) {
+          context.status(500);
+          return context.json({ message: "An error occurred", error: error.message });
+        }
       }
 
       return context.json({ ok: true });
