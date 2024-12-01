@@ -493,6 +493,11 @@ export const RELEASE_GROUPS = {
     release_group_name: "CM",
     matches: ["CM", "H264-CM", "H265-CM"],
   },
+  MGHW: {
+    is_supported: true,
+    release_group_name: "MGHW",
+    matches: ["MGHW", "264-MGHW", "265-MGHW"],
+  },
 } as const;
 
 // types
