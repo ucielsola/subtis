@@ -453,11 +453,6 @@ export const RELEASE_GROUPS = {
     release_group_name: "ViSiON",
     matches: ["ViSiON", "x264-ViSiON", "x265-ViSiON", "AC3-ViSiON"],
   },
-  REMUX: {
-    is_supported: true,
-    release_group_name: "REMUX",
-    matches: ["REMUX"],
-  },
   Grym: {
     is_supported: true,
     release_group_name: "Grym",
