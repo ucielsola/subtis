@@ -498,6 +498,15 @@ export const RELEASE_GROUPS = {
     release_group_name: "REMUX-FraMeSToR",
     matches: ["REMUX-FraMeSToR"],
   },
+  FreeCrystalTarantulaofSunshine: {
+    is_supported: true,
+    release_group_name: "FreeCrystalTarantulaofSunshine",
+    matches: [
+      "FreeCrystalTarantulaofSunshine",
+      "h264-freecrystaltarantulaofsunshine",
+      "h265-freecrystaltarantulaofsunshine",
+    ],
+  },
 } as const;
 
 // types
