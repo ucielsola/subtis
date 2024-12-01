@@ -493,6 +493,11 @@ export const RELEASE_GROUPS = {
     release_group_name: "MGHW",
     matches: ["MGHW", "264-MGHW", "265-MGHW"],
   },
+  "REMUX-FraMeSToR": {
+    is_supported: true,
+    release_group_name: "REMUX-FraMeSToR",
+    matches: ["REMUX-FraMeSToR"],
+  },
 } as const;
 
 // types
