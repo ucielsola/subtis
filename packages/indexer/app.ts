@@ -1185,7 +1185,9 @@ export async function getSubtitlesForTitle({
 
   if (
     titleFileNameFromNotFoundSubtitle &&
-    !specificTorrents.some(({ videoFile }) => videoFile?.name === titleFileNameFromNotFoundSubtitle)
+    !specificTorrents.some(
+      ({ videoFile }) => videoFile?.name.toLowerCase() === titleFileNameFromNotFoundSubtitle.toLowerCase(),
+    )
   ) {
     console.log(`4.${index}) Título ${titleFileNameFromNotFoundSubtitle} no encontrado en los torrents \n`);
     return false;
