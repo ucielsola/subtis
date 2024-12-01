@@ -1183,6 +1183,14 @@ export async function getSubtitlesForTitle({
     titleFileNameFromNotFoundSubtitle,
   );
 
+  if (
+    titleFileNameFromNotFoundSubtitle &&
+    !specificTorrents.some(({ videoFile }) => videoFile?.name === titleFileNameFromNotFoundSubtitle)
+  ) {
+    console.log(`4.${index}) Título ${titleFileNameFromNotFoundSubtitle} no encontrado en los torrents \n`);
+    return false;
+  }
+
   console.log("\nSpecific torrents \n");
   console.table(
     specificTorrents.map(({ title, size, seeds, videoFile }) => ({ title, size, seeds, fileName: videoFile?.name })),
