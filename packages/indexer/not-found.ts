@@ -1,4 +1,4 @@
-// import { confirm } from "@clack/prompts";
+import { confirm } from "@clack/prompts";
 import { z } from "zod";
 
 // db
@@ -46,109 +46,115 @@ export async function indexNotFoundSubtitles() {
     }
 
     for (const notFoundSubtitle of notFoundSubtitles.data) {
-      console.table([notFoundSubtitle]);
+      try {
+        console.table([notFoundSubtitle]);
 
-      // const continueToNextTitle = await confirm({
-      //   message: `¿Desea indexar el siguiente titulo? ${notFoundSubtitle.title_file_name}`,
-      // });
+        // const continueToNextTitle = await confirm({
+        //   message: `¿Desea indexar el siguiente titulo? ${notFoundSubtitle.title_file_name}`,
+        // });
 
-      // if (!continueToNextTitle) {
-      //   continue;
-      // }
+        // if (!continueToNextTitle) {
+        //   continue;
+        // }
 
-      const isTvShow = getIsTvShow(notFoundSubtitle.title_file_name);
+        const isTvShow = getIsTvShow(notFoundSubtitle.title_file_name);
 
-      // TODO: Temporarily skipping tv shows
-      if (isTvShow) {
-        console.log("Skipping tv show", notFoundSubtitle.title_file_name);
-        continue;
-      }
-
-      const response = await apiClient.v1.subtitle.file.name[":bytes"][":fileName"].$get({
-        param: {
-          bytes: String(notFoundSubtitle.bytes),
-          fileName: notFoundSubtitle.title_file_name,
-        },
-      });
-      const data = await response.json();
-
-      const subtitleAlreadyExists = subtitleNormalizedSchema.safeParse(data);
-
-      if (subtitleAlreadyExists.success) {
-        if (notFoundSubtitle.email) {
-          console.log(`Sending email to ${notFoundSubtitle.email}...`);
-
-          try {
-            const emailSent = await sendEmail(subtitleAlreadyExists.data, notFoundSubtitle.email);
-            console.log("\n ~ forawait ~ emailSent:", emailSent);
-          } catch (error) {
-            console.log("\n ~ forawait ~ error 1 before indexation:", error);
-            continue;
-          }
+        // TODO: Temporarily skipping tv shows
+        if (isTvShow) {
+          console.log("Skipping tv show", notFoundSubtitle.title_file_name);
+          continue;
         }
 
-        const response = await supabase
-          .from("SubtitlesNotFound")
-          .delete()
-          .eq("title_file_name", notFoundSubtitle.title_file_name);
-        console.log("\n ~ forawait ~ response:", response);
+        const response = await apiClient.v1.subtitle.file.name[":bytes"][":fileName"].$get({
+          param: {
+            bytes: String(notFoundSubtitle.bytes),
+            fileName: notFoundSubtitle.title_file_name,
+          },
+        });
 
-        continue;
-      }
+        const data = await response.json();
+        console.log("\n ~ indexNotFoundSubtitles ~ data:", data);
 
-      const { ok } = await indexTitleByFileName({
-        indexedBy: "indexer-not-found",
-        bytes: notFoundSubtitle.bytes,
-        titleFileName: notFoundSubtitle.title_file_name,
-        shouldStoreNotFoundSubtitle: false,
-        isDebugging: false,
-        shouldIndexAllTorrents: true,
-      });
+        const subtitleAlreadyExists = subtitleNormalizedSchema.safeParse(data);
 
-      if (ok === true) {
-        if (notFoundSubtitle.email) {
-          console.log(`sending email to ${notFoundSubtitle.email}...`);
+        if (subtitleAlreadyExists.success) {
+          console.log("subtitle already exists", notFoundSubtitle.title_file_name);
 
-          try {
-            const response = await apiClient.v1.subtitle.file.name[":bytes"][":fileName"].$get({
-              param: {
-                bytes: String(notFoundSubtitle.bytes),
-                fileName: notFoundSubtitle.title_file_name,
-              },
-            });
+          if (notFoundSubtitle.email) {
+            console.log(`Sending email to ${notFoundSubtitle.email}...`);
 
-            const data = await response.json();
-            const subtitleByFileName = subtitleNormalizedSchema.safeParse(data);
-
-            if (!subtitleByFileName.success) {
-              throw new Error("Subtitle not found in some way");
+            try {
+              const emailSent = await sendEmail(subtitleAlreadyExists.data, notFoundSubtitle.email);
+              console.log("\n ~ forawait ~ emailSent:", emailSent);
+            } catch (error) {
+              console.log("\n ~ forawait ~ error 1 before indexation:", error);
+              continue;
             }
-
-            await sendEmail(subtitleByFileName.data, notFoundSubtitle.email);
-          } catch (error) {
-            console.log("\n ~ forawait ~ error 2 after indexation:", error);
-            continue;
           }
+
+          console.log("deleting subtitle not found", notFoundSubtitle.title_file_name);
+          await supabase.from("SubtitlesNotFound").delete().eq("title_file_name", notFoundSubtitle.title_file_name);
+          console.log("deleted subtitle not found", notFoundSubtitle.title_file_name);
+
+          continue;
         }
 
-        const res = await supabase
-          .from("SubtitlesNotFound")
-          .delete()
-          .eq("title_file_name", notFoundSubtitle.title_file_name);
-        console.log("\n ~ forawait ~ res 2:", res);
-      } else {
-        const { run_times } = notFoundSubtitle;
+        console.log("indexing title by file name", notFoundSubtitle.title_file_name);
+        const { ok } = await indexTitleByFileName({
+          indexedBy: "indexer-not-found",
+          bytes: notFoundSubtitle.bytes,
+          titleFileName: notFoundSubtitle.title_file_name,
+          shouldStoreNotFoundSubtitle: false,
+          isDebugging: false,
+          shouldIndexAllTorrents: false,
+        });
+        console.log("\n ~ indexNotFoundSubtitles ~ ok:", ok);
 
-        const response = await supabase
-          .from("SubtitlesNotFound")
-          .update({ run_times: run_times + 1 })
-          .eq("id", notFoundSubtitle.id);
-        console.log("\n ~ forawait ~ response 3:", response);
+        if (ok === true) {
+          if (notFoundSubtitle.email) {
+            console.log(`sending email to ${notFoundSubtitle.email}...`);
+
+            try {
+              const response = await apiClient.v1.subtitle.file.name[":bytes"][":fileName"].$get({
+                param: {
+                  bytes: String(notFoundSubtitle.bytes),
+                  fileName: notFoundSubtitle.title_file_name,
+                },
+              });
+
+              const data = await response.json();
+              const subtitleByFileName = subtitleNormalizedSchema.safeParse(data);
+
+              if (!subtitleByFileName.success) {
+                throw new Error("Subtitle not found in some way");
+              }
+
+              await sendEmail(subtitleByFileName.data, notFoundSubtitle.email);
+            } catch (error) {
+              console.log("\n ~ forawait ~ error 2 after indexation:", error);
+              continue;
+            }
+          }
+
+          await supabase.from("SubtitlesNotFound").delete().eq("title_file_name", notFoundSubtitle.title_file_name);
+        } else {
+          const { run_times } = notFoundSubtitle;
+
+          const response = await supabase
+            .from("SubtitlesNotFound")
+            .update({ run_times: run_times + 1 })
+            .eq("id", notFoundSubtitle.id);
+          console.log("\n ~ forawait ~ response 3:", response);
+        }
+      } catch (error) {
+        console.log("\n ~ forawait ~ error 3:", error);
+      } finally {
+        await supabase.from("SubtitlesNotFound").delete().eq("title_file_name", notFoundSubtitle.title_file_name);
+
+        await confirm({
+          message: "¿Desea continuar al siguiente titulo?",
+        });
       }
-
-      // await confirm({
-      //   message: "¿Desea continuar al siguiente titulo?",
-      // });
     }
 
     currentPage++;
