@@ -8,7 +8,7 @@ import { subtitlesNotFoundRowSchema, supabase } from "@subtis/db";
 import { subtitleNormalizedSchema } from "@subtis/api/shared/parsers";
 
 // shared
-import { getIsTvShow, getIsCinemaRecording } from "@subtis/shared";
+import { getIsCinemaRecording, getIsTvShow } from "@subtis/shared";
 
 // internals
 import { apiClient } from "./api";
