@@ -8,7 +8,7 @@ import { subtitlesNotFoundRowSchema, supabase } from "@subtis/db";
 import { subtitleNormalizedSchema } from "@subtis/api/shared/parsers";
 
 // shared
-import { getIsTvShow } from "@subtis/shared";
+import { getIsTvShow, getIsCinemaRecording } from "@subtis/shared";
 
 // internals
 import { apiClient } from "./api";
@@ -58,11 +58,17 @@ export async function indexNotFoundSubtitles() {
         // }
 
         const isTvShow = getIsTvShow(notFoundSubtitle.title_file_name);
+        const isCinemaRecording = getIsCinemaRecording(notFoundSubtitle.title_file_name);
 
         // TODO: Temporarily skipping tv shows
         if (isTvShow) {
           console.log("Skipping tv show", notFoundSubtitle.title_file_name);
-          continue;
+          throw new Error("Skipping tv show");
+        }
+
+        if (isCinemaRecording) {
+          console.log("Skipping cinema recording", notFoundSubtitle.title_file_name);
+          throw new Error("Skipping cinema recording");
         }
 
         const response = await apiClient.v1.subtitle.file.name[":bytes"][":fileName"].$get({
