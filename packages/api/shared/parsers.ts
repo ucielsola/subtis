@@ -69,6 +69,7 @@ export function getSubtitleNormalized(subtisSubtitle: SubtisSubtitle): SubtitleN
   const { rip_type: rawRipType, ...rest } = subtitle;
   const rip_type = getParsedRipType(rawRipType);
   const subtitle_link = getSubtitleShortLink(subtitle.id);
+  const resolution = `${subtitle.resolution}p`;
 
   return {
     title,
@@ -77,6 +78,7 @@ export function getSubtitleNormalized(subtisSubtitle: SubtisSubtitle): SubtitleN
     subtitle: {
       ...rest,
       rip_type,
+      resolution,
       subtitle_link,
     },
   };
@@ -88,13 +90,14 @@ export function getSubtitlesNormalized(subtisSubtitle: SubtisSubtitle): Subtitle
   const { rip_type: rawRipType, ...rest } = subtitle;
   const rip_type = getParsedRipType(rawRipType);
   const subtitle_link = getSubtitleShortLink(subtitle.id);
-
+  const resolution = `${subtitle.resolution}p`;
   return {
     release_group,
     subtitle_group,
     subtitle: {
       ...rest,
       rip_type,
+      resolution,
       subtitle_link,
     },
   };
