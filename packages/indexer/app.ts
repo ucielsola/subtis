@@ -1303,18 +1303,18 @@ export async function getSubtitlesForTitle({
     }
 
     if (titleFileNameFromNotFoundSubtitle) {
-      const torrentVideoFileName = videoFile.name.toLowerCase();
-      const torrentTitle = torrent.title.toLowerCase();
+      const torrentVideoFileName = videoFile.name.toLowerCase().trim();
+      const torrentTitle = torrent.title.toLowerCase().trim();
 
-      const parsedTitleFileNameFromNotFoundSubtitle = titleFileNameFromNotFoundSubtitle.toLowerCase();
+      const parsedTitleFileNameFromNotFoundSubtitle = titleFileNameFromNotFoundSubtitle.toLowerCase().trim();
       const fileNameWithoutExtension = getTitleFileNameWithoutExtension(parsedTitleFileNameFromNotFoundSubtitle);
 
       const spacedTitleFileNameFromNotFoundSubtitle = parsedTitleFileNameFromNotFoundSubtitle.replaceAll(".", " ");
 
       if (
-        torrentVideoFileName !== parsedTitleFileNameFromNotFoundSubtitle ||
-        torrentVideoFileName !== fileNameWithoutExtension ||
-        torrentTitle !== parsedTitleFileNameFromNotFoundSubtitle ||
+        torrentVideoFileName !== parsedTitleFileNameFromNotFoundSubtitle &&
+        torrentVideoFileName !== fileNameWithoutExtension &&
+        torrentTitle !== parsedTitleFileNameFromNotFoundSubtitle &&
         torrentTitle !== spacedTitleFileNameFromNotFoundSubtitle
       ) {
         console.log(

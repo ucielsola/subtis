@@ -1,6 +1,6 @@
+import { AnimatePresence, motion } from "motion/react";
 import type React from "react";
 import { useRef, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
 
 interface LensProps {
   children: React.ReactNode;
