@@ -154,7 +154,7 @@ export default function SubtitlesPage() {
     <div className="pt-24 pb-44 flex flex-col lg:flex-row justify-between gap-4">
       <article className="max-w-xl w-full">
         <section className="flex flex-col gap-12">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-4">
             <h1 className="text-zinc-50 text-5xl font-bold">¡Subtítulo encontrado!</h1>
             <h2 className="text-zinc-50 text-balance">
               Descarga el siguiente subtítulo para disfrutar de tu película.
@@ -176,7 +176,7 @@ export default function SubtitlesPage() {
         <section className="flex flex-col gap-12 mt-16">
           <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold text-zinc-50">Buscar nuevo subtítulo por archivo</h3>
-            <h4 className="text-zinc-50">Querés buscar un subtítulo nuevo? Arrastra el archivo debajo.</h4>
+            <h4 className="text-zinc-50">¿Querés buscar un subtítulo nuevo? Arrastra el archivo debajo.</h4>
           </div>
           <div className="bg-zinc-950 border border-zinc-700 rounded-sm group/video overflow-hidden h-64 relative">
             <VideoDropzone />

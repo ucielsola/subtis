@@ -151,7 +151,7 @@ export default function RealTimeSearchPage() {
     <div className="pt-24 pb-48 flex flex-col lg:flex-row justify-between gap-4">
       <article className="max-w-xl w-full">
         <section className="flex flex-col gap-12">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-4">
             <h1 className="text-zinc-50 text-5xl font-bold">Buscando subtítulo...</h1>
             <h2 className="text-zinc-50">{message ?? "Este proceso puede durar hasta 2 minutos."}</h2>
           </div>
