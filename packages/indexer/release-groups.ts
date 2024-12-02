@@ -526,6 +526,11 @@ export const RELEASE_GROUPS = {
     release_group_name: "geckos",
     matches: ["geckos", "x264-geckos", "x265-geckos", "x264-geckos[EtHD]", "x265-geckos[EtHD]"],
   },
+  CHD: {
+    is_supported: true,
+    release_group_name: "CHD",
+    matches: ["CHD", "1-CHD", "DTS-CHD", "x264-CHD"],
+  },
 } as const;
 
 // types
