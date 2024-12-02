@@ -1149,7 +1149,7 @@ export async function getSubtitlesForTitle({
   console.log("\nTorrents without filter \n");
   console.table(torrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
 
-  const filteredTorrents = getFilteredTorrents(torrents, 25);
+  const filteredTorrents = getFilteredTorrents(torrents, 30);
 
   console.log("\nFiltered torrents \n");
   console.table(filteredTorrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
