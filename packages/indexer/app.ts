@@ -35,6 +35,7 @@ import {
   getStringWithoutSpecialCharacters,
   getTitleFileNameExtension,
   getTitleFileNameMetadata,
+  getTitleFileNameWithoutExtension,
 } from "@subtis/shared";
 
 // internals
@@ -1185,9 +1186,18 @@ export async function getSubtitlesForTitle({
 
   if (
     titleFileNameFromNotFoundSubtitle &&
-    !specificTorrents.some(
-      ({ videoFile }) => videoFile?.name.toLowerCase() === titleFileNameFromNotFoundSubtitle.toLowerCase(),
-    )
+    !specificTorrents.some(({ videoFile, title }) => {
+      if (!videoFile?.name) {
+        return false;
+      }
+
+      const fileNameWithoutExtension = getTitleFileNameWithoutExtension(titleFileNameFromNotFoundSubtitle);
+
+      return (
+        videoFile.name.toLowerCase() === titleFileNameFromNotFoundSubtitle.toLowerCase() ||
+        title.toLowerCase() === fileNameWithoutExtension.toLowerCase()
+      );
+    })
   ) {
     console.log(`4.${index}) Título ${titleFileNameFromNotFoundSubtitle} no encontrado en los torrents \n`);
     return false;
