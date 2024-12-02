@@ -1195,6 +1195,8 @@ export async function getSubtitlesForTitle({
 
       return (
         videoFile.name.toLowerCase() === titleFileNameFromNotFoundSubtitle.toLowerCase() ||
+        videoFile.name.toLowerCase() === fileNameWithoutExtension.toLowerCase() ||
+        title.toLowerCase() === titleFileNameFromNotFoundSubtitle.toLowerCase() ||
         title.toLowerCase() === fileNameWithoutExtension.toLowerCase()
       );
     })
