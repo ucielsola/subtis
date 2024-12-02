@@ -521,6 +521,11 @@ export const RELEASE_GROUPS = {
       "h265-scrupulousslyearwigofmaturity",
     ],
   },
+  GECKOS: {
+    is_supported: true,
+    release_group_name: "geckos",
+    matches: ["geckos", "x264-geckos", "x265-geckos", "x264-geckos[EtHD]", "x265-geckos[EtHD]"],
+  },
 } as const;
 
 // types
