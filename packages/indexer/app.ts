@@ -101,7 +101,7 @@ type SubtitleWithResolutionAndTorrentId = SubtitleData & {
 };
 
 // constants
-const MAX_TIMEOUT = ms("2m");
+const MAX_TIMEOUT = ms("1m");
 const MIN_BYTES = filesizeParser("500MB");
 
 const COMPRESSED_SUBTITLES_FOLDER_NAME = "compressed-subtitles";
@@ -857,36 +857,42 @@ function getFilteredTorrents(torrents: TorrentFound[], maxTorrents: number): Tor
 }
 
 function getSpecificTorrents(
-  torrents: TorrentFoundWithVideoFileAndId[],
+  torrents: TorrentFoundWithId[],
   titleName: string,
-  titleType: TitleTypes,
-  titleFileName: string | undefined,
-): TorrentFoundWithVideoFileAndId[] {
-  const results = torrents.filter((torrent) => {
-    if (titleType === TitleTypes.tvShow) {
-      return true;
-    }
-
-    if (torrent.videoFile && titleFileName) {
-      const { name: fileName } = torrent.videoFile;
-      return fileName.toLowerCase() === titleFileName.toLowerCase();
-    }
-
-    return false;
-  });
-
-  if (results.length > 0) {
-    return results;
-  }
-
+  titleFileNameFromNotFoundSubtitle: string | undefined,
+): TorrentFoundWithId[] {
   const parsedTitleName = getStringWithoutSpecialCharacters(titleName).trim();
 
-  return torrents.filter((torrent) => {
+  const torrentsForTitle = torrents.filter((torrent) => {
     const { title } = torrent;
     const lowerCaseTitle = title.toLowerCase();
     const parsedTorrentTitle = /\s/.test(lowerCaseTitle) ? lowerCaseTitle : lowerCaseTitle.replaceAll(".", " ");
 
     return parsedTorrentTitle.includes(parsedTitleName);
+  });
+
+  const torrentsForTitleFileName = torrentsForTitle.filter((torrent) => {
+    if (titleFileNameFromNotFoundSubtitle) {
+      const torrentTitle = torrent.title.toLowerCase();
+      const fileNameWithoutExtension = getTitleFileNameWithoutExtension(titleFileNameFromNotFoundSubtitle);
+
+      return (
+        torrentTitle === titleFileNameFromNotFoundSubtitle.toLowerCase() ||
+        torrentTitle === fileNameWithoutExtension.toLowerCase()
+      );
+    }
+
+    return true;
+  });
+
+  if (torrentsForTitleFileName.length > 0) {
+    return torrentsForTitleFileName.toSorted((torrentA, torrentB) => {
+      return torrentB.seeds - torrentA.seeds;
+    });
+  }
+
+  return torrentsForTitle.toSorted((torrentA, torrentB) => {
+    return torrentB.seeds - torrentA.seeds;
   });
 }
 
@@ -920,7 +926,9 @@ export async function getTorrentVideoFileMetadata(torrent: TorrentFound): Promis
   const videoFile = await new Promise<VideoFile>((resolve, reject) => {
     const timeoutId = setTimeout(() => {
       engine.destroy();
-      reject(new Error("Timeout: Tardo más de 30s puede ser por falta de seeds"));
+      reject(
+        new Error(`Timeout: Tardo más de 1 minuto, puede ser por falta de seeds. Seeds totales: ${torrent.seeds}`),
+      );
     }, MAX_TIMEOUT);
 
     engine.on("ready", async () => {
@@ -948,19 +956,19 @@ export async function getTorrentVideoFileMetadata(torrent: TorrentFound): Promis
               let resolution = "";
 
               if (firstStream.width === 854 || firstStream.height === 480) {
-                resolution = "480p";
+                resolution = "480";
               }
 
               if (firstStream.width === 720 || firstStream.height === 720) {
-                resolution = "720p";
+                resolution = "720";
               }
 
               if (firstStream.width === 1920 || firstStream.height === 1080) {
-                resolution = "1080p";
+                resolution = "1080";
               }
 
               if (firstStream.width === 3840 || firstStream.width === 4096 || firstStream.height === 1440) {
-                resolution = "2160p";
+                resolution = "2160";
               }
 
               clearTimeout(timeoutId);
@@ -1154,69 +1162,10 @@ export async function getSubtitlesForTitle({
   console.log("\nFiltered torrents \n");
   console.table(filteredTorrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
 
-  const torrentsWithVideoFile = await Promise.all(
-    filteredTorrents.map(async (torrent, torrentIndex) => {
-      const videoFile = await executeWithOptionalTryCatch(
-        true,
-        async function processTorrent() {
-          return await getTorrentVideoFileMetadata(torrent);
-        },
-        `4.${index}.${torrentIndex}) No se encontraron archivos en el torrent\n`,
-      );
-
-      return { ...torrent, videoFile };
-    }),
-  );
-  console.log("\nTorrents with video file \n");
-  console.table(
-    torrentsWithVideoFile.map(({ title, size, seeds, videoFile }) => ({
-      title,
-      size,
-      seeds,
-      fileName: videoFile?.name,
-    })),
-  );
-
-  const specificTorrents = getSpecificTorrents(
-    torrentsWithVideoFile,
-    name,
-    titleType,
-    titleFileNameFromNotFoundSubtitle,
-  );
-
-  if (
-    titleFileNameFromNotFoundSubtitle &&
-    !specificTorrents.some(({ videoFile, title }) => {
-      if (!videoFile?.name) {
-        return false;
-      }
-
-      const fileNameWithoutExtension = getTitleFileNameWithoutExtension(titleFileNameFromNotFoundSubtitle);
-
-      return (
-        videoFile.name.toLowerCase() === titleFileNameFromNotFoundSubtitle.toLowerCase() ||
-        videoFile.name.toLowerCase() === fileNameWithoutExtension.toLowerCase() ||
-        title.toLowerCase() === titleFileNameFromNotFoundSubtitle.toLowerCase() ||
-        title.toLowerCase() === fileNameWithoutExtension.toLowerCase()
-      );
-    })
-  ) {
-    console.log(`4.${index}) Título ${titleFileNameFromNotFoundSubtitle} no encontrado en los torrents \n`);
-    return false;
-  }
+  const specificTorrents = getSpecificTorrents(filteredTorrents, name, titleFileNameFromNotFoundSubtitle);
 
   console.log("\nSpecific torrents \n");
-  console.table(
-    specificTorrents.map(({ title, size, seeds, videoFile }) => ({ title, size, seeds, fileName: videoFile?.name })),
-  );
-
-  console.log("\nTorrents total", torrentsWithVideoFile.length);
-  console.log("Filtered torrents total", specificTorrents.length);
-  console.log(
-    "Differences between torrents and specificTorrents",
-    torrentsWithVideoFile.length - specificTorrents.length,
-  );
-  console.log("\n\n");
+  console.table(specificTorrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
 
   if (specificTorrents.length === 0) {
     console.log(`4.${index}) No se encontraron torrents para el titulo "${name}" con query ${titleProviderQuery} \n`);
@@ -1227,13 +1176,12 @@ export async function getSubtitlesForTitle({
     `4.${index}) Torrents (${specificTorrents.length}) encontrados para el título "${name}" con query ${titleProviderQuery} \n`,
   );
   console.table(
-    specificTorrents.map(({ seeds, title, tracker, formattedBytes, videoFile }) => ({
+    specificTorrents.map(({ seeds, title, tracker, formattedBytes }) => ({
       query: titleProviderQuery,
       seeds,
       size: formattedBytes,
       title,
       tracker,
-      videoFile: videoFile?.name,
     })),
   );
 
@@ -1342,11 +1290,41 @@ export async function getSubtitlesForTitle({
     console.log("\n\n\n\n");
     console.log("-------------------------------------------------------------------");
 
-    if (!torrent.videoFile) {
+    const videoFile = await executeWithOptionalTryCatch(
+      true,
+      async function processTorrent() {
+        return await getTorrentVideoFileMetadata(torrent);
+      },
+      `4.${index}.${torrentIndex}) No se encontraron archivos en el torrent\n`,
+    );
+
+    if (!videoFile) {
       continue;
     }
 
-    const { length: bytes, name: fileName, resolution: resolutionFromVideoFile } = torrent.videoFile;
+    if (titleFileNameFromNotFoundSubtitle) {
+      const torrentVideoFileName = videoFile.name.toLowerCase();
+      const torrentTitle = torrent.title.toLowerCase();
+
+      const parsedTitleFileNameFromNotFoundSubtitle = titleFileNameFromNotFoundSubtitle.toLowerCase();
+      const fileNameWithoutExtension = getTitleFileNameWithoutExtension(parsedTitleFileNameFromNotFoundSubtitle);
+
+      const spacedTitleFileNameFromNotFoundSubtitle = parsedTitleFileNameFromNotFoundSubtitle.replaceAll(".", " ");
+
+      if (
+        torrentVideoFileName !== parsedTitleFileNameFromNotFoundSubtitle ||
+        torrentVideoFileName !== fileNameWithoutExtension ||
+        torrentTitle !== parsedTitleFileNameFromNotFoundSubtitle ||
+        torrentTitle !== spacedTitleFileNameFromNotFoundSubtitle
+      ) {
+        console.log(
+          `4.${index}.${torrentIndex}) El nombre del archivo del torrent no coincide con el nombre del archivo del subtítulo, saltando...`,
+        );
+        continue;
+      }
+    }
+
+    const { length: bytes, name: fileName, resolution: resolutionFromVideoFile } = videoFile;
     let titleFileNameMetadata: TitleFileNameMetadata | null = null;
 
     try {
@@ -1367,7 +1345,7 @@ export async function getSubtitlesForTitle({
     const finalResolution = resolution ? resolution : resolutionFromVideoFile ? resolutionFromVideoFile : "-";
 
     if (!releaseGroup) {
-      console.error(`No hay release group soportado para ${torrent.videoFile.name} \n`);
+      console.error(`No hay release group soportado para ${videoFile.name} \n`);
 
       if (isDebugging) {
         await confirm({
