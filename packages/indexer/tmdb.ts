@@ -459,7 +459,7 @@ export async function getMovieMetadataFromTmdbMovie({
     const { titles } = tmdbMovieAlternativeTitleSchema.parse(data);
     const [firstTitle] = titles;
 
-    japanaseName = firstTitle.title;
+    japanaseName = firstTitle?.title ?? null;
   }
 
   return {
