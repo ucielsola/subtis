@@ -215,7 +215,7 @@ export async function filterSubdlSubtitlesForTorrent({
     releaseGroupName: releaseGroup.release_group_name,
   });
 
-  const subtitleId = subtitleLink.split(/\//gi)[2].split(".")[0];
+  const subtitleId = subtitleLink.split(/\//gi).reverse()[0].split(".")[0];
 
   return {
     lang: "es",
