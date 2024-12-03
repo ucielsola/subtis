@@ -868,7 +868,7 @@ function getSpecificTorrents(
     const lowerCaseTitle = title.toLowerCase();
     const parsedTorrentTitle = /\s/.test(lowerCaseTitle) ? lowerCaseTitle : lowerCaseTitle.replaceAll(".", " ");
 
-    return parsedTorrentTitle.includes(parsedTitleName);
+    return parsedTorrentTitle.includes(parsedTitleName) || parsedTorrentTitle.startsWith(titleName.toLowerCase());
   });
 
   const torrentsForTitleFileName = torrentsForTitle.filter((torrent) => {
@@ -1289,6 +1289,10 @@ export async function getSubtitlesForTitle({
   for await (const [torrentIndex, torrent] of Object.entries(specificTorrents)) {
     console.log("\n\n\n\n");
     console.log("-------------------------------------------------------------------");
+
+    if (titleFileNameFromNotFoundSubtitle && wsSubtitleHasBeenFound) {
+      break;
+    }
 
     const videoFile = await executeWithOptionalTryCatch(
       true,
