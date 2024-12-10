@@ -546,7 +546,26 @@ export const RELEASE_GROUPS = {
     release_group_name: "DAA",
     matches: ["DAA","x264-DAA"],
   },
-
+  TERMiNAL: {
+    is_supported: true,
+    release_group_name: "TERMiNAL",
+    matches: ["TERMiNAL","x265-TERMiNAL"],
+  },
+  Joy: {
+    is_supported: true,
+    release_group_name: "Joy",
+    matches: ["Joy","x264-Joy","x265-Joy"],
+  },
+  KiNGDOM: {
+    is_supported: true,
+    release_group_name: "KiNGDOM",
+    matches: ["KiNGDOM","DTS-KiNGDOM","x264-KiNGDOM","x265-KiNGDOM"],
+  },
+  PiRaTeS: {
+    is_supported: true,
+    release_group_name: "PiRaTeS",
+    matches: ["PiRaTeS","265-PiRaTeS","h265-PiRaTeS"],
+  },
 } as const;
 
 // types
