@@ -160,7 +160,7 @@ export default function RealTimeSearchPage() {
               <iframe
                 width="560"
                 height="315"
-                src={`https://www.youtube.com/embed/${teaser.id}?autoplay=1&mute=1`}
+                src={`https://www.youtube.com/embed/${teaser.youTubeVideoId}?autoplay=1&mute=1`}
                 title={teaser.name}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
