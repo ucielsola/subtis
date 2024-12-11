@@ -154,13 +154,11 @@ export const title = new Hono<{ Variables: AppVariables }>()
       });
 
       const youTubeTeaser = curatedYouTubeTeaser ?? filteredTeasers[0];
-      const teaser = `https://www.youtube.com/watch?v=${youTubeTeaser?.id.videoId}`;
 
       return context.json({
-        name: queryName,
         year,
-        url: teaser,
-        id: youTubeTeaser.id.videoId,
+        name: queryName,
+        youTubeVideoId: youTubeTeaser.id.videoId,
       });
     },
     // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("1 week")}` }),
