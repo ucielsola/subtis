@@ -1,6 +1,7 @@
 import type { LinksFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // layout
 import { HomeFooter } from "~/components/layout/footer";
@@ -11,6 +12,9 @@ import { Toaster } from "~/components/ui/toaster";
 
 // internals
 import styles from "./tailwind.css?url";
+
+// constants
+const queryClient = new QueryClient();
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
@@ -46,18 +50,24 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return (
-    <main className="min-h-screen bg-right-top bg-[url('/hero-bg.png')] bg-contain bg-no-repeat">
-      <div className="container mx-auto px-4">
-        <nav className="flex items-center justify-between py-4">
-          <Link to="/">
-            <img src="/logo.png" alt="Subtis" className="w-24 h-[38.9px] hover:scale-105 transition-all ease-in-out" />
-          </Link>
-          <SearchButton />
-        </nav>
-        <Outlet />
-        <HomeFooter />
-      </div>
-      <Toaster />
-    </main>
+    <QueryClientProvider client={queryClient}>
+      <main className="min-h-screen bg-right-top bg-[url('/hero-bg.png')] bg-contain bg-no-repeat">
+        <div className="container mx-auto px-4">
+          <nav className="flex items-center justify-between py-4">
+            <Link to="/">
+              <img
+                src="/logo.png"
+                alt="Subtis"
+                className="w-24 h-[38.9px] hover:scale-105 transition-all ease-in-out"
+              />
+            </Link>
+            <SearchButton />
+          </nav>
+          <Outlet />
+          <HomeFooter />
+        </div>
+        <Toaster />
+      </main>
+    </QueryClientProvider>
   );
 }

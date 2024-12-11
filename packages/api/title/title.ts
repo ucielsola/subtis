@@ -105,7 +105,11 @@ export const title = new Hono<{ Variables: AppVariables }>()
 
       let queryName = name;
       if (success && tmdbData) {
-        // const sortedMoviesByVoteCount = tmdbData.results.toSorted((a, b) => (a.vote_count < b.vote_count ? 1 : -1));
+        if (tmdbData.results.length === 0) {
+          context.status(404);
+          return context.json({ message: "No teaser found" });
+        }
+
         const [movie] = tmdbData.results;
 
         queryName = movie.original_title;

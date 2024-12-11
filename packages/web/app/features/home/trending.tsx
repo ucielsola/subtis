@@ -1,6 +1,6 @@
 // internals
-import { NewsSlider } from "~/components/home/news-slider";
-import { TrendingSlider } from "~/components/home/trending-slider";
+import { NewsSlider } from "~/features/home/news-slider";
+import { TrendingSlider } from "~/features/home/trending-slider";
 
 export function HomeTrending() {
   return (

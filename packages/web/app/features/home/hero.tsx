@@ -1,9 +1,9 @@
-// home
-import { BadgeTvShows } from "~/components/home/badge-tv-shows";
-import { RaycastLogo } from "~/components/home/raycast-logo";
-import { StremioButton } from "~/components/home/stremio-button";
-import { VlcButton } from "~/components/home/vlc-button";
 import { VideoDropzone } from "~/components/shared/video-dropzone";
+// home
+import { BadgeTvShows } from "~/features/home/badge-tv-shows";
+import { RaycastLogo } from "~/features/home/raycast-logo";
+import { StremioButton } from "~/features/home/stremio-button";
+import { VlcButton } from "~/features/home/vlc-button";
 
 // ui
 import { AspectRatio } from "~/components/ui/aspect-ratio";

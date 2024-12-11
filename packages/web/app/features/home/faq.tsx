@@ -1,5 +1,5 @@
 // internals
-import { FaqQuestions } from "~/components/home/faq-questions";
+import { FaqQuestions } from "~/features/home/faq-questions";
 
 export function HomeFaq() {
   return (

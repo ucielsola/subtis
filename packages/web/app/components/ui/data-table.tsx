@@ -1,6 +1,8 @@
 import { type ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { useState } from "react";
 
+import { ChevronUp } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 // internals
 import { Button } from "./button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./table";
@@ -62,6 +64,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                       className="text-sm text-zinc-300 hover:text-zinc-50 w-full h-full bg-zinc-950 hover:bg-zinc-950 border-none hover:border-none py-3"
                     >
                       {showAll ? "Cargar menos opciones" : "Cargar más opciones"}
+                      {showAll ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
                     </Button>
                   </TableCell>
                 </TableRow>
