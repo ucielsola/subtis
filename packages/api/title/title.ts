@@ -16,6 +16,9 @@ import {
   youTubeSchema,
 } from "@subtis/shared";
 
+// indexer
+import { FILE_NAME_TO_TMDB_INDEX } from "@subtis/indexer/edge-cases";
+
 // internals
 import { getTmdbApiKey, getYoutubeApiKey } from "../shared/api-keys";
 import { titleMetadataQuery, titleMetadataSchema } from "../shared/schemas";
@@ -110,7 +113,8 @@ export const title = new Hono<{ Variables: AppVariables }>()
           return context.json({ message: "No teaser found" });
         }
 
-        const [movie] = tmdbData.results;
+        const index = FILE_NAME_TO_TMDB_INDEX[videoFileName.data as keyof typeof FILE_NAME_TO_TMDB_INDEX] ?? 0;
+        const movie = tmdbData.results[index];
 
         queryName = movie.original_title;
       }

@@ -15,6 +15,7 @@ import { type TitleFileNameMetadata, getEpisode, getIsTvShow, getTitleFileNameMe
 // internals
 import { apiClient } from "./api";
 import { TitleTypes, type TorrentFound, getSubtitlesForTitle, getTitleTorrents } from "./app";
+import { FILE_NAME_TO_TMDB_INDEX } from "./edge-cases";
 import { getReleaseGroups } from "./release-groups";
 import { getSubDivXParameter, getSubDivXToken } from "./subdivx";
 import { getSubtitleGroups } from "./subtitle-groups";
@@ -261,7 +262,8 @@ export async function indexTitleByFileName({
     // const sortedMoviesByVoteCount = movies.results.toSorted((a, b) => (a.vote_count < b.vote_count ? 1 : -1));
     // console.log("\n ~ sortedMoviesByVoteCount:", sortedMoviesByVoteCount);
 
-    const [movie] = movies.results;
+    const index = FILE_NAME_TO_TMDB_INDEX[titleFileName as keyof typeof FILE_NAME_TO_TMDB_INDEX] ?? 0;
+    const movie = movies.results[index];
 
     const {
       id,
@@ -364,8 +366,8 @@ export async function indexTitleByFileName({
 // const titleFileName = "Scenes.From.A.Marriage.1974.1080p.BluRay.x264-[YTS.AM].mp4";
 // const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
 
-// const bytes = 39567983454122;
-// const titleFileName = "Mission.Impossible.II.2000.1080p.BluRay.x264-[YTS.AG].mp4";
+// const bytes = 3942221154122;
+// const titleFileName = "X-Men.2000.1080p.BrRip.x264.YIFY.mp4";
 
 // indexTitleByFileName({
 //   bytes,
