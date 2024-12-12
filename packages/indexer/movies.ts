@@ -134,9 +134,9 @@ export async function indexMovieByName({
 // indexMoviesByYear(2024, false);
 
 // indexMovieByName({
-//   year: 2014,
+//   year: 2012,
 //   isDebugging: false,
-//   name: "The Imitation Game",
+//   name: "Avengers",
 // });
 
 saveReleaseGroupsToDb(supabase);
