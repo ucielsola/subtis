@@ -835,7 +835,7 @@ function getFilteredTorrents(torrents: TorrentFound[], maxTorrents: number): Tor
     .filter((torrent) => !getIsCinemaRecording(torrent.title))
     .filter(({ seeds }) => seeds >= MIN_SEEDS)
     .filter(({ size, isBytesFormatted }) => {
-      const bytes = isBytesFormatted ? filesizeParser(size) : (size as number);
+      const bytes = isBytesFormatted ? filesizeParser((size as string).replaceAll(",", "")) : (size as number);
 
       return bytes > MIN_BYTES;
     })
@@ -849,7 +849,10 @@ function getFilteredTorrents(torrents: TorrentFound[], maxTorrents: number): Tor
       return true;
     })
     .map((torrent) => {
-      const bytes = torrent.isBytesFormatted ? filesizeParser(torrent.size) : (torrent.size as number);
+      const bytes = torrent.isBytesFormatted
+        ? filesizeParser((torrent.size as string).replaceAll(",", ""))
+        : (torrent.size as number);
+
       const formattedBytes = prettyBytes(bytes);
 
       return { ...torrent, id: generateIdFromMagnet(torrent.trackerId), bytes, formattedBytes };

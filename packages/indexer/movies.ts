@@ -134,9 +134,9 @@ export async function indexMovieByName({
 // indexMoviesByYear(2024, false);
 
 // indexMovieByName({
-//   year: 2000,
+//   year: 2014,
 //   isDebugging: false,
-//   name: "Crouching Tiger, Hidden Dragon",
+//   name: "The Imitation Game",
 // });
 
 saveReleaseGroupsToDb(supabase);
