@@ -919,7 +919,7 @@ export async function getTorrentVideoFileMetadata(torrent: TorrentFound): Promis
     .run();
 
   const parsedTrackerId = encodeURI(
-    decodeURIComponent(torrent.trackerId)
+    decodeURI(torrent.trackerId)
       .split("&")
       .filter((url) => {
         const port = Number(url.match(/(?<=:)\d+(?=\/)/)?.[0] ?? "1");
