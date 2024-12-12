@@ -566,6 +566,16 @@ export const RELEASE_GROUPS = {
     release_group_name: "PiRaTeS",
     matches: ["PiRaTeS", "265-PiRaTeS", "h265-PiRaTeS"],
   },
+  "Atmos-SEMANTiCS": {
+    is_supported: true,
+    release_group_name: "Atmos-SEMANTiCS",
+    matches: ["x264-SEMANTiCS", "x265-SEMANTiCS", "Atmos-SEMANTiCS"],
+  },
+  PHOENiX: {
+    is_supported: true,
+    release_group_name: "PHOENiX",
+    matches: ["264-PHOENiX", "265-PHOENiX", "PHOENIX"],
+  },
 } as const;
 
 // types
