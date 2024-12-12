@@ -868,7 +868,13 @@ function getSpecificTorrents(
     const lowerCaseTitle = title.toLowerCase();
     const parsedTorrentTitle = /\s/.test(lowerCaseTitle) ? lowerCaseTitle : lowerCaseTitle.replaceAll(".", " ");
 
-    return parsedTorrentTitle.includes(parsedTitleName) || parsedTorrentTitle.startsWith(titleName.toLowerCase());
+    const [firstPart] = parsedTorrentTitle.split("(")[0].trim();
+
+    return (
+      parsedTorrentTitle.includes(parsedTitleName) ||
+      parsedTorrentTitle.startsWith(titleName.toLowerCase()) ||
+      parsedTitleName.startsWith(firstPart)
+    );
   });
 
   const torrentsForTitleFileName = torrentsForTitle.filter((torrent) => {
