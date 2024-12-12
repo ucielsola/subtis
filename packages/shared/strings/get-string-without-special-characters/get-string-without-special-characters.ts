@@ -6,5 +6,6 @@ export function getStringWithoutSpecialCharacters(str: string): string {
     .replaceAll(",", "")
     .replaceAll(" - ", " ")
     .replaceAll(".", "")
-    .replaceAll("'", "");
+    .replaceAll("'", "")
+    .replaceAll("´", "");
 }

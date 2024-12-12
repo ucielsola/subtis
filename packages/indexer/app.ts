@@ -1307,7 +1307,6 @@ export async function getSubtitlesForTitle({
       },
       `4.${index}.${torrentIndex}) No se encontraron archivos en el torrent\n`,
     );
-    console.log("\n ~ forawait ~ videoFile:", videoFile);
 
     if (!videoFile) {
       continue;
@@ -1315,17 +1314,12 @@ export async function getSubtitlesForTitle({
 
     if (titleFileNameFromNotFoundSubtitle) {
       const torrentVideoFileName = videoFile.name.toLowerCase().trim();
-      console.log("\n ~ forawait ~ torrentVideoFileName:", torrentVideoFileName);
       const torrentTitle = torrent.title.toLowerCase().trim();
-      console.log("\n ~ forawait ~ torrentTitle:", torrentTitle);
 
       const parsedTitleFileNameFromNotFoundSubtitle = titleFileNameFromNotFoundSubtitle.toLowerCase().trim();
-      console.log("\n ~ forawait ~ parsedTitleFileNameFromNotFoundSubtitle:", parsedTitleFileNameFromNotFoundSubtitle);
       const fileNameWithoutExtension = getTitleFileNameWithoutExtension(parsedTitleFileNameFromNotFoundSubtitle);
-      console.log("\n ~ forawait ~ fileNameWithoutExtension:", fileNameWithoutExtension);
 
       const spacedTitleFileNameFromNotFoundSubtitle = parsedTitleFileNameFromNotFoundSubtitle.replaceAll(".", " ");
-      console.log("\n ~ forawait ~ spacedTitleFileNameFromNotFoundSubtitle:", spacedTitleFileNameFromNotFoundSubtitle);
 
       if (
         torrentVideoFileName !== parsedTitleFileNameFromNotFoundSubtitle &&

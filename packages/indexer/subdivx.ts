@@ -146,20 +146,21 @@ async function getSubtitlesFromSubDivXForTitleByQuery({
 
   // Filter similar titles
   const filteredSubtitles = subtitles.aaData.filter((subtitle) => {
-    let parsedSubtitleTitle = subtitle.titulo.toLowerCase();
+    const parsedSubtitleTitle = subtitle.titulo.toLowerCase();
+    const parsedSubtitleTitleWithoutSpecialCharacters = getStringWithoutSpecialCharacters(parsedSubtitleTitle);
 
-    const akaIndex = parsedSubtitleTitle.indexOf("aka");
-    const directorsCutIndex = parsedSubtitleTitle.indexOf("director");
+    // const akaIndex = parsedSubtitleTitle.indexOf("aka");
+    // const directorsCutIndex = parsedSubtitleTitle.indexOf("director");
 
-    if (akaIndex !== -1) {
-      parsedSubtitleTitle = parsedSubtitleTitle.slice(0, akaIndex);
-    }
+    // if (akaIndex !== -1) {
+    //   parsedSubtitleTitle = parsedSubtitleTitle.slice(0, akaIndex);
+    // }
 
-    if (directorsCutIndex !== -1) {
-      parsedSubtitleTitle = parsedSubtitleTitle.slice(0, directorsCutIndex);
-    }
+    // if (directorsCutIndex !== -1) {
+    //   parsedSubtitleTitle = parsedSubtitleTitle.slice(0, directorsCutIndex);
+    // }
 
-    if (!getStringWithoutSpecialCharacters(parsedSubtitleTitle).startsWith(`${titleOnlyWithoutYear} `)) {
+    if (!parsedSubtitleTitleWithoutSpecialCharacters.includes(titleOnlyWithoutYear)) {
       return false;
     }
 

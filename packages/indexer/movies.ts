@@ -133,11 +133,11 @@ export async function indexMovieByName({
 // testing
 // indexMoviesByYear(2024, false);
 
-indexMovieByName({
-  year: 2022,
-  isDebugging: false,
-  name: "The Batman",
-});
+// indexMovieByName({
+//   year: 2000,
+//   isDebugging: false,
+//   name: "Crouching Tiger, Hidden Dragon",
+// });
 
 saveReleaseGroupsToDb(supabase);
 // saveSubtitleGroupsToDb(supabase);
