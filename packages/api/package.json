@@ -11,7 +11,7 @@
     "test:preload:db": "bun test --env-file=.env.development --preload ./setup.ts"
   },
   "dependencies": {
-    "@hono/zod-validator": "^0.4.1",
+    "@hono/zod-validator": "^0.4.2",
     "@supabase/supabase-js": "^2.47.6",
     "hono": "^4.6.13",
     "html-escaper": "^3.0.3",
