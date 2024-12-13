@@ -69,7 +69,7 @@ export function TrendingSlider() {
             <Link
               key={title.id}
               to={`/subtitles/movie/${title.imdb_id}`}
-              className="box-content flex flex-none [scroll-snap-align:start] rounded-md overflow-hidden cursor-pointer group/trending-card transition-all ease-in-out border-2 border-transparent hover:border-zinc-800"
+              className="box-content flex flex-none [scroll-snap-align:start] rounded-md overflow-hidden cursor-pointer group/trending-card transition-all ease-in-out border-2 border-transparent hover:border-zinc-700"
             >
               <img
                 alt={title.title_name}

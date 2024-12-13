@@ -96,7 +96,7 @@ export const AutoComplete = ({
 
   return (
     <CommandPrimitive onKeyDown={handleKeyDown}>
-      <div className=" border border-zinc-800 rounded-md bg-stone-950">
+      <div className=" border border-zinc-700 rounded-md bg-stone-950">
         <CommandInput
           ref={inputRef}
           value={inputValue}
@@ -115,7 +115,7 @@ export const AutoComplete = ({
             isOpen ? "block" : "hidden",
           )}
         >
-          <CommandList className="rounded-md border border-zinc-800">
+          <CommandList className="rounded-md border border-zinc-700">
             {isLoading ? (
               <CommandPrimitive.Loading>
                 <div className="p-1">

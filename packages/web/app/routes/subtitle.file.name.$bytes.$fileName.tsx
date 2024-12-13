@@ -200,7 +200,7 @@ export default function SubtitlePage() {
             </TabsList>
             <TabsContent value="play-subtitle" className="mt-6 flex flex-col gap-4">
               <Alert
-                className="bg-zinc-950 border border-zinc-800 flex items-start gap-4"
+                className="bg-zinc-950 border border-zinc-700 flex items-start gap-4"
                 onMouseEnter={() => videoTipControl.start("animate")}
                 onMouseLeave={() => videoTipControl.start("normal")}
               >
@@ -214,7 +214,7 @@ export default function SubtitlePage() {
                 </div>
               </Alert>
               <Alert
-                className="bg-zinc-950 border border-zinc-800 flex items-start gap-4"
+                className="bg-zinc-950 border border-zinc-700 flex items-start gap-4"
                 onMouseEnter={() => stremioTipControl.start("animate")}
                 onMouseLeave={() => stremioTipControl.start("normal")}
               >

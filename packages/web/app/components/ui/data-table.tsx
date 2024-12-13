@@ -29,7 +29,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id} className="border-zinc-800 hover:bg-zinc-800 bg-zinc-800">
+            <TableRow key={headerGroup.id} className="border-zinc-700 hover:bg-zinc-800 bg-zinc-800">
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead key={header.id} className="text-zinc-50 h-8 text-sm">
@@ -47,7 +47,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="hover:bg-zinc-900 border-b border-zinc-800 text-sm"
+                  className="hover:bg-zinc-900 border-b border-zinc-700 text-sm"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
@@ -55,7 +55,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                 </TableRow>
               ))}
               {hasMore ? (
-                <TableRow className="border-b border-zinc-800 text-sm hover:bg-zinc-950">
+                <TableRow className="border-b border-zinc-700 text-sm hover:bg-zinc-950">
                   <TableCell colSpan={columns.length} className="text-center p-0">
                     <Button
                       type="button"

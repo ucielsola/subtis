@@ -207,7 +207,7 @@ export default function SubtitlesPage() {
 
             <TabsContent value="choose-subtitle" className="flex flex-col gap-4 mt-0">
               <Alert
-                className="bg-zinc-950 border border-zinc-800 flex items-start gap-4"
+                className="bg-zinc-950 border border-zinc-700 flex items-start gap-4"
                 onMouseEnter={() => resolutionTipControl.start("animate")}
                 onMouseLeave={() => resolutionTipControl.start("normal")}
               >
@@ -222,7 +222,7 @@ export default function SubtitlesPage() {
                 </div>
               </Alert>
               <Alert
-                className="bg-zinc-950 border border-zinc-800 flex items-start gap-4"
+                className="bg-zinc-950 border border-zinc-700 flex items-start gap-4"
                 onMouseEnter={() => formatTipControl.start("animate")}
                 onMouseLeave={() => formatTipControl.start("normal")}
               >
@@ -237,7 +237,7 @@ export default function SubtitlesPage() {
                 </div>
               </Alert>
               <Alert
-                className="bg-zinc-950 border border-zinc-800 flex items-start gap-4"
+                className="bg-zinc-950 border border-zinc-700 flex items-start gap-4"
                 onMouseEnter={() => publisherTipControl.start("animate")}
                 onMouseLeave={() => publisherTipControl.start("normal")}
               >
@@ -255,7 +255,7 @@ export default function SubtitlesPage() {
 
             <TabsContent value="play-subtitle" className="flex flex-col gap-4 mt-0">
               <Alert
-                className="bg-zinc-950 border border-zinc-800 flex items-start gap-4"
+                className="bg-zinc-950 border border-zinc-700 flex items-start gap-4"
                 onMouseEnter={() => videoTipControl.start("animate")}
                 onMouseLeave={() => videoTipControl.start("normal")}
               >
@@ -269,7 +269,7 @@ export default function SubtitlesPage() {
                 </div>
               </Alert>
               <Alert
-                className="bg-zinc-950 border border-zinc-800 flex items-start gap-4"
+                className="bg-zinc-950 border border-zinc-700 flex items-start gap-4"
                 onMouseEnter={() => stremioTipControl.start("animate")}
                 onMouseLeave={() => stremioTipControl.start("normal")}
               >

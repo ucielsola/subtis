@@ -21,7 +21,7 @@ export function NewsSlider() {
           <Link
             key={title.id}
             to={`/subtitles/movie/${title.imdb_id}`}
-            className="box-content flex flex-none [scroll-snap-align:start] rounded-md overflow-hidden cursor-pointer border-2 border-transparent hover:border-zinc-800"
+            className="box-content flex flex-none [scroll-snap-align:start] rounded-md overflow-hidden cursor-pointer border-2 border-transparent hover:border-zinc-700"
           >
             <div className="w-72 h-[162.05px] relative rounded-md overflow-hidden group/new-card">
               <img

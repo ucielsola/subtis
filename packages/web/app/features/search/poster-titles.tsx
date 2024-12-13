@@ -80,7 +80,7 @@ function Slider({ data, isLoading }: SliderProps) {
             <Link
               key={title.label}
               to={`/subtitles/movie/${title.value}`}
-              className="box-content flex flex-none [scroll-snap-align:start] rounded-md overflow-hidden cursor-pointer group/trending-card transition-all ease-in-out border-2 border-transparent hover:border-zinc-800"
+              className="box-content flex flex-none [scroll-snap-align:start] rounded-md overflow-hidden cursor-pointer group/trending-card transition-all ease-in-out border-2 border-transparent hover:border-zinc-700"
             >
               <img
                 alt={title.label}
