@@ -142,7 +142,7 @@ export function HomeFeatures() {
           onMouseLeave={() => peopleControls.start("normal")}
         >
           <People size={24} controls={peopleControls} />
-          <span className="text-zinc-50">Comunidad</span>
+          <span className="text-zinc-50">Comunidad cinéfila</span>
         </div>
       </div>
     </section>
