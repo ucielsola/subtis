@@ -102,7 +102,7 @@ export function HomeFeatures() {
           onMouseLeave={() => circleCheckControls.start("normal")}
         >
           <CircleCheckIcon size={24} controls={circleCheckControls} />
-          <span className="text-zinc-50">SRT spec compliant</span>
+          <span className="text-zinc-50">Compatible con SRT</span>
         </div>
         <div
           className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 w-72 h-28"
