@@ -60,10 +60,10 @@ export function TrendingSlider() {
   }
 
   return (
-    <div className="relative">
+    <div className="relative w-full px-11 lg:px-0">
       <div
         ref={scrollContainerRef}
-        className="inline-flex overflow-x-scroll [scroll-snap-type:x_mandatory] [scroll-behavior:smooth] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-md gap-3 py-3"
+        className="flex overflow-x-scroll [scroll-snap-type:x_mandatory] [scroll-behavior:smooth] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-md gap-3 py-3 w-full"
       >
         {trendingDownloadedTitles.results.map((title) => {
           if (!title.poster) return null;
@@ -72,7 +72,7 @@ export function TrendingSlider() {
             <Link
               key={title.id}
               to={`/subtitles/movie/${title.imdb_id}`}
-              className="box-content flex flex-1 [scroll-snap-align:start] rounded-md overflow-hidden cursor-pointer border-2 border-transparent hover:border-zinc-700 hover:scale-105 transition-all ease-in-out will-change-transform"
+              className="box-content flex flex-none [scroll-snap-align:start] rounded-md overflow-hidden cursor-pointer border-2 border-transparent hover:border-zinc-700 hover:scale-105 transition-all ease-in-out will-change-transform"
             >
               <BlurhashTrendingImage src={title.poster} hashUrl={title.poster_blurhash} alt={title.title_name} />
             </Link>
@@ -83,7 +83,9 @@ export function TrendingSlider() {
       <button
         type="button"
         onClick={() => scroll("left")}
-        className={`absolute -left-11 top-1/2 -translate-y-1/2 rounded-md h-[336px] w-8 flex items-center justify-center ${isAtStart ? "opacity-0" : "opacity-100"} hidden lg:block`}
+        className={`z-50 absolute left-0 top-1/2 -translate-y-1/2 h-[336px] w-8 flex items-center justify-center ${
+          isAtStart ? "opacity-0" : "opacity-100"
+        } hidden lg:block bg-zinc-950/50 hover:bg-zinc-950/70 transition-colors`}
         aria-label="Scroll left"
       >
         <ChevronLeft className="size-6 text-zinc-50" />
@@ -92,7 +94,9 @@ export function TrendingSlider() {
       <button
         type="button"
         onClick={() => scroll("right")}
-        className={`absolute -right-11 top-1/2 -translate-y-1/2 rounded-md h-[336px] w-8 flex items-center justify-center ${isAtEnd ? "opacity-0" : "opacity-100"} hidden lg:block`}
+        className={`z-50 absolute right-0 top-1/2 -translate-y-1/2 h-[336px] w-8 flex items-center justify-center ${
+          isAtEnd ? "opacity-0" : "opacity-100"
+        } hidden lg:block bg-zinc-950/50 hover:bg-zinc-950/70 transition-colors`}
         aria-label="Scroll right"
       >
         <ChevronRight className="size-6 text-zinc-50" />
