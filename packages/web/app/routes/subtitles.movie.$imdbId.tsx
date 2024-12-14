@@ -19,6 +19,12 @@ import { DownloadIcon } from "~/components/icons/download";
 // lib
 import { cn } from "~/lib/utils";
 
+// hooks
+import { useToast } from "~/hooks/use-toast";
+
+// features
+import { BlurhashPosterImage } from "~/features/movie/blurhash-poster-image";
+
 // ui
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { DataTable } from "~/components/ui/data-table";
@@ -26,7 +32,6 @@ import DotPattern from "~/components/ui/dot-pattern";
 import { Separator } from "~/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { ToastAction } from "~/components/ui/toast";
-import { useToast } from "~/hooks/use-toast";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { imdbId } = params;
@@ -65,6 +70,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export default function SubtitlesPage() {
   // remix hooks
   const data = useLoaderData<typeof loader>();
+  console.log("\n ~ SubtitlesPage ~ data:", data);
 
   // motion hooks
   const videoTipControl = useAnimation();
@@ -286,13 +292,13 @@ export default function SubtitlesPage() {
           </Tabs>
         </section>
       </article>
-      {"message" in data ? null : data.title.poster ? (
+      {"message" in data ? null : data.title.poster_blurhash ? (
         <div className="hidden lg:flex flex-1 justify-center">
           <figure className="max-w-sm pt-12 flex flex-col items-center gap-2">
-            <img
-              alt={data.title.title_name}
+            <BlurhashPosterImage
               src={data.title.poster}
-              className="object-cover rounded-md border border-zinc-700/80"
+              hashUrl={data.title.poster_blurhash}
+              alt={data.title.title_name}
             />
             <figcaption className="text-zinc-400 text-sm">
               {data.title.title_name} ({data.title.year})

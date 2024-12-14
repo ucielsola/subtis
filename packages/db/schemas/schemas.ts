@@ -259,6 +259,7 @@ export const titleGenresRelationshipsSchema = z.tuple([
 
 export const titlesRowSchema = z.object({
   backdrop: z.string().nullable(),
+  backdrop_blurhash: z.string().nullable(),
   created_at: z.string(),
   id: z.number(),
   imdb_id: z.string(),
@@ -266,6 +267,7 @@ export const titlesRowSchema = z.object({
   logo: z.string().nullable(),
   overview: z.string(),
   poster: z.string().nullable(),
+  poster_blurhash: z.string().nullable(),
   queried_times: z.number().nullable(),
   rating: z.number(),
   release_date: z.string(),
@@ -282,6 +284,7 @@ export const titlesRowSchema = z.object({
 
 export const titlesInsertSchema = z.object({
   backdrop: z.string().optional().nullable(),
+  backdrop_blurhash: z.string().optional().nullable(),
   created_at: z.string().optional(),
   id: z.number().optional(),
   imdb_id: z.string(),
@@ -289,6 +292,7 @@ export const titlesInsertSchema = z.object({
   logo: z.string().optional().nullable(),
   overview: z.string(),
   poster: z.string().optional().nullable(),
+  poster_blurhash: z.string().optional().nullable(),
   queried_times: z.number().optional().nullable(),
   rating: z.number(),
   release_date: z.string(),
@@ -305,6 +309,7 @@ export const titlesInsertSchema = z.object({
 
 export const titlesUpdateSchema = z.object({
   backdrop: z.string().optional().nullable(),
+  backdrop_blurhash: z.string().optional().nullable(),
   created_at: z.string().optional(),
   id: z.number().optional(),
   imdb_id: z.string().optional(),
@@ -312,6 +317,7 @@ export const titlesUpdateSchema = z.object({
   logo: z.string().optional().nullable(),
   overview: z.string().optional(),
   poster: z.string().optional().nullable(),
+  poster_blurhash: z.string().optional().nullable(),
   queried_times: z.number().optional().nullable(),
   rating: z.number().optional(),
   release_date: z.string().optional(),

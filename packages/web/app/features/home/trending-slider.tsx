@@ -6,6 +6,9 @@ import { useEffect, useRef, useState } from "react";
 // routes
 import type { loader } from "~/routes/_index";
 
+// internals
+import { BlurhashTrendingImage } from "./blurhash-trending-image";
+
 export function TrendingSlider() {
   // remix hooks
   const { trendingDownloadedTitles } = useLoaderData<typeof loader>();
@@ -69,13 +72,9 @@ export function TrendingSlider() {
             <Link
               key={title.id}
               to={`/subtitles/movie/${title.imdb_id}`}
-              className="box-content flex flex-none [scroll-snap-align:start] rounded-md overflow-hidden cursor-pointer group/trending-card transition-all ease-in-out border-2 border-transparent hover:border-zinc-700"
+              className="box-content flex flex-1 [scroll-snap-align:start] rounded-md overflow-hidden cursor-pointer border-2 border-transparent hover:border-zinc-700 hover:scale-105 transition-all ease-in-out will-change-transform"
             >
-              <img
-                alt={title.title_name}
-                src={title.poster}
-                className="w-56 h-[336px] object-cover group-hover/trending-card:scale-110 transition-all ease-in-out will-change-transform"
-              />
+              <BlurhashTrendingImage src={title.poster} hashUrl={title.poster_blurhash} alt={title.title_name} />
             </Link>
           );
         })}

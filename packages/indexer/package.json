@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@clack/prompts": "^0.8.2",
+    "blurhash": "^2.0.5",
     "cheerio": "^1.0.0",
     "cli-progress": "^3.12.0",
     "dayjs": "^1.11.13",
@@ -33,6 +34,7 @@
     "pretty-bytes": "^6.1.1",
     "resend": "^4.0.1",
     "rimraf": "^6.0.1",
+    "sharp": "^0.33.5",
     "slugify": "^1.6.6",
     "srt-parser-2": "^1.2.3",
     "srt-validator": "^6.0.4",

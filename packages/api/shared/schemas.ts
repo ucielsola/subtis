@@ -49,6 +49,8 @@ export const titleSchema = titlesRowSchema.pick({
   title_name: true,
   poster: true,
   backdrop: true,
+  poster_blurhash: true,
+  backdrop_blurhash: true,
 });
 
 export const titlesQuery = `
@@ -60,7 +62,9 @@ export const titlesQuery = `
   year,
   poster,
   backdrop,
-  title_name
+  title_name,
+  poster_blurhash,
+  backdrop_blurhash
 `;
 
 export const alternativeTitlesSchema = titlesRowSchema.pick({ imdb_id: true });

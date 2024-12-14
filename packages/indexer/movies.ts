@@ -131,12 +131,12 @@ export async function indexMovieByName({
 }
 
 // testing
-// indexMoviesByYear(2024, false);
+indexMoviesByYear(2024, false);
 
 // indexMovieByName({
-//   year: 2012,
+//   year: 2016,
 //   isDebugging: false,
-//   name: "Avengers",
+//   name: "Moana",
 // });
 
 saveReleaseGroupsToDb(supabase);

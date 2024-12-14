@@ -52,6 +52,7 @@ import type { SubtitleGroupMap, SubtitleGroupNames } from "./subtitle-groups";
 import type { TmdbTitle, TmdbTvShow } from "./tmdb";
 import type { IndexedBy, SubtitleData } from "./types";
 import { executeWithOptionalTryCatch, getSubtitleAuthor } from "./utils";
+import { encodeImageToBlurhash } from "./utils/blurhash";
 import { getQueryForTorrentProvider } from "./utils/query";
 import { generateIdFromMagnet } from "./utils/torrent";
 import { YTS_TRACKERS, getYtsTorrents } from "./yts";
@@ -281,11 +282,17 @@ async function storeTitleInSupabaseTable(title: TitleWithEpisode): Promise<numbe
 
     return data.id;
   }
+  const [posterBlurhash, backdropBlurhash] = await Promise.all([
+    title.poster ? encodeImageToBlurhash(title.poster) : null,
+    title.backdrop ? encodeImageToBlurhash(title.backdrop) : null,
+  ]);
 
   const { data: titleData } = await supabase
     .from("Titles")
     .upsert({
       ...rest,
+      poster_blurhash: posterBlurhash,
+      backdrop_blurhash: backdropBlurhash,
       title_name_without_special_chars: getStringWithoutSpecialCharacters(title.title_name),
     })
     .select("id")

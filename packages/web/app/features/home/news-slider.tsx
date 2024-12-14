@@ -3,6 +3,9 @@ import { Link, useLoaderData } from "@remix-run/react";
 // routes
 import type { loader } from "~/routes/_index";
 
+// internals
+import { BlurhashNewsImage } from "./blurhash-news-image";
+
 export function NewsSlider() {
   const { recentDownloadedTitles } = useLoaderData<typeof loader>();
 
@@ -21,15 +24,9 @@ export function NewsSlider() {
           <Link
             key={title.id}
             to={`/subtitles/movie/${title.imdb_id}`}
-            className="box-content flex flex-none [scroll-snap-align:start] rounded-md overflow-hidden cursor-pointer border-2 border-transparent hover:border-zinc-700"
+            className="box-content flex flex-none [scroll-snap-align:start] rounded-md overflow-hidden cursor-pointer border-2 border-transparent hover:border-zinc-700 hover:scale-105 transition-all ease-in-out will-change-transform"
           >
-            <div className="w-72 h-[162.05px] relative rounded-md overflow-hidden group/new-card">
-              <img
-                alt={title.title_name}
-                src={title.backdrop}
-                className="w-full h-full object-cover group-hover/new-card:scale-110 transition-all ease-in-out rounded-md will-change-transform"
-              />
-            </div>
+            <BlurhashNewsImage src={title.backdrop} hashUrl={title.backdrop_blurhash} alt={title.title_name} />
           </Link>
         );
       })}

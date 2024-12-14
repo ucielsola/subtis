@@ -28,7 +28,9 @@ RETURNS TABLE (
     backdrop text,
     poster text,
     searched_times int2,
-    queried_times int2
+    queried_times int2,
+    poster_blurhash text,
+    backdrop_blurhash text
 ) AS $$
 BEGIN
     RETURN QUERY
@@ -41,7 +43,9 @@ BEGIN
         t.backdrop,
         t.poster,
         t.searched_times,
-        t.queried_times
+        t.queried_times,
+        t.poster_blurhash,
+        t.backdrop_blurhash
     FROM "Titles" t
     WHERE (
         (query % t.title_name AND similarity(query, t.title_name) > 0.3)
