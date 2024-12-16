@@ -1,11 +1,20 @@
 import { Link } from "@remix-run/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { motion } from "motion/react";
+import { AnimatePresence } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+
+// shared external
+import { getApiClient } from "@subtis/shared";
+
+// features
+import { BlurhashTrendingImage } from "~/features/home/blurhash-trending-image";
 
 type Result = {
   value: string;
   label: string;
   poster: string | null;
+  posterBlurHash: string | null;
 };
 
 type SliderProps = {
@@ -17,36 +26,33 @@ function Slider({ data, isLoading }: SliderProps) {
   // react hooks
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
-  const [hasOverflow, setHasOverflow] = useState(false);
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // effects
-  useEffect(function checkOverflowAndButtons() {
+  useEffect(function toggleButtons() {
     const container = scrollContainerRef.current;
-    if (!container) return;
+
+    if (!container) {
+      return;
+    }
 
     function handleScroll() {
       const container = scrollContainerRef.current;
       if (!container) return;
 
-      const hasHorizontalOverflow = container.scrollWidth > container.clientWidth;
       const isStart = container.scrollLeft === 0;
       const isEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth;
 
-      setHasOverflow(hasHorizontalOverflow);
       setIsAtStart(isStart);
       setIsAtEnd(isEnd);
     }
 
     handleScroll();
     container.addEventListener("scroll", handleScroll);
-    // Also check on window resize
-    window.addEventListener("resize", handleScroll);
 
     return () => {
       container.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
     };
   }, []);
 
@@ -59,6 +65,19 @@ function Slider({ data, isLoading }: SliderProps) {
     container.scrollBy({ left: scrollAmount, behavior: "smooth" });
   }
 
+  // handlers
+  async function handleUpdateSearchMetrics(imdbId: string) {
+    const apiClient = getApiClient({
+      apiBaseUrl: "https://api.subt.is" as string,
+    });
+
+    await apiClient.v1.title.metrics.search.$patch({
+      json: {
+        imdbId,
+      },
+    });
+  }
+
   if (isLoading) {
     return <span>Loading...</span>;
   }
@@ -68,25 +87,22 @@ function Slider({ data, isLoading }: SliderProps) {
   }
 
   return (
-    <div className="relative">
+    <div className="relative w-full px-11 lg:px-0">
       <div
         ref={scrollContainerRef}
-        className="inline-flex overflow-x-scroll [scroll-snap-type:x_mandatory] [scroll-behavior:smooth] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-md gap-3 py-3"
+        className="flex overflow-x-scroll [scroll-snap-type:x_mandatory] [scroll-behavior:smooth] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-md gap-3 py-3 w-full"
       >
-        {data.results.map((title) => {
+        {data?.results.map((title) => {
           if (!title.poster) return null;
 
           return (
             <Link
-              key={title.label}
+              key={title.value}
               to={`/subtitles/movie/${title.value}`}
-              className="box-content flex flex-none [scroll-snap-align:start] rounded-md overflow-hidden cursor-pointer group/trending-card transition-all ease-in-out border-2 border-transparent hover:border-zinc-700"
+              onClick={() => handleUpdateSearchMetrics(title.value)}
+              className="box-content flex flex-none [scroll-snap-align:start] rounded-md overflow-hidden cursor-pointer border-2 border-transparent hover:border-zinc-700 hover:scale-105 transition-all ease-in-out will-change-transform"
             >
-              <img
-                alt={title.label}
-                src={title.poster}
-                className="w-56 h-[336px] object-cover group-hover/trending-card:scale-110 transition-all ease-in-out will-change-transform"
-              />
+              <BlurhashTrendingImage src={title.poster} hashUrl={title.posterBlurHash} alt={title.label} />
             </Link>
           );
         })}
@@ -95,9 +111,9 @@ function Slider({ data, isLoading }: SliderProps) {
       <button
         type="button"
         onClick={() => scroll("left")}
-        className={`absolute -left-11 top-1/2 -translate-y-1/2 rounded-md h-[336px] w-8 flex items-center justify-center ${
-          !hasOverflow || isAtStart ? "opacity-0" : "opacity-100"
-        } hidden lg:block`}
+        className={`z-50 absolute left-0 top-1/2 -translate-y-1/2 h-[336px] w-8 flex items-center justify-center ${
+          isAtStart ? "opacity-0" : "opacity-100"
+        } hidden lg:block bg-zinc-950/50 hover:bg-zinc-950/70 transition-colors`}
         aria-label="Scroll left"
       >
         <ChevronLeft className="size-6 text-zinc-50" />
@@ -106,9 +122,9 @@ function Slider({ data, isLoading }: SliderProps) {
       <button
         type="button"
         onClick={() => scroll("right")}
-        className={`absolute -right-11 top-1/2 -translate-y-1/2 rounded-md h-[336px] w-8 flex items-center justify-center ${
-          !hasOverflow || isAtEnd ? "opacity-0" : "opacity-100"
-        } hidden lg:block`}
+        className={`z-50 absolute right-0 top-1/2 -translate-y-1/2 h-[336px] w-8 flex items-center justify-center ${
+          isAtEnd ? "opacity-0" : "opacity-100"
+        } hidden lg:block bg-zinc-950/50 hover:bg-zinc-950/70 transition-colors`}
         aria-label="Scroll right"
       >
         <ChevronRight className="size-6 text-zinc-50" />
@@ -125,12 +141,21 @@ type Props = {
 export function PosterTitles({ data, isLoading }: Props) {
   return (
     <section className="py-16 flex flex-col gap-32">
-      <div className="flex flex-col gap-2">
-        <div className="flex flex-col gap-2">
-          <h3 className="text-zinc-50 text-3xl font-semibold">Títulos encontrados</h3>
-        </div>
-        <Slider data={data} isLoading={isLoading} />
-      </div>
+      <AnimatePresence>
+        {data ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="flex flex-col gap-2"
+          >
+            <div className="flex flex-col gap-2">
+              <h3 className="text-zinc-50 text-3xl font-semibold">Títulos encontrados</h3>
+            </div>
+            <Slider data={data} isLoading={isLoading} />
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </section>
   );
 }

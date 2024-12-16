@@ -32,6 +32,7 @@ import DotPattern from "~/components/ui/dot-pattern";
 import { Separator } from "~/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { ToastAction } from "~/components/ui/toast";
+import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { imdbId } = params;
@@ -96,6 +97,16 @@ export default function SubtitlesPage() {
     {
       accessorKey: "release_group.release_group_name",
       header: "Publicador",
+      cell: ({ row }) => {
+        return (
+          <Tooltip>
+            <TooltipTrigger className="truncate max-w-24">
+              {row.original.release_group.release_group_name}
+            </TooltipTrigger>
+            <TooltipContent>{row.original.release_group.release_group_name}</TooltipContent>
+          </Tooltip>
+        );
+      },
     },
     {
       accessorKey: "subtitle.rip_type",
@@ -161,7 +172,7 @@ export default function SubtitlesPage() {
       <article className="max-w-xl w-full">
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-4">
-            <h1 className="text-zinc-50 text-5xl font-bold">¡Subtítulo encontrado!</h1>
+            <h1 className="text-zinc-50 text-5xl font-bold">¡Subtítulos encontrado!</h1>
             <h2 className="text-zinc-50 text-balance">
               Descarga el siguiente subtítulo para disfrutar de tu película.
             </h2>

@@ -1,3 +1,4 @@
+import { Link, useLoaderData } from "@remix-run/react";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
@@ -16,9 +17,48 @@ type Result = {
   value: string;
   label: string;
   poster: string | null;
+  posterBlurHash: string | null;
+};
+
+// loader
+export const loader = async () => {
+  const apiClient = getApiClient({
+    apiBaseUrl: "https://api.subt.is" as string,
+  });
+
+  const trendingSearchResponse = await apiClient.v1.titles.trending.search[":limit"].$get({
+    param: {
+      limit: "2",
+    },
+  });
+
+  if (!trendingSearchResponse.ok) {
+    throw new Error("Failed to fetch trending search titles");
+  }
+
+  const trendingSearch = await trendingSearchResponse.json();
+
+  if ("message" in trendingSearch) {
+    throw new Error("Failed to fetch trending search titles");
+  }
+
+  const parsedTrendingSearch = trendingSearch.results.map((result) => ({
+    title: result.title_name,
+    year: result.year,
+    imdbId: result.imdb_id,
+    searchedTimes: result.searched_times,
+  }));
+
+  return {
+    trendingSearch: parsedTrendingSearch,
+  };
 };
 
 export default function SearchPage() {
+  // remix hooks
+  const { trendingSearch } = useLoaderData<typeof loader>();
+  console.table(trendingSearch);
+
   // react hooks
   const [inputValue, setInputValue] = useState<string>("");
 
@@ -49,6 +89,7 @@ export default function SearchPage() {
       const parsedResults = data.results.map((result) => ({
         poster: result.poster,
         value: String(result.imdb_id),
+        posterBlurHash: result.poster_blurhash,
         label: `${result.title_name} (${result.year})`,
       }));
 
@@ -56,23 +97,25 @@ export default function SearchPage() {
     },
     enabled: Boolean(inputValue && inputValue.length >= 3),
   });
-  console.log("\n ~ AutocompleteTitles ~ data:", data);
+
+  // constants
+  const [firstTrending, secondTrending] = trendingSearch;
 
   return (
-    <div className="pt-24 pb-48">
+    <div className="pt-24 pb-48 flex-1">
       <div className=" flex flex-col lg:flex-row justify-between gap-4">
         <article className="max-w-xl w-full">
           <section className="flex flex-col gap-12">
             <div className="flex flex-col gap-4">
               <h1 className="text-zinc-50 text-5xl font-bold">Búsqueda en catálogo</h1>
               <h2 className="text-zinc-50">
-                Ingresa el título de la película que quieras buscar su subtítulo. Soportamos búsqueda en español, inglés
-                y japonés (perfecto para películas de anime).
+                Ingresa el título de la película que quieras buscar su subtítulo. Soportamos búsquedas en español,
+                inglés y japonés (perfecto para películas de anime).
               </h2>
             </div>
           </section>
 
-          <section className="mt-12">
+          <section className="mt-12 flex flex-col gap-2">
             <AutocompleteTitles
               inputValue={inputValue}
               setInputValue={setInputValue}
@@ -80,6 +123,16 @@ export default function SearchPage() {
               error={error}
               isLoading={isLoading}
             />
+            <p className="text-zinc-400 text-xs">
+              Lo más buscado ahora:{" "}
+              <Link to={`/subtitles/movie/${firstTrending.imdbId}`} className="hover:text-zinc-50">
+                {firstTrending.title} ({firstTrending.year})
+              </Link>{" "}
+              y{" "}
+              <Link to={`/subtitles/movie/${secondTrending.imdbId}`} className="hover:text-zinc-50">
+                {secondTrending.title} ({secondTrending.year})
+              </Link>
+            </p>
           </section>
         </article>
         <figure className="flex-1 hidden lg:flex justify-center">

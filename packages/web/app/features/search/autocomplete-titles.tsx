@@ -1,5 +1,8 @@
 import { useNavigate } from "@remix-run/react";
 
+// shared external
+import { getApiClient } from "@subtis/shared";
+
 // ui
 import { AutoComplete } from "~/components/ui/autocomplete";
 
@@ -32,6 +35,19 @@ export function AutocompleteTitles({ inputValue, setInputValue, data, error, isL
 
   const emptyMessage = error ? "Error al buscar." : inputValue.length < 3 ? minimumCharactersMessage : noResultsMessage;
 
+  // handlers
+  async function handleUpdateSearchMetrics(imdbId: string) {
+    const apiClient = getApiClient({
+      apiBaseUrl: "https://api.subt.is" as string,
+    });
+
+    await apiClient.v1.title.metrics.search.$patch({
+      json: {
+        imdbId,
+      },
+    });
+  }
+
   return (
     <AutoComplete
       options={data && data.statusCode === 200 ? data.results : []}
@@ -43,6 +59,7 @@ export function AutocompleteTitles({ inputValue, setInputValue, data, error, isL
         }
       }}
       onValueChange={(selectedValue) => {
+        handleUpdateSearchMetrics(selectedValue.value);
         navigate(`/subtitles/movie/${selectedValue.value}`);
       }}
       inputValue={inputValue}

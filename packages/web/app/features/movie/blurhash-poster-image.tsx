@@ -23,14 +23,14 @@ export function BlurhashPosterImage({ src, hashUrl, alt }: BlurhashImgProps) {
   }
 
   return (
-    <div className="relative w-[384px] h-[575px] object-cover rounded-md overflow-hidden">
+    <div className="relative w-[384px] h-[575px] object-cover rounded-md overflow-hidden  border border-zinc-700/80">
       <Blurhash hash={hashUrl} width="100%" height="100%" />
       <motion.img
         initial={{ opacity: 0 }}
         animate={{ opacity: imgIsLoading ? 0 : 1 }}
         transition={{ opacity: { delay: 0.5, duration: 0.4 } }}
         onLoad={onLoaded}
-        className="absolute inset-0 border border-zinc-700/80"
+        className="absolute inset-0"
         src={src}
         loading="lazy"
         width="100%"
