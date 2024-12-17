@@ -52,11 +52,11 @@ export function StremioButton() {
   return (
     <Fragment>
       <Sheet open={isOpen} onOpenChange={handleToggleIsOpen}>
-        <SheetContent className="overflow-auto bg-zinc-950 border-zinc-700">
+        <SheetContent className="overflow-auto bg-zinc-950 border-zinc-700 border rounded-md mt-3 mr-3 h-fit">
           <SheetHeader className="mb-10">
-            <SheetTitle className="text-zinc-50">Gracias por descargar Subtis para Stremio!</SheetTitle>
+            <SheetTitle className="text-zinc-50">Instalación de Subtis para Stremio</SheetTitle>
             <SheetDescription className="text-zinc-400 text-sm">
-              Seguí estos pasos para poder integrar Subtis con Stremio correctamente
+              Seguí estos pasos para integrar Subtis con Stremio correctamente.
             </SheetDescription>
           </SheetHeader>
           <div className="flex flex-col gap-10">
@@ -64,57 +64,95 @@ export function StremioButton() {
               <div className="flex flex-col gap-3 items-start">
                 <div className="flex flex-row items-end gap-3 ">
                   <div className="flex flex-col items-center">
-                    <div className="h-8 border border-dashed border-zinc-200 w-[1px]" />
+                    <div className="h-8 border border-dashed border-zinc-700 w-[1px]" />
                     <div className="size-8 flex items-center justify-center rounded-full bg-zinc-100">
                       <span className="text-zinc-700 text-sm">1</span>
                     </div>
                   </div>
-                  <div className="text-zinc-50 pb-1">First title</div>
+                  <div className="text-zinc-50 pb-1">Instala el Addon</div>
                 </div>
                 <div className="flex flex-row gap-4">
-                  <div className="min-w-44 h-24 border border-zinc-200 rounded-sm overflow-hidden">
-                    <img src="https://placehold.co/176x96" alt="Placeholder" />
-                  </div>
+                  <img
+                    src="/stremio-1.png"
+                    alt="Instalación de addon de Stremio"
+                    className="object-bottom w-44 border border-zinc-700 rounded-sm"
+                  />
                   <p className="text-zinc-400 text-sm">
-                    Seguí estos pasos para poder integrar Subtis con Stremio correctamente
+                    Clickea en este{" "}
+                    <a
+                      href="stremio://stremio.subt.is/manifest.json
+"
+                      target="_blank"
+                      className="text-zinc-50 underline"
+                      rel="noreferrer"
+                    >
+                      link
+                    </a>{" "}
+                    para instalar el addon de Subtis. Una vez abierto Stremio, clickea en "Instalar" o "Install".
                   </p>
                 </div>
               </div>
               <div className="flex flex-col gap-3 items-start">
                 <div className="flex flex-row items-end gap-3 ">
                   <div className="flex flex-col items-center">
-                    <div className="h-8 border border-dashed border-zinc-200 w-[1px]" />
+                    <div className="h-8 border border-dashed border-zinc-700 w-[1px]" />
                     <div className="size-8 flex items-center justify-center rounded-full bg-zinc-100">
                       <span className="text-zinc-700 text-sm">2</span>
                     </div>
                   </div>
-                  <div className="text-zinc-50 pb-1">Second title</div>
+                  <div className="text-zinc-50 pb-1">Ir al Visualizador de Subtitulos</div>
                 </div>
                 <div className="flex flex-row gap-4">
-                  <div className="min-w-44 h-24 border border-zinc-200 rounded-sm overflow-hidden">
-                    <img src="https://placehold.co/176x96" alt="Placeholder" />
-                  </div>
+                  <img
+                    src="/stremio-2.png"
+                    alt="Instalación de addon de Stremio"
+                    className="object-cover w-44 border border-zinc-700 rounded-sm"
+                  />
                   <p className="text-zinc-400 text-sm">
-                    Seguí estos pasos para poder integrar Subtis con Stremio correctamente
+                    Mientras estás viendo una película, clickea en el ícono de subtítulos en la barra de reproducción.
                   </p>
                 </div>
               </div>
               <div className="flex flex-col gap-3 items-start">
                 <div className="flex flex-row items-end gap-3 ">
                   <div className="flex flex-col items-center">
-                    <div className="h-8 border border-dashed border-zinc-200 w-[1px]" />
+                    <div className="h-8 border border-dashed border-zinc-700 w-[1px]" />
                     <div className="size-8 flex items-center justify-center rounded-full bg-zinc-100">
                       <span className="text-zinc-700 text-sm">3</span>
                     </div>
                   </div>
-                  <div className="text-zinc-50 pb-1">Third title</div>
+                  <div className="text-zinc-50 pb-1">Seleccionar Subtitulos</div>
                 </div>
                 <div className="flex flex-row gap-4">
-                  <div className="min-w-44 h-24 border border-zinc-200 rounded-sm overflow-hidden">
-                    <img src="https://placehold.co/176x96" alt="Placeholder" />
-                  </div>
+                  <img
+                    src="/stremio-3.png"
+                    alt="Instalación de addon de Stremio"
+                    className="object-cover w-44 border border-zinc-700 rounded-sm"
+                  />
                   <p className="text-zinc-400 text-sm">
-                    Seguí estos pasos para poder integrar Subtis con Stremio correctamente
+                    En la sección debajo de "Addons" clickea en "español" para reproducir el subtítulo en español.
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col gap-3 items-start">
+                <div className="flex flex-row items-end gap-3 ">
+                  <div className="flex flex-col items-center">
+                    <div className="h-8 border border-dashed border-zinc-700 w-[1px]" />
+                    <div className="size-8 flex items-center justify-center rounded-full bg-zinc-100">
+                      <span className="text-zinc-700 text-sm">4</span>
+                    </div>
+                  </div>
+                  <div className="text-zinc-50 pb-1">Desintala otros Addons (Opcional)</div>
+                </div>
+                <div className="flex flex-row gap-4">
+                  <img
+                    src="/stremio-4.png"
+                    alt="Instalación de addon de Stremio"
+                    className="object-cover object-right-bottom w-44 border border-zinc-700 rounded-sm"
+                  />
+                  <p className="text-zinc-400 text-sm">
+                    Para una mejor experiencia te recomendamos desintalar los otros addons de subtítulos como por
+                    ejemplo los de OpenSubtitles.
                   </p>
                 </div>
               </div>

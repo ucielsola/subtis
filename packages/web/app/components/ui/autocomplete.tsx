@@ -72,14 +72,12 @@ export const AutoComplete = ({
   );
 
   const handleBlur = useCallback(() => {
-    console.log("\n ~ handleBlur ~ selected:", selected);
     setOpen(false);
     onInputChange?.(selected?.label);
   }, [selected, onInputChange]);
 
   const handleSelectOption = useCallback(
     (selectedOption: Option) => {
-      console.log("\n ~ selectedOption:", selectedOption);
       onInputChange?.(selectedOption.label);
 
       setSelected(selectedOption);

@@ -32,7 +32,6 @@ export function BlurhashTrendingImage({ src, hashUrl, alt }: BlurhashImgProps) {
         onLoad={onLoaded}
         className="absolute inset-0"
         src={src}
-        loading="lazy"
         width="100%"
         height="100%"
         alt={alt}
