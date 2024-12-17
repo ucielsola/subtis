@@ -215,9 +215,9 @@ export function VlcButton() {
   return (
     <Fragment>
       <Sheet open={isOpen} onOpenChange={handleToggleIsOpen}>
-        <SheetContent className="overflow-auto bg-zinc-950 border-zinc-700 border rounded-md mt-3 mr-3 h-fit">
+        <SheetContent className="overflow-auto bg-zinc-950 border-zinc-700 border rounded-md mt-3 mr-3 h-[1280px]">
           <SheetHeader className="mb-10">
-            <SheetTitle className="text-zinc-50">Instalación de Subtis para VLC</SheetTitle>
+            <SheetTitle className="text-zinc-50">Instalación de Subtis para Stremio</SheetTitle>
             <SheetDescription className="text-zinc-400 text-sm">
               Seguí estos pasos para integrar Subtis con Stremio correctamente.
             </SheetDescription>
@@ -251,7 +251,7 @@ export function VlcButton() {
                     >
                       link
                     </a>{" "}
-                    para instalar el addon de Stremio. Una vez abierto Stremio, clickea en "Instalar" o "Install".
+                    para instalar el addon de Subtis. Una vez abierto Stremio, clickea en "Instalar" o "Install".
                   </p>
                 </div>
               </div>
@@ -272,7 +272,7 @@ export function VlcButton() {
                     className="object-cover w-44 border border-zinc-700 rounded-sm"
                   />
                   <p className="text-zinc-400 text-sm">
-                    Clickea en el ícono de subtítulos en la barra de reproducción.
+                    Mientras estás viendo una película, clickea en el ícono de subtítulos en la barra de reproducción.
                   </p>
                 </div>
               </div>
@@ -294,6 +294,28 @@ export function VlcButton() {
                   />
                   <p className="text-zinc-400 text-sm">
                     En la sección debajo de "Addons" clickea en "español" para reproducir el subtítulo en español.
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col gap-3 items-start">
+                <div className="flex flex-row items-end gap-3 ">
+                  <div className="flex flex-col items-center">
+                    <div className="h-8 border border-dashed border-zinc-700 w-[1px]" />
+                    <div className="size-8 flex items-center justify-center rounded-full bg-zinc-100">
+                      <span className="text-zinc-700 text-sm">4</span>
+                    </div>
+                  </div>
+                  <div className="text-zinc-50 pb-1">Desintala otros Addons (Opcional)</div>
+                </div>
+                <div className="flex flex-row gap-4">
+                  <img
+                    src="/stremio-4.png"
+                    alt="Instalación de addon de Stremio"
+                    className="object-cover object-right-bottom w-44 border border-zinc-700 rounded-sm"
+                  />
+                  <p className="text-zinc-400 text-sm">
+                    Para una mejor experiencia te recomendamos desintalar los otros addons de subtítulos como por
+                    ejemplo los de OpenSubtitles.
                   </p>
                 </div>
               </div>

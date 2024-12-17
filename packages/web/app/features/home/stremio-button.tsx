@@ -52,7 +52,7 @@ export function StremioButton() {
   return (
     <Fragment>
       <Sheet open={isOpen} onOpenChange={handleToggleIsOpen}>
-        <SheetContent className="overflow-auto bg-zinc-950 border-zinc-700 border rounded-md mt-3 mr-3 h-fit">
+        <SheetContent className="overflow-auto bg-zinc-950 border-zinc-700 border rounded-md mt-3 mr-3 h-[1280px]">
           <SheetHeader className="mb-10">
             <SheetTitle className="text-zinc-50">Instalación de Subtis para Stremio</SheetTitle>
             <SheetDescription className="text-zinc-400 text-sm">
