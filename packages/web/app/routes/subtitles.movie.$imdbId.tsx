@@ -143,7 +143,17 @@ export default function SubtitlesPage() {
             title: "¡Disfruta de tu subtítulo!",
             description: "Compartí tu experiencia en X",
             action: (
-              <ToastAction altText="Compartir" onClick={() => {}}>
+              <ToastAction
+                altText="Compartir"
+                onClick={() => {
+                  window.open(
+                    `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                      `Encontré mis subtítulos para "${data.title.title_name}" en @subt_is.`,
+                    )}`,
+                    "_blank",
+                  );
+                }}
+              >
                 Compartir
               </ToastAction>
             ),

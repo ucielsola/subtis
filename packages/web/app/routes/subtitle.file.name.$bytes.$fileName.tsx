@@ -26,6 +26,7 @@ import DotPattern from "~/components/ui/dot-pattern";
 import { Separator } from "~/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { ToastAction } from "~/components/ui/toast";
+import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
 // hooks
 import { useToast } from "~/hooks/use-toast";
@@ -46,6 +47,14 @@ export const columns: ColumnDef<SubtitleNormalized>[] = [
   {
     accessorKey: "release_group.release_group_name",
     header: "Publicador",
+    cell: ({ row }) => {
+      return (
+        <Tooltip>
+          <TooltipTrigger className="truncate max-w-24">{row.original.release_group.release_group_name}</TooltipTrigger>
+          <TooltipContent>{row.original.release_group.release_group_name}</TooltipContent>
+        </Tooltip>
+      );
+    },
   },
   {
     accessorKey: "subtitle.rip_type",
@@ -79,7 +88,17 @@ export const columns: ColumnDef<SubtitleNormalized>[] = [
           title: "¡Disfruta de tu subtítulo!",
           description: "Compartí tu experiencia en X",
           action: (
-            <ToastAction altText="Compartir" onClick={() => {}}>
+            <ToastAction
+              altText="Compartir"
+              onClick={() => {
+                window.open(
+                  `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                    `Encontré mis subtítulos para "${row.original.title.title_name}" en @subt_is.`,
+                  )}`,
+                  "_blank",
+                );
+              }}
+            >
               Compartir
             </ToastAction>
           ),
