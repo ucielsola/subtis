@@ -7,6 +7,9 @@ import { z } from "zod";
 // shared external
 import { getApiClient } from "@subtis/shared";
 
+// hooks
+import { useToast } from "~/hooks/use-toast";
+
 // schemas
 const wsMessageSchema = z.object({
   total: z.number(),
@@ -56,6 +59,9 @@ export const meta: MetaFunction<typeof loader> = () => {
 export default function RealTimeSearchPage() {
   // remix hooks
   const teaser = useLoaderData<typeof loader>();
+
+  // toast hooks
+  const { toast } = useToast();
 
   // navigation hooks
   const { bytes, fileName } = useParams();
@@ -136,7 +142,14 @@ export default function RealTimeSearchPage() {
       });
 
       if (websocketData.ok === true) {
-        navigate(`/subtitle/file/name/${bytes}/${fileName}`);
+        toast({
+          title: "¡Subtítulo encontrado!",
+          description: "Te redireccionaremos en 3 segundos...",
+        });
+
+        setTimeout(() => {
+          navigate(`/subtitle/file/name/${bytes}/${fileName}`);
+        }, 3000);
         return;
       }
 

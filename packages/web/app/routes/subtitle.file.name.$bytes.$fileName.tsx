@@ -76,7 +76,7 @@ export const columns: ColumnDef<SubtitleNormalized>[] = [
         });
 
         toast({
-          title: "Disfruta de tu subtítulo!",
+          title: "¡Disfruta de tu subtítulo!",
           description: "Compartí tu experiencia en X",
           action: (
             <ToastAction altText="Compartir" onClick={() => {}}>
@@ -136,7 +136,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 // meta
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data || "message" in data) {
-    return [{ title: "Subtis" }, { name: "description", content: "Encontra tus subtítulos rápidamente!" }];
+    return [{ title: "Subtis" }, { name: "description", content: "¡Encontra tus subtítulos rápidamente!" }];
   }
 
   return [

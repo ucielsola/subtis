@@ -140,7 +140,7 @@ export default function SubtitlesPage() {
           });
 
           toast({
-            title: "Disfruta de tu subtítulo!",
+            title: "¡Disfruta de tu subtítulo!",
             description: "Compartí tu experiencia en X",
             action: (
               <ToastAction altText="Compartir" onClick={() => {}}>
