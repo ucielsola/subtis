@@ -3,7 +3,6 @@ import { Fragment } from "react/jsx-runtime";
 
 // home
 import { HomeAlert } from "~/features/home/alert";
-import { HomeFaq } from "~/features/home/faq";
 import { HomeFeatures } from "~/features/home/features";
 import { HomeHero } from "~/features/home/hero";
 import { HomeTrending } from "~/features/home/trending";
@@ -55,7 +54,6 @@ export default function Index() {
       <HomeHero />
       <HomeTrending />
       <HomeFeatures />
-      <HomeFaq />
       <HomeAlert />
     </Fragment>
   );

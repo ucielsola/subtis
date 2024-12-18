@@ -10,7 +10,7 @@ export function HomeAlert() {
   const controls = useAnimation();
 
   return (
-    <section className="py-16 flex flex-col gap-16 items-center justify-center">
+    <section className="py-24 flex flex-col gap-16 items-center justify-center">
       <div className="mx-auto w-full max-w-screen-md">
         <Alert
           className="bg-zinc-950 border border-zinc-700 flex items-start gap-4"

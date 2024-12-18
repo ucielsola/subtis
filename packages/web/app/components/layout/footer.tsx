@@ -6,8 +6,8 @@ export function HomeFooter() {
       <Link to="/">
         <img src="/logo.png" alt="Subtis" className="w-24 h-[38.9px] hover:scale-105 transition-all ease-in-out" />
       </Link>
-      <div className="flex flex-col-reverse md:flex-row justify-between md:items-center gap-6">
-        <div className="flex flex-row gap-4 items-center">
+      <div className="flex flex-col md:flex-row justify-between md:items-center gap-12">
+        <div className="flex flex-col md:flex-row gap-4 md:items-center">
           <a
             href="https://x.com/subt_is"
             target="_blank"
@@ -19,6 +19,9 @@ export function HomeFooter() {
           <a href="mailto:soporte@subt.is" className="text-sm text-zinc-50 font-semibold hover:underline">
             Soporte
           </a>
+          <Link to="/faq" className="text-sm text-zinc-50 font-semibold hover:underline">
+            Preguntas Frecuentes
+          </Link>
           <Link to="/terms" className="text-sm text-zinc-50 font-semibold hover:underline">
             Términos y Condiciones
           </Link>
