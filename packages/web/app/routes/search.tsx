@@ -1,6 +1,7 @@
 import { Link, useLoaderData } from "@remix-run/react";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { useDebounce } from "use-debounce";
 
 // shared
 import { getApiClient } from "@subtis/shared/ui/client";
@@ -62,9 +63,12 @@ export default function SearchPage() {
   // react hooks
   const [inputValue, setInputValue] = useState<string>("");
 
+  // debounce hooks
+  const [value] = useDebounce(inputValue, 400);
+
   // query hooks
   const { data, isLoading, error } = useQuery({
-    queryKey: ["titles", inputValue],
+    queryKey: ["titles", value],
     queryFn: async ({ queryKey }) => {
       const [, query] = queryKey;
 
