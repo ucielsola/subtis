@@ -4,7 +4,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { useAnimation } from "motion/react";
 
 // api
-import type { SubtitleNormalized } from "@subtis/api";
+import type { SubtitlesNormalized } from "@subtis/api";
 
 // shared external
 import { getApiClient } from "@subtis/shared";
@@ -81,7 +81,7 @@ export default function SubtitlesPage() {
   const publisherTipControl = useAnimation();
 
   // constants
-  const columns: ColumnDef<SubtitleNormalized>[] = [
+  const columns: ColumnDef<SubtitlesNormalized>[] = [
     {
       accessorKey: "index",
       header: () => <th>#</th>,

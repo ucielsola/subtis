@@ -12,7 +12,7 @@ export type SubtitleNormalized = {
   subtitle: Omit<SubtisSubtitle, "title" | "release_group" | "subtitle_group">;
 };
 
-type SubtitlesNormalized = {
+export type SubtitlesNormalized = {
   release_group: SubtisSubtitle["release_group"];
   subtitle_group: SubtisSubtitle["subtitle_group"];
   subtitle: Omit<SubtisSubtitle, "title" | "release_group" | "subtitle_group">;
