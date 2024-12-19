@@ -32,7 +32,7 @@ export function AutocompleteTitles({ inputValue, setInputValue, data, error, isL
 
   const noResultsMessage = "No hay resultados.";
   const difference = 3 - inputValue.length;
-  const minimumCharactersMessage = `Ingresa al menos ${difference} caractere${difference > 1 ? "s" : ""} para buscar.`;
+  const minimumCharactersMessage = `Ingresa al menos ${difference} ${difference > 1 ? "caracteres" : "caracter"} para buscar.`;
 
   const emptyMessage = error ? "Error al buscar." : inputValue.length < 3 ? minimumCharactersMessage : noResultsMessage;
 
