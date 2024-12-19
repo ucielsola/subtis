@@ -141,7 +141,11 @@ export default function SubtitlesPage() {
 
           toast({
             title: "¡Disfruta de tu subtítulo!",
-            description: "Compartí tu experiencia en X",
+            description: (
+              <p className="flex flex-row items-center gap-1">
+                Compartí tu experiencia en <img src="/x.svg" alt="X" className="w-3 h-3" />
+              </p>
+            ),
             action: (
               <ToastAction
                 altText="Compartir"
