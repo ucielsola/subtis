@@ -142,7 +142,7 @@ export function PosterTitles({ data, isLoading }: Props) {
   return (
     <section className="py-16 flex flex-col gap-32">
       <AnimatePresence>
-        {data ? (
+        {data && data.results.length > 0 ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
