@@ -8,13 +8,29 @@ export default function TermsPage() {
       </section>
 
       <section>
-        <h2>¿Como funciona Subtis?</h2>
+        <h2>¿Cómo funciona Subtis?</h2>
         <p>Subtis busca en varios proveedores de subtitulos el mejor subtitulo para tu pelicula.</p>
       </section>
 
       <section>
         <h2>¿Puedo mirar y/o descargar las películas desde Subtis?</h2>
-        <p>No. Subtis solamente proporciona subtítulos.</p>
+        <p>
+          No. Subtis solamente proporciona subtítulos. De igual manera Subtis te permite reproducir tu video que se
+          encuentra en tu computadora con el subtítulo que te proveemos.
+        </p>
+      </section>
+
+      <section>
+        <h2>¿Donde encuentro el reproductor de video?</h2>
+        <p>
+          Podes encontrar el reproductor de video cuando dropeas el archivo de video en la sección de "Buscar subtítulo
+          por archivo", o también llamada Página de Subtítulo.
+        </p>
+      </section>
+
+      <section>
+        <h2>¿Qué formatos soporta el reproductor de video?</h2>
+        <p>Por el momento solamente soportamos el formato MP4.</p>
       </section>
 
       <section>

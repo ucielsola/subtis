@@ -1,7 +1,7 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { type MetaFunction, redirect, useLoaderData, useParams } from "@remix-run/react";
 import type { ColumnDef } from "@tanstack/react-table";
-import { AnimatePresence, motion, useAnimation } from "motion/react";
+import { AnimatePresence, useAnimation } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { transformSrtTracks } from "srt-support-for-html5-videos";
 
