@@ -1,7 +1,9 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import { type MetaFunction, redirect, useLoaderData } from "@remix-run/react";
+import { type MetaFunction, redirect, useLoaderData, useParams } from "@remix-run/react";
 import type { ColumnDef } from "@tanstack/react-table";
-import { useAnimation } from "motion/react";
+import { AnimatePresence, motion, useAnimation } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { transformSrtTracks } from "srt-support-for-html5-videos";
 
 // api
 import type { SubtitleNormalized } from "@subtis/api";
@@ -15,9 +17,13 @@ import { VideoDropzone } from "~/components/shared/video-dropzone";
 // icons
 import { CheckIcon } from "~/components/icons/check";
 import { DownloadIcon } from "~/components/icons/download";
+import { Play } from "~/components/icons/play";
 
 // lib
 import { cn } from "~/lib/utils";
+
+// hooks
+import { useToast } from "~/hooks/use-toast";
 
 // ui
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
@@ -28,102 +34,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { ToastAction } from "~/components/ui/toast";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
-// hooks
-import { useToast } from "~/hooks/use-toast";
-
-// constants
-export const columns: ColumnDef<SubtitleNormalized>[] = [
-  {
-    accessorKey: "index",
-    header: "#",
-    cell: ({ row }) => {
-      return <div className="w-6">{row.index + 1}</div>;
-    },
-  },
-  {
-    accessorKey: "subtitle.resolution",
-    header: "Resolución",
-  },
-  {
-    accessorKey: "release_group.release_group_name",
-    header: "Publicador",
-    cell: ({ row }) => {
-      return (
-        <Tooltip>
-          <TooltipTrigger className="truncate max-w-24">{row.original.release_group.release_group_name}</TooltipTrigger>
-          <TooltipContent>{row.original.release_group.release_group_name}</TooltipContent>
-        </Tooltip>
-      );
-    },
-  },
-  {
-    accessorKey: "subtitle.rip_type",
-    header: "Formato",
-  },
-  {
-    accessorKey: "subtitle.queried_times",
-    header: "Descargas",
-  },
-  {
-    accessorKey: "",
-    header: "Acciones",
-    cell: ({ row }) => {
-      // motion hooks
-      const controls = useAnimation();
-
-      // toast hooks
-      const { toast } = useToast();
-
-      // handlers
-      async function handleDownloadSubtitle() {
-        const apiClient = getApiClient({
-          apiBaseUrl: "https://api.subt.is" as string,
-        });
-
-        await apiClient.v1.subtitle.metrics.download.$patch({
-          json: { imdbId: row.original.title.imdb_id, subtitleId: row.original.subtitle.id },
-        });
-
-        toast({
-          title: "¡Disfruta de tu subtítulo!",
-          description: (
-            <p className="flex flex-row items-center gap-1">
-              Compartí tu experiencia en <img src="/x.svg" alt="X" className="w-3 h-3" />
-            </p>
-          ),
-          action: (
-            <ToastAction
-              altText="Compartir"
-              onClick={() => {
-                window.open(
-                  `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                    `Encontré mis subtítulos para "${row.original.title.title_name}" en @subt_is.`,
-                  )}`,
-                  "_blank",
-                );
-              }}
-            >
-              Compartir
-            </ToastAction>
-          ),
-        });
-      }
-
-      return (
-        <a
-          href={row.original.subtitle.subtitle_link}
-          download
-          className="inline-flex items-center gap-1"
-          onMouseEnter={() => controls.start("animate")}
-          onMouseLeave={() => controls.start("normal")}
-          onClick={handleDownloadSubtitle}
-        >
-          <DownloadIcon size={16} controls={controls} />
-        </a>
-      );
-    },
-  },
-];
+// custom motion
+const MotionTooltipTrigger = motion(TooltipTrigger);
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { bytes, fileName } = params;
@@ -163,18 +75,225 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   }
 
   return [
-    { title: `Subtis | Subtitulo para ${data.title.title_name} (${data.subtitle.title_file_name})` },
-    { name: "description", content: `Subtitulo para ${data.title.title_name} (${data.subtitle.title_file_name})` },
+    { title: `Subtis | Subtítulo para ${data.title.title_name} | ${data.subtitle.title_file_name}` },
+    { name: "description", content: `Subtítulo para ${data.title.title_name} | ${data.subtitle.title_file_name}` },
   ];
 };
 
 export default function SubtitlePage() {
   // remix hooks
+  const { fileName } = useParams();
   const data = useLoaderData<typeof loader>();
+
+  // react hooks
+  const player = useRef<HTMLVideoElement>(null);
+
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+  const [hasVideoError, setHasVideoError] = useState<boolean>(false);
+  const [captionBlobUrl, setCaptionBlobUrl] = useState<string | null>(null);
 
   // motion hooks
   const videoTipControl = useAnimation();
   const stremioTipControl = useAnimation();
+
+  // effects
+  useEffect(
+    function fetchSubtitle(): void {
+      const fetchCaptions = async (subtitleUrl: string) => {
+        try {
+          const response = await fetch(subtitleUrl);
+
+          if (!response.ok) {
+            throw new Error("Failed to fetch captions");
+          }
+
+          const blob = await response.blob();
+          const blobUrl = URL.createObjectURL(blob);
+
+          setCaptionBlobUrl(blobUrl);
+        } catch (error) {
+          console.error("Error fetching captions:", error);
+        }
+      };
+
+      if ("message" in data) {
+        return;
+      }
+
+      fetchCaptions(data.subtitle.subtitle_link);
+    },
+    [data],
+  );
+
+  useEffect(
+    function transformSrtTracksToVtt(): void {
+      if (player.current && captionBlobUrl) {
+        const hasTransformed = player.current.dataset.transformed;
+
+        if (!hasTransformed) {
+          transformSrtTracks(player.current);
+          player.current.dataset.transformed = "true";
+        }
+      }
+    },
+    [captionBlobUrl],
+  );
+
+  useEffect(function listenFullscreenChange() {
+    const pauseVideoOnExitFullscreen = () => {
+      if (!document.fullscreenElement) {
+        setIsFullscreen(false);
+        player.current?.pause();
+      }
+    };
+
+    document.addEventListener("fullscreenchange", pauseVideoOnExitFullscreen);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", pauseVideoOnExitFullscreen);
+    };
+  }, []);
+
+  // handlers
+  async function handlePlaySubtitle(): Promise<void> {
+    const videoElement = player.current;
+
+    if (videoElement) {
+      videoElement.play();
+      await videoElement.requestFullscreen();
+
+      setIsFullscreen(true);
+    }
+  }
+
+  function handleVideoError(): void {
+    setHasVideoError(true);
+  }
+
+  // constants
+  const isMp4 = fileName?.endsWith(".mp4");
+  const videoSource = typeof window !== "undefined" && fileName ? localStorage.getItem(fileName) : null;
+
+  const columns: ColumnDef<SubtitleNormalized>[] = [
+    {
+      accessorKey: "index",
+      header: "#",
+      cell: ({ row }) => {
+        return <div className="w-6">{row.index + 1}</div>;
+      },
+    },
+    {
+      accessorKey: "subtitle.resolution",
+      header: "Resolución",
+    },
+    {
+      accessorKey: "release_group.release_group_name",
+      header: "Publicador",
+      cell: ({ row }) => {
+        return (
+          <Tooltip>
+            <TooltipTrigger className="truncate max-w-24">
+              {row.original.release_group.release_group_name}
+            </TooltipTrigger>
+            <TooltipContent>{row.original.release_group.release_group_name}</TooltipContent>
+          </Tooltip>
+        );
+      },
+    },
+    {
+      accessorKey: "subtitle.rip_type",
+      header: "Formato",
+    },
+    {
+      accessorKey: "subtitle.queried_times",
+      header: "Descargas",
+    },
+    {
+      accessorKey: "",
+      header: "Acciones",
+      cell: ({ row }) => {
+        // motion hooks
+        const playControls = useAnimation();
+        const downloadControls = useAnimation();
+
+        // toast hooks
+        const { toast } = useToast();
+
+        // handlers
+        async function handleDownloadSubtitle() {
+          const apiClient = getApiClient({
+            apiBaseUrl: "https://api.subt.is" as string,
+          });
+
+          await apiClient.v1.subtitle.metrics.download.$patch({
+            json: { imdbId: row.original.title.imdb_id, subtitleId: row.original.subtitle.id },
+          });
+
+          toast({
+            title: "¡Disfruta de tu subtítulo!",
+            description: (
+              <p className="flex flex-row items-center gap-1">
+                Compartí tu experiencia en <img src="/x.svg" alt="X" className="w-3 h-3" />
+              </p>
+            ),
+            action: (
+              <ToastAction
+                altText="Compartir"
+                onClick={() => {
+                  window.open(
+                    `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                      `Encontré mis subtítulos para "${row.original.title.title_name}" en @subt_is.`,
+                    )}`,
+                    "_blank",
+                  );
+                }}
+              >
+                Compartir
+              </ToastAction>
+            ),
+          });
+        }
+
+        return (
+          <div className="flex flex-row items-center gap-1">
+            <Tooltip delayDuration={0}>
+              <TooltipTrigger className="px-1">
+                <a
+                  href={row.original.subtitle.subtitle_link}
+                  download
+                  onMouseEnter={() => downloadControls.start("animate")}
+                  onMouseLeave={() => downloadControls.start("normal")}
+                  onClick={handleDownloadSubtitle}
+                >
+                  <DownloadIcon size={16} controls={downloadControls} />
+                </a>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">Descargar subtítulo</TooltipContent>
+            </Tooltip>
+            <AnimatePresence>
+              {videoSource && captionBlobUrl && isMp4 && !hasVideoError && (
+                <Tooltip delayDuration={0}>
+                  <MotionTooltipTrigger
+                    onClick={handlePlaySubtitle}
+                    className="px-1"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    onMouseEnter={() => playControls.start("animate")}
+                    onMouseLeave={() => playControls.start("normal")}
+                  >
+                    <Play size={16} controls={playControls} />
+                  </MotionTooltipTrigger>
+                  <TooltipContent side="bottom">Reproducir video</TooltipContent>
+                </Tooltip>
+              )}
+            </AnimatePresence>
+          </div>
+        );
+      },
+    },
+  ];
 
   if ("message" in data) {
     return null;
@@ -192,6 +311,20 @@ export default function SubtitlePage() {
           </div>
           <DataTable columns={columns} data={[data]} />
         </section>
+
+        {videoSource && captionBlobUrl ? (
+          // biome-ignore lint/a11y/useMediaCaption: track is defined but idk why
+          <video
+            controls
+            ref={player}
+            className="w-0 h-0"
+            onError={handleVideoError}
+            style={{ opacity: isFullscreen ? 1 : 0 }}
+          >
+            <source src={videoSource} type="video/mp4" />
+            <track kind="subtitles" src={captionBlobUrl} srcLang="es" label="Español latino" default />
+          </video>
+        ) : null}
 
         <section className="flex flex-col gap-12 mt-16">
           <div className="flex flex-col gap-2">

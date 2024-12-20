@@ -120,16 +120,21 @@ export const columns: ColumnDef<SubtitleNormalized>[] = [
       }
 
       return (
-        <a
-          href={row.original.subtitle.subtitle_link}
-          download
-          className="inline-flex items-center gap-1"
-          onMouseEnter={() => controls.start("animate")}
-          onMouseLeave={() => controls.start("normal")}
-          onClick={handleDownloadSubtitle}
-        >
-          <DownloadIcon size={16} controls={controls} />
-        </a>
+        <Tooltip>
+          <TooltipTrigger>
+            <a
+              href={row.original.subtitle.subtitle_link}
+              download
+              className="inline-flex items-center gap-1"
+              onMouseEnter={() => controls.start("animate")}
+              onMouseLeave={() => controls.start("normal")}
+              onClick={handleDownloadSubtitle}
+            >
+              <DownloadIcon size={16} controls={controls} />
+            </a>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">Descargar subtítulo</TooltipContent>
+        </Tooltip>
       );
     },
   },
@@ -216,7 +221,13 @@ export default function NotFoundSubtitlePage() {
 
           <AnimatePresence mode="wait">
             {!form.formState.isSubmitSuccessful ? (
-              <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <motion.div
+                key="form"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+              >
                 {"message" in data ? null : (
                   <div className="flex flex-col gap-2 mb-12">
                     <p className="text-zinc-50 text-3xl font-semibold">¿Querés que te avisemos?</p>

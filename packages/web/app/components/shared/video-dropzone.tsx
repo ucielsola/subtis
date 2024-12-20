@@ -22,6 +22,10 @@ export function VideoDropzone() {
         const bytes = acceptedFiles[0].size;
         const fileName = acceptedFiles[0].name;
 
+        // save video src to local storage to use on subtitle page
+        const videoSrc = URL.createObjectURL(acceptedFiles[0]);
+        localStorage.setItem(fileName, videoSrc);
+
         navigate(`/subtitle/file/name/${bytes}/${fileName}`);
       }}
     >

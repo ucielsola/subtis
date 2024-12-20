@@ -15,6 +15,7 @@ const arrowVariants: Variants = {
 
 export function DownloadIcon({ size, controls }: { size: number; controls: AnimationControls }) {
   return (
+    // biome-ignore lint/a11y/noSvgWithoutTitle: is being used as a tooltip
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={size}
@@ -26,7 +27,6 @@ export function DownloadIcon({ size, controls }: { size: number; controls: Anima
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <title>Descargar</title>
       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
       <motion.g variants={arrowVariants} animate={controls}>
         <polyline points="7 10 12 15 17 10" />

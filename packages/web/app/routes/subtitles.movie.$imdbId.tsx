@@ -165,16 +165,21 @@ export default function SubtitlesPage() {
         }
 
         return (
-          <a
-            href={row.original.subtitle.subtitle_link}
-            download
-            className="inline-flex items-center gap-1"
-            onMouseEnter={() => controls.start("animate")}
-            onMouseLeave={() => controls.start("normal")}
-            onClick={handleDownloadSubtitle}
-          >
-            <DownloadIcon size={16} controls={controls} />
-          </a>
+          <Tooltip>
+            <TooltipTrigger>
+              <a
+                href={row.original.subtitle.subtitle_link}
+                download
+                className="inline-flex items-center gap-1"
+                onMouseEnter={() => controls.start("animate")}
+                onMouseLeave={() => controls.start("normal")}
+                onClick={handleDownloadSubtitle}
+              >
+                <DownloadIcon size={16} controls={controls} />
+              </a>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">Descargar subtítulo</TooltipContent>
+          </Tooltip>
         );
       },
     },
