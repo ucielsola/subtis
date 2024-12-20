@@ -2,6 +2,7 @@ import { Fragment, type SVGProps, useState } from "react";
 
 // ui
 import { Button } from "~/components/ui/button";
+import { MorphingDialogBasicImage } from "~/components/ui/morphin-dialog-image";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "~/components/ui/sheet";
 
 function StremioWhiteLogo({ size = 24, ...props }: SVGProps<SVGSVGElement> & { size: number }) {
@@ -51,12 +52,13 @@ export function StremioButton() {
 
   return (
     <Fragment>
-      <Sheet open={isOpen} onOpenChange={handleToggleIsOpen}>
-        <SheetContent className="overflow-auto bg-zinc-950 border-zinc-700 border rounded-md mt-3 mr-3 h-[1280px]">
+      <Sheet open={isOpen} onOpenChange={handleToggleIsOpen} modal={false}>
+        <SheetContent className="overflow-y-auto bg-zinc-950 border-zinc-700 border rounded-md mt-3 mr-3 h-[1280px]">
           <SheetHeader className="mb-10">
             <SheetTitle className="text-zinc-50">Instalación de Subtis para Stremio</SheetTitle>
             <SheetDescription className="text-zinc-400 text-sm">
-              Seguí estos pasos para integrar Subtis con Stremio correctamente.
+              Seguí estos pasos para integrar Subtis con Stremio correctamente. Clickea en las imagenes para verlas en
+              pantalla completa.
             </SheetDescription>
           </SheetHeader>
           <div className="flex flex-col gap-10">
@@ -72,10 +74,10 @@ export function StremioButton() {
                   <div className="text-zinc-50 pb-1">Instala el Addon</div>
                 </div>
                 <div className="flex flex-row gap-4">
-                  <img
+                  <MorphingDialogBasicImage
                     src="/stremio-1.png"
                     alt="Instalación de addon de Stremio"
-                    className="object-bottom w-44 border border-zinc-700 rounded-sm"
+                    containerClassName="w-44 border border-zinc-700 rounded-sm flex-shrink-0"
                   />
                   <p className="text-zinc-400 text-sm">
                     Clickea en este{" "}
@@ -103,10 +105,10 @@ export function StremioButton() {
                   <div className="text-zinc-50 pb-1">Ir al Visualizador de Subtitulos</div>
                 </div>
                 <div className="flex flex-row gap-4">
-                  <img
+                  <MorphingDialogBasicImage
                     src="/stremio-2.png"
                     alt="Instalación de addon de Stremio"
-                    className="object-cover w-44 border border-zinc-700 rounded-sm"
+                    containerClassName="w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0"
                   />
                   <p className="text-zinc-400 text-sm">
                     Mientras estás viendo una película, clickea en el ícono de subtítulos en la barra de reproducción.
@@ -124,10 +126,10 @@ export function StremioButton() {
                   <div className="text-zinc-50 pb-1">Seleccionar Subtitulos</div>
                 </div>
                 <div className="flex flex-row gap-4">
-                  <img
+                  <MorphingDialogBasicImage
                     src="/stremio-3.png"
                     alt="Instalación de addon de Stremio"
-                    className="object-cover w-44 border border-zinc-700 rounded-sm"
+                    containerClassName="w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0"
                   />
                   <p className="text-zinc-400 text-sm">
                     En la sección debajo de "Addons" clickea en "español" para reproducir el subtítulo en español.
@@ -145,10 +147,10 @@ export function StremioButton() {
                   <div className="text-zinc-50 pb-1">Desintala otros Addons (Opcional)</div>
                 </div>
                 <div className="flex flex-row gap-4">
-                  <img
+                  <MorphingDialogBasicImage
                     src="/stremio-4.png"
                     alt="Instalación de addon de Stremio"
-                    className="object-cover object-right-bottom w-44 border border-zinc-700 rounded-sm"
+                    containerClassName="w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0"
                   />
                   <p className="text-zinc-400 text-sm">
                     Para una mejor experiencia te recomendamos desintalar los otros addons de subtítulos como por
