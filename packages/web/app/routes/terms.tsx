@@ -85,7 +85,21 @@ export default function TermsPage() {
       </section>
 
       <section>
-        <h2>9. Contacto</h2>
+        <h2>9. Reproductor de Videos</h2>
+        <p>
+          Subtis incluye un reproductor de videos diseñado exclusivamente para reproducir archivos de video almacenados
+          localmente por el usuario. Este reproductor no proporciona acceso a videos, películas u otros archivos
+          multimedia alojados en servidores de Subtis o de terceros.
+        </p>
+        <p>
+          Es responsabilidad del usuario asegurarse de que los videos utilizados en el reproductor cumplen con las leyes
+          de derechos de autor y que tienen la propiedad o los permisos necesarios para reproducirlos. Subtis no asume
+          ninguna responsabilidad por el uso de archivos multimedia que infrinjan derechos de terceros.
+        </p>
+      </section>
+
+      <section>
+        <h2>10. Contacto</h2>
         <p>
           Si tienes dudas, preguntas o inquietudes sobre estos términos, puedes contactarnos en{" "}
           <a href="mailto:soporte@subtis.com">soporte@subtis.com</a>.
