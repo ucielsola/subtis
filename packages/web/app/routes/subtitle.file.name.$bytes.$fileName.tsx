@@ -33,9 +33,7 @@ import { Separator } from "~/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { ToastAction } from "~/components/ui/toast";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
-
-// custom motion
-const MotionTooltipTrigger = motion(TooltipTrigger);
+import { BlurhashPosterImage } from "~/features/movie/blurhash-poster-image";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { bytes, fileName } = params;
@@ -174,6 +172,9 @@ export default function SubtitlePage() {
   const isMp4 = fileName?.endsWith(".mp4");
   const videoSource = typeof window !== "undefined" && fileName ? localStorage.getItem(fileName) : null;
 
+  const displayVideoElements = videoSource && captionBlobUrl && isMp4 && !hasVideoError;
+  console.log("\n ~ SubtitlePage ~ displayVideoElements:", displayVideoElements);
+
   const columns: ColumnDef<SubtitleNormalized>[] = [
     {
       accessorKey: "index",
@@ -271,20 +272,16 @@ export default function SubtitlePage() {
               <TooltipContent side="bottom">Descargar subtítulo</TooltipContent>
             </Tooltip>
             <AnimatePresence>
-              {videoSource && captionBlobUrl && isMp4 && !hasVideoError && (
+              {displayVideoElements && (
                 <Tooltip delayDuration={0}>
-                  <MotionTooltipTrigger
+                  <TooltipTrigger
                     onClick={handlePlaySubtitle}
                     className="px-1"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
                     onMouseEnter={() => playControls.start("animate")}
                     onMouseLeave={() => playControls.start("normal")}
                   >
                     <Play size={16} controls={playControls} />
-                  </MotionTooltipTrigger>
+                  </TooltipTrigger>
                   <TooltipContent side="bottom">Reproducir video</TooltipContent>
                 </Tooltip>
               )}
@@ -312,7 +309,7 @@ export default function SubtitlePage() {
           <DataTable columns={columns} data={[data]} />
         </section>
 
-        {videoSource && captionBlobUrl ? (
+        {displayVideoElements ? (
           // biome-ignore lint/a11y/useMediaCaption: track is defined but idk why
           <video
             controls
@@ -390,10 +387,10 @@ export default function SubtitlePage() {
       {data.title.poster ? (
         <div className="hidden lg:flex flex-1 justify-center">
           <figure className="max-w-sm pt-12 flex flex-col items-center gap-2">
-            <img
-              alt={data.title.title_name}
+            <BlurhashPosterImage
               src={data.title.poster}
-              className="object-cover rounded-md border border-zinc-700/80"
+              hashUrl={data.title.poster_blurhash}
+              alt={data.title.title_name}
             />
             <figcaption className="text-zinc-400 text-sm">
               {data.title.title_name} ({data.title.year})
