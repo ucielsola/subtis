@@ -1,4 +1,3 @@
-import { motion } from "motion/react";
 import { useState } from "react";
 
 // lib
@@ -30,12 +29,9 @@ export function ThumbHashPosterImage({ src, hashUrl, alt }: Props) {
   return (
     <div className="relative w-[384px] h-[575px] object-cover rounded-md overflow-hidden  border border-zinc-700/80">
       <img src={placeholderURL} alt={`${alt} placeholder`} className="w-full h-full" />
-      <motion.img
-        initial={{ opacity: 0 }}
-        animate={{ opacity: imgIsLoading ? 0 : 1 }}
-        transition={{ opacity: { delay: 0.5, duration: 0.4 } }}
+      <img
         onLoad={onLoaded}
-        className="absolute inset-0"
+        className={`absolute inset-0 ${imgIsLoading ? "opacity-0" : "opacity-100"} transition-opacity ease-in-out duration-300`}
         src={src}
         width="100%"
         height="100%"
