@@ -18,7 +18,7 @@ type Result = {
   value: string;
   label: string;
   poster: string | null;
-  posterBlurHash: string | null;
+  posterThumbHash: string | null;
 };
 
 // loader
@@ -93,7 +93,7 @@ export default function SearchPage() {
       const parsedResults = data.results.map((result) => ({
         poster: result.poster,
         value: String(result.imdb_id),
-        posterBlurHash: result.poster_blurhash,
+        posterThumbHash: result.poster_thumbhash,
         label: `${result.title_name} (${result.year})`,
       }));
 

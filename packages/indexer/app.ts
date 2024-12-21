@@ -52,8 +52,8 @@ import type { SubtitleGroupMap, SubtitleGroupNames } from "./subtitle-groups";
 import type { TmdbTitle, TmdbTvShow } from "./tmdb";
 import type { IndexedBy, SubtitleData } from "./types";
 import { executeWithOptionalTryCatch, getSubtitleAuthor } from "./utils";
-import { encodeImageToBlurhash } from "./utils/blurhash";
 import { getQueryForTorrentProvider } from "./utils/query";
+import { encodeImageToThumbhash } from "./utils/thumbhash";
 import { generateIdFromMagnet } from "./utils/torrent";
 import { YTS_TRACKERS, getYtsTorrents } from "./yts";
 
@@ -282,17 +282,18 @@ async function storeTitleInSupabaseTable(title: TitleWithEpisode): Promise<numbe
 
     return data.id;
   }
-  const [posterBlurhash, backdropBlurhash] = await Promise.all([
-    title.poster ? encodeImageToBlurhash(title.poster) : null,
-    title.backdrop ? encodeImageToBlurhash(title.backdrop) : null,
+
+  const [posterThumbhash, backdropThumbhash] = await Promise.all([
+    title.poster ? encodeImageToThumbhash(title.poster) : null,
+    title.backdrop ? encodeImageToThumbhash(title.backdrop) : null,
   ]);
 
   const { data: titleData } = await supabase
     .from("Titles")
     .upsert({
       ...rest,
-      poster_blurhash: posterBlurhash,
-      backdrop_blurhash: backdropBlurhash,
+      poster_thumbhash: posterThumbhash,
+      backdrop_thumbhash: backdropThumbhash,
       title_name_without_special_chars: getStringWithoutSpecialCharacters(title.title_name),
     })
     .select("id")
@@ -352,6 +353,7 @@ async function storeSubtitleInSupabaseTable({
   bytesFromNotFoundSubtitle?: number;
   titleFileNameFromNotFoundSubtitle?: string;
 }): Promise<void> {
+  console.log("\n ~ title:", title);
   const { lang, downloadFileName, resolution, torrentId, ripType, externalId } = subtitle;
 
   const { id: subtitleGroupId } = subtitleGroups[subtitleGroupName];
@@ -698,7 +700,9 @@ export async function downloadAndStoreTitleAndSubtitle(data: {
 
     await storeTorrentInSupabaseTable(torrent);
     const titleId = await storeTitleInSupabaseTable(title);
+    console.log("\n ~ titleId:", titleId);
     await storeTitleGenresInSupabaseTable(titleId, titleGenres);
+
     await storeSubtitleInSupabaseTable({
       indexedBy,
       title,

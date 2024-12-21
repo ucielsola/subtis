@@ -1,15 +1,17 @@
 import { motion } from "motion/react";
 import { useState } from "react";
-import { Blurhash } from "react-blurhash";
+
+// lib
+import { generatePlaceholderURL } from "~/lib/thumbhash";
 
 // types
-type BlurhashImgProps = {
+type Props = {
   alt: string;
   src: string | null;
   hashUrl: string | null;
 };
 
-export function BlurhashTrendingImage({ src, hashUrl, alt }: BlurhashImgProps) {
+export function ThumbHashNewsImage({ src, hashUrl, alt }: Props) {
   // react hooks
   const [imgIsLoading, setImgIsLoading] = useState(true);
 
@@ -22,9 +24,12 @@ export function BlurhashTrendingImage({ src, hashUrl, alt }: BlurhashImgProps) {
     return null;
   }
 
+  // constants
+  const placeholderURL = generatePlaceholderURL(hashUrl);
+
   return (
-    <div className="relative w-56 h-[336px] object-cover">
-      <Blurhash hash={hashUrl} width="100%" height="100%" />
+    <div className="relative w-72 h-[162.05px] object-cover">
+      <img src={placeholderURL} alt={`${alt} placeholder`} className="w-full h-full" />
       <motion.img
         initial={{ opacity: 0 }}
         animate={{ opacity: imgIsLoading ? 0 : 1 }}

@@ -24,7 +24,12 @@ function getSupabaseClient() {
   const { supabaseApiKey, supabaseBaseUrl } = getSupabaseEnvironmentVariables();
 
   return createClient<Database>(supabaseBaseUrl, supabaseApiKey, {
-    auth: { persistSession: false },
+    db: {
+      schema: "public",
+    },
+    auth: {
+      persistSession: false,
+    },
   });
 }
 

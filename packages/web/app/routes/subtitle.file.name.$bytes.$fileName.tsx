@@ -33,7 +33,9 @@ import { Separator } from "~/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { ToastAction } from "~/components/ui/toast";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
-import { BlurhashPosterImage } from "~/features/movie/blurhash-poster-image";
+
+// features
+import { ThumbHashPosterImage } from "~/features/movie/thumbhash-poster-image";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { bytes, fileName } = params;
@@ -387,9 +389,9 @@ export default function SubtitlePage() {
       {data.title.poster ? (
         <div className="hidden lg:flex flex-1 justify-center">
           <figure className="max-w-sm pt-12 flex flex-col items-center gap-2">
-            <BlurhashPosterImage
+            <ThumbHashPosterImage
               src={data.title.poster}
-              hashUrl={data.title.poster_blurhash}
+              hashUrl={data.title.poster_thumbhash}
               alt={data.title.title_name}
             />
             <figcaption className="text-zinc-400 text-sm">

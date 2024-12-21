@@ -8,13 +8,13 @@ import { useEffect, useRef, useState } from "react";
 import { getApiClient } from "@subtis/shared";
 
 // features
-import { BlurhashTrendingImage } from "~/features/home/blurhash-trending-image";
+import { ThumbHashTrendingImage } from "~/features/home/thumbhash-trending-image";
 
 type Result = {
   value: string;
   label: string;
   poster: string | null;
-  posterBlurHash: string | null;
+  posterThumbHash: string | null;
 };
 
 type SliderProps = {
@@ -102,7 +102,7 @@ function Slider({ data, isLoading }: SliderProps) {
               onClick={() => handleUpdateSearchMetrics(title.value)}
               className="box-content flex flex-none [scroll-snap-align:start] rounded-md overflow-hidden cursor-pointer border-2 border-transparent hover:border-zinc-700 hover:scale-105 transition-all ease-in-out will-change-transform"
             >
-              <BlurhashTrendingImage src={title.poster} hashUrl={title.posterBlurHash} alt={title.label} />
+              <ThumbHashTrendingImage src={title.poster} hashUrl={title.posterThumbHash} alt={title.label} />
             </Link>
           );
         })}

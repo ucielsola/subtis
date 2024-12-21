@@ -242,7 +242,7 @@ export type Database = {
       Titles: {
         Row: {
           backdrop: string | null;
-          backdrop_blurhash: string | null;
+          backdrop_thumbhash: string | null;
           created_at: string;
           id: number;
           imdb_id: string;
@@ -250,7 +250,7 @@ export type Database = {
           logo: string | null;
           overview: string;
           poster: string | null;
-          poster_blurhash: string | null;
+          poster_thumbhash: string | null;
           queried_times: number | null;
           rating: number;
           release_date: string;
@@ -266,7 +266,7 @@ export type Database = {
         };
         Insert: {
           backdrop?: string | null;
-          backdrop_blurhash?: string | null;
+          backdrop_thumbhash?: string | null;
           created_at?: string;
           id?: number;
           imdb_id: string;
@@ -274,7 +274,7 @@ export type Database = {
           logo?: string | null;
           overview: string;
           poster?: string | null;
-          poster_blurhash?: string | null;
+          poster_thumbhash?: string | null;
           queried_times?: number | null;
           rating: number;
           release_date: string;
@@ -290,7 +290,7 @@ export type Database = {
         };
         Update: {
           backdrop?: string | null;
-          backdrop_blurhash?: string | null;
+          backdrop_thumbhash?: string | null;
           created_at?: string;
           id?: number;
           imdb_id?: string;
@@ -298,7 +298,7 @@ export type Database = {
           logo?: string | null;
           overview?: string;
           poster?: string | null;
-          poster_blurhash?: string | null;
+          poster_thumbhash?: string | null;
           queried_times?: number | null;
           rating?: number;
           release_date?: string;
@@ -366,6 +366,8 @@ export type Database = {
           poster: string;
           searched_times: number;
           queried_times: number;
+          poster_thumbhash: string;
+          backdrop_thumbhash: string;
         }[];
       };
       gtrgm_compress: {

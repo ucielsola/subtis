@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import type { loader } from "~/routes/_index";
 
 // internals
-import { BlurhashTrendingImage } from "./blurhash-trending-image";
+import { ThumbHashTrendingImage } from "./thumbhash-trending-image";
 
 export function TrendingSlider() {
   // remix hooks
@@ -74,7 +74,7 @@ export function TrendingSlider() {
               to={`/subtitles/movie/${title.imdb_id}`}
               className="box-content flex flex-none [scroll-snap-align:start] rounded-md overflow-hidden cursor-pointer border-2 border-transparent hover:border-zinc-700 hover:scale-105 transition-all ease-in-out will-change-transform"
             >
-              <BlurhashTrendingImage src={title.poster} hashUrl={title.poster_blurhash} alt={title.title_name} />
+              <ThumbHashTrendingImage src={title.poster} hashUrl={title.poster_thumbhash} alt={title.title_name} />
             </Link>
           );
         })}
