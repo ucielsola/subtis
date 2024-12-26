@@ -45,20 +45,20 @@ function getMessageFromStatusCode(statusCode: number): {
 } {
   return match(statusCode)
     .with(415, () => ({
-      title: "Extensión de archivo no soportada",
-      description: "Prueba con formatos como MKV, MP4, o AVI",
+      title: "File extension not supported",
+      description: "Try with formats like MKV, MP4, or AVI",
     }))
     .with(404, () => ({
-      title: "Subtitulo no encontrado",
-      description: "Nos pondremos a buscarlo",
+      title: "Subtitle not found",
+      description: "We will search for it",
     }))
     .with(500, () => ({
-      title: "Error Inesperado",
-      description: "Estamos haciendo arreglos del servicio",
+      title: "Unexpected error",
+      description: "We are fixing the service",
     }))
     .otherwise(() => ({
-      title: "Error desconocido",
-      description: "Estamos haciendo arreglos del servicio",
+      title: "Unknown error",
+      description: "We are fixing the service",
     }));
 }
 
