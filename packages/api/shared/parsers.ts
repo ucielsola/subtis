@@ -4,25 +4,6 @@ import { z } from "zod";
 import { getSubtitleShortLink } from "./links";
 import { type SubtisSubtitle, releaseGroupSchema, subtitleGroupSchema, subtitleSchema, titleSchema } from "./schemas";
 
-// types
-export type SubtitleNormalized = {
-  title: SubtisSubtitle["title"];
-  release_group: SubtisSubtitle["release_group"];
-  subtitle_group: SubtisSubtitle["subtitle_group"];
-  subtitle: Omit<SubtisSubtitle, "title" | "release_group" | "subtitle_group">;
-};
-
-export type SubtitlesNormalized = {
-  release_group: SubtisSubtitle["release_group"];
-  subtitle_group: SubtisSubtitle["subtitle_group"];
-  subtitle: Omit<SubtisSubtitle, "title" | "release_group" | "subtitle_group">;
-};
-
-type ResultsWithLength<T> = {
-  results: T[];
-  total: number;
-};
-
 type RipTypeOutput = "BluRay" | "HDRip" | "Theater" | "BrRip" | "WEBRip" | "Web-DL" | "WEB" | null;
 
 export function getParsedRipType(ripType: string | null): RipTypeOutput {
@@ -65,10 +46,18 @@ export function getParsedRipType(ripType: string | null): RipTypeOutput {
   throw new Error(`Unknown rip type: ${ripType}`);
 }
 
+export type SubtitleNormalized = {
+  title: SubtisSubtitle["title"];
+  release_group: SubtisSubtitle["release_group"];
+  subtitle_group: SubtisSubtitle["subtitle_group"];
+  subtitle: Omit<SubtisSubtitle, "title" | "release_group" | "subtitle_group">;
+};
+
 export function getSubtitleNormalized(subtisSubtitle: SubtisSubtitle): SubtitleNormalized {
   const { title, release_group, subtitle_group, ...subtitle } = subtisSubtitle;
 
   const { rip_type: rawRipType, ...rest } = subtitle;
+
   const rip_type = getParsedRipType(rawRipType);
   const subtitle_link = getSubtitleShortLink(subtitle.id);
   const resolution = `${subtitle.resolution}p`;
@@ -86,13 +75,21 @@ export function getSubtitleNormalized(subtisSubtitle: SubtisSubtitle): SubtitleN
   };
 }
 
+export type SubtitlesNormalized = {
+  release_group: SubtisSubtitle["release_group"];
+  subtitle_group: SubtisSubtitle["subtitle_group"];
+  subtitle: Omit<SubtisSubtitle, "title" | "release_group" | "subtitle_group">;
+};
+
 export function getSubtitlesNormalized(subtisSubtitle: SubtisSubtitle): SubtitlesNormalized {
   const { title: _title, release_group, subtitle_group, ...subtitle } = subtisSubtitle;
 
   const { rip_type: rawRipType, ...rest } = subtitle;
+
   const rip_type = getParsedRipType(rawRipType);
   const subtitle_link = getSubtitleShortLink(subtitle.id);
   const resolution = `${subtitle.resolution}p`;
+
   return {
     release_group,
     subtitle_group,
@@ -113,6 +110,11 @@ export const subtitleNormalizedSchema = z.object({
 });
 
 export type SubtisSubtitleNormalized = z.infer<typeof subtitleNormalizedSchema>;
+
+type ResultsWithLength<T> = {
+  results: T[];
+  total: number;
+};
 
 export function getResultsWithLength<T>(results: T[]): ResultsWithLength<T> {
   return {
