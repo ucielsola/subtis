@@ -27,13 +27,16 @@ describe("API | /titles/search/:query", () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data).toEqual([
+    expect(data.results).toMatchObject([
       {
-        id: expect.any(Number),
+        imdb_id: "1877830",
         type: "movie",
-        title_name: "The Batman",
         year: 2022,
-        backdrop: "https://image.tmdb.org/t/p/original/tRS6jvPM9qPrrnx2KRp3ew96Yot.jpg",
+        title_name: "The Batman",
+        poster: "https://image.tmdb.org/t/p/original/74xTEgt7R36Fpooo50r9T25onhq.jpg",
+        backdrop: "https://image.tmdb.org/t/p/original/eUORREWq2ThkkxyiCESCu3sVdGg.jpg",
+        poster_thumbhash: "EooOLQaZeIiICGfHeHVXl7mKgPsY",
+        backdrop_thumbhash: "1mkOHITfaIdId4eUh4a/XNT3dg==",
       },
     ]);
   });
@@ -60,13 +63,19 @@ describe("API | /titles/search/:query", () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data).toEqual([
+    expect(data.results).toEqual([
       {
-        id: expect.any(Number),
+        id: 548,
+        imdb_id: "1877830",
+        queried_times: 2,
+        searched_times: 0,
         type: "movie",
-        title_name: "The Batman",
         year: 2022,
-        backdrop: "https://image.tmdb.org/t/p/original/tRS6jvPM9qPrrnx2KRp3ew96Yot.jpg",
+        title_name: "The Batman",
+        poster: "https://image.tmdb.org/t/p/original/74xTEgt7R36Fpooo50r9T25onhq.jpg",
+        backdrop: "https://image.tmdb.org/t/p/original/eUORREWq2ThkkxyiCESCu3sVdGg.jpg",
+        poster_thumbhash: "EooOLQaZeIiICGfHeHVXl7mKgPsY",
+        backdrop_thumbhash: "1mkOHITfaIdId4eUh4a/XNT3dg==",
       },
     ]);
   });
@@ -94,20 +103,17 @@ describe("API | /titles/recent/:limit", () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data).toBeArray();
-    expect(data).toHaveLength(1);
+    expect(data.results).toBeArray();
+    expect(data.results).toHaveLength(1);
   });
 });
 
-describe("API | /titles/trending/:limit", () => {
+describe("API | /titles/trending/download/:limit", () => {
   test("Valid URL with limit being greater than MAX_LIMIT (30)", async () => {
-    const request = {
-      method: "GET",
-    };
-
+    const request = { method: "GET" };
     const limit = 40;
 
-    const response = await titles.request(`/trending/${limit}`, request, getMockEnv());
+    const response = await titles.request(`/trending/download/${limit}`, request, getMockEnv());
     const data = await response.json();
 
     expect(response.status).toBe(400);
@@ -115,17 +121,14 @@ describe("API | /titles/trending/:limit", () => {
   });
 
   test("Valid URL with limit being 1", async () => {
-    const request = {
-      method: "GET",
-    };
-
+    const request = { method: "GET" };
     const limit = 1;
 
-    const response = await titles.request(`/trending/${limit}`, request, getMockEnv());
+    const response = await titles.request(`/trending/download/${limit}`, request, getMockEnv());
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data).toBeArray();
-    expect(data).toHaveLength(1);
+    expect(data.results).toBeArray();
+    expect(data.results).toHaveLength(1);
   });
 });

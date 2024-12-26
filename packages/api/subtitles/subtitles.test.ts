@@ -16,8 +16,11 @@ describe("API | /subtitles/movie/:titleId", () => {
     const response = await subtitles.request(`/movie/${movieId}`, request, getMockEnv());
     const data = await response.json();
 
-    expect(response.status).toBe(400);
-    expect(data).toEqual({ message: "Invalid ID: it should be a positive integer number" });
+    expect(response.status).toBe(500);
+    expect(data).toEqual({
+      message: "An error occurred",
+      error: "Subtitles not found for title",
+    });
   });
 
   test("Valid URL with existing movie ID", async () => {
@@ -31,7 +34,7 @@ describe("API | /subtitles/movie/:titleId", () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data).toBeArray();
+    expect(data.results).toBeArray();
   });
 
   test("Valid URL with non-existing movie ID", async () => {
@@ -63,8 +66,11 @@ describe("API | /subtitles/tv-show/:titleId/:season?/:episode?", () => {
     const response = await subtitles.request(`/tv-show/${tvShowId}`, request, getMockEnv());
     const data = await response.json();
 
-    expect(response.status).toBe(400);
-    expect(data).toEqual({ message: "Invalid ID: it should be a positive integer number" });
+    expect(response.status).toBe(500);
+    expect(data).toEqual({
+      message: "An error occurred",
+      error: "Subtitles not found for title",
+    });
   });
 
   test("Valid URL with existing TV show ID", async () => {
@@ -78,7 +84,7 @@ describe("API | /subtitles/tv-show/:titleId/:season?/:episode?", () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data).toBeArray();
+    expect(data.results).toBeArray();
   });
 
   test("Valid URL with existing TV show ID for specific season", async () => {
@@ -92,7 +98,7 @@ describe("API | /subtitles/tv-show/:titleId/:season?/:episode?", () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data).toBeArray();
+    expect(data.results).toBeArray();
   });
 
   test("Valid URL with existing TV show ID for specific season and episode", async () => {
@@ -106,7 +112,7 @@ describe("API | /subtitles/tv-show/:titleId/:season?/:episode?", () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data).toBeArray();
+    expect(data.results).toBeArray();
   });
 
   test("Valid URL with non-existing TV show ID", async () => {
@@ -127,7 +133,7 @@ describe("API | /subtitles/tv-show/:titleId/:season?/:episode?", () => {
   });
 });
 
-describe("API | /subtitles/trending/:limit", () => {
+describe("API | /subtitles/trending/download/:limit", () => {
   test("Valid URL with limit being greater than MAX_LIMIT (30)", async () => {
     const request = {
       method: "GET",
@@ -135,7 +141,7 @@ describe("API | /subtitles/trending/:limit", () => {
 
     const limit = 40;
 
-    const response = await subtitles.request(`/trending/${limit}`, request, getMockEnv());
+    const response = await subtitles.request(`/trending/download/${limit}`, request, getMockEnv());
     const data = await response.json();
 
     expect(response.status).toBe(400);
@@ -149,12 +155,12 @@ describe("API | /subtitles/trending/:limit", () => {
 
     const limit = 1;
 
-    const response = await subtitles.request(`/trending/${limit}`, request, getMockEnv());
+    const response = await subtitles.request(`/trending/download/${limit}`, request, getMockEnv());
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data).toBeArray();
-    expect(data).toHaveLength(1);
+    expect(data.results).toBeArray();
+    expect(data.results).toHaveLength(1);
   });
 });
 
@@ -166,8 +172,8 @@ describe("API | /subtitles/tv-show/download/season/:titleId/:season/:resolution/
 
     const tvShowId = 2788316;
     const season = 1;
-    const resolution = "1080p";
-    const releaseGroupId = "1073";
+    const resolution = 1080;
+    const releaseGroupId = "1572";
 
     const response = await subtitles.request(
       `/tv-show/download/season/${tvShowId}/${season}/${resolution}/${releaseGroupId}`,

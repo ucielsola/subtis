@@ -72,31 +72,40 @@ describe("API | /subtitle/file/name/:bytes/:fileName", () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data).toMatchObject({
-      id: expect.any(Number),
-      bytes: expect.any(Number),
-      resolution: "720p",
-      subtitle_link: expect.any(String),
-      queried_times: expect.any(Number),
-      current_season: null,
-      current_episode: null,
-      title_file_name: "The.Batman.2022.720p.BluRay.x264.AAC-[YTS.MX].mp4",
-      subtitle_file_name: "The.Batman.2022.720p.BluRay.x264.AAC-[YTS.MX].srt",
+    expect(data).toEqual({
       title: {
-        id: 1877830,
-        title_name: "The Batman",
+        id: 548,
+        imdb_id: "1877830",
+        queried_times: 2,
+        searched_times: 0,
         type: "movie",
         year: 2022,
-        poster: "https://image.tmdb.org/t/p/original/mo7teil1qH0SxgLijnqeYP1Eb4w.jpg",
-        backdrop: "https://image.tmdb.org/t/p/original/tRS6jvPM9qPrrnx2KRp3ew96Yot.jpg",
+        title_name: "The Batman",
+        poster: "https://image.tmdb.org/t/p/original/74xTEgt7R36Fpooo50r9T25onhq.jpg",
+        backdrop: "https://image.tmdb.org/t/p/original/eUORREWq2ThkkxyiCESCu3sVdGg.jpg",
+        poster_thumbhash: "EooOLQaZeIiICGfHeHVXl7mKgPsY",
+        backdrop_thumbhash: "1mkOHITfaIdId4eUh4a/XNT3dg==",
       },
-      releaseGroup: {
-        id: 1065,
+      release_group: {
+        id: 1564,
         release_group_name: "YTS",
       },
-      subtitleGroup: {
-        id: 63,
+      subtitle_group: {
+        id: 74,
         subtitle_group_name: "SubDivX",
+      },
+      subtitle: {
+        id: 11509,
+        bytes: 1697998881,
+        is_valid: true,
+        resolution: "720p",
+        subtitle_link: "https://api.subt.is/v1/subtitle/link/11509",
+        queried_times: 0,
+        current_season: null,
+        current_episode: null,
+        title_file_name: "The.Batman.2022.720p.BluRay.x264.AAC-[YTS.MX].mp4",
+        subtitle_file_name: "The.Batman.2022.720p.BluRay.x264.AAC-[YTS.MX].srt",
+        rip_type: "BluRay",
       },
     });
   });
@@ -113,31 +122,40 @@ describe("API | /subtitle/file/name/:bytes/:fileName", () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data).toMatchObject({
-      id: expect.any(Number),
-      bytes: expect.any(Number),
-      resolution: "1080p",
-      subtitle_link: expect.any(String),
-      queried_times: expect.any(Number),
-      current_season: null,
-      current_episode: null,
-      title_file_name: "The.Batman.2022.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4",
-      subtitle_file_name: "The.Batman.2022.1080p.BluRay.x264.AAC5.1-[YTS.MX].srt",
+    expect(data).toEqual({
       title: {
-        id: 1877830,
-        title_name: "The Batman",
+        id: 548,
+        imdb_id: "1877830",
+        queried_times: 2,
+        searched_times: 0,
         type: "movie",
         year: 2022,
-        poster: "https://image.tmdb.org/t/p/original/mo7teil1qH0SxgLijnqeYP1Eb4w.jpg",
-        backdrop: "https://image.tmdb.org/t/p/original/tRS6jvPM9qPrrnx2KRp3ew96Yot.jpg",
+        title_name: "The Batman",
+        poster: "https://image.tmdb.org/t/p/original/74xTEgt7R36Fpooo50r9T25onhq.jpg",
+        backdrop: "https://image.tmdb.org/t/p/original/eUORREWq2ThkkxyiCESCu3sVdGg.jpg",
+        poster_thumbhash: "EooOLQaZeIiICGfHeHVXl7mKgPsY",
+        backdrop_thumbhash: "1mkOHITfaIdId4eUh4a/XNT3dg==",
       },
-      releaseGroup: {
-        id: 1065,
+      release_group: {
+        id: 1564,
         release_group_name: "YTS",
       },
-      subtitleGroup: {
-        id: 63,
+      subtitle_group: {
+        id: 74,
         subtitle_group_name: "SubDivX",
+      },
+      subtitle: {
+        id: 11510,
+        bytes: 3487908744,
+        is_valid: true,
+        resolution: "1080p",
+        subtitle_link: "https://api.subt.is/v1/subtitle/link/11510",
+        queried_times: 1,
+        current_season: null,
+        current_episode: null,
+        title_file_name: "The.Batman.2022.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4",
+        subtitle_file_name: "The.Batman.2022.1080p.BluRay.x264.AAC5.1-[YTS.MX].srt",
+        rip_type: "BluRay",
       },
     });
   });
@@ -194,31 +212,40 @@ describe("API | /subtitle/file/alternative/:fileName", () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data).toMatchObject({
-      id: expect.any(Number),
-      bytes: expect.any(Number),
-      resolution: "1080p",
-      subtitle_link: expect.any(String),
-      queried_times: expect.any(Number),
-      current_season: null,
-      current_episode: null,
-      title_file_name: "The.Batman.2022.1080p.WEBRip.1600MB.DD2.0.x264-GalaxyRG.mkv",
-      subtitle_file_name: "The.Batman.2022.1080p.WEBRip.1600MB.DD2.0.x264-GalaxyRG.srt",
+    expect(data).toEqual({
       title: {
-        id: 1877830,
-        title_name: "The Batman",
+        id: 548,
+        imdb_id: "1877830",
+        queried_times: 2,
+        searched_times: 0,
         type: "movie",
         year: 2022,
-        poster: "https://image.tmdb.org/t/p/original/mo7teil1qH0SxgLijnqeYP1Eb4w.jpg",
-        backdrop: "https://image.tmdb.org/t/p/original/tRS6jvPM9qPrrnx2KRp3ew96Yot.jpg",
+        title_name: "The Batman",
+        poster: "https://image.tmdb.org/t/p/original/74xTEgt7R36Fpooo50r9T25onhq.jpg",
+        backdrop: "https://image.tmdb.org/t/p/original/eUORREWq2ThkkxyiCESCu3sVdGg.jpg",
+        poster_thumbhash: "EooOLQaZeIiICGfHeHVXl7mKgPsY",
+        backdrop_thumbhash: "1mkOHITfaIdId4eUh4a/XNT3dg==",
       },
-      releaseGroup: {
-        id: 1047,
+      release_group: {
+        id: 1546,
         release_group_name: "GalaxyRG",
       },
-      subtitleGroup: {
-        id: 63,
+      subtitle_group: {
+        id: 74,
         subtitle_group_name: "SubDivX",
+      },
+      subtitle: {
+        id: 11505,
+        bytes: 1724112073,
+        is_valid: true,
+        resolution: "1080p",
+        subtitle_link: "https://api.subt.is/v1/subtitle/link/11505",
+        queried_times: 0,
+        current_season: null,
+        current_episode: null,
+        title_file_name: "The.Batman.2022.1080p.WEBRip.1600MB.DD2.0.x264-GalaxyRG.mkv",
+        subtitle_file_name: "The.Batman.2022.1080p.WEBRip.1600MB.DD2.0.x264-GalaxyRG.srt",
+        rip_type: "WEBRip",
       },
     });
   });

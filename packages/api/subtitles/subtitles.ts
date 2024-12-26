@@ -6,12 +6,10 @@ import { z } from "zod";
 // import { cache } from "hono/cache";
 // import timestring from "timestring";
 
-// shared
-import { RESOLUTION_REGEX } from "@subtis/shared";
-
 // internals
 import { MAX_LIMIT } from "../shared/constants";
 import { getResultsWithLength, getSubtitleNormalized, getSubtitlesNormalized } from "../shared/parsers";
+import { RESOLUTION_REGEX } from "../shared/resolutions";
 import { subtitleSchema, subtitlesQuery } from "../shared/schemas";
 import { getSupabaseClient } from "../shared/supabase";
 import type { AppVariables } from "../shared/types";

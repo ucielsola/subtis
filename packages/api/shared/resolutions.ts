@@ -1,0 +1,1 @@
+export const RESOLUTION_REGEX = /480|576|720|1080|2160/gi;
