@@ -4,6 +4,7 @@ import { z } from "zod";
 import { getSubtitleShortLink } from "./links";
 import { type SubtisSubtitle, releaseGroupSchema, subtitleGroupSchema, subtitleSchema, titleSchema } from "./schemas";
 
+// parsed rip types
 type RipTypeOutput = "BluRay" | "HDRip" | "Theater" | "BrRip" | "WEBRip" | "Web-DL" | "WEB" | null;
 
 export function getParsedRipType(ripType: string | null): RipTypeOutput {
@@ -46,6 +47,7 @@ export function getParsedRipType(ripType: string | null): RipTypeOutput {
   throw new Error(`Unknown rip type: ${ripType}`);
 }
 
+// subtitle normalized
 export type SubtitleNormalized = {
   title: SubtisSubtitle["title"];
   release_group: SubtisSubtitle["release_group"];
@@ -75,6 +77,7 @@ export function getSubtitleNormalized(subtisSubtitle: SubtisSubtitle): SubtitleN
   };
 }
 
+// subtitles normalized
 export type SubtitlesNormalized = {
   release_group: SubtisSubtitle["release_group"];
   subtitle_group: SubtisSubtitle["subtitle_group"];
@@ -102,15 +105,17 @@ export function getSubtitlesNormalized(subtisSubtitle: SubtisSubtitle): Subtitle
   };
 }
 
-export const subtitleNormalizedSchema = z.object({
+// subtitle normalized schema
+export const subtisSubtitleNormalizedSchema = z.object({
   title: titleSchema,
   release_group: releaseGroupSchema,
   subtitle_group: subtitleGroupSchema,
   subtitle: subtitleSchema.omit({ title: true, release_group: true, subtitle_group: true }),
 });
 
-export type SubtisSubtitleNormalized = z.infer<typeof subtitleNormalizedSchema>;
+export type SubtisSubtitleNormalized = z.infer<typeof subtisSubtitleNormalizedSchema>;
 
+// results with length
 type ResultsWithLength<T> = {
   results: T[];
   total: number;

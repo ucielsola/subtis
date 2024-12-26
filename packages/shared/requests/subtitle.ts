@@ -1,5 +1,5 @@
 // api
-import { type SubtisSubtitleNormalized, subtitleNormalizedSchema } from "@subtis/api/shared/parsers";
+import { type SubtisSubtitleNormalized, subtisSubtitleNormalizedSchema } from "@subtis/api/shared/parsers";
 
 // internals
 import type { ApiClient } from "../ui/client";
@@ -28,7 +28,7 @@ export async function getPrimarySubtitle(
   }
 
   const data = await response.json();
-  const primarySubtitle = subtitleNormalizedSchema.parse(data);
+  const primarySubtitle = subtisSubtitleNormalizedSchema.parse(data);
 
   await apiClient.v1.subtitle.metrics.download.$patch({
     json: { imdbId: primarySubtitle.title.imdb_id, subtitleId: primarySubtitle.subtitle.id },
@@ -50,7 +50,7 @@ export async function getAlternativeSubtitle(
   }
 
   const data = await response.json();
-  const alternativeSubtitle = subtitleNormalizedSchema.parse(data);
+  const alternativeSubtitle = subtisSubtitleNormalizedSchema.parse(data);
 
   await apiClient.v1.subtitle.metrics.download.$patch({
     json: { imdbId: alternativeSubtitle.title.imdb_id, subtitleId: alternativeSubtitle.subtitle.id },

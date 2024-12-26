@@ -67,14 +67,16 @@ export const titlesQuery = `
   backdrop_thumbhash
 `;
 
+// alternative titles
 export const alternativeTitlesSchema = titlesRowSchema.pick({ imdb_id: true });
 
 // release groups
 export const releaseGroupSchema = releaseGroupsRowSchema.pick({ id: true, release_group_name: true });
 
-// subtitles
+// subtitle groups
 export const subtitleGroupSchema = subtitleGroupsRowSchema.pick({ id: true, subtitle_group_name: true });
 
+// subtitles
 export const subtitleSchema = subtitlesRowSchema
   .pick({
     id: true,
