@@ -187,16 +187,16 @@ export async function getAlternativeSubtitle({
 async function downloadSubtitle(toast: Toast, subtitle: SubtisSubtitle) {
   Object.assign(toast, {
     style: Toast.Style.Animated,
-    title: "Subtitulo encontrado!",
-    message: "Descargando subtitulo...",
+    title: "Subtitle found!",
+    message: "Downloading subtitle...",
   });
 
   await open(subtitle.subtitle.subtitle_link);
 
   Object.assign(toast, {
-    message: "Encontralo en Descargas",
+    message: "Find it in your Downloads folder",
     style: Toast.Style.Success,
-    title: "Subtitulo descargado!",
+    title: "Subtitle downloaded!",
   });
 }
 
@@ -205,7 +205,7 @@ export default function Command() {
   async function handleSubmit(values: Values) {
     const toast = await showToast({
       style: Toast.Style.Animated,
-      title: "Buscando subtítulos",
+      title: "Searching subtitles",
     });
 
     try {
@@ -220,9 +220,9 @@ export default function Command() {
 
       if (!videoFileExtensionParsed.success) {
         Object.assign(toast, {
-          message: "Extension de video no soportada.",
+          message: "Video extension not supported.",
           style: Toast.Style.Failure,
-          title: "Error de extensión",
+          title: "Extension error",
         });
         return;
       }
@@ -242,7 +242,7 @@ export default function Command() {
         ws.on("open", () => {
           Object.assign(toast, {
             style: Toast.Style.Animated,
-            title: "Buscando subtítulo en tiempo real",
+            title: "Searching subtitle in real time",
           });
 
           const message = {
@@ -270,7 +270,7 @@ export default function Command() {
             Object.assign(toast, {
               message: "",
               style: Toast.Style.Failure,
-              title: "Falla en tiempo real",
+              title: "Real time failure",
             });
             resolve(okSafeParsed.data);
           }
@@ -279,7 +279,7 @@ export default function Command() {
             Object.assign(toast, {
               message: `${messageSafeParsed.data.total * 100}%`,
               style: Toast.Style.Animated,
-              title: "Buscando subtítulo...",
+              title: "Searching subtitle...",
             });
           }
         });
@@ -307,9 +307,9 @@ export default function Command() {
       }
 
       Object.assign(toast, {
-        message: "Estamos trabajando en ello.",
+        message: "We are working on it.",
         style: Toast.Style.Failure,
-        title: "Subtitulo no encontrado",
+        title: "Subtitle not found",
       });
     } catch (error) {
       if (error instanceof Error && typeof error.cause === "number") {
@@ -326,7 +326,7 @@ export default function Command() {
         Object.assign(toast, {
           message: error.message,
           style: Toast.Style.Failure,
-          title: "Error interno",
+          title: "Internal error",
         });
       }
     }
@@ -343,7 +343,7 @@ export default function Command() {
       <Form.FilePicker
         allowMultipleSelection={false}
         id="filePicker"
-        title="Buscar subtitulo para"
+        title="Search subtitle for"
       />
     </Form>
   );
