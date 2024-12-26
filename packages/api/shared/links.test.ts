@@ -1,4 +1,6 @@
-import { expect, describe, it } from "bun:test";
+import { describe, expect, it } from "bun:test";
+
+// internals
 import { getSubtitleShortLink } from "./links";
 
 describe("getSubtitleShortLink", () => {

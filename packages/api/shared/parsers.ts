@@ -23,7 +23,9 @@ type ResultsWithLength<T> = {
   total: number;
 };
 
-function getParsedRipType(ripType: string | null) {
+type RipTypeOutput = "BluRay" | "HDRip" | "Theater" | "BrRip" | "WEBRip" | "Web-DL" | "WEB" | null;
+
+export function getParsedRipType(ripType: string | null): RipTypeOutput {
   if (!ripType) {
     return null;
   }
@@ -60,7 +62,7 @@ function getParsedRipType(ripType: string | null) {
     return "WEB";
   }
 
-  return ripType;
+  throw new Error(`Unknown rip type: ${ripType}`);
 }
 
 export function getSubtitleNormalized(subtisSubtitle: SubtisSubtitle): SubtitleNormalized {
