@@ -29,8 +29,9 @@ describe("getTitleFileNameMetadata", () => {
     });
 
     expect(data).toEqual({
-      fileNameWithoutExtension: "The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX]",
-      name: "The Super Mario Bros Movie",
+      year: 2023,
+      ripType: "bluray",
+      resolution: "1080",
       releaseGroup: {
         is_supported: true,
         release_group_name: "YTS",
@@ -49,11 +50,10 @@ describe("getTitleFileNameMetadata", () => {
           "x264-[YTS.LT]",
         ],
       },
-      resolution: "1080p",
-      year: 2023,
       currentSeason: null,
       currentEpisode: null,
-      ripType: "BluRay",
+      fileNameWithoutExtension: "The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX]",
+      name: "The Super Mario Bros Movie",
     });
   });
 
@@ -63,8 +63,9 @@ describe("getTitleFileNameMetadata", () => {
     });
 
     expect(data).toEqual({
-      fileNameWithoutExtension: "The.Super.Mario.Bros..Movie.2023.720p.BluRay.x264.AAC5.1-[YTS.MX]",
-      name: "The Super Mario Bros Movie",
+      year: 2023,
+      ripType: "bluray",
+      resolution: "720",
       releaseGroup: {
         is_supported: true,
         release_group_name: "YTS",
@@ -83,11 +84,10 @@ describe("getTitleFileNameMetadata", () => {
           "x264-[YTS.LT]",
         ],
       },
-      resolution: "720p",
-      year: 2023,
       currentSeason: null,
       currentEpisode: null,
-      ripType: "BluRay",
+      fileNameWithoutExtension: "The.Super.Mario.Bros..Movie.2023.720p.BluRay.x264.AAC5.1-[YTS.MX]",
+      name: "The Super Mario Bros Movie",
     });
   });
 
@@ -97,9 +97,9 @@ describe("getTitleFileNameMetadata", () => {
     });
 
     expect(data).toEqual({
-      fileNameWithoutExtension: "The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX]",
-      name: "The Super Mario Bros Movie",
-      ripType: "BluRay",
+      year: 2023,
+      ripType: "bluray",
+      resolution: "1080",
       releaseGroup: {
         is_supported: true,
         release_group_name: "YTS",
@@ -118,10 +118,10 @@ describe("getTitleFileNameMetadata", () => {
           "x264-[YTS.LT]",
         ],
       },
-      resolution: "1080p",
-      year: 2023,
       currentSeason: null,
       currentEpisode: null,
+      fileNameWithoutExtension: "The.Super.Mario.Bros..Movie.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX]",
+      name: "The Super Mario Bros Movie",
     });
   });
 
@@ -131,9 +131,9 @@ describe("getTitleFileNameMetadata", () => {
     });
 
     expect(data).toEqual({
-      fileNameWithoutExtension: "The.Super.Mario.Bros..Movie.2023.2160p.BluRay.x264.AAC5.1-[YTS.MX]",
-      name: "The Super Mario Bros Movie",
-      ripType: "BluRay",
+      year: 2023,
+      ripType: "bluray",
+      resolution: "2160",
       releaseGroup: {
         is_supported: true,
         release_group_name: "YTS",
@@ -152,10 +152,10 @@ describe("getTitleFileNameMetadata", () => {
           "x264-[YTS.LT]",
         ],
       },
-      resolution: "2160p",
-      year: 2023,
       currentSeason: null,
       currentEpisode: null,
+      fileNameWithoutExtension: "The.Super.Mario.Bros..Movie.2023.2160p.BluRay.x264.AAC5.1-[YTS.MX]",
+      name: "The Super Mario Bros Movie",
     });
   });
 
@@ -165,9 +165,9 @@ describe("getTitleFileNameMetadata", () => {
     });
 
     expect(data).toEqual({
-      fileNameWithoutExtension: "The.Super.Mario.Bros..Movie.2023.3D.BluRay.x264.AAC5.1-[YTS.MX]",
-      name: "The Super Mario Bros Movie",
-      ripType: "BluRay",
+      year: 2023,
+      ripType: "bluray",
+      resolution: "3D",
       releaseGroup: {
         is_supported: true,
         release_group_name: "YTS",
@@ -186,10 +186,10 @@ describe("getTitleFileNameMetadata", () => {
           "x264-[YTS.LT]",
         ],
       },
-      resolution: "3D",
-      year: 2023,
       currentSeason: null,
       currentEpisode: null,
+      fileNameWithoutExtension: "The.Super.Mario.Bros..Movie.2023.3D.BluRay.x264.AAC5.1-[YTS.MX]",
+      name: "The Super Mario Bros Movie",
     });
   });
 
@@ -199,18 +199,18 @@ describe("getTitleFileNameMetadata", () => {
     });
 
     expect(data).toEqual({
-      fileNameWithoutExtension: "The.Super.Mario.Bros.Movie.2023.1080p.WEBRip.H265-CODY",
-      name: "The Super Mario Bros Movie",
-      ripType: "WEB-DL",
+      year: 2023,
+      ripType: "webrip",
+      resolution: "1080",
       releaseGroup: {
         is_supported: true,
         release_group_name: "CODY",
         matches: ["CODY", "H265-CODY"],
       },
-      resolution: "1080p",
-      year: 2023,
       currentSeason: null,
       currentEpisode: null,
+      fileNameWithoutExtension: "The.Super.Mario.Bros.Movie.2023.1080p.WEBRip.H265-CODY",
+      name: "The Super Mario Bros Movie",
     });
   });
 
@@ -220,6 +220,8 @@ describe("getTitleFileNameMetadata", () => {
     });
 
     const releaseGroup: ReleaseGroup = {
+      is_supported: true,
+      release_group_name: "GalaxyRG",
       matches: [
         "GalaxyRG",
         "x264-Galax",
@@ -230,18 +232,17 @@ describe("getTitleFileNameMetadata", () => {
         "10bit-GalaxyRG265",
         "10bit-GalaxyRG264",
       ],
-      is_supported: true,
-      release_group_name: "GalaxyRG",
     };
+
     expect(data).toEqual({
-      fileNameWithoutExtension: "Evil.Dead.Rise.2023.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG",
-      ripType: "WEB-DL",
-      name: "Evil Dead Rise",
-      releaseGroup,
-      resolution: "1080p",
       year: 2023,
+      ripType: "webrip",
+      resolution: "1080",
+      releaseGroup,
       currentSeason: null,
       currentEpisode: null,
+      fileNameWithoutExtension: "Evil.Dead.Rise.2023.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG",
+      name: "Evil Dead Rise",
     });
   });
 
@@ -251,19 +252,20 @@ describe("getTitleFileNameMetadata", () => {
     });
 
     const releaseGroup: ReleaseGroup = {
-      matches: ["RiGHTNOW"],
       is_supported: true,
       release_group_name: "RiGHTNOW",
+      matches: ["RiGHTNOW"],
     };
+
     expect(data).toEqual({
-      fileNameWithoutExtension: "The.Flash.2023.1080p.WEB-DL.H.264-RiGHTNOW",
-      name: "The Flash",
-      releaseGroup,
-      ripType: "WEB-DL",
-      resolution: "1080p",
       year: 2023,
+      ripType: "web-dl",
+      resolution: "1080",
+      releaseGroup,
       currentSeason: null,
       currentEpisode: null,
+      fileNameWithoutExtension: "The.Flash.2023.1080p.WEB-DL.H.264-RiGHTNOW",
+      name: "The Flash",
     });
   });
 
@@ -273,9 +275,9 @@ describe("getTitleFileNameMetadata", () => {
     });
 
     expect(result).toEqual({
-      fileNameWithoutExtension: "Avatar.(2009).1080p.x264.YTS.MX",
-      name: "Avatar",
-      ripType: null,
+      year: 2009,
+      ripType: "",
+      resolution: "1080",
       releaseGroup: {
         is_supported: true,
         release_group_name: "YTS",
@@ -294,10 +296,10 @@ describe("getTitleFileNameMetadata", () => {
           "x264-[YTS.LT]",
         ],
       },
-      resolution: "1080p",
-      year: 2009,
       currentSeason: null,
       currentEpisode: null,
+      fileNameWithoutExtension: "Avatar.(2009).1080p.x264.YTS.MX",
+      name: "Avatar",
     });
   });
 
@@ -305,11 +307,16 @@ describe("getTitleFileNameMetadata", () => {
     const result = getTitleFileNameMetadata({
       titleFileName: "Avatar (2009) 1080p x264 UNKNOWN.mp4",
     });
+
     expect(result).toMatchObject({
-      name: "Avatar",
-      releaseGroup: undefined,
-      resolution: "1080p",
       year: 2009,
+      ripType: "",
+      resolution: "1080",
+      releaseGroup: undefined,
+      currentSeason: null,
+      currentEpisode: null,
+      fileNameWithoutExtension: "Avatar.(2009).1080p.x264.UNKNOWN",
+      name: "Avatar",
     });
   });
 });

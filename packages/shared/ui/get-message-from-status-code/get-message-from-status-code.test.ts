@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test";
 
-// shared
+// internals
 import { getMessageFromStatusCode } from "./get-message-from-status-code";
 
 test("returns correct message for 415", () => {

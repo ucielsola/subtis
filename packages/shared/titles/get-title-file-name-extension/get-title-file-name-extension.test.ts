@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 
-// shared
+// internals
 import { getTitleFileNameExtension } from "./get-title-file-name-extension";
 
 describe("getTitleFileNameExtension", () => {
