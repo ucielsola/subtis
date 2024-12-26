@@ -353,7 +353,6 @@ async function storeSubtitleInSupabaseTable({
   bytesFromNotFoundSubtitle?: number;
   titleFileNameFromNotFoundSubtitle?: string;
 }): Promise<void> {
-  console.log("\n ~ title:", title);
   const { lang, downloadFileName, resolution, torrentId, ripType, externalId } = subtitle;
 
   const { id: subtitleGroupId } = subtitleGroups[subtitleGroupName];
@@ -700,7 +699,6 @@ export async function downloadAndStoreTitleAndSubtitle(data: {
 
     await storeTorrentInSupabaseTable(torrent);
     const titleId = await storeTitleInSupabaseTable(title);
-    console.log("\n ~ titleId:", titleId);
     await storeTitleGenresInSupabaseTable(titleId, titleGenres);
 
     await storeSubtitleInSupabaseTable({
