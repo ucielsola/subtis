@@ -36,6 +36,8 @@ export function ThumbHashNewsImage({ src, hashUrl, alt }: Props) {
         width="100%"
         height="100%"
         alt={alt}
+        loading="lazy"
+        fetchPriority="auto"
       />
     </div>
   );
