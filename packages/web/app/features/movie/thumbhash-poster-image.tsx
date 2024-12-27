@@ -36,6 +36,9 @@ export function ThumbHashPosterImage({ src, hashUrl, alt }: Props) {
         width="100%"
         height="100%"
         alt={alt}
+        loading="eager"
+        fetchPriority="high"
+        decoding="async"
       />
     </div>
   );

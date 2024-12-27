@@ -38,6 +38,7 @@ export function ThumbHashNewsImage({ src, hashUrl, alt }: Props) {
         alt={alt}
         loading="lazy"
         fetchPriority="auto"
+        decoding="async"
       />
     </div>
   );

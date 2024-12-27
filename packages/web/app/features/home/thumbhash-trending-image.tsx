@@ -38,6 +38,7 @@ export function ThumbHashTrendingImage({ src, hashUrl, alt }: Props) {
         alt={alt}
         loading="eager"
         fetchPriority="high"
+        decoding="async"
       />
     </div>
   );
