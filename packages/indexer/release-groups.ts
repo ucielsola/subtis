@@ -263,6 +263,8 @@ export const RELEASE_GROUPS = {
       "265-BEN.THE.MEN",
       "MP4-BEN.THE.MEN",
       "MKV-BEN.THE.MEN",
+      "MULTi[Ben The Men]",
+      "multi[ben.the.men]",
     ],
   },
   GODZiLLA: {
