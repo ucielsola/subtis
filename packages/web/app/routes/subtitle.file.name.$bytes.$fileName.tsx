@@ -282,7 +282,7 @@ export default function SubtitlePage() {
                     onMouseEnter={() => playControls.start("animate")}
                     onMouseLeave={() => playControls.start("normal")}
                   >
-                    <Play size={16} controls={playControls} />
+                    <Play size={16} controls={playControls} isWrapped={false} />
                   </TooltipTrigger>
                   <TooltipContent side="bottom">Reproducir video</TooltipContent>
                 </Tooltip>

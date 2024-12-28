@@ -125,7 +125,7 @@ export function HomeFeatures() {
           onMouseEnter={() => playControls.start("animate")}
           onMouseLeave={() => playControls.start("normal")}
         >
-          <Play size={24} controls={playControls} />
+          <Play size={24} controls={playControls} isWrapped />
           <span className="text-zinc-50">Reproductor de video</span>
         </div>
         <div
