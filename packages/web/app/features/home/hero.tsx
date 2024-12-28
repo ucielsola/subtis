@@ -23,7 +23,7 @@ export function HomeHero() {
           <BadgeTvShows />
 
           <div className="flex flex-col gap-1">
-            <h1 className="text-zinc-50 text-5xl font-bold text-balance leading-[1.075]">
+            <h1 className="text-zinc-50 text-3xl md:text-5xl font-bold text-balance leading-[1.075]">
               El mejor buscador de subtítulos en internet
             </h1>
             <h2 className="text-zinc-50 text-balance">

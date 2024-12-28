@@ -71,6 +71,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export default function SubtitlesPage() {
   // remix hooks
   const data = useLoaderData<typeof loader>();
+  console.log("\n ~ SubtitlesPage ~ data:", data);
 
   // motion hooks
   const videoTipControl = useAnimation();
@@ -190,8 +191,15 @@ export default function SubtitlesPage() {
       <article className="max-w-xl w-full">
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-4">
-            <h1 className="text-zinc-50 text-5xl font-bold">¡Subtítulos encontrado!</h1>
-            <h2 className="text-zinc-50 text-balance">
+            {"message" in data ? null : data.title.logo ? (
+              <img
+                src={data.title.logo}
+                alt={data.title.title_name}
+                className="w-full max-h-32 object-contain md:hidden"
+              />
+            ) : null}
+            <h1 className="text-zinc-50 text-3xl md:text-5xl font-bold">¡Subtítulos encontrado!</h1>
+            <h2 className="text-zinc-50 text-balance text-sm md:text-base">
               Descarga el siguiente subtítulo para disfrutar de tu película.
             </h2>
           </div>
@@ -211,7 +219,9 @@ export default function SubtitlesPage() {
         <section className="flex flex-col gap-12 mt-16">
           <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold text-zinc-50">Buscar nuevo subtítulo por archivo</h3>
-            <h4 className="text-zinc-50">¿Querés buscar un subtítulo nuevo? Arrastra el archivo debajo.</h4>
+            <h4 className="text-zinc-50 text-sm md:text-base">
+              ¿Querés buscar un subtítulo nuevo? Arrastra el archivo debajo.
+            </h4>
           </div>
           <div className="bg-zinc-950 border border-zinc-700 rounded-sm group/video overflow-hidden h-64 relative">
             <VideoDropzone />
@@ -228,15 +238,17 @@ export default function SubtitlesPage() {
         <section className="flex flex-col gap-12 mt-16">
           <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold text-zinc-50">SubTips</h3>
-            <h4 className="text-zinc-50">Te recomendamos algunos tips para una mejor experiencia</h4>
+            <h4 className="text-zinc-50 text-sm md:text-base">
+              Te recomendamos algunos tips para una mejor experiencia
+            </h4>
           </div>
           <Tabs defaultValue="choose-subtitle" className="min-h-[390px]">
             <TabsList className="mb-6">
-              <TabsTrigger value="choose-subtitle" className="text-sm">
-                ¿Cómo elegir un subtítulo?
+              <TabsTrigger value="choose-subtitle" className="text-xs md:text-sm">
+                ¿Cómo elijo un subtítulo?
               </TabsTrigger>
-              <TabsTrigger value="play-subtitle" className="text-sm">
-                ¿Cómo reproduzco un subtítulo?
+              <TabsTrigger value="play-subtitle" className="text-xs md:text-sm">
+                ¿Cómo utilizo un subtítulo?
               </TabsTrigger>
             </TabsList>
 

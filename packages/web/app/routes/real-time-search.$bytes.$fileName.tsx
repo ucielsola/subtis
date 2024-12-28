@@ -165,20 +165,20 @@ export default function RealTimeSearchPage() {
       <article className="max-w-xl w-full">
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-4">
-            <h1 className="text-zinc-50 text-5xl font-bold">Buscando subtítulo...</h1>
-            <h2 className="text-zinc-50">Este proceso puede durar hasta 30 segundos.</h2>
-            <p className="text-zinc-50 text-sm">{message}</p>
+            <h1 className="text-zinc-50 text-3xl md:text-5xl font-bold">Buscando subtítulo...</h1>
+            <div className="flex flex-col gap-1">
+              <h2 className="text-zinc-50 text-sm md:text-base">Este proceso puede durar hasta 30 segundos.</h2>
+              <p className="text-zinc-50 text-xs md:text-sm">{message}</p>
+            </div>
           </div>
           {!teaser || "message" in teaser ? null : (
             <div className="flex flex-col items-center gap-2">
               <iframe
-                width="560"
-                height="315"
                 src={`https://www.youtube.com/embed/${teaser.youTubeVideoId}?autoplay=1&mute=1`}
                 title={teaser.name}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
-                className="rounded-md shadow-sm shadow-zinc-900"
+                className="rounded-md shadow-sm shadow-zinc-900 w-[320px] h-[180px] md:w-[560px] md:h-[315px]"
               />{" "}
               <span className="text-zinc-400 text-sm">
                 {teaser.name} ({teaser.year})
