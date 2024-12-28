@@ -829,17 +829,11 @@ export async function getTitleTorrents(query: string, titleType: TitleTypes, imd
   return [...torrents1337xWithMagnet, ...thePirateBayTorrents, ...ytsTorrents].flat();
 }
 
-function getFilteredTorrents(torrents: TorrentFound[], maxTorrents: number): TorrentFoundWithId[] {
+function getFilteredTorrents(torrents: TorrentFound[], maxTorrents: number, shouldSort: boolean): TorrentFoundWithId[] {
   const MIN_SEEDS = 8;
   const seenSizes = new Set<string | number>();
 
-  return torrents
-    .toSorted((torrentA, torrentB) => {
-      if (torrentA.tracker === "YTS" && torrentB.tracker !== "YTS") return -1;
-      if (torrentA.tracker !== "YTS" && torrentB.tracker === "YTS") return 1;
-
-      return torrentB.seeds - torrentA.seeds;
-    })
+  const result = torrents
     .slice(0, maxTorrents)
     .filter((torrent) => !getIsCinemaRecording(torrent.title))
     .filter(({ seeds }) => seeds >= MIN_SEEDS)
@@ -866,6 +860,15 @@ function getFilteredTorrents(torrents: TorrentFound[], maxTorrents: number): Tor
 
       return { ...torrent, id: generateIdFromMagnet(torrent.trackerId), bytes, formattedBytes };
     });
+
+  return shouldSort
+    ? result.toSorted((torrentA, torrentB) => {
+        if (torrentA.tracker === "YTS" && torrentB.tracker !== "YTS") return -1;
+        if (torrentA.tracker !== "YTS" && torrentB.tracker === "YTS") return 1;
+
+        return torrentB.seeds - torrentA.seeds;
+      })
+    : result;
 }
 
 function getSpecificTorrents(
@@ -1177,7 +1180,7 @@ export async function getSubtitlesForTitle({
   console.log("\nTorrents without filter \n");
   console.table(torrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
 
-  const filteredTorrents = getFilteredTorrents(torrents, 30);
+  const filteredTorrents = getFilteredTorrents(torrents, 30, !initialTorrents);
 
   console.log("\nFiltered torrents \n");
   console.table(filteredTorrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
