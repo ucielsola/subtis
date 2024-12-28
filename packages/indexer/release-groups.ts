@@ -26,6 +26,11 @@ export const RELEASE_GROUPS = {
     release_group_name: "CODY",
     matches: ["CODY", "H265-CODY"],
   },
+  CYBER: {
+    is_supported: true,
+    release_group_name: "CYBER",
+    matches: ["CYBER", "x264-CYBER", "x265-CYBER"],
+  },
   EDITH: {
     is_supported: true,
     release_group_name: "EDITH",
