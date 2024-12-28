@@ -183,9 +183,11 @@ export const RELEASE_GROUPS = {
       "YTS MX",
       "[YTS.MX]",
       "YIFY",
+      "1-[YTS.MX]",
       "x264-[YTS.AM]",
       "x264-[YTS.AG]",
       "x264-[YTS.LT]",
+      "AAC-[YTS.MX]",
     ],
   },
   RMTeam: {
