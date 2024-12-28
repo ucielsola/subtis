@@ -195,7 +195,7 @@ export default function SubtitlesPage() {
               <img
                 src={data.title.logo}
                 alt={data.title.title_name}
-                className="w-full max-h-32 object-contain md:hidden"
+                className="w-full max-h-32 object-contain md:hidden mb-4"
               />
             ) : null}
             <h1 className="text-zinc-50 text-3xl md:text-5xl font-bold">¡Subtítulos encontrado!</h1>
