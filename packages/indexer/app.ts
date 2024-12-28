@@ -102,7 +102,7 @@ type SubtitleWithResolutionAndTorrentId = SubtitleData & {
 };
 
 // constants
-const MAX_TIMEOUT = ms("1.5m");
+const MAX_TIMEOUT = ms("20s");
 const MIN_BYTES = filesizeParser("500MB");
 
 const COMPRESSED_SUBTITLES_FOLDER_NAME = "compressed-subtitles";
@@ -945,7 +945,9 @@ export async function getTorrentVideoFileMetadata(torrent: TorrentFound): Promis
     const timeoutId = setTimeout(() => {
       engine.destroy();
       reject(
-        new Error(`Timeout: Tardo más de 1 minuto, puede ser por falta de seeds. Seeds totales: ${torrent.seeds}`),
+        new Error(
+          `Timeout: Tardo más de ${MAX_TIMEOUT / 1000} segundos, puede ser por falta de seeds. Seeds totales: ${torrent.seeds}`,
+        ),
       );
     }, MAX_TIMEOUT);
 
