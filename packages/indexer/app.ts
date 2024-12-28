@@ -826,7 +826,7 @@ export async function getTitleTorrents(query: string, titleType: TitleTypes, imd
 
   const ytsTorrents = await getYtsTorrents(imdbId);
 
-  return [...ytsTorrents, ...torrents1337xWithMagnet, ...thePirateBayTorrents].flat();
+  return [...torrents1337xWithMagnet, ...thePirateBayTorrents, ...ytsTorrents].flat();
 }
 
 function getFilteredTorrents(torrents: TorrentFound[], maxTorrents: number): TorrentFoundWithId[] {

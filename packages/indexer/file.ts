@@ -43,9 +43,6 @@ export type WsOk = z.infer<typeof wsOkSchema>;
 
 // helpers
 async function getTorrentFromPirateBayOr1337x(query: string, title: TitleFileNameMetadata) {
-  await tg.activate("ThePirateBay");
-  TorrentSearchApi.enableProvider("1337x");
-
   const torrents: TorrentFound[] = (await tg.search(query, { groupByTracker: false })) as unknown as TorrentFound[];
 
   if (torrents.length === 0) {
@@ -147,6 +144,7 @@ export async function indexTitleByFileName({
     }
 
     await tg.activate("ThePirateBay");
+    TorrentSearchApi.enableProvider("1337x");
 
     const releaseGroups = await getReleaseGroups(supabase);
     const subtitleGroups = await getSubtitleGroups(supabase);
@@ -300,7 +298,11 @@ export async function indexTitleByFileName({
     });
 
     if (!shouldIndexAllTorrents) {
-      const torrents = await getTitleTorrents(titleProviderQuery, TitleTypes.movie, movieData.imdbId);
+      const query = `${titleProviderQuery} ${title.resolution}p${title.releaseGroup?.release_group_name ? ` ${title.releaseGroup?.release_group_name}` : ""}`;
+
+      console.log("\n ~ query:", query);
+
+      const torrents = await getTitleTorrents(query, TitleTypes.movie, movieData.imdbId);
 
       console.log("\n Torrents without filter \n");
       console.table(torrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
@@ -366,8 +368,9 @@ export async function indexTitleByFileName({
 // const titleFileName = "Scenes.From.A.Marriage.1974.1080p.BluRay.x264-[YTS.AM].mp4";
 // const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
 
-// const bytes = 398862154122;
-// const titleFileName = "Alien.Romulus.2024.2160p.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-FLUX.mkv";
+// const bytes = 55122354122;
+// const titleFileName =
+//   "Fantastic.Beasts.The.Secrets.of.Dumbledore.2022.2160p.HMAX.WEB-DL.DDP5.1.Atmos.HDR.H.265-SMURF.mkv";
 
 // indexTitleByFileName({
 //   bytes,
