@@ -531,7 +531,7 @@ export const RELEASE_GROUPS = {
   CHD: {
     is_supported: true,
     release_group_name: "CHD",
-    matches: ["CHD", "1-CHD", "DTS-CHD", "x264-CHD"],
+    matches: ["1-CHD", "DTS-CHD", "x264-CHD"],
   },
   nezu: {
     is_supported: true,
@@ -577,6 +577,11 @@ export const RELEASE_GROUPS = {
     is_supported: true,
     release_group_name: "PHOENiX",
     matches: ["264-PHOENiX", "265-PHOENiX", "PHOENIX"],
+  },
+  PublicHD: {
+    is_supported: true,
+    release_group_name: "PublicHD",
+    matches: ["PublicHD", "H264-PublicHD", "H265-PublicHD"],
   },
 } as const;
 
