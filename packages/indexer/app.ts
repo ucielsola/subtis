@@ -781,7 +781,12 @@ export type TorrentFoundWithVideoFileAndId = TorrentFoundWithVideoFile & {
   bytes: number;
 };
 
-export async function getTitleTorrents(query: string, titleType: TitleTypes, imdbId: string): Promise<TorrentFound[]> {
+export async function getTitleTorrents(
+  query: string,
+  titleType: TitleTypes,
+  imdbId: string,
+  shouldSearchInYts?: boolean,
+): Promise<TorrentFound[]> {
   let thePirateBayTorrents: TorrentFound[] = [];
 
   try {
@@ -824,9 +829,9 @@ export async function getTitleTorrents(query: string, titleType: TitleTypes, imd
     return [...torrents1337xWithMagnet, ...thePirateBayTorrents];
   }
 
-  const ytsTorrents = await getYtsTorrents(imdbId);
+  const ytsTorrents = shouldSearchInYts && query.includes("YTS") ? [] : await getYtsTorrents(imdbId);
 
-  return [...torrents1337xWithMagnet, ...thePirateBayTorrents, ...ytsTorrents].flat();
+  return [...ytsTorrents, ...torrents1337xWithMagnet, ...thePirateBayTorrents].flat();
 }
 
 function getFilteredTorrents(torrents: TorrentFound[], maxTorrents: number, shouldSort: boolean): TorrentFoundWithId[] {
@@ -1176,7 +1181,8 @@ export async function getSubtitlesForTitle({
   createInitialFolders();
   const titleProviderQuery = getQueryForTorrentProvider(currentTitle);
 
-  const torrents = initialTorrents ?? (await getTitleTorrents(titleProviderQuery, titleType, imdbId));
+  const torrents =
+    initialTorrents ?? (await getTitleTorrents(titleProviderQuery, titleType, imdbId, Boolean(initialTorrents)));
   console.log("\nTorrents without filter \n");
   console.table(torrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
 

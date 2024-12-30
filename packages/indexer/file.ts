@@ -302,7 +302,7 @@ export async function indexTitleByFileName({
 
       console.log("\n ~ query:", query);
 
-      const torrents = await getTitleTorrents(query, TitleTypes.movie, movieData.imdbId);
+      const torrents = await getTitleTorrents(query, TitleTypes.movie, movieData.imdbId, true);
 
       console.log("\n Torrents without filter \n");
       console.table(torrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
