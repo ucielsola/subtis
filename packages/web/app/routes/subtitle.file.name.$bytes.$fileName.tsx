@@ -367,6 +367,22 @@ export default function SubtitlePage() {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="play-subtitle" className="mt-6 flex flex-col gap-4">
+              {displayVideoElements ? (
+                <Alert
+                  className="bg-zinc-950 border border-zinc-700 flex items-start gap-4"
+                  onMouseEnter={() => videoTipControl.start("animate")}
+                  onMouseLeave={() => videoTipControl.start("normal")}
+                >
+                  <CheckIcon size={24} controls={videoTipControl} />
+                  <div className="pt-1">
+                    <AlertTitle className="text-zinc-50">Proba con el reproductor de video de Subtis...</AlertTitle>
+                    <AlertDescription className="text-zinc-400 text-sm font-normal">
+                      Clickea en el botón de reproducir y disfrutá de tu película con el subtítulo ya integrado sin
+                      hacer más nada.
+                    </AlertDescription>
+                  </div>
+                </Alert>
+              ) : null}
               <Alert
                 className="bg-zinc-950 border border-zinc-700 flex items-start gap-4"
                 onMouseEnter={() => videoTipControl.start("animate")}
