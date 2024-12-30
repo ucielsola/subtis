@@ -785,7 +785,7 @@ export async function getTitleTorrents(
   query: string,
   titleType: TitleTypes,
   imdbId: string,
-  shouldSearchInYts?: boolean,
+  hasInitialTorrents?: boolean,
 ): Promise<TorrentFound[]> {
   let thePirateBayTorrents: TorrentFound[] = [];
 
@@ -829,7 +829,7 @@ export async function getTitleTorrents(
     return [...torrents1337xWithMagnet, ...thePirateBayTorrents];
   }
 
-  const ytsTorrents = shouldSearchInYts && query.includes("YTS") ? [] : await getYtsTorrents(imdbId);
+  const ytsTorrents = !hasInitialTorrents || query.includes("YTS") ? await getYtsTorrents(imdbId) : [];
 
   return [...ytsTorrents, ...torrents1337xWithMagnet, ...thePirateBayTorrents].flat();
 }
