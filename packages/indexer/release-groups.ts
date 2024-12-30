@@ -215,6 +215,11 @@ export const RELEASE_GROUPS = {
     release_group_name: "MADSKY",
     matches: ["x264-MADSKY", "x265-MADSKY", "MADSKY", "264-MADSKY", "265-MADSKY"],
   },
+  HazMatt: {
+    is_supported: true,
+    release_group_name: "HazMatt",
+    matches: ["HazMatt", "x264-hazmatt", "x265-hazmatt"],
+  },
   HUZZAH: {
     is_supported: true,
     release_group_name: "HUZZAH",
