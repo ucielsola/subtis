@@ -14,7 +14,7 @@ import { type TitleFileNameMetadata, getEpisode, getIsTvShow, getTitleFileNameMe
 
 // internals
 import { apiClient } from "./api";
-import { TitleTypes, type TorrentFound, getSubtitlesForTitle, getTitleTorrents } from "./app";
+import { TitleTypes, type TorrentFound, getFileTitleTorrents, getSubtitlesForTitle } from "./app";
 import { FILE_NAME_TO_TMDB_INDEX } from "./edge-cases";
 import { getReleaseGroups } from "./release-groups";
 import { getSubDivXParameter, getSubDivXToken } from "./subdivx";
@@ -298,9 +298,10 @@ export async function indexTitleByFileName({
     });
 
     if (!shouldIndexAllTorrents) {
+      console.log("\n ~ title:", title);
       const query = `${titleProviderQuery} ${title.resolution}p${title.releaseGroup?.release_group_name ? ` ${title.releaseGroup?.release_group_name}` : ""}`;
 
-      const torrents = await getTitleTorrents(query, TitleTypes.movie, movieData.imdbId, true);
+      const torrents = await getFileTitleTorrents(query, TitleTypes.movie, movieData.imdbId);
 
       console.log("\n Torrents without filter \n");
       console.table(torrents.map(({ title, size, seeds }) => ({ title, size, seeds })));

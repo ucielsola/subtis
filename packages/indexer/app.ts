@@ -781,12 +781,58 @@ export type TorrentFoundWithVideoFileAndId = TorrentFoundWithVideoFile & {
   bytes: number;
 };
 
-export async function getTitleTorrents(
+export async function getFileTitleTorrents(
   query: string,
   titleType: TitleTypes,
   imdbId: string,
-  hasInitialTorrents?: boolean,
 ): Promise<TorrentFound[]> {
+  if (query.includes("YTS")) {
+    const ytsTorrents = await getYtsTorrents(imdbId);
+
+    return ytsTorrents;
+  }
+
+  let thePirateBayTorrents: TorrentFound[] = [];
+  try {
+    const thePirateBayResult = await tg.search(query, { groupByTracker: true });
+    const thePirateBayTorrentsRaw = thePirateBayResult instanceof Map ? thePirateBayResult.get("ThePirateBay") : [];
+
+    // @ts-ignore
+    thePirateBayTorrents = thePirateBayTorrentsRaw.map((torrent) => ({
+      ...torrent,
+      isBytesFormatted: false,
+    })) as TorrentFound[];
+  } catch (error) {
+    const parsedError = error as Error;
+    if (!parsedError.message.includes("arr[0].tracker")) {
+      console.log("Error on getTitleTorrents using tg.search interface");
+      console.log(error);
+    }
+  }
+  const torrentSearchApiCategory = titleType === TitleTypes.tvShow ? "TV" : "Movies";
+  const torrents1337x = await TorrentSearchApi.search(query, torrentSearchApiCategory, 15);
+
+  type TorrentSearchApiExteneded = TorrentSearchApi.Torrent & { seeds: number };
+
+  const torrents1337xWithMagnet = await Promise.all(
+    torrents1337x.map(async (torrent) => {
+      const torrent1337x = torrent as TorrentSearchApiExteneded;
+      const trackerId = await TorrentSearchApi.getMagnet(torrent);
+      return {
+        tracker: torrent1337x.provider,
+        title: torrent1337x.title,
+        size: torrent1337x.size,
+        seeds: torrent1337x.seeds,
+        trackerId,
+        isBytesFormatted: true,
+      };
+    }),
+  );
+
+  return [...torrents1337xWithMagnet, ...thePirateBayTorrents].flat();
+}
+
+export async function getTitleTorrents(query: string, titleType: TitleTypes, imdbId: string): Promise<TorrentFound[]> {
   let thePirateBayTorrents: TorrentFound[] = [];
 
   try {
@@ -829,7 +875,7 @@ export async function getTitleTorrents(
     return [...torrents1337xWithMagnet, ...thePirateBayTorrents];
   }
 
-  const ytsTorrents = !hasInitialTorrents || query.includes("YTS") ? await getYtsTorrents(imdbId) : [];
+  const ytsTorrents = await getYtsTorrents(imdbId);
 
   return [...ytsTorrents, ...torrents1337xWithMagnet, ...thePirateBayTorrents].flat();
 }
@@ -1181,8 +1227,7 @@ export async function getSubtitlesForTitle({
   createInitialFolders();
   const titleProviderQuery = getQueryForTorrentProvider(currentTitle);
 
-  const torrents =
-    initialTorrents ?? (await getTitleTorrents(titleProviderQuery, titleType, imdbId, Boolean(initialTorrents)));
+  const torrents = initialTorrents ?? (await getTitleTorrents(titleProviderQuery, titleType, imdbId));
   console.log("\nTorrents without filter \n");
   console.table(torrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
 
