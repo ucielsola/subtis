@@ -21,6 +21,11 @@ export const RELEASE_GROUPS = {
       "x265-AccomplishedYak",
     ],
   },
+  COLLECTiVE: {
+    is_supported: true,
+    release_group_name: "COLLECTiVE",
+    matches: ["COLLECTiVE", "x264-COLLECTiVE", "x265-COLLECTiVE"],
+  },
   CODY: {
     is_supported: true,
     release_group_name: "CODY",
