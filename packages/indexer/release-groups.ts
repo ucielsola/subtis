@@ -600,6 +600,11 @@ export const RELEASE_GROUPS = {
     release_group_name: "PublicHD",
     matches: ["PublicHD", "H264-PublicHD", "H265-PublicHD"],
   },
+  OMGFR: {
+    is_supported: true,
+    release_group_name: "OMGFR",
+    matches: ["omgfr", "h264-omgfr", "h265-omgfr"],
+  },
 } as const;
 
 // types
