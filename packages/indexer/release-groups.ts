@@ -605,6 +605,11 @@ export const RELEASE_GROUPS = {
     release_group_name: "OMGFR",
     matches: ["omgfr", "h264-omgfr", "h265-omgfr"],
   },
+  B0MBARDiERS: {
+    is_supported: true,
+    release_group_name: "B0MBARDiERS",
+    matches: ["b0mbardiers", "x264-b0mbardiers", "x265-b0mbardiers"],
+  },
 } as const;
 
 // types
