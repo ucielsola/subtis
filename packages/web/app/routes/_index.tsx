@@ -12,7 +12,7 @@ import { getApiClient } from "@subtis/shared";
 
 // meta
 export const meta: MetaFunction = () => {
-  return [{ title: "Subtis" }, { name: "description", content: "Encontra tus subtítulos rápidamente!" }];
+  return [{ title: "Subtis" }, { name: "description", content: "Subtítutlos para todas tus películas" }];
 };
 
 export const loader = async () => {

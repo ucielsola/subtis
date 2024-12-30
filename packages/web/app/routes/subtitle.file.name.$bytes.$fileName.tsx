@@ -75,8 +75,10 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   }
 
   return [
-    { title: `Subtis | Subtítulo para ${data.title.title_name} | ${data.subtitle.title_file_name}` },
-    { name: "description", content: `Subtítulo para ${data.title.title_name} | ${data.subtitle.title_file_name}` },
+    {
+      title: `Subtis | Subtítulo para ${data.title.title_name} (${data.title.year}) | ${data.subtitle.title_file_name}`,
+    },
+    { name: "description", content: "Subtítutlos para todas tus películas" },
   ];
 };
 

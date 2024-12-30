@@ -53,7 +53,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 export const meta: MetaFunction<typeof loader> = () => {
   return [
     { title: "Subtis | Buscando subtítulo en tiempo real" },
-    { name: "description", content: "Buscando subtítulo en tiempo real" },
+    { name: "description", content: "Subtítutlos para todas tus películas" },
   ];
 };
 export default function RealTimeSearchPage() {

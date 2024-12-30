@@ -1,4 +1,4 @@
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, type MetaFunction, useLoaderData } from "@remix-run/react";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useDebounce } from "use-debounce";
@@ -53,6 +53,14 @@ export const loader = async () => {
   return {
     trendingSearch: parsedTrendingSearch,
   };
+};
+
+// meta
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Subtis | Búsqueda en catálogo" },
+    { name: "description", content: "Subtítutlos para todas tus películas" },
+  ];
 };
 
 export default function SearchPage() {

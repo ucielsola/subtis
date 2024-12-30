@@ -1,3 +1,12 @@
+import type { MetaFunction } from "@remix-run/react";
+
+// meta
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Subtis | Términos y Condiciones" },
+    { name: "description", content: "Subtítutlos para todas tus películas" },
+  ];
+};
 export default function TermsPage() {
   return (
     <article className="prose dark:prose-invert pt-24 pb-48">

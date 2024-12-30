@@ -167,13 +167,13 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data || "message" in data) {
     return [
       { title: "Subtis | Subtitulos No Encontrados" },
-      { name: "description", content: "Subtitulos No Encontrados" },
+      { name: "description", content: "Subtítutlos para todas tus películas" },
     ];
   }
 
   return [
-    { title: `Subtis | Subtitulos Alternativos para ${data.title.title_name}` },
-    { name: "description", content: `Subtitulos Alternativos para ${data.title.title_name}` },
+    { title: `Subtis | Subtitulos Alternativos para ${data.title.title_name} (${data.title.year})` },
+    { name: "description", content: "Subtítutlos para todas tus películas" },
   ];
 };
 

@@ -63,15 +63,14 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   }
 
   return [
-    { title: `Subtis | Lista de subtítutlos para ${data.title.title_name}` },
-    { name: "description", content: `Lista de subtítutlos para ${data.title.title_name}` },
+    { title: `Subtis | Subtítutlos para ${data.title.title_name} (${data.title.year})` },
+    { name: "description", content: "Subtítutlos para todas tus películas" },
   ];
 };
 
 export default function SubtitlesPage() {
   // remix hooks
   const data = useLoaderData<typeof loader>();
-  console.log("\n ~ SubtitlesPage ~ data:", data);
 
   // motion hooks
   const videoTipControl = useAnimation();
