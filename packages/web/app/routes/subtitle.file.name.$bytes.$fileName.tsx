@@ -173,9 +173,9 @@ export default function SubtitlePage() {
   }
 
   // constants
-  const isMp4 = fileName?.endsWith(".mp4");
+  const isSupportedFileExtension = fileName?.endsWith(".mp4") || fileName?.endsWith(".mkv");
   const videoSource = typeof window !== "undefined" && fileName ? localStorage.getItem(fileName) : null;
-  const displayVideoElements = videoSource && captionBlobUrl && isMp4 && !hasVideoError;
+  const displayVideoElements = videoSource && captionBlobUrl && isSupportedFileExtension && !hasVideoError;
 
   const columns: ColumnDef<SubtitleNormalized>[] = [
     {
