@@ -175,9 +175,7 @@ export default function SubtitlePage() {
   // constants
   const isMp4 = fileName?.endsWith(".mp4");
   const videoSource = typeof window !== "undefined" && fileName ? localStorage.getItem(fileName) : null;
-
   const displayVideoElements = videoSource && captionBlobUrl && isMp4 && !hasVideoError;
-  console.log("\n ~ SubtitlePage ~ displayVideoElements:", displayVideoElements);
 
   const columns: ColumnDef<SubtitleNormalized>[] = [
     {
