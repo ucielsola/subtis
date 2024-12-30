@@ -56,7 +56,7 @@ export default function App() {
         <main className="min-h-screen bg-right-top bg-[url('/hero-bg.png')] bg-contain bg-no-repeat selection:text-zinc-950 selection:bg-zinc-50">
           <div className="container mx-auto px-4 min-h-screen flex flex-col">
             <nav className="flex items-center justify-between py-4">
-              <Link to="/">
+              <Link to="/" className="cursor-pointer">
                 <img
                   src="/logo.png"
                   alt="Subtis"
