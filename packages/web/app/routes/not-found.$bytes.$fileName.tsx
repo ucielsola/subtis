@@ -210,7 +210,7 @@ export default function NotFoundSubtitlePage() {
       <article className="max-w-xl w-full">
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-4">
-            <h1 className="text-zinc-50 text-3xl md:text-5xl font-bold">Lo sentimos :(</h1>
+            <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold">Lo sentimos :(</h1>
             <h2 className="text-zinc-50 text-balance text-sm md:text-base">
               No encontramos el subtítulo específico para tu archivo.{" "}
               {"message" in data ? null : "Te recomendamos que pruebes el siguiente subtítulo alternativo."}

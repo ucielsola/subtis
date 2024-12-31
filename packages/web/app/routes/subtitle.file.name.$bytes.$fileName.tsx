@@ -310,9 +310,9 @@ export default function SubtitlePage() {
                 className="w-full max-h-32 object-contain md:hidden mb-4"
               />
             ) : null}
-            <h1 className="text-zinc-50 text-3xl md:text-5xl font-bold">¡Subtítulo encontrado!</h1>
+            <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold">¡Subtítulo encontrado!</h1>
             <h2 className="text-zinc-50 text-balance text-sm md:text-base">
-              Descarga el siguiente subtítulo para disfrutar de tu película.
+              Descarga el siguiente subtítulo para disfrutar de "{data.title.title_name}" subtitulada.
             </h2>
           </div>
           <DataTable columns={columns} data={[data]} />
