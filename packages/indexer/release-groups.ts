@@ -61,6 +61,11 @@ export const RELEASE_GROUPS = {
     release_group_name: "PiGNUS",
     matches: ["PiGNUS", "x264-pignus"],
   },
+  ExKinoRay: {
+    is_supported: true,
+    release_group_name: "ExKinoRay",
+    matches: ["ExKinoRay", "ExKinoRay", "x264-ExKinoRay", "x265-ExKinoRay"],
+  },
   EniaHD: {
     is_supported: true,
     release_group_name: "EniaHD",
