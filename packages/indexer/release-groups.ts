@@ -21,6 +21,7 @@ export const RELEASE_GROUPS = {
       "x265-AccomplishedYak",
     ],
   },
+
   beetlejuice: {
     is_supported: true,
     release_group_name: "beetlejuice",
@@ -109,6 +110,11 @@ export const RELEASE_GROUPS = {
     is_supported: true,
     release_group_name: "HDRip-C1NEM4",
     matches: ["HDRip-C1NEM4"],
+  },
+  "HEVC-ZiroMB": {
+    is_supported: true,
+    release_group_name: "HEVC-ZiroMB",
+    matches: ["HEVC-ZiroMB", "[ZiroMB]", "ZiroMB"],
   },
   "HEVC-CMRG": {
     is_supported: true,
