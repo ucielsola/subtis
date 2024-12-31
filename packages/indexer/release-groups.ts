@@ -21,7 +21,11 @@ export const RELEASE_GROUPS = {
       "x265-AccomplishedYak",
     ],
   },
-
+  USURY: {
+    is_supported: true,
+    release_group_name: "USURY",
+    matches: ["USURY", "x264-USURY", "x265-USURY"],
+  },
   beetlejuice: {
     is_supported: true,
     release_group_name: "beetlejuice",
