@@ -367,17 +367,17 @@ export async function indexTitleByFileName({
 // const titleFileName = "Scenes.From.A.Marriage.1974.1080p.BluRay.x264-[YTS.AM].mp4";
 // const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
 
-const bytes = 51355123354122;
-const titleFileName = "Inside.Out.2.2024.1080p.WEBRip.x265.10bit.AAC5.1-[YTS.MX].mp4 ";
+// const bytes = 51355123354122;
+// const titleFileName = "Inside.Out.2.2024.1080p.WEBRip.x265.10bit.AAC5.1-[YTS.MX].mp4 ";
 
-indexTitleByFileName({
-  bytes,
-  titleFileName,
-  shouldStoreNotFoundSubtitle: true,
-  isDebugging: true,
-  indexedBy: "indexer-file",
-  shouldIndexAllTorrents: false,
-});
+// indexTitleByFileName({
+//   bytes,
+//   titleFileName,
+//   shouldStoreNotFoundSubtitle: true,
+//   isDebugging: true,
+//   indexedBy: "indexer-file",
+//   shouldIndexAllTorrents: false,
+// });
 
 // GENERAL
 // saveReleaseGroupsToDb(supabase);
