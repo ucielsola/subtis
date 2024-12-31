@@ -21,6 +21,11 @@ export const RELEASE_GROUPS = {
       "x265-AccomplishedYak",
     ],
   },
+  beetlejuice: {
+    is_supported: true,
+    release_group_name: "beetlejuice",
+    matches: ["h264-beetlejuice", "h265-beetlejuice"],
+  },
   COLLECTiVE: {
     is_supported: true,
     release_group_name: "COLLECTiVE",
