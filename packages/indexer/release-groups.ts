@@ -21,6 +21,11 @@ export const RELEASE_GROUPS = {
       "x265-AccomplishedYak",
     ],
   },
+  ESiR: {
+    is_supported: true,
+    release_group_name: "ESiR",
+    matches: ["1-ESiR", "x264-ESiR", "x265-ESiR"],
+  },
   USURY: {
     is_supported: true,
     release_group_name: "USURY",
