@@ -26,6 +26,11 @@ export const RELEASE_GROUPS = {
     release_group_name: "NAHOM",
     matches: ["NAHOM", "x264-NAHOM", "x265-NAHOM"],
   },
+  OFT: {
+    is_supported: true,
+    release_group_name: "OFT",
+    matches: ["OFT", "x264-OFT", "x265-OFT"],
+  },
   "Atmos-FGT": {
     is_supported: true,
     release_group_name: "Atmos-FGT",
