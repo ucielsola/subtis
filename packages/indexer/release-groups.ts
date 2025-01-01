@@ -429,8 +429,8 @@ export const RELEASE_GROUPS = {
   },
   DEPTH: {
     is_supported: true,
-    release_group_name: "DEPT",
-    matches: ["DEPT", "x264-DEPT", "x265-DEPT"],
+    release_group_name: "DEPTH",
+    matches: ["DEPTH", "x264-DEPTH", "x265-DEPTH"],
   },
   Ozlem: {
     is_supported: true,
