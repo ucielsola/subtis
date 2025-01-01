@@ -140,7 +140,7 @@ type Props = {
 
 export function PosterTitles({ data, isLoading }: Props) {
   return (
-    <section className="py-16 flex flex-col gap-32">
+    <section className="py-16 flex flex-col gap-32 min-h-[532px]">
       <AnimatePresence>
         {data && data.results.length > 0 ? (
           <motion.div

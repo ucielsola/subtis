@@ -66,7 +66,13 @@ export function TrendingSlider() {
         className="flex overflow-x-scroll [scroll-snap-type:x_mandatory] [scroll-behavior:smooth] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-md gap-3 py-3 w-full"
       >
         {trendingDownloadedTitles.results.map((title) => {
-          if (!title.poster) return null;
+          if (!title.poster) {
+            return null;
+          }
+
+          if (title.type !== "movie") {
+            return null;
+          }
 
           return (
             <Link

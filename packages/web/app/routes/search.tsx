@@ -98,12 +98,14 @@ export default function SearchPage() {
         return { results: [] as Result[], statusCode: response.status };
       }
 
-      const parsedResults = data.results.map((result) => ({
-        poster: result.poster,
-        value: String(result.imdb_id),
-        posterThumbHash: result.poster_thumbhash,
-        label: `${result.title_name} (${result.year})`,
-      }));
+      const parsedResults = data.results
+        .filter((result) => result.type === "movie")
+        .map((result) => ({
+          poster: result.poster,
+          value: String(result.imdb_id),
+          posterThumbHash: result.poster_thumbhash,
+          label: `${result.title_name} (${result.year})`,
+        }));
 
       return { results: parsedResults, statusCode: response.status };
     },

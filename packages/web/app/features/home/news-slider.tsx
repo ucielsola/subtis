@@ -19,6 +19,9 @@ export function NewsSlider() {
         if (!title.backdrop) {
           return null;
         }
+        if (title.type !== "movie") {
+          return null;
+        }
 
         return (
           <Link
