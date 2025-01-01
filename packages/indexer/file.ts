@@ -301,6 +301,7 @@ export async function indexTitleByFileName({
       console.log("\n ~ title:", title);
       const query = `${titleProviderQuery} ${title.resolution}p${title.releaseGroup?.release_group_name ? ` ${title.releaseGroup?.release_group_name}` : ""}`;
 
+      console.log("\n ~ query:", query);
       const torrents = await getFileTitleTorrents(query, TitleTypes.movie, movieData.imdbId);
 
       console.log("\n Torrents without filter \n");
@@ -367,8 +368,8 @@ export async function indexTitleByFileName({
 // const titleFileName = "Scenes.From.A.Marriage.1974.1080p.BluRay.x264-[YTS.AM].mp4";
 // const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
 
-// const bytes = 51355123354122;
-// const titleFileName = "Inside.Out.2.2024.1080p.WEBRip.x265.10bit.AAC5.1-[YTS.MX].mp4 ";
+// const bytes = 55551232135622;
+// const titleFileName = "When.Evil.Lurks.2023.1080p.WEB.h264-EDITH.mkv";
 
 // indexTitleByFileName({
 //   bytes,

@@ -164,9 +164,10 @@ async function getSubtitlesFromSubDivXForTitleByQuery({
       return false;
     }
 
-    if (parsedSubtitleTitle.length > titleProviderQuery.length + 16) {
-      return false;
-    }
+    // TODO: Check if this is needed since sometimes filters more than 16 characters
+    // if (parsedSubtitleTitle.length > titleProviderQuery.length + 16) {
+    //   return false;
+    // }
 
     return true;
   });
@@ -303,6 +304,7 @@ export async function filterSubDivXSubtitlesForTorrent({
     const matchesRipType = titleFileNameMetadata.ripType
       ? movieDescription.includes(titleFileNameMetadata.ripType)
       : false;
+
     const matchesFileName = movieDescription.includes(fileNameWithoutExtension.toLowerCase());
 
     return matchesFileName || (matchesResolution && matchesReleaseGroup && matchesRipType);
