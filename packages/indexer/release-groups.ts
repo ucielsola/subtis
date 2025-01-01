@@ -21,6 +21,11 @@ export const RELEASE_GROUPS = {
       "x265-AccomplishedYak",
     ],
   },
+  IAMABLE: {
+    is_supported: true,
+    release_group_name: "IAMABLE",
+    matches: ["IAMABLE", "x264-IAMABLE", "x265-IAMABLE", "X265-IAMABLE[EtHD]", "X264-IAMABLE[EtHD]"],
+  },
   NAHOM: {
     is_supported: true,
     release_group_name: "NAHOM",
