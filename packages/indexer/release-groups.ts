@@ -21,6 +21,11 @@ export const RELEASE_GROUPS = {
       "x265-AccomplishedYak",
     ],
   },
+  "Atmos-FGT": {
+    is_supported: true,
+    release_group_name: "Atmos-FGT",
+    matches: ["Atmos-FGT"],
+  },
   ESiR: {
     is_supported: true,
     release_group_name: "ESiR",
@@ -427,11 +432,6 @@ export const RELEASE_GROUPS = {
       "5.1-RARBG",
     ],
   },
-  HEVC: {
-    is_supported: true,
-    release_group_name: "HEVC",
-    matches: ["HEVC", "x264-HEVC", "x265-HEVC"],
-  },
   DEPTH: {
     is_supported: true,
     release_group_name: "DEPTH",
@@ -634,6 +634,11 @@ export const RELEASE_GROUPS = {
     is_supported: true,
     release_group_name: "B0MBARDiERS",
     matches: ["b0mbardiers", "x264-b0mbardiers", "x265-b0mbardiers"],
+  },
+  HEVC: {
+    is_supported: true,
+    release_group_name: "HEVC",
+    matches: ["HEVC", "x264-HEVC", "x265-HEVC"],
   },
 } as const;
 
