@@ -613,7 +613,7 @@ export const RELEASE_GROUPS = {
   KiNGDOM: {
     is_supported: true,
     release_group_name: "KiNGDOM",
-    matches: ["KiNGDOM", "DTS-KiNGDOM", "x264-KiNGDOM", "x265-KiNGDOM"],
+    matches: ["KiNGDOM", "DTS-KiNGDOM", "x264-KiNGDOM", "x265-KiNGDOM", "DDP+Atmos-KiNGDOM"],
   },
   PiRaTeS: {
     is_supported: true,
