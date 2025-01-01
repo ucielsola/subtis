@@ -6,7 +6,7 @@
   "author": "leonardo_galante",
   "license": "MIT",
   "icon": "command-icon.png",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "commands": [
     {
       "name": "index",
