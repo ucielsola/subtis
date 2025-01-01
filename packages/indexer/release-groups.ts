@@ -610,6 +610,11 @@ export const RELEASE_GROUPS = {
     release_group_name: "Joy",
     matches: ["Joy", "x264-Joy", "x265-Joy"],
   },
+  SURCODE: {
+    is_supported: true,
+    release_group_name: "SURCODE",
+    matches: ["SURCODE", "x264-SURCODE", "x265-SURCODE"],
+  },
   KiNGDOM: {
     is_supported: true,
     release_group_name: "KiNGDOM",
