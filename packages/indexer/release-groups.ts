@@ -21,6 +21,11 @@ export const RELEASE_GROUPS = {
       "x265-AccomplishedYak",
     ],
   },
+  NAHOM: {
+    is_supported: true,
+    release_group_name: "NAHOM",
+    matches: ["NAHOM", "x264-NAHOM", "x265-NAHOM"],
+  },
   "Atmos-FGT": {
     is_supported: true,
     release_group_name: "Atmos-FGT",
