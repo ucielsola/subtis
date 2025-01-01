@@ -72,7 +72,7 @@ export function TrendingSlider() {
             <Link
               key={title.id}
               to={`/subtitles/movie/${title.imdb_id}`}
-              className="box-content flex flex-none [scroll-snap-align:start] rounded-md overflow-hidden cursor-pointer border-2 border-transparent hover:border-zinc-700 hover:scale-105 transition-all ease-in-out will-change-transform"
+              className="box-content flex flex-none [scroll-snap-align:start] rounded-sm overflow-hidden cursor-pointer hover:scale-105 transition-all ease-in-out duration-300 group will-change-transform"
             >
               <ThumbHashTrendingImage src={title.poster} hashUrl={title.poster_thumbhash} alt={title.title_name} />
             </Link>
@@ -85,7 +85,7 @@ export function TrendingSlider() {
         onClick={() => scroll("left")}
         className={`z-50 absolute left-0 top-1/2 -translate-y-1/2 h-[336px] w-8 flex items-center justify-center ${
           isAtStart ? "opacity-0" : "opacity-100"
-        } hidden lg:block bg-zinc-950/50 hover:bg-zinc-950/70 transition-colors`}
+        } hidden lg:block bg-zinc-950/50 hover:bg-zinc-950/70 transition-all`}
         aria-label="Scroll left"
       >
         <ChevronLeft className="size-6 text-zinc-50" />
@@ -96,7 +96,7 @@ export function TrendingSlider() {
         onClick={() => scroll("right")}
         className={`z-50 absolute right-0 top-1/2 -translate-y-1/2 h-[336px] w-8 flex items-center justify-center ${
           isAtEnd ? "opacity-0" : "opacity-100"
-        } hidden lg:block bg-zinc-950/50 hover:bg-zinc-950/70 transition-colors`}
+        } hidden lg:block bg-zinc-950/50 hover:bg-zinc-950/70 transition-all`}
         aria-label="Scroll right"
       >
         <ChevronRight className="size-6 text-zinc-50" />

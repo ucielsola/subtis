@@ -27,14 +27,12 @@ export function ThumbHashPosterImage({ src, hashUrl, alt }: Props) {
   const placeholderURL = generatePlaceholderURL(hashUrl);
 
   return (
-    <div className="relative w-[384px] h-[575px] object-cover rounded-md overflow-hidden  border border-zinc-700/80">
-      <img src={placeholderURL} alt={`${alt} placeholder`} className="w-full h-full" />
+    <div className="relative w-[384px] h-[575px] rounded-sm overflow-hidden">
+      <img src={placeholderURL} alt={`${alt} placeholder`} className="w-full h-full object-cover" />
       <img
         onLoad={onLoaded}
-        className={`absolute inset-0 ${imgIsLoading ? "opacity-0" : "opacity-100"} transition-opacity ease-in-out duration-300`}
+        className={`absolute inset-0 ${imgIsLoading ? "opacity-0" : "opacity-100"} transition-opacity ease-in-out duration-300 w-[380px] h-[571px] rounded-[2px] inset-[2px] object-cover`}
         src={src}
-        width="100%"
-        height="100%"
         alt={alt}
         loading="eager"
         fetchPriority="high"

@@ -24,7 +24,7 @@ export function NewsSlider() {
           <Link
             key={title.id}
             to={`/subtitles/movie/${title.imdb_id}`}
-            className="box-content flex flex-none [scroll-snap-align:start] rounded-md overflow-hidden cursor-pointer border-2 border-transparent hover:border-zinc-700 hover:scale-105 transition-all ease-in-out will-change-transform"
+            className="box-content flex flex-none [scroll-snap-align:start] rounded-sm overflow-hidden cursor-pointer hover:scale-105 transition-all ease-in-out duration-300 group will-change-transform"
           >
             <ThumbHashNewsImage src={title.backdrop} hashUrl={title.backdrop_thumbhash} alt={title.title_name} />
           </Link>
