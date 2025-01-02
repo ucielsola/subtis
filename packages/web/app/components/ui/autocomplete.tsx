@@ -113,7 +113,7 @@ export const AutoComplete = ({
             isOpen ? "block" : "hidden",
           )}
         >
-          <CommandList className="rounded-md border border-zinc-700">
+          <CommandList className="rounded-md border border-zinc-700 max-h-[106px]">
             {isLoading ? (
               <CommandPrimitive.Loading>
                 <div className="p-1">
@@ -122,7 +122,7 @@ export const AutoComplete = ({
               </CommandPrimitive.Loading>
             ) : null}
             {options.length > 0 && !isLoading ? (
-              <CommandGroup>
+              <CommandGroup >
                 {options.map((option) => {
                   const isSelected = selected?.value === option.value;
                   return (
