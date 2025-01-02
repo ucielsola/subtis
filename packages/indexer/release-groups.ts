@@ -243,6 +243,7 @@ export const RELEASE_GROUPS = {
       "x264-[YTS.AG]",
       "x264-[YTS.LT]",
       "AAC-[YTS.MX]",
+      "{{YIFY torrent}}",
     ],
   },
   RMTeam: {
