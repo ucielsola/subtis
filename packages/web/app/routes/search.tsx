@@ -66,7 +66,6 @@ export const meta: MetaFunction = () => {
 export default function SearchPage() {
   // remix hooks
   const { trendingSearch } = useLoaderData<typeof loader>();
-  console.table(trendingSearch);
 
   // react hooks
   const [inputValue, setInputValue] = useState<string>("");
