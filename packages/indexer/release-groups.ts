@@ -21,6 +21,11 @@ export const RELEASE_GROUPS = {
       "x265-AccomplishedYak",
     ],
   },
+  playHD: {
+    is_supported: true,
+    release_group_name: "playHD",
+    matches: ["playHD", "x264-playHD", "x265-playHD", "x264-playHD_EniaHD", "x265-playHD_EniaHD"],
+  },
   IAMABLE: {
     is_supported: true,
     release_group_name: "IAMABLE",
