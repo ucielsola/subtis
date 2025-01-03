@@ -37,6 +37,7 @@
     "react-dom": "^18.3.1",
     "react-dropzone-esm": "^15.2.0",
     "react-hook-form": "^7.54.2",
+    "srt-support-for-html5-videos": "^2.6.11",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "thumbhash": "^0.1.1",
