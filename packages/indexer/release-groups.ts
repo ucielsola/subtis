@@ -26,6 +26,11 @@ export const RELEASE_GROUPS = {
     release_group_name: "playHD",
     matches: ["playHD", "x264-playHD", "x265-playHD", "x264-playHD_EniaHD", "x265-playHD_EniaHD"],
   },
+  WORLD: {
+    is_supported: true,
+    release_group_name: "WORLD",
+    matches: ["WORLD", "x264-WORLD", "x265-WORLD", "1-WORLD"],
+  },
   IAMABLE: {
     is_supported: true,
     release_group_name: "IAMABLE",
