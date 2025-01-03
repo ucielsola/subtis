@@ -49,7 +49,7 @@ export const RELEASE_GROUPS = {
   "Atmos-FGT": {
     is_supported: true,
     release_group_name: "Atmos-FGT",
-    matches: ["Atmos-FGT"],
+    matches: ["Atmos-FGT", "1-FGT"],
   },
   ESiR: {
     is_supported: true,
