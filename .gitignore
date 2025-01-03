@@ -6,7 +6,6 @@ compressed-subtitles
 coverage
 node_modules
 *.zip
-*.js
 bun.lockb
 **/bin/*
 **/bin/subtis
