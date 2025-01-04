@@ -21,6 +21,11 @@ export const RELEASE_GROUPS = {
       "x265-AccomplishedYak",
     ],
   },
+  HUD: {
+    is_supported: true,
+    release_group_name: "HUD",
+    matches: ["HUD", "AC3-HUD"],
+  },
   playHD: {
     is_supported: true,
     release_group_name: "playHD",
