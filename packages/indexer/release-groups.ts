@@ -253,7 +253,7 @@ export const RELEASE_GROUPS = {
   EVO: {
     is_supported: true,
     release_group_name: "EVO",
-    matches: ["EVO", "264-EVO", "265-EVO", "x264-EVO", "x265-EVO", "264-EVO[TGx]", "265-EVO[TGx]"],
+    matches: ["EVO", "264-EVO", "265-EVO", "x264-EVO", "x265-EVO", "264-EVO[TGx]", "265-EVO[TGx]", "AC3-EVO"],
   },
   "Atmos-SWTYBLZ": {
     is_supported: true,
