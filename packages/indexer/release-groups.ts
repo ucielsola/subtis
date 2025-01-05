@@ -31,6 +31,11 @@ export const RELEASE_GROUPS = {
     release_group_name: "AV1-WhiskeyJack",
     matches: ["AV1-WhiskeyJack"],
   },
+  "AAC-VXT": {
+    is_supported: true,
+    release_group_name: "AAC-VXT",
+    matches: ["AAC-VXT"],
+  },
   "AV1-DiN": {
     is_supported: true,
     release_group_name: "AV1-DiN",
