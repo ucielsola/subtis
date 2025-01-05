@@ -21,6 +21,11 @@ export const RELEASE_GROUPS = {
       "x265-AccomplishedYak",
     ],
   },
+  FHC: {
+    is_supported: true,
+    release_group_name: "FHC",
+    matches: ["FHC", "H264-FHC", "H265-FHC", "x264-FHC", "x265-FHC", "264-FHC", "265-FHC"],
+  },
   HUD: {
     is_supported: true,
     release_group_name: "HUD",
