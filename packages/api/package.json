@@ -13,7 +13,7 @@
   "dependencies": {
     "@hono/zod-validator": "^0.4.2",
     "@supabase/supabase-js": "^2.47.10",
-    "hono": "^4.6.15",
+    "hono": "^4.6.16",
     "html-escaper": "^3.0.3",
     "jszip": "^3.10.1",
     "slugify": "^1.6.6",
