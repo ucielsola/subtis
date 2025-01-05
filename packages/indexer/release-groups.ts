@@ -21,6 +21,11 @@ export const RELEASE_GROUPS = {
       "x265-AccomplishedYak",
     ],
   },
+  DTOne: {
+    is_supported: true,
+    release_group_name: "DTOne",
+    matches: ["DTOne", "0-DTOne", "1-DTOne", "0 -DTOne", "1 -DTOne", "1 -DDR", "0 -DDR"],
+  },
   CiNT: {
     is_supported: true,
     release_group_name: "CiNT",
