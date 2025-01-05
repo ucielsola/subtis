@@ -21,6 +21,11 @@ export const RELEASE_GROUPS = {
       "x265-AccomplishedYak",
     ],
   },
+  "AV1-DiN": {
+    is_supported: true,
+    release_group_name: "AV1-DiN",
+    matches: ["AV1-DiN"],
+  },
   FHC: {
     is_supported: true,
     release_group_name: "FHC",
