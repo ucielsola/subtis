@@ -195,6 +195,11 @@ export const RELEASE_GROUPS = {
     release_group_name: "HDRip-C1NEM4",
     matches: ["HDRip-C1NEM4"],
   },
+  "HEVC-GOPIHD": {
+    is_supported: true,
+    release_group_name: "HEVC-GOPIHD",
+    matches: ["HEVC-GOPIHD"],
+  },
   "HEVC-ZiroMB": {
     is_supported: true,
     release_group_name: "HEVC-ZiroMB",
