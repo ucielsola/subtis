@@ -51,6 +51,16 @@ export const RELEASE_GROUPS = {
     release_group_name: "AV1-DiN",
     matches: ["AV1-DiN"],
   },
+  WAR: {
+    is_supported: true,
+    release_group_name: "WAR",
+    matches: ["WAR", "265-WAR", "264-WAR"],
+  },
+  Rapta: {
+    is_supported: true,
+    release_group_name: "Rapta",
+    matches: ["Rapta", "x265-Rapta", "x264-Rapta"],
+  },
   FHC: {
     is_supported: true,
     release_group_name: "FHC",
