@@ -21,6 +21,11 @@ export const RELEASE_GROUPS = {
       "x265-AccomplishedYak",
     ],
   },
+  CiNT: {
+    is_supported: true,
+    release_group_name: "CiNT",
+    matches: ["CiNT", "AC3-CiNT", "XviD-CiNT"],
+  },
   "AV1-DiN": {
     is_supported: true,
     release_group_name: "AV1-DiN",
