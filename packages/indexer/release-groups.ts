@@ -26,6 +26,11 @@ export const RELEASE_GROUPS = {
     release_group_name: "DTOne",
     matches: ["DTOne", "0-DTOne", "1-DTOne", "0 -DTOne", "1 -DTOne", "1 -DDR", "0 -DDR"],
   },
+  XoXo: {
+    is_supported: true,
+    release_group_name: "XoXo",
+    matches: ["XoXo", "x264-XoXo", "x265-XoXo", "H264-XoXo", "H265-XoXo"],
+  },
   CiNT: {
     is_supported: true,
     release_group_name: "CiNT",
