@@ -63,7 +63,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                       onClick={() => setShowAll(!showAll)}
                       className="text-sm text-zinc-300 hover:text-zinc-50 w-full h-full bg-zinc-950 hover:bg-zinc-950 border-none hover:border-none py-3"
                     >
-                      {showAll ? "Cargar menos opciones" : "Cargar más opciones"}
+                      {showAll ? "Cargar menos opciones" : `Cargar más opciones (${rows.length - 3})`}
                       {showAll ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
                     </Button>
                   </TableCell>
