@@ -56,6 +56,11 @@ export const RELEASE_GROUPS = {
     release_group_name: "AC3-TuKCo",
     matches: ["AC3-TuKCo"],
   },
+  DH: {
+    is_supported: true,
+    release_group_name: "DH",
+    matches: ["DH", "265-DH", "264-DH"],
+  },
   WAR: {
     is_supported: true,
     release_group_name: "WAR",
