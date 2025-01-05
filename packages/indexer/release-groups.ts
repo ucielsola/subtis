@@ -51,6 +51,11 @@ export const RELEASE_GROUPS = {
     release_group_name: "AV1-DiN",
     matches: ["AV1-DiN"],
   },
+  "AC3-TuKCo": {
+    is_supported: true,
+    release_group_name: "AC3-TuKCo",
+    matches: ["AC3-TuKCo"],
+  },
   WAR: {
     is_supported: true,
     release_group_name: "WAR",
