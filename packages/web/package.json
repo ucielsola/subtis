@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@custom-react-hooks/use-effect-once": "^1.5.1",
-    "@hookform/resolvers": "^3.9.1",
+    "@hookform/resolvers": "^3.10.0",
     "@radix-ui/react-accordion": "^1.2.2",
     "@radix-ui/react-aspect-ratio": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.4",
@@ -25,7 +25,7 @@
     "@remix-run/node": "^2.15.2",
     "@remix-run/react": "^2.15.2",
     "@remix-run/serve": "^2.15.2",
-    "@tanstack/react-query": "^5.62.15",
+    "@tanstack/react-query": "^5.62.16",
     "@tanstack/react-table": "^8.20.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@remix-run/dev": "^2.15.2",
-    "@tailwindcss/typography": "^0.5.15",
+    "@tailwindcss/typography": "^0.5.16",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@typescript-eslint/eslint-plugin": "^6.21.0",

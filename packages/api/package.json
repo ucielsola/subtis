@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@hono/zod-validator": "^0.4.2",
-    "@supabase/supabase-js": "^2.47.10",
+    "@supabase/supabase-js": "^2.47.11",
     "hono": "^4.6.16",
     "html-escaper": "^3.0.3",
     "jszip": "^3.10.1",
@@ -22,10 +22,10 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241230.0",
-    "@types/bun": "^1.1.14",
+    "@types/bun": "^1.1.15",
     "@types/html-escaper": "^3.0.2",
     "@types/timestring": "^7.0.0",
     "typescript": "^5.7.2",
-    "wrangler": "^3.99.0"
+    "wrangler": "^3.100.0"
   }
 }
