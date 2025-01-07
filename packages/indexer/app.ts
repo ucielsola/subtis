@@ -557,7 +557,7 @@ async function addWatermarkToSubtitle({
       return `0
 00:00:00,000 --> ${firstTimestamp}
 Subtitulos descargados desde <b>Subtis</b>
-Link: https://subt.is
+Encontranos en https://subtis.io
 
 1
 ${firstTimestamp} --> ${secondTimestamp}
@@ -588,7 +588,7 @@ ${subtitleText}`;
 ${watermarkNextId}
 ${firstTimestamp} --> ${secondTimestamp}
 Subtitulos descargados desde <b>Subtis</b>
-Link: https://subt.is
+Encontranos en https://subtis.io
 
 ${watermarkNextId + 1}
 ${secondTimestamp} --> ${thirdTimestamp}
