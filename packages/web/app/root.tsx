@@ -1,4 +1,4 @@
-import type { LinksFunction } from "@remix-run/node";
+import type { LinksFunction } from "@remix-run/cloudflare";
 import { Link } from "@remix-run/react";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";

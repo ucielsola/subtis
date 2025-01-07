@@ -1,6 +1,6 @@
 import { useEffectOnce } from "@custom-react-hooks/use-effect-once";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { type MetaFunction, useLoaderData, useNavigate, useParams } from "@remix-run/react";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
+import { useLoaderData, useNavigate, useParams } from "@remix-run/react";
 import { useState } from "react";
 import { z } from "zod";
 

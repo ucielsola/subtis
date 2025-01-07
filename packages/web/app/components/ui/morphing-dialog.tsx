@@ -1,5 +1,3 @@
-"use client";
-
 import { XIcon } from "lucide-react";
 import { AnimatePresence, MotionConfig, type Transition, type Variant, motion } from "motion/react";
 import React, { useCallback, useContext, useEffect, useId, useMemo, useRef, useState } from "react";

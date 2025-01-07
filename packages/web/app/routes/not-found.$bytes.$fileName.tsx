@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { type MetaFunction, useLoaderData, useParams } from "@remix-run/react";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
+import { useLoaderData, useParams } from "@remix-run/react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { AnimatePresence, motion, useAnimation } from "motion/react";
 import { useForm } from "react-hook-form";

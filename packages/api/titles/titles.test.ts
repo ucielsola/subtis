@@ -27,6 +27,7 @@ describe("API | /titles/search/:query", () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
+    // @ts-ignore
     expect(data.results).toMatchObject([
       {
         imdb_id: "1877830",
@@ -63,6 +64,7 @@ describe("API | /titles/search/:query", () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
+    // @ts-ignore
     expect(data.results).toEqual([
       {
         id: 548,
@@ -103,7 +105,9 @@ describe("API | /titles/recent/:limit", () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
+    // @ts-ignore
     expect(data.results).toBeArray();
+    // @ts-ignore
     expect(data.results).toHaveLength(1);
   });
 });
@@ -128,7 +132,9 @@ describe("API | /titles/trending/download/:limit", () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
+    // @ts-ignore
     expect(data.results).toBeArray();
+    // @ts-ignore
     expect(data.results).toHaveLength(1);
   });
 });

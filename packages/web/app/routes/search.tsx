@@ -1,4 +1,5 @@
-import { Link, type MetaFunction, useLoaderData } from "@remix-run/react";
+import type { MetaFunction } from "@remix-run/cloudflare";
+import { Link, useLoaderData } from "@remix-run/react";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useDebounce } from "use-debounce";

@@ -20,5 +20,6 @@
     "paths": {
       "~/*": ["./packages/web/app/*"]
     }
-  }
+  },
+  "exclude": ["node_modules", "packages/raycast"]
 }

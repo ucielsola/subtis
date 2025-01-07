@@ -34,6 +34,7 @@ describe("API | /subtitles/movie/:titleId", () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
+    // @ts-ignore
     expect(data.results).toBeArray();
   });
 
@@ -84,6 +85,7 @@ describe("API | /subtitles/tv-show/:titleId/:season?/:episode?", () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
+    // @ts-ignore
     expect(data.results).toBeArray();
   });
 
@@ -98,6 +100,7 @@ describe("API | /subtitles/tv-show/:titleId/:season?/:episode?", () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
+    // @ts-ignore
     expect(data.results).toBeArray();
   });
 
@@ -112,6 +115,7 @@ describe("API | /subtitles/tv-show/:titleId/:season?/:episode?", () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
+    // @ts-ignore
     expect(data.results).toBeArray();
   });
 
@@ -159,7 +163,9 @@ describe("API | /subtitles/trending/download/:limit", () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
+    // @ts-ignore
     expect(data.results).toBeArray();
+    // @ts-ignore
     expect(data.results).toHaveLength(1);
   });
 });

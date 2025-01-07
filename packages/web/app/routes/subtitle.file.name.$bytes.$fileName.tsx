@@ -1,5 +1,5 @@
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { type MetaFunction, redirect, useLoaderData, useParams } from "@remix-run/react";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
+import { redirect, useLoaderData, useParams } from "@remix-run/react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { AnimatePresence, useAnimation } from "motion/react";
 import { useEffect, useRef, useState } from "react";
