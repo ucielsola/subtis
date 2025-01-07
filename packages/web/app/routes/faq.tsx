@@ -92,6 +92,11 @@ export default function TermsPage() {
         <h2>¿Hay add-ons para software de Home Theaters como Plex o Kodi?</h2>
         <p>No, pero tenemos planes de hacerlo en el futuro.</p>
       </section>
+
+      <section>
+        <h2>¿Hay planes para ser proveedor de Bazarr?</h2>
+        <p>Esto depende de Bazarr, y esto puede llegar a tomar tiempo.</p>
+      </section>
     </article>
   );
 }
