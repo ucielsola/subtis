@@ -1,7 +1,8 @@
+// shared
 import { VideoDropzone } from "~/components/shared/video-dropzone";
+
 // home
 import { BadgeTvShows } from "~/features/home/badge-tv-shows";
-import { RaycastLogo } from "~/features/home/raycast-logo";
 import { StremioButton } from "~/features/home/stremio-button";
 import { VlcButton } from "~/features/home/vlc-button";
 
@@ -38,11 +39,6 @@ export function HomeHero() {
             </div>
             <span className="text-zinc-400 text-sm flex flex-row items-center">
               También disponible en{" "}
-              <span className="inline-flex flex-row items-center gap-1 px-1.5 text-zinc-50 group/raycast cursor-pointer">
-                <RaycastLogo size={16} className="fill-zinc-50 transition-all ease-in-out" />
-                <span className="group-hover/raycast:underline">Raycast</span>
-              </span>{" "}
-              y
               <span className="inline-flex flex-row items-center gap-1 px-1.5 text-zinc-50 group/cli cursor-pointer">
                 <TerminalLogo size={16} className="fill-transparent stroke-zinc-50 transition-all ease-in-out" />
                 <span className="group-hover/cli:underline">CLI</span>
