@@ -35,7 +35,6 @@ import { ToastAction } from "~/components/ui/toast";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
 // features
-import { ThumbHashPosterImage } from "~/features/movie/thumbhash-poster-image";
 import { PosterDisclosure } from "~/features/movie/poster-disclosure";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {

@@ -27,7 +27,7 @@ export function ThumbHashNewsImage({ src, hashUrl, alt }: Props) {
   const placeholderURL = generatePlaceholderURL(hashUrl);
 
   return (
-    <div className="relative w-72 h-[162.05px]">
+    <div className="relative w-[320px] h-[180px]">
       <img
         src={placeholderURL}
         alt={`${alt} placeholder`}
@@ -35,7 +35,7 @@ export function ThumbHashNewsImage({ src, hashUrl, alt }: Props) {
       />
       <img
         onLoad={onLoaded}
-        className={`absolute inset-[2px] ${imgIsLoading ? "opacity-0" : "opacity-100"} transition-all ease-in-out duration-300 w-[284px] h-[158.05px] rounded-[2px] object-cover`}
+        className={`absolute inset-[2px] ${imgIsLoading ? "opacity-0" : "opacity-100"} transition-all ease-in-out duration-300 w-[320px] h-[180px] rounded-[2px] object-cover`}
         src={src}
         alt={alt}
         loading="lazy"
