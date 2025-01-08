@@ -21,6 +21,11 @@ export const RELEASE_GROUPS = {
       "x265-AccomplishedYak",
     ],
   },
+  VPPV: {
+    is_supported: true,
+    release_group_name: "VPPV",
+    matches: ["VPPV"],
+  },
   SBR: {
     is_supported: true,
     release_group_name: "SBR",
