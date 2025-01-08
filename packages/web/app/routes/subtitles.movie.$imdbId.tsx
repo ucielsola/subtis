@@ -215,7 +215,10 @@ export default function SubtitlesPage() {
               <DataTable columns={columns} data={data.results} />
               <p className="text-sm mt-2 text-zinc-400">
                 Si no encontras tu subtítulo acá, podés escribirnos a{" "}
-                <a href="mailto:soporte@subt.is" className="underline hover:text-zinc-50 transition-all ease-in-out">
+                <a
+                  href="mailto:soporte@subt.is"
+                  className="underline hover:text-zinc-50 transition-all ease-in-out text-stone-300"
+                >
                   soporte@subt.is
                 </a>
               </p>
