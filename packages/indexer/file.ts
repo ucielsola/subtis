@@ -142,6 +142,7 @@ export async function indexTitleByFileName({
 
     const isTvShow = getIsTvShow(titleFileName);
     const title = getTitleFileNameMetadata({ titleFileName });
+    console.log("\n ~ title:", title);
 
     if (websocket) {
       websocket.send(JSON.stringify({ total: 0.05, message: "Obteniendo proveedores de subtítulos" }));
@@ -309,6 +310,7 @@ export async function indexTitleByFileName({
 
     if (!shouldIndexAllTorrents) {
       const query = `${titleProviderQuery} ${title.resolution}p${title.releaseGroup?.release_group_name ? ` ${title.releaseGroup?.release_group_name}` : ""}`;
+      console.log("\n ~ query:", query);
       const torrents = await getFileTitleTorrents(query, TitleTypes.movie, movieData.imdbId);
 
       console.log("\n Torrents without filter \n");
