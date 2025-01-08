@@ -165,10 +165,10 @@ export default function RealTimeSearchPage() {
       <article className="max-w-xl w-full">
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-4">
-            <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold">Buscando subtítulo...</h1>
+            <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold">Buscando subtítulo</h1>
             <div className="flex flex-col gap-1">
               <h2 className="text-zinc-50 text-sm md:text-base">Este proceso puede durar hasta 30 segundos.</h2>
-              <p className="text-zinc-400 text-xs md:text-sm">{message}...</p>
+              {message ? <p className="text-zinc-400 text-xs md:text-sm">{message}...</p> : null}
             </div>
           </div>
           {!teaser || "message" in teaser ? null : (
