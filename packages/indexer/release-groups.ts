@@ -21,6 +21,21 @@ export const RELEASE_GROUPS = {
       "x265-AccomplishedYak",
     ],
   },
+  SBR: {
+    is_supported: true,
+    release_group_name: "SBR",
+    matches: ["SBR", "x264-SBR", "x265-SBR", "264-SBR", "265-SBR"],
+  },
+  FW: {
+    is_supported: true,
+    release_group_name: "FW",
+    matches: ["FW", "H264-FW", "H265-FW"],
+  },
+  NDD: {
+    is_supported: true,
+    release_group_name: "NDD",
+    matches: ["NDD", "x264-NDD", "x265-NDD"],
+  },
   DTOne: {
     is_supported: true,
     release_group_name: "DTOne",
