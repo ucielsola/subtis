@@ -2,6 +2,7 @@ import type { LinksFunction } from "@remix-run/cloudflare";
 import { Link } from "@remix-run/react";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { NuqsAdapter } from "nuqs/adapters/remix";
 
 // layout
 import { HomeFooter } from "~/components/layout/footer";
@@ -53,23 +54,25 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <main className="min-h-screen bg-right-top bg-[url('/hero-bg.png')] bg-contain bg-no-repeat selection:text-zinc-950 selection:bg-zinc-50">
-          <div className="container mx-auto px-4 min-h-screen flex flex-col">
-            <nav className="flex items-center justify-between py-4">
-              <Link to="/" className="cursor-pointer">
-                <img
-                  src="/logo.png"
-                  alt="Subtis"
-                  className="w-24 h-[38.9px] hover:scale-105 transition-all ease-in-out"
-                />
-              </Link>
-              <SearchButton />
-            </nav>
-            <Outlet />
-            <HomeFooter />
-          </div>
-          <Toaster />
-        </main>
+        <NuqsAdapter>
+          <main className="min-h-screen bg-right-top bg-[url('/hero-bg.png')] bg-contain bg-no-repeat selection:text-zinc-950 selection:bg-zinc-50">
+            <div className="container mx-auto px-4 min-h-screen flex flex-col">
+              <nav className="flex items-center justify-between py-4">
+                <Link to="/" className="cursor-pointer">
+                  <img
+                    src="/logo.png"
+                    alt="Subtis"
+                    className="w-24 h-[38.9px] hover:scale-105 transition-all ease-in-out"
+                  />
+                </Link>
+                <SearchButton />
+              </nav>
+              <Outlet />
+              <HomeFooter />
+            </div>
+            <Toaster />
+          </main>
+        </NuqsAdapter>
       </TooltipProvider>
     </QueryClientProvider>
   );

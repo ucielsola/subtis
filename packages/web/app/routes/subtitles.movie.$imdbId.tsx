@@ -2,6 +2,7 @@ import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useAnimation } from "motion/react";
+import { useQueryState } from "nuqs";
 
 // api
 import type { SubtitlesNormalized } from "@subtis/api";
@@ -71,6 +72,11 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export default function SubtitlesPage() {
   // remix hooks
   const data = useLoaderData<typeof loader>();
+
+  // nuqs hooks
+  const [subtip, setSubtip] = useQueryState("subtip", {
+    defaultValue: "choose-subtitle",
+  });
 
   // motion hooks
   const videoTipControl = useAnimation();
@@ -243,7 +249,7 @@ export default function SubtitlesPage() {
               Te recomendamos algunos tips para una mejor experiencia
             </h4>
           </div>
-          <Tabs defaultValue="choose-subtitle" className="min-h-[390px]">
+          <Tabs value={subtip ?? undefined} onValueChange={setSubtip} className="min-h-[390px]">
             <TabsList className="mb-6">
               <TabsTrigger value="choose-subtitle" className="text-xs md:text-sm">
                 ¿Cómo elijo un subtítulo?
