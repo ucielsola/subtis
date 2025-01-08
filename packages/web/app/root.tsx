@@ -62,7 +62,7 @@ export default function App() {
                   <img
                     src="/logo.png"
                     alt="Subtis"
-                    className="w-24 h-[38.9px] hover:scale-105 transition-all ease-in-out"
+                    className="w-20 h-[32.27px] hover:scale-105 transition-all ease-in-out"
                   />
                 </Link>
                 <SearchButton />
