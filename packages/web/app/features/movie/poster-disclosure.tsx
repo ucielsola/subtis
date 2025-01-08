@@ -104,13 +104,13 @@ export function PosterDisclosure({ src, alt, hashUrl, title, imdbId, year, overv
         </DisclosureTrigger>
         <DisclosureContent>
           <div className="flex flex-col pb-4 z-10">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 pb-2">
               <span className="text-sm">{year}</span>
               {runtime ? <span className="text-sm">{`${Math.floor(runtime / 60)}h ${runtime % 60}m`}</span> : null}
             </div>
             <div>
-              <p className="text-zinc-50 text-sm leading-6 pt-4 pb-6">{overview}</p>
-              <div className="flex items-center  justify-between">
+              {overview ? <p className="text-zinc-50 text-sm leading-6 pt-2 pb-6">{overview}</p> : null}
+              <div className="flex items-center justify-between">
                 <a
                   href={getImdbLink(imdbId)}
                   target="_blank"
