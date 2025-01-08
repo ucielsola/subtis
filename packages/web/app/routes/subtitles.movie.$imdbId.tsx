@@ -206,7 +206,7 @@ export default function SubtitlesPage() {
             <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold">¡Subtítulos encontrados!</h1>
             {"message" in data ? null : (
               <h2 className="text-zinc-50 text-balance text-sm md:text-base">
-                Encontra tu subtítulo para {data.title.title_name} en la siguiente tabla.
+                Encontra tu subtítulo en la siguiente tabla.
               </h2>
             )}
           </div>
