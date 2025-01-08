@@ -27,7 +27,7 @@ export function ThumbHashTrendingImage({ src, hashUrl, alt }: Props) {
   const placeholderURL = generatePlaceholderURL(hashUrl);
 
   return (
-    <div className="relative w-56 h-[336px]">
+    <div className="relative w-56 h-[333.3px]">
       <img
         src={placeholderURL}
         alt={`${alt} placeholder`}
@@ -35,7 +35,7 @@ export function ThumbHashTrendingImage({ src, hashUrl, alt }: Props) {
       />
       <img
         onLoad={onLoaded}
-        className={`absolute inset-[2px] ${imgIsLoading ? "opacity-0" : "opacity-100"} transition-all ease-in-out duration-300 w-[222.2px] h-[333.3px] rounded-[2px] object-cover`}
+        className={`absolute inset-[2px] ${imgIsLoading ? "opacity-0" : "opacity-100"} transition-all ease-in-out duration-300 w-[220.2px] h-[329.3px] rounded-[2px] object-cover`}
         src={src}
         alt={alt}
         loading="eager"
