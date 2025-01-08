@@ -17,7 +17,7 @@ export function HomeAlert() {
           onMouseEnter={() => controls.start("animate")}
           onMouseLeave={() => controls.start("normal")}
         >
-          <MessageCircleMoreIcon size={24} controls={controls} />
+          <MessageCircleMoreIcon size={24} controls={controls} className="flex-shrink-0" />
           <div className="pt-1">
             <AlertTitle className="text-zinc-50">
               Actualmente contamos con todas las películas del 2024 y el Top 300 de Rotten Tomatoes.

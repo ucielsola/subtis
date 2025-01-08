@@ -1,5 +1,8 @@
 import { type AnimationControls, type Variants, motion } from "motion/react";
 
+// lib
+import { cn } from "~/lib/utils";
+
 const dotVariants: Variants = {
   normal: {
     opacity: 1,
@@ -24,9 +27,13 @@ const dotVariants: Variants = {
   }),
 };
 
-export function MessageCircleMoreIcon({ size, controls }: { size: number; controls: AnimationControls }) {
+export function MessageCircleMoreIcon({
+  size,
+  controls,
+  className,
+}: { size: number; controls: AnimationControls; className: string }) {
   return (
-    <div className="select-none inline-flex items-center justify-center overflow-hidden">
+    <div className={cn("select-none inline-flex items-center justify-center overflow-hidden", className)}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width={size}
