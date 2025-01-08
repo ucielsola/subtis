@@ -386,6 +386,7 @@ export type TmdbTitle = {
   imdbLink: string;
   rating: number;
   genres: number[];
+  runtime: number | null;
   overview: string;
   spanishName: string;
   japanaseName: string | null;
@@ -415,14 +416,12 @@ export async function getMovieMetadataFromTmdbMovie({
   id,
   name,
   genres,
-  overview,
   releaseDate,
   voteAverage,
 }: {
   id: number;
   name: string;
   genres: number[];
-  overview: string;
   releaseDate: string;
   voteAverage: number;
 }) {
@@ -431,7 +430,7 @@ export async function getMovieMetadataFromTmdbMovie({
 
   const response = await fetch(url, TMDB_OPTIONS);
   const data = await response.json();
-  const { imdb_id, title: spanishName, original_language } = tmdbMovieSchema.parse(data);
+  const { overview, imdb_id, title: spanishName, original_language, runtime } = tmdbMovieSchema.parse(data);
 
   // 2. Parse raw imdb_id
   const imdbId = getStripedImdbId(imdb_id ?? "");
@@ -471,6 +470,7 @@ export async function getMovieMetadataFromTmdbMovie({
     genres,
     backdrop,
     overview,
+    runtime,
     spanishName,
     releaseDate,
     japanaseName,
@@ -491,20 +491,12 @@ export async function getMoviesFromTmdb(page: number, year: number, isDebugging:
 
   // 2. Iterate movies for current page
   for await (const movie of validatedData.results) {
-    const {
-      id,
-      overview,
-      title: name,
-      genre_ids: genres,
-      release_date: releaseDate,
-      vote_average: voteAverage,
-    } = movie;
+    const { id, title: name, genre_ids: genres, release_date: releaseDate, vote_average: voteAverage } = movie;
 
     const movieData = await getMovieMetadataFromTmdbMovie({
       id,
       name,
       genres,
-      overview,
       releaseDate,
       voteAverage,
     });
@@ -519,7 +511,6 @@ export async function getTvShowMetadataFromTmdbTvShow({
   id,
   genres,
   name,
-  overview,
   spanishName,
   releaseDate,
   voteAverage,
@@ -528,7 +519,6 @@ export async function getTvShowMetadataFromTmdbTvShow({
   name: string;
   genres: number[];
   spanishName: string;
-  overview: string;
   releaseDate: string;
   voteAverage: number;
 }) {
@@ -551,7 +541,7 @@ export async function getTvShowMetadataFromTmdbTvShow({
   const tvShowDetailResponse = await fetch(tvShowDetailUrl, TMDB_OPTIONS);
   const tvShowDetailData = await tvShowDetailResponse.json();
 
-  const data = tmdbTvShowSchema.parse(tvShowDetailData);
+  const { overview, ...data } = tmdbTvShowSchema.parse(tvShowDetailData);
 
   // 5. Get TV show logo
   const logo = await getTmdbTvShowLogoUrl(id);
@@ -607,6 +597,7 @@ export async function getTvShowMetadataFromTmdbTvShow({
     spanishName,
     releaseDate,
     japanaseName,
+    runtime: null,
     rating: voteAverage,
     totalSeasons: data.number_of_seasons,
     totalEpisodes: data.number_of_episodes,
@@ -628,7 +619,6 @@ export async function getTvShowsFromTmdb(page: number, year: number): Promise<Tm
   for await (const tvShow of validatedData.results) {
     const {
       id,
-      overview,
       name: spanishName,
       genre_ids: genres,
       original_name: name,
@@ -640,13 +630,12 @@ export async function getTvShowsFromTmdb(page: number, year: number): Promise<Tm
       id,
       name,
       genres,
-      overview,
       spanishName,
       releaseDate,
       voteAverage,
     });
 
-    tvShows.push(tvShowData);
+    tvShows.push({ ...tvShowData, runtime: null });
   }
 
   return tvShows;
@@ -663,7 +652,6 @@ export async function getTmdbTvShowFromTitle(query: string, year?: number): Prom
 
   const {
     id,
-    overview,
     name: spanishName,
     genre_ids: genres,
     original_name: name,
@@ -675,7 +663,6 @@ export async function getTmdbTvShowFromTitle(query: string, year?: number): Prom
     id,
     name,
     genres,
-    overview,
     spanishName,
     releaseDate,
     voteAverage,
@@ -782,13 +769,12 @@ export async function getTmdbMovieFromTitle(query: string, year?: number): Promi
   // const sortedMoviesByVoteCount = results.toSorted((a, b) => (a.vote_count < b.vote_count ? 1 : -1));
   const [movie] = results;
 
-  const { id, overview, title: name, genre_ids: genres, release_date: releaseDate, vote_average: voteAverage } = movie;
+  const { id, title: name, genre_ids: genres, release_date: releaseDate, vote_average: voteAverage } = movie;
 
   const movieData = await getMovieMetadataFromTmdbMovie({
     id,
     name,
     genres,
-    overview,
     releaseDate,
     voteAverage,
   });

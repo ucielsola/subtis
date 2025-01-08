@@ -49,6 +49,9 @@ export const titleSchema = titlesRowSchema.pick({
   title_name: true,
   logo: true,
   poster: true,
+  overview: true,
+  runtime: true,
+  rating: true,
   backdrop: true,
   poster_thumbhash: true,
   backdrop_thumbhash: true,
@@ -65,6 +68,9 @@ export const titlesQuery = `
   poster,
   backdrop,
   title_name,
+  overview,
+  rating,
+  runtime,
   poster_thumbhash,
   backdrop_thumbhash
 `;

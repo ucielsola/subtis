@@ -254,6 +254,7 @@ export type Database = {
           queried_times: number | null;
           rating: number;
           release_date: string;
+          runtime: number | null;
           searched_times: number | null;
           title_name: string;
           title_name_ja: string | null;
@@ -278,6 +279,7 @@ export type Database = {
           queried_times?: number | null;
           rating: number;
           release_date: string;
+          runtime?: number | null;
           searched_times?: number | null;
           title_name: string;
           title_name_ja?: string | null;
@@ -302,6 +304,7 @@ export type Database = {
           queried_times?: number | null;
           rating?: number;
           release_date?: string;
+          runtime?: number | null;
           searched_times?: number | null;
           title_name?: string;
           title_name_ja?: string | null;
@@ -364,6 +367,7 @@ export type Database = {
           type: string;
           backdrop: string;
           poster: string;
+          logo: string;
           searched_times: number;
           queried_times: number;
           poster_thumbhash: string;

@@ -23,9 +23,6 @@ import { cn } from "~/lib/utils";
 // hooks
 import { useToast } from "~/hooks/use-toast";
 
-// features
-import { ThumbHashPosterImage } from "~/features/movie/thumbhash-poster-image";
-
 // ui
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { DataTable } from "~/components/ui/data-table";
@@ -34,6 +31,9 @@ import { Separator } from "~/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { ToastAction } from "~/components/ui/toast";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
+
+// features
+import { PosterDisclosure } from "~/features/movie/poster-disclosure";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { imdbId } = params;
@@ -206,7 +206,7 @@ export default function SubtitlesPage() {
             <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold">¡Subtítulos encontrados!</h1>
             {"message" in data ? null : (
               <h2 className="text-zinc-50 text-balance text-sm md:text-base">
-                Encontramos los siguientes subtítulos para {data.title.title_name}
+                Encontra tu subtítulo para {data.title.title_name} en la siguiente tabla.
               </h2>
             )}
           </div>
@@ -345,16 +345,17 @@ export default function SubtitlesPage() {
       </article>
       {"message" in data ? null : data.title.poster_thumbhash ? (
         <div className="hidden lg:flex flex-1 justify-center">
-          <figure className="max-w-sm pt-12 flex flex-col items-center gap-2">
-            <ThumbHashPosterImage
-              src={data.title.poster}
-              hashUrl={data.title.poster_thumbhash}
-              alt={data.title.title_name}
-            />
-            <figcaption className="text-zinc-400 text-sm">
-              {data.title.title_name} ({data.title.year})
-            </figcaption>
-          </figure>
+          <PosterDisclosure
+            src={data.title.poster}
+            alt={data.title.title_name}
+            hashUrl={data.title.poster_thumbhash}
+            title={data.title.title_name}
+            year={data.title.year}
+            imdbId={data.title.imdb_id}
+            overview={data.title.overview}
+            rating={data.title.rating}
+            runtime={data.title.runtime}
+          />
         </div>
       ) : null}
     </div>

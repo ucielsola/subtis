@@ -183,7 +183,6 @@ export async function indexTitleByFileName({
 
       const {
         id,
-        overview,
         genre_ids: genres,
         name: spanishName,
         original_name: name,
@@ -199,7 +198,6 @@ export async function indexTitleByFileName({
         id,
         name,
         genres,
-        overview,
         spanishName,
         releaseDate,
         voteAverage,
@@ -274,20 +272,12 @@ export async function indexTitleByFileName({
     const index = FILE_NAME_TO_TMDB_INDEX[titleFileName as keyof typeof FILE_NAME_TO_TMDB_INDEX] ?? 0;
     const movie = movies.results[index];
 
-    const {
-      id,
-      overview,
-      title: name,
-      genre_ids: genres,
-      release_date: releaseDate,
-      vote_average: voteAverage,
-    } = movie;
+    const { id, title: name, genre_ids: genres, release_date: releaseDate, vote_average: voteAverage } = movie;
 
     const movieData = await getMovieMetadataFromTmdbMovie({
       id,
       name,
       genres,
-      overview,
       releaseDate,
       voteAverage,
     });
