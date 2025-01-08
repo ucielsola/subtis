@@ -246,7 +246,7 @@ export default function NotFoundSubtitlePage() {
                           <FormControl>
                             <Input
                               placeholder="tom@cruise.com"
-                              className="w-full bg-zinc-950 border border-zinc-700 placeholder:text-zinc-400 focus:border-zinc-400 focus-visible:ring-0"
+                              className="w-full bg-zinc-950 border border-zinc-700 placeholder:text-zinc-400 focus:border-zinc-400 focus-visible:ring-0 rounded-sm"
                               {...field}
                             />
                           </FormControl>
@@ -263,7 +263,11 @@ export default function NotFoundSubtitlePage() {
                         </FormItem>
                       )}
                     />
-                    <Button type="submit" disabled={form.formState.isSubmitting} className="w-36 flex-shrink-0">
+                    <Button
+                      type="submit"
+                      disabled={form.formState.isSubmitting}
+                      className="w-36 flex-shrink-0 rounded-sm"
+                    >
                       {form.formState.isSubmitting ? "Enviando..." : "Recibir subtítulo"}
                     </Button>
                   </form>

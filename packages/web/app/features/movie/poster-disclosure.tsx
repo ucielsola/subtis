@@ -35,7 +35,7 @@ const transition = {
 type Props = {
   alt: string;
   src: string | null;
-  hashUrl: string;
+  hashUrl: string | null;
   title: string;
   imdbId: string;
   year: number;

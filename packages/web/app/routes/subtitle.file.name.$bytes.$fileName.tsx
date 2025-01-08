@@ -36,6 +36,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip
 
 // features
 import { ThumbHashPosterImage } from "~/features/movie/thumbhash-poster-image";
+import { PosterDisclosure } from "~/features/movie/poster-disclosure";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { bytes, fileName } = params;
@@ -312,7 +313,7 @@ export default function SubtitlePage() {
             ) : null}
             <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold">¡Subtítulo encontrado!</h1>
             <h2 className="text-zinc-50 text-balance text-sm md:text-base">
-              Descarga el siguiente subtítulo para disfrutar de "{data.title.title_name}" subtitulada.
+              Descarga el siguiente subtítulo para disfrutar tu película subtitulada.
             </h2>
           </div>
           <DataTable columns={columns} data={[data]} />
@@ -415,16 +416,17 @@ export default function SubtitlePage() {
       </article>
       {data.title.poster ? (
         <div className="hidden lg:flex flex-1 justify-center">
-          <figure className="max-w-sm pt-12 flex flex-col items-center gap-2">
-            <ThumbHashPosterImage
-              src={data.title.poster}
-              hashUrl={data.title.poster_thumbhash}
-              alt={data.title.title_name}
-            />
-            <figcaption className="text-zinc-400 text-sm">
-              {data.title.title_name} ({data.title.year})
-            </figcaption>
-          </figure>
+          <PosterDisclosure
+            src={data.title.poster}
+            alt={data.title.title_name}
+            hashUrl={data.title.poster_thumbhash}
+            title={data.title.title_name}
+            year={data.title.year}
+            imdbId={data.title.imdb_id}
+            overview={data.title.overview}
+            rating={data.title.rating}
+            runtime={data.title.runtime}
+          />
         </div>
       ) : null}
     </div>

@@ -77,7 +77,7 @@ export default function RealTimeSearchPage() {
         return;
       }
 
-      setMessage("Chequeando si el subtítulo ya existe...");
+      setMessage("Chequeando si el subtítulo ya existe");
 
       const apiClient = getApiClient({
         apiBaseUrl: "https://api.subt.is" as string,
