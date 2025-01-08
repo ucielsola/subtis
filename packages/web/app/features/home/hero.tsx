@@ -1,3 +1,5 @@
+import { useAnimation } from "motion/react";
+
 // shared
 import { VideoDropzone } from "~/components/shared/video-dropzone";
 
@@ -13,10 +15,13 @@ import { DotPattern } from "~/components/ui/dot-pattern";
 // lib
 import { cn } from "~/lib/utils";
 
-// internals
-import { TerminalLogo } from "./terminal-logo";
+// icons
+import { Terminal } from "~/components/icons/terminal";
 
 export function HomeHero() {
+  // motion hooks
+  const controls = useAnimation();
+
   return (
     <section className="py-16">
       <div className="flex flex-col lg:flex-row justify-between items-center flex-1 gap-8 lg:gap-4">
@@ -38,10 +43,18 @@ export function HomeHero() {
               <VlcButton />
             </div>
             <span className="text-zinc-400 text-sm flex flex-row items-center">
-              También disponible en{" "}
-              <span className="inline-flex flex-row items-center gap-1 px-1.5 text-zinc-50 group/cli cursor-pointer">
-                <TerminalLogo size={16} className="fill-transparent stroke-zinc-50 transition-all ease-in-out" />
-                <span className="group-hover/cli:underline">CLI</span>
+              También disponible para tu
+              <span
+                onMouseEnter={() => controls.start("hover")}
+                onMouseLeave={() => controls.start("normal")}
+                className="inline-flex flex-row items-center gap-1 px-1.5 text-zinc-300 group/cli cursor-pointer"
+              >
+                <Terminal
+                  controls={controls}
+                  size={16}
+                  className="fill-transparent stroke-zinc-300 transition-all ease-in-out group-hover/cli:stroke-zinc-50"
+                />
+                <span className="group-hover/cli:text-zinc-50">Terminal</span>
               </span>
             </span>
           </div>
