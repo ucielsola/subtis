@@ -85,7 +85,7 @@ export function PosterDisclosure({ src, alt, hashUrl, title, imdbId, year, overv
             onMouseLeave={() => controls.start("normal")}
           >
             <span
-              className={`text-sm text-left ${isOpen ? "text-zinc-50" : "text-zinc-300"} transition-all duration-300 ease-in-out`}
+              className={`text-left ${isOpen ? "text-zinc-50 text-lg" : "text-zinc-300 text-sm"} transition-all duration-300 ease-in-out`}
             >
               {title}
             </span>

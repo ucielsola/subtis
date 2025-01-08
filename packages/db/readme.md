@@ -17,6 +17,7 @@
 
 ## Functions
 
+
 ```sql
 CREATE OR REPLACE FUNCTION public.fuzzy_search_title(query text)
 RETURNS TABLE (
@@ -31,7 +32,10 @@ RETURNS TABLE (
     searched_times int2,
     queried_times int2,
     poster_thumbhash text,
-    backdrop_thumbhash text
+    backdrop_thumbhash text,
+    overview text,
+    runtime int2,
+    rating float4
 ) AS $$
 BEGIN
     RETURN QUERY
@@ -47,7 +51,10 @@ BEGIN
         t.searched_times,
         t.queried_times,
         t.poster_thumbhash,
-        t.backdrop_thumbhash
+        t.backdrop_thumbhash,
+        t.overview,
+        t.runtime,
+        t.rating
     FROM "Titles" t
     WHERE (
         (query % t.title_name AND similarity(query, t.title_name) > 0.3)
