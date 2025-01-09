@@ -1,3 +1,4 @@
+import { StarIcon } from "lucide-react";
 import { AnimatePresence, motion, useAnimation } from "motion/react";
 import { useState } from "react";
 
@@ -7,9 +8,10 @@ import { getImdbLink } from "@subtis/indexer/imdb";
 // ui
 import { Disclosure, DisclosureContent, DisclosureTrigger } from "~/components/ui/disclosure";
 
-import { StarIcon } from "lucide-react";
+// icons
 import { ChevronsDownUpIcon } from "~/components/icons/chevrons-down-up";
 import { ChevronsUpDownIcon } from "~/components/icons/chevrons-up-down";
+
 // internals
 import { ThumbHashPosterImage } from "./thumbhash-poster-image";
 
