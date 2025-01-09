@@ -10,6 +10,7 @@ import { Fragment } from "react";
 import type { SubtitlesNormalized } from "@subtis/api";
 
 // shared external
+import { cinemasSchema } from "@subtis/api/shared/cinemas";
 import { getApiClient } from "@subtis/shared";
 
 // shared internal
@@ -103,7 +104,13 @@ export default function SubtitlesPage() {
         return null;
       }
 
-      return cinemas;
+      const parsedCinemas = cinemasSchema.safeParse(cinemas);
+
+      if (parsedCinemas.error) {
+        return null;
+      }
+
+      return parsedCinemas.data;
     },
   });
 
@@ -382,17 +389,24 @@ export default function SubtitlesPage() {
                   Mira en que cines se esta proyectando la película.
                 </h4>
               </div>
-              <ul className="flex flex-col gap-1 list-disc list-inside">
-                {titleCinemas.cinemas.map((cinema) => (
-                  <li key={cinema}>
-                    <a
-                      href={titleCinemas.link}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-zinc-50 text-sm hover:underline"
-                    >
-                      {cinema}
-                    </a>
+              <ul className="flex flex-col gap-4 list-disc list-inside">
+                {Object.entries(titleCinemas.cinemas).map(([city, cinemas]) => (
+                  <li key={city}>
+                    {city}
+                    <ul className="flex flex-col list-disc list-inside pl-4 pt-1">
+                      {cinemas.map((cinema) => (
+                        <li key={cinema.name}>
+                          <a
+                            href={titleCinemas.link}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-zinc-50 text-sm hover:underline"
+                          >
+                            {cinema.name}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
                   </li>
                 ))}
               </ul>

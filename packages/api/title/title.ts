@@ -197,7 +197,6 @@ export const title = new Hono<{ Variables: AppVariables }>()
     }
 
     const { Cinemas, Films } = cinemarkParsedData.data;
-
     const film = Films.find((film) => film.Name.toLowerCase().includes(title_name_spa.toLowerCase()));
 
     if (!film) {
@@ -207,10 +206,15 @@ export const title = new Hono<{ Variables: AppVariables }>()
 
     const { CinemaList } = film;
 
-    const cinemas = Cinemas.filter((cinema) => CinemaList.includes(cinema.Id)).map((cinema) => cinema.Name);
+    const filmCinemas = Cinemas.filter((cinema) => CinemaList.includes(cinema.Id)).map(({ City, Name }) => ({
+      city: City,
+      name: Name,
+    }));
+    const groupedFilmCinemas = Object.groupBy(filmCinemas, ({ city }) => city);
+
     const link = `https://www.cinemarkhoyts.com.ar/pelicula/${slugify(title_name_spa).toUpperCase()}`;
 
-    return context.json({ link, cinemas });
+    return context.json({ link, cinemas: groupedFilmCinemas });
   })
   .patch("/metrics/search", zValidator("json", z.object({ imdbId: z.string() })), async (context) => {
     const { imdbId } = context.req.valid("json");
