@@ -1,8 +1,9 @@
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
 import { redirect, useLoaderData, useParams } from "@remix-run/react";
+import { useQuery } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
 import { AnimatePresence, useAnimation } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { transformSrtTracks } from "srt-support-for-html5-videos";
 
 // api
@@ -93,6 +94,32 @@ export default function SubtitlePage() {
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   const [hasVideoError, setHasVideoError] = useState<boolean>(false);
   const [captionBlobUrl, setCaptionBlobUrl] = useState<string | null>(null);
+
+  // query hooks
+  const { data: titleCinemas } = useQuery({
+    queryKey: ["title", "cinemas", fileName],
+    queryFn: async () => {
+      if ("message" in data) {
+        return null;
+      }
+
+      const apiClient = getApiClient({
+        apiBaseUrl: "https://api.subt.is",
+      });
+
+      const response = await apiClient.v1.title.cinemas[":imdbId"].$get({
+        param: { imdbId: data.title.imdb_id },
+      });
+
+      const cinemas = await response.json();
+
+      if ("message" in cinemas) {
+        return null;
+      }
+
+      return cinemas;
+    },
+  });
 
   // motion hooks
   const videoTipControl = useAnimation();
@@ -412,9 +439,35 @@ export default function SubtitlePage() {
             </TabsContent>
           </Tabs>
         </section>
+
+        {titleCinemas ? (
+          <Fragment>
+            <Separator className="my-16 bg-zinc-700" />
+            <section className="flex flex-col gap-12 mt-16">
+              <div className="flex flex-col gap-2">
+                <h3 className="text-2xl font-semibold text-zinc-50">Cines</h3>
+                <h4 className="text-zinc-50 text-sm md:text-base">Mira en que cines se esta proyectando la película</h4>
+              </div>
+              <ul className="flex flex-col gap-1 list-disc list-inside">
+                {titleCinemas.cinemas.map((cinema) => (
+                  <li key={cinema}>
+                    <a
+                      href={titleCinemas.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-zinc-50 text-sm hover:underline"
+                    >
+                      {cinema}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          </Fragment>
+        ) : null}
       </article>
       {data.title.poster ? (
-        <div className="hidden lg:flex flex-1 justify-center">
+        <div className="hidden lg:flex flex-1 justify-center fixed">
           <PosterDisclosure
             src={data.title.poster}
             alt={data.title.title_name}

@@ -134,9 +134,9 @@ export async function indexMovieByName({
 // indexMoviesByYear(2024, false);
 
 // indexMovieByName({
-//   year: 2016,
+//   year: 2024,
 //   isDebugging: false,
-//   name: "Moana",
+//   name: "Moana 2",
 // });
 
 saveReleaseGroupsToDb(supabase);

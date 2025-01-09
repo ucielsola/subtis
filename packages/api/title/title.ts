@@ -2,6 +2,7 @@ import querystring from "querystring";
 import { zValidator } from "@hono/zod-validator";
 import { type Context, Hono } from "hono";
 import { unescape as htmlUnescape } from "html-escaper";
+import slugify from "slugify";
 import { z } from "zod";
 // import { cache } from "hono/cache";
 // import timestring from "timestring";
@@ -21,6 +22,7 @@ import { FILE_NAME_TO_TMDB_INDEX } from "@subtis/indexer/edge-cases";
 
 // internals
 import { getTmdbApiKey, getYoutubeApiKey } from "../shared/api-keys";
+import { cinemarkSchema } from "../shared/cinemark";
 import { titleMetadataQuery, titleMetadataSchema } from "../shared/schemas";
 import { getSupabaseClient } from "../shared/supabase";
 import type { AppVariables } from "../shared/types";
@@ -167,6 +169,49 @@ export const title = new Hono<{ Variables: AppVariables }>()
     },
     // cache({ cacheName: "subtis-api", cacheControl: `max-age=${timestring("1 week")}` }),
   )
+  .get("/cinemas/:imdbId", zValidator("param", z.object({ imdbId: z.string() })), async (context) => {
+    const { imdbId } = context.req.valid("param");
+
+    const { data, error } = await getSupabaseClient(context)
+      .from("Titles")
+      .select("title_name_spa")
+      .match({ imdb_id: imdbId })
+      .single();
+
+    if (error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error: error.message });
+    }
+
+    const { title_name_spa } = data;
+
+    const cinemarkData = await fetch("https://www.cinemarkhoyts.com.ar/ws/Billboard_WWW_202501082050585424.js");
+    const code = await cinemarkData.text();
+    const value = JSON.parse(code.slice(15, -1));
+
+    const cinemarkParsedData = cinemarkSchema.safeParse(value);
+
+    if (cinemarkParsedData.error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error: cinemarkParsedData.error.issues[0].message });
+    }
+
+    const { Cinemas, Films } = cinemarkParsedData.data;
+
+    const film = Films.find((film) => film.Name.toLowerCase().includes(title_name_spa.toLowerCase()));
+
+    if (!film) {
+      context.status(404);
+      return context.json({ message: "Film not found" });
+    }
+
+    const { CinemaList } = film;
+
+    const cinemas = Cinemas.filter((cinema) => CinemaList.includes(cinema.Id)).map((cinema) => cinema.Name);
+    const link = `https://www.cinemarkhoyts.com.ar/pelicula/${slugify(title_name_spa).toUpperCase()}`;
+
+    return context.json({ link, cinemas });
+  })
   .patch("/metrics/search", zValidator("json", z.object({ imdbId: z.string() })), async (context) => {
     const { imdbId } = context.req.valid("json");
 
