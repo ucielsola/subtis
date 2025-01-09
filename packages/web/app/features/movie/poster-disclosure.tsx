@@ -111,14 +111,24 @@ export function PosterDisclosure({ src, alt, hashUrl, title, imdbId, year, overv
             <div>
               {overview ? <p className="text-zinc-50 text-sm leading-6 pt-2 pb-6">{overview}</p> : null}
               <div className="flex items-center justify-between">
-                <a
-                  href={getImdbLink(imdbId)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-zinc-50 underline text-sm"
-                >
-                  Ver en IMDb
-                </a>
+                <div className="flex flex-row gap-2">
+                  <a
+                    href={getImdbLink(imdbId)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-zinc-50 underline text-sm"
+                  >
+                    IMDb
+                  </a>
+                  <a
+                    href={`https://www.rottentomatoes.com/m/${title.toLowerCase().replace(/\s+/g, "_")}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-zinc-50 underline text-sm"
+                  >
+                    Rotten Tomatoes
+                  </a>
+                </div>
                 <div className="flex items-center gap-2">
                   <StarIcon size={16} className="fill-yellow-400 stroke-none" />
                   <span className="text-zinc-50 text-sm">{rating}/10</span>
