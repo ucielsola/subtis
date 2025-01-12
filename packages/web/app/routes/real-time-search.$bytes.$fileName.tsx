@@ -7,6 +7,9 @@ import { z } from "zod";
 // shared external
 import { getApiClient } from "@subtis/shared";
 
+// ui
+import { TextShimmerWave } from "~/components/ui/text-shimmer-wave";
+
 // hooks
 import { useToast } from "~/hooks/use-toast";
 
@@ -165,7 +168,9 @@ export default function RealTimeSearchPage() {
       <article className="max-w-xl w-full">
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-4">
-            <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold">Buscando subtítulo</h1>
+            <TextShimmerWave className="text-3xl md:text-4xl font-bold" duration={3}>
+              Buscando subtítulo
+            </TextShimmerWave>
             <div className="flex flex-col gap-1">
               <h2 className="text-zinc-50 text-sm md:text-base">Este proceso puede durar hasta 30 segundos.</h2>
               {message ? <p className="text-zinc-400 text-xs md:text-sm">{message}...</p> : null}
