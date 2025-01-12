@@ -61,7 +61,7 @@ export function StremioButton() {
               pantalla completa.
             </SheetDescription>
           </SheetHeader>
-          <div className="flex flex-col gap-10">
+          <div className="flex flex-col gap-10 mb-8">
             <section className="flex flex-col gap-4">
               <div className="flex flex-col gap-3 items-start">
                 <div className="flex flex-row items-end gap-3 ">
