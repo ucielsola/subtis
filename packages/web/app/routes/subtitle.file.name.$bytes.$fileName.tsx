@@ -368,25 +368,6 @@ export default function SubtitlePage() {
 
         <section className="flex flex-col gap-12 mt-16">
           <div className="flex flex-col gap-2">
-            <h3 className="text-2xl font-semibold text-zinc-50">Buscar nuevo subtítulo por archivo</h3>
-            <h4 className="text-zinc-400 text-sm md:text-base">
-              ¿Querés buscar un subtítulo nuevo? Arrastra el archivo debajo.
-            </h4>
-          </div>
-          <div className="bg-zinc-950 border border-zinc-700 rounded-sm group/video overflow-hidden h-64 relative">
-            <VideoDropzone />
-            <DotPattern
-              className={cn(
-                "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)] opacity-40 backdrop-blur-md group-hover/video:opacity-60 group-hover/video:scale-105 transition-all ease-in-out",
-              )}
-            />
-          </div>
-        </section>
-
-        <Separator className="my-16 bg-zinc-700" />
-
-        <section className="flex flex-col gap-12 mt-16">
-          <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold text-zinc-50">SubTips</h3>
             <h4 className="text-zinc-50 text-sm md:text-base">
               Te recomendamos algunos tips para una mejor experiencia
@@ -445,6 +426,25 @@ export default function SubtitlePage() {
               </Alert>
             </TabsContent>
           </Tabs>
+        </section>
+
+        <Separator className="my-16 bg-zinc-700" />
+
+        <section className="flex flex-col gap-12 mt-16">
+          <div className="flex flex-col gap-2">
+            <h3 className="text-2xl font-semibold text-zinc-50">Buscar nuevo subtítulo por archivo</h3>
+            <h4 className="text-zinc-400 text-sm md:text-base">
+              ¿Querés buscar un subtítulo nuevo? Arrastra el archivo debajo.
+            </h4>
+          </div>
+          <div className="bg-zinc-950 border border-zinc-700 rounded-sm group/video overflow-hidden h-64 relative">
+            <VideoDropzone />
+            <DotPattern
+              className={cn(
+                "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)] opacity-40 backdrop-blur-md group-hover/video:opacity-60 group-hover/video:scale-105 transition-all ease-in-out",
+              )}
+            />
+          </div>
         </section>
 
         {titleCinemas ? (
