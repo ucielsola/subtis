@@ -67,8 +67,8 @@ export default function RealTimeSearchPage() {
   const { toast } = useToast();
 
   // navigation hooks
-  const { bytes, fileName } = useParams();
   const navigate = useNavigate();
+  const { bytes, fileName } = useParams();
 
   // react hooks
   const [message, setMessage] = useState<string | null>(null);
@@ -169,11 +169,11 @@ export default function RealTimeSearchPage() {
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-4">
             <TextShimmerWave className="text-3xl md:text-4xl font-bold" duration={3}>
-              Buscando subtítulo
+              Buscando subtítulo...
             </TextShimmerWave>
             <div className="flex flex-col gap-1">
               <h2 className="text-zinc-50 text-sm md:text-base">Este proceso puede durar hasta 30 segundos.</h2>
-              {message ? <p className="text-zinc-400 text-xs md:text-sm">{message}...</p> : null}
+              {message ? <p className="text-zinc-400 text-xs md:text-sm">{message}</p> : null}
             </div>
           </div>
           {!teaser || "message" in teaser ? null : (
