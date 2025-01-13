@@ -5,7 +5,7 @@
 | Name      | Link                      | Deeplink                                |
 | --------- | ------------------------- | --------------------------------------- |
 | API       | https://api.subt.is       | -                                       |
-| WebSocket | https://socketdex.subt.is | -                                       |
+| WebSocket | https://real-time-indexer.fly.dev | -                                       |
 | Stremio   | https://stremio.subt.is   | stremio://stremio.subt.is/manifest.json |
 
 ## Packages

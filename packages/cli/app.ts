@@ -179,7 +179,7 @@ async function mod(titleFileName: string): Promise<void> {
     }
 
     const websocketData = await new Promise<WsOk>((resolve) => {
-      const ws = new WebSocket("https://socketdex.subt.is");
+      const ws = new WebSocket("https://real-time-indexer.fly.dev");
       // const ws = new WebSocket("ws://localhost:3000");
 
       ws.addEventListener("open", () => {
