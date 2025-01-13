@@ -136,6 +136,15 @@ export function getTitleFileNameMetadata({
     .replace(/\sextended\sversion/gi, "")
     .replace(/\sextended/gi, "");
 
+  const parsedResolution = match(resolution)
+    .with(P.string.includes("480"), () => "480")
+    .with(P.string.includes("576"), () => "576")
+    .with(P.string.includes("1080"), () => "1080")
+    .with(P.string.includes("720"), () => "720")
+    .with(P.string.includes("2160"), () => "2160")
+    .with(P.string.includes("3D"), () => "3D")
+    .run();
+
   return {
     ripType,
     year: null,
@@ -144,6 +153,6 @@ export function getTitleFileNameMetadata({
     currentEpisode,
     fileNameWithoutExtension,
     name: filteredName,
-    resolution: resolution === ".S" ? "" : resolution,
+    resolution: parsedResolution,
   };
 }

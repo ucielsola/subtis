@@ -134,11 +134,11 @@ export async function indexMovieByName({
 // indexMoviesByYear(2024, false);
 
 // indexMovieByName({
-//   year: 2024,
+//   year: 2015,
 //   isDebugging: false,
-//   name: "Moana 2",
+//   name: "Legend",
 // });
 
-saveReleaseGroupsToDb(supabase);
+// saveReleaseGroupsToDb(supabase);
 // saveSubtitleGroupsToDb(supabase);
 // saveTmdbMovieGenresToDb(supabase);
