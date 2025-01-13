@@ -21,5 +21,9 @@ export function getTitleName(name: string): string {
     result = result.replaceAll("[ Torrent911 pm ] ", "");
   }
 
+  if (result.startsWith("[ Torrent911 cz ]")) {
+    result = result.replaceAll("[ Torrent911 pm ] ", "");
+  }
+
   return result;
 }
