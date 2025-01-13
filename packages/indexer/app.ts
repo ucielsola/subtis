@@ -811,24 +811,30 @@ export async function getFileTitleTorrents(
     }
   }
   const torrentSearchApiCategory = titleType === TitleTypes.tvShow ? "TV" : "Movies";
-  const torrents1337x = await TorrentSearchApi.search(query, torrentSearchApiCategory, 15);
+  let torrents1337xWithMagnet: TorrentFound[] = [];
 
-  type TorrentSearchApiExteneded = TorrentSearchApi.Torrent & { seeds: number };
+  try {
+    const torrents1337x = await TorrentSearchApi.search(query, torrentSearchApiCategory, 15);
+    type TorrentSearchApiExteneded = TorrentSearchApi.Torrent & { seeds: number };
 
-  const torrents1337xWithMagnet = await Promise.all(
-    torrents1337x.map(async (torrent) => {
-      const torrent1337x = torrent as TorrentSearchApiExteneded;
-      const trackerId = await TorrentSearchApi.getMagnet(torrent);
-      return {
-        tracker: torrent1337x.provider,
-        title: torrent1337x.title,
-        size: torrent1337x.size,
-        seeds: torrent1337x.seeds,
-        trackerId,
-        isBytesFormatted: true,
-      };
-    }),
-  );
+    torrents1337xWithMagnet = await Promise.all(
+      torrents1337x.map(async (torrent) => {
+        const torrent1337x = torrent as TorrentSearchApiExteneded;
+        const trackerId = await TorrentSearchApi.getMagnet(torrent);
+        return {
+          tracker: torrent1337x.provider,
+          title: torrent1337x.title,
+          size: torrent1337x.size,
+          seeds: torrent1337x.seeds,
+          trackerId,
+          isBytesFormatted: true,
+        };
+      }),
+    );
+  } catch (error) {
+    console.log("Error on getTitleTorrents using TorrentSearchApi.search interface");
+    console.log(error);
+  }
 
   return [...torrents1337xWithMagnet, ...thePirateBayTorrents].flat();
 }
@@ -853,24 +859,31 @@ export async function getTitleTorrents(query: string, titleType: TitleTypes, imd
     }
   }
   const torrentSearchApiCategory = titleType === TitleTypes.tvShow ? "TV" : "Movies";
-  const torrents1337x = await TorrentSearchApi.search(query, torrentSearchApiCategory, 15);
 
-  type TorrentSearchApiExteneded = TorrentSearchApi.Torrent & { seeds: number };
+  let torrents1337xWithMagnet: TorrentFound[] = [];
 
-  const torrents1337xWithMagnet = await Promise.all(
-    torrents1337x.map(async (torrent) => {
-      const torrent1337x = torrent as TorrentSearchApiExteneded;
-      const trackerId = await TorrentSearchApi.getMagnet(torrent);
-      return {
-        tracker: torrent1337x.provider,
-        title: torrent1337x.title,
-        size: torrent1337x.size,
-        seeds: torrent1337x.seeds,
-        trackerId,
-        isBytesFormatted: true,
-      };
-    }),
-  );
+  try {
+    const torrents1337x = await TorrentSearchApi.search(query, torrentSearchApiCategory, 15);
+    type TorrentSearchApiExteneded = TorrentSearchApi.Torrent & { seeds: number };
+
+    torrents1337xWithMagnet = await Promise.all(
+      torrents1337x.map(async (torrent) => {
+        const torrent1337x = torrent as TorrentSearchApiExteneded;
+        const trackerId = await TorrentSearchApi.getMagnet(torrent);
+        return {
+          tracker: torrent1337x.provider,
+          title: torrent1337x.title,
+          size: torrent1337x.size,
+          seeds: torrent1337x.seeds,
+          trackerId,
+          isBytesFormatted: true,
+        };
+      }),
+    );
+  } catch (error) {
+    console.log("Error on getTitleTorrents using TorrentSearchApi.search interface");
+    console.log(error);
+  }
 
   if (titleType === TitleTypes.tvShow) {
     return [...torrents1337xWithMagnet, ...thePirateBayTorrents];

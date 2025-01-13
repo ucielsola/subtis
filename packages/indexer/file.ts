@@ -72,25 +72,32 @@ async function getTorrentFromPirateBayOr1337x(query: string, title: TitleFileNam
     }
   }
 
-  const torrentsTvShows1337x = await TorrentSearchApi.search(query, "TV", 10);
-  const torrentsMovies1337x = await TorrentSearchApi.search(query, "Movies", 10);
+  let torrents1337xWithMagnet: TorrentFound[] = [];
 
-  type TorrentSearchApiExteneded = TorrentSearchApi.Torrent & { seeds: number };
+  try {
+    const torrentsTvShows1337x = await TorrentSearchApi.search(query, "TV", 10);
+    const torrentsMovies1337x = await TorrentSearchApi.search(query, "Movies", 10);
 
-  const torrents1337xWithMagnet = await Promise.all(
-    [...torrentsTvShows1337x, ...torrentsMovies1337x].map(async (torrent) => {
-      const torrent1337x = torrent as TorrentSearchApiExteneded;
-      const trackerId = await TorrentSearchApi.getMagnet(torrent);
-      return {
-        tracker: torrent1337x.provider,
-        title: torrent1337x.title,
-        size: torrent1337x.size,
-        seeds: torrent1337x.seeds,
-        trackerId,
-        isBytesFormatted: true,
-      };
-    }),
-  );
+    type TorrentSearchApiExteneded = TorrentSearchApi.Torrent & { seeds: number };
+
+    torrents1337xWithMagnet = await Promise.all(
+      [...torrentsTvShows1337x, ...torrentsMovies1337x].map(async (torrent) => {
+        const torrent1337x = torrent as TorrentSearchApiExteneded;
+        const trackerId = await TorrentSearchApi.getMagnet(torrent);
+        return {
+          tracker: torrent1337x.provider,
+          title: torrent1337x.title,
+          size: torrent1337x.size,
+          seeds: torrent1337x.seeds,
+          trackerId,
+          isBytesFormatted: true,
+        };
+      }),
+    );
+  } catch (error) {
+    console.log("Error on getTitleTorrents using TorrentSearchApi.search interface");
+    console.log(error);
+  }
 
   if (torrents1337xWithMagnet.length > 0) {
     torrents.push(...torrents1337xWithMagnet);
@@ -141,6 +148,7 @@ export async function indexTitleByFileName({
     }
 
     const isTvShow = getIsTvShow(titleFileName);
+    console.log("\n ~ isTvShow:", isTvShow);
     const title = getTitleFileNameMetadata({ titleFileName });
     console.log("\n ~ title:", title);
 
@@ -366,17 +374,17 @@ export async function indexTitleByFileName({
 // const titleFileName = "Scenes.From.A.Marriage.1974.1080p.BluRay.x264-[YTS.AM].mp4";
 // const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
 
-// const bytes = 55551232135622;
-// const titleFileName = "When.Evil.Lurks.2023.1080p.WEB.h264-EDITH.mkv";
+const bytes = 55551232135622;
+const titleFileName = "Legend.2015.1080p.BRRip.x264.AAC-ETRG.mp4";
 
-// indexTitleByFileName({
-//   bytes,
-//   titleFileName,
-//   shouldStoreNotFoundSubtitle: true,
-//   isDebugging: true,
-//   indexedBy: "indexer-file",
-//   shouldIndexAllTorrents: false,
-// });
+indexTitleByFileName({
+  bytes,
+  titleFileName,
+  shouldStoreNotFoundSubtitle: true,
+  isDebugging: true,
+  indexedBy: "indexer-file",
+  shouldIndexAllTorrents: false,
+});
 
 // GENERAL
 // saveReleaseGroupsToDb(supabase);
