@@ -10,6 +10,7 @@ import {
   getIsTvShow,
   getStringWithoutSpecialCharacters,
   getTitleFileNameMetadata,
+  getTitleName,
   videoFileNameSchema,
 } from "@subtis/shared";
 
@@ -100,7 +101,12 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         const isCinemaRecording = getIsCinemaRecording(fileName);
 
         if (!isTvShow && !isCinemaRecording) {
-          await supabase.from("SubtitlesNotFound").insert({ bytes: parsedBytes, title_file_name: fileName });
+          try {
+            getTitleFileNameMetadata({ titleFileName: fileName });
+            await supabase.from("SubtitlesNotFound").insert({ bytes: parsedBytes, title_file_name: fileName });
+          } catch (error) {
+            console.error(error);
+          }
         }
 
         context.status(404);
