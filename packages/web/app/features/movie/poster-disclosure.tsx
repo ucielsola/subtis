@@ -118,7 +118,7 @@ export function PosterDisclosure({ src, alt, hashUrl, title, imdbId, year, overv
                     href={getImdbLink(imdbId)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-zinc-50 underline text-sm"
+                    className="text-zinc-50 underline text-sm hover:text-zinc-300"
                   >
                     IMDb
                   </a>
@@ -126,7 +126,7 @@ export function PosterDisclosure({ src, alt, hashUrl, title, imdbId, year, overv
                     href={`https://www.rottentomatoes.com/m/${title.toLowerCase().replace(/\s+/g, "_")}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-zinc-50 underline text-sm"
+                    className="text-zinc-50 underline text-sm hover:text-zinc-300"
                   >
                     Rotten Tomatoes
                   </a>
