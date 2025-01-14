@@ -175,7 +175,7 @@ export const title = new Hono<{ Variables: AppVariables }>()
 
     const { data, error } = await getSupabaseClient(context)
       .from("Titles")
-      .select("title_name, title_name_spa")
+      .select("title_name, title_name_spa, year")
       .match({ imdb_id: imdbId })
       .single();
 
@@ -198,7 +198,11 @@ export const title = new Hono<{ Variables: AppVariables }>()
     }
 
     const { Cinemas, Films } = cinemarkParsedData.data;
-    const film = Films.find((film) => film.Name.toLowerCase().includes(title_name_spa.toLowerCase()));
+    const film = Films.find(
+      (film) =>
+        film.Name.toLowerCase().includes(title_name_spa.toLowerCase()) &&
+        film.OpeningDate.startsWith(data.year.toString()),
+    );
 
     if (!film) {
       context.status(404);
