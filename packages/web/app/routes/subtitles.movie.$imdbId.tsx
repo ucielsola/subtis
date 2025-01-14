@@ -11,6 +11,7 @@ import type { SubtitlesNormalized } from "@subtis/api";
 
 // shared external
 import { cinemasSchema } from "@subtis/api/shared/cinemas";
+import { streamingSchema } from "@subtis/api/shared/streaming";
 import { getApiClient } from "@subtis/shared";
 
 // shared internal
@@ -83,6 +84,37 @@ export default function SubtitlesPage() {
   });
 
   // query hooks
+  const { data: titlePlatforms } = useQuery({
+    queryKey: ["title", "platforms", imdbId],
+    queryFn: async () => {
+      if (!imdbId) {
+        return null;
+      }
+
+      const apiClient = getApiClient({
+        apiBaseUrl: "https://api.subt.is",
+      });
+
+      const response = await apiClient.v1.title.streaming[":imdbId"].$get({
+        param: { imdbId },
+      });
+
+      const streaming = await response.json();
+
+      if ("message" in streaming) {
+        return null;
+      }
+
+      const parsedStreaming = streamingSchema.safeParse(streaming);
+
+      if (parsedStreaming.error) {
+        return null;
+      }
+
+      return parsedStreaming.data;
+    },
+  });
+
   const { data: titleCinemas } = useQuery({
     queryKey: ["title", "cinemas", imdbId],
     queryFn: async () => {
@@ -407,6 +439,34 @@ export default function SubtitlesPage() {
                         </li>
                       ))}
                     </ul>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          </Fragment>
+        ) : null}
+
+        {titlePlatforms && titlePlatforms.platforms.length > 0 ? (
+          <Fragment>
+            <Separator className="my-16 bg-zinc-700" />
+            <section className="flex flex-col gap-12 mt-16">
+              <div className="flex flex-col gap-2">
+                <h3 className="text-2xl font-semibold text-zinc-50">Plataformas</h3>
+                <h4 className="text-zinc-50 text-sm md:text-base">
+                  También podes disfrutar de la película en las siguientes plataformas.
+                </h4>
+              </div>
+              <ul className="flex flex-col list-disc list-inside">
+                {titlePlatforms.platforms.map((platform) => (
+                  <li key={platform.name}>
+                    <a
+                      href={platform.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-zinc-50 text-sm hover:underline"
+                    >
+                      {platform.name}
+                    </a>
                   </li>
                 ))}
               </ul>

@@ -22,6 +22,7 @@ import { FILE_NAME_TO_TMDB_INDEX } from "@subtis/indexer/edge-cases";
 
 // internals
 import { getTmdbApiKey, getYoutubeApiKey } from "../shared/api-keys";
+import { buscalaSchema } from "../shared/buscala";
 import { cinemarkSchema } from "../shared/cinemark";
 import { titleMetadataQuery, titleMetadataSchema } from "../shared/schemas";
 import { getSupabaseClient } from "../shared/supabase";
@@ -174,7 +175,7 @@ export const title = new Hono<{ Variables: AppVariables }>()
 
     const { data, error } = await getSupabaseClient(context)
       .from("Titles")
-      .select("title_name_spa")
+      .select("title_name, title_name_spa")
       .match({ imdb_id: imdbId })
       .single();
 
@@ -183,7 +184,7 @@ export const title = new Hono<{ Variables: AppVariables }>()
       return context.json({ message: "An error occurred", error: error.message });
     }
 
-    const { title_name_spa } = data;
+    const { title_name, title_name_spa } = data;
 
     const cinemarkData = await fetch("https://www.cinemarkhoyts.com.ar/ws/Billboard_WWW_202501082050585424.js");
     const code = await cinemarkData.text();
@@ -214,7 +215,48 @@ export const title = new Hono<{ Variables: AppVariables }>()
 
     const link = `https://www.cinemarkhoyts.com.ar/pelicula/${slugify(title_name_spa).toUpperCase()}`;
 
-    return context.json({ link, cinemas: groupedFilmCinemas });
+    return context.json({ name: title_name, link, cinemas: groupedFilmCinemas });
+  })
+  .get("/streaming/:imdbId", zValidator("param", z.object({ imdbId: z.string() })), async (context) => {
+    const { imdbId } = context.req.valid("param");
+
+    const { data, error } = await getSupabaseClient(context)
+      .from("Titles")
+      .select("title_name, title_name_spa, year, type")
+      .match({ imdb_id: imdbId })
+      .single();
+
+    if (error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error: error.message });
+    }
+
+    const response = await fetch(`https://www.buscala.tv/api/search?title=${data.title_name}`, {
+      headers: {
+        "accept-language": "es-ar",
+        "x-vercel-ip-country": "AR",
+      },
+    });
+
+    const responseData = await response.json();
+    const buscalaData = buscalaSchema.safeParse(responseData);
+
+    if (buscalaData.error) {
+      context.status(500);
+      return context.json({ message: "An error occurred", error: buscalaData.error.issues[0].message });
+    }
+
+    const contentTypeToSearch = data.type === "movie" ? "MOVIE" : "SHOW";
+    const titles = buscalaData.data.results.filter(({ contentType }) => contentType === contentTypeToSearch);
+
+    const title = titles.find(({ name, releaseYear }) => name === data.title_name_spa && releaseYear === data.year);
+
+    if (!title) {
+      context.status(404);
+      return context.json({ message: "Title not found" });
+    }
+
+    return context.json({ name: data.title_name, platforms: title.platforms });
   })
   .patch("/metrics/search", zValidator("json", z.object({ imdbId: z.string() })), async (context) => {
     const { imdbId } = context.req.valid("json");
