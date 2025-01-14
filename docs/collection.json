@@ -1,7 +1,7 @@
 {
   "yaakVersion": "2024.13.0",
   "yaakSchema": 2,
-  "timestamp": "2025-01-09T19:09:31.663168",
+  "timestamp": "2025-01-14T00:35:42.564336",
   "resources": {
     "workspaces": [
       {
@@ -155,9 +155,38 @@
     "httpRequests": [
       {
         "model": "http_request",
+        "id": "rq_JMyl9L64oX",
+        "createdAt": "2025-01-13T22:59:57",
+        "updatedAt": "2025-01-13T23:46:18",
+        "workspaceId": "wk_SbrwnSjDzA",
+        "folderId": "fl_G3EShJi9ud",
+        "authentication": {},
+        "authenticationType": null,
+        "body": {},
+        "bodyType": null,
+        "headers": [],
+        "method": "GET",
+        "name": "Get title streaming services by iMDb ID",
+        "sortPriority": 0.0,
+        "url": "${[baseUrl]}/v1/title/streaming/:imdbId",
+        "urlParameters": [
+          {
+            "enabled": true,
+            "name": ":imdbId",
+            "value": "16366836"
+          },
+          {
+            "enabled": true,
+            "name": "",
+            "value": ""
+          }
+        ]
+      },
+      {
+        "model": "http_request",
         "id": "rq_xm6c36yWmB",
         "createdAt": "2025-01-09T00:29:15",
-        "updatedAt": "2025-01-09T19:09:16",
+        "updatedAt": "2025-01-13T23:00:02",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_G3EShJi9ud",
         "authentication": {},
@@ -167,7 +196,7 @@
         "headers": [],
         "method": "GET",
         "name": "Get title cinemas by iMDb ID",
-        "sortPriority": -0.0001,
+        "sortPriority": 1000.0,
         "url": "${[baseUrl]}/v1/title/cinemas/:imdbId",
         "urlParameters": [
           {
@@ -443,7 +472,7 @@
         "model": "http_request",
         "id": "rq_k2QEcQF7uP",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2024-11-26T03:39:32",
+        "updatedAt": "2025-01-13T23:00:02",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_G3EShJi9ud",
         "authentication": {},
@@ -453,7 +482,7 @@
         "headers": [],
         "method": "GET",
         "name": "Get title metadata by IMDB ID (/v1/subtitle/metadata/:imdbId)",
-        "sortPriority": 2000.0,
+        "sortPriority": 3000.0,
         "url": "${[baseUrl]}/v1/title/metadata/:imdbId",
         "urlParameters": [
           {
@@ -695,7 +724,7 @@
         "model": "http_request",
         "id": "rq_lWYKCjbYhz",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2024-11-19T05:11:01",
+        "updatedAt": "2025-01-13T23:00:02",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_G3EShJi9ud",
         "authentication": {},
@@ -713,7 +742,7 @@
         ],
         "method": "PATCH",
         "name": "Update title search metrics by IMDB ID (/v1/title/metrics/search)",
-        "sortPriority": 3000.0,
+        "sortPriority": 4000.0,
         "url": "${[baseUrl]}/v1/title/metrics/search",
         "urlParameters": []
       },
@@ -721,7 +750,7 @@
         "model": "http_request",
         "id": "rq_SGIsc4WgeJ",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2024-12-12T00:04:43",
+        "updatedAt": "2025-01-13T23:00:02",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_G3EShJi9ud",
         "authentication": {},
@@ -731,7 +760,7 @@
         "headers": [],
         "method": "GET",
         "name": "Get title teaser by file name (/v1/title/teaser/:fileName)",
-        "sortPriority": 1000.0,
+        "sortPriority": 2000.0,
         "url": "${[baseUrl]}/v1/title/teaser/:fileName",
         "urlParameters": [
           {
