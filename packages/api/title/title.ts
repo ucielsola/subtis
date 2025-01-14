@@ -184,7 +184,7 @@ export const title = new Hono<{ Variables: AppVariables }>()
       return context.json({ message: "An error occurred", error: error.message });
     }
 
-    const { title_name, title_name_spa } = data;
+    const { title_name, title_name_spa, year } = data;
 
     const cinemarkData = await fetch("https://www.cinemarkhoyts.com.ar/ws/Billboard_WWW_202501082050585424.js");
     const code = await cinemarkData.text();
@@ -198,10 +198,14 @@ export const title = new Hono<{ Variables: AppVariables }>()
     }
 
     const { Cinemas, Films } = cinemarkParsedData.data;
+
+    const parsedYear = String(year);
+    const parsedNextYear = String(year + 1);
+
     const film = Films.find(
       (film) =>
         film.Name.toLowerCase().includes(title_name_spa.toLowerCase()) &&
-        film.OpeningDate.startsWith(data.year.toString()),
+        (film.OpeningDate.startsWith(parsedYear) || film.OpeningDate.startsWith(parsedNextYear)),
     );
 
     if (!film) {
