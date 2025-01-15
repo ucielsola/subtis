@@ -32,7 +32,10 @@ export function VideoDropzone() {
       {({ getRootProps, getInputProps, isDragActive }) => (
         <section className="w-full h-full cursor-pointer">
           <div {...getRootProps()} className="w-full h-full flex flex-col gap-2 items-center justify-center">
-            <input {...getInputProps()} />
+            <label htmlFor="video-upload" className="sr-only">
+              Seleccionar archivo de video
+            </label>
+            <input id="video-upload" {...getInputProps()} />
             {isDragActive ? (
               <p className="text-sm text-zinc-400 z-10 bg-zinc-950 rounded-sm">Soltar para buscar subtítulo</p>
             ) : (
