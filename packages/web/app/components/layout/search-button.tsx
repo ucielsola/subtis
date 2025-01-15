@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import { useNavigate } from "@remix-run/react";
 import { useAnimation } from "motion/react";
 
 // icons
@@ -8,19 +8,27 @@ import { SearchIcon } from "~/components/icons/search";
 import { Button } from "~/components/ui/button";
 
 export function SearchButton() {
+  // motion hooks
   const controls = useAnimation();
 
+  // navigation hooks
+  const navigate = useNavigate();
+
+  // handlers
+  function handleNavigate(): void {
+    navigate("/search");
+  }
+
   return (
-    <Link to="/search">
-      <Button
-        variant="ghost"
-        className="backdrop-blur-[8px] hover:bg-zinc-950 border border-transparent hover:border-zinc-700 transition-all ease-in-out rounded-md"
-        onMouseEnter={() => controls.start("animate")}
-        onMouseLeave={() => controls.start("normal")}
-      >
-        <SearchIcon controls={controls} />
-        <span className="pr-1">Buscar por película</span>
-      </Button>
-    </Link>
+    <Button
+      variant="ghost"
+      className="backdrop-blur-[8px] hover:bg-zinc-950 border border-transparent hover:border-zinc-700 transition-all ease-in-out rounded-md"
+      onClick={handleNavigate}
+      onMouseEnter={() => controls.start("animate")}
+      onMouseLeave={() => controls.start("normal")}
+    >
+      <SearchIcon controls={controls} />
+      <span className="pr-1">Buscar por película</span>
+    </Button>
   );
 }
