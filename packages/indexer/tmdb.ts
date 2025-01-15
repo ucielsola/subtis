@@ -292,7 +292,7 @@ function generateTmdbDiscoverMovieUrl(page: number, year: number, isDebugging: b
   return `https://api.themoviedb.org/3/discover/movie?language=en-US&page=${page}&with_original_language=en&primary_release_year=${year}`;
 
   // TODO: Check why the following filters doesn't work properly
-  // return `https://api.themoviedb.org/3/discover/movie?language=es-ES&page=${page}&with_original_language=en&primary_release_date.gte=${dayjs(
+  // return `https://api.themoviedb.org/3/discover/movie?language=es-MX&page=${page}&with_original_language=en&primary_release_date.gte=${dayjs(
   //   `${year}`,
   // )
   //   .startOf("year")
@@ -302,7 +302,7 @@ function generateTmdbDiscoverMovieUrl(page: number, year: number, isDebugging: b
 }
 
 function generateTmdbDiscoverSeriesUrl(page: number, year: number) {
-  return `https://api.themoviedb.org/3/discover/tv?language=es-ES&page=${page}&first_air_date_year=${year}&sort_by=popularity.desc&with_original_language=en`;
+  return `https://api.themoviedb.org/3/discover/tv?language=es-MX&page=${page}&first_air_date_year=${year}&sort_by=popularity.desc&with_original_language=en`;
 }
 
 export async function getTmdbMoviesTotalPagesArray(
@@ -345,7 +345,7 @@ const tmdbApiEndpoints = {
     return generateTmdbDiscoverSeriesUrl(page, year);
   },
   movieDetail: (id: number) => {
-    return `https://api.themoviedb.org/3/movie/${id}?language=es-ES&with_original_language=en`;
+    return `https://api.themoviedb.org/3/movie/${id}?language=es-MX&with_original_language=en`;
   },
   movieDetailAlternativeTitleJapanese: (id: number) => {
     return `https://api.themoviedb.org/3/movie/${id}/alternative_titles?country=JP`;
@@ -371,10 +371,10 @@ const tmdbApiEndpoints = {
   },
   tvShowSearch: (title: string, year?: number) => {
     if (year) {
-      return `https://api.themoviedb.org/3/search/tv?query=${encodeURIComponent(title)}&year=${year}&language=es-ES`;
+      return `https://api.themoviedb.org/3/search/tv?query=${encodeURIComponent(title)}&year=${year}&language=es-MX`;
     }
 
-    return `https://api.themoviedb.org/3/search/tv?query=${encodeURIComponent(title)}&language=es-ES`;
+    return `https://api.themoviedb.org/3/search/tv?query=${encodeURIComponent(title)}&language=es-MX`;
   },
   tvShowAlternativeTitleJapanese: (id: number) => {
     return `https://api.themoviedb.org/3/tv/${id}/alternative_titles?country=JP`;

@@ -43,10 +43,10 @@ function getTmdbHeaders(context: Context): RequestInit {
 
 function getTmdbMovieSearchUrl(title: string, year?: number): string {
   if (year) {
-    return `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}&year=${year}&language=es-ES`;
+    return `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}&year=${year}&language=es-MX`;
   }
 
-  return `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}&language=es-ES`;
+  return `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}&language=es-MX`;
 }
 
 // core

@@ -174,7 +174,7 @@ export async function indexTitleByFileName({
       }
 
       const response = await fetch(
-        `https://api.themoviedb.org/3/search/tv?query=${title.name}&include_adult=false&language=es-ES&page=1`,
+        `https://api.themoviedb.org/3/search/tv?query=${title.name}&include_adult=false&language=es-MX&page=1`,
         {
           headers: {
             Accept: "application/json",
