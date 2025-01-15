@@ -103,7 +103,7 @@ type SubtitleWithResolutionAndTorrentId = SubtitleData & {
 };
 
 // constants
-const MAX_TIMEOUT = ms("20s");
+const MAX_TIMEOUT = ms("1m");
 const MIN_BYTES = filesizeParser("500MB");
 
 const COMPRESSED_SUBTITLES_FOLDER_NAME = "compressed-subtitles";
