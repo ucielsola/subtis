@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@hono/zod-validator": "^0.4.2",
-    "@supabase/supabase-js": "^2.47.12",
+    "@supabase/supabase-js": "^2.47.13",
     "hono": "^4.6.16",
     "html-escaper": "^3.0.3",
     "jszip": "^3.10.1",
@@ -26,6 +26,6 @@
     "@types/html-escaper": "^3.0.2",
     "@types/timestring": "^7.0.0",
     "typescript": "^5.7.3",
-    "wrangler": "^3.101.0"
+    "wrangler": "^3.102.0"
   }
 }
