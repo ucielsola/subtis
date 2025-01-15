@@ -3,6 +3,7 @@ import { Fragment, type SVGProps, useState } from "react";
 // ui
 import { Button } from "~/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "~/components/ui/sheet";
+import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
 function VlcWhiteLogo({ size = 24, ...props }: SVGProps<SVGSVGElement> & { size: number }) {
   return (
@@ -339,25 +340,33 @@ export function VlcButton() {
         </SheetContent>
       </Sheet>
 
-      <Button
-        className="bg-zinc-950 text-zinc-50 group border-[#E26400] border-2 relative overflow-hidden rounded-md"
-        onClick={handleToggleIsOpen}
-      >
-        <div className="absolute inset-0 bg-gradient-to-br from-[#E26400] to-[#FF9800] transition-all ease-in-out -translate-y-full group-hover:translate-y-0" />
-        <div className="relative flex items-center gap-2">
-          <div className="relative size-6">
-            <VlcColouredLogo
-              size={24}
-              className="!size-auto absolute transition-all ease-in-out group-hover:opacity-0 delay-75"
-            />
-            <VlcWhiteLogo
-              size={24}
-              className="!size-auto absolute transition-all ease-in-out opacity-0 group-hover:opacity-100 delay-75"
-            />
-          </div>
-          VLC
-        </div>
-      </Button>
+      <Tooltip>
+        <TooltipTrigger>
+          <Button
+            className="bg-zinc-950 text-zinc-50 group border-[#E26400] border-2 relative overflow-hidden rounded-md"
+            disabled
+            onClick={handleToggleIsOpen}
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-[#E26400] to-[#FF9800] transition-all ease-in-out -translate-y-full group-hover:translate-y-0" />
+            <div className="relative flex items-center gap-2">
+              <div className="relative size-6">
+                <VlcColouredLogo
+                  size={24}
+                  className="!size-auto absolute transition-all ease-in-out group-hover:opacity-0 delay-75"
+                />
+                <VlcWhiteLogo
+                  size={24}
+                  className="!size-auto absolute transition-all ease-in-out opacity-0 group-hover:opacity-100 delay-75"
+                />
+              </div>
+              VLC
+            </div>
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent side="bottom">
+          <p>Prontamente disponible</p>
+        </TooltipContent>
+      </Tooltip>
     </Fragment>
   );
 }
