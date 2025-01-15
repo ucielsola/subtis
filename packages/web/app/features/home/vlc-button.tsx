@@ -358,7 +358,7 @@ export function VlcButton() {
           </TooltipTrigger>
         </Button>
         <TooltipContent side="bottom">
-          <p>Prontamente disponible</p>
+          <p>Próximamente disponible</p>
         </TooltipContent>
       </Tooltip>
     </Fragment>
