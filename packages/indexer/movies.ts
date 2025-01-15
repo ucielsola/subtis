@@ -8,7 +8,7 @@ import { supabase } from "@subtis/db";
 
 // internals
 import { getSubtitlesForTitle } from "./app";
-import { getReleaseGroups, saveReleaseGroupsToDb } from "./release-groups";
+import { getReleaseGroups } from "./release-groups";
 import { getSubDivXParameter, getSubDivXToken } from "./subdivx";
 import { getSubtitleGroups } from "./subtitle-groups";
 import { getMoviesFromTmdb, getTmdbMovieFromTitle, getTmdbMoviesTotalPagesArray } from "./tmdb";

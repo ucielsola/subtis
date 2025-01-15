@@ -10,7 +10,6 @@ import {
   getIsTvShow,
   getStringWithoutSpecialCharacters,
   getTitleFileNameMetadata,
-  getTitleName,
   videoFileNameSchema,
 } from "@subtis/shared";
 
