@@ -160,7 +160,7 @@ export default function SubtitlesPage() {
       accessorKey: "index",
       header: () => <th>#</th>,
       cell: ({ row }) => {
-        return <div className="w-6">{row.index + 1}</div>;
+        return <div className="w-2">{row.index + 1}</div>;
       },
     },
     {
@@ -249,7 +249,7 @@ export default function SubtitlesPage() {
                 onMouseLeave={() => controls.start("normal")}
                 onClick={handleDownloadSubtitle}
               >
-                <DownloadIcon size={16} controls={controls} />
+                <DownloadIcon size={18} controls={controls} />
               </a>
             </TooltipTrigger>
             <TooltipContent side="bottom">Descargar subtítulo</TooltipContent>
@@ -317,7 +317,7 @@ export default function SubtitlesPage() {
                 onMouseEnter={() => resolutionTipControl.start("animate")}
                 onMouseLeave={() => resolutionTipControl.start("normal")}
               >
-                <CheckIcon size={24} controls={resolutionTipControl} />
+                <span className="text-zinc-50 text-lg font-bold font-mono">1</span>
                 <div className="pt-1">
                   <AlertTitle className="text-zinc-50">Asegurate que la resolución matchee correctamente</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
@@ -332,7 +332,7 @@ export default function SubtitlesPage() {
                 onMouseEnter={() => formatTipControl.start("animate")}
                 onMouseLeave={() => formatTipControl.start("normal")}
               >
-                <CheckIcon size={24} controls={formatTipControl} />
+                <span className="text-zinc-50 text-lg font-bold font-mono">2</span>
                 <div className="pt-1">
                   <AlertTitle className="text-zinc-50">Asegurate que el formato matchee correctamente</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
@@ -347,7 +347,7 @@ export default function SubtitlesPage() {
                 onMouseEnter={() => publisherTipControl.start("animate")}
                 onMouseLeave={() => publisherTipControl.start("normal")}
               >
-                <CheckIcon size={24} controls={publisherTipControl} />
+                <span className="text-zinc-50 text-lg font-bold font-mono">3</span>
                 <div className="pt-1">
                   <AlertTitle className="text-zinc-50">Asegurate que el publicador matchee correctamente</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">

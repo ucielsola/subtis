@@ -216,7 +216,7 @@ export default function SubtitlePage() {
       accessorKey: "index",
       header: "#",
       cell: ({ row }) => {
-        return <div className="w-6">{row.index + 1}</div>;
+        return <div className="w-2">{row.index + 1}</div>;
       },
     },
     {
@@ -302,7 +302,7 @@ export default function SubtitlePage() {
                   onMouseLeave={() => downloadControls.start("normal")}
                   onClick={handleDownloadSubtitle}
                 >
-                  <DownloadIcon size={16} controls={downloadControls} />
+                  <DownloadIcon size={18} controls={downloadControls} />
                 </a>
               </TooltipTrigger>
               <TooltipContent side="bottom">Descargar subtítulo</TooltipContent>
@@ -316,7 +316,7 @@ export default function SubtitlePage() {
                     onMouseEnter={() => playControls.start("animate")}
                     onMouseLeave={() => playControls.start("normal")}
                   >
-                    <Play size={16} controls={playControls} isWrapped={false} />
+                    <Play size={18} controls={playControls} isWrapped={false} />
                   </TooltipTrigger>
                   <TooltipContent side="bottom">Reproducir video</TooltipContent>
                 </Tooltip>
