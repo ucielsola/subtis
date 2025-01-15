@@ -12,6 +12,9 @@ import { SearchButton } from "~/components/layout/search-button";
 import { Toaster } from "~/components/ui/toaster";
 import { TooltipProvider } from "~/components/ui/tooltip";
 
+// lib
+import "~/lib/analytics";
+
 // internals
 import styles from "./tailwind.css?url";
 

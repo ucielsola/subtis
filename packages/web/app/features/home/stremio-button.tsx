@@ -5,6 +5,9 @@ import { Button } from "~/components/ui/button";
 import { MorphingDialogBasicImage } from "~/components/ui/morphin-dialog-image";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "~/components/ui/sheet";
 
+// lib
+import { op } from "~/lib/analytics";
+
 function StremioWhiteLogo({ size = 24, ...props }: SVGProps<SVGSVGElement> & { size: number }) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} fill="none" {...props}>
@@ -47,6 +50,7 @@ export function StremioButton() {
 
   // handlers
   function handleToggleIsOpen(): void {
+    op.track("stremio_button_clicked");
     setIsOpen((previousIsOpen) => !previousIsOpen);
   }
 

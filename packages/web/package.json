@@ -17,6 +17,7 @@
   "dependencies": {
     "@custom-react-hooks/use-effect-once": "^1.5.1",
     "@hookform/resolvers": "^3.10.0",
+    "@openpanel/web": "^1.0.1",
     "@radix-ui/react-accordion": "^1.2.2",
     "@radix-ui/react-aspect-ratio": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.4",
