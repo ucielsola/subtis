@@ -57,7 +57,7 @@ export function StremioButton() {
   return (
     <Fragment>
       <Sheet open={isOpen} onOpenChange={handleToggleIsOpen} modal={false}>
-        <SheetContent className="overflow-y-auto bg-zinc-950 border-zinc-700 border rounded-md mt-3 mr-3 h-[1280px]">
+        <SheetContent className="overflow-y-auto bg-zinc-950 border-zinc-700 border rounded-sm my-3 mr-3 max-h-[calc(100vh-24px)]">
           <SheetHeader className="mb-10">
             <SheetTitle className="text-zinc-50">Instalación de Subtis para Stremio</SheetTitle>
             <SheetDescription className="text-zinc-400 text-sm">
@@ -65,7 +65,7 @@ export function StremioButton() {
               pantalla completa.
             </SheetDescription>
           </SheetHeader>
-          <div className="flex flex-col gap-10 mb-8">
+          <div className="flex flex-col gap-10 pb-2">
             <section className="flex flex-col gap-4">
               <div className="flex flex-col gap-3 items-start">
                 <div className="flex flex-row items-end gap-3 ">
