@@ -68,10 +68,9 @@ export function PosterDisclosure({ src, alt, hashUrl, title, imdbId, year, overv
   useOnClickOutside(ref, handleClickOutside);
 
   return (
-    <div className="relative w-[384px] h-[611px] overflow-hidden rounded-sm">
+    <div className="relative w-[384px] h-[611px] overflow-hidden rounded-sm" ref={ref}>
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
       <div
-        ref={ref}
         onClick={handleClick}
         className="cursor-pointer"
         onMouseEnter={() => controls.start("animate")}

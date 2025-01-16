@@ -264,8 +264,6 @@ export default function SubtitlesPage() {
   ];
 
   const [mostDownloadedSubtitle] = "message" in data ? [] : data.results;
-  console.log("\n ~ SubtitlesPage ~ mostDownloadedSubtitle:", mostDownloadedSubtitle);
-
   const { release_group_name } = mostDownloadedSubtitle.release_group;
   const { rip_type, resolution, title_file_name } = mostDownloadedSubtitle.subtitle;
 
