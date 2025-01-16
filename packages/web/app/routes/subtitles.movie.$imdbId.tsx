@@ -177,10 +177,10 @@ export default function SubtitlesPage() {
       cell: ({ row }) => {
         return (
           <Tooltip>
-            <TooltipTrigger className="truncate max-w-24">
+            <TooltipTrigger className="truncate max-w-24 cursor-default">
               {row.original.release_group.release_group_name}
             </TooltipTrigger>
-            <TooltipContent>{row.original.release_group.release_group_name}</TooltipContent>
+            <TooltipContent side="bottom">{row.original.release_group.release_group_name}</TooltipContent>
           </Tooltip>
         );
       },
