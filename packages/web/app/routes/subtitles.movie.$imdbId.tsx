@@ -5,6 +5,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { useAnimation } from "motion/react";
 import { useQueryState } from "nuqs";
 import { Fragment } from "react";
+import Highlighter from "react-highlight-words";
 
 // api
 import type { SubtitlesNormalized } from "@subtis/api";
@@ -75,8 +76,11 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
 export default function SubtitlesPage() {
   // remix hooks
-  const { imdbId } = useParams();
   const data = useLoaderData<typeof loader>();
+  console.log("\n ~ SubtitlesPage ~ data:", data);
+
+  // navigation hooks
+  const { imdbId } = useParams();
 
   // nuqs hooks
   const [subtip, setSubtip] = useQueryState("subtip", {
@@ -259,6 +263,12 @@ export default function SubtitlesPage() {
     },
   ];
 
+  const [mostDownloadedSubtitle] = "message" in data ? [] : data.results;
+  console.log("\n ~ SubtitlesPage ~ mostDownloadedSubtitle:", mostDownloadedSubtitle);
+
+  const { release_group_name } = mostDownloadedSubtitle.release_group;
+  const { rip_type, resolution, title_file_name } = mostDownloadedSubtitle.subtitle;
+
   return (
     <div className="pt-24 pb-44 flex flex-col lg:flex-row justify-between gap-4">
       <article className="max-w-xl w-full">
@@ -320,11 +330,22 @@ export default function SubtitlesPage() {
                 <span className="text-zinc-50 text-lg font-bold font-mono">1</span>
                 <div className="pt-1">
                   <AlertTitle className="text-zinc-50">Asegurate que la resolución matchee correctamente</AlertTitle>
-                  <AlertDescription className="text-zinc-400 text-sm font-normal">
+                  <AlertDescription className="text-zinc-400 text-sm font-normal font-">
+                    Por ejemplo para{" "}
+                    <Highlighter
+                      highlightClassName="bg-zinc-950 text-zinc-50 font-medium"
+                      searchWords={[resolution]}
+                      autoEscape={true}
+                      textToHighlight={`"${title_file_name}"`}
+                    />{" "}
+                    selecciona el subtítulo cuya resolución sea{" "}
+                    <span className="font-medium text-zinc-50">{resolution}</span>.
+                  </AlertDescription>
+                  {/* <AlertDescription className="text-zinc-400 text-sm font-normal">
                     Por ejemplo para “The.Matrix.1999.<span className="font-semibold text-zinc-50">720p</span>
                     .BrRip.264.YIFI” selecciona el subtítulo cuya resolución sea{" "}
                     <span className="font-semibold text-zinc-50">720p</span>.
-                  </AlertDescription>
+                  </AlertDescription> */}
                 </div>
               </Alert>
               <Alert
@@ -336,9 +357,15 @@ export default function SubtitlesPage() {
                 <div className="pt-1">
                   <AlertTitle className="text-zinc-50">Asegurate que el formato matchee correctamente</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
-                    Por ejemplo para “The.Matrix.1999.720p.<span className="font-semibold text-zinc-50">BrRip</span>
-                    .264.YIFI” selecciona el subtítulo cuyo formato sea{" "}
-                    <span className="font-semibold text-zinc-50">BrRip</span>.
+                    Por ejemplo para{" "}
+                    <Highlighter
+                      highlightClassName="bg-zinc-950 text-zinc-50 font-medium"
+                      searchWords={[rip_type]}
+                      autoEscape={true}
+                      textToHighlight={`"${title_file_name}"`}
+                    />{" "}
+                    selecciona el subtítulo cuyo formato sea{" "}
+                    <span className="font-medium text-zinc-50">{rip_type}</span>.
                   </AlertDescription>
                 </div>
               </Alert>
@@ -351,9 +378,15 @@ export default function SubtitlesPage() {
                 <div className="pt-1">
                   <AlertTitle className="text-zinc-50">Asegurate que el publicador matchee correctamente</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
-                    Por ejemplo para “The.Matrix.1999.720p.BrRip.264.
-                    <span className="font-semibold text-zinc-50">YIFI</span>” selecciona el subtítulo cuyo publicador
-                    sea <span className="font-semibold text-zinc-50">YIFI</span>.
+                    Por ejemplo para{" "}
+                    <Highlighter
+                      highlightClassName="bg-zinc-950 text-zinc-50 font-medium"
+                      searchWords={[release_group_name]}
+                      autoEscape={true}
+                      textToHighlight={`"${title_file_name}"`}
+                    />{" "}
+                    selecciona el subtítulo cuyo publicador sea{" "}
+                    <span className="font-medium text-zinc-50">{release_group_name}</span>.
                   </AlertDescription>
                 </div>
               </Alert>
