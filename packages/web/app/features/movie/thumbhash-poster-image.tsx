@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // lib
 import { generatePlaceholderURL } from "~/lib/thumbhash";
@@ -13,6 +13,14 @@ type Props = {
 export function ThumbHashPosterImage({ src, hashUrl, alt }: Props) {
   // react hooks
   const [imgIsLoading, setImgIsLoading] = useState(true);
+  const imageReference = useRef<HTMLImageElement>(null);
+
+  // effects
+  useEffect(() => {
+    if (imageReference.current?.complete) {
+      setImgIsLoading(false);
+    }
+  }, []);
 
   // handlers
   function onLoaded(): void {
