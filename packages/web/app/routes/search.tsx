@@ -122,10 +122,14 @@ export default function SearchPage() {
           <section className="flex flex-col gap-12">
             <div className="flex flex-col gap-4">
               <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold">Búsqueda en catálogo</h1>
-              <h2 className="text-zinc-50">
-                Ingresa el título de la película que quieras buscar su subtítulo. Soportamos búsquedas en español,
-                inglés y japonés (perfecto para películas de anime).
-              </h2>
+              <div className="flex flex-col gap-1">
+                <h2 className="text-zinc-50 text-sm md:text-base">
+                  Ingresa el título de la película que quieras buscar su subtítulo.
+                </h2>
+                <p className="text-zinc-300 text-xs md:text-sm">
+                  Soportamos búsquedas en español, inglés y japonés, incluso con errores o variantes.
+                </p>
+              </div>
             </div>
           </section>
 
