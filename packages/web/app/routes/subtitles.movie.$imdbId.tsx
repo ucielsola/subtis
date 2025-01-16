@@ -77,7 +77,6 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export default function SubtitlesPage() {
   // remix hooks
   const data = useLoaderData<typeof loader>();
-  console.log("\n ~ SubtitlesPage ~ data:", data);
 
   // navigation hooks
   const { imdbId } = useParams();
