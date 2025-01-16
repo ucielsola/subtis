@@ -323,11 +323,11 @@ export default function SubtitlesPage() {
 
             <TabsContent value="choose-subtitle" className="flex flex-col gap-4 mt-0">
               <Alert
-                className="bg-zinc-950 border border-zinc-700 flex items-start gap-4"
+                className="bg-zinc-950 border border-zinc-700 flex items-start gap-6"
                 onMouseEnter={() => resolutionTipControl.start("animate")}
                 onMouseLeave={() => resolutionTipControl.start("normal")}
               >
-                <span className="text-zinc-50 text-lg font-bold font-mono">1</span>
+                <span className="text-zinc-50 text-lg font-bold font-mono size-6">1</span>
                 <div className="pt-1">
                   <AlertTitle className="text-zinc-50">Asegurate que la resolución matchee correctamente</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal font-">
@@ -349,18 +349,18 @@ export default function SubtitlesPage() {
                 </div>
               </Alert>
               <Alert
-                className="bg-zinc-950 border border-zinc-700 flex items-start gap-4"
+                className="bg-zinc-950 border border-zinc-700 flex items-start gap-6"
                 onMouseEnter={() => formatTipControl.start("animate")}
                 onMouseLeave={() => formatTipControl.start("normal")}
               >
-                <span className="text-zinc-50 text-lg font-bold font-mono">2</span>
+                <span className="text-zinc-50 text-lg font-bold font-mono size-6">2</span>
                 <div className="pt-1">
                   <AlertTitle className="text-zinc-50">Asegurate que el formato matchee correctamente</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
                     Por ejemplo para{" "}
                     <Highlighter
                       highlightClassName="bg-zinc-950 text-zinc-50 font-medium"
-                      searchWords={[rip_type]}
+                      searchWords={[rip_type ?? ""]}
                       autoEscape={true}
                       textToHighlight={`"${title_file_name}"`}
                     />{" "}
@@ -370,11 +370,11 @@ export default function SubtitlesPage() {
                 </div>
               </Alert>
               <Alert
-                className="bg-zinc-950 border border-zinc-700 flex items-start gap-4"
+                className="bg-zinc-950 border border-zinc-700 flex items-start gap-6"
                 onMouseEnter={() => publisherTipControl.start("animate")}
                 onMouseLeave={() => publisherTipControl.start("normal")}
               >
-                <span className="text-zinc-50 text-lg font-bold font-mono">3</span>
+                <span className="text-zinc-50 text-lg font-bold font-mono size-6">3</span>
                 <div className="pt-1">
                   <AlertTitle className="text-zinc-50">Asegurate que el publicador matchee correctamente</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
