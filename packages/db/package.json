@@ -12,7 +12,7 @@
     "generate:dump": "pg_dump -h aws-0-sa-east-1.pooler.supabase.com -U postgres.yelhsmnvfyyjuamxbobs -d postgres -p 6543 -s > schema-new.sql"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.47.14",
+    "@supabase/supabase-js": "^2.47.15",
     "zod": "^3.24.1"
   },
   "devDependencies": {
