@@ -134,9 +134,9 @@ export async function indexMovieByName({
 // indexMoviesByYear(2024, false);
 
 // indexMovieByName({
-//   year: 2023,
+//   year: 2021,
 //   isDebugging: false,
-//   name: "Fast X",
+//   name: "Cherry",
 // });
 
 // saveReleaseGroupsToDb(supabase);
