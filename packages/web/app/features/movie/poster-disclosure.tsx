@@ -59,7 +59,7 @@ export function PosterDisclosure({ src, alt, hashUrl, title, imdbId, year, overv
   }
 
   return (
-    <div className="relative w-[384px] h-[575px] overflow-hidden rounded-sm">
+    <div className="relative w-[384px] h-[611px] overflow-hidden rounded-sm">
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
       <div
         onClick={handleClick}
@@ -74,7 +74,7 @@ export function PosterDisclosure({ src, alt, hashUrl, title, imdbId, year, overv
       <Disclosure
         onOpenChange={setIsOpen}
         open={isOpen}
-        className={`absolute bottom-0 left-0 right-0 ${isOpen ? "bg-zinc-900" : "bg-zinc-900/80 backdrop-blur-sm"} transition-all duration-300 ease-in-out px-4 pt-2`}
+        className={`absolute bottom-0 left-0 right-0 ${isOpen ? "bg-zinc-950/90" : "bg-zinc-950/50"}  backdrop-blur-md transition-all duration-300 ease-in-out px-4 pt-2 rounded-b-sm`}
         variants={contentVariants}
         transition={transition}
       >
@@ -89,7 +89,7 @@ export function PosterDisclosure({ src, alt, hashUrl, title, imdbId, year, overv
             <span
               className={`text-left ${isOpen ? "text-zinc-50 text-lg" : "text-zinc-300 text-sm"} transition-all duration-300 ease-in-out`}
             >
-              {title}
+              {isOpen ? title : "Ver más"}
             </span>
             <AnimatePresence mode="wait">
               {isOpen ? (
