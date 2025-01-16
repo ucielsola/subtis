@@ -2,7 +2,7 @@ import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
 import { redirect, useLoaderData, useParams } from "@remix-run/react";
 import { useQuery } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
-import { AnimatePresence, useAnimation } from "motion/react";
+import { AnimatePresence, motion, useAnimation } from "motion/react";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { transformSrtTracks } from "srt-support-for-html5-videos";
 
@@ -129,7 +129,8 @@ export default function SubtitlePage() {
   });
 
   // motion hooks
-  const videoTipControl = useAnimation();
+  const internalVideoPlayerTipControl = useAnimation();
+  const externalVideoPlayerTipControl = useAnimation();
   const stremioTipControl = useAnimation();
 
   // effects
@@ -380,28 +381,41 @@ export default function SubtitlePage() {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="play-subtitle" className="mt-6 flex flex-col gap-4">
-              {displayVideoElements ? (
-                <Alert
-                  className="bg-zinc-950 border border-zinc-700 flex items-start gap-4"
-                  onMouseEnter={() => videoTipControl.start("animate")}
-                  onMouseLeave={() => videoTipControl.start("normal")}
-                >
-                  <CheckIcon size={24} controls={videoTipControl} />
-                  <div className="pt-1">
-                    <AlertTitle className="text-zinc-50">Proba con el reproductor de video de Subtis...</AlertTitle>
-                    <AlertDescription className="text-zinc-400 text-sm font-normal">
-                      Clickea en el botón de reproducir y disfrutá de tu película con el subtítulo ya integrado sin
-                      hacer más nada.
-                    </AlertDescription>
-                  </div>
-                </Alert>
-              ) : null}
+              <AnimatePresence>
+                {displayVideoElements && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Alert
+                      className="bg-zinc-950 border border-zinc-700 flex items-start gap-4"
+                      onMouseEnter={() => internalVideoPlayerTipControl.start("animate")}
+                      onMouseLeave={() => internalVideoPlayerTipControl.start("normal")}
+                    >
+                      <div>
+                        <CheckIcon size={24} controls={internalVideoPlayerTipControl} className="stroke-zinc-50" />
+                      </div>
+                      <div className="pt-1">
+                        <AlertTitle className="text-zinc-50">Proba con el reproductor de video de Subtis...</AlertTitle>
+                        <AlertDescription className="text-zinc-400 text-sm font-normal">
+                          Clickea en el botón de reproducir y disfrutá de tu película con el subtítulo ya integrado sin
+                          hacer más nada.
+                        </AlertDescription>
+                      </div>
+                    </Alert>
+                  </motion.div>
+                )}
+              </AnimatePresence>
               <Alert
                 className="bg-zinc-950 border border-zinc-700 flex items-start gap-4"
-                onMouseEnter={() => videoTipControl.start("animate")}
-                onMouseLeave={() => videoTipControl.start("normal")}
+                onMouseEnter={() => externalVideoPlayerTipControl.start("animate")}
+                onMouseLeave={() => externalVideoPlayerTipControl.start("normal")}
               >
-                <CheckIcon size={24} controls={videoTipControl} />
+                <div>
+                  <CheckIcon size={24} controls={externalVideoPlayerTipControl} className="stroke-zinc-50" />
+                </div>
                 <div className="pt-1">
                   <AlertTitle className="text-zinc-50">Si vas a usar un reproductor de video...</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
@@ -415,7 +429,9 @@ export default function SubtitlePage() {
                 onMouseEnter={() => stremioTipControl.start("animate")}
                 onMouseLeave={() => stremioTipControl.start("normal")}
               >
-                <CheckIcon size={24} controls={stremioTipControl} />
+                <div>
+                  <CheckIcon size={24} controls={stremioTipControl} className="stroke-zinc-50" />
+                </div>
                 <div className="pt-1">
                   <AlertTitle className="text-zinc-50">Si vas a usar Stremio...</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">

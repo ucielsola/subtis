@@ -394,13 +394,15 @@ export default function SubtitlesPage() {
 
             <TabsContent value="play-subtitle" className="flex flex-col gap-4 mt-0">
               <Alert
-                className="bg-zinc-950 border border-zinc-700 flex items-start gap-4"
+                className="bg-zinc-950 border border-zinc-700 flex items-start gap-3"
                 onMouseEnter={() => videoTipControl.start("animate")}
                 onMouseLeave={() => videoTipControl.start("normal")}
               >
-                <CheckIcon size={24} controls={videoTipControl} />
+                <div>
+                  <CheckIcon size={24} controls={videoTipControl} className="stroke-zinc-50" />
+                </div>
                 <div className="pt-1">
-                  <AlertTitle className="text-zinc-50">Si vas a usar un reproductor de video...</AlertTitle>
+                  <AlertTitle className="text-zinc-50">Si vas a usar un reproductor de video</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
                     Recorda mover el archivo del subtítulo a donde esté tu carpeta o bien reproducir la película y
                     arrastrar el subtítulo al reproductor.
@@ -408,13 +410,15 @@ export default function SubtitlesPage() {
                 </div>
               </Alert>
               <Alert
-                className="bg-zinc-950 border border-zinc-700 flex items-start gap-4"
+                className="bg-zinc-950 border border-zinc-700 flex items-start gap-3"
                 onMouseEnter={() => stremioTipControl.start("animate")}
                 onMouseLeave={() => stremioTipControl.start("normal")}
               >
-                <CheckIcon size={24} controls={stremioTipControl} />
+                <div>
+                  <CheckIcon size={24} controls={stremioTipControl} className="stroke-zinc-50" />
+                </div>
                 <div className="pt-1">
-                  <AlertTitle className="text-zinc-50">Si vas a usar Stremio...</AlertTitle>
+                  <AlertTitle className="text-zinc-50">Si vas a usar Stremio</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
                     Te recomendamos usar el add-on oficial, y en caso que no quieras utilizar el add-on de Subtis,
                     también podes arrastrar el subtítulo al reproductor de Stremio.

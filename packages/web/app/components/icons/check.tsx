@@ -21,23 +21,26 @@ const pathVariants: Variants = {
   },
 };
 
-export function CheckIcon({ controls, size }: { size: number; controls: AnimationControls }) {
+export function CheckIcon({
+  controls,
+  size,
+  className,
+}: { size: number; controls: AnimationControls; className?: string }) {
   return (
-    <div className="flex items-center justify-center">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width={size}
-        height={size}
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <title>Check</title>
-        <motion.path variants={pathVariants} initial="normal" animate={controls} d="M4 12 9 17L20 6" />
-      </svg>
-    </div>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <title>Check</title>
+      <motion.path variants={pathVariants} initial="normal" animate={controls} d="M4 12 9 17L20 6" />
+    </svg>
   );
 }
