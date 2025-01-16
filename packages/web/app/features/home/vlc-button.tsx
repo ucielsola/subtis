@@ -242,7 +242,7 @@ export function VlcButton() {
                     className="object-bottom w-44 border border-zinc-700 rounded-sm"
                   />
                   <p className="text-zinc-400 text-sm">
-                    Clickea en este{" "}
+                    Haz click en este{" "}
                     <a
                       href="stremio://stremio.subt.is/manifest.json
 "
@@ -252,7 +252,7 @@ export function VlcButton() {
                     >
                       link
                     </a>{" "}
-                    para instalar el addon de Subtis. Una vez abierto Stremio, clickea en "Instalar" o "Install".
+                    para instalar el addon de Subtis. Una vez abierto Stremio, da click en "Instalar" o "Install".
                   </p>
                 </div>
               </div>
@@ -273,7 +273,7 @@ export function VlcButton() {
                     className="object-cover w-44 border border-zinc-700 rounded-sm"
                   />
                   <p className="text-zinc-400 text-sm">
-                    Mientras estás viendo una película, clickea en el ícono de subtítulos en la barra de reproducción.
+                    Mientras estás viendo una película, haz click en el ícono de subtítulos en la barra de reproducción.
                   </p>
                 </div>
               </div>
@@ -294,7 +294,7 @@ export function VlcButton() {
                     className="object-cover w-44 border border-zinc-700 rounded-sm"
                   />
                   <p className="text-zinc-400 text-sm">
-                    En la sección debajo de "Addons" clickea en "español" para reproducir el subtítulo en español.
+                    En la sección debajo de "Addons" haz click en "español" para reproducir el subtítulo en español.
                   </p>
                 </div>
               </div>

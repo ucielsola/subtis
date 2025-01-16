@@ -400,8 +400,8 @@ export default function SubtitlePage() {
                       <div className="pt-1">
                         <AlertTitle className="text-zinc-50">Proba con el reproductor de video de Subtis...</AlertTitle>
                         <AlertDescription className="text-zinc-400 text-sm font-normal">
-                          Clickea en el botón de reproducir y disfrutá de tu película con el subtítulo ya integrado sin
-                          hacer más nada.
+                          Haz click en el botón de reproducir y disfrutá de tu película con el subtítulo ya integrado
+                          sin hacer más nada.
                         </AlertDescription>
                       </div>
                     </Alert>
