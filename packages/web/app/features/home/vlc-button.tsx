@@ -342,9 +342,9 @@ export function VlcButton() {
 
       <Tooltip>
         <Button
-          className="bg-zinc-950 text-zinc-50 group border-[#E26400] border-2 relative overflow-hidden rounded-md opacity-50 hover:bg-transparent"
+          className="bg-zinc-950 text-zinc-50 group border-[#E26400] border-2 relative overflow-hidden rounded-md opacity-50 hover:bg-transparent cursor-not-allowed"
           asChild
-          onClick={handleToggleIsOpen}
+          onClick={undefined}
         >
           <TooltipTrigger>
             <div className="absolute inset-0 bg-gradient-to-br from-[#E26400] to-[#FF9800] transition-all ease-in-out -translate-y-full" />
