@@ -1,6 +1,7 @@
 import { StarIcon } from "lucide-react";
 import { AnimatePresence, motion, useAnimation } from "motion/react";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useOnClickOutside } from "usehooks-ts";
 
 // lib
 import { getImdbLink } from "@subtis/indexer/imdb";
@@ -49,6 +50,7 @@ type Props = {
 export function PosterDisclosure({ src, alt, hashUrl, title, imdbId, year, overview, rating, runtime }: Props) {
   // react hooks
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const ref = useRef(null);
 
   // motion hooks
   const controls = useAnimation();
@@ -58,10 +60,18 @@ export function PosterDisclosure({ src, alt, hashUrl, title, imdbId, year, overv
     setIsOpen((previousIsOpen) => !previousIsOpen);
   }
 
+  function handleClickOutside(): void {
+    setIsOpen(false);
+  }
+
+  // custom hooks
+  useOnClickOutside(ref, handleClickOutside);
+
   return (
     <div className="relative w-[384px] h-[611px] overflow-hidden rounded-sm">
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
       <div
+        ref={ref}
         onClick={handleClick}
         className="cursor-pointer"
         onMouseEnter={() => controls.start("animate")}
