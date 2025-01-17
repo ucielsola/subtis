@@ -33,7 +33,7 @@ export function VideoDropzone() {
         const { size: bytes, name: fileName, type: fileType } = firstFile;
 
         const format = fileType.split("/")[1];
-        if (fileType !== "video/mp4" && fileType !== "video/mkv" && fileType !== "video/avi") {
+        if (fileType !== "video/mp4" && fileType !== "video/x-matroska" && fileType !== "video/avi") {
           toast({
             title: `Formato de archivo no soportado (${format})`,
             description: "Soportamos .mp4, .mkv y .avi",
