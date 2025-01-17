@@ -9,9 +9,15 @@ import { Button } from "~/components/ui/button";
 // icons
 import { AttachFileIcon } from "~/components/icons/attach-file";
 
+// hooks
+import { useToast } from "~/hooks/use-toast";
+
 export function VideoDropzone() {
   // remix hooks
   const navigate = useNavigate();
+
+  // toast hooks
+  const { toast } = useToast();
 
   // motion hooks
   const controls = useAnimation();
@@ -19,8 +25,18 @@ export function VideoDropzone() {
   return (
     <Dropzone
       onDrop={(acceptedFiles) => {
-        const bytes = acceptedFiles[0].size;
-        const fileName = acceptedFiles[0].name;
+        const [firstFile] = acceptedFiles;
+        const { size: bytes, name: fileName, type: fileType } = firstFile;
+
+        const format = fileType.split("/")[1];
+        if (fileType !== "video/mp4" && fileType !== "video/mkv" && fileType !== "video/avi") {
+          toast({
+            title: `Formato de archivo no soportado (${format})`,
+            description: "Soportamos .mp4, .mkv y .avi",
+          });
+
+          return;
+        }
 
         // save video src to local storage to use on subtitle page
         const videoSrc = URL.createObjectURL(acceptedFiles[0]);
