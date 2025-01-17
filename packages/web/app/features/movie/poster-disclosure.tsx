@@ -132,7 +132,7 @@ export function PosterDisclosure({ src, alt, hashUrl, title, imdbId, year, overv
                     IMDb
                   </a>
                   <a
-                    href={`https://www.rottentomatoes.com/m/${title.toLowerCase().replace(/\s+/g, "_")}`}
+                    href={`https://www.rottentomatoes.com/m/${title.toLowerCase().replace(/\s+/g, "_").replaceAll("&", "and").replaceAll(":", "")}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-zinc-50 underline text-sm hover:text-zinc-300"
