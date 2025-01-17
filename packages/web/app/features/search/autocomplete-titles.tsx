@@ -34,7 +34,13 @@ export function AutocompleteTitles({ inputValue, setInputValue, data, error, isL
   const difference = 3 - inputValue.length;
   const minimumCharactersMessage = `Ingresa al menos ${difference} ${difference > 1 ? "caracteres" : "caracter"} para buscar.`;
 
-  const emptyMessage = error ? "Error al buscar." : inputValue.length < 3 ? minimumCharactersMessage : noResultsMessage;
+  const emptyMessage = error
+    ? "Error al buscar."
+    : inputValue.length > 0 && inputValue.length < 3
+      ? minimumCharactersMessage
+      : data?.results.length === 0
+        ? noResultsMessage
+        : "";
 
   // handlers
   async function handleUpdateSearchMetrics(imdbId: string) {

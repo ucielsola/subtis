@@ -104,6 +104,7 @@ export const AutoComplete = ({
           placeholder={placeholder}
           disabled={disabled}
           className="text-sm"
+          autoFocus
         />
       </div>
       <div className="relative mt-1">
@@ -113,7 +114,9 @@ export const AutoComplete = ({
             isOpen ? "block" : "hidden",
           )}
         >
-          <CommandList className="rounded-md border border-zinc-700 max-h-[106px]">
+          <CommandList
+            className={`rounded-md border ${isLoading || emptyMessage || options.length > 0 ? "border-zinc-700" : "border-transparent"} max-h-[106px]`}
+          >
             {isLoading ? (
               <CommandPrimitive.Loading>
                 <div className="p-1">
@@ -143,7 +146,7 @@ export const AutoComplete = ({
                 })}
               </CommandGroup>
             ) : null}
-            {!isLoading ? (
+            {!isLoading && emptyMessage ? (
               <CommandPrimitive.Empty className="select-none rounded-sm px-2 py-3 text-center text-sm text-zinc-50">
                 {emptyMessage}
               </CommandPrimitive.Empty>
