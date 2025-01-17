@@ -2,6 +2,7 @@ import { useNavigate } from "@remix-run/react";
 import { useAnimation } from "motion/react";
 import Dropzone from "react-dropzone-esm";
 import { Fragment } from "react/jsx-runtime";
+import filesizeParser from "filesize-parser";
 
 // ui
 import { Button } from "~/components/ui/button";
@@ -11,6 +12,9 @@ import { AttachFileIcon } from "~/components/icons/attach-file";
 
 // hooks
 import { useToast } from "~/hooks/use-toast";
+
+// constants
+const MIN_BYTES = filesizeParser("500MB");
 
 export function VideoDropzone() {
   // remix hooks
@@ -33,6 +37,15 @@ export function VideoDropzone() {
           toast({
             title: `Formato de archivo no soportado (${format})`,
             description: "Soportamos .mp4, .mkv y .avi",
+          });
+
+          return;
+        }
+
+        if (bytes < MIN_BYTES) {
+          toast({
+            title: "Archivo demasiado pequeño",
+            description: "El archivo debe ser mayor a 500MB",
           });
 
           return;
