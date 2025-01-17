@@ -69,7 +69,6 @@ export function PosterDisclosure({ src, alt, hashUrl, title, imdbId, year, overv
 
   return (
     <div className="relative w-[384px] h-[611px] overflow-hidden rounded-sm" ref={ref}>
-      {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
       <div
         onClick={handleClick}
         className="cursor-pointer"

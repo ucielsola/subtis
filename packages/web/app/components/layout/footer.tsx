@@ -1,6 +1,21 @@
 import { Link } from "@remix-run/react";
 
+// hooks
+import { useToast } from "~/hooks/use-toast";
+
 export function HomeFooter() {
+  // toast hooks
+  const { toast } = useToast();
+
+  // handlers
+  function handleCopyEmailToClipboard() {
+    navigator.clipboard.writeText("soporte@subt.is");
+    toast({
+      title: "¡Email copiado a tu clipboard!",
+      description: "Escribinos a soporte@subt.is",
+    });
+  }
+
   return (
     <footer className="pt-8 pb-16 flex flex-col md:flex-row justify-between items-start gap-6 md:gap-4 border-t border-zinc-700">
       <div className="flex flex-col gap-2">
@@ -9,10 +24,14 @@ export function HomeFooter() {
         </Link>
         <span className="text-xs text-zinc-50">Subtis &#169; 2025</span>
       </div>
-      <div className="flex flex-col gap-2  py-2">
-        <a href="mailto:soporte@subt.is" className="text-xs font-medium text-zinc-50  hover:underline">
+      <div className="flex flex-col gap-2 py-2">
+        <button
+          type="button"
+          onClick={handleCopyEmailToClipboard}
+          className="text-xs font-medium text-zinc-50  hover:underline inline-flex"
+        >
           Soporte
-        </a>
+        </button>
         <a
           href="https://subtis.canny.io/feature-requests"
           target="_blank"
