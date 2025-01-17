@@ -4,6 +4,9 @@ import Dropzone from "react-dropzone-esm";
 import { Fragment } from "react/jsx-runtime";
 import filesizeParser from "filesize-parser";
 
+// shared external
+import { getIsTvShow } from "@subtis/shared/files";
+
 // ui
 import { Button } from "~/components/ui/button";
 
@@ -33,6 +36,8 @@ export function VideoDropzone() {
         const { size: bytes, name: fileName, type: fileType } = firstFile;
 
         const format = fileType.split("/")[1];
+        const isTvShow = getIsTvShow(fileName);
+
         if (fileType !== "video/mp4" && fileType !== "video/x-matroska" && fileType !== "video/avi") {
           toast({
             title: `Formato de archivo no soportado (${format})`,
@@ -46,6 +51,15 @@ export function VideoDropzone() {
           toast({
             title: "Archivo demasiado pequeño",
             description: "El archivo debe ser mayor a 500MB",
+          });
+
+          return;
+        }
+
+        if (isTvShow) {
+          toast({
+            title: "Series no soportadas",
+            description: "No soportamos series por el momento",
           });
 
           return;
