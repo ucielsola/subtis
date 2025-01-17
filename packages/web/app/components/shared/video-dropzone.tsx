@@ -1,8 +1,8 @@
 import { useNavigate } from "@remix-run/react";
+import filesizeParser from "filesize-parser";
 import { useAnimation } from "motion/react";
 import Dropzone from "react-dropzone-esm";
 import { Fragment } from "react/jsx-runtime";
-import filesizeParser from "filesize-parser";
 
 // shared external
 import { getIsTvShow } from "@subtis/shared/files";

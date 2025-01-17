@@ -327,16 +327,17 @@ export default function SubtitlesPage() {
                 <span className="text-zinc-50 text-lg font-bold font-mono size-6">1</span>
                 <div className="pt-1">
                   <AlertTitle className="text-zinc-50">Asegurate que la resolución matchee correctamente</AlertTitle>
-                  <AlertDescription className="text-zinc-400 text-sm font-normal font-">
-                    Por ejemplo para{" "}
+                  <AlertDescription className="text-zinc-400 text-sm font-normal">
+                    Por ejemplo para el archivo{" "}
                     <Highlighter
                       highlightClassName="bg-zinc-950 text-zinc-50 font-medium"
+                      className="break-all"
                       searchWords={[resolution]}
                       autoEscape={true}
                       textToHighlight={`"${title_file_name}"`}
                     />{" "}
                     seleccioná el subtítulo cuya resolución sea{" "}
-                    <span className="font-medium text-zinc-50">{resolution}</span>.
+                    <span className="font-medium text-zinc-50">{resolution}</span> en la tabla.
                   </AlertDescription>
                 </div>
               </Alert>
@@ -349,15 +350,16 @@ export default function SubtitlesPage() {
                 <div className="pt-1">
                   <AlertTitle className="text-zinc-50">Asegurate que el formato coincida correctamente</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
-                    Por ejemplo para{" "}
+                    Por ejemplo para el archivo{" "}
                     <Highlighter
                       highlightClassName="bg-zinc-950 text-zinc-50 font-medium"
+                      className="break-all"
                       searchWords={[rip_type ?? ""]}
                       autoEscape={true}
                       textToHighlight={`"${title_file_name}"`}
                     />{" "}
                     seleccioná el subtítulo cuyo formato sea{" "}
-                    <span className="font-medium text-zinc-50">{rip_type}</span>.
+                    <span className="font-medium text-zinc-50">{rip_type}</span> en la tabla.
                   </AlertDescription>
                 </div>
               </Alert>
@@ -370,15 +372,16 @@ export default function SubtitlesPage() {
                 <div className="pt-1">
                   <AlertTitle className="text-zinc-50">Asegurate que el publicador coincida correctamente</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
-                    Por ejemplo para{" "}
+                    Por ejemplo para el archivo{" "}
                     <Highlighter
                       highlightClassName="bg-zinc-950 text-zinc-50 font-medium"
+                      className="break-all"
                       searchWords={[release_group_name]}
                       autoEscape={true}
                       textToHighlight={`"${title_file_name}"`}
                     />{" "}
                     seleccioná el subtítulo cuyo publicador sea{" "}
-                    <span className="font-medium text-zinc-50">{release_group_name}</span>.
+                    <span className="font-medium text-zinc-50">{release_group_name}</span> en la tabla.
                   </AlertDescription>
                 </div>
               </Alert>
