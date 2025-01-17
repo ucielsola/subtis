@@ -93,7 +93,7 @@ export const AutoComplete = ({
   );
 
   return (
-    <CommandPrimitive onKeyDown={handleKeyDown}>
+    <CommandPrimitive onKeyDown={handleKeyDown} shouldFilter={false}>
       <div className=" border border-zinc-700 rounded-md bg-stone-950">
         <CommandInput
           ref={inputRef}
