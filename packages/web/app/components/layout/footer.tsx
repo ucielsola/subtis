@@ -25,13 +25,6 @@ export function HomeFooter() {
         <span className="text-xs text-zinc-50">Subtis &#169; 2025</span>
       </div>
       <div className="flex flex-col gap-2 py-2">
-        <button
-          type="button"
-          onClick={handleCopyEmailToClipboard}
-          className="text-xs font-medium text-zinc-50  hover:underline inline-flex"
-        >
-          Soporte
-        </button>
         <a
           href="https://subtis.canny.io/feature-requests"
           target="_blank"
@@ -40,6 +33,13 @@ export function HomeFooter() {
         >
           Pedir una feature
         </a>
+        <button
+          type="button"
+          onClick={handleCopyEmailToClipboard}
+          className="text-xs font-medium text-zinc-50  hover:underline inline-flex"
+        >
+          Soporte via email
+        </button>
       </div>
       <div className="flex flex-col gap-2  py-2">
         <Link to="/faq" className="text-xs font-medium text-zinc-50  hover:underline">
