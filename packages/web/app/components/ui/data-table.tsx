@@ -20,9 +20,11 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
     getCoreRowModel: getCoreRowModel(),
   });
 
+  const AMOUNT_TO_SHOW = 2;
   const rows = table.getRowModel().rows;
-  const displayedRows = showAll ? rows : rows.slice(0, 3);
-  const hasMore = rows.length > 3;
+
+  const displayedRows = showAll ? rows : rows.slice(0, AMOUNT_TO_SHOW);
+  const hasMore = rows.length > AMOUNT_TO_SHOW;
 
   return (
     <div className="rounded-sm border bg-zinc-950 border-zinc-700 overflow-hidden">
@@ -63,7 +65,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                       onClick={() => setShowAll(!showAll)}
                       className="text-sm text-zinc-300 hover:text-zinc-50 w-full h-full bg-zinc-950 hover:bg-zinc-950 border-none hover:border-none py-3"
                     >
-                      {showAll ? "Cargar menos opciones" : `Cargar más opciones (${rows.length - 3})`}
+                      {showAll ? "Cargar menos opciones" : `Cargar más opciones (${rows.length - AMOUNT_TO_SHOW})`}
                       {showAll ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
                     </Button>
                   </TableCell>
