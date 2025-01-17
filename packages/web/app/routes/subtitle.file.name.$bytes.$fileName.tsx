@@ -347,7 +347,7 @@ export default function SubtitlePage() {
             ) : null}
             <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold">¡Subtítulo encontrado!</h1>
             <h2 className="text-zinc-50 text-balance text-sm md:text-base">
-              Descarga el siguiente subtítulo para disfrutar tu película subtitulada.
+              Descargá el siguiente subtítulo para disfrutar tu película subtitulada.
             </h2>
           </div>
           <DataTable columns={columns} data={[data]} />
@@ -398,7 +398,7 @@ export default function SubtitlePage() {
                         <CheckIcon size={24} controls={internalVideoPlayerTipControl} className="stroke-zinc-50" />
                       </div>
                       <div className="pt-1">
-                        <AlertTitle className="text-zinc-50">Proba con el reproductor de video de Subtis...</AlertTitle>
+                        <AlertTitle className="text-zinc-50">Probá con el reproductor de video de Subtis...</AlertTitle>
                         <AlertDescription className="text-zinc-400 text-sm font-normal">
                           Haz click en el botón de reproducir y disfrutá de tu película con el subtítulo ya integrado
                           sin hacer más nada.
@@ -419,7 +419,7 @@ export default function SubtitlePage() {
                 <div className="pt-1">
                   <AlertTitle className="text-zinc-50">Si vas a usar un reproductor de video...</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
-                    Recorda mover el archivo del subtítulo a donde esté tu carpeta o bien reproducir la película y
+                    Recordá mover el archivo del subtítulo a donde esté tu carpeta o bien reproducir la película y
                     arrastrar el subtítulo al reproductor.
                   </AlertDescription>
                 </div>
@@ -436,7 +436,7 @@ export default function SubtitlePage() {
                   <AlertTitle className="text-zinc-50">Si vas a usar Stremio...</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
                     Te recomendamos usar el add-on oficial, y en caso que no quieras utilizar el add-on de Subtis,
-                    también podes arrastrar el subtítulo al reproductor de Stremio.
+                    también podés arrastrar el subtítulo al reproductor de Stremio.
                   </AlertDescription>
                 </div>
               </Alert>
@@ -450,7 +450,7 @@ export default function SubtitlePage() {
           <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold text-zinc-50">Buscar nuevo subtítulo por archivo</h3>
             <h4 className="text-zinc-400 text-sm md:text-base">
-              ¿Querés buscar un subtítulo nuevo? Arrastra el archivo debajo.
+              ¿Querés buscar un subtítulo nuevo? Arrastrá el archivo debajo.
             </h4>
           </div>
           <div className="bg-zinc-950 border border-zinc-700 rounded-sm group/video overflow-hidden h-64 relative">
@@ -469,7 +469,7 @@ export default function SubtitlePage() {
             <section className="flex flex-col gap-12 mt-16">
               <div className="flex flex-col gap-2">
                 <h3 className="text-2xl font-semibold text-zinc-50">Cines</h3>
-                <h4 className="text-zinc-50 text-sm md:text-base">Mira en que cines se esta proyectando la película</h4>
+                <h4 className="text-zinc-50 text-sm md:text-base">Mirá en que cines se esta proyectando la película</h4>
               </div>
               <ul className="flex flex-col gap-1 list-disc list-inside">
                 {Object.entries(titleCinemas.cinemas).map(([city, cinemas]) => (

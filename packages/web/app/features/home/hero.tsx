@@ -74,7 +74,7 @@ export function HomeHero() {
               />
             </AspectRatio>
             <p className="text-sm text-zinc-400 text-center px-4">
-              Si contas con el archivo de video podes arrastrarlo acá
+              Si contás con el archivo de video podés arrastrarlo acá
             </p>
           </div>
         </div>

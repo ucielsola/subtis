@@ -39,13 +39,13 @@ type WsOk = z.infer<typeof wsOkSchema>;
 // constants
 const INSTRUCTIONS_MEDIA_PLAYERS = {
   stremio: [
-    `${chalk.bold("Arrastra")} el subtítulo hacia la app de Stremio ${chalk.italic("mientras reproducís la película")}`,
+    `${chalk.bold("Arrastrá")} el subtítulo hacia la app de Stremio ${chalk.italic("mientras reproducís la película")}`,
     `Te ${chalk.italic("recomendamos")} instalar la extensión de Subtis para Stremio en https://stremio.subt.is`,
   ],
   vlc: [
-    `${chalk.bold("Arrastra")} el subtítulo hacia el reproductor de VLC ${chalk.italic("mientras reproducís la película")}`,
-    `O bien podes ${chalk.bold("mover")} el archivo .srt a la carpeta donde se encuentra ${chalk.italic("el archivo de video de tu película")}`,
-    `Si el subtítulo no se reproduce, ${chalk.bold("selecciona")} el subtitulo en ${chalk.italic("Menú -> Subtítulos -> Pista de Subtítulos")}`,
+    `${chalk.bold("Arrastrá")} el subtítulo hacia el reproductor de VLC ${chalk.italic("mientras reproducís la película")}`,
+    `O bien podés ${chalk.bold("mover")} el archivo .srt a la carpeta donde se encuentra ${chalk.italic("el archivo de video de tu película")}`,
+    `Si el subtítulo no se reproduce, ${chalk.bold("seleccioná")} el subtítulo en ${chalk.italic("Menú -> Subtítulos -> Pista de Subtítulos")}`,
   ],
 };
 
@@ -75,7 +75,7 @@ async function getSubtitleDownloadInstructions(subtitle: SubtisSubtitleNormalize
   }
 
   const mediaPlayer = (await select({
-    message: "Selecciona tu reproductor de video para instrucciones:",
+    message: "Seleccioná tu reproductor de video para instrucciones:",
     options: [
       { value: "cancel", label: "Cancelar" },
       { value: "stremio", label: "Stremio" },
@@ -119,7 +119,7 @@ async function askForEmail(bytes: string, fileName: string) {
   }
 
   const email = await text({
-    message: "📬 Si queres nos podes dejar tu email para avisarte cuando esté disponible el subtítulo",
+    message: "📬 Si queres nos podés dejar tu email para avisarte cuando esté disponible el subtítulo",
     placeholder: "john@doe.com",
     validate(value) {
       if (z.string().email().safeParse(value).success) {

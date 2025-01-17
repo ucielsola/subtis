@@ -33,7 +33,7 @@ export default function TermsPage() {
       <section>
         <h2>¿Donde encuentro el reproductor de video?</h2>
         <p>
-          Podes encontrar el reproductor de video cuando dropeas el archivo de video en la sección de "Buscar subtítulo
+          Podés encontrar el reproductor de video cuando dropeas el archivo de video en la sección de "Buscar subtítulo
           por archivo", o también llamada Página de Subtítulo.
         </p>
       </section>
@@ -56,8 +56,8 @@ export default function TermsPage() {
       <section>
         <h2>Mi subtítulo no está sincronizado con el video. ¿Qué puedo hacer?</h2>
         <p>
-          Si descargaste el subtítulo desde la página de película, proba arrastrando y soltando el archivo de video para
-          poder buscar el subtítulo correcto. En caso de que el problema persista podes escribirnos a soporte@subt.is
+          Si descargaste el subtítulo desde la página de película, probá arrastrando y soltando el archivo de video para
+          poder buscar el subtítulo correcto. En caso de que el problema persista podés escribirnos a soporte@subt.is
         </p>
       </section>
 
@@ -79,7 +79,7 @@ export default function TermsPage() {
       <section>
         <h2>¿Soportan versiones extendidas como por ej "Director's Cut", "Extended Version"?</h2>
         <p>
-          Por el momento no lo soportamos pero podes contactarnos al email enviándonos la versión que estas buscando.
+          Por el momento no lo soportamos pero podés contactarnos al email enviándonos la versión que estas buscando.
         </p>
       </section>
 

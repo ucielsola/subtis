@@ -294,7 +294,7 @@ export default function NotFoundSubtitlePage() {
           <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold text-zinc-50">Buscar nuevo subtítulo por archivo</h3>
             <h4 className="text-zinc-50 text-sm md:text-base">
-              ¿Querés buscar un subtítulo nuevo? Arrastra el archivo debajo.
+              ¿Querés buscar un subtítulo nuevo? Arrastrá el archivo debajo.
             </h4>
           </div>
           <div className="bg-zinc-950 border border-zinc-700 rounded-sm group/video overflow-hidden h-64 relative">

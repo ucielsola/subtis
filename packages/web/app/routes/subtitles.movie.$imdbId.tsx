@@ -281,7 +281,7 @@ export default function SubtitlesPage() {
             <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold">¡Subtítulos encontrados!</h1>
             {"message" in data ? null : (
               <h2 className="text-zinc-50 text-balance text-sm md:text-base">
-                Encontra tu subtítulo en la siguiente tabla.
+                Encontrá tu subtítulo en la siguiente tabla.
               </h2>
             )}
           </div>
@@ -335,14 +335,9 @@ export default function SubtitlesPage() {
                       autoEscape={true}
                       textToHighlight={`"${title_file_name}"`}
                     />{" "}
-                    selecciona el subtítulo cuya resolución sea{" "}
+                    seleccioná el subtítulo cuya resolución sea{" "}
                     <span className="font-medium text-zinc-50">{resolution}</span>.
                   </AlertDescription>
-                  {/* <AlertDescription className="text-zinc-400 text-sm font-normal">
-                    Por ejemplo para “The.Matrix.1999.<span className="font-semibold text-zinc-50">720p</span>
-                    .BrRip.264.YIFI” selecciona el subtítulo cuya resolución sea{" "}
-                    <span className="font-semibold text-zinc-50">720p</span>.
-                  </AlertDescription> */}
                 </div>
               </Alert>
               <Alert
@@ -352,7 +347,7 @@ export default function SubtitlesPage() {
               >
                 <span className="text-zinc-50 text-lg font-bold font-mono size-6">2</span>
                 <div className="pt-1">
-                  <AlertTitle className="text-zinc-50">Asegurate que el formato matchee correctamente</AlertTitle>
+                  <AlertTitle className="text-zinc-50">Asegurate que el formato coincida correctamente</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
                     Por ejemplo para{" "}
                     <Highlighter
@@ -361,7 +356,7 @@ export default function SubtitlesPage() {
                       autoEscape={true}
                       textToHighlight={`"${title_file_name}"`}
                     />{" "}
-                    selecciona el subtítulo cuyo formato sea{" "}
+                    seleccioná el subtítulo cuyo formato sea{" "}
                     <span className="font-medium text-zinc-50">{rip_type}</span>.
                   </AlertDescription>
                 </div>
@@ -373,7 +368,7 @@ export default function SubtitlesPage() {
               >
                 <span className="text-zinc-50 text-lg font-bold font-mono size-6">3</span>
                 <div className="pt-1">
-                  <AlertTitle className="text-zinc-50">Asegurate que el publicador matchee correctamente</AlertTitle>
+                  <AlertTitle className="text-zinc-50">Asegurate que el publicador coincida correctamente</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
                     Por ejemplo para{" "}
                     <Highlighter
@@ -382,7 +377,7 @@ export default function SubtitlesPage() {
                       autoEscape={true}
                       textToHighlight={`"${title_file_name}"`}
                     />{" "}
-                    selecciona el subtítulo cuyo publicador sea{" "}
+                    seleccioná el subtítulo cuyo publicador sea{" "}
                     <span className="font-medium text-zinc-50">{release_group_name}</span>.
                   </AlertDescription>
                 </div>
@@ -401,7 +396,7 @@ export default function SubtitlesPage() {
                 <div className="pt-1">
                   <AlertTitle className="text-zinc-50">Si vas a usar un reproductor de video</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
-                    Recorda mover el archivo del subtítulo a donde esté tu carpeta o bien reproducir la película y
+                    Recordá mover el archivo del subtítulo a donde esté tu carpeta o bien reproducir la película y
                     arrastrar el subtítulo al reproductor.
                   </AlertDescription>
                 </div>
@@ -418,7 +413,7 @@ export default function SubtitlesPage() {
                   <AlertTitle className="text-zinc-50">Si vas a usar Stremio</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
                     Te recomendamos usar el add-on oficial, y en caso que no quieras utilizar el add-on de Subtis,
-                    también podes arrastrar el subtítulo al reproductor de Stremio.
+                    también podés arrastrar el subtítulo al reproductor de Stremio.
                   </AlertDescription>
                 </div>
               </Alert>
@@ -432,7 +427,7 @@ export default function SubtitlesPage() {
           <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold text-zinc-50">Buscar nuevo subtítulo por archivo</h3>
             <h4 className="text-zinc-50 text-sm md:text-base">
-              ¿Querés buscar un subtítulo nuevo? Arrastra el archivo debajo.
+              ¿Querés buscar un subtítulo nuevo? Arrastrá el archivo debajo.
             </h4>
           </div>
           <div className="bg-zinc-950 border border-zinc-700 rounded-sm group/video overflow-hidden h-64 relative">
@@ -452,7 +447,7 @@ export default function SubtitlesPage() {
               <div className="flex flex-col gap-2">
                 <h3 className="text-2xl font-semibold text-zinc-50">Cines</h3>
                 <h4 className="text-zinc-50 text-sm md:text-base">
-                  Mira en que cines se esta proyectando la película.
+                  Mirá en que cines se esta proyectando la película.
                 </h4>
               </div>
               <ul className="flex flex-col gap-4 list-disc list-inside">
@@ -487,7 +482,7 @@ export default function SubtitlesPage() {
               <div className="flex flex-col gap-2">
                 <h3 className="text-2xl font-semibold text-zinc-50">Plataformas</h3>
                 <h4 className="text-zinc-50 text-sm md:text-base">
-                  También podes disfrutar de la película en las siguientes plataformas.
+                  También podés disfrutar de la película en las siguientes plataformas.
                 </h4>
               </div>
               <ul className="flex flex-col list-disc list-inside">
