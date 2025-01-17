@@ -57,12 +57,12 @@ BEGIN
         t.rating
     FROM "Titles" t
     WHERE (
-        (query % t.title_name AND similarity(query, t.title_name) > 0.3)
-        OR (query % t.title_name_spa AND similarity(query, t.title_name_spa) > 0.3)
-        OR (query % t.title_name_ja AND similarity(query, t.title_name_ja) > 0.3)
-        OR t.title_name ILIKE '%' || query || '%'
-        OR t.title_name_spa ILIKE '%' || query || '%'
-        OR t.title_name_ja ILIKE '%' || query || '%'
+        (unaccent(query) % unaccent(t.title_name) AND similarity(unaccent(query), unaccent(t.title_name)) > 0.3)
+        OR (unaccent(query) % unaccent(t.title_name_spa) AND similarity(unaccent(query), unaccent(t.title_name_spa)) > 0.3)
+        OR (unaccent(query) % unaccent(t.title_name_ja) AND similarity(unaccent(query), unaccent(t.title_name_ja)) > 0.3)
+        OR unaccent(t.title_name) ILIKE '%' || unaccent(query) || '%'
+        OR unaccent(t.title_name_spa) ILIKE '%' || unaccent(query) || '%'
+        OR unaccent(t.title_name_ja) ILIKE '%' || unaccent(query) || '%'
     )
     ORDER BY t.year DESC;
 END;
