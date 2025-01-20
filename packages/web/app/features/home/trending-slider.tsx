@@ -1,7 +1,8 @@
 import { useLoaderData } from "@remix-run/react";
 import { Link } from "@remix-run/react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+
+// ui
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "~/components/ui/carousel";
 
 // routes
 import type { loader } from "~/routes/_index";
@@ -13,58 +14,13 @@ export function TrendingSlider() {
   // remix hooks
   const { trendingDownloadedTitles } = useLoaderData<typeof loader>();
 
-  // react hooks
-  const [isAtStart, setIsAtStart] = useState(true);
-  const [isAtEnd, setIsAtEnd] = useState(false);
-
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-  // effects
-  useEffect(function toggleButtons() {
-    const container = scrollContainerRef.current;
-
-    if (!container) {
-      return;
-    }
-
-    function handleScroll() {
-      const container = scrollContainerRef.current;
-      if (!container) return;
-
-      const isStart = container.scrollLeft === 0;
-      const isEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth;
-
-      setIsAtStart(isStart);
-      setIsAtEnd(isEnd);
-    }
-
-    handleScroll();
-    container.addEventListener("scroll", handleScroll);
-
-    return () => {
-      container.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  // helpers
-  function scroll(direction: "left" | "right") {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-
-    const scrollAmount = direction === "left" ? -1200 : 1200;
-    container.scrollBy({ left: scrollAmount, behavior: "smooth" });
-  }
-
   if ("message" in trendingDownloadedTitles) {
     return null;
   }
 
   return (
-    <div className="relative w-full px-11 lg:px-0">
-      <div
-        ref={scrollContainerRef}
-        className="flex overflow-x-scroll [scroll-snap-type:x_mandatory] [scroll-behavior:smooth] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-md gap-3 py-3 w-full"
-      >
+    <Carousel className="w-full">
+      <CarouselContent className="p-4">
         {trendingDownloadedTitles.results.map((title) => {
           if (!title.poster) {
             return null;
@@ -75,38 +31,19 @@ export function TrendingSlider() {
           }
 
           return (
-            <Link
-              key={title.id}
-              to={`/subtitles/movie/${title.imdb_id}`}
-              className="box-content flex flex-none [scroll-snap-align:start] rounded-sm overflow-hidden cursor-pointer hover:scale-105 transition-all ease-in-out duration-300 group will-change-transform"
-            >
-              <ThumbHashTrendingImage src={title.poster} hashUrl={title.poster_thumbhash} alt={title.title_name} />
-            </Link>
+            <CarouselItem key={title.id} className="basis-auto pl-3 select-none">
+              <Link
+                to={`/subtitles/movie/${title.imdb_id}`}
+                className="flex flex-none rounded-sm overflow-hidden cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-300 group will-change-transform"
+              >
+                <ThumbHashTrendingImage src={title.poster} hashUrl={title.poster_thumbhash} alt={title.title_name} />
+              </Link>
+            </CarouselItem>
           );
         })}
-      </div>
-
-      <button
-        type="button"
-        onClick={() => scroll("left")}
-        className={`z-50 absolute left-0 top-1/2 -translate-y-1/2 h-[336px] w-8 flex items-center justify-center ${
-          isAtStart ? "opacity-0" : "opacity-100"
-        } hidden lg:block bg-zinc-950/50 hover:bg-zinc-950/70 transition-all`}
-        aria-label="Scroll left"
-      >
-        <ChevronLeft className="size-6 text-zinc-50" />
-      </button>
-
-      <button
-        type="button"
-        onClick={() => scroll("right")}
-        className={`z-50 absolute right-0 top-1/2 -translate-y-1/2 h-[336px] w-8 flex items-center justify-center ${
-          isAtEnd ? "opacity-0" : "opacity-100"
-        } hidden lg:block bg-zinc-950/50 hover:bg-zinc-950/70 transition-all`}
-        aria-label="Scroll right"
-      >
-        <ChevronRight className="size-6 text-zinc-50" />
-      </button>
-    </div>
+      </CarouselContent>
+      <CarouselPrevious className="border-zinc-300 hover:bg-zinc-800 lg:inline-flex hidden" />
+      <CarouselNext className="border-zinc-300 hover:bg-zinc-800 lg:inline-flex hidden" />
+    </Carousel>
   );
 }
