@@ -507,7 +507,7 @@ export default function SubtitlesPage() {
         ) : null}
       </article>
       {"message" in data ? null : data.title.poster_thumbhash ? (
-        <div className="hidden lg:flex flex-1 justify-center">
+        <aside className="hidden lg:flex flex-1 justify-center">
           <PosterDisclosure
             src={data.title.poster}
             alt={data.title.title_name}
@@ -519,7 +519,7 @@ export default function SubtitlesPage() {
             rating={data.title.rating}
             runtime={data.title.runtime}
           />
-        </div>
+        </aside>
       ) : null}
     </div>
   );

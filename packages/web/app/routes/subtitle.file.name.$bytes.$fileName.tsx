@@ -497,7 +497,7 @@ export default function SubtitlePage() {
         ) : null}
       </article>
       {data.title.poster ? (
-        <div className="hidden lg:flex flex-1 justify-center">
+        <aside className="hidden lg:flex flex-1 justify-center">
           <PosterDisclosure
             src={data.title.poster}
             alt={data.title.title_name}
@@ -509,7 +509,7 @@ export default function SubtitlePage() {
             rating={data.title.rating}
             runtime={data.title.runtime}
           />
-        </div>
+        </aside>
       ) : null}
     </div>
   );
