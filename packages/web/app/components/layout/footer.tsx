@@ -9,10 +9,10 @@ export function HomeFooter() {
 
   // handlers
   function handleCopyEmailToClipboard() {
-    navigator.clipboard.writeText("soporte@subt.is");
+    navigator.clipboard.writeText("soporte@subtis.io");
     toast({
       title: "¡Email copiado a tu clipboard!",
-      description: "Escribinos a soporte@subt.is",
+      description: "Escribinos a soporte@subtis.io",
     });
   }
 
@@ -38,7 +38,7 @@ export function HomeFooter() {
           onClick={handleCopyEmailToClipboard}
           className="text-xs font-medium text-zinc-50  hover:underline inline-flex"
         >
-          Soporte via email
+          Soporte vía email
         </button>
       </div>
       <div className="flex flex-col gap-2  py-2">

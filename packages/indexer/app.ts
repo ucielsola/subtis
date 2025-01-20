@@ -563,7 +563,7 @@ Encontranos en https://subtis.io
 1
 ${firstTimestamp} --> ${secondTimestamp}
 Contactanos por X en <i>@subt_is</i>
-Vía email a <i>soporte@subt.is</i>
+Vía email a <i>soporte@subtis.io</i>
 
 ${subtitleText}`;
     })
@@ -594,7 +594,7 @@ Encontranos en https://subtis.io
 ${watermarkNextId + 1}
 ${secondTimestamp} --> ${thirdTimestamp}
 Contactanos por X en <i>@subt_is</i>
-Vía email a <i>soporte@subt.is</i>
+Vía email a <i>soporte@subtis.io</i>
 `;
     })
     .run();

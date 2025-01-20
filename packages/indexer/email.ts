@@ -18,7 +18,7 @@ export async function sendEmail(subtitle: SubtisSubtitleNormalized, email: strin
 
   try {
     const data = await resend.emails.send({
-      from: "soporte@subt.is",
+      from: "soporte@subtis.io",
       to: email,
       subject: "Subtis | Encontramos tu subtítulo! 🎉",
       html: `<div>
