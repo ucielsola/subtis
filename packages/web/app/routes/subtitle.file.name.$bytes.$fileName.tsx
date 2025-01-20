@@ -376,7 +376,7 @@ export default function SubtitlePage() {
           </div>
           <Tabs defaultValue="play-subtitle">
             <TabsList>
-              <TabsTrigger value="play-subtitle" className="text-xs md:text-sm">
+              <TabsTrigger value="play-subtitle" className="text-sm">
                 ¿Cómo utilizo un subtítulo?
               </TabsTrigger>
             </TabsList>

@@ -310,10 +310,10 @@ export default function SubtitlesPage() {
           </div>
           <Tabs value={subtip ?? undefined} onValueChange={setSubtip} className="min-h-[390px]">
             <TabsList className="mb-6">
-              <TabsTrigger value="choose-subtitle" className="text-xs md:text-sm">
+              <TabsTrigger value="choose-subtitle" className="text-sm">
                 ¿Cómo elijo un subtítulo?
               </TabsTrigger>
-              <TabsTrigger value="play-subtitle" className="text-xs md:text-sm">
+              <TabsTrigger value="play-subtitle" className="text-sm">
                 ¿Cómo utilizo un subtítulo?
               </TabsTrigger>
             </TabsList>
