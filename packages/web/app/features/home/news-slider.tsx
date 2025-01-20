@@ -23,16 +23,16 @@ export function NewsSlider() {
           if (!title.backdrop) {
             return null;
           }
+
           if (title.type !== "movie") {
             return null;
           }
 
           return (
-            <CarouselItem key={title.id} className="basis-auto pl-3">
+            <CarouselItem key={title.id} className="basis-auto pl-3 select-none">
               <Link
-                key={title.id}
                 to={`/subtitles/movie/${title.imdb_id}`}
-                className="box-content flex flex-none rounded-sm overflow-hidden cursor-pointer hover:scale-105 transition-all ease-in-out duration-300 group will-change-transform"
+                className="box-content flex flex-none rounded-sm overflow-hidden cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-300 group will-change-transform"
               >
                 <ThumbHashNewsImage src={title.backdrop} hashUrl={title.backdrop_thumbhash} alt={title.title_name} />
               </Link>
@@ -40,8 +40,8 @@ export function NewsSlider() {
           );
         })}
       </CarouselContent>
-      <CarouselPrevious className="border-zinc-300 hover:bg-zinc-800" />
-      <CarouselNext className="border-zinc-300 hover:bg-zinc-800" />
+      <CarouselPrevious className="border-zinc-300 hover:bg-zinc-800 lg:inline-flex hidden" />
+      <CarouselNext className="border-zinc-300 hover:bg-zinc-800 lg:inline-flex hidden" />
     </Carousel>
   );
 }
