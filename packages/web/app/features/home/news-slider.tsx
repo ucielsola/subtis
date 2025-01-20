@@ -40,8 +40,8 @@ export function NewsSlider() {
           );
         })}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
+      <CarouselPrevious className="border-zinc-300 hover:bg-zinc-800" />
+      <CarouselNext className="border-zinc-300 hover:bg-zinc-800" />
     </Carousel>
   );
 }
