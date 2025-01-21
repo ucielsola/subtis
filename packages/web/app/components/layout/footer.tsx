@@ -12,7 +12,7 @@ export function HomeFooter() {
     navigator.clipboard.writeText("soporte@subtis.io");
     toast({
       title: "¡Email copiado a tu clipboard!",
-      description: "Escribinos a soporte@subtis.io",
+      description: "Escribinos y te responderemos lo antes posible.",
     });
   }
 

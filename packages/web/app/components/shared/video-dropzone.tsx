@@ -41,7 +41,7 @@ export function VideoDropzone() {
         if (fileType !== "video/mp4" && fileType !== "video/x-matroska" && fileType !== "video/avi") {
           toast({
             title: `Formato de archivo no soportado (${format})`,
-            description: "Soportamos .mp4, .mkv y .avi",
+            description: "Soportamos mp4, mkv y avi.",
           });
 
           return;
@@ -50,7 +50,7 @@ export function VideoDropzone() {
         if (bytes < MIN_BYTES) {
           toast({
             title: "Archivo demasiado pequeño",
-            description: "El archivo debe ser mayor a 500MB",
+            description: "El archivo debe ser mayor a 500MB.",
           });
 
           return;
@@ -59,7 +59,7 @@ export function VideoDropzone() {
         if (isTvShow) {
           toast({
             title: "Series no soportadas",
-            description: "No soportamos series por el momento",
+            description: "No soportamos series por el momento.",
           });
 
           return;
