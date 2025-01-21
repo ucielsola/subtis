@@ -1,8 +1,14 @@
-import { type ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import {
+  type ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getSortedRowModel,
+  type SortingState,
+  useReactTable
+} from "@tanstack/react-table";
 import { useState } from "react";
+import { ChevronUp, ChevronDown, ArrowDownNarrowWide, ArrowDownUp, ArrowUpWideNarrow } from "lucide-react";
 
-import { ChevronUp } from "lucide-react";
-import { ChevronDown } from "lucide-react";
 // internals
 import { Button } from "./button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./table";
@@ -14,15 +20,21 @@ interface DataTableProps<TData, TValue> {
 
 export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
   const [showAll, setShowAll] = useState(false);
+  const [sorting, setSorting] = useState<SortingState>([]);
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
+    state: {
+      sorting,
+    },
   });
 
   const AMOUNT_TO_SHOW = 2;
   const rows = table.getRowModel().rows;
-
   const displayedRows = showAll ? rows : rows.slice(0, AMOUNT_TO_SHOW);
   const hasMore = rows.length > AMOUNT_TO_SHOW;
 
@@ -35,7 +47,22 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead key={header.id} className="text-zinc-50 h-8 text-sm">
-                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                    {header.isPlaceholder ? null : (
+                      <div
+                        className={`flex items-center gap-1 ${
+                          header.column.getCanSort() ? "cursor-pointer select-none" : ""
+                        }`}
+                        onClick={header.column.getCanSort() ? header.column.getToggleSortingHandler() : undefined}
+                      >
+                        {flexRender(header.column.columnDef.header, header.getContext())}
+                        {header.column.getCanSort() && (
+                          {
+                            asc: <ArrowDownNarrowWide className="size-4" />,
+                            desc: <ArrowUpWideNarrow className="size-4" />,
+                          }[header.column.getIsSorted() as string] ?? <ArrowDownUp className="size-4" />
+                        )}
+                      </div>
+                    )}
                   </TableHead>
                 );
               })}

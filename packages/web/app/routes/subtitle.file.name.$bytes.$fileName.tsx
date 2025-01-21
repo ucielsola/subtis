@@ -224,10 +224,12 @@ export default function SubtitlePage() {
       cell: ({ row }) => {
         return <div className="w-2">{row.index + 1}</div>;
       },
+      enableSorting: false,
     },
     {
       accessorKey: "subtitle.resolution",
       header: "Resolución",
+      enableSorting: false,
     },
     {
       accessorKey: "release_group.release_group_name",
@@ -242,18 +244,22 @@ export default function SubtitlePage() {
           </Tooltip>
         );
       },
+      enableSorting: false,
     },
     {
       accessorKey: "subtitle.rip_type",
       header: "Formato",
+      enableSorting: false,
     },
     {
       accessorKey: "subtitle.queried_times",
       header: "Descargas",
+      enableSorting: false,
     },
     {
       accessorKey: "",
       header: "Acciones",
+      enableSorting: false,
       cell: ({ row }) => {
         // motion hooks
         const playControls = useAnimation();

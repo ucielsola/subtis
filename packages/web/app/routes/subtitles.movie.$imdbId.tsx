@@ -40,6 +40,18 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip
 // features
 import { PosterDisclosure } from "~/features/movie/poster-disclosure";
 
+// helpers
+function getResolutionRank(resolution: string): number {
+  const ranks = {
+    "480p": 1,
+    "720p": 2,
+    "1080p": 3,
+    "2160p": 4,
+  };
+
+  return ranks[resolution as keyof typeof ranks] ?? 0;
+}
+
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { imdbId } = params;
 
@@ -162,13 +174,21 @@ export default function SubtitlesPage() {
     {
       accessorKey: "index",
       header: () => <th>#</th>,
-      cell: ({ row }) => {
-        return <div className="w-2">{row.index + 1}</div>;
+      cell: ({ row, table }) => {
+        const rowNumber = table.getSortedRowModel().flatRows.findIndex((r) => r.id === row.id) + 1;
+        return <div className="w-2">{rowNumber}</div>;
       },
+      enableSorting: false,
     },
     {
       accessorKey: "subtitle.resolution",
       header: "Resolución",
+      enableSorting: true,
+      sortingFn: (rowA, rowB) => {
+        const resA = getResolutionRank(rowA.original.subtitle.resolution);
+        const resB = getResolutionRank(rowB.original.subtitle.resolution);
+        return resA - resB;
+      },
     },
     {
       accessorKey: "release_group.release_group_name",
@@ -176,25 +196,29 @@ export default function SubtitlesPage() {
       cell: ({ row }) => {
         return (
           <Tooltip>
-            <TooltipTrigger className="truncate w-24 cursor-default text-left">
+            <TooltipTrigger className="truncate w-20 cursor-default text-left">
               {row.original.release_group.release_group_name}
             </TooltipTrigger>
             <TooltipContent side="bottom">{row.original.release_group.release_group_name}</TooltipContent>
           </Tooltip>
         );
       },
+      enableSorting: false,
     },
     {
       accessorKey: "subtitle.rip_type",
       header: "Formato",
+      enableSorting: false,
     },
     {
       accessorKey: "subtitle.queried_times",
       header: "Descargas",
+      enableSorting: false,
     },
     {
       accessorKey: "",
       header: "Acciones",
+      enableSorting: false,
       cell: ({ row }) => {
         // motion hooks
         const controls = useAnimation();

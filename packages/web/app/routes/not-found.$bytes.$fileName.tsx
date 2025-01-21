@@ -47,20 +47,23 @@ export const columns: ColumnDef<SubtitleNormalized>[] = [
     accessorKey: "index",
     header: "#",
     cell: ({ row }) => {
-      return <div className="w-6">{row.index + 1}</div>;
+      return <div className="w-2">{row.index + 1}</div>;
     },
+    enableSorting: false,
   },
   {
     accessorKey: "subtitle.resolution",
     header: "Resolución",
+    enableSorting: false,
   },
   {
     accessorKey: "release_group.release_group_name",
     header: "Publicador",
+    enableSorting: false,
     cell: ({ row }) => {
       return (
         <Tooltip>
-          <TooltipTrigger className="truncate w-24 cursor-default text-left">
+          <TooltipTrigger className="truncate w-20 cursor-default text-left">
             {row.original.release_group.release_group_name}
           </TooltipTrigger>
           <TooltipContent>{row.original.release_group.release_group_name}</TooltipContent>
@@ -71,14 +74,17 @@ export const columns: ColumnDef<SubtitleNormalized>[] = [
   {
     accessorKey: "subtitle.rip_type",
     header: "Formato",
+    enableSorting: false,
   },
   {
     accessorKey: "subtitle.queried_times",
     header: "Descargas",
+    enableSorting: false,
   },
   {
     accessorKey: "",
     header: "Acciones",
+    enableSorting: false,
     cell: ({ row }) => {
       // motion hooks
       const controls = useAnimation();
