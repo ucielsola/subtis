@@ -177,7 +177,7 @@ export default function RealTimeSearchPage() {
             </div>
           </div>
           {!teaser || "message" in teaser ? null : (
-            <div className="flex flex-col items-center gap-2">
+            <div className="flex flex-col gap-2">
               <iframe
                 src={`https://www.youtube.com/embed/${teaser.youTubeVideoId}?autoplay=1&mute=1`}
                 title={teaser.name}
@@ -185,7 +185,7 @@ export default function RealTimeSearchPage() {
                 allowFullScreen
                 className="rounded-md shadow-sm shadow-zinc-900 w-[320px] h-[180px] md:w-[560px] md:h-[315px]"
               />{" "}
-              <span className="text-zinc-400 text-sm">
+              <span className="text-zinc-400 text-sm text-center">
                 {teaser.name} ({teaser.year})
               </span>
             </div>
