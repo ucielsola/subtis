@@ -208,7 +208,12 @@ export default function SubtitlePage() {
   }
 
   // constants
-  const isSupportedFileExtension = fileName?.endsWith(".mp4") || fileName?.endsWith(".mkv");
+  const isAviFile = fileName?.endsWith(".avi");
+  const isMkvFile = fileName?.endsWith(".mkv");
+  const isMp4File = fileName?.endsWith(".mp4");
+  const isSupportedFileExtension = isMp4File || isMkvFile || isAviFile;
+  const videoType = isMkvFile ? "video/x-matroska" : isAviFile ? "video/avi" : "video/mp4";
+
   const videoSource = typeof window !== "undefined" && fileName ? localStorage.getItem(fileName) : null;
   const displayVideoElements = videoSource && captionBlobUrl && isSupportedFileExtension && !hasVideoError;
 
@@ -362,7 +367,7 @@ export default function SubtitlePage() {
             onError={handleVideoError}
             style={{ opacity: isFullscreen ? 1 : 0 }}
           >
-            <source src={videoSource} type="video/mp4" />
+            <source src={videoSource} type={videoType} />
             <track kind="subtitles" src={captionBlobUrl} srcLang="es" label="Español latino" default />
           </video>
         ) : null}
