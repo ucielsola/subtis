@@ -54,7 +54,7 @@
     "@types/ffprobe-static": "^2.0.3",
     "@types/filesize-parser": "^1.5.3",
     "@types/lodash.times": "^4.3.9",
-    "@types/ms": "^0.7.34",
+    "@types/ms": "^2.1.0",
     "@types/node": "^22.10.7",
     "@types/node-cron": "^3.0.11",
     "@types/rimraf": "^4.0.5",
