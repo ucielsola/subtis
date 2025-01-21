@@ -25,6 +25,7 @@ type AutoCompleteProps = {
   isLoading?: boolean;
   disabled?: boolean;
   placeholder?: string;
+  onClearInputValue?: () => void;
 };
 
 export const AutoComplete = ({
@@ -37,6 +38,7 @@ export const AutoComplete = ({
   inputValue,
   disabled,
   isLoading = false,
+  onClearInputValue,
 }: AutoCompleteProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -105,6 +107,7 @@ export const AutoComplete = ({
           disabled={disabled}
           className="text-sm caret-stone-50 text-stone-50"
           autoFocus
+          onClear={onClearInputValue}
         />
       </div>
       <div className="relative mt-1">

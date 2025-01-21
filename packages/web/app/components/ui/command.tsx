@@ -3,7 +3,12 @@ import { Command as CommandPrimitive } from "cmdk";
 import { Search } from "lucide-react";
 import * as React from "react";
 
+
+// ui
 import { Dialog, DialogContent } from "~/components/ui/dialog";
+import { XIcon } from "~/components/icons/x";
+
+// lib
 import { cn } from "~/lib/utils";
 
 const Command = React.forwardRef<
@@ -35,7 +40,7 @@ const CommandDialog = ({ children, ...props }: DialogProps) => {
 
 const CommandInput = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Input>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
+  React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input> & { onClear?: () => void }
 >(({ className, ...props }, ref) => (
   <div className="flex items-center px-3" cmdk-input-wrapper="">
     <Search className="mr-2 h-4 w-4 shrink-0 text-zinc-400" />
@@ -47,6 +52,9 @@ const CommandInput = React.forwardRef<
       )}
       {...props}
     />
+    {props.onClear && props.value && props.value.length > 0 ? (
+      <XIcon className="h-4 w-4 shrink-0 text-zinc-400 cursor-pointer" onClick={props.onClear} />
+    ): null}
   </div>
 ));
 

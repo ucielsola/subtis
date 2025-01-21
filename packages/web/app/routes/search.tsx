@@ -115,6 +115,11 @@ export default function SearchPage() {
     enabled: Boolean(inputValue && inputValue.length >= MINIMUM_CHARACTERS),
   });
 
+  // handlers
+  function handleClearInputValue(): void {
+    setInputValue("");
+  }
+
   // constants
   const [firstTrending, secondTrending] = trendingSearch;
 
@@ -142,6 +147,7 @@ export default function SearchPage() {
               error={error}
               isLoading={isLoading}
               minimumCharacters={MINIMUM_CHARACTERS}
+              onClearInputValue={handleClearInputValue}
             />
             <p className="text-zinc-400 text-xs">
               Lo más buscado ahora:{" "}

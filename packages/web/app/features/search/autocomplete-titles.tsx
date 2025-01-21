@@ -25,9 +25,18 @@ type Props = {
   error: Error | null;
   isLoading: boolean;
   minimumCharacters: number;
+  onClearInputValue: () => void;
 };
 
-export function AutocompleteTitles({ inputValue, setInputValue, data, error, isLoading, minimumCharacters }: Props) {
+export function AutocompleteTitles({
+  inputValue,
+  setInputValue,
+  data,
+  error,
+  isLoading,
+  minimumCharacters,
+  onClearInputValue,
+}: Props) {
   // remix hooks
   const navigate = useNavigate();
 
@@ -73,6 +82,7 @@ export function AutocompleteTitles({ inputValue, setInputValue, data, error, isL
       inputValue={inputValue}
       isLoading={isLoading}
       disabled={false}
+      onClearInputValue={onClearInputValue}
     />
   );
 }
