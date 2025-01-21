@@ -42,12 +42,12 @@
     "torrent-grabber": "^1.0.2",
     "torrent-search-api": "^2.1.4",
     "torrent-stream": "^1.2.1",
-    "ts-pattern": "^5.6.1",
+    "ts-pattern": "^5.6.2",
     "unrar-promise": "^3.1.0",
     "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@types/bun": "^1.1.17",
+    "@types/bun": "^1.1.18",
     "@types/cli-progress": "^3.11.6",
     "@types/download": "^8.0.5",
     "@types/ffprobe": "^1.1.8",
