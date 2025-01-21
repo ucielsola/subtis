@@ -1059,6 +1059,8 @@ export async function getTorrentVideoFileMetadata(torrent: TorrentFound): Promis
                 resolution = "2160";
               }
 
+              await fs.promises.rm(tempFilePath, { recursive: true, force: true });
+
               clearTimeout(timeoutId);
               resolve({ name: videoFile.name, length: videoFile.length, resolution });
             } catch (error) {
