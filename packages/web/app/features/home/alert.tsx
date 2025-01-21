@@ -23,7 +23,7 @@ export function HomeAlert() {
               Actualmente contamos con todas las películas del 2024 y el Top 300 de Rotten Tomatoes.
             </AlertTitle>
             <AlertDescription className="text-zinc-400 text-sm font-normal">
-              Estamos catalogando los años anteriores. Pronto vas a poder encontrar mucho más subtítulos.
+              Estamos catalogando los años anteriores. Pronto estará disponible un catálogo mucho más amplio.
             </AlertDescription>
           </div>
         </Alert>
