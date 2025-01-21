@@ -43,8 +43,8 @@ export function HomeFeatures() {
       <div className="flex flex-col gap-4 items-center justify-center text-center">
         <h2 className="text-zinc-50 text-4xl font-bold text-balance">Las mejores features</h2>
         <h3 className="text-zinc-400 text-balance max-w-[624px]">
-          Subtis está pensada y armada para que siempre encuentres el subtítulo perfecto para tu película de una manera
-          rápida y efectiva.
+          Subtis está pensada y diseñada para que siempre encuentres el subtítulo perfecto para tu película de una
+          manera rápida y efectiva.
         </h3>
       </div>
       <div className="flex flex-row flex-wrap gap-4 max-w-screen-xl items-center justify-center">
