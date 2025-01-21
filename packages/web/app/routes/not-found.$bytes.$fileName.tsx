@@ -60,7 +60,9 @@ export const columns: ColumnDef<SubtitleNormalized>[] = [
     cell: ({ row }) => {
       return (
         <Tooltip>
-          <TooltipTrigger className="truncate max-w-24">{row.original.release_group.release_group_name}</TooltipTrigger>
+          <TooltipTrigger className="truncate w-24 cursor-default text-left">
+            {row.original.release_group.release_group_name}
+          </TooltipTrigger>
           <TooltipContent>{row.original.release_group.release_group_name}</TooltipContent>
         </Tooltip>
       );
