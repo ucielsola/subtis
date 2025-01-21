@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { AspectRatio } from "~/components/ui/aspect-ratio";
 
 // lib
 import { generatePlaceholderURL } from "~/lib/thumbhash";
@@ -35,21 +36,23 @@ export function ThumbHashNewsImage({ src, hashUrl, alt }: Props) {
   const placeholderURL = generatePlaceholderURL(hashUrl);
 
   return (
-    <div className="relative w-[330px] h-[180px]">
-      <img
-        src={placeholderURL}
-        alt={`${alt} placeholder`}
-        className={`w-full h-full ${imgIsLoading ? "opacity-100" : "opacity-0"} transition-all duration-250 ease-in-out group-hover:opacity-100 object-cover`}
-      />
-      <img
-        ref={imageReference}
-        onLoad={onLoaded}
-        className={`absolute inset-[2px] ${imgIsLoading ? "opacity-0" : "opacity-100"} transition-all ease-in-out duration-300 w-[326px] h-[176px] rounded-[2px] object-cover`}
-        src={src}
-        alt={alt}
-        loading="lazy"
-        decoding="async"
-      />
+    <div className="w-[330px] h-[180px]">
+      <AspectRatio ratio={16 / 9} className="relative">
+        <img
+          src={placeholderURL}
+          alt={`${alt} placeholder`}
+          className={`absolute inset-0 w-[330px] h-[180px] ${imgIsLoading ? "opacity-100" : "opacity-0"} transition-all duration-75 ease-linear group-hover:opacity-100 object-cover`}
+        />
+        <img
+          ref={imageReference}
+          onLoad={onLoaded}
+          className={`absolute inset-[2px] ${imgIsLoading ? "opacity-0" : "opacity-100"} transition-all ease-in-out duration-300 w-[326px] h-[176px] rounded-[2px] object-cover`}
+          src={src}
+          alt={alt}
+          loading="lazy"
+          decoding="async"
+        />
+      </AspectRatio>
     </div>
   );
 }

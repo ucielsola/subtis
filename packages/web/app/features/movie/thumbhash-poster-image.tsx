@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { AspectRatio } from "~/components/ui/aspect-ratio";
 
 // lib
 import { generatePlaceholderURL } from "~/lib/thumbhash";
@@ -35,16 +36,41 @@ export function ThumbHashPosterImage({ src, hashUrl, alt }: Props) {
   const placeholderURL = generatePlaceholderURL(hashUrl);
 
   return (
-    <div className="relative w-[384px] h-[575px] rounded-sm overflow-hidden">
-      <img src={placeholderURL} alt={`${alt} placeholder`} className="w-full h-full object-cover" />
-      <img
-        onLoad={onLoaded}
-        className={`absolute inset-0 ${imgIsLoading ? "opacity-0" : "opacity-100"} transition-opacity ease-in-out duration-300 w-[380px] h-[571px] rounded-[2px] inset-[2px] object-cover`}
-        src={src}
-        alt={alt}
-        loading="eager"
-        decoding="async"
-      />
+    <div className="w-[384px] h-[575px] rounded-sm overflow-hidden">
+      <AspectRatio ratio={16 / 9} className="relative">
+        <img
+          src={placeholderURL}
+          alt={`${alt} placeholder`}
+          className="absolute inset-0 w-[384px] h-[575px] object-cover"
+        />
+        <img
+          onLoad={onLoaded}
+          className={`absolute inset-0 ${imgIsLoading ? "opacity-0" : "opacity-100"} transition-opacity ease-in-out duration-300 w-[380px] h-[571px] rounded-[2px] inset-[2px] object-cover`}
+          src={src}
+          alt={alt}
+          loading="eager"
+          decoding="async"
+        />
+      </AspectRatio>
     </div>
   );
 }
+
+// <div className="w-[228px] h-[340px]">
+//   <AspectRatio ratio={16 / 9} className="relative">
+//     <img
+//       src={placeholderURL}
+//       alt={`${alt} placeholder`}
+//       className={`absolute inset-0 w-[228px] h-[340px] ${imgIsLoading ? "opacity-100" : "opacity-0"} transition-all duration-75 ease-linear group-hover:opacity-100 object-cover`}
+//     />
+//     <img
+//       ref={imageReference}
+//       onLoad={onLoaded}
+//       className={`absolute inset-[2px] w-[224px] h-[336px] ${imgIsLoading ? "opacity-0" : "opacity-100"} transition-all ease-in-out duration-300  rounded-[2px] object-cover`}
+//       src={src}
+//       alt={alt}
+//       loading="eager"
+//       decoding="async"
+//     />
+//   </AspectRatio>
+// </div>;
