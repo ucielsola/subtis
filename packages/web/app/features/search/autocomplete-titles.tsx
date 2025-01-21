@@ -24,19 +24,20 @@ type Props = {
     | undefined;
   error: Error | null;
   isLoading: boolean;
+  minimumCharacters: number;
 };
 
-export function AutocompleteTitles({ inputValue, setInputValue, data, error, isLoading }: Props) {
+export function AutocompleteTitles({ inputValue, setInputValue, data, error, isLoading, minimumCharacters }: Props) {
   // remix hooks
   const navigate = useNavigate();
 
   const noResultsMessage = "No hay resultados.";
-  const difference = 3 - inputValue.length;
+  const difference = minimumCharacters - inputValue.length;
   const minimumCharactersMessage = `Ingresa al menos ${difference} ${difference > 1 ? "caracteres" : "caracter"} para buscar.`;
 
   const emptyMessage = error
     ? "Error al buscar."
-    : inputValue.length > 0 && inputValue.length < 3
+    : inputValue.length > 0 && inputValue.length < minimumCharacters
       ? minimumCharactersMessage
       : data?.results.length === 0
         ? noResultsMessage

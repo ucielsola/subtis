@@ -64,6 +64,9 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+// constants
+const MINIMUM_CHARACTERS = 2;
+
 export default function SearchPage() {
   // remix hooks
   const { trendingSearch } = useLoaderData<typeof loader>();
@@ -109,7 +112,7 @@ export default function SearchPage() {
 
       return { results: parsedResults, statusCode: response.status };
     },
-    enabled: Boolean(inputValue && inputValue.length >= 3),
+    enabled: Boolean(inputValue && inputValue.length >= MINIMUM_CHARACTERS),
   });
 
   // constants
@@ -138,6 +141,7 @@ export default function SearchPage() {
               data={data}
               error={error}
               isLoading={isLoading}
+              minimumCharacters={MINIMUM_CHARACTERS}
             />
             <p className="text-zinc-400 text-xs">
               Lo más buscado ahora:{" "}
