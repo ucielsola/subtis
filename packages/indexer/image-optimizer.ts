@@ -26,7 +26,6 @@ export async function optimizeTitleTableImages() {
 
   console.time("optimizeTitleTableImages");
   for await (const title of data) {
-    console.log("\n ~ optimizeTitleTableImages ~ title:", title);
     if (title.poster && title.optimized_poster && !title.optimized_poster.endsWith(".webp")) {
       // download image
       const image = await fetch(title.poster);
