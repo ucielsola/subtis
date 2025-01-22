@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
 import { useLoaderData, useParams } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { AnimatePresence, motion, useAnimation } from "motion/react";
 import { useForm } from "react-hook-form";
@@ -217,13 +218,23 @@ export default function NotFoundSubtitlePage() {
     <div className="pt-24 pb-48 flex flex-col lg:flex-row justify-between gap-4">
       <article className="max-w-xl w-full">
         <section className="flex flex-col gap-12">
-          <div className="flex flex-col gap-4">
-            <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold">Lo sentimos :(</h1>
-            <h2 className="text-zinc-50 text-balance text-sm md:text-base">
-              No encontramos el subtítulo específico para tu archivo.{" "}
-              {"message" in data ? null : "Te recomendamos que pruebes el siguiente subtítulo alternativo."}
-            </h2>
-          </div>
+          {"message" in data ? null : (
+            <div className="flex flex-col gap-4">
+              <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold">Lo sentimos :(</h1>
+              <div className="flex flex-col gap-1">
+                <h2 className="text-zinc-50 text-sm md:text-base">
+                  No encontramos el subtítulo específico para tu versión.
+                </h2>
+                <p className="text-zinc-300 text-xs md:text-sm">
+                  Probá con la siguiente versión de{" "}
+                  <Link to={`/subtitles/movie/${data.title.imdb_id}`} className="hover:underline text-zinc-50">
+                    {data.title.title_name} ({data.title.year})
+                  </Link>
+                  .
+                </p>
+              </div>
+            </div>
+          )}
 
           {"message" in data ? null : <DataTable columns={columns} data={[data]} />}
 
