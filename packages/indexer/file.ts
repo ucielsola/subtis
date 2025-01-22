@@ -311,7 +311,7 @@ export async function indexTitleByFileName({
     });
 
     if (!shouldIndexAllTorrents) {
-      const query = `${titleProviderQuery} ${title.resolution}p${title.releaseGroup?.release_group_name ? ` ${title.releaseGroup?.release_group_name}` : ""}`;
+      const query = `${titleProviderQuery} ${title.resolution ? `${title.resolution}p` : ""}${title.releaseGroup?.release_group_name ? ` ${title.releaseGroup?.release_group_name}` : ""}`;
       console.log("\n ~ query:", query);
       const torrents = await getFileTitleTorrents(query, TitleTypes.movie, movieData.imdbId);
 
@@ -378,8 +378,8 @@ export async function indexTitleByFileName({
 // const titleFileName = "Scenes.From.A.Marriage.1974.1080p.BluRay.x264-[YTS.AM].mp4";
 // const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
 
-// const bytes = 545421222;
-// const titleFileName = "Gravity.2013.1080p.BluRay.x265-RARBG.mp4";
+// const bytes = 545934547764222;
+// const titleFileName = "Titanic.1997.1080p.BluRay.x265-RARBG.mp4";
 
 // indexTitleByFileName({
 //   bytes,
