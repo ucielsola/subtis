@@ -77,7 +77,7 @@ export function getTitleFileNameMetadata({
       .with(P.string.includes("720"), () => "720")
       .with(P.string.includes("2160"), () => "2160")
       .with(P.string.includes("3D"), () => "3D")
-      .run();
+      .otherwise(() => "");
 
     const fileNameWithoutExtension = getTitleFileNameWithoutExtension(parsedMovieFileName);
 
@@ -143,7 +143,7 @@ export function getTitleFileNameMetadata({
     .with(P.string.includes("720"), () => "720")
     .with(P.string.includes("2160"), () => "2160")
     .with(P.string.includes("3D"), () => "3D")
-    .run();
+    .otherwise(() => "");
 
   return {
     ripType,
