@@ -63,7 +63,7 @@ const builder = new addonBuilder({
   id: "org.subtis",
   version: "0.4.9",
   description:
-    "Subtis es tu fuente de subtitulos para tus películas y series favoritas. Esta es una versión de prueba interna, solo para desarrolladores.",
+    "Subtis es tu fuente de subtítulos para tus películas y series favoritas. Esta es una versión de prueba interna, solo para desarrolladores.",
   catalogs: [],
   resources: ["subtitles"],
   types: ["movie"],

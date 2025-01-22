@@ -223,7 +223,7 @@ export async function indexTitleByFileName({
       );
 
       if (websocket) {
-        websocket.send(JSON.stringify({ total: 0.75, message: "Buscando subtitulo en nuestros proveedores" }));
+        websocket.send(JSON.stringify({ total: 0.75, message: "Buscando subtítulo en nuestros proveedores" }));
       }
 
       const parameter = await getSubDivXParameter();

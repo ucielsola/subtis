@@ -77,7 +77,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 // meta
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data || "message" in data) {
-    return [{ title: "Subtis" }, { name: "description", content: "Encontra tus subtítulos rápidamente!" }];
+    return [{ title: "Subtis" }, { name: "description", content: "Encontrá tus subtítulos rápidamente!" }];
   }
 
   return [

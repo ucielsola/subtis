@@ -1,4 +1,4 @@
-# Subtis | Tu buscador de subtitulos
+# Subtis | Tu buscador de subtítulos
 
 ## URLs
 

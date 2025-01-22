@@ -306,7 +306,7 @@ export function VlcButton() {
                       <span className="text-zinc-700 text-sm">4</span>
                     </div>
                   </div>
-                  <div className="text-zinc-50 pb-1">Desintala otros Addons (Opcional)</div>
+                  <div className="text-zinc-50 pb-1">Desinstalá otros Addons (Opcional)</div>
                 </div>
                 <div className="flex flex-row gap-4">
                   <img

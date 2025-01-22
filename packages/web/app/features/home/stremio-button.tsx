@@ -75,7 +75,7 @@ export function StremioButton() {
                       <span className="text-zinc-700 text-sm">1</span>
                     </div>
                   </div>
-                  <div className="text-zinc-50 pb-1">Instala el Addon</div>
+                  <div className="text-zinc-50 pb-1">Instalá el Addon</div>
                 </div>
                 <div className="flex flex-row gap-4">
                   <MorphingDialogBasicImage
@@ -106,7 +106,7 @@ export function StremioButton() {
                       <span className="text-zinc-700 text-sm">2</span>
                     </div>
                   </div>
-                  <div className="text-zinc-50 pb-1">Ir al Visualizador de Subtitulos</div>
+                  <div className="text-zinc-50 pb-1">Ir al Visualizador de Subtítulos</div>
                 </div>
                 <div className="flex flex-row gap-4">
                   <MorphingDialogBasicImage
@@ -127,7 +127,7 @@ export function StremioButton() {
                       <span className="text-zinc-700 text-sm">3</span>
                     </div>
                   </div>
-                  <div className="text-zinc-50 pb-1">Seleccionar Subtitulos</div>
+                  <div className="text-zinc-50 pb-1">Seleccionar Subtítulos</div>
                 </div>
                 <div className="flex flex-row gap-4">
                   <MorphingDialogBasicImage
@@ -148,7 +148,7 @@ export function StremioButton() {
                       <span className="text-zinc-700 text-sm">4</span>
                     </div>
                   </div>
-                  <div className="text-zinc-50 pb-1">Desintala otros Addons (Opcional)</div>
+                  <div className="text-zinc-50 pb-1">Desinstalá otros Addons (Opcional)</div>
                 </div>
                 <div className="flex flex-row gap-4">
                   <MorphingDialogBasicImage
@@ -157,7 +157,7 @@ export function StremioButton() {
                     containerClassName="w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0"
                   />
                   <p className="text-zinc-400 text-sm">
-                    Para una mejor experiencia te recomendamos desintalar los otros addons de subtítulos como por
+                    Para una mejor experiencia te recomendamos desinstalar los otros addons de subtítulos como por
                     ejemplo los de OpenSubtitles.
                   </p>
                 </div>

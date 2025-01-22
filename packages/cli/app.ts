@@ -160,7 +160,7 @@ async function mod(titleFileName: string): Promise<void> {
     }
     const fileName = fileNameResult.data;
 
-    loader.start("🔎 Buscando subtitulos");
+    loader.start("🔎 Buscando subtítulos");
 
     const file = Bun.file(fileName);
     const bytes =

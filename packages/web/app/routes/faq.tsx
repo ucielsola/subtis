@@ -19,7 +19,7 @@ export default function TermsPage() {
 
       <section>
         <h2>¿Cómo funciona Subtis?</h2>
-        <p>Subtis busca en varios proveedores de subtitulos el mejor subtitulo para tu pelicula.</p>
+        <p>Subtis busca en varios proveedores de subtítulos el mejor subtítulo para tu película.</p>
       </section>
 
       <section>
