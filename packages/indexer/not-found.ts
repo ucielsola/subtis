@@ -1,4 +1,4 @@
-import { confirm } from "@clack/prompts";
+// import { confirm } from "@clack/prompts";
 import { z } from "zod";
 
 // db
@@ -157,9 +157,9 @@ export async function indexNotFoundSubtitles() {
       } finally {
         await supabase.from("SubtitlesNotFound").delete().eq("title_file_name", notFoundSubtitle.title_file_name);
 
-        await confirm({
-          message: "¿Desea continuar al siguiente titulo?",
-        });
+        // await confirm({
+        //   message: "¿Desea continuar al siguiente titulo?",
+        // });
       }
     }
 

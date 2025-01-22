@@ -26,7 +26,7 @@ export async function optimizeTitleTableImages() {
 
   console.time("optimizeTitleTableImages");
   for await (const title of data) {
-    if (title.poster && title.optimized_poster && title.optimized_poster.endsWith(".webp")) {
+    if (title.poster && title.optimized_poster && !title.optimized_poster.endsWith(".webp")) {
       // download image
       const image = await fetch(title.poster);
       const imageBlob = await image.blob();
@@ -72,7 +72,7 @@ export async function optimizeTitleTableImages() {
     }
 
     // do the same for backdrop
-    if (title.backdrop && title.optimized_backdrop && title.optimized_backdrop.endsWith(".webp")) {
+    if (title.backdrop && title.optimized_backdrop && !title.optimized_backdrop.endsWith(".webp")) {
       const image = await fetch(title.backdrop);
       const imageBlob = await image.blob();
       const imageBuffer = await imageBlob.arrayBuffer();
@@ -115,7 +115,7 @@ export async function optimizeTitleTableImages() {
     }
 
     // do the same for logo
-    if (title.logo && title.optimized_logo && title.optimized_logo.endsWith(".webp")) {
+    if (title.logo && title.optimized_logo && !title.optimized_logo.endsWith(".webp")) {
       const image = await fetch(title.logo);
       const imageBlob = await image.blob();
       const imageBuffer = await imageBlob.arrayBuffer();
