@@ -26,7 +26,7 @@ export async function optimizeTitleTableImages() {
 
   console.time("optimizeTitleTableImages");
   for await (const title of data) {
-    if (title.poster && title.optimized_poster && !title.optimized_poster.endsWith(".webp")) {
+    if (title.poster && title.optimized_poster && title.optimized_poster.endsWith(".webp")) {
       // download image
       const image = await fetch(title.poster);
       const imageBlob = await image.blob();
@@ -36,8 +36,8 @@ export async function optimizeTitleTableImages() {
       const MAX_IMAGE_HEIGHT = 571;
 
       const imageWebp = await sharp(imageBuffer)
-        .resize(Math.floor(MAX_IMAGE_WIDTH * 1.1), Math.floor(MAX_IMAGE_HEIGHT * 1.1), { fit: "outside" })
-        .toFormat("webp", { quality: 90, effort: 0, lossless: true })
+        .resize(Math.floor(MAX_IMAGE_WIDTH * 1), Math.floor(MAX_IMAGE_HEIGHT * 1), { fit: "outside" })
+        .toFormat("webp", { quality: 80, effort: 0, nearLossless: true })
         .toBuffer();
 
       const newPosterFileName = `${title.poster.split("/").pop()?.split(".")[0]}.webp`;
@@ -72,7 +72,7 @@ export async function optimizeTitleTableImages() {
     }
 
     // do the same for backdrop
-    if (title.backdrop && title.optimized_backdrop && !title.optimized_backdrop.endsWith(".webp")) {
+    if (title.backdrop && title.optimized_backdrop && title.optimized_backdrop.endsWith(".webp")) {
       const image = await fetch(title.backdrop);
       const imageBlob = await image.blob();
       const imageBuffer = await imageBlob.arrayBuffer();
@@ -81,8 +81,8 @@ export async function optimizeTitleTableImages() {
       const MAX_IMAGE_HEIGHT = 176;
 
       const imageWebp = await sharp(imageBuffer)
-        .resize(Math.floor(MAX_IMAGE_WIDTH * 1.2), Math.floor(MAX_IMAGE_HEIGHT * 1.2), { fit: "outside" })
-        .toFormat("webp", { quality: 90, effort: 0, lossless: true })
+        .resize(Math.floor(MAX_IMAGE_WIDTH * 1), Math.floor(MAX_IMAGE_HEIGHT * 1), { fit: "outside" })
+        .toFormat("webp", { quality: 80, effort: 0, nearLossless: true })
         .toBuffer();
 
       const newBackdropFileName = `${title.backdrop.split("/").pop()?.split(".")[0]}.webp`;
@@ -115,14 +115,14 @@ export async function optimizeTitleTableImages() {
     }
 
     // do the same for logo
-    if (title.logo && title.optimized_logo && !title.optimized_logo.endsWith(".webp")) {
+    if (title.logo && title.optimized_logo && title.optimized_logo.endsWith(".webp")) {
       const image = await fetch(title.logo);
       const imageBlob = await image.blob();
       const imageBuffer = await imageBlob.arrayBuffer();
 
       // convert to webp
       const imageWebp = await sharp(imageBuffer)
-        .toFormat("webp", { quality: 90, effort: 0, lossless: true })
+        .toFormat("webp", { quality: 80, effort: 0, nearLossless: true })
         .toBuffer();
 
       const newLogoFileName = `${title.logo.split("/").pop()?.split(".")[0]}.webp`;
