@@ -212,7 +212,7 @@ export default function SubtitlePage() {
   const isMkvFile = fileName?.endsWith(".mkv");
   const isMp4File = fileName?.endsWith(".mp4");
   const isSupportedFileExtension = isMp4File || isMkvFile || isAviFile;
-  const videoType = isMkvFile ? "video/x-matroska" : isAviFile ? "video/avi" : "video/mp4";
+  const videoType = isAviFile ? "video/avi" : "video/mp4";
 
   const videoSource = typeof window !== "undefined" && fileName ? localStorage.getItem(fileName) : null;
   const displayVideoElements = videoSource && captionBlobUrl && isSupportedFileExtension && !hasVideoError;
