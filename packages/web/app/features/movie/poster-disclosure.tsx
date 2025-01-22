@@ -119,7 +119,7 @@ export function PosterDisclosure({ src, alt, hashUrl, title, imdbId, year, overv
               {runtime ? <span className="text-sm">{`${Math.floor(runtime / 60)}h ${runtime % 60}m`}</span> : null}
             </div>
             <div>
-              {overview ? <p className="text-zinc-50 text-sm leading-6 pt-2 pb-6">{overview}</p> : null}
+              {overview ? <p className="text-zinc-50 text-sm leading-6 pt-2 pb-6 line-clamp-[14]">{overview}</p> : null}
               <div className="flex items-center justify-between">
                 <div className="flex flex-row gap-2">
                   <a
