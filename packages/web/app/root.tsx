@@ -58,12 +58,12 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <NuqsAdapter>
-          <main className="min-h-screen bg-right-top bg-[url('/hero-bg.png')] bg-contain bg-no-repeat selection:text-zinc-950 selection:bg-zinc-50">
+          <main className="min-h-screen bg-right-top bg-[url('/hero-bg.webp')] bg-contain bg-no-repeat selection:text-zinc-950 selection:bg-zinc-50">
             <div className="container mx-auto px-4 min-h-screen flex flex-col">
               <nav className="flex items-center justify-between py-4">
                 <Link to="/" className="cursor-pointer">
                   <img
-                    src="/logo.png"
+                    src="/logo.webp"
                     alt="Subtis"
                     className="w-20 h-[32.27px] hover:scale-105 transition-all ease-in-out"
                   />

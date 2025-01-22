@@ -237,7 +237,7 @@ export function VlcButton() {
                 </div>
                 <div className="flex flex-row gap-4">
                   <img
-                    src="/stremio-1.png"
+                    src="/stremio-1.webp"
                     alt="Instalación de addon de Stremio"
                     className="object-bottom w-44 border border-zinc-700 rounded-sm"
                   />
@@ -268,7 +268,7 @@ export function VlcButton() {
                 </div>
                 <div className="flex flex-row gap-4">
                   <img
-                    src="/stremio-2.png"
+                    src="/stremio-2.webp"
                     alt="Instalación de addon de Stremio"
                     className="object-cover w-44 border border-zinc-700 rounded-sm"
                   />
@@ -289,7 +289,7 @@ export function VlcButton() {
                 </div>
                 <div className="flex flex-row gap-4">
                   <img
-                    src="/stremio-3.png"
+                    src="/stremio-3.webp"
                     alt="Instalación de addon de Stremio"
                     className="object-cover w-44 border border-zinc-700 rounded-sm"
                   />
@@ -310,7 +310,7 @@ export function VlcButton() {
                 </div>
                 <div className="flex flex-row gap-4">
                   <img
-                    src="/stremio-4.png"
+                    src="/stremio-4.webp"
                     alt="Instalación de addon de Stremio"
                     className="object-cover object-right-bottom w-44 border border-zinc-700 rounded-sm"
                   />

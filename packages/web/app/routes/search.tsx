@@ -163,7 +163,7 @@ export default function SearchPage() {
         </article>
         <figure className="flex-1 hidden lg:flex justify-center">
           <Lens>
-            <img src="/s-logo.png" alt="Cargando" className="size-64" />
+            <img src="/s-logo.webp" alt="Cargando" className="size-64" />
           </Lens>
         </figure>
       </div>

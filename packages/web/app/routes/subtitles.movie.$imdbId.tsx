@@ -267,7 +267,7 @@ export default function SubtitlesPage() {
 
         return (
           <Tooltip>
-            <TooltipTrigger>
+            <TooltipTrigger aria-label="Descargar subtítulo">
               <a
                 href={row.original.subtitle.subtitle_link}
                 download
@@ -275,6 +275,7 @@ export default function SubtitlesPage() {
                 onMouseEnter={() => controls.start("animate")}
                 onMouseLeave={() => controls.start("normal")}
                 onClick={handleDownloadSubtitle}
+                aria-label="Descargar subtítulo"
               >
                 <DownloadIcon size={18} controls={controls} />
               </a>

@@ -20,7 +20,7 @@ export function HomeFooter() {
     <footer className="pt-8 pb-16 flex flex-col md:flex-row justify-between items-start gap-6 md:gap-4 border-t border-zinc-700">
       <div className="flex flex-col gap-2">
         <Link to="/">
-          <img src="/logo.png" alt="Subtis" className="w-20 h-[32.27px] hover:scale-105 transition-all ease-in-out" />
+          <img src="/logo.webp" alt="Subtis" className="w-20 h-[32.27px] hover:scale-105 transition-all ease-in-out" />
         </Link>
         <span className="text-xs text-zinc-50">Subtis &#169; 2025</span>
       </div>

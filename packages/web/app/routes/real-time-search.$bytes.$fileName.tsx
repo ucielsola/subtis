@@ -193,7 +193,7 @@ export default function RealTimeSearchPage() {
         </section>
       </article>
       <figure className="flex-1 hidden lg:flex justify-center">
-        <img src="/loading-logo.png" alt="Cargando" className="size-64" />
+        <img src="/loading-logo.webp" alt="Cargando" className="size-64" />
       </figure>
     </div>
   );

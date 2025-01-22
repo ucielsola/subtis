@@ -79,7 +79,7 @@ export function StremioButton() {
                 </div>
                 <div className="flex flex-row gap-4">
                   <MorphingDialogBasicImage
-                    src="/stremio-1.png"
+                    src="/stremio-1.webp"
                     alt="Instalación de addon de Stremio"
                     containerClassName="w-44 border border-zinc-700 rounded-sm flex-shrink-0"
                   />
@@ -110,7 +110,7 @@ export function StremioButton() {
                 </div>
                 <div className="flex flex-row gap-4">
                   <MorphingDialogBasicImage
-                    src="/stremio-2.png"
+                    src="/stremio-2.webp"
                     alt="Instalación de addon de Stremio"
                     containerClassName="w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0"
                   />
@@ -131,7 +131,7 @@ export function StremioButton() {
                 </div>
                 <div className="flex flex-row gap-4">
                   <MorphingDialogBasicImage
-                    src="/stremio-3.png"
+                    src="/stremio-3.webp"
                     alt="Instalación de addon de Stremio"
                     containerClassName="w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0"
                   />
@@ -152,7 +152,7 @@ export function StremioButton() {
                 </div>
                 <div className="flex flex-row gap-4">
                   <MorphingDialogBasicImage
-                    src="/stremio-4.png"
+                    src="/stremio-4.webp"
                     alt="Instalación de addon de Stremio"
                     containerClassName="w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0"
                   />

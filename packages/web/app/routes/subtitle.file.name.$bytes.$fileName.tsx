@@ -237,7 +237,10 @@ export default function SubtitlePage() {
       cell: ({ row }) => {
         return (
           <Tooltip>
-            <TooltipTrigger className="truncate w-24 cursor-default text-left">
+            <TooltipTrigger
+              className="truncate w-24 cursor-default text-left"
+              aria-label={row.original.release_group.release_group_name}
+            >
               {row.original.release_group.release_group_name}
             </TooltipTrigger>
             <TooltipContent side="bottom">{row.original.release_group.release_group_name}</TooltipContent>
@@ -306,13 +309,14 @@ export default function SubtitlePage() {
         return (
           <div className="flex flex-row items-center gap-1">
             <Tooltip delayDuration={0}>
-              <TooltipTrigger className="px-1">
+              <TooltipTrigger className="px-1" aria-label="Descargar subtítulo">
                 <a
                   href={row.original.subtitle.subtitle_link}
                   download
                   onMouseEnter={() => downloadControls.start("animate")}
                   onMouseLeave={() => downloadControls.start("normal")}
                   onClick={handleDownloadSubtitle}
+                  aria-label="Descargar subtítulo"
                 >
                   <DownloadIcon size={18} controls={downloadControls} />
                 </a>
@@ -327,6 +331,7 @@ export default function SubtitlePage() {
                     className="px-1"
                     onMouseEnter={() => playControls.start("animate")}
                     onMouseLeave={() => playControls.start("normal")}
+                    aria-label="Reproducir video"
                   >
                     <Play size={18} controls={playControls} isWrapped={false} />
                   </TooltipTrigger>
