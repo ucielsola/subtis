@@ -79,7 +79,9 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                   className="hover:bg-zinc-900 border-b border-zinc-700 text-sm"
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                    <TableCell key={cell.id} className="py-2">
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
                   ))}
                 </TableRow>
               ))}

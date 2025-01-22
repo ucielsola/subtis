@@ -307,7 +307,7 @@ export default function SubtitlePage() {
         }
 
         return (
-          <div className="flex flex-row items-center gap-1">
+          <div className="flex flex-row items-center gap-0.5">
             <Tooltip delayDuration={0}>
               <TooltipTrigger className="px-1" aria-label="Descargar subtítulo">
                 <a
@@ -317,6 +317,7 @@ export default function SubtitlePage() {
                   onMouseLeave={() => downloadControls.start("normal")}
                   onClick={handleDownloadSubtitle}
                   aria-label="Descargar subtítulo"
+                  className="inline-flex items-center p-1"
                 >
                   <DownloadIcon size={18} controls={downloadControls} />
                 </a>
@@ -328,7 +329,7 @@ export default function SubtitlePage() {
                 <Tooltip delayDuration={0}>
                   <TooltipTrigger
                     onClick={handlePlaySubtitle}
-                    className="px-1"
+                    className="p-1"
                     onMouseEnter={() => playControls.start("animate")}
                     onMouseLeave={() => playControls.start("normal")}
                     aria-label="Reproducir video"

@@ -133,7 +133,7 @@ export const columns: ColumnDef<SubtitleNormalized>[] = [
             <a
               href={row.original.subtitle.subtitle_link}
               download
-              className="inline-flex items-center gap-1"
+              className="inline-flex items-center gap-1 p-1"
               onMouseEnter={() => controls.start("animate")}
               onMouseLeave={() => controls.start("normal")}
               onClick={handleDownloadSubtitle}
