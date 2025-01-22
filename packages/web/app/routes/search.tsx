@@ -18,7 +18,7 @@ import { PosterTitles } from "~/features/search/poster-titles";
 type Result = {
   value: string;
   label: string;
-  poster: string | null;
+  optimizedPoster: string | null;
   posterThumbHash: string | null;
 };
 
@@ -104,8 +104,8 @@ export default function SearchPage() {
       const parsedResults = data.results
         .filter((result) => result.type === "movie")
         .map((result) => ({
-          poster: result.poster,
           value: String(result.imdb_id),
+          optimizedPoster: result.optimized_poster,
           posterThumbHash: result.poster_thumbhash,
           label: `${result.title_name} (${result.year})`,
         }));

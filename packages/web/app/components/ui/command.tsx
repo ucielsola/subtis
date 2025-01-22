@@ -1,12 +1,11 @@
 import type { DialogProps } from "@radix-ui/react-dialog";
 import { Command as CommandPrimitive } from "cmdk";
-import { Search } from "lucide-react";
+import { Search, XIcon } from "lucide-react";
 import * as React from "react";
 
 
 // ui
 import { Dialog, DialogContent } from "~/components/ui/dialog";
-import { XIcon } from "~/components/icons/x";
 
 // lib
 import { cn } from "~/lib/utils";
@@ -53,7 +52,7 @@ const CommandInput = React.forwardRef<
       {...props}
     />
     {props.onClear && props.value && props.value.length > 0 ? (
-      <XIcon className="h-4 w-4 shrink-0 text-zinc-400 cursor-pointer" onClick={props.onClear} />
+      <XIcon className="h-4 w-4 shrink-0 text-zinc-400 cursor-pointer hover:text-zinc-50 transition-all ease-in-out duration-300" onClick={props.onClear} />
     ): null}
   </div>
 ));

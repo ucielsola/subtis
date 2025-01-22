@@ -27,7 +27,7 @@ export async function sendEmail(subtitle: SubtisSubtitleNormalized, email: strin
 
         <p>Descarga tu subtitulo desde el siguiente <a href="${subtitle.subtitle.subtitle_link}" target="_blank" rel="noreferrer">link</a></p>
 
-        <img src="${subtitle.title.poster}" alt="${subtitle.title.title_name}" width="384px" />
+        <img src="${subtitle.title.optimized_poster}" alt="${subtitle.title.title_name}" width="384px" />
       </div>`,
     });
 

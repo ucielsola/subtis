@@ -41,7 +41,7 @@ export function ThumbHashNewsImage({ src, hashUrl, alt }: Props) {
         <img
           src={placeholderURL}
           alt={`${alt} placeholder`}
-          className={`absolute inset-0 w-[330px] h-[180px] ${imgIsLoading ? "opacity-100" : "opacity-0"} transition-all duration-75 ease-linear group-hover:opacity-100 object-cover`}
+          className={`absolute inset-0 w-[330px] h-[180px] ${imgIsLoading ? "opacity-100" : "opacity-0"} transition-all duration-75 ease-linear lg:group-hover:opacity-100 object-cover`}
         />
         <img
           ref={imageReference}

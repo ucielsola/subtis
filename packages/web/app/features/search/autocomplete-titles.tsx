@@ -10,7 +10,7 @@ import { AutoComplete } from "~/components/ui/autocomplete";
 type Result = {
   value: string;
   label: string;
-  poster: string | null;
+  optimizedPoster: string | null;
 };
 
 type Props = {

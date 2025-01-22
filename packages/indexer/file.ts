@@ -277,6 +277,10 @@ export async function indexTitleByFileName({
     // const sortedMoviesByVoteCount = movies.results.toSorted((a, b) => (a.vote_count < b.vote_count ? 1 : -1));
     // console.log("\n ~ sortedMoviesByVoteCount:", sortedMoviesByVoteCount);
 
+    if (movies.results.length === 0) {
+      throw new Error("No se encontraron peliculas");
+    }
+
     const index = FILE_NAME_TO_TMDB_INDEX[titleFileName as keyof typeof FILE_NAME_TO_TMDB_INDEX] ?? 0;
     const movie = movies.results[index];
 

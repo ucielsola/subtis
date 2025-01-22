@@ -293,6 +293,9 @@ async function storeTitleInSupabaseTable(title: TitleWithEpisode): Promise<numbe
     .from("Titles")
     .upsert({
       ...rest,
+      optimized_logo: title.logo,
+      optimized_poster: title.poster,
+      optimized_backdrop: title.backdrop,
       poster_thumbhash: posterThumbhash,
       backdrop_thumbhash: backdropThumbhash,
       title_name_without_special_chars: getStringWithoutSpecialCharacters(title.title_name),

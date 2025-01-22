@@ -20,7 +20,7 @@ export function NewsSlider() {
     <Carousel className="w-full">
       <CarouselContent className="p-4">
         {recentDownloadedTitles.results.map((title) => {
-          if (!title.backdrop) {
+          if (!title.optimized_backdrop) {
             return null;
           }
 
@@ -34,7 +34,11 @@ export function NewsSlider() {
                 to={`/subtitles/movie/${title.imdb_id}`}
                 className="flex flex-none rounded-sm overflow-hidden cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-300 group will-change-transform"
               >
-                <ThumbHashNewsImage src={title.backdrop} hashUrl={title.backdrop_thumbhash} alt={title.title_name} />
+                <ThumbHashNewsImage
+                  src={title.optimized_backdrop}
+                  hashUrl={title.backdrop_thumbhash}
+                  alt={title.title_name}
+                />
               </Link>
             </CarouselItem>
           );

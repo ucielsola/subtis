@@ -26,7 +26,7 @@ function getOpenSubtitlesHeaders(): {
   "Content-Type": "application/json";
 } {
   return {
-    "User-Agent": "Subtis v0.4.8",
+    "User-Agent": "Subtis v0.4.9",
     "Content-Type": "application/json",
     "Api-Key": getOpenSubtitlesApiKey(),
   };

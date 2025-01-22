@@ -19,7 +19,7 @@ export async function getImageData(imageBuffer: Buffer): Promise<{
   const resizedHeight = Math.floor(height * scale);
 
   const rawBuffer = await sharpImage
-    .resize(resizedWidth, resizedHeight, { fit: "inside" })
+    .resize(resizedWidth, resizedHeight, { fit: "outside" })
     .ensureAlpha()
     .raw()
     .toBuffer({ resolveWithObject: true });

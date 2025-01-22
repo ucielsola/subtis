@@ -64,7 +64,7 @@ export function HomeHero() {
           <div className="lg:max-w-[488px] w-full h-full flex flex-col gap-2">
             <AspectRatio
               ratio={16 / 9}
-              className="bg-zinc-950 border border-zinc-700 rounded-md group/video overflow-hidden"
+              className="bg-zinc-950 border border-zinc-700 hover:border-zinc-600 transition-all ease-in-out duration-300 rounded-md group/video overflow-hidden"
             >
               <VideoDropzone />
               <DotPattern
@@ -73,7 +73,7 @@ export function HomeHero() {
                 )}
               />
             </AspectRatio>
-            <p className="text-sm text-zinc-400 text-center px-4">
+            <p className="text-sm text-zinc-400 text-center px-4 hidden lg:block">
               Si contás con el archivo de video podés arrastrarlo acá.
             </p>
           </div>

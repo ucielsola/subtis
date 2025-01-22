@@ -180,7 +180,6 @@ async function mod(titleFileName: string): Promise<void> {
 
     const websocketData = await new Promise<WsOk>((resolve) => {
       const ws = new WebSocket("https://real-time-indexer.fly.dev");
-      // const ws = new WebSocket("ws://localhost:3000");
 
       ws.addEventListener("open", () => {
         loader.message("🔎 Buscando subtítulo en tiempo real");
@@ -275,7 +274,7 @@ const program = new Command();
 program
   .name("subtis")
   .description("CLI to search for movie subtitles")
-  .version("0.4.8")
+  .version("0.4.9")
   .command("search")
   .description("Search a subtitle for a video file")
   .argument("<file>", "Video file")

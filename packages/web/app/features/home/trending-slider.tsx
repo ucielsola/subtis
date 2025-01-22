@@ -22,7 +22,7 @@ export function TrendingSlider() {
     <Carousel className="w-full">
       <CarouselContent className="p-4">
         {trendingDownloadedTitles.results.map((title) => {
-          if (!title.poster) {
+          if (!title.optimized_poster) {
             return null;
           }
 
@@ -36,7 +36,11 @@ export function TrendingSlider() {
                 to={`/subtitles/movie/${title.imdb_id}`}
                 className="flex flex-none rounded-sm overflow-hidden cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-300 group will-change-transform"
               >
-                <ThumbHashTrendingImage src={title.poster} hashUrl={title.poster_thumbhash} alt={title.title_name} />
+                <ThumbHashTrendingImage
+                  src={title.optimized_poster}
+                  hashUrl={title.poster_thumbhash}
+                  alt={title.title_name}
+                />
               </Link>
             </CarouselItem>
           );

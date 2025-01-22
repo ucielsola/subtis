@@ -14,7 +14,7 @@ import { ThumbHashTrendingImage } from "~/features/home/thumbhash-trending-image
 type Result = {
   value: string;
   label: string;
-  poster: string | null;
+  optimizedPoster: string | null;
   posterThumbHash: string | null;
 };
 
@@ -49,7 +49,7 @@ function Slider({ data, isLoading }: SliderProps) {
     <Carousel className="w-full">
       <CarouselContent className="p-4">
         {data.results.map((title) => {
-          if (!title.poster) {
+          if (!title.optimizedPoster) {
             return null;
           }
 
@@ -60,7 +60,7 @@ function Slider({ data, isLoading }: SliderProps) {
                 onClick={() => handleUpdateSearchMetrics(title.value)}
                 className="flex flex-none rounded-sm overflow-hidden cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-300 group will-change-transform"
               >
-                <ThumbHashTrendingImage src={title.poster} hashUrl={title.posterThumbHash} alt={title.label} />
+                <ThumbHashTrendingImage src={title.optimizedPoster} hashUrl={title.posterThumbHash} alt={title.label} />
               </Link>
             </CarouselItem>
           );

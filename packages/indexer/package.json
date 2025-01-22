@@ -1,6 +1,6 @@
 {
   "name": "@subtis/indexer",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "license": "MIT",
   "main": "app.ts",
   "scripts": {
@@ -11,6 +11,7 @@
     "dev:not-found": "bun --watch not-found.ts",
     "dev:supabase-not-found": "bun --watch supabase-not-found.ts",
     "dev:ws": "bun --watch websocket-not-found.ts",
+    "dev:image-optimizer": "bun --watch image-optimizer.ts",
     "start:ws": "bun run websocket-not-found.ts",
     "start:cron": "bun run cron.ts"
   },

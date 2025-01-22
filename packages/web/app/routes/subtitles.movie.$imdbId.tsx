@@ -296,9 +296,9 @@ export default function SubtitlesPage() {
       <article className="max-w-xl w-full">
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-4">
-            {"message" in data ? null : data.title.logo ? (
+            {"message" in data ? null : data.title.optimized_logo ? (
               <img
-                src={data.title.logo}
+                src={data.title.optimized_logo}
                 alt={data.title.title_name}
                 className="w-full max-h-32 object-contain md:hidden mb-4"
               />
@@ -458,7 +458,7 @@ export default function SubtitlesPage() {
               ¿Querés buscar un subtítulo nuevo? Arrastrá el archivo debajo.
             </h4>
           </div>
-          <div className="bg-zinc-950 border border-zinc-700 rounded-sm group/video overflow-hidden h-64 relative">
+          <div className="bg-zinc-950 border border-zinc-700 hover:border-zinc-600 transition-all ease-in-out duration-300 rounded-sm group/video overflow-hidden h-64 relative">
             <VideoDropzone />
             <DotPattern
               className={cn(
@@ -534,7 +534,7 @@ export default function SubtitlesPage() {
       {"message" in data ? null : data.title.poster_thumbhash ? (
         <aside className="hidden lg:flex flex-1 justify-center">
           <PosterDisclosure
-            src={data.title.poster}
+            src={data.title.optimized_poster}
             alt={data.title.title_name}
             hashUrl={data.title.poster_thumbhash}
             title={data.title.title_name}

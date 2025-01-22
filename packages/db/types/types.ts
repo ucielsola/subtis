@@ -248,6 +248,9 @@ export type Database = {
           imdb_id: string;
           last_queried_at: string | null;
           logo: string | null;
+          optimized_backdrop: string | null;
+          optimized_logo: string | null;
+          optimized_poster: string | null;
           overview: string;
           poster: string | null;
           poster_thumbhash: string | null;
@@ -273,6 +276,9 @@ export type Database = {
           imdb_id: string;
           last_queried_at?: string | null;
           logo?: string | null;
+          optimized_backdrop?: string | null;
+          optimized_logo?: string | null;
+          optimized_poster?: string | null;
           overview: string;
           poster?: string | null;
           poster_thumbhash?: string | null;
@@ -298,6 +304,9 @@ export type Database = {
           imdb_id?: string;
           last_queried_at?: string | null;
           logo?: string | null;
+          optimized_backdrop?: string | null;
+          optimized_logo?: string | null;
+          optimized_poster?: string | null;
           overview?: string;
           poster?: string | null;
           poster_thumbhash?: string | null;
@@ -372,6 +381,9 @@ export type Database = {
           queried_times: number;
           poster_thumbhash: string;
           backdrop_thumbhash: string;
+          overview: string;
+          runtime: number;
+          rating: number;
         }[];
       };
       gtrgm_compress: {

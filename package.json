@@ -30,6 +30,7 @@
     "dev:indexer:tv-shows": "cd packages/indexer && bun run dev:tv-shows",
     "dev:indexer:not-found": "cd packages/indexer && bun run dev:not-found",
     "dev:indexer:supabase-not-found": "cd packages/indexer && bun run dev:supabase-not-found",
+    "dev:indexer:image-optimizer": "cd packages/indexer && bun run dev:image-optimizer",
     "deploy:web": "cd packages/web && bun run deploy",
     "deploy:api": "cd packages/api && bun run deploy",
     "deploy:stremio": "fly deploy -c fly-stremio.toml",
