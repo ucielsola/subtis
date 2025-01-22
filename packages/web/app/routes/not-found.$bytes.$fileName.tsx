@@ -11,7 +11,7 @@ import { z } from "zod";
 import type { SubtitleNormalized } from "@subtis/api";
 
 // shared external
-import { getApiClient } from "@subtis/shared";
+import { getApiClient, getIsCinemaRecording } from "@subtis/shared";
 
 // shared internal
 import { VideoDropzone } from "~/components/shared/video-dropzone";
@@ -192,6 +192,7 @@ export default function NotFoundSubtitlePage() {
 
   // navigation hooks
   const { bytes, fileName } = useParams();
+  console.log("\n ~ NotFoundSubtitlePage ~ fileName:", fileName);
 
   // form hooks
   const form = useForm<z.infer<typeof formSchema>>({
@@ -213,6 +214,9 @@ export default function NotFoundSubtitlePage() {
       json: { email: values.email, bytes: Number(bytes), titleFileName: fileName },
     });
   }
+
+  // constants
+  const isCinemaRecording = getIsCinemaRecording(fileName as string);
 
   return (
     <div className="pt-24 pb-48 flex flex-col lg:flex-row justify-between gap-4">
@@ -239,7 +243,7 @@ export default function NotFoundSubtitlePage() {
           {"message" in data ? null : <DataTable columns={columns} data={[data]} />}
 
           <AnimatePresence mode="wait">
-            {!form.formState.isSubmitSuccessful ? (
+            {!form.formState.isSubmitSuccessful && !isCinemaRecording ? (
               <motion.div
                 key="form"
                 initial={{ opacity: 0 }}
@@ -292,7 +296,9 @@ export default function NotFoundSubtitlePage() {
                   </form>
                 </Form>
               </motion.div>
-            ) : (
+            ) : null}
+
+            {form.formState.isSubmitSuccessful && !isCinemaRecording ? (
               <motion.div
                 key="success"
                 initial={{ opacity: 0, y: 20 }}
@@ -303,7 +309,7 @@ export default function NotFoundSubtitlePage() {
                 <AirplaneIcon size={24} className="text-zinc-400" />
                 <span className="text-zinc-400 text-sm">Te haremos saber cuando tengamos tu subtítulo disponible.</span>
               </motion.div>
-            )}
+            ) : null}
           </AnimatePresence>
         </section>
 
