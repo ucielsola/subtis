@@ -187,6 +187,31 @@ function getSubtitleInitialPath({
 }): string {
   const { fileExtension, subtitleFileNameWithoutExtension, subtitleSrtFileName } = subtitle;
 
+  const files = fs.readdirSync(extractedSubtitlePath, { withFileTypes: true });
+  const hasFolders = files.some((file) => file.isDirectory());
+
+  if (hasFolders) {
+    const moveFilesToRoot = (dir: string) => {
+      const items = fs.readdirSync(dir, { withFileTypes: true });
+
+      items.forEach((item) => {
+        const fullPath = path.join(dir, item.name);
+
+        if (item.isDirectory()) {
+          moveFilesToRoot(fullPath);
+          fs.rmdirSync(fullPath);
+        } else {
+          const newPath = path.join(extractedSubtitlePath, item.name);
+          if (fullPath !== newPath) {
+            fs.renameSync(fullPath, newPath);
+          }
+        }
+      });
+    };
+
+    moveFilesToRoot(extractedSubtitlePath);
+  }
+
   if (["rar", "zip"].includes(fileExtension)) {
     const extractedSubtitleFiles = fs.readdirSync(extractedSubtitlePath);
 
@@ -1696,8 +1721,8 @@ export async function getSubtitlesForTitle({
   }
 
   if (!fromWebSocket) {
-    console.log(`4.${index}) Esperando 4s para pasar al siguiente titulo... \n`);
-    await Bun.sleep(4000);
+    console.log(`4.${index}) Esperando 2s para pasar al siguiente titulo... \n`);
+    await Bun.sleep(2000);
 
     console.log(`4.${index}) Pasando al siguiente titulo... \n`);
     console.log("------------------------------ \n");
