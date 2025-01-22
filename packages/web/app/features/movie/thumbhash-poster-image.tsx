@@ -37,7 +37,7 @@ export function ThumbHashPosterImage({ src, hashUrl, alt }: Props) {
 
   return (
     <div className="w-[384px] h-[575px] rounded-sm overflow-hidden">
-      <AspectRatio ratio={16 / 9} className="relative">
+      <AspectRatio ratio={384 / 575} className="relative">
         <img
           src={placeholderURL}
           alt={`${alt} placeholder`}

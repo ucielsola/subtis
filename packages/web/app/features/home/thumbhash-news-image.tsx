@@ -37,7 +37,7 @@ export function ThumbHashNewsImage({ src, hashUrl, alt }: Props) {
 
   return (
     <div className="w-[330px] h-[180px]">
-      <AspectRatio ratio={16 / 9} className="relative">
+      <AspectRatio ratio={11 / 6} className="relative">
         <img
           src={placeholderURL}
           alt={`${alt} placeholder`}

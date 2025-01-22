@@ -37,7 +37,7 @@ async function optimizeTitleTableImages() {
 
       // scale down poster to w-[384px] h-[571px] while preserving quality
       const imageWebp = await sharp(imageBuffer)
-        .resize(380, 571, { fit: "outside" })
+        .resize(570, 857, { fit: "outside" })
         .toFormat("webp", { quality: 100, effort: 0, lossless: true })
         .toBuffer();
 
@@ -77,7 +77,7 @@ async function optimizeTitleTableImages() {
 
       // scale down backdrop to w-[384px] h-[216px] while preserving quality
       const imageWebp = await sharp(imageBuffer)
-        .resize(326, 176, { fit: "outside" })
+        .resize(489, 264, { fit: "outside" })
         .toFormat("webp", { quality: 100, effort: 0, lossless: true })
         .toBuffer();
 

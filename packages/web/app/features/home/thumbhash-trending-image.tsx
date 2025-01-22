@@ -37,7 +37,7 @@ export function ThumbHashTrendingImage({ src, hashUrl, alt }: Props) {
 
   return (
     <div className="w-[228px] h-[340px]">
-      <AspectRatio ratio={16 / 9} className="relative">
+      <AspectRatio ratio={57 / 85} className="relative">
         <img
           src={placeholderURL}
           alt={`${alt} placeholder`}
