@@ -135,6 +135,11 @@ export async function getYtsTorrents(imdbId: string) {
   }
 
   const data = await response.json();
+
+  if (data === null) {
+    return [];
+  }
+
   const yts = ytsSchema.parse(data);
 
   if ("torrents" in yts.data.movie === false) {
