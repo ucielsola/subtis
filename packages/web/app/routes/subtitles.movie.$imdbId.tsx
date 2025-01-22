@@ -267,7 +267,7 @@ export default function SubtitlesPage() {
 
         return (
           <Tooltip>
-            <TooltipTrigger aria-label="Descargar subtítulo">
+            <TooltipTrigger asChild>
               <a
                 href={row.original.subtitle.subtitle_link}
                 download

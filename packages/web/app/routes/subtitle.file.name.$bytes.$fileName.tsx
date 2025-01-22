@@ -309,7 +309,7 @@ export default function SubtitlePage() {
         return (
           <div className="flex flex-row items-center gap-0.5">
             <Tooltip delayDuration={0}>
-              <TooltipTrigger className="px-1" aria-label="Descargar subtítulo">
+              <TooltipTrigger asChild>
                 <a
                   href={row.original.subtitle.subtitle_link}
                   download
@@ -326,7 +326,7 @@ export default function SubtitlePage() {
             </Tooltip>
             <AnimatePresence>
               {displayVideoElements && (
-                <Tooltip delayDuration={0}>
+                <Tooltip>
                   <TooltipTrigger
                     onClick={handlePlaySubtitle}
                     className="p-1"
