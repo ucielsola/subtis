@@ -6,9 +6,9 @@ import cron from "node-cron";
 // import { supabase } from "@subtis/db";
 
 // internals
+import { optimizeTitleTableImages } from "./image-optimizer";
 import { indexMoviesByYear } from "./movies";
 import { indexNotFoundSubtitles } from "./not-found";
-import { optimizeTitleTableImages } from "./image-optimizer";
 // import { saveSubtitleGroupsToDb } from "./subtitle-groups";
 // import { saveReleaseGroupsToDb } from "./release-groups";
 // import { indexSeriesByYear } from "./tv-shows";
