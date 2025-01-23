@@ -23,7 +23,7 @@ export function HomeHero() {
   const controls = useAnimation();
 
   return (
-    <section className="py-16">
+    <section className="py-16  lg:pt-24 lg:pb-20">
       <div className="flex flex-col lg:flex-row justify-between items-center flex-1 gap-8 lg:gap-4">
         <div className="flex flex-col gap-3 lg:max-w-[624px]">
           <BadgeTvShows />
@@ -60,8 +60,8 @@ export function HomeHero() {
           </div>
         </div>
 
-        <div className="flex-1 flex flex-col items-end justify-center lg:pt-8 xl:pt-20 w-full">
-          <div className="lg:max-w-[488px] w-full h-full flex flex-col gap-2">
+        <div className="flex-1 flex flex-col items-end justify-center w-full  lg:pt-4">
+          <div className="lg:max-w-[540px] w-full h-full flex flex-col gap-2">
             <AspectRatio
               ratio={16 / 9}
               className="bg-zinc-950 border border-zinc-700 hover:border-zinc-600 transition-all ease-in-out duration-300 rounded-md group/video overflow-hidden"
