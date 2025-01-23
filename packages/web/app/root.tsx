@@ -1,7 +1,7 @@
 import type { LinksFunction } from "@remix-run/cloudflare";
 import { Link } from "@remix-run/react";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { NuqsAdapter } from "nuqs/adapters/remix";
 
 // layout
@@ -14,12 +14,10 @@ import { TooltipProvider } from "~/components/ui/tooltip";
 
 // lib
 import "~/lib/analytics";
+import { queryClient } from "~/lib/react-query";
 
 // internals
 import styles from "./tailwind.css?url";
-
-// constants
-const queryClient = new QueryClient();
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },

@@ -107,7 +107,12 @@ export const AutoComplete = ({
           disabled={disabled}
           className="text-sm caret-stone-50 text-stone-50"
           autoFocus
-          onClear={onClearInputValue}
+          onClear={() => {
+            onClearInputValue?.();
+            setTimeout(() => {
+              inputRef.current?.focus();
+            }, 400);
+          }}
         />
       </div>
       <div className="relative mt-1">

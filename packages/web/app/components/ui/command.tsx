@@ -40,7 +40,7 @@ const CommandDialog = ({ children, ...props }: DialogProps) => {
 const CommandInput = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Input>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input> & { onClear?: () => void }
->(({ className, ...props }, ref) => (
+>(({ className, onClear,...props }, ref) => (
   <div className="flex items-center px-3" cmdk-input-wrapper="">
     <Search className="mr-2 h-4 w-4 shrink-0 text-zinc-400" />
     <CommandPrimitive.Input
@@ -51,8 +51,8 @@ const CommandInput = React.forwardRef<
       )}
       {...props}
     />
-    {props.onClear && props.value && props.value.length > 0 ? (
-      <XIcon className="h-4 w-4 shrink-0 text-zinc-400 cursor-pointer hover:text-zinc-50 transition-all ease-in-out duration-300" onClick={props.onClear} />
+    {onClear && props.value && props.value.length > 0 ? (
+      <XIcon className="h-4 w-4 shrink-0 text-zinc-400 cursor-pointer hover:text-zinc-50 transition-all ease-in-out duration-300" onClick={onClear} />
     ): null}
   </div>
 ));

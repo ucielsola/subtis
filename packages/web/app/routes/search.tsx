@@ -112,7 +112,7 @@ export default function SearchPage() {
 
       return { results: parsedResults, statusCode: response.status };
     },
-    enabled: Boolean(inputValue && inputValue.length >= MINIMUM_CHARACTERS),
+    enabled: Boolean(value && value.length >= MINIMUM_CHARACTERS),
   });
 
   // handlers
