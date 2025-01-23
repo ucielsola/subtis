@@ -330,7 +330,7 @@ export default function SubtitlesPage() {
           <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold text-zinc-50">SubTips</h3>
             <h4 className="text-zinc-50 text-sm md:text-base">
-              Te recomendamos algunos tips para una mejor experiencia.
+              Para asegurarte una mejor experiencia, seguí los siguientes tips.
             </h4>
           </div>
           <Tabs value={subtip ?? undefined} onValueChange={setSubtip} className="min-h-[390px]">
@@ -351,7 +351,9 @@ export default function SubtitlesPage() {
               >
                 <span className="text-zinc-50 text-lg font-bold font-mono size-6">1</span>
                 <div className="pt-1">
-                  <AlertTitle className="text-zinc-50">Asegurate que la resolución matchee correctamente</AlertTitle>
+                  <AlertTitle className="text-zinc-50">
+                    Asegurate que la resolución corresponda correctamente
+                  </AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
                     Por ejemplo para el archivo{" "}
                     <Highlighter
