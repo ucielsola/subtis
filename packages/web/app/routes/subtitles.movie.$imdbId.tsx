@@ -280,7 +280,7 @@ export default function SubtitlesPage() {
                 <DownloadIcon size={18} controls={controls} />
               </a>
             </TooltipTrigger>
-            <TooltipContent side="bottom">Descargar subtítulo</TooltipContent>
+            <TooltipContent side="right">Descargar subtítulo</TooltipContent>
           </Tooltip>
         );
       },
