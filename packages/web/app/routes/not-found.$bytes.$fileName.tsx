@@ -192,7 +192,6 @@ export default function NotFoundSubtitlePage() {
 
   // navigation hooks
   const { bytes, fileName } = useParams();
-  console.log("\n ~ NotFoundSubtitlePage ~ fileName:", fileName);
 
   // form hooks
   const form = useForm<z.infer<typeof formSchema>>({
@@ -222,7 +221,16 @@ export default function NotFoundSubtitlePage() {
     <div className="pt-24 pb-48 flex flex-col lg:flex-row justify-between gap-4">
       <article className="max-w-xl w-full">
         <section className="flex flex-col gap-12">
-          {"message" in data ? null : (
+          {"message" in data ? (
+            <div className="flex flex-col gap-4">
+              <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold">Lo sentimos :(</h1>
+              <div className="flex flex-col gap-1">
+                <h2 className="text-zinc-50 text-sm md:text-base">
+                  No encontramos el subtítulo específico para tu versión.
+                </h2>
+              </div>
+            </div>
+          ) : (
             <div className="flex flex-col gap-4">
               <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold">Lo sentimos :(</h1>
               <div className="flex flex-col gap-1">
@@ -251,14 +259,12 @@ export default function NotFoundSubtitlePage() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
               >
-                {"message" in data ? null : (
-                  <div className="flex flex-col gap-2 mb-12">
-                    <p className="text-zinc-50 text-3xl font-semibold">¿Querés que te avisemos?</p>
-                    <p className="text-zinc-50 text-balance">
-                      Podés dejarnos tu e-mail y te enviamos el subtítulo apenas lo encontremos.
-                    </p>
-                  </div>
-                )}
+                <div className="flex flex-col gap-2 mb-12">
+                  <p className="text-zinc-50 text-3xl font-semibold">¿Querés que te avisemos?</p>
+                  <p className="text-zinc-50 text-balance">
+                    Podés dejarnos tu e-mail y te enviamos el subtítulo apenas lo encontremos.
+                  </p>
+                </div>
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-row gap-2">
                     <FormField
