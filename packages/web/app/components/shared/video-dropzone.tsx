@@ -38,10 +38,15 @@ export function VideoDropzone() {
         const format = fileType.split("/")[1];
         const isTvShow = getIsTvShow(fileName);
 
-        if (fileType !== "video/mp4" && fileType !== "video/x-matroska" && fileType !== "video/avi") {
+        if (
+          fileType !== "video/mp4" &&
+          fileType !== "video/x-matroska" &&
+          fileType !== "video/avi" &&
+          fileType !== "video/x-msvideo"
+        ) {
           toast({
             title: `Formato de archivo no soportado (${format})`,
-            description: "Soportamos mp4, mkv y avi.",
+            description: "Soportamos mp4, mkv, avi y mpeg.",
           });
 
           return;
