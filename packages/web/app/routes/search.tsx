@@ -152,11 +152,11 @@ export default function SearchPage() {
             <p className="text-zinc-400 text-xs">
               Lo más buscado ahora:{" "}
               <Link to={`/subtitles/movie/${firstTrending.imdbId}`} className="hover:text-zinc-50">
-                {firstTrending.title} ({firstTrending.year})
+                {firstTrending.title}
               </Link>{" "}
               y{" "}
               <Link to={`/subtitles/movie/${secondTrending.imdbId}`} className="hover:text-zinc-50">
-                {secondTrending.title} ({secondTrending.year})
+                {secondTrending.title}
               </Link>
             </p>
           </section>
