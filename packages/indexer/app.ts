@@ -928,6 +928,7 @@ function getFilteredTorrents(torrents: TorrentFound[], maxTorrents: number, shou
 
   const result = torrents
     .slice(0, maxTorrents)
+    .sort((torrentA, torrentB) => torrentB.seeds - torrentA.seeds)
     .filter((torrent) => !getIsCinemaRecording(torrent.title))
     .filter(({ seeds }) => seeds >= MIN_SEEDS)
     .filter(({ size, isBytesFormatted }) => {
