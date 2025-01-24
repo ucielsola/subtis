@@ -257,7 +257,10 @@ export const title = new Hono<{ Variables: AppVariables }>()
     const contentTypeToSearch = data.type === "movie" ? "MOVIE" : "SHOW";
     const titles = buscalaData.data.results.filter(({ contentType }) => contentType === contentTypeToSearch);
 
-    const title = titles.find(({ name, releaseYear }) => name === data.title_name_spa && releaseYear === data.year);
+    const title = titles.find(
+      ({ name, releaseYear }) =>
+        (name === data.title_name_spa || name === data.title_name) && releaseYear === data.year,
+    );
 
     if (!title) {
       context.status(404);
