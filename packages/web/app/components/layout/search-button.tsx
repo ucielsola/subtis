@@ -22,7 +22,7 @@ export function SearchButton() {
   return (
     <Button
       variant="ghost"
-      className="backdrop-blur-[8px] hover:bg-zinc-950/60 transition-all ease-in-out rounded-sm"
+      className="backdrop-blur-[8px] hover:bg-zinc-950/80 bg-zinc-950/30 transition-all ease-in-out rounded-sm"
       onClick={handleNavigate}
       onMouseEnter={() => controls.start("animate")}
       onMouseLeave={() => controls.start("normal")}
