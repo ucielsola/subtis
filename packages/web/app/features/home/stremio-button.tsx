@@ -157,8 +157,8 @@ export function StremioButton() {
                     containerClassName="w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0"
                   />
                   <p className="text-zinc-400 text-sm">
-                    Para una mejor experiencia te recomendamos desinstalar los otros addons de subtítulos como por
-                    ejemplo los de OpenSubtitles.
+                    Para disfrutar de una mejor experiencia, te sugerimos desinstalar otros complementos de subtítulos,
+                    como los de OpenSubtitles.
                   </p>
                 </div>
               </div>
