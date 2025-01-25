@@ -92,7 +92,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                       type="button"
                       variant="outline"
                       onClick={() => setShowAll(!showAll)}
-                      className="text-sm text-zinc-300 hover:text-zinc-50 w-full h-full bg-zinc-950 hover:bg-zinc-950 border-none hover:border-none py-3"
+                      className="text-sm text-zinc-300 hover:text-zinc-50 w-full h-full bg-zinc-950 hover:bg-zinc-950 border-none hover:border-none py-[11.5px]"
                     >
                       {showAll ? "Ver menos opciones" : `Ver más opciones (${rows.length - AMOUNT_TO_SHOW})`}
                       {showAll ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
