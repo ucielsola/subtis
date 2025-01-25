@@ -1,5 +1,8 @@
 import type { MetaFunction } from "@remix-run/cloudflare";
 
+// hooks
+import { useToast } from "~/hooks/use-toast";
+
 // meta
 export const meta: MetaFunction = () => {
   return [
@@ -8,6 +11,18 @@ export const meta: MetaFunction = () => {
   ];
 };
 export default function TermsPage() {
+  // toast hooks
+  const { toast } = useToast();
+
+  // handlers
+  function handleCopyEmailToClipboard() {
+    navigator.clipboard.writeText("soporte@subtis.io");
+    toast({
+      title: "¡Email copiado a tu clipboard!",
+      description: "Escribinos y te responderemos lo antes posible.",
+    });
+  }
+
   return (
     <article className="prose dark:prose-invert pt-24 pb-48">
       <h1>Términos y Condiciones</h1>
@@ -111,7 +126,14 @@ export default function TermsPage() {
         <h2>10. Contacto</h2>
         <p>
           Si tienes dudas, preguntas o inquietudes sobre estos términos, puedes contactarnos en{" "}
-          <a href="mailto:soporte@subtis.com">soporte@subtis.com</a>.
+          <button
+            type="button"
+            onClick={handleCopyEmailToClipboard}
+            className="underline hover:text-zinc-50 transition-all ease-in-out text-stone-300"
+          >
+            soporte@subtis.io
+          </button>
+          .
         </p>
       </section>
     </article>

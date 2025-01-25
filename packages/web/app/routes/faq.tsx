@@ -1,5 +1,8 @@
 import type { MetaFunction } from "@remix-run/cloudflare";
 
+// hooks
+import { useToast } from "~/hooks/use-toast";
+
 // meta
 export const meta: MetaFunction = () => {
   return [
@@ -8,7 +11,19 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export default function TermsPage() {
+export default function FaqPage() {
+  // toast hooks
+  const { toast } = useToast();
+
+  // handlers
+  function handleCopyEmailToClipboard() {
+    navigator.clipboard.writeText("soporte@subtis.io");
+    toast({
+      title: "¡Email copiado a tu clipboard!",
+      description: "Escribinos y te responderemos lo antes posible.",
+    });
+  }
+
   return (
     <article className="prose dark:prose-invert pt-24 pb-48">
       <h1>Preguntas Frecuentes</h1>
@@ -57,7 +72,14 @@ export default function TermsPage() {
         <h2>Mi subtítulo no está sincronizado con el video. ¿Qué puedo hacer?</h2>
         <p>
           Si descargaste el subtítulo desde la página de película, probá arrastrando y soltando el archivo de video para
-          poder buscar el subtítulo correcto. En caso de que el problema persista podés escribirnos a soporte@subtis.io
+          poder buscar el subtítulo correcto. En caso de que el problema persista podés escribirnos a{" "}
+          <button
+            type="button"
+            onClick={handleCopyEmailToClipboard}
+            className="underline hover:text-zinc-50 transition-all ease-in-out text-stone-300"
+          >
+            soporte@subtis.io
+          </button>
         </p>
       </section>
 
