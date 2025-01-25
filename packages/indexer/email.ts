@@ -23,9 +23,8 @@ export async function sendEmail(subtitle: SubtisSubtitleNormalized, email: strin
       subject: "Subtis | Encontramos tu subtítulo! 🎉",
       html: `<div>
         <p>Encontramos el subtítulo para tu ${type}: ${subtitle.title.title_name}${season}</p>
-        <p>Ya contamos con la versión para la resolución ${subtitle.subtitle.resolution} y publicador ${subtitle.release_group.release_group_name}</p>
 
-        <p>Descarga tu subtítulo desde el siguiente <a href="${subtitle.subtitle.subtitle_link}" target="_blank" rel="noreferrer">link</a></p>
+        <p>Descargá tu subtítulo desde el siguiente <a href="${subtitle.subtitle.subtitle_link}" target="_blank" rel="noreferrer">link</a></p>
 
         <img src="${subtitle.title.optimized_poster}" alt="${subtitle.title.title_name}" width="384px" />
       </div>`,
