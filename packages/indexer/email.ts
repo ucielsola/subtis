@@ -11,10 +11,10 @@ export async function sendEmail(subtitle: SubtisSubtitleNormalized, email: strin
   const isMovie = subtitle.title.type === "movie";
   const isTvShow = subtitle.title.type === "tv-show";
 
-  const type = isMovie ? "pelicula" : "serie";
+  const type = isMovie ? "película" : "serie";
   const season = isTvShow
     ? ` - Temporada: ${subtitle.subtitle.current_season} - Episodio: ${subtitle.subtitle.current_episode}`
-    : ` - ${subtitle.title.year}`;
+    : ` (${subtitle.title.year})`;
 
   try {
     const data = await resend.emails.send({

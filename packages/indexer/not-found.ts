@@ -27,6 +27,7 @@ export async function indexNotFoundSubtitles() {
       .select("*")
       .range(currentPage * pageSize, (currentPage + 1) * pageSize - 1)
       .order("created_at", { ascending: true });
+    // .not("email", "is", null)
 
     if (error) {
       console.error("Error fetching subtitles:", error);
