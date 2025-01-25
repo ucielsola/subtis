@@ -352,7 +352,7 @@ export default function SubtitlesPage() {
                 <span className="text-zinc-50 text-lg font-bold font-mono size-6">1</span>
                 <div className="pt-1">
                   <AlertTitle className="text-zinc-50">
-                    Asegurate que la resolución corresponda correctamente
+                    Verificá que la resolución del subtítulo coincida con la del video
                   </AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
                     Por ejemplo para el archivo{" "}
@@ -363,8 +363,8 @@ export default function SubtitlesPage() {
                       autoEscape={true}
                       textToHighlight={`"${title_file_name}"`}
                     />{" "}
-                    seleccioná el subtítulo cuya resolución sea{" "}
-                    <span className="font-medium text-zinc-50">{resolution}</span> en la tabla.
+                    seleccioná en la tabla el subtítulo cuya resolución sea{" "}
+                    <span className="font-medium text-zinc-50">{resolution}</span>.
                   </AlertDescription>
                 </div>
               </Alert>
@@ -375,7 +375,9 @@ export default function SubtitlesPage() {
               >
                 <span className="text-zinc-50 text-lg font-bold font-mono size-6">2</span>
                 <div className="pt-1">
-                  <AlertTitle className="text-zinc-50">Asegurate que el formato coincida correctamente</AlertTitle>
+                  <AlertTitle className="text-zinc-50">
+                    Revisá que el formato del subtítulo coincida con el del video
+                  </AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
                     Por ejemplo para el archivo{" "}
                     <Highlighter
@@ -385,8 +387,8 @@ export default function SubtitlesPage() {
                       autoEscape={true}
                       textToHighlight={`"${title_file_name}"`}
                     />{" "}
-                    seleccioná el subtítulo cuyo formato sea{" "}
-                    <span className="font-medium text-zinc-50">{rip_type}</span> en la tabla.
+                    seleccioná en la tabla el subtítulo cuyo formato sea{" "}
+                    <span className="font-medium text-zinc-50">{rip_type}</span>.
                   </AlertDescription>
                 </div>
               </Alert>
@@ -407,8 +409,8 @@ export default function SubtitlesPage() {
                       autoEscape={true}
                       textToHighlight={`"${title_file_name}"`}
                     />{" "}
-                    seleccioná el subtítulo cuyo publicador sea{" "}
-                    <span className="font-medium text-zinc-50">{release_group_name}</span> en la tabla.
+                    seleccioná en la tabla el subtítulo cuyo publicador sea{" "}
+                    <span className="font-medium text-zinc-50">{release_group_name}</span>.
                   </AlertDescription>
                 </div>
               </Alert>
