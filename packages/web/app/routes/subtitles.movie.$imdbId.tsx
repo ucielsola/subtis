@@ -333,7 +333,7 @@ export default function SubtitlesPage() {
               Para asegurarte una mejor experiencia, seguí los siguientes tips.
             </h4>
           </div>
-          <Tabs value={subtip ?? undefined} onValueChange={setSubtip} className="min-h-[390px]">
+          <Tabs value={subtip ?? undefined} onValueChange={setSubtip}>
             <TabsList className="mb-6">
               <TabsTrigger value="choose-subtitle" className="text-sm">
                 ¿Cómo elijo un subtítulo?
