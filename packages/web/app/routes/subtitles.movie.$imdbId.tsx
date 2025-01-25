@@ -490,7 +490,7 @@ export default function SubtitlesPage() {
               <div className="flex flex-col gap-2">
                 <h3 className="text-2xl font-semibold text-zinc-50">Cines</h3>
                 <h4 className="text-zinc-50 text-sm md:text-base">
-                  Mirá en que cines se esta proyectando la película.
+                  Mirá en que cines se está proyectando la película.
                 </h4>
               </div>
               <ul className="flex flex-col gap-4 list-disc list-inside">
