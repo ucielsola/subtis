@@ -3,6 +3,9 @@ import { Link } from "@remix-run/react";
 // hooks
 import { useToast } from "~/hooks/use-toast";
 
+// components
+import { AnimatedLogo } from "~/components/shared/animated-logo";
+
 export function HomeFooter() {
   // toast hooks
   const { toast } = useToast();
@@ -19,10 +22,10 @@ export function HomeFooter() {
   return (
     <footer className="pt-8 pb-16 flex flex-col md:flex-row justify-between items-start gap-6 md:gap-4 border-t border-zinc-700">
       <div className="flex flex-col gap-2">
-        <Link to="/">
-          <img src="/logo.webp" alt="Subtis" className="w-20 h-[32.27px] hover:scale-105 transition-all ease-in-out" />
+        <Link to="/" className="cursor-pointer group">
+          <AnimatedLogo />
         </Link>
-        <span className="text-xs text-zinc-50">Subtis &#169; 2025</span>
+        <span className="text-[11px] text-zinc-50">Subtis &#169; 2025</span>
       </div>
       <div className="flex flex-col gap-2 py-2">
         <a
