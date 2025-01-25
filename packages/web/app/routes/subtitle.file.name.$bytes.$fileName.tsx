@@ -434,8 +434,8 @@ export default function SubtitlePage() {
                 <div className="pt-1">
                   <AlertTitle className="text-zinc-50">Si vas a usar un reproductor de video...</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
-                    Recordá mover el archivo del subtítulo a donde esté tu carpeta o bien reproducir la película y
-                    arrastrar el subtítulo al reproductor.
+                    Recordá mover el archivo de subtítulo a la carpeta donde esté la película o, si prefieres,
+                    reproducir la película y arrastrar el subtítulo al reproductor.
                   </AlertDescription>
                 </div>
               </Alert>
@@ -450,7 +450,7 @@ export default function SubtitlePage() {
                 <div className="pt-1">
                   <AlertTitle className="text-zinc-50">Si vas a usar Stremio...</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
-                    Te recomendamos usar el add-on oficial, y en caso que no quieras utilizar el add-on de Subtis,
+                    Te recomendamos usar el add-on oficial. En caso de que no quieras utilizar el add-on de Subtis,
                     también podés arrastrar el subtítulo al reproductor de Stremio.
                   </AlertDescription>
                 </div>
