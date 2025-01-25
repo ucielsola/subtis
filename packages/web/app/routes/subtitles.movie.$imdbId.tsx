@@ -98,6 +98,18 @@ export default function SubtitlesPage() {
     defaultValue: "choose-subtitle",
   });
 
+  // toast hooks
+  const { toast } = useToast();
+
+  // handlers
+  function handleCopyEmailToClipboard() {
+    navigator.clipboard.writeText("soporte@subtis.io");
+    toast({
+      title: "¡Email copiado a tu clipboard!",
+      description: "Escribinos y te responderemos lo antes posible.",
+    });
+  }
+
   // query hooks
   const { data: titlePlatforms } = useQuery({
     queryKey: ["title", "platforms", imdbId],
@@ -314,13 +326,14 @@ export default function SubtitlesPage() {
             <div>
               <DataTable columns={columns} data={data.results} />
               <p className="text-sm mt-2 text-zinc-400">
-                Si no encontras tu subtítulo acá, podés escribirnos a{" "}
-                <a
-                  href="mailto:soporte@subtis.io"
+                Si no encontrás tu subtítulo acá, podés escribirnos a{" "}
+                <button
+                  type="button"
+                  onClick={handleCopyEmailToClipboard}
                   className="underline hover:text-zinc-50 transition-all ease-in-out text-stone-300"
                 >
                   soporte@subtis.io
-                </a>
+                </button>
               </p>
             </div>
           )}
