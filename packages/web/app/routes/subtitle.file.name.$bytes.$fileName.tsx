@@ -466,7 +466,7 @@ export default function SubtitlePage() {
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold text-zinc-50">Buscar nuevo subtítulo por archivo</h3>
-            <h4 className="text-zinc-400 text-sm md:text-base">
+            <h4 className="text-zinc-50 text-sm md:text-base">
               ¿Querés buscar un subtítulo nuevo? Arrastrá el archivo de video debajo.
             </h4>
           </div>
