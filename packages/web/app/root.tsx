@@ -61,8 +61,8 @@ export default function App() {
               <Outlet />
               <HomeFooter />
             </div>
-            <Toaster />
           </main>
+          <Toaster />
         </NuqsAdapter>
       </TooltipProvider>
     </QueryClientProvider>
