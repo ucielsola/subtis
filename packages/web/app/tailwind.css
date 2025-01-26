@@ -11,6 +11,32 @@ body {
   }
 }
 
+@layer utilities {
+  .progressive-blur-left {
+    background: linear-gradient(to left, transparent 0%, rgba(9, 9, 11, 0.8) 100%);
+    backdrop-filter: blur(16px);
+    mask-image: linear-gradient(to left, transparent 0%, rgba(0, 0, 0, 0.6) 50%, black 90%);
+  }
+
+  .progressive-blur-right {
+    background: linear-gradient(to right, transparent 0%, rgba(9, 9, 11, 0.8) 100%);
+    backdrop-filter: blur(16px);
+    mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.6) 50%, black 90%);
+  }
+
+  .progressive-blur-top {
+    background: linear-gradient(to top, transparent 0%, rgba(9, 9, 11, 0.8) 100%);
+    backdrop-filter: blur(16px);
+    mask-image: linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.6) 50%, black 90%);
+  }
+
+  .progressive-blur-bottom {
+    background: linear-gradient(to bottom, transparent 0%, rgba(9, 9, 11, 0.8) 100%);
+    backdrop-filter: blur(16px);
+    mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.6) 50%, black 90%);
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

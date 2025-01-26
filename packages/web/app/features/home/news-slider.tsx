@@ -7,7 +7,13 @@ import type { loader } from "~/routes/_index";
 import { ThumbHashNewsImage } from "./thumbhash-news-image";
 
 // ui
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "~/components/ui/carousel";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "~/components/ui/carousel";
 
 export function NewsSlider() {
   const { recentDownloadedTitles } = useLoaderData<typeof loader>();
@@ -44,8 +50,8 @@ export function NewsSlider() {
           );
         })}
       </CarouselContent>
-      <CarouselPrevious className="border-zinc-300 hover:bg-zinc-800 lg:inline-flex hidden" />
-      <CarouselNext className="border-zinc-300 hover:bg-zinc-800 lg:inline-flex hidden" />
+      <CarouselPrevious />
+      <CarouselNext />
     </Carousel>
   );
 }
