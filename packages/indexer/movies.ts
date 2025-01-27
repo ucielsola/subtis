@@ -46,7 +46,7 @@ export async function indexMoviesByYear(year: number, isDebugging: boolean): Pro
     // última página: 16
     // agregar algo para que el totalPages empiece desde 16
 
-    const lastPageIndexed = 19;
+    const lastPageIndexed = 22;
     const totalPagesFromLastPage = [...totalPages.slice(lastPageIndexed)];
 
     for await (const tmbdMoviesPage of totalPagesFromLastPage) {
