@@ -342,7 +342,7 @@ export function VlcButton() {
 
       <Tooltip>
         <Button
-          className="bg-zinc-950 text-zinc-50 group border-[#E26400] border-2 relative overflow-hidden rounded-md opacity-50 hover:bg-transparent cursor-not-allowed"
+          className="bg-zinc-950 text-zinc-50 group border-[#E26400] border-2 relative overflow-hidden rounded-md opacity-60 hover:bg-transparent cursor-not-allowed mix-blend-luminosity"
           asChild
           onClick={undefined}
         >
