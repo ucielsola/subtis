@@ -295,6 +295,10 @@ export async function filterOpenSubtitleSubtitlesForTorrent({
 
   const parsedDownloadData = downloadSchema.parse(downloadData);
 
+  if (!parsedDownloadData.link) {
+    throw new Error(`[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: No subtitle link found`);
+  }
+
   const fileExtension = "srt";
   const subtitleLink = parsedDownloadData.link;
   const subtitleGroupName = SUBTITLE_GROUPS.OPEN_SUBTITLES.subtitle_group_name;
