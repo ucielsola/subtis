@@ -13,7 +13,7 @@ import { sendEmail } from "./email";
 import { indexTitleByFileName } from "./file";
 
 // constants
-const MAX_INDEXING_TITLES = 10;
+const MAX_INDEXING_TITLES = 4;
 const torrentsIndexing = new Set<string>();
 
 export async function indexNotFoundSubtitlesFromSupabase() {
