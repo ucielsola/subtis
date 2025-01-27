@@ -124,7 +124,7 @@ export default function SearchPage() {
   const [firstTrending, secondTrending] = trendingSearch;
 
   return (
-    <div className="pt-24 pb-48 flex-1">
+    <div className="pt-24 flex-1">
       <div className=" flex flex-col lg:flex-row justify-between gap-4">
         <article className="max-w-xl w-full">
           <section className="flex flex-col gap-12">
