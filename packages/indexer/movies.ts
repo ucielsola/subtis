@@ -129,16 +129,3 @@ export async function indexMovieByName({
     console.log("\n ~ indexMovieByName ~ error:", error);
   }
 }
-
-// testing
-// indexMoviesByYear(2024, false);
-
-// indexMovieByName({
-//   year: 2021,
-//   isDebugging: false,
-//   name: "Cherry",
-// });
-
-// saveReleaseGroupsToDb(supabase);
-// saveSubtitleGroupsToDb(supabase);
-// saveTmdbMovieGenresToDb(supabase);
