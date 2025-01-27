@@ -196,13 +196,13 @@ const CarouselPrevious = React.forwardRef<
     >
       <div
         className={cn(
-          "absolute inset-0 outline outline-[2px] rounded-[6px] overflow-hidden outline-white/0 outline-offset-[-2px] transition-all duration-200 group-hover:outline-white/50",
+          "absolute inset-0 outline outline-[2px] rounded-[6px] overflow-hidden outline-white/0 outline-offset-[-2px] transition-all ease-in-out duration-300 group-hover:outline-zinc-50/60",
           orientation === "horizontal" ? "progressive-blur-left" : "progressive-blur-top"
         )}
       />
       <ArrowLeft
         className={cn(
-          "h-4 w-4 stroke-zinc-300 relative z-10 transition-all duration-200",
+          "h-4 w-4 stroke-zinc-300 relative z-10 transition-all ease-in-out duration-300  group-hover:stroke-zinc-50",
           orientation === "horizontal"
             ? "-translate-x-4 group-hover:-translate-x-5"
             : "translate-y-4 group-hover:translate-y-5"
@@ -235,13 +235,13 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, React.HTMLAttributes<HT
       >
         <div
           className={cn(
-            "absolute inset-0 outline outline-[2px] overflow-hidden rounded-[6px] outline-white/0 outline-offset-[-2px] transition-all duration-200 group-hover:outline-white/50",
+            "absolute inset-0 outline outline-[2px] overflow-hidden rounded-[6px] outline-zinc-50/0 outline-offset-[-2px] transition-all ease-in-out duration-300 group-hover:outline-zinc-50/60",
             orientation === "horizontal" ? "progressive-blur-right" : "progressive-blur-bottom"
           )}
         />
         <ArrowRight
           className={cn(
-            "h-4 w-4 stroke-zinc-300 group-hover:stroke-white relative z-10 transition-all duration-200",
+            "h-4 w-4 stroke-zinc-300 group-hover:stroke-zinc-50 relative z-10 transition-all ease-in-out duration-300",
             orientation === "horizontal"
               ? "translate-x-4 group-hover:translate-x-5"
               : "translate-y-4 group-hover:translate-y-5"

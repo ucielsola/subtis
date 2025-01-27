@@ -96,7 +96,7 @@ export const AutoComplete = ({
 
   return (
     <CommandPrimitive onKeyDown={handleKeyDown} shouldFilter={false}>
-      <div className=" border border-zinc-700 rounded-md bg-stone-950">
+      <div className=" border border-zinc-700 rounded-md bg-zinc-950">
         <CommandInput
           ref={inputRef}
           value={inputValue}
@@ -105,7 +105,7 @@ export const AutoComplete = ({
           onFocus={() => setOpen(true)}
           placeholder={placeholder}
           disabled={disabled}
-          className="text-sm caret-stone-50 text-stone-50"
+          className="text-sm caret-zinc-50 text-zinc-50"
           autoFocus
           onClear={() => {
             onClearInputValue?.();

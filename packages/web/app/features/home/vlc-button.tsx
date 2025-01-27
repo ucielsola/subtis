@@ -2,24 +2,12 @@ import { Fragment, type SVGProps, useState } from "react";
 
 // ui
 import { Button } from "~/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from "~/components/ui/sheet";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "~/components/ui/sheet";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
 function VlcWhiteLogo({ size = 24, ...props }: SVGProps<SVGSVGElement> & { size: number }) {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      width={size}
-      height={size}
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
+    <svg viewBox="0 0 24 24" width={size} height={size} xmlns="http://www.w3.org/2000/svg" {...props}>
       <title>VLC media player</title>
       <path
         className="fill-white"
@@ -31,13 +19,7 @@ function VlcWhiteLogo({ size = 24, ...props }: SVGProps<SVGSVGElement> & { size:
 
 function VlcColouredLogo({ size = 24, ...props }: SVGProps<SVGSVGElement> & { size: number }) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 1220.23 1384.355"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 1220.23 1384.355" {...props}>
       <title>VLC</title>
       <filter id="j" colorInterpolationFilters="sRGB">
         <feGaussianBlur stdDeviation={1.135} />
@@ -270,8 +252,7 @@ export function VlcButton() {
                     >
                       link
                     </a>{" "}
-                    para instalar el addon de Subtis. Una vez abierto Stremio, da click en
-                    "Instalar" o "Install".
+                    para instalar el addon de Subtis. Una vez abierto Stremio, da click en "Instalar" o "Install".
                   </p>
                 </div>
               </div>
@@ -292,8 +273,7 @@ export function VlcButton() {
                     className="object-cover w-44 border border-zinc-700 rounded-sm"
                   />
                   <p className="text-zinc-400 text-sm">
-                    Mientras estás viendo una película, haz click en el ícono de subtítulos en la
-                    barra de reproducción.
+                    Mientras estás viendo una película, haz click en el ícono de subtítulos en la barra de reproducción.
                   </p>
                 </div>
               </div>
@@ -314,8 +294,7 @@ export function VlcButton() {
                     className="object-cover w-44 border border-zinc-700 rounded-sm"
                   />
                   <p className="text-zinc-400 text-sm">
-                    En la sección debajo de "Addons" haz click en "español" para reproducir el
-                    subtítulo en español.
+                    En la sección debajo de "Addons" haz click en "español" para reproducir el subtítulo en español.
                   </p>
                 </div>
               </div>
@@ -336,8 +315,8 @@ export function VlcButton() {
                     className="object-cover object-right-bottom w-44 border border-zinc-700 rounded-sm"
                   />
                   <p className="text-zinc-400 text-sm">
-                    Para una mejor experiencia te recomendamos desintalar los otros addons de
-                    subtítulos como por ejemplo los de OpenSubtitles.
+                    Para una mejor experiencia te recomendamos desintalar los otros addons de subtítulos como por
+                    ejemplo los de OpenSubtitles.
                   </p>
                 </div>
               </div>
@@ -371,14 +350,8 @@ export function VlcButton() {
             <div className="absolute inset-0 bg-gradient-to-br from-[#E26400] to-[#FF9800] transition-all ease-in-out -translate-y-full" />
             <div className="relative flex items-center gap-2">
               <div className="relative size-6">
-                <VlcColouredLogo
-                  size={24}
-                  className="!size-auto absolute transition-all ease-in-out opacity-100"
-                />
-                <VlcWhiteLogo
-                  size={24}
-                  className="!size-auto absolute transition-all ease-in-out opacity-0"
-                />
+                <VlcColouredLogo size={24} className="!size-auto absolute transition-all ease-in-out opacity-100" />
+                <VlcWhiteLogo size={24} className="!size-auto absolute transition-all ease-in-out opacity-0" />
               </div>
               VLC
             </div>

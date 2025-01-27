@@ -76,7 +76,7 @@ export default function FaqPage() {
           <button
             type="button"
             onClick={handleCopyEmailToClipboard}
-            className="underline hover:text-zinc-50 transition-all ease-in-out text-stone-300"
+            className="underline hover:text-zinc-50 transition-all ease-in-out text-zinc-300"
           >
             soporte@subtis.io
           </button>

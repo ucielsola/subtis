@@ -1,13 +1,7 @@
-import { useLoaderData, Link } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 
 // ui
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "~/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "~/components/ui/carousel";
 
 // routes
 import type { loader } from "~/routes/_index";

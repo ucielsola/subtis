@@ -2,13 +2,7 @@ import { Fragment, type SVGProps, useState } from "react";
 
 // ui
 import { MorphingDialogBasicImage } from "~/components/ui/morphin-dialog-image";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from "~/components/ui/sheet";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "~/components/ui/sheet";
 
 // lib
 import { op } from "~/lib/analytics";
@@ -44,8 +38,8 @@ export function StremioButton() {
           <SheetHeader className="mb-10">
             <SheetTitle className="text-zinc-50">Instalación de Subtis para Stremio</SheetTitle>
             <SheetDescription className="text-zinc-400 text-sm">
-              Seguí estos pasos para integrar Subtis con Stremio correctamente. Haz click en las
-              imagenes para verlas en pantalla completa.
+              Seguí estos pasos para integrar Subtis con Stremio correctamente. Haz click en las imagenes para verlas en
+              pantalla completa.
             </SheetDescription>
           </SheetHeader>
           <div className="flex flex-col gap-10 pb-2">
@@ -77,8 +71,8 @@ export function StremioButton() {
                     >
                       link
                     </a>{" "}
-                    para instalar el addon de Subtis. Una vez abierto Stremio, haz click en
-                    &ldquo;Instalar&rdquo; o &ldquo;Install&rdquo;.
+                    para instalar el addon de Subtis. Una vez abierto Stremio, haz click en &ldquo;Instalar&rdquo; o
+                    &ldquo;Install&rdquo;.
                   </p>
                 </div>
               </div>
@@ -99,8 +93,7 @@ export function StremioButton() {
                     containerClassName="w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0"
                   />
                   <p className="text-zinc-400 text-sm">
-                    Mientras estás viendo una película, haz click en el ícono de subtítulos en la
-                    barra de reproducción.
+                    Mientras estás viendo una película, haz click en el ícono de subtítulos en la barra de reproducción.
                   </p>
                 </div>
               </div>
@@ -121,8 +114,8 @@ export function StremioButton() {
                     containerClassName="w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0"
                   />
                   <p className="text-zinc-400 text-sm">
-                    En la sección debajo de &ldquo;Addons&rdquo; haz click en &ldquo;español&rdquo;
-                    para reproducir el subtítulo en español.
+                    En la sección debajo de &ldquo;Addons&rdquo; haz click en &ldquo;español&rdquo; para reproducir el
+                    subtítulo en español.
                   </p>
                 </div>
               </div>
@@ -143,8 +136,8 @@ export function StremioButton() {
                     containerClassName="w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0"
                   />
                   <p className="text-zinc-400 text-sm">
-                    Para disfrutar de una mejor experiencia, te sugerimos desinstalar otros
-                    complementos de subtítulos, como los de OpenSubtitles.
+                    Para disfrutar de una mejor experiencia, te sugerimos desinstalar otros complementos de subtítulos,
+                    como los de OpenSubtitles.
                   </p>
                 </div>
               </div>

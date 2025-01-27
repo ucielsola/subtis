@@ -7,13 +7,7 @@ import type { loader } from "~/routes/_index";
 import { ThumbHashNewsImage } from "./thumbhash-news-image";
 
 // ui
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "~/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "~/components/ui/carousel";
 
 export function NewsSlider() {
   const { recentDownloadedTitles } = useLoaderData<typeof loader>();

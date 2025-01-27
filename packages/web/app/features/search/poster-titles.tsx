@@ -1,17 +1,11 @@
 import { Link } from "@remix-run/react";
-import { motion, AnimatePresence } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 
 // shared external
 import { getApiClient } from "@subtis/shared";
 
 // ui
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "~/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "~/components/ui/carousel";
 
 // features
 import { ThumbHashTrendingImage } from "~/features/home/thumbhash-trending-image";
@@ -65,11 +59,7 @@ function Slider({ data, isLoading }: SliderProps) {
                 onClick={() => handleUpdateSearchMetrics(title.value)}
                 className="flex flex-none rounded-sm overflow-hidden cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-300 group will-change-transform"
               >
-                <ThumbHashTrendingImage
-                  src={title.optimizedPoster}
-                  hashUrl={title.posterThumbHash}
-                  alt={title.label}
-                />
+                <ThumbHashTrendingImage src={title.optimizedPoster} hashUrl={title.posterThumbHash} alt={title.label} />
               </Link>
             </CarouselItem>
           );
