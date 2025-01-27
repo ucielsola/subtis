@@ -37,6 +37,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { ToastAction } from "~/components/ui/toast";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
 // features
 import { PosterDisclosure } from "~/features/movie/poster-disclosure";
 
@@ -493,27 +494,33 @@ export default function SubtitlesPage() {
                   Mirá en que cines se está proyectando la película.
                 </h4>
               </div>
-              <ul className="flex flex-col gap-4 list-disc list-inside">
-                {Object.entries(titleCinemas.cinemas).map(([city, cinemas]) => (
-                  <li key={city}>
-                    {city}
-                    <ul className="flex flex-col list-disc list-inside pl-4 pt-1">
-                      {cinemas.map((cinema) => (
-                        <li key={cinema.name}>
-                          <a
-                            href={titleCinemas.link}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="text-zinc-50 text-sm hover:underline"
-                          >
-                            {cinema.name}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </li>
-                ))}
-              </ul>
+              <div className="flex flex-col gap-4">
+                {Object.entries(titleCinemas.cinemas).map(([city, cinemas]) => {
+                  return (
+                    <Accordion key={city} type="single" collapsible className="w-full">
+                      <AccordionItem value={city}>
+                        <AccordionTrigger>{city}</AccordionTrigger>
+                        <AccordionContent>
+                          <ul className="flex flex-col list-disc list-inside pl-4 pt-1">
+                            {cinemas.map((cinema) => (
+                              <li key={cinema.name}>
+                                <a
+                                  href={titleCinemas.link}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="text-zinc-50 text-sm hover:underline"
+                                >
+                                  {cinema.name}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+                  );
+                })}
+              </div>
             </section>
           </Fragment>
         ) : null}
