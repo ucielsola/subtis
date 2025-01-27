@@ -97,7 +97,7 @@ export const AutoComplete = ({
         <CommandInput
           ref={inputRef}
           value={inputValue}
-          onValueChange={isLoading ? undefined : onInputChange}
+          onValueChange={onInputChange}
           onBlur={handleBlur}
           onFocus={() => setOpen(true)}
           placeholder={placeholder}
