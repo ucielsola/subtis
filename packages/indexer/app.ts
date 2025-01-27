@@ -103,6 +103,7 @@ type SubtitleWithResolutionAndTorrentId = SubtitleData & {
 };
 
 // constants
+const MAX_TORRENTS = 10;
 const MAX_TIMEOUT = ms("30s");
 const MIN_BYTES = filesizeParser("500MB");
 
@@ -1015,14 +1016,18 @@ function getSpecificTorrents(
   });
 
   if (torrentsForTitleFileName.length > 0) {
-    return torrentsForTitleFileName.toSorted((torrentA, torrentB) => {
-      return torrentB.seeds - torrentA.seeds;
-    });
+    return torrentsForTitleFileName
+      .toSorted((torrentA, torrentB) => {
+        return torrentB.seeds - torrentA.seeds;
+      })
+      .slice(0, MAX_TORRENTS);
   }
 
-  return torrentsForTitle.toSorted((torrentA, torrentB) => {
-    return torrentB.seeds - torrentA.seeds;
-  });
+  return torrentsForTitle
+    .toSorted((torrentA, torrentB) => {
+      return torrentB.seeds - torrentA.seeds;
+    })
+    .slice(0, MAX_TORRENTS);
 }
 
 type VideoFile = {
