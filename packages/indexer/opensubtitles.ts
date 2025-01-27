@@ -117,8 +117,8 @@ const subtitlesSchema = z.object({
 });
 
 const downloadSchema = z.object({
-  file_name: z.string(),
-  link: z.string(),
+  file_name: z.string().optional(),
+  link: z.string().optional(),
   message: z.string(),
   remaining: z.number(),
   requests: z.number(),
