@@ -107,6 +107,7 @@ export const AutoComplete = ({
           disabled={disabled}
           className="text-sm caret-zinc-50 text-zinc-50"
           autoFocus
+          autoComplete="off"
           onClear={() => {
             onClearInputValue?.();
             setTimeout(() => {
