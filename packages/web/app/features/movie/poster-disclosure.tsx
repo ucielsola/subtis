@@ -97,7 +97,7 @@ export function PosterDisclosure({ src, alt, hashUrl, title, imdbId, year, overv
             <span
               className={`text-left ${isOpen ? "text-zinc-50 text-base" : "text-zinc-300 text-sm"} transition-all duration-300 ease-in-out`}
             >
-              {isOpen ? title : "Ver más"}
+              {isOpen ? title : "Más detalles"}
             </span>
             <AnimatePresence mode="wait">
               {isOpen ? (
