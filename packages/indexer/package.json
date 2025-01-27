@@ -5,6 +5,7 @@
   "main": "app.ts",
   "scripts": {
     "test": "bun test --watch",
+    "dev:top-300": "bun --watch top-300.ts",
     "dev:file": "bun --watch file.ts",
     "dev:movies": "bun --watch movies.ts",
     "dev:tv-shows": "bun --watch tv-shows.ts",

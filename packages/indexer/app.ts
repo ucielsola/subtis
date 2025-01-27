@@ -816,7 +816,14 @@ export async function getFileTitleTorrents(
   imdbId: string,
 ): Promise<TorrentFound[]> {
   if (query.includes("YTS")) {
-    const ytsTorrents = await getYtsTorrents(imdbId);
+    let ytsTorrents: TorrentFound[] = [];
+
+    try {
+      ytsTorrents = await getYtsTorrents(imdbId);
+    } catch (error) {
+      console.log("Error on getTitleTorrents using YTS API");
+      console.log(error);
+    }
 
     return ytsTorrents;
   }
@@ -917,7 +924,14 @@ export async function getTitleTorrents(query: string, titleType: TitleTypes, imd
     return [...torrents1337xWithMagnet, ...thePirateBayTorrents];
   }
 
-  const ytsTorrents = await getYtsTorrents(imdbId);
+  let ytsTorrents: TorrentFound[] = [];
+
+  try {
+    ytsTorrents = await getYtsTorrents(imdbId);
+  } catch (error) {
+    console.log("Error on getTitleTorrents using YTS API");
+    console.log(error);
+  }
 
   return [...ytsTorrents, ...torrents1337xWithMagnet, ...thePirateBayTorrents].flat();
 }
