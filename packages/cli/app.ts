@@ -274,7 +274,7 @@ const program = new Command();
 program
   .name("subtis")
   .description("CLI to search for movie subtitles")
-  .version("0.4.9")
+  .version("0.5.0")
   .command("search")
   .description("Search a subtitle for a video file")
   .argument("<file>", "Video file")
