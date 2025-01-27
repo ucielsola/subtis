@@ -1,7 +1,7 @@
 import type { MetaFunction } from "@remix-run/cloudflare";
 import { Link, useLoaderData } from "@remix-run/react";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useQueryState } from "nuqs";
 import { useDebounce } from "use-debounce";
 
 // shared
@@ -71,8 +71,8 @@ export default function SearchPage() {
   // remix hooks
   const { trendingSearch } = useLoaderData<typeof loader>();
 
-  // react hooks
-  const [inputValue, setInputValue] = useState<string>("");
+  // nuqs hooks
+  const [inputValue, setInputValue] = useQueryState("query", { defaultValue: "" });
 
   // debounce hooks
   const [value] = useDebounce(inputValue, 400);
