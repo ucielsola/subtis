@@ -15,7 +15,8 @@ function getFullPathFromSupabasePath(path: string): string {
 export async function optimizeTitleTableImages() {
   const { data, error } = await supabase
     .from("Titles")
-    .select("id, poster, backdrop, logo, optimized_poster, optimized_backdrop, optimized_logo");
+    .select("id, poster, backdrop, logo, optimized_poster, optimized_backdrop, optimized_logo")
+    .or("optimized_poster.not.ilike.%.webp,optimized_backdrop.not.ilike.%.webp,optimized_logo.not.ilike.%.webp");
 
   if (error) {
     console.error(error);
