@@ -57,9 +57,9 @@ BEGIN
         t.rating
     FROM "Titles" t
     WHERE (
-        (unaccent(query) % unaccent(t.title_name) AND similarity(unaccent(query), unaccent(t.title_name)) > 0.3)
-        OR (unaccent(query) % unaccent(t.title_name_spa) AND similarity(unaccent(query), unaccent(t.title_name_spa)) > 0.3)
-        OR (unaccent(query) % unaccent(t.title_name_ja) AND similarity(unaccent(query), unaccent(t.title_name_ja)) > 0.3)
+        (unaccent(query) % unaccent(t.title_name) AND similarity(unaccent(query), unaccent(t.title_name)) > 0.7)
+        OR (unaccent(query) % unaccent(t.title_name_spa) AND similarity(unaccent(query), unaccent(t.title_name_spa)) > 0.7)
+        OR (unaccent(query) % unaccent(t.title_name_ja) AND similarity(unaccent(query), unaccent(t.title_name_ja)) > 0.7)
         OR unaccent(t.title_name) ILIKE '%' || unaccent(query) || '%'
         OR unaccent(t.title_name_spa) ILIKE '%' || unaccent(query) || '%'
         OR unaccent(t.title_name_ja) ILIKE '%' || unaccent(query) || '%'
