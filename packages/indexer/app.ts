@@ -1740,6 +1740,16 @@ export async function getSubtitlesForTitle({
     }
   }
 
+  // remove all files that begins with temp-
+  const tempFiles = await fs.readdirSync(path.join(__dirname, "..", "..", "temp"));
+  console.log("\n ~ tempFiles:", tempFiles);
+
+  for (const file of tempFiles) {
+    if (file.startsWith("temp-")) {
+      await fs.unlinkSync(path.join(__dirname, "..", "..", "temp", file));
+    }
+  }
+
   if (!fromWebSocket) {
     console.log(`4.${index}) Esperando 2s para pasar al siguiente titulo... \n`);
     await Bun.sleep(2000);
