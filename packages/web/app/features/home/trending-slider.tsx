@@ -1,8 +1,13 @@
-import { useLoaderData } from "@remix-run/react";
-import { Link } from "@remix-run/react";
+import { useLoaderData, Link } from "@remix-run/react";
 
 // ui
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "~/components/ui/carousel";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "~/components/ui/carousel";
 
 // routes
 import type { loader } from "~/routes/_index";
@@ -46,8 +51,8 @@ export function TrendingSlider() {
           );
         })}
       </CarouselContent>
-      <CarouselPrevious className="border-zinc-300 hover:bg-zinc-800 lg:inline-flex hidden" />
-      <CarouselNext className="border-zinc-300 hover:bg-zinc-800 lg:inline-flex hidden" />
+      <CarouselPrevious />
+      <CarouselNext />
     </Carousel>
   );
 }
