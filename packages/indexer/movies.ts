@@ -43,7 +43,13 @@ export async function indexMoviesByYear(year: number, isDebugging: boolean): Pro
     totalMoviesResultBar.start(totalPages.length, 0);
     console.log("\n");
 
-    for await (const tmbdMoviesPage of totalPages) {
+    // última página: 16
+    // agregar algo para que el totalPages empiece desde 16
+
+    const lastPageIndexed = 19;
+    const totalPagesFromLastPage = [...totalPages.slice(lastPageIndexed)];
+
+    for await (const tmbdMoviesPage of totalPagesFromLastPage) {
       console.log(`\n2) Buscando en página ${tmbdMoviesPage} de TMDB \n`);
 
       console.log("\nProgreso total del indexador:\n");
