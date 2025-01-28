@@ -71,6 +71,7 @@ export default function RealTimeSearchPage() {
   const { bytes, fileName } = useParams();
 
   // react hooks
+  const [total, setTotal] = useState<number | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
   // effects
@@ -134,7 +135,8 @@ export default function RealTimeSearchPage() {
             }
 
             if (messageSafeParsed.success) {
-              setMessage(`${messageSafeParsed.data.total * 100}% ${messageSafeParsed.data.message}`);
+              setTotal(messageSafeParsed.data.total);
+              setMessage(messageSafeParsed.data.message);
             }
           },
         );
@@ -173,7 +175,12 @@ export default function RealTimeSearchPage() {
             </TextShimmerWave>
             <div className="flex flex-col gap-1">
               <h2 className="text-zinc-50 text-sm md:text-base">Este proceso puede durar hasta 30 segundos.</h2>
-              {message ? <p className="text-zinc-300 text-xs md:text-sm">{message}</p> : null}
+              {message ? (
+                <p className="text-zinc-300 text-xs md:text-sm">
+                  {total ? `${total * 100}% ` : ""}
+                  {message}
+                </p>
+              ) : null}
             </div>
           </div>
           {!teaser || "message" in teaser ? null : (
