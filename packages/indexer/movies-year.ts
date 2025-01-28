@@ -1,11 +1,11 @@
-import { indexMoviesByYear } from "./movies";
+import { indexMovieByName, indexMoviesByYear } from "./movies";
 
 // testing
-indexMoviesByYear({
-  year: 2024,
-  indexFromPage: 148,
-  isDebugging: false,
-});
+// indexMoviesByYear({
+//   year: 2024,
+//   indexFromPage: 162,
+//   isDebugging: false,
+// });
 
 // indexMoviesByYear({
 //   year: 2024,
@@ -20,9 +20,9 @@ indexMoviesByYear({
 // });
 
 // indexMovieByName({
-//   year: 2021,
+//   year: 2002,
 //   isDebugging: false,
-//   name: "Cherry",
+//   name: "Harry Potter and the Chamber of Secrets",
 // });
 
 // saveReleaseGroupsToDb(supabase);
