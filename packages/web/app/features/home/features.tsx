@@ -86,7 +86,7 @@ export function HomeFeatures() {
           onMouseLeave={() => trendingUpControls.start("normal")}
         >
           <TrendingUpIcon size={24} controls={trendingUpControls} />
-          <span className="text-zinc-50">+9mil subtítulos</span>
+          <span className="text-zinc-50">+5mil subtítulos</span>
         </div>
         <div
           className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
@@ -94,7 +94,7 @@ export function HomeFeatures() {
           onMouseLeave={() => clapControls.start("normal")}
         >
           <Clap size={24} controls={clapControls} />
-          <span className="text-zinc-50">+300 títulos</span>
+          <span className="text-zinc-50">+2mil títulos</span>
         </div>
         <div
           className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
