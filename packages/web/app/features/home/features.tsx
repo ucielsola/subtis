@@ -49,7 +49,7 @@ export function HomeFeatures() {
       </div>
       <div className="flex flex-row flex-wrap gap-4 max-w-screen-xl items-center justify-center">
         <div
-          className="flex flex-col justify-center items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 w-72 h-28"
+          className="flex flex-col justify-center items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
           onMouseEnter={() => audiolinesControls.start("animate")}
           onMouseLeave={() => audiolinesControls.start("normal")}
         >
@@ -57,7 +57,7 @@ export function HomeFeatures() {
           <span className="text-zinc-50">Sincronización perfecta</span>
         </div>
         <div
-          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 w-72 h-28"
+          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
           onMouseEnter={() => earthControls.start("animate")}
           onMouseLeave={() => earthControls.start("normal")}
         >
@@ -65,7 +65,7 @@ export function HomeFeatures() {
           <span className="text-zinc-50">Español latino</span>
         </div>
         <div
-          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 w-72 h-28"
+          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
           onMouseEnter={() => timerControls.start("animate")}
           onMouseLeave={() => timerControls.start("normal")}
         >
@@ -73,7 +73,7 @@ export function HomeFeatures() {
           <span className="text-zinc-50">Búsqueda en tiempo real</span>
         </div>
         <div
-          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 w-72 h-28"
+          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
           onMouseEnter={() => squareStackControls.start("animate")}
           onMouseLeave={() => squareStackControls.start("normal")}
         >
@@ -81,7 +81,7 @@ export function HomeFeatures() {
           <span className="text-zinc-50">Múltiples clientes</span>
         </div>
         <div
-          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 w-72 h-28"
+          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
           onMouseEnter={() => trendingUpControls.start("animate")}
           onMouseLeave={() => trendingUpControls.start("normal")}
         >
@@ -89,7 +89,7 @@ export function HomeFeatures() {
           <span className="text-zinc-50">+9mil subtítulos</span>
         </div>
         <div
-          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 w-72 h-28"
+          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
           onMouseEnter={() => clapControls.start("animate")}
           onMouseLeave={() => clapControls.start("normal")}
         >
@@ -97,7 +97,7 @@ export function HomeFeatures() {
           <span className="text-zinc-50">+300 títulos</span>
         </div>
         <div
-          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 w-72 h-28"
+          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
           onMouseEnter={() => circleCheckControls.start("animate")}
           onMouseLeave={() => circleCheckControls.start("normal")}
         >
@@ -105,7 +105,7 @@ export function HomeFeatures() {
           <span className="text-zinc-50">SRT estándar compatible</span>
         </div>
         <div
-          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 w-72 h-28"
+          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
           onMouseEnter={onAnimationStart}
           onMouseLeave={onAnimationEnd}
         >
@@ -113,7 +113,7 @@ export function HomeFeatures() {
           <span className="text-zinc-50">Búsqueda multi-idioma</span>
         </div>
         <div
-          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 w-72 h-28"
+          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
           onMouseEnter={() => cpuControls.start("animate")}
           onMouseLeave={() => cpuControls.start("normal")}
         >
@@ -121,7 +121,7 @@ export function HomeFeatures() {
           <span className="text-zinc-50">Generación por AI</span>
         </div>
         <div
-          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 w-72 h-28"
+          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
           onMouseEnter={() => playControls.start("animate")}
           onMouseLeave={() => playControls.start("normal")}
         >
@@ -129,7 +129,7 @@ export function HomeFeatures() {
           <span className="text-zinc-50">Reproductor de video</span>
         </div>
         <div
-          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 w-72 h-28"
+          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
           onMouseEnter={() => messageCircleControls.start("animate")}
           onMouseLeave={() => messageCircleControls.start("normal")}
         >
@@ -137,7 +137,7 @@ export function HomeFeatures() {
           <span className="text-zinc-50">Soporte 24/7</span>
         </div>
         <div
-          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 w-72 h-28"
+          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
           onMouseEnter={() => peopleControls.start("animate")}
           onMouseLeave={() => peopleControls.start("normal")}
         >

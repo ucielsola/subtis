@@ -16,8 +16,8 @@ export function BadgeTvShows() {
       onMouseEnter={() => controls.start("animate")}
       onMouseLeave={() => controls.start("normal")}
     >
-      <RocketIcon controls={controls} size={14} />
-      <span className="ml-[4px] text-xs">Próximamente soporte para Series!</span>
+      <RocketIcon controls={controls} size={13} />
+      <span className="ml-[4px] text-xs">Próximamente soporte para series</span>
     </Badge>
   );
 }
