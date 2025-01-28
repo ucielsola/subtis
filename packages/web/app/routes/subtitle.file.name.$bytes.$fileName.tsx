@@ -366,7 +366,7 @@ export default function SubtitlePage() {
               />
             ) : null}
             {"message" in data ? null : (
-              <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold">
+              <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold text-balance">
                 {data.title.title_name} ({data.title.year})
               </h1>
             )}
