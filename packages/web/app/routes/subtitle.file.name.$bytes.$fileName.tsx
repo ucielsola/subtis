@@ -462,7 +462,7 @@ export default function SubtitlePage() {
                       href="stremio://stremio.subt.is/manifest.json
 "
                       target="_blank"
-                      className="text-zinc-50 underline"
+                      className="text-zinc-300 hover:text-zinc-50 hover:underline"
                       rel="noreferrer"
                     >
                       add-on
