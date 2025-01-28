@@ -457,8 +457,18 @@ export default function SubtitlePage() {
                 <div className="pt-1">
                   <AlertTitle className="text-zinc-50">Si vas a usar Stremio...</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
-                    Te recomendamos usar el add-on oficial. En caso de que no quieras utilizar el add-on de Subtis,
-                    también podés arrastrar el subtítulo al reproductor de Stremio.
+                    Te recomendamos usar el{" "}
+                    <a
+                      href="stremio://stremio.subt.is/manifest.json
+"
+                      target="_blank"
+                      className="text-zinc-50 underline"
+                      rel="noreferrer"
+                    >
+                      add-on
+                    </a>{" "}
+                    oficial. En caso de que no quieras utilizar el add-on de Subtis, también podés arrastrar el
+                    subtítulo al reproductor de Stremio.
                   </AlertDescription>
                 </div>
               </Alert>

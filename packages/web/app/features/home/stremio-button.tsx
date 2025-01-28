@@ -52,12 +52,12 @@ export function StremioButton() {
                       <span className="text-zinc-700 text-sm">1</span>
                     </div>
                   </div>
-                  <div className="text-zinc-50 pb-1">Instalá el Addon</div>
+                  <div className="text-zinc-50 pb-1">Instalá el Add-on</div>
                 </div>
                 <div className="flex flex-row gap-4">
                   <MorphingDialogBasicImage
                     src="/stremio-1.webp"
-                    alt="Instalación de addon de Stremio"
+                    alt="Instalación de add-on de Stremio"
                     containerClassName="w-44 border border-zinc-700 rounded-sm flex-shrink-0"
                   />
                   <p className="text-zinc-400 text-sm">
@@ -71,7 +71,7 @@ export function StremioButton() {
                     >
                       link
                     </a>{" "}
-                    para instalar el addon de Subtis. Una vez abierto Stremio, haz click en &ldquo;Instalar&rdquo; o
+                    para instalar el add-on de Subtis. Una vez abierto Stremio, haz click en &ldquo;Instalar&rdquo; o
                     &ldquo;Install&rdquo;.
                   </p>
                 </div>
@@ -89,7 +89,7 @@ export function StremioButton() {
                 <div className="flex flex-row gap-4">
                   <MorphingDialogBasicImage
                     src="/stremio-2.webp"
-                    alt="Instalación de addon de Stremio"
+                    alt="Instalación de add-on de Stremio"
                     containerClassName="w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0"
                   />
                   <p className="text-zinc-400 text-sm">
@@ -110,11 +110,11 @@ export function StremioButton() {
                 <div className="flex flex-row gap-4">
                   <MorphingDialogBasicImage
                     src="/stremio-3.webp"
-                    alt="Instalación de addon de Stremio"
+                    alt="Instalación de add-on de Stremio"
                     containerClassName="w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0"
                   />
                   <p className="text-zinc-400 text-sm">
-                    En la sección debajo de &ldquo;Addons&rdquo; haz click en &ldquo;español&rdquo; para reproducir el
+                    En la sección debajo de &ldquo;Add-ons&rdquo; haz click en &ldquo;español&rdquo; para reproducir el
                     subtítulo en español.
                   </p>
                 </div>
@@ -127,12 +127,12 @@ export function StremioButton() {
                       <span className="text-zinc-700 text-sm">4</span>
                     </div>
                   </div>
-                  <div className="text-zinc-50 pb-1">Desinstalá otros Addons (Opcional)</div>
+                  <div className="text-zinc-50 pb-1">Desinstalá otros Add-ons (Opcional)</div>
                 </div>
                 <div className="flex flex-row gap-4">
                   <MorphingDialogBasicImage
                     src="/stremio-4.webp"
-                    alt="Instalación de addon de Stremio"
+                    alt="Instalación de add-on de Stremio"
                     containerClassName="w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0"
                   />
                   <p className="text-zinc-400 text-sm">
