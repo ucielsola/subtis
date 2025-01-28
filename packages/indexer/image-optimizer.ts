@@ -1,4 +1,5 @@
 import sharp from "sharp";
+import cron from "node-cron";
 import * as ThumbHash from "thumbhash";
 
 // db
@@ -154,3 +155,8 @@ export async function optimizeTitleTableImages() {
 }
 
 optimizeTitleTableImages();
+
+// Run every 15 minutes
+cron.schedule("*/15 * * * *", () => {
+  optimizeTitleTableImages();
+});
