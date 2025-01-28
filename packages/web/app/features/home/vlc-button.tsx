@@ -342,7 +342,7 @@ export function VlcButton() {
 
       <Tooltip>
         <Button
-          className="bg-zinc-950 text-zinc-50 group border-[#E26400] border-2 relative overflow-hidden rounded-md opacity-60 hover:bg-transparent cursor-not-allowed mix-blend-luminosity"
+          className="bg-zinc-950 text-zinc-50 group border-[#E26400] border-2 relative overflow-hidden rounded-md opacity-60 hover:bg-transparent cursor-not-allowed grayscale"
           asChild
           onClick={undefined}
         >
@@ -353,12 +353,12 @@ export function VlcButton() {
                 <VlcColouredLogo size={24} className="!size-auto absolute transition-all ease-in-out opacity-100" />
                 <VlcWhiteLogo size={24} className="!size-auto absolute transition-all ease-in-out opacity-0" />
               </div>
-              VLC
+              Agregar a VLC
             </div>
           </TooltipTrigger>
         </Button>
         <TooltipContent side="bottom">
-          <p>Próximamente disponible</p>
+          <p>Bancá que se viene</p>
         </TooltipContent>
       </Tooltip>
     </Fragment>
