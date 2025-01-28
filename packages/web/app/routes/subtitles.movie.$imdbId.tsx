@@ -1,6 +1,5 @@
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
 import { useLoaderData, useParams } from "@remix-run/react";
-import { useQuery } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useAnimation } from "motion/react";
 import { useQueryState } from "nuqs";
@@ -11,8 +10,6 @@ import Highlighter from "react-highlight-words";
 import type { SubtitlesNormalized } from "@subtis/api";
 
 // shared external
-import { cinemasSchema } from "@subtis/api/shared/cinemas";
-import { streamingSchema } from "@subtis/api/shared/streaming";
 import { getApiClient } from "@subtis/shared";
 
 // shared internal
@@ -40,6 +37,8 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
 // features
 import { PosterDisclosure } from "~/features/movie/poster-disclosure";
+import { useCinemas } from "~/hooks/use-cinemas";
+import { usePlatforms } from "~/hooks/use-platforms";
 
 // helpers
 function getResolutionRank(resolution: string): number {
@@ -112,74 +111,16 @@ export default function SubtitlesPage() {
   }
 
   // query hooks
-  const { data: titlePlatforms } = useQuery({
-    queryKey: ["title", "platforms", imdbId],
-    queryFn: async () => {
-      if (!imdbId) {
-        return null;
-      }
-
-      const apiClient = getApiClient({
-        apiBaseUrl: "https://api.subt.is",
-      });
-
-      const response = await apiClient.v1.title.streaming[":imdbId"].$get({
-        param: { imdbId },
-      });
-
-      const streaming = await response.json();
-
-      if ("message" in streaming) {
-        return null;
-      }
-
-      const parsedStreaming = streamingSchema.safeParse(streaming);
-
-      if (parsedStreaming.error) {
-        return null;
-      }
-
-      return parsedStreaming.data;
-    },
-  });
-
-  const { data: titleCinemas } = useQuery({
-    queryKey: ["title", "cinemas", imdbId],
-    queryFn: async () => {
-      if (!imdbId) {
-        return null;
-      }
-
-      const apiClient = getApiClient({
-        apiBaseUrl: "https://api.subt.is",
-      });
-
-      const response = await apiClient.v1.title.cinemas[":imdbId"].$get({
-        param: { imdbId },
-      });
-
-      const cinemas = await response.json();
-
-      if ("message" in cinemas) {
-        return null;
-      }
-
-      const parsedCinemas = cinemasSchema.safeParse(cinemas);
-
-      if (parsedCinemas.error) {
-        return null;
-      }
-
-      return parsedCinemas.data;
-    },
-  });
+  const { data: titleCinemas } = useCinemas(imdbId);
+  const { data: titlePlatforms } = usePlatforms(imdbId);
 
   // motion hooks
   const videoTipControl = useAnimation();
   const stremioTipControl = useAnimation();
+  const internalVideoPlayerTipControl = useAnimation();
 
-  const resolutionTipControl = useAnimation();
   const formatTipControl = useAnimation();
+  const resolutionTipControl = useAnimation();
   const publisherTipControl = useAnimation();
 
   // constants
@@ -460,6 +401,22 @@ export default function SubtitlesPage() {
                     también podés arrastrar el subtítulo al reproductor de Stremio.
                   </AlertDescription>
                 </div>
+              </Alert>{" "}
+              <Alert
+                className="bg-zinc-950 border border-zinc-700 flex items-start gap-4"
+                onMouseEnter={() => internalVideoPlayerTipControl.start("animate")}
+                onMouseLeave={() => internalVideoPlayerTipControl.start("normal")}
+              >
+                <div>
+                  <CheckIcon size={24} controls={internalVideoPlayerTipControl} className="stroke-zinc-50" />
+                </div>
+                <div className="pt-1">
+                  <AlertTitle className="text-zinc-50">Probá con el reproductor de video de Subtis...</AlertTitle>
+                  <AlertDescription className="text-zinc-400 text-sm font-normal">
+                    Si quisieras utilizar el reproductor de video de Subtis, y contas con el archivo de video,
+                    arrastralo en la sección debajo.
+                  </AlertDescription>
+                </div>
               </Alert>
             </TabsContent>
           </Tabs>
@@ -501,7 +458,7 @@ export default function SubtitlesPage() {
                       <AccordionItem value={city}>
                         <AccordionTrigger>{city}</AccordionTrigger>
                         <AccordionContent>
-                          <ul className="flex flex-col list-disc list-inside pl-4 pt-1">
+                          <ul className="flex flex-col list-disc list-inside pl-4 pt-1 gap-1">
                             {cinemas.map((cinema) => (
                               <li key={cinema.name}>
                                 <a

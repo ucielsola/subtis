@@ -1,6 +1,5 @@
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
 import { redirect, useLoaderData, useParams } from "@remix-run/react";
-import { useQuery } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
 import { AnimatePresence, motion, useAnimation } from "motion/react";
 import { Fragment, useEffect, useRef, useState } from "react";
@@ -10,7 +9,6 @@ import { transformSrtTracks } from "srt-support-for-html5-videos";
 import type { SubtitleNormalized } from "@subtis/api";
 
 // shared external
-import { cinemasSchema } from "@subtis/api/shared/cinemas";
 import { getApiClient } from "@subtis/shared";
 
 // shared internal
@@ -36,8 +34,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { ToastAction } from "~/components/ui/toast";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
 // features
 import { PosterDisclosure } from "~/features/movie/poster-disclosure";
+import { useCinemas } from "~/hooks/use-cinemas";
+import { usePlatforms } from "~/hooks/use-platforms";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { bytes, fileName } = params;
@@ -97,36 +98,8 @@ export default function SubtitlePage() {
   const [captionBlobUrl, setCaptionBlobUrl] = useState<string | null>(null);
 
   // query hooks
-  const { data: titleCinemas } = useQuery({
-    queryKey: ["title", "cinemas", fileName],
-    queryFn: async () => {
-      if ("message" in data) {
-        return null;
-      }
-
-      const apiClient = getApiClient({
-        apiBaseUrl: "https://api.subt.is",
-      });
-
-      const response = await apiClient.v1.title.cinemas[":imdbId"].$get({
-        param: { imdbId: data.title.imdb_id },
-      });
-
-      const cinemas = await response.json();
-
-      if ("message" in cinemas) {
-        return null;
-      }
-
-      const parsedCinemas = cinemasSchema.safeParse(cinemas);
-
-      if (parsedCinemas.error) {
-        return null;
-      }
-
-      return parsedCinemas.data;
-    },
-  });
+  const { data: titleCinemas } = useCinemas("message" in data ? "" : data.title.imdb_id);
+  const { data: titlePlatforms } = usePlatforms("message" in data ? "" : data.title.imdb_id);
 
   // motion hooks
   const internalVideoPlayerTipControl = useAnimation();
@@ -484,26 +457,61 @@ export default function SubtitlePage() {
             <section className="flex flex-col gap-12 mt-16">
               <div className="flex flex-col gap-2">
                 <h3 className="text-2xl font-semibold text-zinc-50">Cines</h3>
-                <h4 className="text-zinc-50 text-sm md:text-base">Mirá en que cines se está proyectando la película</h4>
+                <h4 className="text-zinc-50 text-sm md:text-base">
+                  Mirá en que cines se está proyectando la película.
+                </h4>
               </div>
-              <ul className="flex flex-col gap-1 list-disc list-inside">
-                {Object.entries(titleCinemas.cinemas).map(([city, cinemas]) => (
-                  <li key={city}>
-                    {city}
-                    <ul>
-                      {cinemas.map((cinema) => (
-                        <li key={cinema.name}>
-                          <a
-                            href={titleCinemas.link}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="text-zinc-50 text-sm hover:underline"
-                          >
-                            {cinema.name}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
+              <div className="flex flex-col gap-4">
+                {Object.entries(titleCinemas.cinemas).map(([city, cinemas]) => {
+                  return (
+                    <Accordion key={city} type="single" collapsible className="w-full">
+                      <AccordionItem value={city}>
+                        <AccordionTrigger>{city}</AccordionTrigger>
+                        <AccordionContent>
+                          <ul className="flex flex-col list-disc list-inside pl-4 pt-1 gap-1">
+                            {cinemas.map((cinema) => (
+                              <li key={cinema.name}>
+                                <a
+                                  href={titleCinemas.link}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="text-zinc-50 text-sm hover:underline"
+                                >
+                                  {cinema.name}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+                  );
+                })}
+              </div>
+            </section>
+          </Fragment>
+        ) : null}
+        {titlePlatforms && titlePlatforms.platforms.length > 0 ? (
+          <Fragment>
+            <Separator className="my-16 bg-zinc-700" />
+            <section className="flex flex-col gap-12 mt-16">
+              <div className="flex flex-col gap-2">
+                <h3 className="text-2xl font-semibold text-zinc-50">Plataformas</h3>
+                <h4 className="text-zinc-50 text-sm md:text-base">
+                  También podés disfrutar de la película en las siguientes plataformas.
+                </h4>
+              </div>
+              <ul className="flex flex-col list-disc list-inside">
+                {titlePlatforms.platforms.map((platform) => (
+                  <li key={platform.name}>
+                    <a
+                      href={platform.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-zinc-50 text-sm hover:underline"
+                    >
+                      {platform.name}
+                    </a>
                   </li>
                 ))}
               </ul>
