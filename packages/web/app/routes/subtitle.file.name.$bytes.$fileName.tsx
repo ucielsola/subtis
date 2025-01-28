@@ -491,6 +491,7 @@ export default function SubtitlePage() {
             </section>
           </Fragment>
         ) : null}
+
         {titlePlatforms && titlePlatforms.platforms.length > 0 ? (
           <Fragment>
             <Separator className="my-16 bg-zinc-700" />

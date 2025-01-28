@@ -65,8 +65,13 @@ function Slider({ data, isLoading }: SliderProps) {
           );
         })}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
+
+      {data.results.length > 2 ? (
+        <>
+          <CarouselPrevious />
+          <CarouselNext />
+        </>
+      ) : null}
     </Carousel>
   );
 }
