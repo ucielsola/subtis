@@ -42,7 +42,7 @@ export function HomeHero() {
               <StremioButton />
               <VlcButton />
             </div>
-            <span className="text-zinc-400 text-sm flex flex-row items-center">
+            <span className="text-zinc-400 text-sm flex flex-row items-center hidden">
               También disponible para tu
               <span
                 onMouseEnter={() => controls.start("hover")}
