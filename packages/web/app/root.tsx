@@ -56,7 +56,7 @@ export default function App() {
       <TooltipProvider>
         <NuqsAdapter>
           <Header />
-          <main className="min-h-screen bg-right-top bg-[url('/hero-bg.webp')] bg-contain bg-no-repeat selection:text-zinc-950 selection:bg-zinc-50 pt-20">
+          <main className="min-h-screen selection:text-zinc-950 selection:bg-zinc-50 pt-20 overflow-x-hidden">
             <div className="container mx-auto px-4 min-h-screen flex flex-col">
               <Outlet />
               <HomeFooter />
