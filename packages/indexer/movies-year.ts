@@ -3,9 +3,21 @@ import { indexMoviesByYear } from "./movies";
 // testing
 indexMoviesByYear({
   year: 2024,
-  indexFromPage: 52,
+  indexFromPage: 81,
   isDebugging: false,
 });
+
+// indexMoviesByYear({
+//   year: 2024,
+//   indexFromPage: 0,
+//   isDebugging: false,
+// });
+
+// indexMoviesByYear({
+//   year: 2025,
+//   indexFromPage: 0,
+//   isDebugging: false,
+// });
 
 // indexMovieByName({
 //   year: 2021,
