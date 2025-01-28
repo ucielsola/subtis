@@ -16,20 +16,6 @@ import type { loader } from "~/routes/_index";
 const IMAGE_WIDTH = 19.3;
 const BASE_VELOCITIES = [20, 25, 15, 30]; // Velocidades base más altas porque ahora el factor de velocidad es más pequeño
 
-type ApiTitle = {
-  id: number;
-  type: string;
-  queried_times: number | null;
-  imdb_id: string;
-  backdrop_thumbhash: string | null;
-  optimized_backdrop: string | null;
-  optimized_logo: string | null;
-  optimized_poster: string | null;
-  poster_thumbhash: string | null;
-  title_name: string;
-  year: number;
-};
-
 type Props = {
   className?: string;
 };
