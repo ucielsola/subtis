@@ -23,12 +23,12 @@ export const loader = async () => {
   const [trendingDownloadedTitlesResponse, recentDownloadedTitlesResponse] = await Promise.all([
     apiClient.v1.titles.trending.download[":limit"].$get({
       param: {
-        limit: "20",
+        limit: "30",
       },
     }),
     apiClient.v1.titles.recent[":limit"].$get({
       param: {
-        limit: "20",
+        limit: "30",
       },
     }),
   ]);

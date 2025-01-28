@@ -1,4 +1,4 @@
-export interface RecentTitle {
+export type RecentTitle = {
   id: string;
   title: string;
   year: number;
@@ -6,6 +6,6 @@ export interface RecentTitle {
   poster: string;
   imdb_id: string;
   tmdb_id: number;
-}
+};
 
 export type RecentTitlesResponse = RecentTitle[];

@@ -17,6 +17,8 @@ import { cn } from "~/lib/utils";
 
 // icons
 import { Terminal } from "~/components/icons/terminal";
+
+// internals
 import { HeroBackground } from "./hero-background";
 
 export function HomeHero() {
@@ -24,7 +26,7 @@ export function HomeHero() {
   const controls = useAnimation();
 
   return (
-    <section className="py-16  lg:pt-24 lg:pb-20 isolate relative">
+    <section className="py-16 lg:pt-24 lg:pb-20 isolate relative">
       <HeroBackground className="absolute w-[100%] h-full top-0 right-0 translate-y-[-40%] translate-x-[0%] 2xl:translate-x-[10%] 2xl:translate-y-[-60%] -z-10 -rotate-[25deg]" />
       <div className="flex flex-col lg:flex-row justify-between items-center flex-1 gap-8 lg:gap-4">
         <div className="flex flex-col gap-3 lg:max-w-[624px]">
@@ -44,7 +46,7 @@ export function HomeHero() {
               <StremioButton />
               <VlcButton />
             </div>
-            <span className="text-zinc-400 text-sm flex flex-row items-center hidden">
+            <span className="text-zinc-400 text-sm flex-row items-center hidden">
               También disponible para tu
               <span
                 onMouseEnter={() => controls.start("hover")}
@@ -71,7 +73,7 @@ export function HomeHero() {
               <VideoDropzone />
               <DotPattern
                 className={cn(
-                  "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)] opacity-40 backdrop-blur-md group-hover/video:opacity-60 group-hover/video:scale-105 transition-all ease-in-out"
+                  "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)] opacity-40 backdrop-blur-md group-hover/video:opacity-60 group-hover/video:scale-105 transition-all ease-in-out",
                 )}
               />
             </AspectRatio>

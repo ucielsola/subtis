@@ -262,10 +262,14 @@ export default function SubtitlesPage() {
                 className="w-full max-h-32 object-contain md:hidden mb-4"
               />
             ) : null}
-            <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold">¡Subtítulos encontrados!</h1>
+            {"message" in data ? null : (
+              <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold">
+                {data.title.title_name} ({data.title.year})
+              </h1>
+            )}
             {"message" in data ? null : (
               <h2 className="text-zinc-50 text-balance text-sm md:text-base">
-                Encontrá tu subtítulo en la siguiente tabla.
+                Encontrá tu subtítulo en la siguiente tabla debajo.
               </h2>
             )}
           </div>

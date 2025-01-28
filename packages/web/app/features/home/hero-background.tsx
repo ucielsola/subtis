@@ -1,15 +1,22 @@
-"use client";
+import { useLoaderData } from "@remix-run/react";
 
-import { useQuery } from "@tanstack/react-query";
-import { getApiClient } from "@subtis/shared";
+// lib
 import { cn } from "~/lib/utils";
-import { AspectRatio } from "~/components/ui/aspect-ratio";
+
+// shared internal
 import { Marquee } from "~/components/shared/marquee";
 
+// ui
+import { AspectRatio } from "~/components/ui/aspect-ratio";
+
+// types
+import type { loader } from "~/routes/_index";
+
+// constants
 const IMAGE_WIDTH = 19.3;
 const BASE_VELOCITIES = [20, 25, 15, 30]; // Velocidades base más altas porque ahora el factor de velocidad es más pequeño
 
-interface ApiTitle {
+type ApiTitle = {
   id: number;
   type: string;
   queried_times: number | null;
@@ -21,53 +28,33 @@ interface ApiTitle {
   poster_thumbhash: string | null;
   title_name: string;
   year: number;
-}
-
-interface ApiResponse {
-  results: ApiTitle[];
-  total: number;
-}
+};
 
 type Props = {
   className?: string;
 };
 
 export function HeroBackground({ className }: Props) {
-  const { data } = useQuery<ApiResponse>({
-    queryKey: ["titles", "recent"],
-    queryFn: async () => {
-      const apiClient = getApiClient({
-        apiBaseUrl: "https://api.subt.is",
-      });
+  // remix hooks
+  const { recentDownloadedTitles } = useLoaderData<typeof loader>();
 
-      const response = await apiClient.v1.titles.recent[":limit"].$get({
-        param: {
-          limit: "30",
-        },
-      });
-
-      const data = await response.json();
-      if ("message" in data) return { results: [], total: 0 };
-      return data;
-    },
-  });
-
+  // constants
   const images =
-    data?.results
-      .map(({ optimized_backdrop, title_name, id }) => ({
-        src: optimized_backdrop,
-        alt: title_name,
-        id: String(id),
-      }))
-      .filter((img): img is { src: string; alt: string; id: string } => Boolean(img.src)) || [];
+    "message" in recentDownloadedTitles
+      ? []
+      : recentDownloadedTitles.results
+          .map(({ optimized_backdrop, title_name, id }) => ({
+            id: String(id),
+            alt: title_name,
+            src: optimized_backdrop,
+          }))
+          .filter((img): img is { src: string; alt: string; id: string } => Boolean(img.src));
 
-  if (images.length === 0) return null;
-
-  // Split images into rows
-  const rows = [];
-  for (let i = 0; i < images.length; i += 4) {
-    rows.push(images.slice(i, i + 4));
+  if (images.length === 0) {
+    return null;
   }
+
+  const rows = Array.from({ length: Math.ceil(images.length / 4) }, (_, i) => images.slice(i * 4, i * 4 + 4));
 
   return (
     <div className={cn("w-full h-full opacity-[64%]", className)}>
@@ -81,11 +68,7 @@ export function HeroBackground({ className }: Props) {
           >
             <div className="flex gap-4 mr-4">
               {row.map((image) => (
-                <div
-                  key={image.id}
-                  className="inline-block shrink-0"
-                  style={{ width: `${IMAGE_WIDTH}vw` }}
-                >
+                <div key={image.id} className="inline-block shrink-0" style={{ width: `${IMAGE_WIDTH}vw` }}>
                   <AspectRatio ratio={1.78}>
                     <img
                       src={image.src}
