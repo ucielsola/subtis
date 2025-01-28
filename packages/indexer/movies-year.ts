@@ -1,7 +1,11 @@
 import { indexMoviesByYear } from "./movies";
 
 // testing
-indexMoviesByYear(2024, false);
+indexMoviesByYear({
+  year: 2024,
+  indexFromPage: 52,
+  isDebugging: false,
+});
 
 // indexMovieByName({
 //   year: 2021,

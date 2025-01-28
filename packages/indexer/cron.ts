@@ -24,7 +24,11 @@ cron.schedule("30 19 * * *", async () => {
 
   // if (dayOfYearValue % 2 === 0) {
   console.log("Indexing movies...");
-  await indexMoviesByYear(2024, false);
+  await indexMoviesByYear({
+    year: 2024,
+    indexFromPage: 52,
+    isDebugging: false,
+  });
   await optimizeTitleTableImages();
   // } else {
   //   console.log("Indexing tv shows...");

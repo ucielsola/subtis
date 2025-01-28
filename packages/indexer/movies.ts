@@ -14,7 +14,15 @@ import { getSubtitleGroups } from "./subtitle-groups";
 import { getMoviesFromTmdb, getTmdbMovieFromTitle, getTmdbMoviesTotalPagesArray } from "./tmdb";
 
 // core
-export async function indexMoviesByYear(year: number, isDebugging: boolean): Promise<void> {
+export async function indexMoviesByYear({
+  year,
+  indexFromPage,
+  isDebugging,
+}: {
+  year: number;
+  indexFromPage: number;
+  isDebugging: boolean;
+}): Promise<void> {
   try {
     await tg.activate("ThePirateBay");
     TorrentSearchApi.enableProvider("1337x");
@@ -43,11 +51,7 @@ export async function indexMoviesByYear(year: number, isDebugging: boolean): Pro
     totalMoviesResultBar.start(totalPages.length, 0);
     console.log("\n");
 
-    // última página: 16
-    // agregar algo para que el totalPages empiece desde 16
-
-    const lastPageIndexed = 52;
-    const totalPagesFromLastPage = [...totalPages.slice(lastPageIndexed)];
+    const totalPagesFromLastPage = [...totalPages.slice(indexFromPage)];
 
     for await (const tmbdMoviesPage of totalPagesFromLastPage) {
       console.log(`\n2) Buscando en página ${tmbdMoviesPage} de TMDB \n`);
