@@ -7,9 +7,9 @@ import { NuqsAdapter } from "nuqs/adapters/remix";
 import { HomeFooter } from "~/components/layout/footer";
 import { Header } from "~/components/layout/header";
 
+// ui
 import { Toaster } from "~/components/ui/toaster";
 import { TooltipProvider } from "~/components/ui/tooltip";
-// ui
 import { Button } from "./components/ui/button";
 
 // lib
