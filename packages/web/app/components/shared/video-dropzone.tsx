@@ -1,4 +1,4 @@
-import { useNavigate } from "@remix-run/react";
+import { useNavigate, useNavigation } from "@remix-run/react";
 import filesizeParser from "filesize-parser";
 import { useAnimation } from "motion/react";
 import Dropzone from "react-dropzone-esm";
@@ -22,12 +22,16 @@ const MIN_BYTES = filesizeParser("500MB");
 export function VideoDropzone() {
   // remix hooks
   const navigate = useNavigate();
+  const navigation = useNavigation();
 
   // toast hooks
   const { toast } = useToast();
 
   // motion hooks
   const controls = useAnimation();
+
+  // constants
+  const isNavigating = navigation.state === "loading";
 
   return (
     <Dropzone
@@ -86,6 +90,8 @@ export function VideoDropzone() {
             <input id="video-upload" {...getInputProps()} />
             {isDragActive ? (
               <p className="text-sm text-zinc-400 z-10 bg-zinc-950 rounded-sm">Soltar para buscar subtítulo</p>
+            ) : isNavigating ? (
+              <p className="text-sm text-zinc-400 z-10 bg-zinc-950 rounded-sm">Buscando subtítulo...</p>
             ) : (
               <Fragment>
                 <Button
