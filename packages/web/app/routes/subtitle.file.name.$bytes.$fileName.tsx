@@ -1,5 +1,6 @@
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
 import { redirect, useLoaderData, useParams } from "@remix-run/react";
+import { parseMedia } from "@remotion/media-parser";
 import type { ColumnDef } from "@tanstack/react-table";
 import { AnimatePresence, motion, useAnimation } from "motion/react";
 import { Fragment, useEffect, useRef, useState } from "react";
@@ -163,6 +164,35 @@ export default function SubtitlePage() {
       document.removeEventListener("fullscreenchange", pauseVideoOnExitFullscreen);
     };
   }, []);
+
+  useEffect(
+    function throwErrorIfAudioCodecIsUnsupported() {
+      async function throwErrorOnUnsupportedAudioCodec() {
+        const videoSource = typeof window !== "undefined" && fileName ? localStorage.getItem(fileName) : null;
+
+        if (!videoSource) {
+          return;
+        }
+
+        try {
+          const { audioCodec } = await parseMedia({
+            src: videoSource,
+            fields: { audioCodec: true },
+          });
+
+          if (!audioCodec) {
+            setHasVideoError(true);
+          }
+        } catch (error) {
+          setHasVideoError(true);
+          console.error("Error parsing video:", error);
+        }
+      }
+
+      throwErrorOnUnsupportedAudioCodec();
+    },
+    [fileName],
+  );
 
   // handlers
   async function handlePlaySubtitle(): Promise<void> {
