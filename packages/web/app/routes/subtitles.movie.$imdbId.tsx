@@ -69,6 +69,10 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     },
   });
 
+  if (!primarySubtitleResponse.ok) {
+    throw new Error("Failed to fetch primary subtitle");
+  }
+
   const primarySubtitle = await primarySubtitleResponse.json();
 
   return primarySubtitle;
@@ -104,6 +108,7 @@ export default function SubtitlesPage() {
   // handlers
   function handleCopyEmailToClipboard() {
     navigator.clipboard.writeText("soporte@subtis.io");
+
     toast({
       title: "¡Email copiado a tu clipboard!",
       description: "Escribinos y te responderemos lo antes posible.",

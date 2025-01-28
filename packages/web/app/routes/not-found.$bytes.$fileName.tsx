@@ -166,6 +166,10 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     },
   });
 
+  if (!alternativeSubtitleResponse.ok) {
+    throw new Error("Failed to fetch alternative subtitle");
+  }
+
   const alternativeSubtitle = await alternativeSubtitleResponse.json();
 
   return alternativeSubtitle;
