@@ -273,8 +273,9 @@ async function storeSubtitleInSupabaseStorage({
   const { subtitleSrtFileName } = subtitle;
 
   const { data } = await supabase.storage.from("subtitles").upload(subtitleSrtFileName, subtitleFileToUpload, {
-    contentType: "text/plain;charset=UTF-8",
     upsert: true,
+    cacheControl: "31536000",
+    contentType: "text/plain;charset=UTF-8",
   });
 
   const { fullPath } = uploadSupabaseSchema.parse(data);

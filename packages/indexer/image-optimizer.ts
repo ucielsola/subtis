@@ -46,6 +46,7 @@ export async function optimizeTitleTableImages() {
       // upload to supabase
       const { data, error } = await supabase.storage.from("images").upload(newPosterFileName, imageWebp, {
         upsert: true,
+        cacheControl: "31536000",
         contentType: "image/webp",
       });
 
@@ -92,6 +93,7 @@ export async function optimizeTitleTableImages() {
       // upload to supabase
       const { data, error } = await supabase.storage.from("images").upload(newBackdropFileName, imageWebp, {
         upsert: true,
+        cacheControl: "31536000",
         contentType: "image/webp",
       });
 
@@ -132,6 +134,7 @@ export async function optimizeTitleTableImages() {
       // upload to supabase
       const { data, error } = await supabase.storage.from("images").upload(newLogoFileName, imageWebp, {
         upsert: true,
+        cacheControl: "31536000",
         contentType: "image/webp",
       });
       if (error) {
