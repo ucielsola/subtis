@@ -23,7 +23,7 @@ export function HomeFooter() {
     <footer className="pt-8 pb-16 flex flex-col md:flex-row justify-between items-start gap-6 md:gap-4 border-t border-zinc-700">
       <div className="flex flex-col gap-2 items-start">
         <Link to="/" className="cursor-pointer group">
-          <AnimatedLogo className="scale-100" />
+          <AnimatedLogo />
         </Link>
         <span className="text-[11px] text-zinc-50 text-left">Subtis &#169; 2025</span>
       </div>

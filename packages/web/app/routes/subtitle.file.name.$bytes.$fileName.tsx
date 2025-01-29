@@ -1,13 +1,9 @@
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
 import { redirect, useLoaderData, useParams } from "@remix-run/react";
 import { parseMedia } from "@remotion/media-parser";
-import type { ColumnDef } from "@tanstack/react-table";
 import { AnimatePresence, motion, useAnimation } from "motion/react";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { transformSrtTracks } from "srt-support-for-html5-videos";
-
-// api
-import type { SubtitleNormalized } from "@subtis/api";
 
 // shared external
 import { getApiClient } from "@subtis/shared";
@@ -26,18 +22,19 @@ import { cn } from "~/lib/utils";
 // hooks
 import { useToast } from "~/hooks/use-toast";
 
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
 // ui
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
-import { DataTable } from "~/components/ui/data-table";
+import { Button } from "~/components/ui/button";
 import DotPattern from "~/components/ui/dot-pattern";
 import { Separator } from "~/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { ToastAction } from "~/components/ui/toast";
-import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
 // features
 import { PosterDisclosure } from "~/features/movie/poster-disclosure";
+
+// hooks
 import { useCinemas } from "~/hooks/use-cinemas";
 import { usePlatforms } from "~/hooks/use-platforms";
 
@@ -103,9 +100,15 @@ export default function SubtitlePage() {
   const { data: titlePlatforms } = usePlatforms("message" in data ? "" : data.title.imdb_id);
 
   // motion hooks
+  const playControls = useAnimation();
+  const downloadControls = useAnimation();
+
+  const stremioTipControl = useAnimation();
   const internalVideoPlayerTipControl = useAnimation();
   const externalVideoPlayerTipControl = useAnimation();
-  const stremioTipControl = useAnimation();
+
+  // toast hooks
+  const { toast } = useToast();
 
   // effects
   useEffect(
@@ -195,6 +198,44 @@ export default function SubtitlePage() {
   );
 
   // handlers
+  async function handleDownloadSubtitle() {
+    if ("message" in data) {
+      return;
+    }
+
+    const apiClient = getApiClient({
+      apiBaseUrl: "https://api.subt.is" as string,
+    });
+
+    await apiClient.v1.subtitle.metrics.download.$patch({
+      json: { imdbId: data.title.imdb_id, subtitleId: data.subtitle.id },
+    });
+
+    toast({
+      title: "¡Disfruta de tu subtítulo!",
+      description: (
+        <p className="flex flex-row items-center gap-1">
+          Compartí tu experiencia en <img src="/x.svg" alt="X" className="w-3 h-3" />
+        </p>
+      ),
+      action: (
+        <ToastAction
+          altText="Compartir"
+          onClick={() => {
+            window.open(
+              `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                `Encontré mis subtítulos para "${data.title.title_name}" en @subt_is.`,
+              )}`,
+              "_blank",
+            );
+          }}
+        >
+          Compartir
+        </ToastAction>
+      ),
+    });
+  }
+
   async function handlePlaySubtitle(): Promise<void> {
     const videoElement = player.current;
 
@@ -219,135 +260,6 @@ export default function SubtitlePage() {
 
   const videoSource = typeof window !== "undefined" && fileName ? localStorage.getItem(fileName) : null;
   const displayVideoElements = videoSource && captionBlobUrl && isSupportedFileExtension && !hasVideoError;
-
-  const columns: ColumnDef<SubtitleNormalized>[] = [
-    {
-      accessorKey: "index",
-      header: "#",
-      cell: ({ row }) => {
-        return <div className="w-2">{row.index + 1}</div>;
-      },
-      enableSorting: false,
-    },
-    {
-      accessorKey: "subtitle.resolution",
-      header: "Resolución",
-      enableSorting: false,
-    },
-    {
-      accessorKey: "release_group.release_group_name",
-      header: "Publicador",
-      cell: ({ row }) => {
-        return (
-          <Tooltip>
-            <TooltipTrigger
-              className="truncate w-24 cursor-default text-left"
-              aria-label={row.original.release_group.release_group_name}
-            >
-              {row.original.release_group.release_group_name}
-            </TooltipTrigger>
-            <TooltipContent side="bottom">{row.original.release_group.release_group_name}</TooltipContent>
-          </Tooltip>
-        );
-      },
-      enableSorting: false,
-    },
-    {
-      accessorKey: "subtitle.rip_type",
-      header: "Formato",
-      enableSorting: false,
-    },
-    {
-      accessorKey: "subtitle.queried_times",
-      header: "Descargas",
-      enableSorting: false,
-    },
-    {
-      accessorKey: "",
-      header: "Acciones",
-      enableSorting: false,
-      cell: ({ row }) => {
-        // motion hooks
-        const playControls = useAnimation();
-        const downloadControls = useAnimation();
-
-        // toast hooks
-        const { toast } = useToast();
-
-        // handlers
-        async function handleDownloadSubtitle() {
-          const apiClient = getApiClient({
-            apiBaseUrl: "https://api.subt.is" as string,
-          });
-
-          await apiClient.v1.subtitle.metrics.download.$patch({
-            json: { imdbId: row.original.title.imdb_id, subtitleId: row.original.subtitle.id },
-          });
-
-          toast({
-            title: "¡Disfruta de tu subtítulo!",
-            description: (
-              <p className="flex flex-row items-center gap-1">
-                Compartí tu experiencia en <img src="/x.svg" alt="X" className="w-3 h-3" />
-              </p>
-            ),
-            action: (
-              <ToastAction
-                altText="Compartir"
-                onClick={() => {
-                  window.open(
-                    `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                      `Encontré mis subtítulos para "${row.original.title.title_name}" en @subt_is.`,
-                    )}`,
-                    "_blank",
-                  );
-                }}
-              >
-                Compartir
-              </ToastAction>
-            ),
-          });
-        }
-
-        return (
-          <div className="flex flex-row items-center gap-0.5">
-            <Tooltip delayDuration={0}>
-              <TooltipTrigger asChild>
-                <a
-                  href={row.original.subtitle.subtitle_link}
-                  download
-                  onMouseEnter={() => downloadControls.start("animate")}
-                  onMouseLeave={() => downloadControls.start("normal")}
-                  onClick={handleDownloadSubtitle}
-                  aria-label="Descargar subtítulo"
-                  className="inline-flex items-center p-1"
-                >
-                  <DownloadIcon size={18} controls={downloadControls} />
-                </a>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">Descargar subtítulo</TooltipContent>
-            </Tooltip>
-            <AnimatePresence>
-              {displayVideoElements && (
-                <Tooltip>
-                  <TooltipTrigger
-                    onClick={handlePlaySubtitle}
-                    className="p-1"
-                    onMouseEnter={() => playControls.start("animate")}
-                    onMouseLeave={() => playControls.start("normal")}
-                    aria-label="Reproducir video"
-                  >
-                    <Play size={18} controls={playControls} isWrapped={false} />
-                  </TooltipTrigger>
-                  <TooltipContent side="bottom">Reproducir video</TooltipContent>
-                </Tooltip>
-              )}
-            </AnimatePresence>
-          </div>
-        );
-      },
-    },
-  ];
 
   if ("message" in data) {
     return null;
@@ -374,7 +286,37 @@ export default function SubtitlePage() {
               Descargá el siguiente subtítulo para disfrutar tu película subtitulada.
             </h2>
           </div>
-          <DataTable columns={columns} data={[data]} />
+
+          <article className="flex flex-row gap-4">
+            <Button asChild size="sm">
+              <a
+                download
+                onClick={handleDownloadSubtitle}
+                href={data.subtitle.subtitle_link}
+                onMouseEnter={() => downloadControls.start("animate")}
+                onMouseLeave={() => downloadControls.start("normal")}
+                className="inline-flex items-center p-1"
+              >
+                <DownloadIcon size={18} controls={downloadControls} />
+                Descargar Subtítulo
+              </a>
+            </Button>
+            <AnimatePresence>
+              {displayVideoElements && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handlePlaySubtitle}
+                  onMouseEnter={() => playControls.start("animate")}
+                  onMouseLeave={() => playControls.start("normal")}
+                  className="hover:bg-zinc-800 bg-zinc-900 transition-all ease-in-out rounded-sm"
+                >
+                  <Play size={18} controls={playControls} isWrapped={false} />
+                  Reproducir Video
+                </Button>
+              )}
+            </AnimatePresence>
+          </article>
         </section>
 
         {displayVideoElements ? (
@@ -564,6 +506,7 @@ export default function SubtitlePage() {
           </Fragment>
         ) : null}
       </article>
+
       {data.title.optimized_poster ? (
         <aside className="hidden lg:flex flex-1 justify-center">
           <PosterDisclosure
