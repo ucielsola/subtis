@@ -22,14 +22,15 @@ import { cn } from "~/lib/utils";
 // hooks
 import { useToast } from "~/hooks/use-toast";
 
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
 // ui
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Button } from "~/components/ui/button";
 import DotPattern from "~/components/ui/dot-pattern";
 import { Separator } from "~/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { ToastAction } from "~/components/ui/toast";
+import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
 // features
 import { PosterDisclosure } from "~/features/movie/poster-disclosure";
@@ -288,34 +289,47 @@ export default function SubtitlePage() {
           </div>
 
           <article className="flex flex-row gap-4">
-            <Button asChild size="sm">
+            {displayVideoElements ? (
+              <Button
+                size="sm"
+                onClick={handlePlaySubtitle}
+                onMouseEnter={() => playControls.start("animate")}
+                onMouseLeave={() => playControls.start("normal")}
+              >
+                <Play size={18} controls={playControls} isWrapped={false} />
+                Reproducir Video
+              </Button>
+            ) : (
+              <Tooltip>
+                <TooltipTrigger className="cursor-not-allowed">
+                  <Button
+                    size="sm"
+                    disabled
+                    onClick={handlePlaySubtitle}
+                    onMouseEnter={() => playControls.start("animate")}
+                    onMouseLeave={() => playControls.start("normal")}
+                  >
+                    <Play size={18} controls={playControls} isWrapped={false} />
+                    Reproducir Video
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">Tu navegador no soporta el video</TooltipContent>
+              </Tooltip>
+            )}
+            <Button asChild variant="ghost" size="sm">
               <a
                 download
                 onClick={handleDownloadSubtitle}
                 href={data.subtitle.subtitle_link}
                 onMouseEnter={() => downloadControls.start("animate")}
                 onMouseLeave={() => downloadControls.start("normal")}
-                className="inline-flex items-center p-1"
+                // className="inline-flex items-center p-1"
+                className="hover:bg-zinc-800 bg-zinc-900 transition-all ease-in-out rounded-sm"
               >
                 <DownloadIcon size={18} controls={downloadControls} />
                 Descargar Subtítulo
               </a>
             </Button>
-            <AnimatePresence>
-              {displayVideoElements && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={handlePlaySubtitle}
-                  onMouseEnter={() => playControls.start("animate")}
-                  onMouseLeave={() => playControls.start("normal")}
-                  className="hover:bg-zinc-800 bg-zinc-900 transition-all ease-in-out rounded-sm"
-                >
-                  <Play size={18} controls={playControls} isWrapped={false} />
-                  Reproducir Video
-                </Button>
-              )}
-            </AnimatePresence>
           </article>
         </section>
 
