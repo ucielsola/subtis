@@ -99,7 +99,7 @@ export default function SubtitlesPage() {
 
   // nuqs hooks
   const [subtip, setSubtip] = useQueryState("subtip", {
-    defaultValue: "choose-subtitle",
+    defaultValue: "message" in data ? "" : data.results.length > 1 ? "choose-subtitle" : "play-subtitle",
   });
 
   // toast hooks
@@ -297,9 +297,11 @@ export default function SubtitlesPage() {
           </div>
           <Tabs value={subtip ?? undefined} onValueChange={setSubtip}>
             <TabsList className="mb-6">
-              <TabsTrigger value="choose-subtitle" className="text-sm">
-                ¿Cómo elijo un subtítulo?
-              </TabsTrigger>
+              {"message" in data ? null : data.results.length > 1 ? (
+                <TabsTrigger value="choose-subtitle" className="text-sm">
+                  ¿Cómo elijo un subtítulo?
+                </TabsTrigger>
+              ) : null}
               <TabsTrigger value="play-subtitle" className="text-sm">
                 ¿Cómo utilizo un subtítulo?
               </TabsTrigger>
