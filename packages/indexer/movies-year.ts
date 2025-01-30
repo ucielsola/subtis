@@ -1,11 +1,11 @@
-import { indexMovieByName, indexMoviesByYear } from "./movies";
+import { indexMoviesByYear } from "./movies";
 
 // testing
-// indexMoviesByYear({
-//   year: 2024,
-//   indexFromPage: 162,
-//   isDebugging: false,
-// });
+indexMoviesByYear({
+  year: 2024,
+  indexFromPage: 295,
+  isDebugging: false,
+});
 
 // indexMoviesByYear({
 //   year: 2024,
