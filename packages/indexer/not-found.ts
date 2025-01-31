@@ -1,5 +1,6 @@
 // import { confirm } from "@clack/prompts";
 import { z } from "zod";
+import cron from "node-cron";
 
 // db
 import { subtitlesNotFoundRowSchema, supabase } from "@subtis/db";
@@ -169,5 +170,9 @@ export async function indexNotFoundSubtitles() {
   console.log("Finished processing all records.");
 }
 
-// testing
 indexNotFoundSubtitles();
+
+// Run every 30 minutes
+cron.schedule("*/30 * * * *", () => {
+  indexNotFoundSubtitles();
+});
