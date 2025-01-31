@@ -36,7 +36,7 @@ export function HomeHero() {
               El mejor buscador de subtítulos en internet
             </h1>
             <h2 className="text-zinc-50 text-balance">
-              Encontrá el subtítulo para tu película perfectamente sincronizado.
+              Encontrá el subtítulo perfectamente sincronizado para tu película.
             </h2>
           </div>
 
