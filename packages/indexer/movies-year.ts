@@ -27,9 +27,9 @@ indexMoviesByYear({
 // });
 
 // indexMovieByName({
-//   year: 1981,
+//   year: 2024,
 //   isDebugging: false,
-//   name: "My Dinner with Andre",
+//   name: "Paddington in Peru",
 // });
 
 saveReleaseGroupsToDb(supabase);
