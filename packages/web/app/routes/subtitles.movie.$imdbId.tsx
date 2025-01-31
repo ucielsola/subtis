@@ -2,6 +2,7 @@ import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
 import { useLoaderData, useParams } from "@remix-run/react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useAnimation } from "motion/react";
+import numeral from "numeral";
 import { useQueryState } from "nuqs";
 import { Fragment } from "react";
 import Highlighter from "react-highlight-words";
@@ -173,6 +174,19 @@ export default function SubtitlesPage() {
       accessorKey: "subtitle.queried_times",
       header: "Descargas",
       enableSorting: false,
+      cell: ({ row }) => {
+        const { queried_times } = row.original.subtitle;
+
+        if (typeof queried_times !== "number") {
+          return null;
+        }
+
+        if (queried_times < 1000) {
+          return queried_times;
+        }
+
+        return numeral(queried_times).format("0.0a");
+      },
     },
     {
       accessorKey: "",
