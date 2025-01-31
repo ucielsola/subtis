@@ -159,10 +159,6 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     },
   });
 
-  if (!alternativeSubtitleResponse.ok) {
-    throw new Error("Failed to fetch alternative subtitle");
-  }
-
   const alternativeSubtitle = await alternativeSubtitleResponse.json();
 
   return alternativeSubtitle;
@@ -189,6 +185,9 @@ export default function NotFoundSubtitlePage() {
 
   // navigation hooks
   const { bytes, fileName } = useParams();
+
+  // motion hooks
+  const downloadControls = useAnimation();
 
   // form hooks
   const form = useForm<z.infer<typeof formSchema>>({
@@ -241,7 +240,20 @@ export default function NotFoundSubtitlePage() {
             </div>
           )}
 
-          {"message" in data ? null : <DataTable columns={columns} data={[data]} />}
+          {"message" in data ? null : (
+            <Button asChild size="sm">
+              <a
+                download
+                className="w-fit"
+                href={data.subtitle.subtitle_link}
+                onMouseEnter={() => downloadControls.start("animate")}
+                onMouseLeave={() => downloadControls.start("normal")}
+              >
+                <DownloadIcon size={18} controls={downloadControls} />
+                Descargar Subtítulo
+              </a>
+            </Button>
+          )}
 
           <AnimatePresence mode="wait">
             {!form.formState.isSubmitSuccessful && !isCinemaRecording ? (
