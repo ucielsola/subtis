@@ -17,7 +17,7 @@ import { sendEmail } from "./email";
 import { indexTitleByFileName } from "./file";
 
 // core
-export async function indexNotFoundSubtitles() {
+export async function indexNotFoundSubtitles({ ascending = true }: { ascending: boolean }) {
   const pageSize = 100;
   let currentPage = 0;
   let hasMoreRecords = true;
@@ -27,7 +27,7 @@ export async function indexNotFoundSubtitles() {
       .from("SubtitlesNotFound")
       .select("*")
       .range(currentPage * pageSize, (currentPage + 1) * pageSize - 1)
-      .order("created_at", { ascending: true });
+      .order("created_at", { ascending });
     // .not("email", "is", null)
 
     if (error) {
@@ -170,9 +170,11 @@ export async function indexNotFoundSubtitles() {
   console.log("Finished processing all records.");
 }
 
-indexNotFoundSubtitles();
+indexNotFoundSubtitles({ ascending: true });
+indexNotFoundSubtitles({ ascending: false });
 
-// Run every 30 minutes
-cron.schedule("*/30 * * * *", () => {
-  indexNotFoundSubtitles();
+// Run every 1 minute
+cron.schedule("*/5 * * * *", () => {
+  indexNotFoundSubtitles({ ascending: true });
+  indexNotFoundSubtitles({ ascending: false });
 });
