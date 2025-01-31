@@ -30,7 +30,7 @@ export function SearchButton() {
     <Button
       variant="ghost"
       className={cn(
-        "backdrop-blur-[8px] hover:bg-zinc-950/80 bg-zinc-950/40 transition-all ease-in-out rounded-sm",
+        "backdrop-blur-[8px] hover:bg-zinc-950/80 bg-zinc-950/30 transition-all ease-in-out rounded-sm",
         isNotHome && "bg-zinc-900/80 hover:bg-zinc-900",
       )}
       onClick={handleNavigate}
