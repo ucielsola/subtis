@@ -31,7 +31,8 @@ export function VideoDropzone() {
   const controls = useAnimation();
 
   // constants
-  const isNavigating = navigation.state === "loading";
+  const isNavigating =
+    navigation.state === "loading" && navigation.location.pathname.startsWith("/subtitle/file/name/");
 
   return (
     <Dropzone

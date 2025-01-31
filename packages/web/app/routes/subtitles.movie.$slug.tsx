@@ -335,7 +335,9 @@ export default function SubtitlesPage() {
             )}
             {"message" in data ? null : (
               <h2 className="text-zinc-50 text-balance text-sm md:text-base">
-                Encontrá tu subtítulo en la siguiente tabla debajo.
+                {data.results.length > 1
+                  ? "Encontrá tu subtítulo en la siguiente tabla debajo."
+                  : "Descarga tu subtítulo en la sección debajo."}
               </h2>
             )}
           </div>
@@ -354,9 +356,10 @@ export default function SubtitlesPage() {
               </p>
             </div>
           ) : (
-            <Button asChild variant="ghost" size="sm">
+            <Button asChild size="sm">
               <a
                 download
+                className="w-fit"
                 href={data.results[0].subtitle.subtitle_link}
                 onMouseEnter={() => downloadControls.start("animate")}
                 onMouseLeave={() => downloadControls.start("normal")}
@@ -367,7 +370,6 @@ export default function SubtitlesPage() {
                     subtitleId: data.results[0].subtitle.id,
                   })
                 }
-                className="hover:bg-zinc-800 bg-zinc-900 transition-all ease-in-out rounded-sm w-fit"
               >
                 <DownloadIcon size={18} controls={downloadControls} />
                 Descargar Subtítulo
