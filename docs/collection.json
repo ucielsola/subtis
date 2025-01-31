@@ -1,7 +1,7 @@
 {
-  "yaakVersion": "2024.13.0",
-  "yaakSchema": 2,
-  "timestamp": "2025-01-14T00:35:42.564336",
+  "yaakVersion": "2025.1.0-beta.11",
+  "yaakSchema": 3,
+  "timestamp": "2025-01-31T06:10:15.296802",
   "resources": {
     "workspaces": [
       {
@@ -11,18 +11,6 @@
         "updatedAt": "2024-11-08T22:37:51",
         "name": "Subtis API",
         "description": "",
-        "variables": [
-          {
-            "enabled": false,
-            "name": "baseUrl",
-            "value": ""
-          },
-          {
-            "enabled": true,
-            "name": "",
-            "value": ""
-          }
-        ],
         "settingValidateCertificates": true,
         "settingFollowRedirects": true,
         "settingRequestTimeout": 0
@@ -31,21 +19,24 @@
     "environments": [
       {
         "model": "environment",
-        "id": "ev_lxgXUfo7zL",
+        "id": "ev_h7DtAr83FF",
         "workspaceId": "wk_SbrwnSjDzA",
-        "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2024-11-08T22:37:51",
-        "name": "PRODUCTION",
+        "environmentId": null,
+        "createdAt": "2025-01-22T23:10:54",
+        "updatedAt": "2025-01-22T23:10:54",
+        "name": "Global Variables",
         "variables": [
           {
-            "enabled": true,
+            "enabled": false,
             "name": "baseUrl",
-            "value": "https://api.subt.is"
+            "value": "",
+            "id": null
           },
           {
             "enabled": true,
             "name": "",
-            "value": ""
+            "value": "",
+            "id": null
           }
         ]
       },
@@ -53,6 +44,7 @@
         "model": "environment",
         "id": "ev_aS4P8qXlUm",
         "workspaceId": "wk_SbrwnSjDzA",
+        "environmentId": "ev_h7DtAr83FF",
         "createdAt": "2024-11-08T22:37:51",
         "updatedAt": "2024-11-08T22:37:51",
         "name": "LOCALHOST",
@@ -60,12 +52,37 @@
           {
             "enabled": true,
             "name": "baseUrl",
-            "value": "http://localhost:58602"
+            "value": "http://localhost:58602",
+            "id": null
           },
           {
             "enabled": true,
             "name": "",
-            "value": ""
+            "value": "",
+            "id": null
+          }
+        ]
+      },
+      {
+        "model": "environment",
+        "id": "ev_lxgXUfo7zL",
+        "workspaceId": "wk_SbrwnSjDzA",
+        "environmentId": "ev_h7DtAr83FF",
+        "createdAt": "2024-11-08T22:37:51",
+        "updatedAt": "2024-11-08T22:37:51",
+        "name": "PRODUCTION",
+        "variables": [
+          {
+            "enabled": true,
+            "name": "baseUrl",
+            "value": "https://api.subt.is",
+            "id": null
+          },
+          {
+            "enabled": true,
+            "name": "",
+            "value": "",
+            "id": null
           }
         ]
       }
@@ -79,6 +96,7 @@
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": null,
         "name": "Providers (2)",
+        "description": "",
         "sortPriority": 4000.0
       },
       {
@@ -89,6 +107,7 @@
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": null,
         "name": "Subtitle (6)",
+        "description": "",
         "sortPriority": 2000.0
       },
       {
@@ -99,16 +118,18 @@
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": null,
         "name": "Subtitles (6)",
+        "description": "",
         "sortPriority": 3000.0
       },
       {
         "model": "folder",
         "id": "fl_G3EShJi9ud",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2024-11-08T22:37:51",
+        "updatedAt": "2025-01-14T00:54:36",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": null,
-        "name": "Title (3)",
+        "name": "Title (5)",
+        "description": "",
         "sortPriority": 0.0
       },
       {
@@ -119,6 +140,7 @@
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": null,
         "name": "Titles (4)",
+        "description": "",
         "sortPriority": 1000.0
       },
       {
@@ -129,6 +151,7 @@
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_CqsEDHtsiK",
         "name": "Generic (1)",
+        "description": "",
         "sortPriority": 62.5
       },
       {
@@ -139,6 +162,7 @@
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_CqsEDHtsiK",
         "name": "TV Shows (4) 🚧",
+        "description": "",
         "sortPriority": 500.0
       },
       {
@@ -149,6 +173,7 @@
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_CqsEDHtsiK",
         "name": "Movies (1)",
+        "description": "",
         "sortPriority": 250.0
       }
     ],
@@ -157,13 +182,14 @@
         "model": "http_request",
         "id": "rq_JMyl9L64oX",
         "createdAt": "2025-01-13T22:59:57",
-        "updatedAt": "2025-01-13T23:46:18",
+        "updatedAt": "2025-01-24T23:43:05.601745",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_G3EShJi9ud",
         "authentication": {},
         "authenticationType": null,
         "body": {},
         "bodyType": null,
+        "description": "",
         "headers": [],
         "method": "GET",
         "name": "Get title streaming services by iMDb ID",
@@ -173,12 +199,14 @@
           {
             "enabled": true,
             "name": ":imdbId",
-            "value": "16366836"
+            "value": "17526714",
+            "id": "yY3K8SNNfX"
           },
           {
             "enabled": true,
             "name": "",
-            "value": ""
+            "value": "",
+            "id": "p0WVvxc0nV"
           }
         ]
       },
@@ -186,13 +214,14 @@
         "model": "http_request",
         "id": "rq_xm6c36yWmB",
         "createdAt": "2025-01-09T00:29:15",
-        "updatedAt": "2025-01-13T23:00:02",
+        "updatedAt": "2025-01-24T23:40:38.507208",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_G3EShJi9ud",
         "authentication": {},
         "authenticationType": null,
         "body": {},
         "bodyType": null,
+        "description": "",
         "headers": [],
         "method": "GET",
         "name": "Get title cinemas by iMDb ID",
@@ -202,12 +231,14 @@
           {
             "enabled": true,
             "name": ":imdbId",
-            "value": "26446278"
+            "value": "9218128",
+            "id": "pfIEUHE8Ku"
           },
           {
             "enabled": true,
             "name": "",
-            "value": ""
+            "value": "",
+            "id": "iRwiSbrDX0"
           }
         ]
       },
@@ -222,6 +253,7 @@
         "authenticationType": null,
         "body": {},
         "bodyType": null,
+        "description": "",
         "headers": [],
         "method": "GET",
         "name": "Get trending searched titles with limit (/v1/titles/trending/search/:limit)",
@@ -231,12 +263,14 @@
           {
             "enabled": true,
             "name": ":limit",
-            "value": "2"
+            "value": "2",
+            "id": null
           },
           {
             "enabled": true,
             "name": "",
-            "value": ""
+            "value": "",
+            "id": null
           }
         ]
       },
@@ -251,6 +285,7 @@
         "authenticationType": null,
         "body": {},
         "bodyType": null,
+        "description": "",
         "headers": [],
         "method": "GET",
         "name": "Get subtitle metadata by subtitle ID (/v1/subtitle/metadata/:subtitleId)",
@@ -260,12 +295,14 @@
           {
             "enabled": true,
             "name": ":subtitleId",
-            "value": "11462"
+            "value": "11462",
+            "id": null
           },
           {
             "enabled": true,
             "name": "",
-            "value": ""
+            "value": "",
+            "id": null
           }
         ]
       },
@@ -280,6 +317,7 @@
         "authenticationType": null,
         "body": {},
         "bodyType": null,
+        "description": "",
         "headers": [],
         "method": "GET",
         "name": "Get subtitle short link by subtitle ID (/v1/subtitle/link/:subtitleId)",
@@ -289,12 +327,14 @@
           {
             "enabled": true,
             "name": ":subtitleId",
-            "value": "9871"
+            "value": "9871",
+            "id": null
           },
           {
             "enabled": true,
             "name": "",
-            "value": ""
+            "value": "",
+            "id": null
           }
         ]
       },
@@ -309,6 +349,7 @@
         "authenticationType": null,
         "body": {},
         "bodyType": null,
+        "description": "",
         "headers": [],
         "method": "GET",
         "name": "Download subtitles for a TV show season by IMDB ID (/v1/subtitles/tv-show/download/season/:imdbId/:season/:resolution/:releaseGroupId)",
@@ -318,27 +359,32 @@
           {
             "enabled": true,
             "name": ":imdbId",
-            "value": ""
+            "value": "",
+            "id": null
           },
           {
             "enabled": true,
             "name": ":season",
-            "value": "1"
+            "value": "1",
+            "id": null
           },
           {
             "enabled": true,
             "name": ":resolution",
-            "value": "1080p"
+            "value": "1080p",
+            "id": null
           },
           {
             "enabled": true,
             "name": ":releaseGroupId",
-            "value": "1073"
+            "value": "1073",
+            "id": null
           },
           {
             "enabled": true,
             "name": "",
-            "value": ""
+            "value": "",
+            "id": null
           }
         ]
       },
@@ -353,21 +399,25 @@
         "authenticationType": null,
         "body": {},
         "bodyType": null,
+        "description": "",
         "headers": [
           {
             "enabled": true,
             "name": "Api-Key",
-            "value": "j5jgvGDmMXzaorNtLtSv7nerWeBjGjid"
+            "value": "j5jgvGDmMXzaorNtLtSv7nerWeBjGjid",
+            "id": null
           },
           {
             "enabled": true,
             "name": "Content-Type",
-            "value": "application/json"
+            "value": "application/json",
+            "id": null
           },
           {
             "enabled": true,
             "name": "",
-            "value": ""
+            "value": "",
+            "id": null
           }
         ],
         "method": "GET",
@@ -378,17 +428,20 @@
           {
             "enabled": true,
             "name": "languages",
-            "value": "es"
+            "value": "es",
+            "id": null
           },
           {
             "enabled": true,
             "name": "query",
-            "value": "cinderella"
+            "value": "cinderella",
+            "id": null
           },
           {
             "enabled": true,
             "name": "",
-            "value": ""
+            "value": "",
+            "id": null
           }
         ]
       },
@@ -403,6 +456,7 @@
         "authenticationType": null,
         "body": {},
         "bodyType": null,
+        "description": "",
         "headers": [],
         "method": "GET",
         "name": "Get SubDivX Token",
@@ -412,7 +466,8 @@
           {
             "enabled": true,
             "name": "gt",
-            "value": "1\n"
+            "value": "1\n",
+            "id": null
           }
         ]
       },
@@ -429,11 +484,13 @@
           "text": "{\n  \"imdbId\": \"0137523\",\n  \"subtitleId\": 10292\n}"
         },
         "bodyType": "application/json",
+        "description": "",
         "headers": [
           {
             "enabled": true,
             "name": "Content-Type",
-            "value": "application/json"
+            "value": "application/json",
+            "id": null
           }
         ],
         "method": "PATCH",
@@ -455,11 +512,13 @@
           "text": "{\n  \"titleFileName\": \"Borderlands.2024.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv\",\n  \"bytes\": 9707206,\n  \"email\": \"agugarcia@gmail.com\"\n}"
         },
         "bodyType": "application/json",
+        "description": "",
         "headers": [
           {
             "enabled": true,
             "name": "Content-Type",
-            "value": "application/json"
+            "value": "application/json",
+            "id": null
           }
         ],
         "method": "POST",
@@ -479,6 +538,7 @@
         "authenticationType": null,
         "body": {},
         "bodyType": null,
+        "description": "",
         "headers": [],
         "method": "GET",
         "name": "Get title metadata by IMDB ID (/v1/subtitle/metadata/:imdbId)",
@@ -488,12 +548,14 @@
           {
             "enabled": true,
             "name": ":imdbId",
-            "value": "2316411"
+            "value": "2316411",
+            "id": null
           },
           {
             "enabled": true,
             "name": "",
-            "value": ""
+            "value": "",
+            "id": null
           }
         ]
       },
@@ -508,6 +570,7 @@
         "authenticationType": null,
         "body": {},
         "bodyType": null,
+        "description": "",
         "headers": [],
         "method": "GET",
         "name": "Get subtitle by file name and bytes (/v1/subtitle/file/name/:bytes/:fileName)",
@@ -517,17 +580,20 @@
           {
             "enabled": true,
             "name": ":bytes",
-            "value": "40232322"
+            "value": "40232322",
+            "id": null
           },
           {
             "enabled": true,
             "name": ":fileName",
-            "value": "Red.One.2024.1080p.WEBRip.x265.10bit.AAC5.1-[YTS.MX].mp4"
+            "value": "Red.One.2024.1080p.WEBRip.x265.10bit.AAC5.1-[YTS.MX].mp4",
+            "id": null
           },
           {
             "enabled": true,
             "name": "",
-            "value": ""
+            "value": "",
+            "id": null
           }
         ]
       },
@@ -542,6 +608,7 @@
         "authenticationType": null,
         "body": {},
         "bodyType": null,
+        "description": "",
         "headers": [],
         "method": "GET",
         "name": "Get alternative subtitle by file name (/v1/subtitle/file/alternative/:fileName)",
@@ -551,12 +618,14 @@
           {
             "enabled": true,
             "name": ":fileName",
-            "value": "rey.for.the.Devil.2022.720p.WEBRip.800MB.x264-GalaxyRG.mkv"
+            "value": "rey.for.the.Devil.2022.720p.WEBRip.800MB.x264-GalaxyRG.mkv",
+            "id": null
           },
           {
             "enabled": true,
             "name": "",
-            "value": ""
+            "value": "",
+            "id": null
           }
         ]
       },
@@ -564,28 +633,37 @@
         "model": "http_request",
         "id": "rq_N17uAhCV9T",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2024-12-19T22:23:41",
+        "updatedAt": "2025-01-24T03:58:30.478916",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_XJ7aMDkIoi",
         "authentication": {},
         "authenticationType": null,
         "body": {},
         "bodyType": null,
+        "description": "",
         "headers": [],
         "method": "GET",
         "name": "Get subtitles by IMDB ID (/v1/subtitles/movie/:imdbId)",
         "sortPriority": 0.0,
-        "url": "${[baseUrl]}/v1/subtitles/movie/:imdbId",
+        "url": "${[baseUrl]}/v1/subtitles/movie/:imdbId/:limit",
         "urlParameters": [
           {
             "enabled": true,
             "name": ":imdbId",
-            "value": "16366836"
+            "value": "16366836",
+            "id": "fNA3bJTcAj"
+          },
+          {
+            "enabled": true,
+            "name": ":limit",
+            "value": "2",
+            "id": "RY9R2vFkvy"
           },
           {
             "enabled": true,
             "name": "",
-            "value": ""
+            "value": "",
+            "id": "hx8DutyX64"
           }
         ]
       },
@@ -600,6 +678,7 @@
         "authenticationType": null,
         "body": {},
         "bodyType": null,
+        "description": "",
         "headers": [],
         "method": "GET",
         "name": "Get subtitles by IMDB ID (/v1/subtitles/tv-show/:imdbId)",
@@ -609,12 +688,14 @@
           {
             "enabled": true,
             "name": ":imdbId",
-            "value": ""
+            "value": "",
+            "id": null
           },
           {
             "enabled": true,
             "name": "",
-            "value": ""
+            "value": "",
+            "id": null
           }
         ]
       },
@@ -629,6 +710,7 @@
         "authenticationType": null,
         "body": {},
         "bodyType": null,
+        "description": "",
         "headers": [],
         "method": "GET",
         "name": "Get subtitles by IMDB ID, season, and episode (/v1/subtitles/tv-show/:imdbId/:season/:episode)",
@@ -638,22 +720,26 @@
           {
             "enabled": true,
             "name": ":imdbId",
-            "value": ""
+            "value": "",
+            "id": null
           },
           {
             "enabled": true,
             "name": ":season",
-            "value": "1"
+            "value": "1",
+            "id": null
           },
           {
             "enabled": true,
             "name": ":episode",
-            "value": "1"
+            "value": "1",
+            "id": null
           },
           {
             "enabled": true,
             "name": "",
-            "value": ""
+            "value": "",
+            "id": null
           }
         ]
       },
@@ -668,6 +754,7 @@
         "authenticationType": null,
         "body": {},
         "bodyType": null,
+        "description": "",
         "headers": [],
         "method": "GET",
         "name": "Get metadatada for download subtitles for a TV show by IMDB ID and season (/v1/subtitles/tv-show/download/metadata/:imdbId/:season)",
@@ -677,17 +764,20 @@
           {
             "enabled": true,
             "name": ":imdbId",
-            "value": ""
+            "value": "",
+            "id": null
           },
           {
             "enabled": true,
             "name": ":season",
-            "value": "1"
+            "value": "1",
+            "id": null
           },
           {
             "enabled": true,
             "name": "",
-            "value": ""
+            "value": "",
+            "id": null
           }
         ]
       },
@@ -702,6 +792,7 @@
         "authenticationType": null,
         "body": {},
         "bodyType": null,
+        "description": "",
         "headers": [],
         "method": "GET",
         "name": "Get trending downloaded subtitles with limit (/v1/subtitles/trending/download/:limit)",
@@ -711,12 +802,14 @@
           {
             "enabled": true,
             "name": ":limit",
-            "value": "2"
+            "value": "2",
+            "id": null
           },
           {
             "enabled": true,
             "name": "",
-            "value": ""
+            "value": "",
+            "id": null
           }
         ]
       },
@@ -733,11 +826,13 @@
           "text": "{\n  \"imdbId\": \"15314262\"\n}"
         },
         "bodyType": "application/json",
+        "description": "",
         "headers": [
           {
             "enabled": true,
             "name": "Content-Type",
-            "value": "application/json"
+            "value": "application/json",
+            "id": null
           }
         ],
         "method": "PATCH",
@@ -757,6 +852,7 @@
         "authenticationType": null,
         "body": {},
         "bodyType": null,
+        "description": "",
         "headers": [],
         "method": "GET",
         "name": "Get title teaser by file name (/v1/title/teaser/:fileName)",
@@ -766,12 +862,14 @@
           {
             "enabled": true,
             "name": ":fileName",
-            "value": "X-Men.2000.1080p.BrRip.x264.YIFY.mp4"
+            "value": "X-Men.2000.1080p.BrRip.x264.YIFY.mp4",
+            "id": null
           },
           {
             "enabled": true,
             "name": "",
-            "value": ""
+            "value": "",
+            "id": null
           }
         ]
       },
@@ -779,13 +877,14 @@
         "model": "http_request",
         "id": "rq_22xbygIhlm",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2024-12-16T21:52:19",
+        "updatedAt": "2025-01-31T05:20:54.028160",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_YERMf4idMs",
         "authentication": {},
         "authenticationType": null,
         "body": {},
         "bodyType": null,
+        "description": "",
         "headers": [],
         "method": "GET",
         "name": "Search titles by query (/v1/titles/search/:query)",
@@ -795,12 +894,14 @@
           {
             "enabled": true,
             "name": ":query",
-            "value": "the"
+            "value": "dune",
+            "id": "WjQNYFUJ8p"
           },
           {
             "enabled": true,
             "name": "",
-            "value": ""
+            "value": "",
+            "id": "RrZ63gXyK7"
           }
         ]
       },
@@ -815,6 +916,7 @@
         "authenticationType": null,
         "body": {},
         "bodyType": null,
+        "description": "",
         "headers": [],
         "method": "GET",
         "name": "Get recent titles with limit (/v1/titles/recent/:limit)",
@@ -824,12 +926,14 @@
           {
             "enabled": true,
             "name": ":limit",
-            "value": "30"
+            "value": "30",
+            "id": null
           },
           {
             "enabled": true,
             "name": "",
-            "value": ""
+            "value": "",
+            "id": null
           }
         ]
       },
@@ -844,6 +948,7 @@
         "authenticationType": null,
         "body": {},
         "bodyType": null,
+        "description": "",
         "headers": [],
         "method": "GET",
         "name": "Get trending downloaded titles with limit (/v1/titles/trending/download/:limit)",
@@ -853,12 +958,14 @@
           {
             "enabled": true,
             "name": ":limit",
-            "value": "4"
+            "value": "4",
+            "id": null
           },
           {
             "enabled": true,
             "name": "",
-            "value": ""
+            "value": "",
+            "id": null
           }
         ]
       }
