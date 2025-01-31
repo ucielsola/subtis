@@ -285,28 +285,25 @@ export default function SubtitlesPage() {
         }
 
         return (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <a
-                href={row.original.subtitle.subtitle_link}
-                download
-                className="inline-flex items-center p-1"
-                onMouseEnter={() => controls.start("animate")}
-                onMouseLeave={() => controls.start("normal")}
-                onClick={() =>
-                  handleDownloadSubtitle({
-                    imdbId: data.title.imdb_id,
-                    titleName: data.title.title_name,
-                    subtitleId: row.original.subtitle.id,
-                  })
-                }
-                aria-label="Descargar subtítulo"
-              >
-                <DownloadIcon size={18} controls={controls} />
-              </a>
-            </TooltipTrigger>
-            <TooltipContent side="right">Descargar subtítulo</TooltipContent>
-          </Tooltip>
+          <Button asChild variant="ghost" size="sm" className="h-8">
+            <a
+              download
+              onClick={() =>
+                handleDownloadSubtitle({
+                  imdbId: data.title.imdb_id,
+                  titleName: data.title.title_name,
+                  subtitleId: row.original.subtitle.id,
+                })
+              }
+              href={row.original.subtitle.subtitle_link}
+              onMouseEnter={() => downloadControls.start("animate")}
+              onMouseLeave={() => downloadControls.start("normal")}
+              className="hover:bg-zinc-800 bg-zinc-900 transition-all ease-in-out rounded-sm"
+            >
+              <DownloadIcon size={14} controls={downloadControls} />
+              Descargar
+            </a>
+          </Button>
         );
       },
     },
@@ -318,7 +315,7 @@ export default function SubtitlesPage() {
 
   return (
     <div className="pt-24 pb-44 flex flex-col lg:flex-row justify-between gap-4">
-      <article className="max-w-xl w-full">
+      <article className="max-w-[630px] w-full">
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-4">
             {"message" in data ? null : data.title.optimized_logo ? (

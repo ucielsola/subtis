@@ -76,7 +76,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="hover:bg-zinc-900 border-b border-zinc-700 text-sm"
+                  className="hover:bg-zinc-900/40 border-b border-zinc-700 text-sm"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className="py-2">
@@ -92,7 +92,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                       type="button"
                       variant="outline"
                       onClick={() => setShowAll(!showAll)}
-                      className="text-sm text-zinc-300 hover:text-zinc-50 w-full h-full bg-zinc-950 hover:bg-zinc-950 border-none hover:border-none py-[11.5px]"
+                      className="text-sm text-zinc-300 hover:text-zinc-50 w-full h-full bg-zinc-950 hover:bg-zinc-950 border-none hover:border-none py-[14px]"
                     >
                       {showAll ? "Ver menos opciones" : `Ver más opciones (${rows.length - AMOUNT_TO_SHOW})`}
                       {showAll ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
