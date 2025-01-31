@@ -94,7 +94,7 @@ export default function SearchPage() {
       const parsedResults = data.results
         .filter((result) => result.type === "movie")
         .map((result) => ({
-          value: String(result.imdb_id),
+          value: String(result.slug),
           optimizedPoster: result.optimized_poster,
           posterThumbHash: result.poster_thumbhash,
           label: `${result.title_name} (${result.year})`,
@@ -141,11 +141,11 @@ export default function SearchPage() {
             />
             <p className="text-zinc-400 text-xs">
               Lo más buscado ahora:{" "}
-              <Link to={`/subtitles/movie/${firstTrending.imdbId}`} className="hover:text-zinc-50">
+              <Link to={`/subtitles/movie/${firstTrending.slug}`} className="hover:text-zinc-50">
                 {firstTrending.title}
               </Link>{" "}
               y{" "}
-              <Link to={`/subtitles/movie/${secondTrending.imdbId}`} className="hover:text-zinc-50">
+              <Link to={`/subtitles/movie/${secondTrending.slug}`} className="hover:text-zinc-50">
                 {secondTrending.title}
               </Link>
             </p>
