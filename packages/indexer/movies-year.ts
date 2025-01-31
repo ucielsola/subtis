@@ -1,12 +1,11 @@
+import { supabase } from "@subtis/db";
+
+import { saveReleaseGroupsToDb } from "./release-groups";
 import { indexMoviesByYear } from "./movies";
+import { saveSubtitleGroupsToDb } from "./subtitle-groups";
+import { saveTmdbMovieGenresToDb } from "./tmdb";
 
 // testing
-// indexMoviesByYear({
-//   year: 2024,
-//   indexFromPage: 295,
-//   isDebugging: false,
-// });
-
 indexMoviesByYear({
   year: 2024,
   indexFromPage: 0,
@@ -31,6 +30,6 @@ indexMoviesByYear({
 //   name: "Harry Potter and the Chamber of Secrets",
 // });
 
-// saveReleaseGroupsToDb(supabase);
-// saveSubtitleGroupsToDb(supabase);
-// saveTmdbMovieGenresToDb(supabase);
+saveReleaseGroupsToDb(supabase);
+saveSubtitleGroupsToDb(supabase);
+saveTmdbMovieGenresToDb(supabase);

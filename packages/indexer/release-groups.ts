@@ -76,6 +76,11 @@ export const RELEASE_GROUPS = {
     release_group_name: "AC3-TuKCo",
     matches: ["AC3-TuKCo"],
   },
+  "Atmos-TuKCo": {
+    is_supported: true,
+    release_group_name: "Atmos-TuKCo",
+    matches: ["Atmos-TuKCo"],
+  },
   DH: {
     is_supported: true,
     release_group_name: "DH",

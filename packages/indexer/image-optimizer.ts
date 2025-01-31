@@ -51,8 +51,6 @@ export async function optimizeTitleTableImages() {
         contentType: "image/webp",
       });
 
-      console.log("\n ~ optimizeTitleTableImages ~ data:", data);
-
       if (error) {
         console.log("\n ~ optimizeTitleTableImages ~ error:", error);
         console.error(error);
@@ -156,7 +154,7 @@ export async function optimizeTitleTableImages() {
 
 optimizeTitleTableImages();
 
-// Run every 10 minutes
-cron.schedule("*/10 * * * *", () => {
+// Run every 1 minutes
+cron.schedule("*/1 * * * *", () => {
   optimizeTitleTableImages();
 });

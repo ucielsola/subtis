@@ -80,7 +80,6 @@ export async function indexNotFoundSubtitles() {
         });
 
         const data = await response.json();
-        console.log("\n ~ indexNotFoundSubtitles ~ data:", data);
 
         const subtitleAlreadyExists = subtisSubtitleNormalizedSchema.safeParse(data);
 
