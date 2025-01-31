@@ -115,11 +115,12 @@ export async function indexMovieByName({
     await tg.activate("ThePirateBay");
     TorrentSearchApi.enableProvider("1337x");
 
-    const releaseGroups = await getReleaseGroups(supabase);
-    const subtitleGroups = await getSubtitleGroups(supabase);
-
-    const parameter = await getSubDivXParameter();
-    const { token, cookie } = await getSubDivXToken();
+    const [releaseGroups, subtitleGroups, parameter, { token, cookie }] = await Promise.all([
+      getReleaseGroups(supabase),
+      getSubtitleGroups(supabase),
+      getSubDivXParameter(),
+      getSubDivXToken(),
+    ]);
 
     const movie = await getTmdbMovieFromTitle(name, year);
 
