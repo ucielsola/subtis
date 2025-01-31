@@ -1,4 +1,3 @@
-import cron from "node-cron";
 // import { confirm } from "@clack/prompts";
 import { z } from "zod";
 
@@ -169,12 +168,3 @@ export async function indexNotFoundSubtitles({ ascending = true }: { ascending: 
 
   console.log("Finished processing all records.");
 }
-
-indexNotFoundSubtitles({ ascending: true });
-indexNotFoundSubtitles({ ascending: false });
-
-// Run every 1 minute
-cron.schedule("*/5 * * * *", () => {
-  indexNotFoundSubtitles({ ascending: true });
-  indexNotFoundSubtitles({ ascending: false });
-});
