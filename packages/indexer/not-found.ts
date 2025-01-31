@@ -1,6 +1,6 @@
+import cron from "node-cron";
 // import { confirm } from "@clack/prompts";
 import { z } from "zod";
-import cron from "node-cron";
 
 // db
 import { subtitlesNotFoundRowSchema, supabase } from "@subtis/db";
