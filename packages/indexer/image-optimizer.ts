@@ -156,7 +156,7 @@ export async function optimizeTitleTableImages() {
 
 optimizeTitleTableImages();
 
-// Run every 15 minutes
-cron.schedule("*/15 * * * *", () => {
+// Run every 10 minutes
+cron.schedule("*/10 * * * *", () => {
   optimizeTitleTableImages();
 });
