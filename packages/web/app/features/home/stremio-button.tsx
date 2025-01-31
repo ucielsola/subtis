@@ -9,7 +9,7 @@ import { op } from "~/lib/analytics";
 
 function StremioWhiteLogo({ size = 24, ...props }: SVGProps<SVGSVGElement> & { size: number }) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} fill="none" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} fill="none" viewBox="0 0 25 25" {...props}>
       <title>Stremio</title>
       <path
         fill="#fff"
@@ -166,9 +166,9 @@ export function StremioButton() {
         className={`bg-zinc-950 text-zinc-50 h-10 group relative isolate ${isOpen ? "pointer-events-none" : ""}`}
         onClick={handleToggleIsOpen}
       >
-        <div className="border-[#1155D9] rounded-md relative h-full px-5 z-10 border-2 flex gap-2 items-center bg-gradient-to-br from-[#1155D9] to-[#7B5BF5] transition-transform duration-300 ease-in-out group-hover:-translate-x-[3px] group-hover:-translate-y-[3px] group-active:-translate-x-[1.5px] group-active:-translate-y-[1.5px]">
-          <StremioWhiteLogo size={24} className="size-6" />
-          Stremio
+        <div className="border-[#1155D9] rounded-md relative h-full px-4 z-10 border-2 flex gap-2 items-center bg-gradient-to-br from-[#1155D9] to-[#7B5BF5] transition-transform duration-300 ease-in-out group-hover:-translate-x-[3px] group-hover:-translate-y-[3px] group-active:-translate-x-[1.5px] group-active:-translate-y-[1.5px] text-sm">
+          <StremioWhiteLogo size={20} />
+          Agregar a Stremio
         </div>
         <div className="absolute inset-0 rounded-md bg-[#1155D9]" />
       </button>

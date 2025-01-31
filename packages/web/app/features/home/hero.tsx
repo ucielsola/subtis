@@ -6,7 +6,6 @@ import { VideoDropzone } from "~/components/shared/video-dropzone";
 // home
 import { BadgeTvShows } from "~/features/home/badge-tv-shows";
 import { StremioButton } from "~/features/home/stremio-button";
-import { VlcButton } from "~/features/home/vlc-button";
 
 // ui
 import { AspectRatio } from "~/components/ui/aspect-ratio";
@@ -44,7 +43,7 @@ export function HomeHero() {
           <div className="flex flex-col gap-4">
             <div className="flex flex-row gap-4 mt-5">
               <StremioButton />
-              <VlcButton />
+              {/* <VlcButton /> */}
             </div>
             <span className="text-zinc-400 text-sm flex-row items-center hidden">
               También disponible para tu
