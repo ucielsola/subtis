@@ -10,7 +10,7 @@ import { saveTmdbMovieGenresToDb } from "./tmdb";
 // testing
 indexMoviesByYear({
   year: 2024,
-  indexFromPage: 2,
+  indexFromPage: 3,
   isDebugging: false,
 });
 
@@ -27,9 +27,9 @@ indexMoviesByYear({
 // });
 
 // indexMovieByName({
-//   year: 2002,
+//   year: 1981,
 //   isDebugging: false,
-//   name: "Harry Potter and the Chamber of Secrets",
+//   name: "My Dinner with Andre",
 // });
 
 saveReleaseGroupsToDb(supabase);
