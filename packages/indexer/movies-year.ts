@@ -1,7 +1,9 @@
+// db
 import { supabase } from "@subtis/db";
 
-import { saveReleaseGroupsToDb } from "./release-groups";
+// internals
 import { indexMoviesByYear } from "./movies";
+import { saveReleaseGroupsToDb } from "./release-groups";
 import { saveSubtitleGroupsToDb } from "./subtitle-groups";
 import { saveTmdbMovieGenresToDb } from "./tmdb";
 
