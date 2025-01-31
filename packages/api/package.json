@@ -14,17 +14,17 @@
     "@hono/zod-validator": "^0.4.2",
     "@supabase/supabase-js": "^2.48.1",
     "hono": "^4.6.19",
-    "html-escaper": "^3.0.3",
     "jszip": "^3.10.1",
     "slugify": "^1.6.6",
     "timestring": "^7.0.0",
+    "unescape-js": "^1.1.4",
     "zod": "^3.24.1"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250129.0",
     "@types/bun": "^1.2.1",
-    "@types/html-escaper": "^3.0.3",
     "@types/timestring": "^7.0.0",
+    "@types/unescape-js": "^1.0.3",
     "typescript": "^5.7.3",
     "wrangler": "^3.107.0"
   }

@@ -1,8 +1,8 @@
 import querystring from "querystring";
 import { zValidator } from "@hono/zod-validator";
 import { type Context, Hono } from "hono";
-import { unescape as htmlUnescape } from "html-escaper";
 import slugify from "slugify";
+import htmlUnescape from "unescape-js";
 import { z } from "zod";
 // import { cache } from "hono/cache";
 // import timestring from "timestring";
