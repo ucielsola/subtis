@@ -67,6 +67,10 @@ export function PosterDisclosure({ src, alt, hashUrl, title, imdbId, year, overv
   // custom hooks
   useOnClickOutside(ref, handleClickOutside);
 
+  // constants
+  const totalHours = runtime ? Math.floor(runtime / 60) : null;
+  const totalMinutes = runtime ? runtime % 60 : null;
+
   return (
     <div className="relative w-[384px] h-[611px] overflow-hidden rounded-sm" ref={ref}>
       <div
@@ -116,7 +120,9 @@ export function PosterDisclosure({ src, alt, hashUrl, title, imdbId, year, overv
           <div className="flex flex-col pb-4 z-10">
             <div className="flex items-center gap-2 pb-2">
               <span className="text-sm">{year}</span>
-              {runtime ? <span className="text-sm">{`${Math.floor(runtime / 60)}h ${runtime % 60}m`}</span> : null}
+              {runtime ? (
+                <span className="text-sm">{`${totalHours ? `${totalHours}h ` : ""}${totalMinutes ? `${totalMinutes}m` : ""}`}</span>
+              ) : null}
             </div>
             <div>
               {overview ? <p className="text-zinc-50 text-sm leading-6 pt-2 pb-6 line-clamp-[14]">{overview}</p> : null}
