@@ -285,7 +285,14 @@ export default function SubtitlesPage() {
         }
 
         return (
-          <Button asChild variant="ghost" size="sm" className="h-8">
+          <Button
+            asChild
+            variant="ghost"
+            size="sm"
+            className="h-8"
+            onMouseEnter={() => controls.start("animate")}
+            onMouseLeave={() => controls.start("normal")}
+          >
             <a
               download
               onClick={() =>
@@ -296,11 +303,9 @@ export default function SubtitlesPage() {
                 })
               }
               href={row.original.subtitle.subtitle_link}
-              onMouseEnter={() => downloadControls.start("animate")}
-              onMouseLeave={() => downloadControls.start("normal")}
               className="hover:bg-zinc-800 bg-zinc-900 transition-all ease-in-out rounded-sm"
             >
-              <DownloadIcon size={14} controls={downloadControls} />
+              <DownloadIcon size={14} controls={controls} />
               Descargar
             </a>
           </Button>
