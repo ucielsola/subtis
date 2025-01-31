@@ -1,20 +1,21 @@
 import { indexMovieByName } from "./movies";
 import top300 from "./top-300-rotten.json";
 
-let lastIndexedMovieName = "Portrait of a Lady on Fire";
+let lastIndexedMovieName = "12 Years a Slave";
+console.log("\n ~ lastIndexedMovieName:", lastIndexedMovieName);
 
 async function indexTop300FromRottenTomatoes() {
   console.time("Indexing top 300 from Rotten Tomatoes");
 
   const lastIndexedMovie = top300.findIndex((movie) => movie.name === lastIndexedMovieName);
 
-  const fromArgo = top300.slice(lastIndexedMovie + 1);
-  console.log("\n ~ indexTop300FromRottenTomatoes ~ fromArgo:", fromArgo);
+  const fromLastIndexedMovie = top300.slice(lastIndexedMovie + 1);
+  console.log("\n ~ indexTop300FromRottenTomatoes ~ fromLastIndexedMovie:", fromLastIndexedMovie);
 
-  const leftTotal = fromArgo.length;
+  const leftTotal = fromLastIndexedMovie.length;
   console.log("\n ~ indexTop300FromRottenTomatoes ~ leftTotal:", leftTotal);
 
-  for await (const movie of fromArgo) {
+  for await (const movie of fromLastIndexedMovie) {
     console.log(`Indexing ${movie.name} (${movie.year})`);
     await indexMovieByName({
       name: movie.name,
