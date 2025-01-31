@@ -4,8 +4,8 @@ import { useLoaderData, useNavigate, useParams } from "@remix-run/react";
 import { useState } from "react";
 import { z } from "zod";
 
-// shared external
-import { getApiClient } from "@subtis/shared";
+// lib
+import { apiClient } from "~/lib/api";
 
 // ui
 import { TextShimmerWave } from "~/components/ui/text-shimmer-wave";
@@ -33,14 +33,8 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     throw new Error("Missing bytes or fileName");
   }
 
-  const apiClient = getApiClient({
-    apiBaseUrl: "https://api.subt.is" as string,
-  });
-
   const response = await apiClient.v1.title.teaser[":fileName"].$get({
-    param: {
-      fileName,
-    },
+    param: { fileName },
   });
 
   if (!response.ok) {
@@ -82,10 +76,6 @@ export default function RealTimeSearchPage() {
       }
 
       setMessage("Chequeando si el subtítulo ya existe");
-
-      const apiClient = getApiClient({
-        apiBaseUrl: "https://api.subt.is" as string,
-      });
 
       const primarySubtitleResponse = await apiClient.v1.subtitle.file.name[":bytes"][":fileName"].$get({
         param: {

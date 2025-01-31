@@ -11,7 +11,7 @@ import { z } from "zod";
 import type { SubtitleNormalized } from "@subtis/api";
 
 // shared external
-import { getApiClient, getIsCinemaRecording } from "@subtis/shared";
+import { getIsCinemaRecording } from "@subtis/shared";
 
 // shared internal
 import { VideoDropzone } from "~/components/shared/video-dropzone";
@@ -22,6 +22,7 @@ import { BadgeAlertIcon } from "~/components/icons/badge-alert";
 import { DownloadIcon } from "~/components/icons/download";
 
 // lib
+import { apiClient } from "~/lib/api";
 import { cn } from "~/lib/utils";
 
 // ui
@@ -95,10 +96,6 @@ export const columns: ColumnDef<SubtitleNormalized>[] = [
 
       // handlers
       async function handleDownloadSubtitle() {
-        const apiClient = getApiClient({
-          apiBaseUrl: "https://api.subt.is" as string,
-        });
-
         await apiClient.v1.subtitle.metrics.download.$patch({
           json: { imdbId: row.original.title.imdb_id, subtitleId: row.original.subtitle.id },
         });
@@ -156,10 +153,6 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     throw new Error("Missing fileName");
   }
 
-  const apiClient = getApiClient({
-    apiBaseUrl: "https://api.subt.is" as string,
-  });
-
   const alternativeSubtitleResponse = await apiClient.v1.subtitle.file.alternative[":fileName"].$get({
     param: {
       fileName,
@@ -208,10 +201,6 @@ export default function NotFoundSubtitlePage() {
     if (!bytes || !fileName) {
       return;
     }
-
-    const apiClient = getApiClient({
-      apiBaseUrl: "https://api.subt.is" as string,
-    });
 
     await apiClient.v1.subtitle["not-found"].$post({
       json: { email: values.email, bytes: Number(bytes), titleFileName: fileName },

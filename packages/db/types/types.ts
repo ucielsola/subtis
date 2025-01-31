@@ -91,7 +91,7 @@ export type Database = {
           subtitle_group_id: number;
           subtitle_link: string;
           title_file_name: string;
-          title_imdb_id: string;
+          title_slug: string;
           torrent_id: number;
           uploaded_by: string | null;
         };
@@ -116,7 +116,7 @@ export type Database = {
           subtitle_group_id: number;
           subtitle_link: string;
           title_file_name: string;
-          title_imdb_id: string;
+          title_slug: string;
           torrent_id: number;
           uploaded_by?: string | null;
         };
@@ -141,7 +141,7 @@ export type Database = {
           subtitle_group_id?: number;
           subtitle_link?: string;
           title_file_name?: string;
-          title_imdb_id?: string;
+          title_slug?: string;
           torrent_id?: number;
           uploaded_by?: string | null;
         };
@@ -161,11 +161,11 @@ export type Database = {
             referencedColumns: ["id"];
           },
           {
-            foreignKeyName: "Subtitles_title_imdb_id_fkey";
-            columns: ["title_imdb_id"];
+            foreignKeyName: "Subtitles_title_slug_fkey";
+            columns: ["title_slug"];
             isOneToOne: false;
             referencedRelation: "Titles";
-            referencedColumns: ["imdb_id"];
+            referencedColumns: ["slug"];
           },
           {
             foreignKeyName: "Subtitles_torrent_id_fkey";
@@ -259,6 +259,7 @@ export type Database = {
           release_date: string;
           runtime: number | null;
           searched_times: number | null;
+          slug: string;
           title_name: string;
           title_name_ja: string | null;
           title_name_spa: string;
@@ -287,6 +288,7 @@ export type Database = {
           release_date: string;
           runtime?: number | null;
           searched_times?: number | null;
+          slug: string;
           title_name: string;
           title_name_ja?: string | null;
           title_name_spa: string;
@@ -315,6 +317,7 @@ export type Database = {
           release_date?: string;
           runtime?: number | null;
           searched_times?: number | null;
+          slug?: string;
           title_name?: string;
           title_name_ja?: string | null;
           title_name_spa?: string;
@@ -374,9 +377,9 @@ export type Database = {
           title_name: string;
           year: number;
           type: string;
-          backdrop: string;
-          poster: string;
-          logo: string;
+          optimized_backdrop: string;
+          optimized_poster: string;
+          optimized_logo: string;
           searched_times: number;
           queried_times: number;
           poster_thumbhash: string;

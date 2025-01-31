@@ -1,7 +1,7 @@
 import { useNavigate } from "@remix-run/react";
 
-// shared external
-import { getApiClient } from "@subtis/shared";
+// lib
+import { apiClient } from "~/lib/api";
 
 // ui
 import { AutoComplete } from "~/components/ui/autocomplete";
@@ -54,10 +54,6 @@ export function AutocompleteTitles({
 
   // handlers
   async function handleUpdateSearchMetrics(imdbId: string) {
-    const apiClient = getApiClient({
-      apiBaseUrl: "https://api.subt.is" as string,
-    });
-
     await apiClient.v1.title.metrics.search.$patch({
       json: {
         imdbId,

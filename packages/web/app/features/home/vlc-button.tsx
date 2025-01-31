@@ -353,7 +353,7 @@ export function VlcButton() {
                 <VlcColouredLogo size={24} className="!size-auto absolute transition-all ease-in-out opacity-100" />
                 <VlcWhiteLogo size={24} className="!size-auto absolute transition-all ease-in-out opacity-0" />
               </div>
-              Agregar a VLC
+              VLC
             </div>
           </TooltipTrigger>
         </Button>

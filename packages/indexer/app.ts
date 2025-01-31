@@ -51,11 +51,14 @@ import { type SubdlSubtitles, filterSubdlSubtitlesForTorrent, getSubtitlesFromSu
 import type { SubtitleGroupMap, SubtitleGroupNames } from "./subtitle-groups";
 import type { TmdbTitle, TmdbTvShow } from "./tmdb";
 import type { IndexedBy, SubtitleData } from "./types";
+import { YTS_TRACKERS, getYtsTorrents } from "./yts";
+
+// utils
 import { executeWithOptionalTryCatch, getSubtitleAuthor } from "./utils";
 import { getQueryForTorrentProvider } from "./utils/query";
+import { getTitleSlugifiedName } from "./utils/slugify-title";
 import { encodeImageToThumbhash } from "./utils/thumbhash";
 import { generateIdFromMagnet } from "./utils/torrent";
-import { YTS_TRACKERS, getYtsTorrents } from "./yts";
 
 // types
 type TmdbTvShowEpisode = TmdbTvShow & { episode: string };
@@ -305,6 +308,7 @@ async function storeTitleInSupabaseTable(title: TitleWithEpisode): Promise<numbe
     await supabase.from("Titles").upsert({
       ...rest,
       id: data.id,
+      slug: getTitleSlugifiedName(title.title_name, title.year),
       title_name_without_special_chars: getStringWithoutSpecialCharacters(title.title_name),
     });
 
@@ -325,6 +329,7 @@ async function storeTitleInSupabaseTable(title: TitleWithEpisode): Promise<numbe
       optimized_backdrop: title.backdrop,
       poster_thumbhash: posterThumbhash,
       backdrop_thumbhash: backdropThumbhash,
+      slug: getTitleSlugifiedName(title.title_name, title.year),
       title_name_without_special_chars: getStringWithoutSpecialCharacters(title.title_name),
     })
     .select("id")
@@ -395,6 +400,7 @@ async function storeSubtitleInSupabaseTable({
   const { error } = await supabase.from("Subtitles").insert({
     lang,
     author,
+    title_slug: getTitleSlugifiedName(title.title_name, title.year),
     rip_type: ripType,
     is_valid: isValid,
     reviewed: true,
@@ -405,7 +411,6 @@ async function storeSubtitleInSupabaseTable({
     file_extension: fileNameExtension,
     title_file_name: fileName,
     subtitle_file_name: downloadFileName,
-    title_imdb_id: title.imdb_id,
     release_group_id: releaseGroupId,
     resolution,
     subtitle_group_id: subtitleGroupId,
@@ -427,12 +432,12 @@ async function storeSubtitleInSupabaseTable({
       reviewed: true,
       uploaded_by: indexedBy,
       bytes: bytesFromNotFoundSubtitle,
+      title_slug: getTitleSlugifiedName(title.title_name, title.year),
       torrent_id: torrentId,
       external_id: externalId,
       file_extension: fileNameExtension,
       title_file_name: titleFileNameFromNotFoundSubtitle,
       subtitle_file_name: downloadFileName,
-      title_imdb_id: title.imdb_id,
       release_group_id: releaseGroupId,
       resolution,
       subtitle_group_id: subtitleGroupId,

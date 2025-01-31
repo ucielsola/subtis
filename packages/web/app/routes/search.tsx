@@ -4,8 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useQueryState } from "nuqs";
 import { useDebounce } from "use-debounce";
 
-// shared
-import { getApiClient } from "@subtis/shared/ui/client";
+// lib
+import { apiClient } from "~/lib/api";
 
 // ui
 import { Lens } from "~/components/ui/lens";
@@ -24,14 +24,8 @@ type Result = {
 
 // loader
 export const loader = async () => {
-  const apiClient = getApiClient({
-    apiBaseUrl: "https://api.subt.is" as string,
-  });
-
   const trendingSearchResponse = await apiClient.v1.titles.trending.search[":limit"].$get({
-    param: {
-      limit: "2",
-    },
+    param: { limit: "2" },
   });
 
   if (!trendingSearchResponse.ok) {
@@ -86,10 +80,6 @@ export default function SearchPage() {
       if (!query) {
         return { results: [] as Result[], statusCode: 400 };
       }
-
-      const apiClient = getApiClient({
-        apiBaseUrl: "https://api.subt.is",
-      });
 
       const response = await apiClient.v1.titles.search[":query"].$get({
         param: { query },

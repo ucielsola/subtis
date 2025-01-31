@@ -26,16 +26,16 @@ const trendingSubtitlesSchema = z
 // core
 export const subtitles = new Hono<{ Variables: AppVariables }>()
   .get(
-    "/movie/:imdbId",
-    zValidator("param", z.object({ imdbId: z.string() })),
+    "/movie/:slug",
+    zValidator("param", z.object({ slug: z.string() })),
     async (context) => {
-      const { imdbId } = context.req.valid("param");
+      const { slug } = context.req.valid("param");
 
       const { data, error } = await getSupabaseClient(context)
         .from("Subtitles")
         .select(subtitlesQuery)
         .order("queried_times", { ascending: false })
-        .match({ title_imdb_id: imdbId });
+        .match({ title_slug: slug });
 
       if (error && error.code === "PGRST116") {
         context.status(404);

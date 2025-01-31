@@ -7,8 +7,8 @@ import { HomeFeatures } from "~/features/home/features";
 import { HomeHero } from "~/features/home/hero";
 import { HomeTrending } from "~/features/home/trending";
 
-// shared external
-import { getApiClient } from "@subtis/shared";
+// lib
+import { apiClient } from "~/lib/api";
 
 // meta
 export const meta: MetaFunction = () => {
@@ -16,10 +16,6 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader = async () => {
-  const apiClient = getApiClient({
-    apiBaseUrl: "https://api.subt.is" as string,
-  });
-
   const [trendingDownloadedTitlesResponse, recentDownloadedTitlesResponse] = await Promise.all([
     apiClient.v1.titles.trending.download[":limit"].$get({
       param: {

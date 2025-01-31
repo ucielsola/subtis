@@ -1,8 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 
+// shared
 import { streamingSchema } from "@subtis/api/shared/streaming";
-// shared external
-import { getApiClient } from "@subtis/shared/ui";
+
+// lib
+import { apiClient } from "~/lib/api";
 
 export function usePlatforms(imdbId: string | undefined) {
   return useQuery({
@@ -11,10 +13,6 @@ export function usePlatforms(imdbId: string | undefined) {
       if (!imdbId) {
         return null;
       }
-
-      const apiClient = getApiClient({
-        apiBaseUrl: "https://api.subt.is",
-      });
 
       const response = await apiClient.v1.title.streaming[":imdbId"].$get({
         param: { imdbId },

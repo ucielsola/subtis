@@ -1,8 +1,8 @@
 import { Link } from "@remix-run/react";
 import { AnimatePresence, motion } from "motion/react";
 
-// shared external
-import { getApiClient } from "@subtis/shared";
+// lib
+import { apiClient } from "~/lib/api";
 
 // ui
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "~/components/ui/carousel";
@@ -25,10 +25,6 @@ type SliderProps = {
 function Slider({ data, isLoading }: SliderProps) {
   // handlers
   async function handleUpdateSearchMetrics(imdbId: string) {
-    const apiClient = getApiClient({
-      apiBaseUrl: "https://api.subt.is" as string,
-    });
-
     await apiClient.v1.title.metrics.search.$patch({
       json: {
         imdbId,

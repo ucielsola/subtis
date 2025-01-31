@@ -32,7 +32,7 @@ export function TrendingSlider() {
           return (
             <CarouselItem key={title.id} className="basis-auto pl-3 select-none">
               <Link
-                to={`/subtitles/movie/${title.imdb_id}`}
+                to={`/subtitles/movie/${title.slug}`}
                 className="flex flex-none rounded-sm overflow-hidden cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-300 group will-change-transform"
               >
                 <ThumbHashTrendingImage

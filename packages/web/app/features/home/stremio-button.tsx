@@ -168,7 +168,7 @@ export function StremioButton() {
       >
         <div className="border-[#1155D9] rounded-md relative h-full px-5 z-10 border-2 flex gap-2 items-center bg-gradient-to-br from-[#1155D9] to-[#7B5BF5] transition-transform duration-300 ease-in-out group-hover:-translate-x-[3px] group-hover:-translate-y-[3px] group-active:-translate-x-[1.5px] group-active:-translate-y-[1.5px]">
           <StremioWhiteLogo size={24} className="size-6" />
-          Agregar a Stremio
+          Stremio
         </div>
         <div className="absolute inset-0 rounded-md bg-[#1155D9]" />
       </button>

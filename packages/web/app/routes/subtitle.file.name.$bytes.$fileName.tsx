@@ -5,9 +5,6 @@ import { AnimatePresence, motion, useAnimation } from "motion/react";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { transformSrtTracks } from "srt-support-for-html5-videos";
 
-// shared external
-import { getApiClient } from "@subtis/shared";
-
 // shared internal
 import { VideoDropzone } from "~/components/shared/video-dropzone";
 
@@ -17,6 +14,7 @@ import { DownloadIcon } from "~/components/icons/download";
 import { Play } from "~/components/icons/play";
 
 // lib
+import { apiClient } from "~/lib/api";
 import { cn } from "~/lib/utils";
 
 // hooks
@@ -45,10 +43,6 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   if (!bytes || !fileName) {
     throw new Error("Missing bytes or fileName");
   }
-
-  const apiClient = getApiClient({
-    apiBaseUrl: "https://api.subt.is" as string,
-  });
 
   const primarySubtitleResponse = await apiClient.v1.subtitle.file.name[":bytes"][":fileName"].$get({
     param: {
@@ -203,10 +197,6 @@ export default function SubtitlePage() {
     if ("message" in data) {
       return;
     }
-
-    const apiClient = getApiClient({
-      apiBaseUrl: "https://api.subt.is" as string,
-    });
 
     await apiClient.v1.subtitle.metrics.download.$patch({
       json: { imdbId: data.title.imdb_id, subtitleId: data.subtitle.id },

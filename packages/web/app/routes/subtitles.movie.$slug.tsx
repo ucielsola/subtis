@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
-import { useLoaderData, useParams } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useAnimation } from "motion/react";
 import numeral from "numeral";
@@ -10,9 +10,6 @@ import Highlighter from "react-highlight-words";
 // api
 import type { SubtitlesNormalized } from "@subtis/api";
 
-// shared external
-import { getApiClient } from "@subtis/shared";
-
 // shared internal
 import { VideoDropzone } from "~/components/shared/video-dropzone";
 
@@ -21,12 +18,14 @@ import { CheckIcon } from "~/components/icons/check";
 import { DownloadIcon } from "~/components/icons/download";
 
 // lib
+import { apiClient } from "~/lib/api";
 import { cn } from "~/lib/utils";
 
 // hooks
 import { useToast } from "~/hooks/use-toast";
 
 // ui
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { DataTable } from "~/components/ui/data-table";
 import DotPattern from "~/components/ui/dot-pattern";
@@ -35,9 +34,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { ToastAction } from "~/components/ui/toast";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
 // features
 import { PosterDisclosure } from "~/features/movie/poster-disclosure";
+
+// hooks
 import { useCinemas } from "~/hooks/use-cinemas";
 import { usePlatforms } from "~/hooks/use-platforms";
 
@@ -54,20 +54,14 @@ function getResolutionRank(resolution: string): number {
 }
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  const { imdbId } = params;
+  const { slug } = params;
 
-  if (!imdbId) {
-    throw new Error("Missing imdbId");
+  if (!slug) {
+    throw new Error("Missing slug");
   }
 
-  const apiClient = getApiClient({
-    apiBaseUrl: "https://api.subt.is" as string,
-  });
-
-  const primarySubtitleResponse = await apiClient.v1.subtitles.movie[":imdbId"].$get({
-    param: {
-      imdbId,
-    },
+  const primarySubtitleResponse = await apiClient.v1.subtitles.movie[":slug"].$get({
+    param: { slug },
   });
 
   if (!primarySubtitleResponse.ok) {
@@ -95,9 +89,6 @@ export default function SubtitlesPage() {
   // remix hooks
   const data = useLoaderData<typeof loader>();
 
-  // navigation hooks
-  const { imdbId } = useParams();
-
   // nuqs hooks
   const [subtip, setSubtip] = useQueryState("subtip", {
     defaultValue: "message" in data ? "" : data.results.length > 1 ? "choose-subtitle" : "play-subtitle",
@@ -117,8 +108,8 @@ export default function SubtitlesPage() {
   }
 
   // query hooks
-  const { data: titleCinemas } = useCinemas(imdbId);
-  const { data: titlePlatforms } = usePlatforms(imdbId);
+  const { data: titleCinemas } = useCinemas("message" in data ? undefined : data.title.imdb_id);
+  const { data: titlePlatforms } = usePlatforms("message" in data ? undefined : data.title.imdb_id);
 
   // motion hooks
   const videoTipControl = useAnimation();
@@ -148,6 +139,53 @@ export default function SubtitlesPage() {
         const resA = getResolutionRank(rowA.original.subtitle.resolution);
         const resB = getResolutionRank(rowB.original.subtitle.resolution);
         return resA - resB;
+      },
+      cell: ({ row }) => {
+        if (row.original.subtitle.resolution === "480p") {
+          return (
+            <Tooltip>
+              <TooltipTrigger className="truncate cursor-default text-left">
+                {row.original.subtitle.resolution}
+              </TooltipTrigger>
+              <TooltipContent side="right">SD</TooltipContent>
+            </Tooltip>
+          );
+        }
+
+        if (row.original.subtitle.resolution === "720p") {
+          return (
+            <Tooltip>
+              <TooltipTrigger className="truncate cursor-default text-left">
+                {row.original.subtitle.resolution}
+              </TooltipTrigger>
+              <TooltipContent side="right">HD</TooltipContent>
+            </Tooltip>
+          );
+        }
+
+        if (row.original.subtitle.resolution === "1080p") {
+          return (
+            <Tooltip>
+              <TooltipTrigger className="truncate cursor-default text-left">
+                {row.original.subtitle.resolution}
+              </TooltipTrigger>
+              <TooltipContent side="right">Full HD</TooltipContent>
+            </Tooltip>
+          );
+        }
+
+        if (row.original.subtitle.resolution === "2160p") {
+          return (
+            <Tooltip>
+              <TooltipTrigger className="truncate cursor-default text-left">
+                {row.original.subtitle.resolution}
+              </TooltipTrigger>
+              <TooltipContent side="right">4K</TooltipContent>
+            </Tooltip>
+          );
+        }
+
+        return row.original.subtitle.resolution;
       },
     },
     {
@@ -204,10 +242,6 @@ export default function SubtitlesPage() {
           if ("message" in data) {
             return;
           }
-
-          const apiClient = getApiClient({
-            apiBaseUrl: "https://api.subt.is" as string,
-          });
 
           await apiClient.v1.subtitle.metrics.download.$patch({
             json: { imdbId: data.title.imdb_id, subtitleId: row.original.subtitle.id },
