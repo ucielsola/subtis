@@ -269,11 +269,11 @@ export const title = new Hono<{ Variables: AppVariables }>()
 
     return context.json({ name: data.title_name, platforms: title.platforms });
   })
-  .patch("/metrics/search", zValidator("json", z.object({ imdbId: z.string() })), async (context) => {
-    const { imdbId } = context.req.valid("json");
+  .patch("/metrics/search", zValidator("json", z.object({ slug: z.string() })), async (context) => {
+    const { slug } = context.req.valid("json");
 
     const { data, error } = await getSupabaseClient(context).rpc("update_title_search_metrics", {
-      _imdb_id: imdbId,
+      _slug: slug,
     });
 
     if (error) {

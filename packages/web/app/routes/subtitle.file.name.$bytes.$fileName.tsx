@@ -313,7 +313,6 @@ export default function SubtitlePage() {
                 href={data.subtitle.subtitle_link}
                 onMouseEnter={() => downloadControls.start("animate")}
                 onMouseLeave={() => downloadControls.start("normal")}
-                // className="inline-flex items-center p-1"
                 className="hover:bg-zinc-800 bg-zinc-900 transition-all ease-in-out rounded-sm"
               >
                 <DownloadIcon size={18} controls={downloadControls} />

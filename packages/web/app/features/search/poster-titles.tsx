@@ -24,11 +24,9 @@ type SliderProps = {
 
 function Slider({ data, isLoading }: SliderProps) {
   // handlers
-  async function handleUpdateSearchMetrics(imdbId: string) {
+  async function handleUpdateSearchMetrics(slug: string) {
     await apiClient.v1.title.metrics.search.$patch({
-      json: {
-        imdbId,
-      },
+      json: { slug },
     });
   }
 

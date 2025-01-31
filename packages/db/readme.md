@@ -97,7 +97,7 @@ $$ LANGUAGE plpgsql;
 ```
 
 ```sql
-CREATE OR REPLACE FUNCTION update_title_search_metrics(_imdb_id text)
+CREATE OR REPLACE FUNCTION update_title_search_metrics(_slug text)
 RETURNS boolean AS $$
 DECLARE
     success boolean;
@@ -105,7 +105,7 @@ BEGIN
     UPDATE "Titles"
     SET last_queried_at = CURRENT_TIMESTAMP,
         searched_times = searched_times + 1
-    WHERE imdb_id = _imdb_id
+    WHERE slug = _slug
     RETURNING true INTO success;
 
     RETURN COALESCE(success, false);

@@ -27,6 +27,7 @@ import { useToast } from "~/hooks/use-toast";
 // ui
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
+import { Button } from "~/components/ui/button";
 import { DataTable } from "~/components/ui/data-table";
 import DotPattern from "~/components/ui/dot-pattern";
 import { Separator } from "~/components/ui/separator";
@@ -107,6 +108,49 @@ export default function SubtitlesPage() {
     });
   }
 
+  // handlers
+  async function handleDownloadSubtitle({
+    imdbId,
+    subtitleId,
+    titleName,
+  }: {
+    imdbId: string;
+    subtitleId: number;
+    titleName: string;
+  }) {
+    if ("message" in data) {
+      return;
+    }
+
+    await apiClient.v1.subtitle.metrics.download.$patch({
+      json: { imdbId, subtitleId },
+    });
+
+    toast({
+      title: "¡Disfruta de tu subtítulo!",
+      description: (
+        <p className="flex flex-row items-center gap-1">
+          Compartí tu experiencia en <img src="/x.svg" alt="X" className="w-3 h-3" />
+        </p>
+      ),
+      action: (
+        <ToastAction
+          altText="Compartir"
+          onClick={() => {
+            window.open(
+              `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                `Encontré mis subtítulos para "${titleName}" en @subt_is.`,
+              )}`,
+              "_blank",
+            );
+          }}
+        >
+          Compartir
+        </ToastAction>
+      ),
+    });
+  }
+
   // query hooks
   const { data: titleCinemas } = useCinemas("message" in data ? undefined : data.title.imdb_id);
   const { data: titlePlatforms } = usePlatforms("message" in data ? undefined : data.title.imdb_id);
@@ -119,6 +163,8 @@ export default function SubtitlesPage() {
   const formatTipControl = useAnimation();
   const resolutionTipControl = useAnimation();
   const publisherTipControl = useAnimation();
+
+  const downloadControls = useAnimation();
 
   // constants
   const columns: ColumnDef<SubtitlesNormalized>[] = [
@@ -234,42 +280,8 @@ export default function SubtitlesPage() {
         // motion hooks
         const controls = useAnimation();
 
-        // toast hooks
-        const { toast } = useToast();
-
-        // handlers
-        async function handleDownloadSubtitle() {
-          if ("message" in data) {
-            return;
-          }
-
-          await apiClient.v1.subtitle.metrics.download.$patch({
-            json: { imdbId: data.title.imdb_id, subtitleId: row.original.subtitle.id },
-          });
-
-          toast({
-            title: "¡Disfruta de tu subtítulo!",
-            description: (
-              <p className="flex flex-row items-center gap-1">
-                Compartí tu experiencia en <img src="/x.svg" alt="X" className="w-3 h-3" />
-              </p>
-            ),
-            action: (
-              <ToastAction
-                altText="Compartir"
-                onClick={() => {
-                  window.open(
-                    `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                      `Encontré mis subtítulos para "${data.title.title_name}" en @subt_is.`,
-                    )}`,
-                    "_blank",
-                  );
-                }}
-              >
-                Compartir
-              </ToastAction>
-            ),
-          });
+        if ("message" in data) {
+          return null;
         }
 
         return (
@@ -281,7 +293,13 @@ export default function SubtitlesPage() {
                 className="inline-flex items-center p-1"
                 onMouseEnter={() => controls.start("animate")}
                 onMouseLeave={() => controls.start("normal")}
-                onClick={handleDownloadSubtitle}
+                onClick={() =>
+                  handleDownloadSubtitle({
+                    imdbId: data.title.imdb_id,
+                    titleName: data.title.title_name,
+                    subtitleId: row.original.subtitle.id,
+                  })
+                }
                 aria-label="Descargar subtítulo"
               >
                 <DownloadIcon size={18} controls={controls} />
@@ -321,7 +339,7 @@ export default function SubtitlesPage() {
               </h2>
             )}
           </div>
-          {"message" in data ? null : (
+          {"message" in data ? null : data.results.length > 1 ? (
             <div>
               <DataTable columns={columns} data={data.results} />
               <p className="text-sm mt-2 text-zinc-400">
@@ -335,6 +353,26 @@ export default function SubtitlesPage() {
                 </button>
               </p>
             </div>
+          ) : (
+            <Button asChild variant="ghost" size="sm">
+              <a
+                download
+                href={data.results[0].subtitle.subtitle_link}
+                onMouseEnter={() => downloadControls.start("animate")}
+                onMouseLeave={() => downloadControls.start("normal")}
+                onClick={() =>
+                  handleDownloadSubtitle({
+                    imdbId: data.title.imdb_id,
+                    titleName: data.title.title_name,
+                    subtitleId: data.results[0].subtitle.id,
+                  })
+                }
+                className="hover:bg-zinc-800 bg-zinc-900 transition-all ease-in-out rounded-sm w-fit"
+              >
+                <DownloadIcon size={18} controls={downloadControls} />
+                Descargar Subtítulo
+              </a>
+            </Button>
           )}
         </section>
 

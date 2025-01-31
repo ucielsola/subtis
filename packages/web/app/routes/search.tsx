@@ -41,7 +41,7 @@ export const loader = async () => {
   const parsedTrendingSearch = trendingSearch.results.map((result) => ({
     title: result.title_name,
     year: result.year,
-    imdbId: result.imdb_id,
+    slug: result.slug,
     searchedTimes: result.searched_times,
   }));
 

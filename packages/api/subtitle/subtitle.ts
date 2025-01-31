@@ -345,7 +345,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       const { error: subtitleError } = await supabase
         .from("Subtitles")
         .select(subtitlesQuery)
-        .match({ title_imdb_id: imdbId, id: subtitleId })
+        .match({ id: subtitleId })
         .single();
 
       if (subtitleError) {

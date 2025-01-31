@@ -377,6 +377,7 @@ export type Database = {
           title_name: string;
           year: number;
           type: string;
+          slug: string;
           optimized_backdrop: string;
           optimized_poster: string;
           optimized_logo: string;
@@ -440,7 +441,7 @@ export type Database = {
       };
       update_title_search_metrics: {
         Args: {
-          _imdb_id: string;
+          _slug: string;
         };
         Returns: boolean;
       };
