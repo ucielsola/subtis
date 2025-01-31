@@ -27,7 +27,6 @@ import { cn } from "~/lib/utils";
 
 // ui
 import { Button } from "~/components/ui/button";
-import { DataTable } from "~/components/ui/data-table";
 import DotPattern from "~/components/ui/dot-pattern";
 import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
