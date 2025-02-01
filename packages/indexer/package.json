@@ -50,7 +50,7 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@types/bun": "^1.2.1",
+    "@types/bun": "^1.2.2",
     "@types/cli-progress": "^3.11.6",
     "@types/download": "^8.0.5",
     "@types/ffprobe": "^1.1.8",
