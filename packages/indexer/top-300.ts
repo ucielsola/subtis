@@ -1,7 +1,7 @@
 import { indexMovieByName } from "./movies";
 import top300 from "./top-300-rotten.json";
 
-let lastIndexedMovieName = "12 Years a Slave";
+let lastIndexedMovieName = "Beauty and the Beast";
 console.log("\n ~ lastIndexedMovieName:", lastIndexedMovieName);
 
 async function indexTop300FromRottenTomatoes() {
