@@ -30,12 +30,12 @@ import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Button } from "~/components/ui/button";
 import { DataTable } from "~/components/ui/data-table";
 import DotPattern from "~/components/ui/dot-pattern";
+import { Label } from "~/components/ui/label";
 import { Separator } from "~/components/ui/separator";
+import { Switch } from "~/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { ToastAction } from "~/components/ui/toast";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
-import { Label } from "~/components/ui/label";
-import { Switch } from "~/components/ui/switch";
 
 // features
 import { PosterDisclosure } from "~/features/movie/poster-disclosure";
@@ -370,13 +370,6 @@ export default function SubtitlesPage() {
                   href={data.results[0].subtitle.subtitle_link}
                   onMouseEnter={() => downloadControls.start("animate")}
                   onMouseLeave={() => downloadControls.start("normal")}
-                  onClick={() =>
-                    handleDownloadSubtitle({
-                      imdbId: data.title.imdb_id,
-                      titleName: data.title.title_name,
-                      subtitleId: data.results[0].subtitle.id,
-                    })
-                  }
                 >
                   <DownloadIcon size={18} controls={downloadControls} />
                   Descargar Subtítulo
