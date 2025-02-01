@@ -76,8 +76,8 @@ export function HomeHero() {
                 )}
               />
             </AspectRatio>
-            <p className="text-sm text-zinc-400 text-center px-4 hidden lg:block">
-              Si contás con el archivo de video podés arrastrarlo acá.
+            <p className="text-sm text-zinc-400 text-center py-1.5 px-3 hidden lg:block bg-zinc-950/40 backdrop-blur-md w-fit container mx-auto rounded-full">
+              Si contás con el archivo de video podés arrastrarlo acá
             </p>
           </div>
         </div>
