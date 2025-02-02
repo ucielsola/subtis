@@ -2,16 +2,16 @@
 import { supabase } from "@subtis/db";
 
 // internals
-import { indexMoviesByYear } from "./movies";
+import { indexMovieByName } from "./movies";
 import { saveReleaseGroupsToDb } from "./release-groups";
 import { saveSubtitleGroupsToDb } from "./subtitle-groups";
 import { saveTmdbMovieGenresToDb } from "./tmdb";
 
 // testing
-indexMoviesByYear({
-  year: 2024,
-  indexFromPage: 7,
+indexMovieByName({
+  year: 2008,
   isDebugging: false,
+  name: "Slumdog Millionaire",
 });
 
 saveReleaseGroupsToDb(supabase);
