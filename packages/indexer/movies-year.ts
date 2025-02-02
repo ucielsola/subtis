@@ -10,7 +10,7 @@ import { saveTmdbMovieGenresToDb } from "./tmdb";
 // testing
 indexMoviesByYear({
   year: 2024,
-  indexFromPage: 15,
+  indexFromPage: 0,
   isDebugging: false,
 });
 
