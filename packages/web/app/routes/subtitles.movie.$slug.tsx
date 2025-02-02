@@ -425,7 +425,7 @@ export default function SubtitlesPage() {
           </div>
           <Tabs value={subtip ?? undefined} onValueChange={setSubtip}>
             <TabsList className="mb-6">
-              {loaderData.results.length > 1 ? (
+              {loaderData.results.length > 1 && isAdvancedModeEnabled ? (
                 <TabsTrigger value="choose-subtitle" className="text-sm">
                   ¿Cómo elijo un subtítulo?
                 </TabsTrigger>
