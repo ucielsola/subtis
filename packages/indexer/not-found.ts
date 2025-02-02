@@ -6,12 +6,12 @@ import { subtitlesNotFoundRowSchema, supabase } from "@subtis/db";
 
 // api
 import { subtitleNormalizedSchema } from "@subtis/api/lib/parsers";
+import { subtitlesQuery } from "@subtis/api/lib/schemas";
 
 // shared
 import { getIsCinemaRecording, getIsTvShow } from "@subtis/shared";
 
 // internals
-import { apiClient } from "./api";
 import { sendEmail } from "./email";
 import { indexTitleByFileName } from "./file";
 
@@ -72,14 +72,16 @@ export async function indexNotFoundSubtitles({ ascending = true }: { ascending: 
           throw new Error("Skipping cinema recording");
         }
 
-        const response = await apiClient.v1.subtitle.file.name[":bytes"][":fileName"].$get({
-          param: {
-            bytes: String(notFoundSubtitle.bytes),
-            fileName: notFoundSubtitle.title_file_name,
-          },
-        });
+        const { data, error } = await supabase
+          .from("Subtitles")
+          .select(subtitlesQuery)
+          .or(`title_file_name.eq.${notFoundSubtitle.title_file_name},bytes.eq.${notFoundSubtitle.bytes}`)
+          .single();
 
-        const data = await response.json();
+        if (error) {
+          console.error("Error fetching subtitle:", error);
+          continue;
+        }
 
         const subtitleAlreadyExists = subtitleNormalizedSchema.safeParse(data);
 
@@ -121,14 +123,17 @@ export async function indexNotFoundSubtitles({ ascending = true }: { ascending: 
             console.log(`sending email to ${notFoundSubtitle.email}...`);
 
             try {
-              const response = await apiClient.v1.subtitle.file.name[":bytes"][":fileName"].$get({
-                param: {
-                  bytes: String(notFoundSubtitle.bytes),
-                  fileName: notFoundSubtitle.title_file_name,
-                },
-              });
+              const { data, error } = await supabase
+                .from("Subtitles")
+                .select(subtitlesQuery)
+                .or(`title_file_name.eq.${notFoundSubtitle.title_file_name},bytes.eq.${notFoundSubtitle.bytes}`)
+                .single();
 
-              const data = await response.json();
+              if (error) {
+                console.error("Error fetching subtitle:", error);
+                continue;
+              }
+
               const subtitleByFileName = subtitleNormalizedSchema.safeParse(data);
 
               if (!subtitleByFileName.success) {
