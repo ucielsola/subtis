@@ -423,7 +423,10 @@ export default function SubtitlesPage() {
             <h3 className="text-2xl font-semibold text-zinc-50">SubTips</h3>
             <h4 className="text-zinc-50 text-sm md:text-base">Para vivir una experiencia óptima, seguí estos tips.</h4>
           </div>
-          <Tabs value={subtip ?? undefined} onValueChange={setSubtip}>
+          <Tabs
+            onValueChange={setSubtip}
+            value={loaderData.results.length > 1 && isAdvancedModeEnabled ? subtip : "play-subtitle"}
+          >
             <TabsList className="mb-6">
               {loaderData.results.length > 1 && isAdvancedModeEnabled ? (
                 <TabsTrigger value="choose-subtitle" className="text-sm">
