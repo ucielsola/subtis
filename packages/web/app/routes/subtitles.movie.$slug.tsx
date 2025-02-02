@@ -108,7 +108,9 @@ export default function SubtitlesPage() {
   const loaderData = useLoaderData<typeof loader>();
 
   // react hooks
-  const [isAdvancedModeEnabled, setIsAdvancedModeEnabled] = useState<boolean>(false);
+  const [isAdvancedModeEnabled, setIsAdvancedModeEnabled] = useState<boolean>(
+    typeof window !== "undefined" ? window.localStorage.getItem("advanced-mode") === "true" : false,
+  );
 
   // nuqs hooks
   const [subtip, setSubtip] = useQueryState("subtip", {
@@ -172,7 +174,10 @@ export default function SubtitlesPage() {
   }
 
   function handleToggleAdvancedMode(): void {
-    setIsAdvancedModeEnabled((previousIsAdvancedModeEnabled) => !previousIsAdvancedModeEnabled);
+    setIsAdvancedModeEnabled((previousIsAdvancedModeEnabled) => {
+      window.localStorage.setItem("advanced-mode", previousIsAdvancedModeEnabled === true ? "false" : "true");
+      return !previousIsAdvancedModeEnabled;
+    });
   }
 
   // query hooks
