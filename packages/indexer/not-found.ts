@@ -72,16 +72,11 @@ export async function indexNotFoundSubtitles({ ascending = true }: { ascending: 
           throw new Error("Skipping cinema recording");
         }
 
-        const { data, error } = await supabase
+        const { data } = await supabase
           .from("Subtitles")
           .select(subtitlesQuery)
-          .or(`title_file_name.eq.${notFoundSubtitle.title_file_name},bytes.eq.${notFoundSubtitle.bytes}`)
+          .or(`title_file_name.eq.${notFoundSubtitle.title_file_name},bytes.eq.${String(notFoundSubtitle.bytes)}`)
           .single();
-
-        if (error) {
-          console.error("Error fetching subtitle:", error);
-          continue;
-        }
 
         const subtitleAlreadyExists = subtitleNormalizedSchema.safeParse(data);
 
@@ -126,7 +121,7 @@ export async function indexNotFoundSubtitles({ ascending = true }: { ascending: 
               const { data, error } = await supabase
                 .from("Subtitles")
                 .select(subtitlesQuery)
-                .or(`title_file_name.eq.${notFoundSubtitle.title_file_name},bytes.eq.${notFoundSubtitle.bytes}`)
+                .or(`title_file_name.eq.${notFoundSubtitle.title_file_name},bytes.eq.${String(notFoundSubtitle.bytes)}`)
                 .single();
 
               if (error) {

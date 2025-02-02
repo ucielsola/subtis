@@ -384,7 +384,7 @@ export default function SubtitlesPage() {
                   href={loaderData.results[0].subtitle.subtitle_link}
                   onMouseEnter={() => downloadControls.start("animate")}
                   onMouseLeave={() => downloadControls.start("normal")}
-                  className={`${isAdvancedModeEnabled ? "opacity-50 pointer-events-none" : ""}`}
+                  className={`transition-all ease-in-out duration-300 ${isAdvancedModeEnabled ? "opacity-30 pointer-events-none" : "opacity-100"}`}
                 >
                   <DownloadIcon size={18} controls={downloadControls} />
                   Descargar Subtítulo

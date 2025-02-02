@@ -1748,7 +1748,6 @@ export async function getSubtitlesForTitle({
 
   // remove all files that begins with temp-
   const tempFiles = await fs.readdirSync(path.join(__dirname, "..", ".."));
-  console.log("\n ~ tempFiles:", tempFiles);
 
   for (const file of tempFiles) {
     if (file.startsWith("temp-")) {
