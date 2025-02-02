@@ -434,7 +434,7 @@ export type Database = {
       };
       update_subtitle_and_title_download_metrics: {
         Args: {
-          _imdb_id: string;
+          _title_slug: string;
           _subtitle_id: number;
         };
         Returns: boolean;

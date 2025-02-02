@@ -1,30 +1,29 @@
 import { useQuery } from "@tanstack/react-query";
 
-// shared
-import { streamingSchema } from "@subtis/api/shared/streaming";
+// api
+import { titlePlatformsSlugResponseSchema } from "@subtis/api/controllers/title/schemas";
 
 // lib
 import { apiClient } from "~/lib/api";
 
-export function usePlatforms(imdbId: string | undefined) {
+export function usePlatforms(slug: string | undefined) {
   return useQuery({
-    queryKey: ["title", "platforms", imdbId],
+    queryKey: ["title", "platforms", slug],
     queryFn: async () => {
-      if (!imdbId) {
+      if (!slug) {
         return null;
       }
 
-      const response = await apiClient.v1.title.streaming[":imdbId"].$get({
-        param: { imdbId },
+      const response = await apiClient.v1.title.streaming[":slug"].$get({
+        param: { slug },
       });
 
-      const streaming = await response.json();
-
-      if ("message" in streaming) {
+      if (!response.ok) {
         return null;
       }
 
-      const parsedStreaming = streamingSchema.safeParse(streaming);
+      const streaming = await response.json();
+      const parsedStreaming = titlePlatformsSlugResponseSchema.safeParse(streaming);
 
       if (parsedStreaming.error) {
         return null;

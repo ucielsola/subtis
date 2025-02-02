@@ -11,16 +11,16 @@ import { ThumbHashTrendingImage } from "./thumbhash-trending-image";
 
 export function TrendingSlider() {
   // remix hooks
-  const { trendingDownloadedTitles } = useLoaderData<typeof loader>();
+  const loaderData = useLoaderData<typeof loader>();
 
-  if ("message" in trendingDownloadedTitles) {
+  if ("message" in loaderData) {
     return null;
   }
 
   return (
     <Carousel className="w-full">
       <CarouselContent className="p-4">
-        {trendingDownloadedTitles.results.map((title) => {
+        {loaderData.trendingDownloadedTitles.results.map((title) => {
           if (!title.optimized_poster) {
             return null;
           }
@@ -30,7 +30,7 @@ export function TrendingSlider() {
           }
 
           return (
-            <CarouselItem key={title.id} className="basis-auto pl-3 select-none">
+            <CarouselItem key={`trending-slider-${title.slug}`} className="basis-auto pl-3 select-none">
               <Link
                 to={`/subtitles/movie/${title.slug}`}
                 className="flex flex-none rounded-sm overflow-hidden cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-300 group will-change-transform"

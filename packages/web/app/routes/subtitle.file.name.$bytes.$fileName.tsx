@@ -5,8 +5,14 @@ import { AnimatePresence, motion, useAnimation } from "motion/react";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { transformSrtTracks } from "srt-support-for-html5-videos";
 
-// shared internal
+// api
+import { subtitleNormalizedSchema } from "@subtis/api/lib/parsers";
+
+// shared
 import { VideoDropzone } from "~/components/shared/video-dropzone";
+
+// features
+import { PosterDisclosure } from "~/features/movie/poster-disclosure";
 
 // icons
 import { CheckIcon } from "~/components/icons/check";
@@ -18,24 +24,20 @@ import { apiClient } from "~/lib/api";
 import { cn } from "~/lib/utils";
 
 // hooks
+import { useCinemas } from "~/hooks/use-cinemas";
+import { usePlatforms } from "~/hooks/use-platforms";
 import { useToast } from "~/hooks/use-toast";
 
 // ui
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
+import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import DotPattern from "~/components/ui/dot-pattern";
 import { Separator } from "~/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { ToastAction } from "~/components/ui/toast";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
-
-// features
-import { PosterDisclosure } from "~/features/movie/poster-disclosure";
-
-// hooks
-import { useCinemas } from "~/hooks/use-cinemas";
-import { usePlatforms } from "~/hooks/use-platforms";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { bytes, fileName } = params;
@@ -59,9 +61,15 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     return redirect(`/not-found/${bytes}/${fileName}`);
   }
 
-  const primarySubtitle = await primarySubtitleResponse.json();
+  const primarySubtitleData = await primarySubtitleResponse.json();
 
-  return primarySubtitle;
+  const primarySubtitleParsedData = subtitleNormalizedSchema.safeParse(primarySubtitleData);
+
+  if (primarySubtitleParsedData.error) {
+    throw new Error("Invalid primary subtitle data");
+  }
+
+  return primarySubtitleParsedData.data;
 };
 
 // meta
@@ -81,7 +89,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export default function SubtitlePage() {
   // remix hooks
   const { fileName } = useParams();
-  const data = useLoaderData<typeof loader>();
+  const loaderData = useLoaderData<typeof loader>();
 
   // react hooks
   const player = useRef<HTMLVideoElement>(null);
@@ -91,8 +99,8 @@ export default function SubtitlePage() {
   const [captionBlobUrl, setCaptionBlobUrl] = useState<string | null>(null);
 
   // query hooks
-  const { data: titleCinemas } = useCinemas("message" in data ? "" : data.title.imdb_id);
-  const { data: titlePlatforms } = usePlatforms("message" in data ? "" : data.title.imdb_id);
+  const { data: titleCinemas } = useCinemas("message" in loaderData ? "" : loaderData.title.imdb_id);
+  const { data: titlePlatforms } = usePlatforms("message" in loaderData ? "" : loaderData.title.imdb_id);
 
   // motion hooks
   const playControls = useAnimation();
@@ -125,13 +133,13 @@ export default function SubtitlePage() {
         }
       };
 
-      if ("message" in data) {
+      if ("message" in loaderData) {
         return;
       }
 
-      fetchCaptions(data.subtitle.subtitle_link);
+      fetchCaptions(loaderData.subtitle.subtitle_link);
     },
-    [data],
+    [loaderData],
   );
 
   useEffect(
@@ -194,12 +202,12 @@ export default function SubtitlePage() {
 
   // handlers
   async function handleDownloadSubtitle() {
-    if ("message" in data) {
+    if ("message" in loaderData) {
       return;
     }
 
     await apiClient.v1.subtitle.metrics.download.$patch({
-      json: { imdbId: data.title.imdb_id, subtitleId: data.subtitle.id },
+      json: { titleSlug: loaderData.title.slug, subtitleId: loaderData.subtitle.id },
     });
 
     toast({
@@ -215,7 +223,7 @@ export default function SubtitlePage() {
           onClick={() => {
             window.open(
               `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                `Encontré mis subtítulos para "${data.title.title_name}" en @subt_is.`,
+                `Encontré mis subtítulos para "${loaderData.title.title_name}" en @subt_is.`,
               )}`,
               "_blank",
             );
@@ -252,27 +260,36 @@ export default function SubtitlePage() {
   const videoSource = typeof window !== "undefined" && fileName ? localStorage.getItem(fileName) : null;
   const displayVideoElements = videoSource && captionBlobUrl && isSupportedFileExtension && !hasVideoError;
 
-  if ("message" in data) {
+  if ("message" in loaderData) {
     return null;
   }
+
+  // constants
+  const { runtime } = loaderData.title;
+  const totalHours = runtime ? Math.floor(runtime / 60) : null;
+  const totalMinutes = runtime ? runtime % 60 : null;
 
   return (
     <div className="pt-24 pb-48 flex flex-col lg:flex-row justify-between gap-4">
       <article className="max-w-xl w-full">
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-4">
-            {"message" in data ? null : data.title.optimized_logo ? (
+            {loaderData.title.optimized_logo ? (
               <img
-                src={data.title.optimized_logo}
-                alt={data.title.title_name}
+                src={loaderData.title.optimized_logo}
+                alt={loaderData.title.title_name}
                 className="w-full max-h-32 object-contain md:hidden mb-4"
               />
             ) : null}
-            {"message" in data ? null : (
+            <div className="flex flex-col gap-2">
               <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold text-balance">
-                {data.title.title_name} ({data.title.year})
+                {loaderData.title.title_name}
               </h1>
-            )}
+              <div className="flex flex-row gap-2">
+                <Badge variant="outline">{loaderData.title.year}</Badge>
+                <Badge variant="outline">{`${totalHours ? `${totalHours}h ` : ""}${totalMinutes ? `${totalMinutes}m` : ""}`}</Badge>
+              </div>
+            </div>
             <h2 className="text-zinc-50 text-balance text-sm md:text-base">
               Descargá el siguiente subtítulo para disfrutar tu película subtitulada.
             </h2>
@@ -310,7 +327,7 @@ export default function SubtitlePage() {
               <a
                 download
                 onClick={handleDownloadSubtitle}
-                href={data.subtitle.subtitle_link}
+                href={loaderData.subtitle.subtitle_link}
                 onMouseEnter={() => downloadControls.start("animate")}
                 onMouseLeave={() => downloadControls.start("normal")}
                 className="hover:bg-zinc-800 bg-zinc-900 transition-all ease-in-out rounded-sm"
@@ -510,18 +527,16 @@ export default function SubtitlePage() {
         ) : null}
       </article>
 
-      {data.title.optimized_poster ? (
+      {loaderData.title.optimized_poster ? (
         <aside className="hidden lg:flex flex-1 justify-center">
           <PosterDisclosure
-            src={data.title.optimized_poster}
-            alt={data.title.title_name}
-            hashUrl={data.title.poster_thumbhash}
-            title={data.title.title_name}
-            year={data.title.year}
-            imdbId={data.title.imdb_id}
-            overview={data.title.overview}
-            rating={data.title.rating}
-            runtime={data.title.runtime}
+            src={loaderData.title.optimized_poster}
+            alt={loaderData.title.title_name}
+            hashUrl={loaderData.title.poster_thumbhash}
+            title={loaderData.title.title_name}
+            imdbId={loaderData.title.imdb_id}
+            overview={loaderData.title.overview}
+            rating={loaderData.title.rating}
           />
         </aside>
       ) : null}

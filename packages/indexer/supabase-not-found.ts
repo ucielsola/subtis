@@ -5,7 +5,7 @@ import { supabase } from "@subtis/db";
 import { getIsTvShow } from "@subtis/shared";
 
 // api
-import { subtisSubtitleNormalizedSchema } from "@subtis/api/shared/parsers";
+import { subtitleNormalizedSchema } from "@subtis/api/lib/parsers";
 
 // internals
 import { apiClient } from "./api";
@@ -81,7 +81,7 @@ export async function indexNotFoundSubtitlesFromSupabase() {
               });
 
               const data = await response.json();
-              const subtitleByFileName = subtisSubtitleNormalizedSchema.safeParse(data);
+              const subtitleByFileName = subtitleNormalizedSchema.safeParse(data);
 
               if (!subtitleByFileName.success) {
                 throw new Error("Subtitle not found in some way");

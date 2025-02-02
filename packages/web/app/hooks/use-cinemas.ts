@@ -1,30 +1,29 @@
 import { useQuery } from "@tanstack/react-query";
 
 // shared
-import { cinemasSchema } from "@subtis/api/shared/cinemas";
+import { titleCinemaSlugResponseSchema } from "@subtis/api/controllers/title/schemas";
 
 // lib
 import { apiClient } from "~/lib/api";
 
-export function useCinemas(imdbId: string | undefined) {
+export function useCinemas(slug: string | undefined) {
   return useQuery({
-    queryKey: ["title", "cinemas", imdbId],
+    queryKey: ["title", "cinemas", slug],
     queryFn: async () => {
-      if (!imdbId) {
+      if (!slug) {
         return null;
       }
 
-      const response = await apiClient.v1.title.cinemas[":imdbId"].$get({
-        param: { imdbId },
+      const response = await apiClient.v1.title.cinemas[":slug"].$get({
+        param: { slug },
       });
 
-      const cinemas = await response.json();
-
-      if ("message" in cinemas) {
+      if (!response.ok) {
         return null;
       }
 
-      const parsedCinemas = cinemasSchema.safeParse(cinemas);
+      const cinemas = await response.json();
+      const parsedCinemas = titleCinemaSlugResponseSchema.safeParse(cinemas);
 
       if (parsedCinemas.error) {
         return null;

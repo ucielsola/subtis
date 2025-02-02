@@ -22,15 +22,15 @@ type Props = {
 
 export function HeroBackground({ className }: Props) {
   // remix hooks
-  const { recentDownloadedTitles } = useLoaderData<typeof loader>();
+  const loaderData = useLoaderData<typeof loader>();
 
   // constants
   const images =
-    "message" in recentDownloadedTitles
+    "message" in loaderData
       ? []
-      : recentDownloadedTitles.results
-          .map(({ optimized_backdrop, title_name, id }) => ({
-            id: String(id),
+      : loaderData.recentDownloadedTitles.results
+          .map(({ optimized_backdrop, title_name, slug }) => ({
+            id: slug,
             alt: title_name,
             src: optimized_backdrop,
           }))

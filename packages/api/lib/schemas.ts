@@ -17,9 +17,6 @@ export const titleMetadataQuery = `
   searched_times,
   type,
   year,
-  logo,
-  poster,
-  backdrop,
   optimized_logo,
   optimized_poster,
   optimized_backdrop,
@@ -29,16 +26,13 @@ export const titleMetadataQuery = `
 
 export const titleMetadataSchema = titlesRowSchema
   .pick({
-    id: true,
     slug: true,
-    imdb_id: true,
-    queried_times: true,
-    searched_times: true,
     type: true,
     year: true,
+    imdb_id: true,
     title_name: true,
-    poster: true,
-    backdrop: true,
+    queried_times: true,
+    searched_times: true,
     optimized_logo: true,
     optimized_poster: true,
     optimized_backdrop: true,
@@ -49,7 +43,6 @@ export const titleMetadataSchema = titlesRowSchema
 
 // titles
 export const titleSchema = titlesRowSchema.pick({
-  id: true,
   slug: true,
   imdb_id: true,
   queried_times: true,
@@ -68,7 +61,6 @@ export const titleSchema = titlesRowSchema.pick({
 });
 
 export const titlesQuery = `
-  id,
   slug,
   imdb_id,
   queried_times,
@@ -87,7 +79,7 @@ export const titlesQuery = `
 `;
 
 // alternative titles
-export const alternativeTitlesSchema = titlesRowSchema.pick({ imdb_id: true });
+export const alternativeTitlesSchema = titlesRowSchema.pick({ slug: true });
 
 // release groups
 export const releaseGroupSchema = releaseGroupsRowSchema.pick({ id: true, release_group_name: true });

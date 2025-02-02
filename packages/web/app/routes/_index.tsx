@@ -1,12 +1,16 @@
 import type { MetaFunction } from "@remix-run/cloudflare";
 import { Fragment } from "react/jsx-runtime";
 
+// api
+import { trendingSubtitlesResponseSchema } from "@subtis/api/controllers/titles/schemas";
+
 // home
 import { HomeAlert } from "~/features/home/alert";
 import { HomeFeatures } from "~/features/home/features";
 import { HomeHero } from "~/features/home/hero";
 import { HomeTrending } from "~/features/home/trending";
 
+import { z } from "zod";
 // lib
 import { apiClient } from "~/lib/api";
 
@@ -30,6 +34,17 @@ export const loader = async () => {
   ]);
 
   if (!trendingDownloadedTitlesResponse.ok || !recentDownloadedTitlesResponse.ok) {
+    const trendingDownloadedTitlesError = z.object({ message: z.string() }).safeParse(trendingDownloadedTitlesResponse);
+    const recentDownloadedTitlesError = z.object({ message: z.string() }).safeParse(recentDownloadedTitlesResponse);
+
+    if (trendingDownloadedTitlesError.success) {
+      return trendingDownloadedTitlesError.data;
+    }
+
+    if (recentDownloadedTitlesError.success) {
+      return recentDownloadedTitlesError.data;
+    }
+
     throw new Error("Failed to fetch trending or recent downloaded titles");
   }
 
@@ -38,9 +53,16 @@ export const loader = async () => {
     recentDownloadedTitlesResponse.json(),
   ]);
 
+  const trending = trendingSubtitlesResponseSchema.safeParse(trendingDownloadedTitles);
+  const recent = trendingSubtitlesResponseSchema.safeParse(recentDownloadedTitles);
+
+  if (trending.error || recent.error) {
+    throw new Error("Failed to parse trending or recent downloaded titles");
+  }
+
   return {
-    recentDownloadedTitles,
-    trendingDownloadedTitles,
+    recentDownloadedTitles: recent.data,
+    trendingDownloadedTitles: trending.data,
   };
 };
 

@@ -1,5 +1,5 @@
 // api
-import { type SubtisSubtitleNormalized, subtisSubtitleNormalizedSchema } from "@subtis/api/shared/parsers";
+import { type SubtitleNormalized, subtitleNormalizedSchema } from "@subtis/api/lib/parsers";
 
 // internals
 import type { ApiClient } from "../ui/client";
@@ -14,7 +14,7 @@ export async function getPrimarySubtitle(
     bytes: string;
     fileName: string;
   },
-): Promise<SubtisSubtitleNormalized | null> {
+): Promise<SubtitleNormalized | null> {
   const response = await apiClient.v1.subtitle.file.name[":bytes"][":fileName"].$get({
     param: { bytes, fileName },
   });
@@ -28,10 +28,10 @@ export async function getPrimarySubtitle(
   }
 
   const data = await response.json();
-  const primarySubtitle = subtisSubtitleNormalizedSchema.parse(data);
+  const primarySubtitle = subtitleNormalizedSchema.parse(data);
 
   await apiClient.v1.subtitle.metrics.download.$patch({
-    json: { imdbId: primarySubtitle.title.imdb_id, subtitleId: primarySubtitle.subtitle.id },
+    json: { titleSlug: primarySubtitle.title.slug, subtitleId: primarySubtitle.subtitle.id },
   });
 
   return primarySubtitle;
@@ -40,7 +40,7 @@ export async function getPrimarySubtitle(
 export async function getAlternativeSubtitle(
   apiClient: ApiClient,
   { fileName }: { fileName: string },
-): Promise<SubtisSubtitleNormalized> {
+): Promise<SubtitleNormalized> {
   const response = await apiClient.v1.subtitle.file.alternative[":fileName"].$get({
     param: { fileName },
   });
@@ -50,10 +50,10 @@ export async function getAlternativeSubtitle(
   }
 
   const data = await response.json();
-  const alternativeSubtitle = subtisSubtitleNormalizedSchema.parse(data);
+  const alternativeSubtitle = subtitleNormalizedSchema.parse(data);
 
   await apiClient.v1.subtitle.metrics.download.$patch({
-    json: { imdbId: alternativeSubtitle.title.imdb_id, subtitleId: alternativeSubtitle.subtitle.id },
+    json: { titleSlug: alternativeSubtitle.title.slug, subtitleId: alternativeSubtitle.subtitle.id },
   });
 
   return alternativeSubtitle;

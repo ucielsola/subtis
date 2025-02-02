@@ -1,0 +1,36 @@
+import z from "zod";
+
+// lib
+import { titleMetadataSchema } from "../../lib/schemas";
+
+// schemas
+export const titleMetadataSlugResponseSchema = titleMetadataSchema
+  .omit({ subtitles: true })
+  .extend({ total_subtitles: z.number() });
+
+export const titleTeaserFileNameResponseSchema = z.object({
+  year: z.number(),
+  name: z.string(),
+  youTubeVideoId: z.string(),
+});
+
+export const titleCinemaSlugResponseSchema = z.object({
+  link: z.string(),
+  name: z.string(),
+  cinemas: z.record(z.string(), z.array(z.object({ city: z.string(), name: z.string() }))),
+});
+
+export const titlePlatformsSlugResponseSchema = z.object({
+  name: z.string(),
+  platforms: z.array(
+    z.object({
+      name: z.string().optional(),
+      type: z.string().optional(),
+      url: z.string().optional(),
+    }),
+  ),
+});
+
+export const titleMetricsSearchResponseSchema = z.object({
+  ok: z.boolean(),
+});

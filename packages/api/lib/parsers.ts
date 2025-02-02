@@ -48,12 +48,14 @@ export function getParsedRipType(ripType: string | null): RipTypeOutput {
 }
 
 // subtitle normalized
-export type SubtitleNormalized = {
-  title: SubtisSubtitle["title"];
-  release_group: SubtisSubtitle["release_group"];
-  subtitle_group: SubtisSubtitle["subtitle_group"];
-  subtitle: Omit<SubtisSubtitle, "title" | "release_group" | "subtitle_group">;
-};
+export const subtitleNormalizedSchema = z.object({
+  title: titleSchema,
+  release_group: releaseGroupSchema,
+  subtitle_group: subtitleGroupSchema,
+  subtitle: subtitleSchema.omit({ title: true, release_group: true, subtitle_group: true }),
+});
+
+export type SubtitleNormalized = z.infer<typeof subtitleNormalizedSchema>;
 
 export function getSubtitleNormalized(subtisSubtitle: SubtisSubtitle): SubtitleNormalized {
   const { title, release_group, subtitle_group, ...subtitle } = subtisSubtitle;
@@ -78,11 +80,13 @@ export function getSubtitleNormalized(subtisSubtitle: SubtisSubtitle): SubtitleN
 }
 
 // subtitles normalized
-export type SubtitlesNormalized = {
-  release_group: SubtisSubtitle["release_group"];
-  subtitle_group: SubtisSubtitle["subtitle_group"];
-  subtitle: Omit<SubtisSubtitle, "title" | "release_group" | "subtitle_group">;
-};
+const subtitlesNormalizedSchema = z.object({
+  release_group: releaseGroupSchema,
+  subtitle_group: subtitleGroupSchema,
+  subtitle: subtitleSchema.omit({ title: true, release_group: true, subtitle_group: true }),
+});
+
+export type SubtitlesNormalized = z.infer<typeof subtitlesNormalizedSchema>;
 
 export function getSubtitlesNormalized(subtisSubtitle: SubtisSubtitle): SubtitlesNormalized {
   const { title: _title, release_group, subtitle_group, ...subtitle } = subtisSubtitle;
@@ -104,16 +108,6 @@ export function getSubtitlesNormalized(subtisSubtitle: SubtisSubtitle): Subtitle
     },
   };
 }
-
-// subtitle normalized schema
-export const subtisSubtitleNormalizedSchema = z.object({
-  title: titleSchema,
-  release_group: releaseGroupSchema,
-  subtitle_group: subtitleGroupSchema,
-  subtitle: subtitleSchema.omit({ title: true, release_group: true, subtitle_group: true }),
-});
-
-export type SubtisSubtitleNormalized = z.infer<typeof subtisSubtitleNormalizedSchema>;
 
 // results with length
 type ResultsWithLength<T> = {

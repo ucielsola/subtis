@@ -3,6 +3,10 @@ import { Link, useLoaderData } from "@remix-run/react";
 import { useQuery } from "@tanstack/react-query";
 import { useQueryState } from "nuqs";
 import { useDebounce } from "use-debounce";
+import { z } from "zod";
+
+// api
+import { trendingSubtitlesResponseSchema } from "@subtis/api/controllers/titles/schemas";
 
 // lib
 import { apiClient } from "~/lib/api";
@@ -28,17 +32,25 @@ export const loader = async () => {
     param: { limit: "2" },
   });
 
+  const trendingSearchData = await trendingSearchResponse.json();
+
   if (!trendingSearchResponse.ok) {
-    throw new Error("Failed to fetch trending search titles");
+    const trendingSearchError = z.object({ message: z.string() }).safeParse(trendingSearchData);
+
+    if (trendingSearchError.error) {
+      throw new Error("Invalid trending search data");
+    }
+
+    return trendingSearchError.data;
   }
 
-  const trendingSearch = await trendingSearchResponse.json();
+  const trendingSearchParsedData = trendingSubtitlesResponseSchema.safeParse(trendingSearchData);
 
-  if ("message" in trendingSearch) {
-    throw new Error("Failed to fetch trending search titles");
+  if (trendingSearchParsedData.error) {
+    throw new Error("Invalid trending search data");
   }
 
-  const parsedTrendingSearch = trendingSearch.results.map((result) => ({
+  const parsedTrendingSearch = trendingSearchParsedData.data.results.map((result) => ({
     title: result.title_name,
     year: result.year,
     slug: result.slug,
@@ -63,7 +75,7 @@ const MINIMUM_CHARACTERS = 2;
 
 export default function SearchPage() {
   // remix hooks
-  const { trendingSearch } = useLoaderData<typeof loader>();
+  const loaderData = useLoaderData<typeof loader>();
 
   // nuqs hooks
   const [inputValue, setInputValue] = useQueryState("query", { defaultValue: "" });
@@ -111,7 +123,7 @@ export default function SearchPage() {
   }
 
   // constants
-  const [firstTrending, secondTrending] = trendingSearch;
+  const [firstTrending, secondTrending] = "message" in loaderData ? [] : loaderData.trendingSearch;
 
   return (
     <div className="pt-24 flex-1">

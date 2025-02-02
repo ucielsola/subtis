@@ -4,6 +4,9 @@ import { useLoaderData, useNavigate, useParams } from "@remix-run/react";
 import { useState } from "react";
 import { z } from "zod";
 
+// api
+import { titleTeaserFileNameResponseSchema } from "@subtis/api/controllers/title/schemas";
+
 // lib
 import { apiClient } from "~/lib/api";
 
@@ -33,17 +36,29 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     throw new Error("Missing bytes or fileName");
   }
 
-  const response = await apiClient.v1.title.teaser[":fileName"].$get({
+  const titleTeaserResponse = await apiClient.v1.title.teaser[":fileName"].$get({
     param: { fileName },
   });
 
-  if (!response.ok) {
-    return null;
+  if (!titleTeaserResponse.ok) {
+    const titleTeaserData = await titleTeaserResponse.json();
+    const titleTeaserError = z.object({ message: z.string() }).safeParse(titleTeaserData);
+
+    if (titleTeaserError.error) {
+      throw new Error("Invalid title teaser data");
+    }
+
+    return titleTeaserError.data;
   }
 
-  const data = await response.json();
+  const titleTeaserData = await titleTeaserResponse.json();
+  const titleTeaserParsedData = titleTeaserFileNameResponseSchema.safeParse(titleTeaserData);
 
-  return data;
+  if (titleTeaserParsedData.error) {
+    throw new Error("Invalid title teaser data");
+  }
+
+  return titleTeaserParsedData.data;
 };
 
 // meta
@@ -75,6 +90,7 @@ export default function RealTimeSearchPage() {
         return;
       }
 
+      setTotal(0);
       setMessage("Chequeando si el subtítulo ya existe");
 
       const primarySubtitleResponse = await apiClient.v1.subtitle.file.name[":bytes"][":fileName"].$get({
@@ -167,13 +183,14 @@ export default function RealTimeSearchPage() {
               <h2 className="text-zinc-50 text-sm md:text-base">Este proceso puede durar hasta 30 segundos.</h2>
               {message ? (
                 <p className="text-zinc-300 text-xs md:text-sm">
+                  {total === 0 ? "0% " : ""}
                   {total ? `${total * 100}% ` : ""}
                   {message}
                 </p>
               ) : null}
             </div>
           </div>
-          {!teaser || "message" in teaser ? null : (
+          {"message" in teaser ? null : (
             <div className="flex flex-col gap-2">
               <iframe
                 src={`https://www.youtube.com/embed/${teaser.youTubeVideoId}?autoplay=1&mute=1`}

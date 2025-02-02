@@ -1,5 +1,5 @@
 import { runApi } from "./app";
 
-const [app] = runApi();
+const app = runApi();
 
 export default app;

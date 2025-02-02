@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 // api
-import type { SubtitleNormalized } from "@subtis/api";
+import { type SubtitleNormalized, subtitleNormalizedSchema } from "@subtis/api/lib/parsers";
 
 // shared external
 import { getIsCinemaRecording } from "@subtis/shared";
@@ -96,7 +96,7 @@ export const columns: ColumnDef<SubtitleNormalized>[] = [
       // handlers
       async function handleDownloadSubtitle() {
         await apiClient.v1.subtitle.metrics.download.$patch({
-          json: { imdbId: row.original.title.imdb_id, subtitleId: row.original.subtitle.id },
+          json: { titleSlug: row.original.title.slug, subtitleId: row.original.subtitle.id },
         });
 
         toast({
@@ -158,9 +158,21 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     },
   });
 
-  const alternativeSubtitle = await alternativeSubtitleResponse.json();
+  const alternativeSubtitleData = await alternativeSubtitleResponse.json();
 
-  return alternativeSubtitle;
+  const alternativeSubtitleError = z.object({ message: z.string() }).safeParse(alternativeSubtitleData);
+
+  if (alternativeSubtitleError.success) {
+    return alternativeSubtitleError.data;
+  }
+
+  const alternativeSubtitleParsedData = subtitleNormalizedSchema.safeParse(alternativeSubtitleData);
+
+  if (alternativeSubtitleParsedData.error) {
+    throw new Error("Invalid subtitle data");
+  }
+
+  return alternativeSubtitleParsedData.data;
 };
 
 // meta

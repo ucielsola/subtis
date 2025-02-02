@@ -12,7 +12,7 @@ import {
 } from "@subtis/shared";
 
 // api
-import type { SubtisSubtitleNormalized } from "@subtis/api/shared/parsers";
+import type { SubtitleNormalized } from "@subtis/api/lib/parsers";
 
 // internals
 import { apiClient } from "./api";
@@ -50,7 +50,7 @@ const INSTRUCTIONS_MEDIA_PLAYERS = {
 };
 
 // helpers
-async function getSubtitleDownloadInstructions(subtitle: SubtisSubtitleNormalized) {
+async function getSubtitleDownloadInstructions(subtitle: SubtitleNormalized): Promise<void> {
   const {
     title: { title_name, year },
     subtitle: { resolution, subtitle_link, subtitle_file_name },
@@ -274,7 +274,7 @@ const program = new Command();
 program
   .name("subtis")
   .description("CLI to search for movie subtitles")
-  .version("0.5.1")
+  .version("0.5.2")
   .command("search")
   .description("Search a subtitle for a video file")
   .argument("<file>", "Video file")
