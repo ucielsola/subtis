@@ -26,8 +26,8 @@ import { cn } from "~/lib/utils";
 // hooks
 import { useCinemas } from "~/hooks/use-cinemas";
 import { usePlatforms } from "~/hooks/use-platforms";
-import { useToast } from "~/hooks/use-toast";
 import { useTeaser } from "~/hooks/use-teaser";
+import { useToast } from "~/hooks/use-toast";
 
 // ui
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
