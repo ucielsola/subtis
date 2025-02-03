@@ -27,6 +27,7 @@ import { cn } from "~/lib/utils";
 import { useCinemas } from "~/hooks/use-cinemas";
 import { usePlatforms } from "~/hooks/use-platforms";
 import { useToast } from "~/hooks/use-toast";
+import { useTeaser } from "~/hooks/use-teaser";
 
 // ui
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
@@ -99,6 +100,7 @@ export default function SubtitlePage() {
   const [captionBlobUrl, setCaptionBlobUrl] = useState<string | null>(null);
 
   // query hooks
+  const { data: titleTeaser } = useTeaser(fileName);
   const { data: titleCinemas } = useCinemas("message" in loaderData ? "" : loaderData.title.imdb_id);
   const { data: titlePlatforms } = usePlatforms("message" in loaderData ? "" : loaderData.title.imdb_id);
 
@@ -537,6 +539,7 @@ export default function SubtitlePage() {
             imdbId={loaderData.title.imdb_id}
             overview={loaderData.title.overview}
             rating={loaderData.title.rating}
+            youtubeId={titleTeaser && !("message" in titleTeaser) ? titleTeaser.youTubeVideoId : null}
           />
         </aside>
       ) : null}

@@ -277,7 +277,6 @@ export const titlesRowSchema = z.object({
   runtime: z.number().nullable(),
   searched_times: z.number().nullable(),
   slug: z.string(),
-  teaser: z.string().nullable(),
   title_name: z.string(),
   title_name_ja: z.string().nullable(),
   title_name_spa: z.string(),
@@ -286,6 +285,7 @@ export const titlesRowSchema = z.object({
   total_seasons: z.number().nullable(),
   type: z.string(),
   year: z.number(),
+  youtube_id: z.string().nullable(),
 });
 
 export const titlesInsertSchema = z.object({
@@ -308,7 +308,6 @@ export const titlesInsertSchema = z.object({
   runtime: z.number().optional().nullable(),
   searched_times: z.number().optional().nullable(),
   slug: z.string(),
-  teaser: z.string().optional().nullable(),
   title_name: z.string(),
   title_name_ja: z.string().optional().nullable(),
   title_name_spa: z.string(),
@@ -317,6 +316,7 @@ export const titlesInsertSchema = z.object({
   total_seasons: z.number().optional().nullable(),
   type: z.string(),
   year: z.number(),
+  youtube_id: z.string().optional().nullable(),
 });
 
 export const titlesUpdateSchema = z.object({
@@ -339,7 +339,6 @@ export const titlesUpdateSchema = z.object({
   runtime: z.number().optional().nullable(),
   searched_times: z.number().optional().nullable(),
   slug: z.string().optional(),
-  teaser: z.string().optional().nullable(),
   title_name: z.string().optional(),
   title_name_ja: z.string().optional().nullable(),
   title_name_spa: z.string().optional(),
@@ -348,6 +347,7 @@ export const titlesUpdateSchema = z.object({
   total_seasons: z.number().optional().nullable(),
   type: z.string().optional(),
   year: z.number().optional(),
+  youtube_id: z.string().optional().nullable(),
 });
 
 export const titlesRelationshipsSchema = z.tuple([]);

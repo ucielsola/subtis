@@ -260,7 +260,6 @@ export type Database = {
           runtime: number | null;
           searched_times: number | null;
           slug: string;
-          teaser: string | null;
           title_name: string;
           title_name_ja: string | null;
           title_name_spa: string;
@@ -269,6 +268,7 @@ export type Database = {
           total_seasons: number | null;
           type: string;
           year: number;
+          youtube_id: string | null;
         };
         Insert: {
           backdrop?: string | null;
@@ -290,7 +290,6 @@ export type Database = {
           runtime?: number | null;
           searched_times?: number | null;
           slug: string;
-          teaser?: string | null;
           title_name: string;
           title_name_ja?: string | null;
           title_name_spa: string;
@@ -299,6 +298,7 @@ export type Database = {
           total_seasons?: number | null;
           type: string;
           year: number;
+          youtube_id?: string | null;
         };
         Update: {
           backdrop?: string | null;
@@ -320,7 +320,6 @@ export type Database = {
           runtime?: number | null;
           searched_times?: number | null;
           slug?: string;
-          teaser?: string | null;
           title_name?: string;
           title_name_ja?: string | null;
           title_name_spa?: string;
@@ -329,6 +328,7 @@ export type Database = {
           total_seasons?: number | null;
           type?: string;
           year?: number;
+          youtube_id?: string | null;
         };
         Relationships: [];
       };

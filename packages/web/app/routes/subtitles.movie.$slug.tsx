@@ -43,9 +43,10 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip
 // features
 import { PosterDisclosure } from "~/features/movie/poster-disclosure";
 
-// hooks
 import { useCinemas } from "~/hooks/use-cinemas";
 import { usePlatforms } from "~/hooks/use-platforms";
+// hooks
+import { useTeaser } from "~/hooks/use-teaser";
 
 // helpers
 function getResolutionRank(resolution: string): number {
@@ -183,6 +184,9 @@ export default function SubtitlesPage() {
   // query hooks
   const { data: titleCinemas } = useCinemas("message" in loaderData ? undefined : loaderData.title.slug);
   const { data: titlePlatforms } = usePlatforms("message" in loaderData ? undefined : loaderData.title.slug);
+  const { data: titleTeaser } = useTeaser(
+    "message" in loaderData ? undefined : loaderData.results[0].subtitle.title_file_name,
+  );
 
   // motion hooks
   const videoTipControl = useAnimation();
@@ -672,6 +676,7 @@ export default function SubtitlesPage() {
             imdbId={loaderData.title.imdb_id}
             overview={loaderData.title.overview}
             rating={loaderData.title.rating}
+            youtubeId={titleTeaser && !("message" in titleTeaser) ? titleTeaser.youTubeVideoId : null}
           />
         </aside>
       ) : null}

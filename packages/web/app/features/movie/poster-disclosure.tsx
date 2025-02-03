@@ -43,9 +43,10 @@ type Props = {
   imdbId: string;
   overview: string;
   rating: number;
+  youtubeId: string | null;
 };
 
-export function PosterDisclosure({ src, alt, hashUrl, title, imdbId, overview, rating }: Props) {
+export function PosterDisclosure({ src, alt, hashUrl, title, imdbId, overview, rating, youtubeId }: Props) {
   // react hooks
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const ref = useRef(null);
@@ -132,6 +133,17 @@ export function PosterDisclosure({ src, alt, hashUrl, title, imdbId, overview, r
                   >
                     Rotten Tomatoes
                   </a>
+                  <span className="text-zinc-50 text-sm">·</span>
+                  {youtubeId ? (
+                    <a
+                      href={`https://www.youtube.com/watch?v=${youtubeId}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-zinc-50 underline text-sm hover:text-zinc-300"
+                    >
+                      Trailer
+                    </a>
+                  ) : null}
                 </div>
                 <div className="flex items-center gap-2">
                   <StarIcon size={16} className="fill-yellow-400 stroke-none" />

@@ -10,6 +10,7 @@ import z from "zod";
 
 // indexer
 import { FILE_NAME_TO_TMDB_INDEX } from "@subtis/indexer/edge-cases";
+import { getTitleSlugifiedName } from "@subtis/indexer/utils/slugify-title";
 
 // shared
 import {
@@ -123,6 +124,28 @@ export const title = new Hono<{ Variables: AppVariables }>()
         queryName = movie.original_title;
       }
 
+      const slug = getTitleSlugifiedName(queryName, year ?? 0);
+      const { data: foundSlug } = await getSupabaseClient(context)
+        .from("Titles")
+        .select("youtube_id")
+        .match({ slug })
+        .single();
+
+      if (foundSlug?.youtube_id) {
+        const finalResponse = titleTeaserFileNameResponseSchema.safeParse({
+          year,
+          youTubeVideoId: foundSlug.youtube_id,
+          name: queryName,
+        });
+
+        if (finalResponse.error) {
+          context.status(500);
+          return context.json({ message: "An error occurred", error: finalResponse.error.issues[0].message });
+        }
+
+        return context.json(finalResponse.data);
+      }
+
       const query = currentSeason ? `${queryName} season ${currentSeason} teaser` : `${queryName} ${year} teaser`;
       const queryParams = querystring.stringify({
         q: query,
@@ -179,6 +202,8 @@ export const title = new Hono<{ Variables: AppVariables }>()
         context.status(500);
         return context.json({ message: "An error occurred", error: finalResponse.error.issues[0].message });
       }
+
+      await getSupabaseClient(context).from("Titles").update({ youtube_id: youTubeVideoId }).match({ slug });
 
       return context.json(finalResponse.data);
     },

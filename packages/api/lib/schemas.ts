@@ -17,6 +17,7 @@ export const titleMetadataQuery = `
   searched_times,
   type,
   year,
+  youtube_id,
   optimized_logo,
   optimized_poster,
   optimized_backdrop,
@@ -31,6 +32,7 @@ export const titleMetadataSchema = titlesRowSchema
     year: true,
     imdb_id: true,
     title_name: true,
+    youtube_id: true,
     queried_times: true,
     searched_times: true,
     optimized_logo: true,
@@ -58,6 +60,7 @@ export const titleSchema = titlesRowSchema.pick({
   rating: true,
   poster_thumbhash: true,
   backdrop_thumbhash: true,
+  youtube_id: true,
 });
 
 export const titlesQuery = `
@@ -75,7 +78,8 @@ export const titlesQuery = `
   rating,
   runtime,
   poster_thumbhash,
-  backdrop_thumbhash
+  backdrop_thumbhash,
+  youtube_id
 `;
 
 // alternative titles
