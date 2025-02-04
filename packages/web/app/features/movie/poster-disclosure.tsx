@@ -1,6 +1,6 @@
 import { StarIcon } from "lucide-react";
 import { AnimatePresence, motion, useAnimation } from "motion/react";
-import { useRef, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import { useOnClickOutside } from "usehooks-ts";
 
 // lib
@@ -133,16 +133,18 @@ export function PosterDisclosure({ src, alt, hashUrl, title, imdbId, overview, r
                   >
                     Rotten Tomatoes
                   </a>
-                  <span className="text-zinc-50 text-sm">·</span>
                   {youtubeId ? (
-                    <a
-                      href={`https://www.youtube.com/watch?v=${youtubeId}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-zinc-50 underline text-sm hover:text-zinc-300"
-                    >
-                      Trailer
-                    </a>
+                    <Fragment>
+                      <span className="text-zinc-50 text-sm">·</span>
+                      <a
+                        href={`https://www.youtube.com/watch?v=${youtubeId}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-zinc-50 underline text-sm hover:text-zinc-300"
+                      >
+                        Trailer
+                      </a>
+                    </Fragment>
                   ) : null}
                 </div>
                 <div className="flex items-center gap-2">
