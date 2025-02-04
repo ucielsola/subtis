@@ -21,7 +21,6 @@
 ```sql
 CREATE OR REPLACE FUNCTION public.fuzzy_search_title(query text)
 RETURNS TABLE (
-    id int8,
     imdb_id text,
     title_name text,
     year int8,
@@ -36,12 +35,12 @@ RETURNS TABLE (
     backdrop_thumbhash text,
     overview text,
     runtime int2,
-    rating float4
+    rating float4,
+    youtube_id text
 ) AS $$
 BEGIN
     RETURN QUERY
     SELECT
-        t.id,
         t.imdb_id,
         t.title_name,
         t.year,
@@ -56,7 +55,8 @@ BEGIN
         t.backdrop_thumbhash,
         t.overview,
         t.runtime,
-        t.rating
+        t.rating,
+        t.youtube_id
     FROM "Titles" t
     WHERE (
         (unaccent(query) % unaccent(t.title_name) AND similarity(unaccent(query), unaccent(t.title_name)) > 0.7)
