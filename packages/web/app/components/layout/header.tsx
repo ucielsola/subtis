@@ -5,7 +5,7 @@ import { AnimatedLogo } from "~/components/shared/animated-logo";
 
 export function Header() {
   return (
-    <header className="absolute z-40 top-6 left-0 right-0 container mx-auto">
+    <header className="absolute z-40 top-6 left-0 right-0 container mx-auto px-4">
       <nav className="flex items-center justify-between w-full">
         <Link to="/" className="cursor-pointer group">
           <AnimatedLogo />
