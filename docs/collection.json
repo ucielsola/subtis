@@ -1,7 +1,7 @@
 {
-  "yaakVersion": "2025.1.0-beta.11",
+  "yaakVersion": "2025.1.0-beta.13",
   "yaakSchema": 3,
-  "timestamp": "2025-01-31T06:10:15.296802",
+  "timestamp": "2025-02-05T20:25:27.725965",
   "resources": {
     "workspaces": [
       {
@@ -92,67 +92,56 @@
         "model": "folder",
         "id": "fl_ob31em44Zh",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2024-11-08T22:37:51",
+        "updatedAt": "2025-02-05T20:16:48.616848",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": null,
         "name": "Providers (2)",
         "description": "",
-        "sortPriority": 4000.0
+        "sortPriority": 5000.0
       },
       {
         "model": "folder",
         "id": "fl_xTpkMPcGuq",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2024-11-08T22:37:51",
+        "updatedAt": "2025-02-05T20:16:48.616301",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": null,
         "name": "Subtitle (6)",
-        "description": "",
-        "sortPriority": 2000.0
-      },
-      {
-        "model": "folder",
-        "id": "fl_CqsEDHtsiK",
-        "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2024-11-19T05:11:05",
-        "workspaceId": "wk_SbrwnSjDzA",
-        "folderId": null,
-        "name": "Subtitles (6)",
-        "description": "",
-        "sortPriority": 3000.0
-      },
-      {
-        "model": "folder",
-        "id": "fl_G3EShJi9ud",
-        "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-01-14T00:54:36",
-        "workspaceId": "wk_SbrwnSjDzA",
-        "folderId": null,
-        "name": "Title (5)",
         "description": "",
         "sortPriority": 0.0
       },
       {
         "model": "folder",
-        "id": "fl_YERMf4idMs",
+        "id": "fl_CqsEDHtsiK",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2024-11-08T22:37:51",
+        "updatedAt": "2025-02-05T20:16:52.783305",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": null,
-        "name": "Titles (4)",
+        "name": "Subtitles (6)",
+        "description": "",
+        "sortPriority": 500.0
+      },
+      {
+        "model": "folder",
+        "id": "fl_G3EShJi9ud",
+        "createdAt": "2024-11-08T22:37:51",
+        "updatedAt": "2025-02-05T20:17:40.724472",
+        "workspaceId": "wk_SbrwnSjDzA",
+        "folderId": null,
+        "name": "Title (5)",
         "description": "",
         "sortPriority": 1000.0
       },
       {
         "model": "folder",
-        "id": "fl_sLYlejSo9e",
+        "id": "fl_YERMf4idMs",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2024-11-12T04:08:48",
+        "updatedAt": "2025-02-05T20:16:48.616543",
         "workspaceId": "wk_SbrwnSjDzA",
-        "folderId": "fl_CqsEDHtsiK",
-        "name": "Generic (1)",
+        "folderId": null,
+        "name": "Titles (4)",
         "description": "",
-        "sortPriority": 62.5
+        "sortPriority": 2000.0
       },
       {
         "model": "folder",
@@ -182,7 +171,7 @@
         "model": "http_request",
         "id": "rq_JMyl9L64oX",
         "createdAt": "2025-01-13T22:59:57",
-        "updatedAt": "2025-01-24T23:43:05.601745",
+        "updatedAt": "2025-02-05T20:17:16.093344",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_G3EShJi9ud",
         "authentication": {},
@@ -192,21 +181,21 @@
         "description": "",
         "headers": [],
         "method": "GET",
-        "name": "Get title streaming services by iMDb ID",
-        "sortPriority": 0.0,
-        "url": "${[baseUrl]}/v1/title/streaming/:imdbId",
+        "name": "Get title streaming services by slug (v1/title/streaming/:slug)",
+        "sortPriority": 2000.0,
+        "url": "${[baseUrl]}/v1/title/streaming/:slug",
         "urlParameters": [
           {
             "enabled": true,
-            "name": ":imdbId",
-            "value": "17526714",
-            "id": "yY3K8SNNfX"
+            "name": ":slug",
+            "value": "nosferatu-2024",
+            "id": "yiSI3sB9Zi"
           },
           {
             "enabled": true,
             "name": "",
             "value": "",
-            "id": "p0WVvxc0nV"
+            "id": "XqUrAtMZhj"
           }
         ]
       },
@@ -214,7 +203,7 @@
         "model": "http_request",
         "id": "rq_xm6c36yWmB",
         "createdAt": "2025-01-09T00:29:15",
-        "updatedAt": "2025-01-24T23:40:38.507208",
+        "updatedAt": "2025-02-05T20:17:16.093265",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_G3EShJi9ud",
         "authentication": {},
@@ -224,21 +213,21 @@
         "description": "",
         "headers": [],
         "method": "GET",
-        "name": "Get title cinemas by iMDb ID",
+        "name": "Get title cinemas by slug (v1/title/cinemas/:slug)",
         "sortPriority": 1000.0,
-        "url": "${[baseUrl]}/v1/title/cinemas/:imdbId",
+        "url": "${[baseUrl]}/v1/title/cinemas/:slug",
         "urlParameters": [
           {
             "enabled": true,
-            "name": ":imdbId",
-            "value": "9218128",
-            "id": "pfIEUHE8Ku"
+            "name": ":slug",
+            "value": "nosferatu-2024",
+            "id": "PPrJznJt6v"
           },
           {
             "enabled": true,
             "name": "",
             "value": "",
-            "id": "iRwiSbrDX0"
+            "id": "QJh97BrMAX"
           }
         ]
       },
@@ -246,7 +235,7 @@
         "model": "http_request",
         "id": "rq_20vURhFflO",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2024-11-12T03:50:11",
+        "updatedAt": "2025-02-05T20:17:59.825970",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_YERMf4idMs",
         "authentication": {},
@@ -263,14 +252,14 @@
           {
             "enabled": true,
             "name": ":limit",
-            "value": "2",
-            "id": null
+            "value": "3",
+            "id": "mChAR79Q3z"
           },
           {
             "enabled": true,
             "name": "",
             "value": "",
-            "id": null
+            "id": "UjERCeHjfc"
           }
         ]
       },
@@ -278,7 +267,7 @@
         "model": "http_request",
         "id": "rq_VL9z4jfn82",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-01-05T14:45:27",
+        "updatedAt": "2025-02-05T20:22:34.693421",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
@@ -288,21 +277,21 @@
         "description": "",
         "headers": [],
         "method": "GET",
-        "name": "Get subtitle metadata by subtitle ID (/v1/subtitle/metadata/:subtitleId)",
+        "name": "Get subtitle metadata by subtitle ID (/v1/subtitle/metadata/:subtitleId) - INTERNAL TESTING USE",
         "sortPriority": 1000.0,
         "url": "${[ baseUrl ]}/v1/subtitle/metadata/:subtitleId",
         "urlParameters": [
           {
             "enabled": true,
             "name": ":subtitleId",
-            "value": "11462",
-            "id": null
+            "value": "21395",
+            "id": "ea9qieZuek"
           },
           {
             "enabled": true,
             "name": "",
             "value": "",
-            "id": null
+            "id": "TQB73tCqGB"
           }
         ]
       },
@@ -310,7 +299,7 @@
         "model": "http_request",
         "id": "rq_om9XNHwzbJ",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2024-11-22T23:38:41",
+        "updatedAt": "2025-02-05T20:19:20.914654",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
@@ -327,14 +316,14 @@
           {
             "enabled": true,
             "name": ":subtitleId",
-            "value": "9871",
-            "id": null
+            "value": "21395",
+            "id": "S65fv3Qc0A"
           },
           {
             "enabled": true,
             "name": "",
             "value": "",
-            "id": null
+            "id": "Axu4ffNbZj"
           }
         ]
       },
@@ -475,13 +464,13 @@
         "model": "http_request",
         "id": "rq_TSkZUrqOKj",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2024-11-23T05:02:32",
+        "updatedAt": "2025-02-05T20:23:46.493586",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
         "authenticationType": null,
         "body": {
-          "text": "{\n  \"imdbId\": \"0137523\",\n  \"subtitleId\": 10292\n}"
+          "text": "{\n  \"subtitleId\": 21398,\n  \"titleSlug\": \"the-godfather-1972\"\n}"
         },
         "bodyType": "application/json",
         "description": "",
@@ -531,7 +520,7 @@
         "model": "http_request",
         "id": "rq_k2QEcQF7uP",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-01-13T23:00:02",
+        "updatedAt": "2025-02-05T20:22:23.456338",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_G3EShJi9ud",
         "authentication": {},
@@ -541,21 +530,21 @@
         "description": "",
         "headers": [],
         "method": "GET",
-        "name": "Get title metadata by IMDB ID (/v1/subtitle/metadata/:imdbId)",
-        "sortPriority": 3000.0,
-        "url": "${[baseUrl]}/v1/title/metadata/:imdbId",
+        "name": "Get title metadata by slug (/v1/subtitle/metadata/:slug) - INTERNAL TESTING USE",
+        "sortPriority": 2500.0,
+        "url": "${[baseUrl]}/v1/title/metadata/:slug",
         "urlParameters": [
           {
             "enabled": true,
-            "name": ":imdbId",
-            "value": "2316411",
-            "id": null
+            "name": ":slug",
+            "value": "nosferatu-2024",
+            "id": "U5EEc7akHZ"
           },
           {
             "enabled": true,
             "name": "",
             "value": "",
-            "id": null
+            "id": "t4TqSUK3C9"
           }
         ]
       },
@@ -563,7 +552,7 @@
         "model": "http_request",
         "id": "rq_H9boP0jxGI",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-01-05T14:46:02",
+        "updatedAt": "2025-02-05T20:21:41.290161",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
@@ -580,20 +569,20 @@
           {
             "enabled": true,
             "name": ":bytes",
-            "value": "40232322",
-            "id": null
+            "value": "1291671683",
+            "id": "Bpa3cieXik"
           },
           {
             "enabled": true,
             "name": ":fileName",
-            "value": "Red.One.2024.1080p.WEBRip.x265.10bit.AAC5.1-[YTS.MX].mp4",
-            "id": null
+            "value": "The.Godfather.1972.720p.BrRip.x264.BOKUTOX.YIFY.mp4",
+            "id": "wUv9u02A93"
           },
           {
             "enabled": true,
             "name": "",
             "value": "",
-            "id": null
+            "id": "tYKRKGwBSD"
           }
         ]
       },
@@ -601,7 +590,7 @@
         "model": "http_request",
         "id": "rq_0NmBIllZrD",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2024-11-22T23:41:03",
+        "updatedAt": "2025-02-05T20:21:09.200290",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
@@ -618,14 +607,14 @@
           {
             "enabled": true,
             "name": ":fileName",
-            "value": "rey.for.the.Devil.2022.720p.WEBRip.800MB.x264-GalaxyRG.mkv",
-            "id": null
+            "value": "The.Godfather.1972.720p.BrRip.x264.BOKUTOX.YIFY.mp4",
+            "id": "T00dFmbHqT"
           },
           {
             "enabled": true,
             "name": "",
             "value": "",
-            "id": null
+            "id": "fwNR7USn9U"
           }
         ]
       },
@@ -633,7 +622,7 @@
         "model": "http_request",
         "id": "rq_N17uAhCV9T",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-01-24T03:58:30.478916",
+        "updatedAt": "2025-02-05T20:24:54.996050",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_XJ7aMDkIoi",
         "authentication": {},
@@ -643,27 +632,21 @@
         "description": "",
         "headers": [],
         "method": "GET",
-        "name": "Get subtitles by IMDB ID (/v1/subtitles/movie/:imdbId)",
+        "name": "Get subtitles by slug (/v1/subtitles/movie/:slug)",
         "sortPriority": 0.0,
-        "url": "${[baseUrl]}/v1/subtitles/movie/:imdbId/:limit",
+        "url": "${[baseUrl]}/v1/subtitles/movie/:slug",
         "urlParameters": [
           {
             "enabled": true,
-            "name": ":imdbId",
-            "value": "16366836",
-            "id": "fNA3bJTcAj"
-          },
-          {
-            "enabled": true,
-            "name": ":limit",
-            "value": "2",
-            "id": "RY9R2vFkvy"
+            "name": ":slug",
+            "value": "nosferatu-2024",
+            "id": "A4BgRG6XFC"
           },
           {
             "enabled": true,
             "name": "",
             "value": "",
-            "id": "hx8DutyX64"
+            "id": "26VqJvj7zH"
           }
         ]
       },
@@ -783,47 +766,15 @@
       },
       {
         "model": "http_request",
-        "id": "rq_TWJn9mmiC7",
-        "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2024-11-12T04:04:19",
-        "workspaceId": "wk_SbrwnSjDzA",
-        "folderId": "fl_sLYlejSo9e",
-        "authentication": {},
-        "authenticationType": null,
-        "body": {},
-        "bodyType": null,
-        "description": "",
-        "headers": [],
-        "method": "GET",
-        "name": "Get trending downloaded subtitles with limit (/v1/subtitles/trending/download/:limit)",
-        "sortPriority": 0.0,
-        "url": "${[baseUrl]}/v1/subtitles/trending/download/:limit",
-        "urlParameters": [
-          {
-            "enabled": true,
-            "name": ":limit",
-            "value": "2",
-            "id": null
-          },
-          {
-            "enabled": true,
-            "name": "",
-            "value": "",
-            "id": null
-          }
-        ]
-      },
-      {
-        "model": "http_request",
         "id": "rq_lWYKCjbYhz",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-01-13T23:00:02",
+        "updatedAt": "2025-02-05T20:17:24.730196",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_G3EShJi9ud",
         "authentication": {},
         "authenticationType": null,
         "body": {
-          "text": "{\n  \"imdbId\": \"15314262\"\n}"
+          "text": "{\n  \"slug\": \"nosferatu-2024\"\n}"
         },
         "bodyType": "application/json",
         "description": "",
@@ -836,8 +787,8 @@
           }
         ],
         "method": "PATCH",
-        "name": "Update title search metrics by IMDB ID (/v1/title/metrics/search)",
-        "sortPriority": 4000.0,
+        "name": "Update title search metrics by slug (/v1/title/metrics/search)",
+        "sortPriority": 3000.0,
         "url": "${[baseUrl]}/v1/title/metrics/search",
         "urlParameters": []
       },
@@ -845,7 +796,7 @@
         "model": "http_request",
         "id": "rq_SGIsc4WgeJ",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-01-13T23:00:02",
+        "updatedAt": "2025-02-05T20:17:16.093097",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_G3EShJi9ud",
         "authentication": {},
@@ -856,20 +807,20 @@
         "headers": [],
         "method": "GET",
         "name": "Get title teaser by file name (/v1/title/teaser/:fileName)",
-        "sortPriority": 2000.0,
+        "sortPriority": 0.0,
         "url": "${[baseUrl]}/v1/title/teaser/:fileName",
         "urlParameters": [
           {
             "enabled": true,
             "name": ":fileName",
-            "value": "X-Men.2000.1080p.BrRip.x264.YIFY.mp4",
-            "id": null
+            "value": "Eyes.Wide.Shut.1999.1080p.BluRay.x264.YIFY.mp4",
+            "id": "Kk3PUkcvVs"
           },
           {
             "enabled": true,
             "name": "",
             "value": "",
-            "id": null
+            "id": "sm98RT0BAE"
           }
         ]
       },
@@ -909,7 +860,7 @@
         "model": "http_request",
         "id": "rq_CulLwOZGid",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2024-11-23T04:52:45",
+        "updatedAt": "2025-02-05T20:17:51.879404",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_YERMf4idMs",
         "authentication": {},
@@ -926,14 +877,14 @@
           {
             "enabled": true,
             "name": ":limit",
-            "value": "30",
-            "id": null
+            "value": "2",
+            "id": "jtvMbdgSjP"
           },
           {
             "enabled": true,
             "name": "",
             "value": "",
-            "id": null
+            "id": "ujFTReSUj4"
           }
         ]
       },
@@ -941,7 +892,7 @@
         "model": "http_request",
         "id": "rq_CeZMoAtUiy",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2024-11-12T03:50:17",
+        "updatedAt": "2025-02-05T20:18:05.965197",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_YERMf4idMs",
         "authentication": {},
@@ -958,18 +909,19 @@
           {
             "enabled": true,
             "name": ":limit",
-            "value": "4",
-            "id": null
+            "value": "3",
+            "id": "raZytJRue0"
           },
           {
             "enabled": true,
             "name": "",
             "value": "",
-            "id": null
+            "id": "Y03kTqKugb"
           }
         ]
       }
     ],
-    "grpcRequests": []
+    "grpcRequests": [],
+    "websocketRequests": []
   }
 }
