@@ -2,11 +2,13 @@
 
 ## URLs
 
-| Name      | Link                      | Deeplink                                |
-| --------- | ------------------------- | --------------------------------------- |
-| API       | https://api.subt.is       | -                                       |
-| WebSocket | https://real-time-indexer.fly.dev | -                                       |
-| Stremio   | https://stremio.subt.is   | stremio://stremio.subt.is/manifest.json |
+| Name      | Link                                | Deeplink                                |
+| --------- | ----------------------------------- | --------------------------------------- |
+| Web       | https://subtis.io                   | -                                       |
+| API       | https://api.subt.is                 | -                                       |
+| API Docs  | https://api.subt.is/v1/docs         | -                                       |
+| WebSocket | https://real-time-indexer.fly.dev   | -                                       |
+| Stremio   | https://stremio.subt.is             | stremio://stremio.subt.is/manifest.json |
 
 ## Packages
 
@@ -14,7 +16,6 @@
 | ----------------------------- | ----------------------------- | --------------------------- |
 | [Web](/packages/web/)         | [DB](/packages/db/)           | [Shared](/packages/shared/) |
 | [CLI](/packages/cli/)         | [API](/packages/api/)         |                             |
-| [Raycast](/packages/raycast/) | [Indexer](/packages/indexer/) |
 | [Stremio](/packages/stremio/) |                               |
 
 ## Features
@@ -64,7 +65,6 @@ bun run dev:web
 
 ```bash
 bun run dev:cli
-bun run dev:raycast
 bun run dev:stremio
 ```
 
