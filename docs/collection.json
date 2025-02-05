@@ -1,7 +1,7 @@
 {
   "yaakVersion": "2025.1.0-beta.13",
   "yaakSchema": 3,
-  "timestamp": "2025-02-05T20:25:27.725965",
+  "timestamp": "2025-02-05T23:39:54.772641",
   "resources": {
     "workspaces": [
       {
@@ -267,7 +267,7 @@
         "model": "http_request",
         "id": "rq_VL9z4jfn82",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-02-05T20:22:34.693421",
+        "updatedAt": "2025-02-05T23:26:27.414946",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
@@ -277,7 +277,7 @@
         "description": "",
         "headers": [],
         "method": "GET",
-        "name": "Get subtitle metadata by subtitle ID (/v1/subtitle/metadata/:subtitleId) - INTERNAL TESTING USE",
+        "name": "Get subtitle metadata by subtitle ID (/v1/subtitle/metadata/:subtitleId) - INTERNAL DEBUGGING USE",
         "sortPriority": 1000.0,
         "url": "${[ baseUrl ]}/v1/subtitle/metadata/:subtitleId",
         "urlParameters": [
@@ -291,7 +291,7 @@
             "enabled": true,
             "name": "",
             "value": "",
-            "id": "TQB73tCqGB"
+            "id": "yYf6s8ynNV"
           }
         ]
       },
@@ -520,7 +520,7 @@
         "model": "http_request",
         "id": "rq_k2QEcQF7uP",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-02-05T20:22:23.456338",
+        "updatedAt": "2025-02-05T23:16:58.806873",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_G3EShJi9ud",
         "authentication": {},
@@ -530,7 +530,7 @@
         "description": "",
         "headers": [],
         "method": "GET",
-        "name": "Get title metadata by slug (/v1/subtitle/metadata/:slug) - INTERNAL TESTING USE",
+        "name": "Get title metadata by slug (/v1/subtitle/metadata/:slug) - INTERNAL DEBUGGING USE",
         "sortPriority": 2500.0,
         "url": "${[baseUrl]}/v1/title/metadata/:slug",
         "urlParameters": [
