@@ -125,12 +125,9 @@ export const title = new Hono<{ Variables: AppVariables }>()
         queryName = movie.original_title;
       }
 
+      const supabaseClient = getSupabaseClient(context);
       const slug = getTitleSlugifiedName(queryName, year ?? 0);
-      const { data: foundSlug } = await getSupabaseClient(context)
-        .from("Titles")
-        .select("youtube_id")
-        .match({ slug })
-        .single();
+      const { data: foundSlug } = await supabaseClient.from("Titles").select("youtube_id").match({ slug }).single();
 
       if (foundSlug?.youtube_id) {
         const finalResponse = titleTeaserFileNameResponseSchema.safeParse({
@@ -204,7 +201,7 @@ export const title = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "An error occurred", error: finalResponse.error.issues[0].message });
       }
 
-      await getSupabaseClient(context).from("Titles").update({ youtube_id: youTubeVideoId }).match({ slug });
+      await supabaseClient.from("Titles").update({ youtube_id: youTubeVideoId }).match({ slug });
 
       return context.json(finalResponse.data);
     },
