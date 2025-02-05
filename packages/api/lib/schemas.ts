@@ -109,7 +109,6 @@ export const subtitleSchema = subtitlesRowSchema
   .extend({
     title: titleSchema,
     release_group: releaseGroupSchema,
-    subtitle_group: subtitleGroupSchema,
   });
 
 export type SubtisSubtitle = z.infer<typeof subtitleSchema>;
@@ -129,6 +128,44 @@ export const subtitlesQuery = `
   current_season,
   current_episode,
   release_group: ReleaseGroups ( id, release_group_name ),
+  title: Titles ( ${titlesQuery} )
+`;
+
+export const subtitleMetadataQuery = `
+  id,
+  bytes,
+  is_valid,
+  rip_type,
+  resolution,
+  title_file_name,
+  subtitle_link,
+  queried_times,
+  subtitle_file_name,
+  current_season,
+  current_episode,
+  release_group: ReleaseGroups ( id, release_group_name ),
   subtitle_group: SubtitleGroups ( id, subtitle_group_name ),
   title: Titles ( ${titlesQuery} )
 `;
+
+export const subtitleMetadataSchema = subtitlesRowSchema
+  .pick({
+    id: true,
+    bytes: true,
+    is_valid: true,
+    rip_type: true,
+    resolution: true,
+    subtitle_link: true,
+    queried_times: true,
+    current_season: true,
+    current_episode: true,
+    title_file_name: true,
+    subtitle_file_name: true,
+  })
+  .extend({
+    title: titleSchema,
+    release_group: releaseGroupSchema,
+    subtitle_group: subtitleGroupSchema,
+  });
+
+export type SubtitleMetadata = z.infer<typeof subtitleMetadataSchema>;

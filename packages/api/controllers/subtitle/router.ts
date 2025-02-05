@@ -11,8 +11,20 @@ import { getIsCinemaRecording, getIsTvShow, getStringWithoutSpecialCharacters } 
 import { getTitleFileNameMetadata } from "@subtis/shared";
 
 // lib
-import { getSubtitleNormalized, subtitleNormalizedSchema } from "../../lib/parsers";
-import { alternativeTitlesSchema, subtitleSchema, subtitleShortenerSchema, subtitlesQuery } from "../../lib/schemas";
+import {
+  getSubtitleMetadataNormalized,
+  getSubtitleNormalized,
+  subtitleMetadataNormalizedSchema,
+  subtitleNormalizedSchema,
+} from "../../lib/parsers";
+import {
+  alternativeTitlesSchema,
+  subtitleMetadataQuery,
+  subtitleMetadataSchema,
+  subtitleSchema,
+  subtitleShortenerSchema,
+  subtitlesQuery,
+} from "../../lib/schemas";
 import { getSupabaseClient } from "../../lib/supabase";
 import type { AppVariables } from "../../lib/types";
 
@@ -24,7 +36,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
   .get(
     "/link/:subtitleId",
     describeRoute({
-      tags: ["Subtitle (4)"],
+      tags: ["Subtitle (3)"],
       description: "Get subtitle link by subtitle ID",
       responses: {
         200: {
@@ -94,14 +106,15 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
   .get(
     "/metadata/:subtitleId",
     describeRoute({
-      tags: ["Subtitle (4)"],
+      hide: true,
+      tags: ["Subtitle (3)"],
       description: "Get subtitle metadata",
       responses: {
         200: {
           description: "Successful subtitle metadata response",
           content: {
             "application/json": {
-              schema: resolver(subtitleNormalizedSchema),
+              schema: resolver(subtitleMetadataNormalizedSchema),
             },
           },
           404: {
@@ -123,7 +136,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         },
       },
     }),
-    zValidator("param", z.object({ subtitleId: z.string().openapi({ example: "21311" }) })),
+    zValidator("param", z.object({ subtitleId: z.string().openapi({ example: "21416" }) })),
 
     async (context) => {
       const { subtitleId } = context.req.valid("param");
@@ -137,7 +150,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
       const { data, error } = await getSupabaseClient(context)
         .from("Subtitles")
-        .select(subtitlesQuery)
+        .select(subtitleMetadataQuery)
         .match({ id: subtitleId })
         .single();
 
@@ -151,23 +164,22 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "An error occurred", error: error.message });
       }
 
-      const subtitleByFileName = subtitleSchema.safeParse(data);
+      const subtitleById = subtitleMetadataSchema.safeParse(data);
 
-      if (subtitleByFileName.error) {
+      if (subtitleById.error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: subtitleByFileName.error.issues[0].message });
+        return context.json({ message: "An error occurred", error: subtitleById.error.issues[0].message });
       }
 
-      const normalizedSubtitle = getSubtitleNormalized(subtitleByFileName.data);
+      const normalizedSubtitle = getSubtitleMetadataNormalized(subtitleById.data);
 
       return context.json(normalizedSubtitle);
     },
-    cache({ cacheName: "subtis-api-subtitle", cacheControl: `max-age=${timestring("2 weeks")}` }),
   )
   .get(
     "/file/alternative/:fileName",
     describeRoute({
-      tags: ["Subtitle (4)"],
+      tags: ["Subtitle (3)"],
       description: "Get alternative subtitle by file name",
       responses: {
         200: {
@@ -330,7 +342,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
   .get(
     "/file/name/:bytes/:fileName",
     describeRoute({
-      tags: ["Subtitle (4)"],
+      tags: ["Subtitle (3)"],
       description: "Get primary subtitle by file name and bytes",
       responses: {
         200: {
@@ -429,7 +441,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
     "/not-found",
     describeRoute({
       hide: true,
-      tags: ["Subtitle (4)"],
+      tags: ["Subtitle (3)"],
       description: "Report a subtitle not found",
       responses: {
         200: {
@@ -517,7 +529,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
     "/metrics/download",
     describeRoute({
       hide: true,
-      tags: ["Subtitle (4)"],
+      tags: ["Subtitle (3)"],
       description: "Update subtitle download metrics",
       responses: {
         200: {

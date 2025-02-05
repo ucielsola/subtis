@@ -46,7 +46,8 @@ export const title = new Hono<{ Variables: AppVariables }>()
   .get(
     "/teaser/:fileName",
     describeRoute({
-      tags: ["Title (4)"],
+      hide: true,
+      tags: ["Title (2)"],
       description: "Get title YouTube teaser from file name",
       responses: {
         200: {
@@ -212,7 +213,8 @@ export const title = new Hono<{ Variables: AppVariables }>()
   .get(
     "/metadata/:slug",
     describeRoute({
-      tags: ["Title (4)"],
+      hide: true,
+      tags: ["Title (2)"],
       description: "Get title metadata",
       responses: {
         200: {
@@ -284,7 +286,7 @@ export const title = new Hono<{ Variables: AppVariables }>()
   .get(
     "/cinemas/:slug",
     describeRoute({
-      tags: ["Title (4)"],
+      tags: ["Title (2)"],
       description: "Get title cinemas from slug",
       responses: {
         200: {
@@ -392,7 +394,7 @@ export const title = new Hono<{ Variables: AppVariables }>()
   .get(
     "/streaming/:slug",
     describeRoute({
-      tags: ["Title (4)"],
+      tags: ["Title (2)"],
       description: "Get title streaming platforms from slug",
       responses: {
         200: {
@@ -487,7 +489,7 @@ export const title = new Hono<{ Variables: AppVariables }>()
     "/metrics/search",
     describeRoute({
       hide: true,
-      tags: ["Title (4)"],
+      tags: ["Title (2)"],
       description: "Update title search metrics",
       responses: {
         200: {

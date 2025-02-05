@@ -2,7 +2,15 @@ import { z } from "zod";
 
 // internals
 import { getSubtitleShortLink } from "./links";
-import { type SubtisSubtitle, releaseGroupSchema, subtitleGroupSchema, subtitleSchema, titleSchema } from "./schemas";
+import {
+  type SubtisSubtitle,
+  type SubtitleMetadata,
+  releaseGroupSchema,
+  subtitleGroupSchema,
+  subtitleMetadataSchema,
+  subtitleSchema,
+  titleSchema,
+} from "./schemas";
 
 // parsed rip types
 type RipTypeOutput = "BluRay" | "HDRip" | "Theater" | "BrRip" | "WEBRip" | "Web-DL" | "WEB" | null;
@@ -51,13 +59,43 @@ export function getParsedRipType(ripType: string | null): RipTypeOutput {
 export const subtitleNormalizedSchema = z.object({
   title: titleSchema,
   release_group: releaseGroupSchema,
-  subtitle_group: subtitleGroupSchema,
-  subtitle: subtitleSchema.omit({ title: true, release_group: true, subtitle_group: true }),
+  subtitle: subtitleSchema.omit({ title: true, release_group: true }),
 });
 
 export type SubtitleNormalized = z.infer<typeof subtitleNormalizedSchema>;
 
 export function getSubtitleNormalized(subtisSubtitle: SubtisSubtitle): SubtitleNormalized {
+  const { title, release_group, ...subtitle } = subtisSubtitle;
+
+  const { rip_type: rawRipType, ...rest } = subtitle;
+
+  const rip_type = getParsedRipType(rawRipType);
+  const subtitle_link = getSubtitleShortLink(subtitle.id);
+  const resolution = `${subtitle.resolution}p`;
+
+  return {
+    title,
+    release_group,
+    subtitle: {
+      ...rest,
+      rip_type,
+      resolution,
+      subtitle_link,
+    },
+  };
+}
+
+// subtitle normalized
+export const subtitleMetadataNormalizedSchema = z.object({
+  title: titleSchema,
+  release_group: releaseGroupSchema,
+  subtitle_group: subtitleGroupSchema,
+  subtitle: subtitleMetadataSchema.omit({ title: true, release_group: true, subtitle_group: true }),
+});
+
+export type SubtitleMetadataNormalized = z.infer<typeof subtitleMetadataNormalizedSchema>;
+
+export function getSubtitleMetadataNormalized(subtisSubtitle: SubtitleMetadata): SubtitleMetadataNormalized {
   const { title, release_group, subtitle_group, ...subtitle } = subtisSubtitle;
 
   const { rip_type: rawRipType, ...rest } = subtitle;
@@ -82,14 +120,13 @@ export function getSubtitleNormalized(subtisSubtitle: SubtisSubtitle): SubtitleN
 // subtitles normalized
 const subtitlesNormalizedSchema = z.object({
   release_group: releaseGroupSchema,
-  subtitle_group: subtitleGroupSchema,
-  subtitle: subtitleSchema.omit({ title: true, release_group: true, subtitle_group: true }),
+  subtitle: subtitleSchema.omit({ title: true, release_group: true }),
 });
 
 export type SubtitlesNormalized = z.infer<typeof subtitlesNormalizedSchema>;
 
 export function getSubtitlesNormalized(subtisSubtitle: SubtisSubtitle): SubtitlesNormalized {
-  const { title: _title, release_group, subtitle_group, ...subtitle } = subtisSubtitle;
+  const { title: _title, release_group, ...subtitle } = subtisSubtitle;
 
   const { rip_type: rawRipType, ...rest } = subtitle;
 
@@ -99,7 +136,6 @@ export function getSubtitlesNormalized(subtisSubtitle: SubtisSubtitle): Subtitle
 
   return {
     release_group,
-    subtitle_group,
     subtitle: {
       ...rest,
       rip_type,
