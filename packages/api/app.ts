@@ -40,12 +40,12 @@ export function runApi() {
           },
           servers: [
             {
-              url: "http://localhost:58602",
-              description: "Local server",
-            },
-            {
               url: "https://api.subt.is",
               description: "Production server",
+            },
+            {
+              url: "http://localhost:58602",
+              description: "Local server",
             },
           ],
         },
