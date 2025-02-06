@@ -432,14 +432,14 @@ export default function SubtitlesPage() {
             value={loaderData.results.length > 1 && isAdvancedModeEnabled ? subtip : "play-subtitle"}
           >
             <TabsList className="mb-6">
+              <TabsTrigger value="play-subtitle" className="text-sm">
+                ¿Cómo utilizo un subtítulo?
+              </TabsTrigger>
               {loaderData.results.length > 1 && isAdvancedModeEnabled ? (
                 <TabsTrigger value="choose-subtitle" className="text-sm">
                   ¿Cómo elijo un subtítulo?
                 </TabsTrigger>
               ) : null}
-              <TabsTrigger value="play-subtitle" className="text-sm">
-                ¿Cómo utilizo un subtítulo?
-              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="choose-subtitle" className="flex flex-col gap-4 mt-0">
