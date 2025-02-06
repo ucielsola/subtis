@@ -26,7 +26,7 @@ export function HomeHero() {
 
   return (
     <section className="py-16 lg:pt-24 lg:pb-20 isolate relative">
-      <HeroBackground className="absolute w-[100%] h-full top-0 right-0 translate-y-[-40%] translate-x-[0%] 2xl:translate-x-[10%] 2xl:translate-y-[-60%] -z-10 -rotate-[25deg]" />
+      <HeroBackground className="absolute w-[100%] h-full top-40 right-0 translate-y-[-40%] translate-x-[0%] 2xl:translate-x-[10%] 2xl:translate-y-[-60%] -z-10 -rotate-[25deg]" />
       <div className="flex flex-col lg:flex-row justify-between items-center flex-1 gap-8 lg:gap-4">
         <div className="flex flex-col gap-3 lg:max-w-[624px]">
           <BadgeTvShows />
