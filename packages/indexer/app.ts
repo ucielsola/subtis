@@ -568,7 +568,7 @@ async function addWatermarkToSubtitle({
       const [_id, timestamp] = firstSubtitle.split("\n");
       const firstSubtitleTimestamp = timestamp.split(" ").at(0) as string;
 
-      const MAX_WATERMARK_TIME = "00:00:05,000";
+      const MAX_WATERMARK_TIME = "00:00:06,000";
 
       const [firstHours, firstMinutes, firstSecondsAndMs] = firstSubtitleTimestamp.split(":");
       const [firstSeconds, firstMs] = firstSecondsAndMs.split(",");
@@ -584,7 +584,8 @@ async function addWatermarkToSubtitle({
 
       const watermarkStartTimestamp = firstTimestampMs > maxTimestampMs ? MAX_WATERMARK_TIME : firstSubtitleTimestamp;
 
-      return `00:00:00,000 --> ${watermarkStartTimestamp}
+      return `0
+00:00:00,000 --> ${watermarkStartTimestamp}
 Subtitulos provistos por <b>Subtis</b> - <i>@subt_is</i>
 Encontranos en la web https://subtis.io
 
