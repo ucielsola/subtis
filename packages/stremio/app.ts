@@ -53,6 +53,8 @@ async function getTitleSubtitle(args: Args): Promise<{ subtitles: StremioSubtitl
 
     return Promise.resolve({ subtitles: [alternativeSubtitleMetadata], ...CACHE_SETTINGS });
   } catch (error) {
+    console.log("\n ~ getTitleSubtitle ~ catch ~ args:", args);
+    console.log("\n ~ getTitleSubtitle ~ catch ~ error:", error);
     return Promise.resolve({ subtitles: [], ...CACHE_SETTINGS });
   }
 }
@@ -61,7 +63,7 @@ async function getTitleSubtitle(args: Args): Promise<{ subtitles: StremioSubtitl
 const builder = new addonBuilder({
   name: "Subtis (Version Pre-Beta)",
   id: "org.subtis",
-  version: "0.5.2",
+  version: "0.5.3",
   description:
     "Subtis es tu fuente de subtítulos para tus películas y series favoritas. Esta es una versión de prueba interna, solo para desarrolladores.",
   catalogs: [],
