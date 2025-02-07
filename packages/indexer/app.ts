@@ -526,25 +526,6 @@ function modifySecondsInTimestamp(timestamp: string, secondsToModify: number): s
   return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")},000`;
 }
 
-function halfTime(timestamp: string): string {
-  const [hours, minutes, secondsMilliseconds] = timestamp.split(":");
-  const [seconds, milliseconds] = secondsMilliseconds.split(",");
-
-  const totalMilliseconds =
-    Number(hours) * 3600000 + Number(minutes) * 60000 + Number(seconds) * 1000 + Number(milliseconds);
-
-  const halfMilliseconds = Math.floor(totalMilliseconds / 2);
-
-  const halfHours = Math.floor(halfMilliseconds / 3600000);
-  const halfMinutes = Math.floor((halfMilliseconds % 3600000) / 60000);
-  const halfSeconds = Math.floor((halfMilliseconds % 60000) / 1000);
-  const halfMillisecondsRemainder = halfMilliseconds % 1000;
-
-  const formattedHalfTime = `${String(halfHours).padStart(2, "0")}:${String(halfMinutes).padStart(2, "0")}:${String(halfSeconds).padStart(2, "0")},${String(halfMillisecondsRemainder).padStart(3, "0")}`;
-
-  return formattedHalfTime;
-}
-
 async function addWatermarkToSubtitle({
   path,
   titleType,
@@ -587,18 +568,25 @@ async function addWatermarkToSubtitle({
       const [_id, timestamp] = firstSubtitle.split("\n");
       const firstSubtitleTimestamp = timestamp.split(" ").at(0) as string;
 
-      const firstTimestamp = halfTime(firstSubtitleTimestamp);
-      const secondTimestamp = firstSubtitleTimestamp;
+      const MAX_WATERMARK_TIME = "00:00:05,000";
 
-      return `0
-00:00:00,000 --> ${firstTimestamp}
-Subtitulos descargados desde <b>Subtis</b>
-Encontranos en https://subtis.io
+      const [firstHours, firstMinutes, firstSecondsAndMs] = firstSubtitleTimestamp.split(":");
+      const [firstSeconds, firstMs] = firstSecondsAndMs.split(",");
 
-1
-${firstTimestamp} --> ${secondTimestamp}
-Contactanos por X en <i>@subt_is</i>
-Vía email a <i>soporte@subtis.io</i>
+      const [maxHours, maxMinutes, maxSecondsAndMs] = MAX_WATERMARK_TIME.split(":");
+      const [maxSeconds, maxMs] = maxSecondsAndMs.split(",");
+
+      const firstTimestampMs =
+        Number(firstHours) * 3600000 + Number(firstMinutes) * 60000 + Number(firstSeconds) * 1000 + Number(firstMs);
+
+      const maxTimestampMs =
+        Number(maxHours) * 3600000 + Number(maxMinutes) * 60000 + Number(maxSeconds) * 1000 + Number(maxMs);
+
+      const watermarkStartTimestamp = firstTimestampMs > maxTimestampMs ? MAX_WATERMARK_TIME : firstSubtitleTimestamp;
+
+      return `00:00:00,000 --> ${watermarkStartTimestamp}
+Subtitulos provistos por <b>Subtis</b> - <i>@subt_is</i>
+Encontranos en la web https://subtis.io
 
 ${subtitleText}`;
     })
