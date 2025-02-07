@@ -147,14 +147,14 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: "Subtitles_releaseGroupId_fkey";
+            foreignKeyName: "Subtitles_release_group_id_fkey";
             columns: ["release_group_id"];
             isOneToOne: false;
             referencedRelation: "ReleaseGroups";
             referencedColumns: ["id"];
           },
           {
-            foreignKeyName: "Subtitles_subtitleGroupId_fkey";
+            foreignKeyName: "Subtitles_subtitle_group_id_fkey";
             columns: ["subtitle_group_id"];
             isOneToOne: false;
             referencedRelation: "SubtitleGroups";
@@ -375,7 +375,6 @@ export type Database = {
           query: string;
         };
         Returns: {
-          id: number;
           imdb_id: string;
           title_name: string;
           year: number;
@@ -391,6 +390,7 @@ export type Database = {
           overview: string;
           runtime: number;
           rating: number;
+          youtube_id: string;
         }[];
       };
       gtrgm_compress: {

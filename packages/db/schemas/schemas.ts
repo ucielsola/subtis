@@ -161,14 +161,14 @@ export const subtitlesUpdateSchema = z.object({
 
 export const subtitlesRelationshipsSchema = z.tuple([
   z.object({
-    foreignKeyName: z.literal("Subtitles_releaseGroupId_fkey"),
+    foreignKeyName: z.literal("Subtitles_release_group_id_fkey"),
     columns: z.tuple([z.literal("release_group_id")]),
     isOneToOne: z.literal(false),
     referencedRelation: z.literal("ReleaseGroups"),
     referencedColumns: z.tuple([z.literal("id")]),
   }),
   z.object({
-    foreignKeyName: z.literal("Subtitles_subtitleGroupId_fkey"),
+    foreignKeyName: z.literal("Subtitles_subtitle_group_id_fkey"),
     columns: z.tuple([z.literal("subtitle_group_id")]),
     isOneToOne: z.literal(false),
     referencedRelation: z.literal("SubtitleGroups"),
