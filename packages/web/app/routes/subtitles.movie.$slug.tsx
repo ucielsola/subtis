@@ -295,7 +295,7 @@ export default function SubtitlesPage() {
         const { queried_times } = row.original.subtitle;
 
         if (typeof queried_times !== "number") {
-          return null;
+          return 0;
         }
 
         if (queried_times < 1000) {
