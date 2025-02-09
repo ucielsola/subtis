@@ -6,6 +6,6 @@ import { indexNotFoundSubtitles } from "./not-found";
 indexNotFoundSubtitles({ ascending: true });
 
 // Run every 3 hours
-cron.schedule("0 *3 * * *", () => {
-  indexNotFoundSubtitles({ ascending: true });
-});
+// cron.schedule("0 */3 * * *", () => {
+//   indexNotFoundSubtitles({ ascending: true });
+// });
