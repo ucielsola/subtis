@@ -43,9 +43,11 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip
 // features
 import { PosterDisclosure } from "~/features/movie/poster-disclosure";
 
-import { useCinemas } from "~/hooks/use-cinemas";
-import { usePlatforms } from "~/hooks/use-platforms";
 // hooks
+import { useCinemas } from "~/hooks/use-cinemas";
+import { useLetterboxd } from "~/hooks/use-letterboxd";
+import { usePlatforms } from "~/hooks/use-platforms";
+import { useRottenTomatoes } from "~/hooks/use-rottentomatoes";
 import { useTeaser } from "~/hooks/use-teaser";
 
 // helpers
@@ -182,11 +184,14 @@ export default function SubtitlesPage() {
   }
 
   // query hooks
-  const { data: titleCinemas } = useCinemas("message" in loaderData ? undefined : loaderData.title.slug);
-  const { data: titlePlatforms } = usePlatforms("message" in loaderData ? undefined : loaderData.title.slug);
   const { data: titleTeaser } = useTeaser(
     "message" in loaderData ? undefined : loaderData.results[0].subtitle.title_file_name,
   );
+  const { data: titleCinemas } = useCinemas("message" in loaderData ? undefined : loaderData.title.slug);
+  const { data: titlePlatforms } = usePlatforms("message" in loaderData ? undefined : loaderData.title.slug);
+
+  const { data: titleLetterboxd } = useLetterboxd("message" in loaderData ? undefined : loaderData.title.slug);
+  const { data: titleRottenTomatoes } = useRottenTomatoes("message" in loaderData ? undefined : loaderData.title.slug);
 
   // motion hooks
   const videoTipControl = useAnimation();
@@ -677,6 +682,8 @@ export default function SubtitlesPage() {
             overview={loaderData.title.overview}
             rating={loaderData.title.rating}
             youtubeId={titleTeaser && !("message" in titleTeaser) ? titleTeaser.youTubeVideoId : null}
+            letterboxdLink={titleLetterboxd?.link ?? null}
+            rottenTomatoesLink={titleRottenTomatoes?.link ?? null}
           />
         </aside>
       ) : null}

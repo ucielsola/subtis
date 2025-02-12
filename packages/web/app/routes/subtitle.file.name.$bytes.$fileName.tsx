@@ -23,12 +23,6 @@ import { Play } from "~/components/icons/play";
 import { apiClient } from "~/lib/api";
 import { cn } from "~/lib/utils";
 
-// hooks
-import { useCinemas } from "~/hooks/use-cinemas";
-import { usePlatforms } from "~/hooks/use-platforms";
-import { useTeaser } from "~/hooks/use-teaser";
-import { useToast } from "~/hooks/use-toast";
-
 // ui
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
@@ -39,6 +33,14 @@ import { Separator } from "~/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { ToastAction } from "~/components/ui/toast";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
+
+// hooks
+import { useCinemas } from "~/hooks/use-cinemas";
+import { useLetterboxd } from "~/hooks/use-letterboxd";
+import { usePlatforms } from "~/hooks/use-platforms";
+import { useRottenTomatoes } from "~/hooks/use-rottentomatoes";
+import { useTeaser } from "~/hooks/use-teaser";
+import { useToast } from "~/hooks/use-toast";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { bytes, fileName } = params;
@@ -101,8 +103,12 @@ export default function SubtitlePage() {
 
   // query hooks
   const { data: titleTeaser } = useTeaser(fileName);
-  const { data: titleCinemas } = useCinemas("message" in loaderData ? "" : loaderData.title.imdb_id);
-  const { data: titlePlatforms } = usePlatforms("message" in loaderData ? "" : loaderData.title.imdb_id);
+
+  const { data: titleCinemas } = useCinemas(loaderData.title.imdb_id);
+  const { data: titlePlatforms } = usePlatforms(loaderData.title.imdb_id);
+
+  const { data: titleLetterboxd } = useLetterboxd(loaderData.title.slug);
+  const { data: titleRottenTomatoes } = useRottenTomatoes(loaderData.title.slug);
 
   // motion hooks
   const playControls = useAnimation();
@@ -539,6 +545,8 @@ export default function SubtitlePage() {
             imdbId={loaderData.title.imdb_id}
             overview={loaderData.title.overview}
             rating={loaderData.title.rating}
+            letterboxdLink={titleLetterboxd?.link ?? null}
+            rottenTomatoesLink={titleRottenTomatoes?.link ?? null}
             youtubeId={titleTeaser && !("message" in titleTeaser) ? titleTeaser.youTubeVideoId : null}
           />
         </aside>

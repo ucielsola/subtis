@@ -1,6 +1,6 @@
 import { StarIcon } from "lucide-react";
 import { AnimatePresence, motion, useAnimation } from "motion/react";
-import { Fragment, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useOnClickOutside } from "usehooks-ts";
 
 // lib
@@ -44,9 +44,22 @@ type Props = {
   overview: string;
   rating: number;
   youtubeId: string | null;
+  letterboxdLink: string | null;
+  rottenTomatoesLink: string | null;
 };
 
-export function PosterDisclosure({ src, alt, hashUrl, title, imdbId, overview, rating, youtubeId }: Props) {
+export function PosterDisclosure({
+  src,
+  alt,
+  hashUrl,
+  title,
+  imdbId,
+  overview,
+  rating,
+  youtubeId,
+  letterboxdLink,
+  rottenTomatoesLink,
+}: Props) {
   // react hooks
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const ref = useRef(null);
@@ -112,10 +125,10 @@ export function PosterDisclosure({ src, alt, hashUrl, title, imdbId, overview, r
           </button>
         </DisclosureTrigger>
         <DisclosureContent>
-          <div className="flex flex-col pb-4 z-10">
+          <div className="flex flex-col pb-2 z-10">
             <div>
               {overview ? <p className="text-zinc-50 text-sm leading-6 pt-2 pb-6 line-clamp-[14]">{overview}</p> : null}
-              <div className="flex items-center justify-between">
+              <div className="flex items-center">
                 <div className="flex flex-row gap-2">
                   <a
                     href={getImdbLink(imdbId)}
@@ -125,26 +138,40 @@ export function PosterDisclosure({ src, alt, hashUrl, title, imdbId, overview, r
                   >
                     IMDb
                   </a>
-                  <a
-                    href={`https://www.rottentomatoes.com/m/${title.toLowerCase().replace(/\s+/g, "_").replaceAll("&", "and").replaceAll(":", "")}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-zinc-50 underline text-sm hover:text-zinc-300"
-                  >
-                    Rotten Tomatoes
-                  </a>
+                  {rottenTomatoesLink ? (
+                    <a
+                      href={rottenTomatoesLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-zinc-50 underline text-sm hover:text-zinc-300"
+                    >
+                      Rotten Tomatoes
+                    </a>
+                  ) : null}
+                  {letterboxdLink ? (
+                    <a
+                      href={letterboxdLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-zinc-50 underline text-sm hover:text-zinc-300"
+                    >
+                      Letterboxd
+                    </a>
+                  ) : null}
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between mt-4">
+                <div className="flex flex-row gap-2">
                   {youtubeId ? (
-                    <Fragment>
-                      <span className="text-zinc-50 text-sm">·</span>
-                      <a
-                        href={`https://www.youtube.com/watch?v=${youtubeId}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-zinc-50 underline text-sm hover:text-zinc-300"
-                      >
-                        Trailer
-                      </a>
-                    </Fragment>
+                    <a
+                      href={`https://www.youtube.com/watch?v=${youtubeId}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-zinc-50 underline text-sm hover:text-zinc-300"
+                    >
+                      Trailer
+                    </a>
                   ) : null}
                 </div>
                 <div className="flex items-center gap-2">

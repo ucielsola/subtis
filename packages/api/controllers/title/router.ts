@@ -1,35 +1,16 @@
-import querystring from "querystring";
 import { Hono } from "hono";
 import { describeRoute } from "hono-openapi";
 import { resolver, validator as zValidator } from "hono-openapi/zod";
 import { cache } from "hono/cache";
 import slugify from "slugify";
 import timestring from "timestring";
-import htmlUnescape from "unescape-js";
 import z from "zod";
 
-// indexer
-import { FILE_NAME_TO_TMDB_INDEX } from "@subtis/indexer/edge-cases";
-import { getTitleSlugifiedName } from "@subtis/indexer/utils/slugify-title";
-
-// shared
-import {
-  OFFICIAL_SUBTIS_CHANNELS,
-  type TitleFileNameMetadata,
-  YOUTUBE_SEARCH_URL,
-  getTitleFileNameMetadata,
-  videoFileNameSchema,
-  youTubeSchema,
-} from "@subtis/shared";
-
 // lib
-import { getYoutubeApiKey } from "../../lib/api-keys";
 import { buscalaSchema } from "../../lib/buscala";
 import { cinemarkSchema } from "../../lib/cinemark";
 import { titleMetadataQuery, titleMetadataSchema } from "../../lib/schemas";
 import { getSupabaseClient } from "../../lib/supabase";
-import { getTmdbMovieSearchUrl, tmdbDiscoverMovieSchema } from "../../lib/tmdb";
-import { getTmdbHeaders } from "../../lib/tmdb";
 import type { AppVariables } from "../../lib/types";
 
 // schemas
@@ -38,175 +19,10 @@ import {
   titleMetadataSlugResponseSchema,
   titleMetricsSearchResponseSchema,
   titlePlatformsSlugResponseSchema,
-  titleTeaserFileNameResponseSchema,
 } from "./schemas";
 
 // router
 export const title = new Hono<{ Variables: AppVariables }>()
-  .get(
-    "/teaser/:fileName",
-    describeRoute({
-      hide: true,
-      tags: ["Title (2)"],
-      description: "Get title YouTube teaser from file name",
-      responses: {
-        200: {
-          description: "Successful title teaser response",
-          content: {
-            "application/json": {
-              schema: resolver(titleTeaserFileNameResponseSchema),
-            },
-          },
-          415: {
-            description: "Unsupported file name",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
-            },
-          },
-          404: {
-            description: "Title teaser not found",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
-            },
-          },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
-            },
-          },
-        },
-      },
-    }),
-    zValidator(
-      "param",
-      z.object({ fileName: z.string().openapi({ example: "Eyes.Wide.Shut.1999.1080p.BluRay.x264.YIFY.mp4" }) }),
-    ),
-    async (context) => {
-      const { fileName } = context.req.valid("param");
-
-      const videoFileName = videoFileNameSchema.safeParse(fileName);
-      if (!videoFileName.success) {
-        context.status(415);
-        return context.json({ message: videoFileName.error.issues[0].message });
-      }
-
-      let titleFileNameMetadata: TitleFileNameMetadata | null = null;
-      try {
-        titleFileNameMetadata = getTitleFileNameMetadata({ titleFileName: videoFileName.data });
-      } catch (error) {
-        context.status(415);
-        return context.json({ message: "File name is not supported" });
-      }
-
-      const { name, year, currentSeason } = titleFileNameMetadata;
-      const url = getTmdbMovieSearchUrl(name, year ?? undefined);
-
-      const response = await fetch(url, getTmdbHeaders(context));
-      const data = await response.json();
-      const { data: tmdbData, success } = tmdbDiscoverMovieSchema.safeParse(data);
-
-      let queryName = name;
-      if (success && tmdbData) {
-        if (tmdbData.results.length === 0) {
-          context.status(404);
-          return context.json({ message: "No teaser found" });
-        }
-
-        const index = FILE_NAME_TO_TMDB_INDEX[videoFileName.data as keyof typeof FILE_NAME_TO_TMDB_INDEX] ?? 0;
-        const movie = tmdbData.results[index];
-
-        queryName = movie.original_title;
-      }
-
-      const supabaseClient = getSupabaseClient(context);
-      const slug = getTitleSlugifiedName(queryName, year ?? 0);
-      const { data: foundSlug } = await supabaseClient.from("Titles").select("youtube_id").match({ slug }).single();
-
-      if (foundSlug?.youtube_id) {
-        const finalResponse = titleTeaserFileNameResponseSchema.safeParse({
-          year,
-          youTubeVideoId: foundSlug.youtube_id,
-          name: queryName,
-        });
-
-        if (finalResponse.error) {
-          context.status(500);
-          return context.json({ message: "An error occurred", error: finalResponse.error.issues[0].message });
-        }
-
-        return context.json(finalResponse.data);
-      }
-
-      const query = currentSeason ? `${queryName} season ${currentSeason} teaser` : `${queryName} ${year} teaser`;
-      const queryParams = querystring.stringify({
-        q: query,
-        maxResults: 12,
-        part: "snippet",
-        key: getYoutubeApiKey(context),
-      });
-
-      const youtubeResponse = await fetch(`${YOUTUBE_SEARCH_URL}?${queryParams}`);
-      const youtubeData = await youtubeResponse.json();
-
-      const youtubeParsedData = youTubeSchema.safeParse(youtubeData);
-
-      if (youtubeParsedData.error) {
-        context.status(500);
-        return context.json({ message: "An error occurred", error: youtubeParsedData.error.issues[0].message });
-      }
-
-      const filteredTeasers = youtubeParsedData.data.items.filter(({ snippet }) => {
-        const youtubeTitle = htmlUnescape(snippet.title).toLowerCase();
-
-        return (
-          youtubeTitle.includes(queryName.toLowerCase()) &&
-          (youtubeTitle.includes("teaser") || youtubeTitle.includes("trailer"))
-        );
-      });
-
-      if (filteredTeasers.length === 0) {
-        context.status(404);
-        return context.json({ message: "No teaser found" });
-      }
-
-      const curatedYouTubeTeaser = filteredTeasers.find(({ snippet }) => {
-        return OFFICIAL_SUBTIS_CHANNELS.some((curatedChannelsInLowerCase) =>
-          curatedChannelsInLowerCase.ids.includes(snippet.channelId.toLowerCase()),
-        );
-      });
-
-      const youTubeTeaser = curatedYouTubeTeaser ?? filteredTeasers[0];
-      const youTubeVideoId = youTubeTeaser.id.videoId;
-
-      if (!youTubeVideoId) {
-        context.status(404);
-        return context.json({ message: "No teaser found" });
-      }
-
-      const finalResponse = titleTeaserFileNameResponseSchema.safeParse({
-        year,
-        youTubeVideoId,
-        name: queryName,
-      });
-
-      if (finalResponse.error) {
-        context.status(500);
-        return context.json({ message: "An error occurred", error: finalResponse.error.issues[0].message });
-      }
-
-      await supabaseClient.from("Titles").update({ youtube_id: youTubeVideoId }).match({ slug });
-
-      return context.json(finalResponse.data);
-    },
-    cache({ cacheName: "subtis-api-title", cacheControl: `max-age=${timestring("1 week")}` }),
-  )
   .get(
     "/metadata/:slug",
     describeRoute({

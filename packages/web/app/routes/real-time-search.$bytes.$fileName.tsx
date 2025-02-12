@@ -36,7 +36,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     throw new Error("Missing bytes or fileName");
   }
 
-  const titleTeaserResponse = await apiClient.v1.title.teaser[":fileName"].$get({
+  const titleTeaserResponse = await apiClient.v1.providers.youtube.teaser[":fileName"].$get({
     param: { fileName },
   });
 

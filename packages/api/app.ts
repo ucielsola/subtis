@@ -9,6 +9,7 @@ import { secureHeaders } from "hono/secure-headers";
 import type { AppVariables } from "./lib/types";
 
 // internals
+import { providers } from "./controllers/providers/router";
 import { subtitle } from "./controllers/subtitle/router";
 import { subtitles } from "./controllers/subtitles/router";
 import { title } from "./controllers/title/router";
@@ -29,6 +30,7 @@ export function runApi() {
     .route("/subtitles", subtitles)
     .route("/title", title)
     .route("/titles", titles)
+    .route("/providers", providers)
     .get(
       "/openapi",
       openAPISpecs(app, {
@@ -70,7 +72,8 @@ function defineRoutes() {
     .route("/title", title)
     .route("/titles", titles)
     .route("/subtitle", subtitle)
-    .route("/subtitles", subtitles);
+    .route("/subtitles", subtitles)
+    .route("/providers", providers);
 
   return routes;
 }

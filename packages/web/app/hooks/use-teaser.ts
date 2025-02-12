@@ -15,7 +15,7 @@ export function useTeaser(fileName: string | undefined) {
         return null;
       }
 
-      const titleTeaserResponse = await apiClient.v1.title.teaser[":fileName"].$get({
+      const titleTeaserResponse = await apiClient.v1.providers.youtube.teaser[":fileName"].$get({
         param: { fileName },
       });
 

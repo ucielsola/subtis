@@ -247,6 +247,7 @@ export type Database = {
           id: number;
           imdb_id: string;
           last_queried_at: string | null;
+          letterboxd_id: string | null;
           logo: string | null;
           optimized_backdrop: string | null;
           optimized_logo: string | null;
@@ -257,6 +258,7 @@ export type Database = {
           queried_times: number | null;
           rating: number;
           release_date: string;
+          rottentomatoes_id: string | null;
           runtime: number | null;
           searched_times: number | null;
           slug: string;
@@ -277,6 +279,7 @@ export type Database = {
           id?: number;
           imdb_id: string;
           last_queried_at?: string | null;
+          letterboxd_id?: string | null;
           logo?: string | null;
           optimized_backdrop?: string | null;
           optimized_logo?: string | null;
@@ -287,6 +290,7 @@ export type Database = {
           queried_times?: number | null;
           rating: number;
           release_date: string;
+          rottentomatoes_id?: string | null;
           runtime?: number | null;
           searched_times?: number | null;
           slug: string;
@@ -307,6 +311,7 @@ export type Database = {
           id?: number;
           imdb_id?: string;
           last_queried_at?: string | null;
+          letterboxd_id?: string | null;
           logo?: string | null;
           optimized_backdrop?: string | null;
           optimized_logo?: string | null;
@@ -317,6 +322,7 @@ export type Database = {
           queried_times?: number | null;
           rating?: number;
           release_date?: string;
+          rottentomatoes_id?: string | null;
           runtime?: number | null;
           searched_times?: number | null;
           slug?: string;
