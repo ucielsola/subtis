@@ -34,6 +34,13 @@
   },
   "files": {
     "include": ["packages/**/*.ts", "packages/**/*.tsx", "docs/**/*.json"],
-    "ignore": ["node_modules", "dist", "*.d.ts", "packages/raycast", "packages/web/app/components/ui"]
+    "ignore": [
+      "node_modules",
+      "dist",
+      "*.d.ts",
+      "packages/raycast",
+      "packages/web/app/components/ui",
+      "packages/indexer/torrent-grabber"
+    ]
   }
 }

@@ -14,12 +14,14 @@ import prettyBytes from "pretty-bytes";
 import srtParser2 from "srt-parser-2";
 import srtValidator from "srt-validator";
 import invariant from "tiny-invariant";
-import tg from "torrent-grabber";
 import TorrentSearchApi from "torrent-search-api";
 import torrentStream, { type File } from "torrent-stream";
 import { match } from "ts-pattern";
 import { unrar } from "unrar-promise";
 import { z } from "zod";
+
+// internals
+import tg from "./torrent-grabber";
 
 // db
 import { type Title, supabase } from "@subtis/db";

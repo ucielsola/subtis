@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@types/bun": "^1.2.2",
-    "supabase": ">=2.9.6",
+    "supabase": ">=2.12.0",
     "supabase-to-zod": "^1.0.7",
     "typescript": "^5.7.3"
   },

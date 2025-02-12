@@ -2,7 +2,6 @@ import type { ServerWebSocket } from "bun";
 import filesizeParser from "filesize-parser";
 import prettyBytes from "pretty-bytes";
 import invariant from "tiny-invariant";
-import tg from "torrent-grabber";
 import TorrentSearchApi from "torrent-search-api";
 import { z } from "zod";
 
@@ -12,7 +11,6 @@ import { supabase } from "@subtis/db";
 // shared
 import { type TitleFileNameMetadata, getEpisode, getIsTvShow, getTitleFileNameMetadata } from "@subtis/shared";
 
-// internals
 import { apiClient } from "./api";
 import { TitleTypes, type TorrentFound, getFileTitleTorrents, getSubtitlesForTitle } from "./app";
 import { FILE_NAME_TO_TMDB_INDEX } from "./edge-cases";
@@ -25,6 +23,8 @@ import {
   tmdbDiscoverMovieSchema,
   tmdbDiscoverSerieSchema,
 } from "./tmdb";
+// internals
+import tg from "./torrent-grabber";
 import type { IndexedBy } from "./types";
 import { getQueryForTorrentProvider } from "./utils/query";
 import { generateIdFromMagnet } from "./utils/torrent";

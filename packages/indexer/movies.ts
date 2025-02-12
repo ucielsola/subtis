@@ -1,17 +1,17 @@
 import { confirm } from "@clack/prompts";
 import cliProgress from "cli-progress";
-import tg from "torrent-grabber";
 import TorrentSearchApi from "torrent-search-api";
 
 // db
 import { supabase } from "@subtis/db";
 
-// internals
 import { getSubtitlesForTitle } from "./app";
 import { getReleaseGroups } from "./release-groups";
 import { getSubDivXParameter, getSubDivXToken } from "./subdivx";
 import { getSubtitleGroups } from "./subtitle-groups";
 import { getMoviesFromTmdb, getTmdbMovieFromTitle, getTmdbMoviesTotalPagesArray } from "./tmdb";
+// internals
+import tg from "./torrent-grabber";
 
 // core
 export async function indexMoviesByYear({
