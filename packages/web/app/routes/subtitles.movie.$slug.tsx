@@ -389,7 +389,7 @@ export default function SubtitlesPage() {
               </div>
             </div>
             <h2 className="text-zinc-50 text-balance text-sm md:text-base">
-              Descarga tu subtítulo en la sección debajo.
+              Acomódate y disfrutá tu película subtitulada 🍿
             </h2>
           </div>
           <div>
