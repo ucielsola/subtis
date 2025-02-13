@@ -12,9 +12,9 @@ export function Header() {
         </Link>
         <Link
           to="/search"
-          className="text-sm text-zinc-50 font-medium px-4 py-1.5 bg-zinc-950/40 backdrop-blur-md rounded-full hover:bg-zinc-950/60 transition-all ease-in-out duration-300"
+          className="text-zinc-50 text-sm font-medium px-4 py-1.5 bg-zinc-50/10 backdrop-blur-md rounded-full hover:bg-zinc-50/20 transition-all ease-in-out duration-300"
         >
-          Buscar por película
+          Buscar por título
         </Link>
       </nav>
     </header>
