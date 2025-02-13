@@ -45,6 +45,7 @@ import { PosterDisclosure } from "~/features/movie/poster-disclosure";
 
 // hooks
 import { useCinemas } from "~/hooks/use-cinemas";
+import { useJustWatch } from "~/hooks/use-justwatch";
 import { useLetterboxd } from "~/hooks/use-letterboxd";
 import { usePlatforms } from "~/hooks/use-platforms";
 import { useRottenTomatoes } from "~/hooks/use-rottentomatoes";
@@ -190,6 +191,7 @@ export default function SubtitlesPage() {
   const { data: titleCinemas } = useCinemas("message" in loaderData ? undefined : loaderData.title.slug);
   const { data: titlePlatforms } = usePlatforms("message" in loaderData ? undefined : loaderData.title.slug);
 
+  const { data: titleJustWatch } = useJustWatch("message" in loaderData ? undefined : loaderData.title.slug);
   const { data: titleLetterboxd } = useLetterboxd("message" in loaderData ? undefined : loaderData.title.slug);
   const { data: titleRottenTomatoes } = useRottenTomatoes("message" in loaderData ? undefined : loaderData.title.slug);
 
@@ -683,6 +685,7 @@ export default function SubtitlesPage() {
             rating={loaderData.title.rating}
             youtubeId={titleTeaser && !("message" in titleTeaser) ? titleTeaser.youTubeVideoId : null}
             letterboxdLink={titleLetterboxd?.link ?? null}
+            justwatchLink={titleJustWatch?.link ?? null}
             rottenTomatoesLink={titleRottenTomatoes?.link ?? null}
           />
         </aside>

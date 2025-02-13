@@ -246,6 +246,7 @@ export type Database = {
           created_at: string;
           id: number;
           imdb_id: string;
+          justwatch_id: string | null;
           last_queried_at: string | null;
           letterboxd_id: string | null;
           logo: string | null;
@@ -278,6 +279,7 @@ export type Database = {
           created_at?: string;
           id?: number;
           imdb_id: string;
+          justwatch_id?: string | null;
           last_queried_at?: string | null;
           letterboxd_id?: string | null;
           logo?: string | null;
@@ -310,6 +312,7 @@ export type Database = {
           created_at?: string;
           id?: number;
           imdb_id?: string;
+          justwatch_id?: string | null;
           last_queried_at?: string | null;
           letterboxd_id?: string | null;
           logo?: string | null;

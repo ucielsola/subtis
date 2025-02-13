@@ -11,6 +11,10 @@ export const titleLetterboxdSlugResponseSchema = z.object({
   link: z.string(),
 });
 
+export const titleJustWatchSlugResponseSchema = z.object({
+  link: z.string(),
+});
+
 export const titleRottenTomatoesSlugResponseSchema = z.object({
   link: z.string(),
 });

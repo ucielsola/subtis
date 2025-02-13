@@ -30,6 +30,7 @@ import type { AppVariables } from "../../lib/types";
 
 // schemas
 import {
+  titleJustWatchSlugResponseSchema,
   titleLetterboxdSlugResponseSchema,
   titleRottenTomatoesSlugResponseSchema,
   titleTeaserFileNameResponseSchema,
@@ -199,7 +200,7 @@ export const providers = new Hono<{ Variables: AppVariables }>()
 
       return context.json(finalResponse.data);
     },
-    cache({ cacheName: "subtis-api-providers", cacheControl: `max-age=${timestring("1 week")}` }),
+    cache({ cacheName: "subtis-api-providers", cacheControl: `max-age=${timestring("1 month")}` }),
   )
   .get(
     "/letterboxd/:slug",
@@ -269,7 +270,77 @@ export const providers = new Hono<{ Variables: AppVariables }>()
         }
       }
     },
-    cache({ cacheName: "subtis-api-providers", cacheControl: `max-age=${timestring("1 week")}` }),
+    cache({ cacheName: "subtis-api-providers", cacheControl: `max-age=${timestring("1 month")}` }),
+  )
+  .get(
+    "/justwatch/:slug",
+    describeRoute({
+      tags: ["Providers (2)"],
+      description: "Get title JustWatch from slug",
+      responses: {
+        200: {
+          description: "Successful JustWatch response",
+          content: {
+            "application/json": {
+              schema: resolver(titleJustWatchSlugResponseSchema),
+            },
+          },
+          404: {
+            description: "Title JustWatch not found",
+            content: {
+              "application/json": {
+                schema: resolver(z.object({ message: z.string() })),
+              },
+            },
+          },
+          500: {
+            description: "An error occurred",
+            content: {
+              "application/json": {
+                schema: resolver(z.object({ message: z.string(), error: z.string() })),
+              },
+            },
+          },
+        },
+      },
+    }),
+    zValidator("param", z.object({ slug: z.string().openapi({ example: " babygirl-2024" }) })),
+    async (context) => {
+      const { slug } = context.req.valid("param");
+
+      const supabaseClient = getSupabaseClient(context);
+
+      const { data: foundSlug } = await supabaseClient.from("Titles").select("justwatch_id").match({ slug }).single();
+
+      if (foundSlug?.justwatch_id) {
+        return context.json({ link: `https://www.justwatch.com/us/movie/${foundSlug.justwatch_id}` });
+      }
+
+      const standardLink = `https://www.justwatch.com/us/movie/${slug}`;
+      const response = await fetch(standardLink);
+
+      if (response.status === 200) {
+        await supabaseClient.from("Titles").update({ justwatch_id: slug }).match({ slug });
+        return context.json({ link: standardLink });
+      }
+
+      if (response.status === 404) {
+        const slugWithoutYear = slug.split("-").slice(0, -1).join("-");
+        const newLink = `https://www.justwatch.com/us/movie/${slugWithoutYear}`;
+        const newLinkResponse = await fetch(newLink);
+
+        if (newLinkResponse.status === 200) {
+          await supabaseClient.from("Titles").update({ justwatch_id: slugWithoutYear }).match({ slug });
+          return context.json({ link: newLink });
+        }
+
+        if (newLinkResponse.status === 404) {
+          context.status(404);
+          return context.json({ message: "Title JustWatch not found" });
+        }
+      }
+    },
+    cache({ cacheName: "subtis-api-providers", cacheControl: `max-age=${timestring("1 month")}` }),
   )
   .get(
     "/rottentomatoes/:slug",
@@ -344,5 +415,5 @@ export const providers = new Hono<{ Variables: AppVariables }>()
         }
       }
     },
-    cache({ cacheName: "subtis-api-providers", cacheControl: `max-age=${timestring("1 week")}` }),
+    cache({ cacheName: "subtis-api-providers", cacheControl: `max-age=${timestring("1 month")}` }),
   );

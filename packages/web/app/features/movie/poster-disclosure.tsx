@@ -46,6 +46,7 @@ type Props = {
   youtubeId: string | null;
   letterboxdLink: string | null;
   rottenTomatoesLink: string | null;
+  justwatchLink: string | null;
 };
 
 export function PosterDisclosure({
@@ -57,6 +58,7 @@ export function PosterDisclosure({
   overview,
   rating,
   youtubeId,
+  justwatchLink,
   letterboxdLink,
   rottenTomatoesLink,
 }: Props) {
@@ -156,6 +158,16 @@ export function PosterDisclosure({
                       className="text-zinc-50 underline text-sm hover:text-zinc-300"
                     >
                       Letterboxd
+                    </a>
+                  ) : null}
+                  {justwatchLink ? (
+                    <a
+                      href={justwatchLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-zinc-50 underline text-sm hover:text-zinc-300"
+                    >
+                      JustWatch
                     </a>
                   ) : null}
                 </div>

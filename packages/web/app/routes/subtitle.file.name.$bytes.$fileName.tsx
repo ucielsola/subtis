@@ -36,6 +36,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip
 
 // hooks
 import { useCinemas } from "~/hooks/use-cinemas";
+import { useJustWatch } from "~/hooks/use-justwatch";
 import { useLetterboxd } from "~/hooks/use-letterboxd";
 import { usePlatforms } from "~/hooks/use-platforms";
 import { useRottenTomatoes } from "~/hooks/use-rottentomatoes";
@@ -107,6 +108,7 @@ export default function SubtitlePage() {
   const { data: titleCinemas } = useCinemas(loaderData.title.imdb_id);
   const { data: titlePlatforms } = usePlatforms(loaderData.title.imdb_id);
 
+  const { data: titleJustWatch } = useJustWatch(loaderData.title.slug);
   const { data: titleLetterboxd } = useLetterboxd(loaderData.title.slug);
   const { data: titleRottenTomatoes } = useRottenTomatoes(loaderData.title.slug);
 
@@ -545,6 +547,7 @@ export default function SubtitlePage() {
             imdbId={loaderData.title.imdb_id}
             overview={loaderData.title.overview}
             rating={loaderData.title.rating}
+            justwatchLink={titleJustWatch?.link ?? null}
             letterboxdLink={titleLetterboxd?.link ?? null}
             rottenTomatoesLink={titleRottenTomatoes?.link ?? null}
             youtubeId={titleTeaser && !("message" in titleTeaser) ? titleTeaser.youTubeVideoId : null}
