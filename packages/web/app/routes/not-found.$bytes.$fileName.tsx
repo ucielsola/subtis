@@ -2,13 +2,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
 import { useLoaderData, useParams } from "@remix-run/react";
 import { Link } from "@remix-run/react";
-import type { ColumnDef } from "@tanstack/react-table";
+import { parseMedia } from "@remotion/media-parser";
 import { AnimatePresence, motion, useAnimation } from "motion/react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { transformSrtTracks } from "srt-support-for-html5-videos";
 import { z } from "zod";
 
 // api
-import { type SubtitleNormalized, subtitleNormalizedSchema } from "@subtis/api/lib/parsers";
+import { subtitleNormalizedSchema } from "@subtis/api/lib/parsers";
 
 // shared external
 import { getIsCinemaRecording } from "@subtis/shared";
@@ -20,130 +22,25 @@ import { VideoDropzone } from "~/components/shared/video-dropzone";
 import { AirplaneIcon } from "~/components/icons/airplane";
 import { BadgeAlertIcon } from "~/components/icons/badge-alert";
 import { DownloadIcon } from "~/components/icons/download";
+import { Play } from "~/components/icons/play";
 
 // lib
 import { apiClient } from "~/lib/api";
 import { cn } from "~/lib/utils";
 
 // ui
+import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import DotPattern from "~/components/ui/dot-pattern";
 import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Separator } from "~/components/ui/separator";
-import { ToastAction } from "~/components/ui/toast";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
-
-// hooks
-import { useToast } from "~/hooks/use-toast";
 
 // schemas
 const formSchema = z.object({
   email: z.string().email({ message: "Ingresa una dirección de correo válida." }),
 });
-
-// constants
-export const columns: ColumnDef<SubtitleNormalized>[] = [
-  {
-    accessorKey: "index",
-    header: "#",
-    cell: ({ row }) => {
-      return <div className="w-2">{row.index + 1}</div>;
-    },
-    enableSorting: false,
-  },
-  {
-    accessorKey: "subtitle.resolution",
-    header: "Resolución",
-    enableSorting: false,
-  },
-  {
-    accessorKey: "release_group.release_group_name",
-    header: "Publicador",
-    enableSorting: false,
-    cell: ({ row }) => {
-      return (
-        <Tooltip>
-          <TooltipTrigger className="truncate w-20 cursor-default text-left">
-            {row.original.release_group.release_group_name}
-          </TooltipTrigger>
-          <TooltipContent>{row.original.release_group.release_group_name}</TooltipContent>
-        </Tooltip>
-      );
-    },
-  },
-  {
-    accessorKey: "subtitle.rip_type",
-    header: "Formato",
-    enableSorting: false,
-  },
-  {
-    accessorKey: "subtitle.queried_times",
-    header: "Descargas",
-    enableSorting: false,
-  },
-  {
-    accessorKey: "",
-    header: "Acciones",
-    enableSorting: false,
-    cell: ({ row }) => {
-      // motion hooks
-      const controls = useAnimation();
-
-      // toast hooks
-      const { toast } = useToast();
-
-      // handlers
-      async function handleDownloadSubtitle() {
-        await apiClient.v1.subtitle.metrics.download.$patch({
-          json: { titleSlug: row.original.title.slug, subtitleId: row.original.subtitle.id },
-        });
-
-        toast({
-          title: "Disfruta de tu subtítulo!",
-          description: (
-            <p className="flex flex-row items-center gap-1">
-              Compartí tu experiencia en <img src="/x.svg" alt="X" className="w-3 h-3" />
-            </p>
-          ),
-          action: (
-            <ToastAction
-              altText="Compartir"
-              onClick={() => {
-                window.open(
-                  `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                    `Encontré mis subtítulos para "${row.original.title.title_name}" en @subt_is.`,
-                  )}`,
-                  "_blank",
-                );
-              }}
-            >
-              Compartir
-            </ToastAction>
-          ),
-        });
-      }
-
-      return (
-        <Tooltip>
-          <TooltipTrigger>
-            <a
-              href={row.original.subtitle.subtitle_link}
-              download
-              className="inline-flex items-center gap-1 p-1"
-              onMouseEnter={() => controls.start("animate")}
-              onMouseLeave={() => controls.start("normal")}
-              onClick={handleDownloadSubtitle}
-            >
-              <DownloadIcon size={16} controls={controls} />
-            </a>
-          </TooltipTrigger>
-          <TooltipContent side="bottom">Descargar subtítulo</TooltipContent>
-        </Tooltip>
-      );
-    },
-  },
-];
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { fileName } = params;
@@ -192,12 +89,20 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
 export default function NotFoundSubtitlePage() {
   // remix hooks
-  const data = useLoaderData<typeof loader>();
+  const loaderData = useLoaderData<typeof loader>();
+
+  // react hooks
+  const player = useRef<HTMLVideoElement>(null);
+
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+  const [hasVideoError, setHasVideoError] = useState<boolean>(false);
+  const [captionBlobUrl, setCaptionBlobUrl] = useState<string | null>(null);
 
   // navigation hooks
   const { bytes, fileName } = useParams();
 
   // motion hooks
+  const playControls = useAnimation();
   const downloadControls = useAnimation();
 
   // form hooks
@@ -205,6 +110,93 @@ export default function NotFoundSubtitlePage() {
     resolver: zodResolver(formSchema),
     defaultValues: { email: "" },
   });
+
+  // effects
+  useEffect(
+    function fetchSubtitle(): void {
+      const fetchCaptions = async (subtitleUrl: string) => {
+        try {
+          const response = await fetch(subtitleUrl);
+
+          if (!response.ok) {
+            throw new Error("Failed to fetch captions");
+          }
+
+          const blob = await response.blob();
+          const blobUrl = URL.createObjectURL(blob);
+
+          setCaptionBlobUrl(blobUrl);
+        } catch (error) {
+          console.error("Error fetching captions:", error);
+        }
+      };
+
+      if ("message" in loaderData) {
+        return;
+      }
+
+      fetchCaptions(loaderData.subtitle.subtitle_link);
+    },
+    [loaderData],
+  );
+
+  useEffect(
+    function transformSrtTracksToVtt(): void {
+      if (player.current && captionBlobUrl) {
+        const hasTransformed = player.current.dataset.transformed;
+
+        if (!hasTransformed) {
+          transformSrtTracks(player.current);
+          player.current.dataset.transformed = "true";
+        }
+      }
+    },
+    [captionBlobUrl],
+  );
+
+  useEffect(function listenFullscreenChange() {
+    const pauseVideoOnExitFullscreen = () => {
+      if (!document.fullscreenElement) {
+        setIsFullscreen(false);
+        player.current?.pause();
+      }
+    };
+
+    document.addEventListener("fullscreenchange", pauseVideoOnExitFullscreen);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", pauseVideoOnExitFullscreen);
+    };
+  }, []);
+
+  useEffect(
+    function throwErrorIfAudioCodecIsUnsupported() {
+      async function throwErrorOnUnsupportedAudioCodec() {
+        const videoSource = typeof window !== "undefined" && fileName ? localStorage.getItem(fileName) : null;
+
+        if (!videoSource) {
+          return;
+        }
+
+        try {
+          const { audioCodec } = await parseMedia({
+            src: videoSource,
+            fields: { audioCodec: true },
+          });
+
+          if (!audioCodec) {
+            setHasVideoError(true);
+          }
+        } catch (error) {
+          setHasVideoError(true);
+          console.error("Error parsing video:", error);
+        }
+      }
+
+      throwErrorOnUnsupportedAudioCodec();
+    },
+    [fileName],
+  );
 
   // handlers
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -217,14 +209,42 @@ export default function NotFoundSubtitlePage() {
     });
   }
 
+  async function handlePlaySubtitle(): Promise<void> {
+    const videoElement = player.current;
+
+    if (videoElement) {
+      videoElement.play();
+      await videoElement.requestFullscreen();
+
+      setIsFullscreen(true);
+    }
+  }
+
+  function handleVideoError(): void {
+    setHasVideoError(true);
+  }
+
   // constants
+  const isAviFile = fileName?.endsWith(".avi");
+  const isMkvFile = fileName?.endsWith(".mkv");
+  const isMp4File = fileName?.endsWith(".mp4");
+  const isSupportedFileExtension = isMp4File || isMkvFile || isAviFile;
+  const videoType = isAviFile ? "video/avi" : "video/mp4";
+
+  const videoSource = typeof window !== "undefined" && fileName ? localStorage.getItem(fileName) : null;
+  const displayVideoElements = videoSource && captionBlobUrl && isSupportedFileExtension && !hasVideoError;
+
   const isCinemaRecording = getIsCinemaRecording(fileName as string);
+
+  const { runtime } = "message" in loaderData ? { runtime: null } : loaderData.title;
+  const totalHours = runtime ? Math.floor(runtime / 60) : null;
+  const totalMinutes = runtime ? runtime % 60 : null;
 
   return (
     <div className="pt-24 pb-48 flex flex-col lg:flex-row justify-between gap-4">
       <article className="max-w-xl w-full">
         <section className="flex flex-col gap-12">
-          {"message" in data ? (
+          {"message" in loaderData ? (
             <div className="flex flex-col gap-4">
               <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold">Lo sentimos :(</h1>
               <div className="flex flex-col gap-1">
@@ -235,15 +255,23 @@ export default function NotFoundSubtitlePage() {
             </div>
           ) : (
             <div className="flex flex-col gap-4">
-              <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold">Lo sentimos :(</h1>
+              <div className="flex flex-col gap-2">
+                <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold text-balance">
+                  {loaderData.title.title_name}
+                </h1>
+                <div className="flex flex-row gap-2">
+                  <Badge variant="outline">{loaderData.title.year}</Badge>
+                  <Badge variant="outline">{`${totalHours ? `${totalHours}h ` : ""}${totalMinutes ? `${totalMinutes}m` : ""}`}</Badge>
+                </div>
+              </div>
               <div className="flex flex-col gap-1">
                 <h2 className="text-zinc-50 text-sm md:text-base">
                   No encontramos el subtítulo específico para tu versión.
                 </h2>
                 <p className="text-zinc-300 text-xs md:text-sm">
-                  Probá con la siguiente versión de{" "}
-                  <Link to={`/subtitles/movie/${data.title.imdb_id}`} className="hover:underline text-zinc-50">
-                    {data.title.title_name} ({data.title.year})
+                  Probá con la siguiente versión alternativa de{" "}
+                  <Link to={`/subtitles/movie/${loaderData.title.imdb_id}`} className="hover:underline text-zinc-50">
+                    {loaderData.title.title_name} ({loaderData.title.year})
                   </Link>
                   .
                 </p>
@@ -251,20 +279,63 @@ export default function NotFoundSubtitlePage() {
             </div>
           )}
 
-          {"message" in data ? null : (
-            <Button asChild size="sm">
-              <a
-                download
-                className="w-fit"
-                href={data.subtitle.subtitle_link}
-                onMouseEnter={() => downloadControls.start("animate")}
-                onMouseLeave={() => downloadControls.start("normal")}
-              >
-                <DownloadIcon size={18} controls={downloadControls} />
-                Descargar Subtítulo
-              </a>
-            </Button>
+          {"message" in loaderData ? null : (
+            <article className="flex flex-row gap-4">
+              {displayVideoElements ? (
+                <Button
+                  size="sm"
+                  onClick={handlePlaySubtitle}
+                  onMouseEnter={() => playControls.start("animate")}
+                  onMouseLeave={() => playControls.start("normal")}
+                >
+                  <Play size={18} controls={playControls} isWrapped={false} />
+                  Reproducir Video
+                </Button>
+              ) : (
+                <Tooltip>
+                  <TooltipTrigger className="cursor-not-allowed">
+                    <Button
+                      size="sm"
+                      disabled
+                      onClick={handlePlaySubtitle}
+                      onMouseEnter={() => playControls.start("animate")}
+                      onMouseLeave={() => playControls.start("normal")}
+                    >
+                      <Play size={18} controls={playControls} isWrapped={false} />
+                      Reproducir Video
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom">Tu navegador no soporta el video</TooltipContent>
+                </Tooltip>
+              )}
+              <Button asChild variant="ghost" size="sm">
+                <a
+                  download
+                  href={loaderData.subtitle.subtitle_link}
+                  onMouseEnter={() => downloadControls.start("animate")}
+                  onMouseLeave={() => downloadControls.start("normal")}
+                  className="hover:bg-zinc-800 bg-zinc-900 transition-all ease-in-out rounded-sm"
+                >
+                  <DownloadIcon size={18} controls={downloadControls} />
+                  Descargar Subtítulo
+                </a>
+              </Button>
+            </article>
           )}
+
+          {displayVideoElements ? (
+            // biome-ignore lint/a11y/useMediaCaption: track is defined but idk why
+            <video
+              controls
+              ref={player}
+              className="w-0 h-0"
+              onError={handleVideoError}
+              style={{ opacity: isFullscreen ? 1 : 0 }}
+            >
+              <source src={videoSource} type={videoType} />
+              <track kind="subtitles" src={captionBlobUrl} srcLang="es" label="Español latino" default />
+            </video>
+          ) : null}
 
           <AnimatePresence mode="wait">
             {!form.formState.isSubmitSuccessful && !isCinemaRecording ? (
