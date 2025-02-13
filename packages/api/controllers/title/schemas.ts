@@ -6,7 +6,7 @@ import { titleMetadataSchema } from "../../lib/schemas";
 // schemas
 export const titleMetadataSlugResponseSchema = titleMetadataSchema
   .omit({ subtitles: true })
-  .extend({ total_subtitles: z.number() });
+  .extend({ total_subtitles: z.number(), subtitle_ids: z.array(z.number()) });
 
 export const titleTeaserFileNameResponseSchema = z.object({
   year: z.number(),

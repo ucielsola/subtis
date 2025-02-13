@@ -24,79 +24,6 @@ import {
 // router
 export const title = new Hono<{ Variables: AppVariables }>()
   .get(
-    "/metadata/:slug",
-    describeRoute({
-      hide: true,
-      tags: ["Title (2)"],
-      description: "Get title metadata",
-      responses: {
-        200: {
-          description: "Successful title metadata response",
-          content: {
-            "application/json": {
-              schema: resolver(titleMetadataSlugResponseSchema),
-            },
-          },
-          404: {
-            description: "Title not found",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
-            },
-          },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
-            },
-          },
-        },
-      },
-    }),
-    zValidator("param", z.object({ slug: z.string().openapi({ example: "nosferatu-2024" }) })),
-    async (context) => {
-      const { slug } = context.req.valid("param");
-
-      const { data, error } = await getSupabaseClient(context)
-        .from("Titles")
-        .select(titleMetadataQuery)
-        .match({ slug })
-        .single();
-
-      if (error && error.code === "PGRST116") {
-        context.status(404);
-        return context.json({ message: "Title not found" });
-      }
-
-      if (error) {
-        context.status(500);
-        return context.json({ message: "An error occurred", error: error.message });
-      }
-
-      const titleBySlug = titleMetadataSchema.safeParse(data);
-
-      if (titleBySlug.error) {
-        context.status(500);
-        return context.json({ message: "An error occurred", error: titleBySlug.error.issues[0].message });
-      }
-
-      const { subtitles, ...rest } = titleBySlug.data;
-      const total_subtitles = subtitles.length;
-
-      const finalResponse = titleMetadataSlugResponseSchema.safeParse({ ...rest, total_subtitles });
-
-      if (finalResponse.error) {
-        context.status(500);
-        return context.json({ message: "An error occurred", error: finalResponse.error.issues[0].message });
-      }
-
-      return context.json(finalResponse.data);
-    },
-  )
-  .get(
     "/cinemas/:slug",
     describeRoute({
       tags: ["Title (2)"],
@@ -297,6 +224,84 @@ export const title = new Hono<{ Variables: AppVariables }>()
       return context.json(finalResponse.data);
     },
     cache({ cacheName: "subtis-api-title", cacheControl: `max-age=${timestring("1 day")}` }),
+  )
+  .get(
+    "/metadata/:slug",
+    describeRoute({
+      hide: true,
+      tags: ["Title (2)"],
+      description: "Get title metadata",
+      responses: {
+        200: {
+          description: "Successful title metadata response",
+          content: {
+            "application/json": {
+              schema: resolver(titleMetadataSlugResponseSchema),
+            },
+          },
+          404: {
+            description: "Title not found",
+            content: {
+              "application/json": {
+                schema: resolver(z.object({ message: z.string() })),
+              },
+            },
+          },
+          500: {
+            description: "An error occurred",
+            content: {
+              "application/json": {
+                schema: resolver(z.object({ message: z.string(), error: z.string() })),
+              },
+            },
+          },
+        },
+      },
+    }),
+    zValidator("param", z.object({ slug: z.string().openapi({ example: "nosferatu-2024" }) })),
+    async (context) => {
+      const { slug } = context.req.valid("param");
+
+      const { data, error } = await getSupabaseClient(context)
+        .from("Titles")
+        .select(titleMetadataQuery)
+        .match({ slug })
+        .single();
+
+      if (error && error.code === "PGRST116") {
+        context.status(404);
+        return context.json({ message: "Title not found" });
+      }
+
+      if (error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error: error.message });
+      }
+
+      const titleBySlug = titleMetadataSchema.safeParse(data);
+
+      if (titleBySlug.error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error: titleBySlug.error.issues[0].message });
+      }
+
+      const { subtitles, ...rest } = titleBySlug.data;
+      const total_subtitles = subtitles.length;
+
+      const subtitlesIds = subtitles.map(({ id }) => id);
+      const finalResponse = titleMetadataSlugResponseSchema.safeParse({
+        ...rest,
+        total_subtitles,
+        subtitle_ids: subtitlesIds,
+      });
+
+      if (finalResponse.error) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error: finalResponse.error.issues[0].message });
+      }
+
+      return context.json(finalResponse.data);
+    },
   )
   .patch(
     "/metrics/search",
