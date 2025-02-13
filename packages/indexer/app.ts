@@ -570,7 +570,7 @@ async function addWatermarkToSubtitle({
       const [_id, timestamp] = firstSubtitle.split("\n");
       const firstSubtitleTimestamp = timestamp.split(" ").at(0) as string;
 
-      const MAX_WATERMARK_TIME = "00:00:06,000";
+      const MAX_WATERMARK_TIME = "00:00:12,000";
 
       const [firstHours, firstMinutes, firstSecondsAndMs] = firstSubtitleTimestamp.split(":");
       const [firstSeconds, firstMs] = firstSecondsAndMs.split(",");
