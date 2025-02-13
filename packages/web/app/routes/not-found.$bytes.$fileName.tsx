@@ -270,7 +270,7 @@ export default function NotFoundSubtitlePage() {
                 </h2>
                 <p className="text-zinc-300 text-xs md:text-sm">
                   Probá con la siguiente versión alternativa de{" "}
-                  <Link to={`/subtitles/movie/${loaderData.title.imdb_id}`} className="hover:underline text-zinc-50">
+                  <Link to={`/subtitles/movie/${loaderData.title.slug}`} className="hover:underline text-zinc-50">
                     {loaderData.title.title_name} ({loaderData.title.year})
                   </Link>
                   .
