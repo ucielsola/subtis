@@ -164,6 +164,24 @@ export default function RealTimeSearchPage() {
         return;
       }
 
+      const alternativeSubtitleResponse = await apiClient.v1.subtitle.file.alternative[":fileName"].$get({
+        param: {
+          fileName,
+        },
+      });
+
+      if (alternativeSubtitleResponse.status === 200) {
+        toast({
+          title: "¡Subtítulo alternativo encontrado!",
+          description: "Te redireccionaremos en 3 segundos...",
+        });
+
+        setTimeout(() => {
+          navigate(`/not-found/${bytes}/${fileName}`);
+        }, 3000);
+        return;
+      }
+
       navigate(`/not-found/${bytes}/${fileName}`);
       return;
     }
