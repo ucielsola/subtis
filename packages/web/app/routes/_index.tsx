@@ -1,3 +1,4 @@
+import { z } from "zod";
 import type { MetaFunction } from "@remix-run/cloudflare";
 import { Fragment } from "react/jsx-runtime";
 
@@ -10,13 +11,12 @@ import { HomeFeatures } from "~/features/home/features";
 import { HomeHero } from "~/features/home/hero";
 import { HomeTrending } from "~/features/home/trending";
 
-import { z } from "zod";
 // lib
 import { apiClient } from "~/lib/api";
 
 // meta
 export const meta: MetaFunction = () => {
-  return [{ title: "Subtis" }, { name: "description", content: "Subtítutlos para todas tus películas" }];
+  return [{ title: "Subtis" }, { name: "description", content: "Subtítulos para todas tus películas" }];
 };
 
 export const loader = async () => {
