@@ -124,33 +124,11 @@ export default function SubtitlesPage() {
   // toast hooks
   const { toast } = useToast();
 
-  // handlers
-  function handleCopyEmailToClipboard() {
-    navigator.clipboard.writeText("soporte@subtis.io");
-
-    toast({
-      title: "¡Email copiado a tu clipboard!",
-      description: "Escribinos y te responderemos lo antes posible.",
-    });
-  }
-
-  // handlers
-  async function handleDownloadSubtitle({
-    titleSlug,
-    subtitleId,
-    titleName,
-  }: {
-    titleSlug: string;
-    subtitleId: number;
-    titleName: string;
-  }) {
+  // helpers
+  function triggerShareToast(): void {
     if ("message" in loaderData) {
       return;
     }
-
-    await apiClient.v1.subtitle.metrics.download.$patch({
-      json: { titleSlug, subtitleId },
-    });
 
     toast({
       title: "¡Disfruta de tu subtítulo!",
@@ -165,7 +143,7 @@ export default function SubtitlesPage() {
           onClick={() => {
             window.open(
               `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                `Encontré mis subtítulos para "${titleName}" en @subt_is.`,
+                `Encontré mis subtítulos para "${loaderData.title.title_name}" en @subt_is.`,
               )}`,
               "_blank",
             );
@@ -175,6 +153,35 @@ export default function SubtitlesPage() {
         </ToastAction>
       ),
     });
+  }
+
+  // handlers
+  function handleCopyEmailToClipboard() {
+    navigator.clipboard.writeText("soporte@subtis.io");
+
+    toast({
+      title: "¡Email copiado a tu clipboard!",
+      description: "Escribinos y te responderemos lo antes posible.",
+    });
+  }
+
+  // handlers
+  async function handleDownloadSubtitle({
+    titleSlug,
+    subtitleId,
+  }: {
+    titleSlug: string;
+    subtitleId: number;
+  }) {
+    if ("message" in loaderData) {
+      return;
+    }
+
+    await apiClient.v1.subtitle.metrics.download.$patch({
+      json: { titleSlug, subtitleId },
+    });
+
+    triggerShareToast();
   }
 
   function handleToggleAdvancedMode(): void {
@@ -338,7 +345,6 @@ export default function SubtitlesPage() {
               onClick={() =>
                 handleDownloadSubtitle({
                   titleSlug: loaderData.title.slug,
-                  titleName: loaderData.title.title_name,
                   subtitleId: row.original.subtitle.id,
                 })
               }
@@ -412,6 +418,7 @@ export default function SubtitlesPage() {
                   onMouseEnter={() => downloadControls.start("animate")}
                   onMouseLeave={() => downloadControls.start("normal")}
                   className={`transition-all ease-in-out duration-300 ${isAdvancedModeEnabled ? "opacity-30 pointer-events-none" : "opacity-100"}`}
+                  onClick={triggerShareToast}
                 >
                   <DownloadIcon size={18} controls={downloadControls} />
                   Descargar Subtítulo

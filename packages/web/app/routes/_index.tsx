@@ -1,6 +1,6 @@
-import { z } from "zod";
 import type { MetaFunction } from "@remix-run/cloudflare";
 import { Fragment } from "react/jsx-runtime";
+import { z } from "zod";
 
 // api
 import { trendingSubtitlesResponseSchema } from "@subtis/api/controllers/titles/schemas";

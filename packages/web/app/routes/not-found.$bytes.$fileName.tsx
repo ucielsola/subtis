@@ -36,6 +36,10 @@ import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Separator } from "~/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
+import { ToastAction } from "~/components/ui/toast";
+
+// hooks
+import { toast } from "~/hooks/use-toast";
 
 // schemas
 const formSchema = z.object({
@@ -198,6 +202,37 @@ export default function NotFoundSubtitlePage() {
     [fileName],
   );
 
+  // helpers
+  function triggerShareToast(): void {
+    if ("message" in loaderData) {
+      return;
+    }
+
+    toast({
+      title: "¡Disfruta de tu subtítulo!",
+      description: (
+        <p className="flex flex-row items-center gap-1">
+          Compartí tu experiencia en <img src="/x.svg" alt="X" className="w-3 h-3" />
+        </p>
+      ),
+      action: (
+        <ToastAction
+          altText="Compartir"
+          onClick={() => {
+            window.open(
+              `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                `Encontré mis subtítulos para "${loaderData.title.title_name}" en @subt_is.`,
+              )}`,
+              "_blank",
+            );
+          }}
+        >
+          Compartir
+        </ToastAction>
+      ),
+    });
+  }
+
   // handlers
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (!bytes || !fileName) {
@@ -314,6 +349,7 @@ export default function NotFoundSubtitlePage() {
               <Button asChild variant="ghost" size="sm">
                 <a
                   download
+                  onClick={triggerShareToast}
                   href={loaderData.subtitle.subtitle_link}
                   onMouseEnter={() => downloadControls.start("animate")}
                   onMouseLeave={() => downloadControls.start("normal")}

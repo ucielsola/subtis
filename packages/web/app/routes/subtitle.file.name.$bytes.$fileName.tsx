@@ -210,15 +210,11 @@ export default function SubtitlePage() {
     [fileName],
   );
 
-  // handlers
-  async function handleDownloadSubtitle() {
+  // helpers
+  function triggerShareToast(): void {
     if ("message" in loaderData) {
       return;
     }
-
-    await apiClient.v1.subtitle.metrics.download.$patch({
-      json: { titleSlug: loaderData.title.slug, subtitleId: loaderData.subtitle.id },
-    });
 
     toast({
       title: "¡Disfruta de tu subtítulo!",
@@ -243,6 +239,19 @@ export default function SubtitlePage() {
         </ToastAction>
       ),
     });
+  }
+
+  // handlers
+  async function handleDownloadSubtitle() {
+    if ("message" in loaderData) {
+      return;
+    }
+
+    await apiClient.v1.subtitle.metrics.download.$patch({
+      json: { titleSlug: loaderData.title.slug, subtitleId: loaderData.subtitle.id },
+    });
+
+    triggerShareToast();
   }
 
   async function handlePlaySubtitle(): Promise<void> {
