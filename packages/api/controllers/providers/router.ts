@@ -325,16 +325,28 @@ export const providers = new Hono<{ Variables: AppVariables }>()
       }
 
       if (response.status === 404) {
+        const slugArray = slug.split("-");
+        const year = Number(slugArray.at(-1));
         const slugWithoutYear = slug.split("-").slice(0, -1).join("-");
-        const newLink = `https://www.justwatch.com/us/movie/${slugWithoutYear}`;
+
+        const newSlug = `${slugWithoutYear}-${year - 1}`;
+        const newLink = `https://www.justwatch.com/us/movie/${newSlug}`;
         const newLinkResponse = await fetch(newLink);
 
         if (newLinkResponse.status === 200) {
-          await supabaseClient.from("Titles").update({ justwatch_id: slugWithoutYear }).match({ slug });
+          await supabaseClient.from("Titles").update({ justwatch_id: newSlug }).match({ slug });
           return context.json({ link: newLink });
         }
 
         if (newLinkResponse.status === 404) {
+          const newLink = `https://www.justwatch.com/us/movie/${slugWithoutYear}`;
+          const newLinkResponse = await fetch(newLink);
+
+          if (newLinkResponse.status === 200) {
+            await supabaseClient.from("Titles").update({ justwatch_id: slugWithoutYear }).match({ slug });
+            return context.json({ link: newLink });
+          }
+
           context.status(404);
           return context.json({ message: "Title JustWatch not found" });
         }
@@ -400,16 +412,28 @@ export const providers = new Hono<{ Variables: AppVariables }>()
       }
 
       if (response.status === 404) {
-        const slugWithoutYear = rottenTomatoesSlug.split("_").slice(0, -1).join("_");
-        const newLink = `https://www.rottentomatoes.com/m/${slugWithoutYear}`;
+        const slugArray = rottenTomatoesSlug.split("_");
+        const year = Number(slugArray.at(-1));
+        const slugWithoutYear = slugArray.slice(0, -1).join("_");
+
+        const newSlug = `${slugWithoutYear}_${year - 1}`;
+        const newLink = `https://www.rottentomatoes.com/m/${newSlug}`;
         const newLinkResponse = await fetch(newLink);
 
         if (newLinkResponse.status === 200) {
-          await supabaseClient.from("Titles").update({ rottentomatoes_id: slugWithoutYear }).match({ slug });
+          await supabaseClient.from("Titles").update({ rottentomatoes_id: newSlug }).match({ slug });
           return context.json({ link: newLink });
         }
 
         if (newLinkResponse.status === 404) {
+          const newLink = `https://www.rottentomatoes.com/m/${slugWithoutYear}`;
+          const newLinkResponse = await fetch(newLink);
+
+          if (newLinkResponse.status === 200) {
+            await supabaseClient.from("Titles").update({ rottentomatoes_id: newSlug }).match({ slug });
+            return context.json({ link: newLink });
+          }
+
           context.status(404);
           return context.json({ message: "Title Rotten tomatoes not found" });
         }
