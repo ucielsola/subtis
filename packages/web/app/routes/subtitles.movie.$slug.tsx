@@ -367,6 +367,17 @@ export default function SubtitlesPage() {
   const totalHours = runtime ? Math.floor(runtime / 60) : null;
   const totalMinutes = runtime ? runtime % 60 : null;
 
+  const resultsWithoutDuplication = loaderData.results.filter(
+    (result, index, self) =>
+      index ===
+      self.findIndex(
+        (r) =>
+          r.subtitle.resolution === result.subtitle.resolution &&
+          r.release_group.release_group_name === result.release_group.release_group_name &&
+          r.subtitle.rip_type === result.subtitle.rip_type,
+      ),
+  );
+
   return (
     <div className="pt-24 pb-44 flex flex-col lg:flex-row justify-between gap-4">
       <article className="max-w-[630px] w-full">
@@ -413,7 +424,7 @@ export default function SubtitlesPage() {
             </div>
             {isAdvancedModeEnabled ? (
               <div className="pt-12">
-                <DataTable columns={columns} data={loaderData.results} />
+                <DataTable columns={columns} data={resultsWithoutDuplication} />
                 <p className="text-sm mt-2 text-zinc-400">
                   Si no encontrás tu subtítulo acá, podés escribirnos a{" "}
                   <button
