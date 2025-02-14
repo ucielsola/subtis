@@ -305,7 +305,10 @@ export default function NotFoundSubtitlePage() {
                       Reproducir Video
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent side="bottom">Tu navegador no soporta el video</TooltipContent>
+                  <TooltipContent side="bottom">
+                    {hasVideoError ? "No podemos reproducir el video" : ""}
+                    {!hasVideoError && !videoSource ? "No hay video disponible" : ""}
+                  </TooltipContent>
                 </Tooltip>
               )}
               <Button asChild variant="ghost" size="sm">
