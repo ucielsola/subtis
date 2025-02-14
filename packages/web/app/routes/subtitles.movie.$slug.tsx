@@ -143,7 +143,7 @@ export default function SubtitlesPage() {
           onClick={() => {
             window.open(
               `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                `Encontré mis subtítulos para "${loaderData.title.title_name}" en @subt_is.`,
+                `Encontré mis subtítulos para "${loaderData.title.title_name}" en @subt_is - #Subtis`,
               )}`,
               "_blank",
             );

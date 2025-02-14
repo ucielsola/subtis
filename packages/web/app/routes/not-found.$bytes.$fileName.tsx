@@ -35,8 +35,8 @@ import DotPattern from "~/components/ui/dot-pattern";
 import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Separator } from "~/components/ui/separator";
-import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 import { ToastAction } from "~/components/ui/toast";
+import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
 // hooks
 import { toast } from "~/hooks/use-toast";
@@ -221,7 +221,7 @@ export default function NotFoundSubtitlePage() {
           onClick={() => {
             window.open(
               `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                `Encontré mis subtítulos para "${loaderData.title.title_name}" en @subt_is.`,
+                `Encontré mis subtítulos para "${loaderData.title.title_name}" en @subt_is - #Subtis`,
               )}`,
               "_blank",
             );
