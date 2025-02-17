@@ -1,7 +1,7 @@
 {
-  "yaakVersion": "2025.1.0-beta.13",
+  "yaakVersion": "2025.1.0-beta.15",
   "yaakSchema": 3,
-  "timestamp": "2025-02-05T23:39:54.772641",
+  "timestamp": "2025-02-17T23:51:07.084571",
   "resources": {
     "workspaces": [
       {
@@ -90,6 +90,17 @@
     "folders": [
       {
         "model": "folder",
+        "id": "fl_sQpySodbfx",
+        "createdAt": "2025-02-17T23:28:17.505130",
+        "updatedAt": "2025-02-17T23:28:27.211464",
+        "workspaceId": "wk_SbrwnSjDzA",
+        "folderId": null,
+        "name": "Stats (1)",
+        "description": "",
+        "sortPriority": -1739834900000.0
+      },
+      {
+        "model": "folder",
         "id": "fl_ob31em44Zh",
         "createdAt": "2024-11-08T22:37:51",
         "updatedAt": "2025-02-05T20:16:48.616848",
@@ -167,6 +178,38 @@
       }
     ],
     "httpRequests": [
+      {
+        "model": "http_request",
+        "id": "rq_bLGSZZHPbS",
+        "createdAt": "2025-02-17T23:28:44.001190",
+        "updatedAt": "2025-02-17T23:28:44.001190",
+        "workspaceId": "wk_SbrwnSjDzA",
+        "folderId": "fl_xTpkMPcGuq",
+        "authentication": {},
+        "authenticationType": null,
+        "body": {},
+        "bodyType": null,
+        "description": "",
+        "headers": [],
+        "method": "GET",
+        "name": "Get subtitle short link by subtitle ID (/v1/subtitle/link/:subtitleId)",
+        "sortPriority": 0.001,
+        "url": "${[baseUrl]}/v1/subtitle/link/:subtitleId",
+        "urlParameters": [
+          {
+            "enabled": true,
+            "name": ":subtitleId",
+            "value": "21395",
+            "id": "S65fv3Qc0A"
+          },
+          {
+            "enabled": true,
+            "name": "",
+            "value": "",
+            "id": "Axu4ffNbZj"
+          }
+        ]
+      },
       {
         "model": "http_request",
         "id": "rq_JMyl9L64oX",
@@ -267,7 +310,7 @@
         "model": "http_request",
         "id": "rq_VL9z4jfn82",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-02-05T23:26:27.414946",
+        "updatedAt": "2025-02-13T22:57:26.577838",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
@@ -284,14 +327,14 @@
           {
             "enabled": true,
             "name": ":subtitleId",
-            "value": "21395",
+            "value": "210",
             "id": "ea9qieZuek"
           },
           {
             "enabled": true,
             "name": "",
             "value": "",
-            "id": "yYf6s8ynNV"
+            "id": "8NysPyT73F"
           }
         ]
       },
@@ -299,9 +342,9 @@
         "model": "http_request",
         "id": "rq_om9XNHwzbJ",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-02-05T20:19:20.914654",
+        "updatedAt": "2025-02-17T23:29:00.247493",
         "workspaceId": "wk_SbrwnSjDzA",
-        "folderId": "fl_xTpkMPcGuq",
+        "folderId": "fl_sQpySodbfx",
         "authentication": {},
         "authenticationType": null,
         "body": {},
@@ -311,19 +354,13 @@
         "method": "GET",
         "name": "Get subtitle short link by subtitle ID (/v1/subtitle/link/:subtitleId)",
         "sortPriority": 0.0,
-        "url": "${[baseUrl]}/v1/subtitle/link/:subtitleId",
+        "url": "${[baseUrl]}/v1/stats/all",
         "urlParameters": [
-          {
-            "enabled": true,
-            "name": ":subtitleId",
-            "value": "21395",
-            "id": "S65fv3Qc0A"
-          },
           {
             "enabled": true,
             "name": "",
             "value": "",
-            "id": "Axu4ffNbZj"
+            "id": "6U96Wfu9K2"
           }
         ]
       },
@@ -464,13 +501,13 @@
         "model": "http_request",
         "id": "rq_TSkZUrqOKj",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-02-05T20:23:46.493586",
+        "updatedAt": "2025-02-07T21:12:26.702106",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
         "authenticationType": null,
         "body": {
-          "text": "{\n  \"subtitleId\": 21398,\n  \"titleSlug\": \"the-godfather-1972\"\n}"
+          "text": "{\n  \"subtitleId\": 2,\n  \"titleSlug\": \"sonic-the-hedgehog-3-2024\"\n}"
         },
         "bodyType": "application/json",
         "description": "",
