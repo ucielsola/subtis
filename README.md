@@ -161,13 +161,10 @@ bun run update:db:dump
   bun run supabase:type:definitions
   ```
 
-  3. Remove the following 4 lines
+  3. Remove the following line you see repeated
 
   ```typescript
-  show_limit: {
     Args: Record<PropertyKey, never>;
-    Returns: number;
-  };
   ```
 
   4. Generate new zod schemas

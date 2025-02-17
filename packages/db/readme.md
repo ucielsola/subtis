@@ -112,3 +112,9 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 ```
+
+```sql
+CREATE OR REPLACE FUNCTION sum_queried_times() RETURNS BIGINT AS $$
+    SELECT SUM(s.queried_times) FROM "Subtitles" s;
+$$ LANGUAGE sql;
+```

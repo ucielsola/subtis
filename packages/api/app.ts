@@ -10,6 +10,7 @@ import type { AppVariables } from "./lib/types";
 
 // internals
 import { providers } from "./controllers/providers/router";
+import { stats } from "./controllers/stats/router";
 import { subtitle } from "./controllers/subtitle/router";
 import { subtitles } from "./controllers/subtitles/router";
 import { title } from "./controllers/title/router";
@@ -26,6 +27,7 @@ export function runApi() {
   // routes
   return app
     .basePath("/v1")
+    .route("/stats", stats)
     .route("/subtitle", subtitle)
     .route("/subtitles", subtitles)
     .route("/title", title)
@@ -36,7 +38,7 @@ export function runApi() {
       openAPISpecs(app, {
         documentation: {
           info: {
-            version: "0.5.4",
+            version: "0.5.5",
             title: "Subtis API",
             description: "API for subtitles and titles",
           },
@@ -69,6 +71,7 @@ export function runApi() {
 function defineRoutes() {
   const app = new Hono().basePath("/v1");
   const routes = app
+    .route("/stats", stats)
     .route("/title", title)
     .route("/titles", titles)
     .route("/subtitle", subtitle)

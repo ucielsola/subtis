@@ -438,11 +438,17 @@ export type Database = {
         };
         Returns: number;
       };
+      show_limit: {
+        Returns: number;
+      };
       show_trgm: {
         Args: {
           "": string;
         };
         Returns: string[];
+      };
+      sum_queried_times: {
+        Returns: number;
       };
       update_subtitle_and_title_download_metrics: {
         Args: {
