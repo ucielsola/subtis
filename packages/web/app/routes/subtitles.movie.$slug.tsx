@@ -302,6 +302,62 @@ export default function SubtitlesPage() {
       enableSorting: false,
     },
     {
+      accessorKey: "subtitle.external_id",
+      header: "Fuente",
+      enableSorting: false,
+      cell: ({ row }) => {
+        const { external_id } = row.original.subtitle;
+        const { subtitle_group_name, website } = row.original.subtitle_group;
+
+        if (subtitle_group_name === "SubDivX") {
+          return (
+            <div className="w-24">
+              <a
+                href={`${website}/${external_id}`}
+                target="_blank"
+                className="hover:underline"
+                rel="noopener noreferrer"
+              >
+                {subtitle_group_name}
+              </a>
+            </div>
+          );
+        }
+
+        if (subtitle_group_name === "SubDL") {
+          return (
+            <div className="w-24">
+              <a
+                href={`${website}/s/info/${external_id}`}
+                target="_blank"
+                className="hover:underline"
+                rel="noopener noreferrer"
+              >
+                {subtitle_group_name}
+              </a>
+            </div>
+          );
+        }
+
+        if (subtitle_group_name === "OpenSubtitles") {
+          return (
+            <div className="w-24">
+              <a
+                href={`${website}/${external_id}`}
+                target="_blank"
+                className="hover:underline"
+                rel="noopener noreferrer"
+              >
+                {subtitle_group_name}
+              </a>
+            </div>
+          );
+        }
+
+        return external_id;
+      },
+    },
+    {
       accessorKey: "subtitle.queried_times",
       header: "Descargas",
       enableSorting: false,
@@ -386,7 +442,7 @@ export default function SubtitlesPage() {
 
   return (
     <div className="pt-24 pb-44 flex flex-col lg:flex-row justify-between gap-4">
-      <article className="max-w-[630px] w-full">
+      <article className="max-w-screen-md w-full">
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-4">
             {loaderData.title.optimized_logo ? (
