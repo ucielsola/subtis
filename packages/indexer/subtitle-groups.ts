@@ -15,7 +15,7 @@ export const SUBTITLE_GROUPS = {
   },
   OPEN_SUBTITLES: {
     subtitle_group_name: "OpenSubtitles",
-    website: "https://www.opensubtitles.org",
+    website: "https://www.opensubtitles.com",
   },
 } as const;
 

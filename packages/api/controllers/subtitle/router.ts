@@ -11,20 +11,8 @@ import { getIsCinemaRecording, getIsTvShow, getStringWithoutSpecialCharacters } 
 import { getTitleFileNameMetadata } from "@subtis/shared";
 
 // lib
-import {
-  getSubtitleMetadataNormalized,
-  getSubtitleNormalized,
-  subtitleMetadataNormalizedSchema,
-  subtitleNormalizedSchema,
-} from "../../lib/parsers";
-import {
-  alternativeTitlesSchema,
-  subtitleMetadataQuery,
-  subtitleMetadataSchema,
-  subtitleSchema,
-  subtitleShortenerSchema,
-  subtitlesQuery,
-} from "../../lib/schemas";
+import { getSubtitleNormalized, subtitleNormalizedSchema } from "../../lib/parsers";
+import { alternativeTitlesSchema, subtitleSchema, subtitleShortenerSchema, subtitlesQuery } from "../../lib/schemas";
 import { getSupabaseClient } from "../../lib/supabase";
 import type { AppVariables } from "../../lib/types";
 
@@ -114,7 +102,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
           description: "Successful subtitle metadata response",
           content: {
             "application/json": {
-              schema: resolver(subtitleMetadataNormalizedSchema),
+              schema: resolver(subtitleNormalizedSchema),
             },
           },
           404: {
@@ -150,7 +138,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
       const { data, error } = await getSupabaseClient(context)
         .from("Subtitles")
-        .select(subtitleMetadataQuery)
+        .select(subtitlesQuery)
         .match({ id: subtitleId })
         .single();
 
@@ -164,14 +152,14 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "An error occurred", error: error.message });
       }
 
-      const subtitleById = subtitleMetadataSchema.safeParse(data);
+      const subtitleById = subtitleSchema.safeParse(data);
 
       if (subtitleById.error) {
         context.status(500);
         return context.json({ message: "An error occurred", error: subtitleById.error.issues[0].message });
       }
 
-      const normalizedSubtitle = getSubtitleMetadataNormalized(subtitleById.data);
+      const normalizedSubtitle = getSubtitleNormalized(subtitleById.data);
 
       return context.json(normalizedSubtitle);
     },

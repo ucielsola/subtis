@@ -1,7 +1,7 @@
 import z from "zod";
 
 // lib
-import { releaseGroupSchema, subtitleSchema, titleSchema } from "../../lib/schemas";
+import { releaseGroupSchema, subtitleGroupSchema, subtitleSchema, titleSchema } from "../../lib/schemas";
 
 // schemas
 export const subtitlesSchema = z
@@ -11,8 +11,9 @@ export const subtitlesSchema = z
 const subtitlesResultsSchema = z
   .array(
     z.object({
-      subtitle: subtitleSchema.omit({ title: true, release_group: true }),
+      subtitle: subtitleSchema.omit({ title: true, release_group: true, subtitle_group: true }),
       release_group: releaseGroupSchema,
+      subtitle_group: subtitleGroupSchema,
     }),
     {
       invalid_type_error: "Subtitles not found for title",
