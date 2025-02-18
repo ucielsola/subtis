@@ -38,7 +38,9 @@ export function HomeStats() {
     <section className="py-16 flex flex-col gap-16 items-center justify-center" ref={ref}>
       <div className="flex flex-col gap-4 items-center justify-center text-center">
         <h2 className="text-zinc-50 text-4xl font-bold text-balance">Estadísticas</h2>
-        <h3 className="text-zinc-400 text-balance max-w-[624px]">Mira algunas de las estadísticas de Subtis.</h3>
+        <h3 className="text-zinc-400 text-balance max-w-[624px]">
+          Explorá algunas de nuestras estadísticas y descubre cómo hacemos que el cine sea más accesible.
+        </h3>
       </div>
       <div className="flex flex-row flex-wrap gap-4 max-w-screen-xl items-center justify-evenly w-full">
         <div className="flex flex-col items-center justify-center min-w-56">

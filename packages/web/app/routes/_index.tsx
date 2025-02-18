@@ -10,6 +10,7 @@ import { trendingSubtitlesResponseSchema } from "@subtis/api/controllers/titles/
 import { HomeAlert } from "~/features/home/alert";
 import { HomeFeatures } from "~/features/home/features";
 import { HomeHero } from "~/features/home/hero";
+import { HomeProviders } from "~/features/home/providers";
 import { HomeStats } from "~/features/home/stats";
 import { HomeTrending } from "~/features/home/trending";
 
@@ -84,6 +85,7 @@ export default function Index() {
       <HomeTrending />
       <HomeStats />
       <HomeFeatures />
+      <HomeProviders />
       <HomeAlert />
     </Fragment>
   );
