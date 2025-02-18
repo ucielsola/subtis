@@ -25,7 +25,18 @@ export function HomeFooter() {
         <Link to="/" className="cursor-pointer group">
           <AnimatedLogo />
         </Link>
-        <span className="text-[11px] text-zinc-50 text-left">Subtis &#169; 2025</span>
+        <span className="text-[13px] text-zinc-50 text-left">Subtis &#169; 2025</span>
+      </div>
+
+      <div className="flex flex-col gap-2 py-2">
+        <a
+          href="https://api.subt.is/v1/docs"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs font-medium text-zinc-50  hover:underline"
+        >
+          Conectate a la API
+        </a>
       </div>
 
       <div className="flex flex-col gap-2 py-2">
@@ -44,14 +55,6 @@ export function HomeFooter() {
         >
           Soporte vía email
         </button>
-        <a
-          href="https://api.subt.is/v1/docs"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs font-medium text-zinc-50  hover:underline"
-        >
-          Conectate a la API
-        </a>
       </div>
       <div className="flex flex-col gap-2  py-2">
         <Link to="/faq" className="text-xs font-medium text-zinc-50  hover:underline">
