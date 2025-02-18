@@ -41,7 +41,7 @@ export function HomeStats() {
         <h3 className="text-zinc-400 text-balance max-w-[624px]">Mira algunas de las estadísticas de Subtis.</h3>
       </div>
       <div className="flex flex-row flex-wrap gap-4 max-w-screen-xl items-center justify-evenly w-full">
-        <div className="flex flex-col items-center justify-center min-w-56c">
+        <div className="flex flex-col items-center justify-center min-w-56">
           <NumberFlow
             className="text-zinc-50 text-4xl font-bold text-balance"
             value={isAnimatingTitlesStats ? loaderData.stats.total_titles : 0}
@@ -52,7 +52,7 @@ export function HomeStats() {
           />
           <span className="text-zinc-400 text-lg">Títulos</span>
         </div>
-        <div className="flex flex-col items-center justify-center min-w-56c">
+        <div className="flex flex-col items-center justify-center min-w-56">
           <NumberFlow
             className="text-zinc-50 text-4xl font-bold text-balance"
             value={isAnimatingSubtitlesStats ? loaderData.stats.total_subtitles : 0}
@@ -63,7 +63,7 @@ export function HomeStats() {
           />
           <span className="text-zinc-400 text-lg">Subtítulos</span>
         </div>
-        <div className="flex flex-col items-center justify-center min-w-56c">
+        <div className="flex flex-col items-center justify-center min-w-56">
           <NumberFlow
             className="text-zinc-50 text-4xl font-bold text-balance"
             value={isAnimatingQueriedTimesStats ? loaderData.stats.total_queried_times : 0}
