@@ -46,11 +46,11 @@
   },
   "overrides": {
     "esm-env": "npm:esm-env-runtime@^0.1.1"
-},
+  },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "jscpd": "^4.0.5",
-    "taze": "^18.5.0",
+    "taze": "^18.6.0",
     "typescript-coverage-report": "^1.1.0"
   }
 }
