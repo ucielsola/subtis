@@ -290,7 +290,7 @@ export default function SubtitlePage() {
 
   return (
     <div className="pt-24 pb-48 flex flex-col lg:flex-row justify-between gap-4">
-      <article className="max-w-xl w-full">
+      <article className="max-w-screen-md w-full">
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-4">
             {loaderData.title.optimized_logo ? (
