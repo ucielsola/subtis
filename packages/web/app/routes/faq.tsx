@@ -29,7 +29,10 @@ export default function FaqPage() {
       <h1>Preguntas Frecuentes</h1>
       <section>
         <h2>¿Qué es Subtis?</h2>
-        <p>Subtis es un servicio que te permite descargar subtítulos para tus películas.</p>
+        <p>
+          Subtis es un proyecto gratuito, open-source, y sin fines de lucro, que te permite descargar subtítulos
+          sincronizados para tus películas.
+        </p>
       </section>
 
       <section>
