@@ -78,7 +78,7 @@ export function PosterDisclosure({
     setIsOpen(false);
   }
 
-  // custom hooks
+  // ts hooks
   useOnClickOutside(ref, handleClickOutside);
 
   return (

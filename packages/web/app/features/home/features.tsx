@@ -3,30 +3,23 @@ import { useAnimation } from "motion/react";
 // icons
 import { AudioLinesIcon } from "~/components/icons/audio-lines";
 import { CircleCheckIcon } from "~/components/icons/circle-check";
-import { Clap } from "~/components/icons/clap";
 import { Cpu } from "~/components/icons/cpu";
 import { Earth } from "~/components/icons/earth";
 import { LanguagesIcon } from "~/components/icons/languages";
-import { MessageCircle } from "~/components/icons/message-circle";
-import { People } from "~/components/icons/people";
 import { Play } from "~/components/icons/play";
 import { SquareStackIcon } from "~/components/icons/square-stack";
 import { TimerIcon } from "~/components/icons/timer";
-import { TrendingUpIcon } from "~/components/icons/trending-up";
+
 export function HomeFeatures() {
   const audiolinesControls = useAnimation();
   const timerControls = useAnimation();
-  const trendingUpControls = useAnimation();
   const circleCheckControls = useAnimation();
   const squareStackControls = useAnimation();
-  const clapControls = useAnimation();
   const earthControls = useAnimation();
   const cpuControls = useAnimation();
   const svgControls = useAnimation();
   const pathControls = useAnimation();
   const playControls = useAnimation();
-  const messageCircleControls = useAnimation();
-  const peopleControls = useAnimation();
 
   const onAnimationStart = () => {
     svgControls.start("animate");
@@ -82,22 +75,6 @@ export function HomeFeatures() {
         </div>
         <div
           className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
-          onMouseEnter={() => trendingUpControls.start("animate")}
-          onMouseLeave={() => trendingUpControls.start("normal")}
-        >
-          <TrendingUpIcon size={24} controls={trendingUpControls} />
-          <span className="text-zinc-50">+5mil subtítulos</span>
-        </div>
-        <div
-          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
-          onMouseEnter={() => clapControls.start("animate")}
-          onMouseLeave={() => clapControls.start("normal")}
-        >
-          <Clap size={24} controls={clapControls} />
-          <span className="text-zinc-50">+2mil títulos</span>
-        </div>
-        <div
-          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
           onMouseEnter={() => circleCheckControls.start("animate")}
           onMouseLeave={() => circleCheckControls.start("normal")}
         >
@@ -127,22 +104,6 @@ export function HomeFeatures() {
         >
           <Play size={24} controls={playControls} isWrapped />
           <span className="text-zinc-50">Reproductor de video</span>
-        </div>
-        <div
-          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
-          onMouseEnter={() => messageCircleControls.start("animate")}
-          onMouseLeave={() => messageCircleControls.start("normal")}
-        >
-          <MessageCircle size={24} controls={messageCircleControls} />
-          <span className="text-zinc-50">Soporte 24/7</span>
-        </div>
-        <div
-          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
-          onMouseEnter={() => peopleControls.start("animate")}
-          onMouseLeave={() => peopleControls.start("normal")}
-        >
-          <People size={24} controls={peopleControls} />
-          <span className="text-zinc-50">Comunidad cinéfila</span>
         </div>
       </div>
     </section>
