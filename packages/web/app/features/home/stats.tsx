@@ -11,7 +11,9 @@ export function HomeStats() {
   const loaderData = useLoaderData<typeof loader>();
 
   // react hooks
-  const [isAnimating, setIsAnimating] = useState<boolean>(false);
+  const [isAnimatingTitlesStats, setIsAnimatingTitlesStats] = useState<boolean>(false);
+  const [isAnimatingSubtitlesStats, setIsAnimatingSubtitlesStats] = useState<boolean>(false);
+  const [isAnimatingQueriedTimesStats, setIsAnimatingQueriedTimesStats] = useState<boolean>(false);
 
   // ts hooks
   const { isIntersecting, ref } = useIntersectionObserver({
@@ -19,11 +21,14 @@ export function HomeStats() {
   });
 
   // effects
-  useEffect(() => {
-    if (isIntersecting) {
-      setIsAnimating(true);
-    }
-  }, [isIntersecting]);
+  useEffect(
+    function handleIntersection() {
+      if (isIntersecting) {
+        setIsAnimatingTitlesStats(true);
+      }
+    },
+    [isIntersecting],
+  );
 
   if ("message" in loaderData) {
     return null;
@@ -36,33 +41,35 @@ export function HomeStats() {
         <h3 className="text-zinc-400 text-balance max-w-[624px]">Mira algunas de las estadísticas de Subtis.</h3>
       </div>
       <div className="flex flex-row flex-wrap gap-4 max-w-screen-xl items-center justify-evenly w-full">
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center min-w-56c">
           <NumberFlow
             className="text-zinc-50 text-4xl font-bold text-balance"
-            value={isAnimating ? loaderData.stats.total_titles : 0}
+            value={isAnimatingTitlesStats ? loaderData.stats.total_titles : 0}
             format={{ signDisplay: "always" }}
             locales="es-AR"
-            animated={isAnimating}
+            animated={isAnimatingTitlesStats}
+            onAnimationsFinish={() => setIsAnimatingSubtitlesStats(true)}
           />
           <span className="text-zinc-400 text-lg">Títulos</span>
         </div>
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center min-w-56c">
           <NumberFlow
             className="text-zinc-50 text-4xl font-bold text-balance"
-            value={isAnimating ? loaderData.stats.total_subtitles : 0}
+            value={isAnimatingSubtitlesStats ? loaderData.stats.total_subtitles : 0}
             format={{ signDisplay: "always" }}
             locales="es-AR"
-            animated={isAnimating}
+            animated={isAnimatingSubtitlesStats}
+            onAnimationsFinish={() => setIsAnimatingQueriedTimesStats(true)}
           />
           <span className="text-zinc-400 text-lg">Subtítulos</span>
         </div>
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center min-w-56c">
           <NumberFlow
             className="text-zinc-50 text-4xl font-bold text-balance"
-            value={isAnimating ? loaderData.stats.total_queried_times : 0}
+            value={isAnimatingQueriedTimesStats ? loaderData.stats.total_queried_times : 0}
             format={{ signDisplay: "always" }}
             locales="es-AR"
-            animated={isAnimating}
+            animated={isAnimatingQueriedTimesStats}
           />
           <span className="text-zinc-400 text-lg">Descargas</span>
         </div>
