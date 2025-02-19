@@ -1,7 +1,7 @@
 {
-  "yaakVersion": "2025.1.0-beta.15",
+  "yaakVersion": "2025.1.1",
   "yaakSchema": 3,
-  "timestamp": "2025-02-17T23:51:07.084571",
+  "timestamp": "2025-02-19T23:44:29.721408",
   "resources": {
     "workspaces": [
       {
@@ -90,23 +90,34 @@
     "folders": [
       {
         "model": "folder",
+        "id": "fl_sMnyhYjpX9",
+        "createdAt": "2025-02-18T02:28:23.575400",
+        "updatedAt": "2025-02-19T23:29:37.466888",
+        "workspaceId": "wk_SbrwnSjDzA",
+        "folderId": null,
+        "name": "Providers - Internal (4)",
+        "description": "",
+        "sortPriority": 4500.0
+      },
+      {
+        "model": "folder",
         "id": "fl_sQpySodbfx",
         "createdAt": "2025-02-17T23:28:17.505130",
-        "updatedAt": "2025-02-17T23:28:27.211464",
+        "updatedAt": "2025-02-19T23:42:26.615582",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": null,
         "name": "Stats (1)",
         "description": "",
-        "sortPriority": -1739834900000.0
+        "sortPriority": 4250.0
       },
       {
         "model": "folder",
         "id": "fl_ob31em44Zh",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-02-05T20:16:48.616848",
+        "updatedAt": "2025-02-18T02:28:11.353351",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": null,
-        "name": "Providers (2)",
+        "name": "Providers - External (2)",
         "description": "",
         "sortPriority": 5000.0
       },
@@ -114,54 +125,54 @@
         "model": "folder",
         "id": "fl_xTpkMPcGuq",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-02-05T20:16:48.616301",
+        "updatedAt": "2025-02-18T02:27:58.076613",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": null,
         "name": "Subtitle (6)",
-        "description": "",
-        "sortPriority": 0.0
-      },
-      {
-        "model": "folder",
-        "id": "fl_CqsEDHtsiK",
-        "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-02-05T20:16:52.783305",
-        "workspaceId": "wk_SbrwnSjDzA",
-        "folderId": null,
-        "name": "Subtitles (6)",
-        "description": "",
-        "sortPriority": 500.0
-      },
-      {
-        "model": "folder",
-        "id": "fl_G3EShJi9ud",
-        "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-02-05T20:17:40.724472",
-        "workspaceId": "wk_SbrwnSjDzA",
-        "folderId": null,
-        "name": "Title (5)",
         "description": "",
         "sortPriority": 1000.0
       },
       {
         "model": "folder",
-        "id": "fl_YERMf4idMs",
+        "id": "fl_CqsEDHtsiK",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-02-05T20:16:48.616543",
+        "updatedAt": "2025-02-19T23:42:47.649682",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": null,
-        "name": "Titles (4)",
+        "name": "Subtitles (5)",
         "description": "",
         "sortPriority": 2000.0
       },
       {
         "model": "folder",
+        "id": "fl_G3EShJi9ud",
+        "createdAt": "2024-11-08T22:37:51",
+        "updatedAt": "2025-02-19T23:43:52.479932",
+        "workspaceId": "wk_SbrwnSjDzA",
+        "folderId": null,
+        "name": "Title (4)",
+        "description": "",
+        "sortPriority": 3000.0
+      },
+      {
+        "model": "folder",
+        "id": "fl_YERMf4idMs",
+        "createdAt": "2024-11-08T22:37:51",
+        "updatedAt": "2025-02-18T02:27:58.076794",
+        "workspaceId": "wk_SbrwnSjDzA",
+        "folderId": null,
+        "name": "Titles (4)",
+        "description": "",
+        "sortPriority": 4000.0
+      },
+      {
+        "model": "folder",
         "id": "fl_I5qYzXaiKY",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2024-11-12T04:09:05",
+        "updatedAt": "2025-02-19T23:36:10.289422",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_CqsEDHtsiK",
-        "name": "TV Shows (4) 🚧",
+        "name": "TV Shows (4) 🚧 - WORK IN PROGRESS - DON'T TEST",
         "description": "",
         "sortPriority": 500.0
       },
@@ -180,9 +191,105 @@
     "httpRequests": [
       {
         "model": "http_request",
+        "id": "rq_wZksYtvxLm",
+        "createdAt": "2025-02-19T23:28:45.323489",
+        "updatedAt": "2025-02-19T23:28:50.696311",
+        "workspaceId": "wk_SbrwnSjDzA",
+        "folderId": "fl_sMnyhYjpX9",
+        "authentication": {},
+        "authenticationType": null,
+        "body": {},
+        "bodyType": null,
+        "description": "",
+        "headers": [],
+        "method": "GET",
+        "name": "Get title JustWatch by slug (/v1/providers/justwatch/:slug)",
+        "sortPriority": 2500.0,
+        "url": "${[baseUrl]}/v1/providers/justwatch/:slug",
+        "urlParameters": [
+          {
+            "enabled": true,
+            "name": ":slug",
+            "value": "nosferatu-2024",
+            "id": "8x88mpt9Km"
+          },
+          {
+            "enabled": true,
+            "name": "",
+            "value": "",
+            "id": "A9eBhyEC7g"
+          }
+        ]
+      },
+      {
+        "model": "http_request",
+        "id": "rq_eXUfwoFrde",
+        "createdAt": "2025-02-19T23:26:41.108745",
+        "updatedAt": "2025-02-19T23:29:12.988531",
+        "workspaceId": "wk_SbrwnSjDzA",
+        "folderId": "fl_sMnyhYjpX9",
+        "authentication": {},
+        "authenticationType": null,
+        "body": {},
+        "bodyType": null,
+        "description": "",
+        "headers": [],
+        "method": "GET",
+        "name": "Get title Rottentomatoes by slug (/v1/providers/rottentomatoes/:slug)",
+        "sortPriority": 3000.0,
+        "url": "${[baseUrl]}/v1/providers/rottentomatoes/:slug",
+        "urlParameters": [
+          {
+            "enabled": true,
+            "name": ":slug",
+            "value": "nosferatu-2024",
+            "id": "8x88mpt9Km"
+          },
+          {
+            "enabled": true,
+            "name": "",
+            "value": "",
+            "id": "A9eBhyEC7g"
+          }
+        ]
+      },
+      {
+        "model": "http_request",
+        "id": "rq_LAph2b4Kvp",
+        "createdAt": "2025-02-19T23:19:45.619295",
+        "updatedAt": "2025-02-19T23:28:19.508588",
+        "workspaceId": "wk_SbrwnSjDzA",
+        "folderId": "fl_sMnyhYjpX9",
+        "authentication": {},
+        "authenticationType": null,
+        "body": {},
+        "bodyType": null,
+        "description": "",
+        "headers": [],
+        "method": "GET",
+        "name": "Get title Letterboxd by slug (/v1/providers/letterboxd/:slug)",
+        "sortPriority": 2000.0,
+        "url": "${[baseUrl]}/v1/providers/letterboxd/:slug",
+        "urlParameters": [
+          {
+            "enabled": true,
+            "name": ":slug",
+            "value": "nosferatu-2024",
+            "id": "8UNNJ5p7Dd"
+          },
+          {
+            "enabled": true,
+            "name": "",
+            "value": "",
+            "id": "4tzEJzPFyV"
+          }
+        ]
+      },
+      {
+        "model": "http_request",
         "id": "rq_bLGSZZHPbS",
         "createdAt": "2025-02-17T23:28:44.001190",
-        "updatedAt": "2025-02-17T23:28:44.001190",
+        "updatedAt": "2025-02-18T02:22:31.854238",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
@@ -199,14 +306,14 @@
           {
             "enabled": true,
             "name": ":subtitleId",
-            "value": "21395",
+            "value": "210",
             "id": "S65fv3Qc0A"
           },
           {
             "enabled": true,
             "name": "",
             "value": "",
-            "id": "Axu4ffNbZj"
+            "id": "nmZI3c62aI"
           }
         ]
       },
@@ -246,7 +353,7 @@
         "model": "http_request",
         "id": "rq_xm6c36yWmB",
         "createdAt": "2025-01-09T00:29:15",
-        "updatedAt": "2025-02-05T20:17:16.093265",
+        "updatedAt": "2025-02-19T23:33:22.140431",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_G3EShJi9ud",
         "authentication": {},
@@ -270,7 +377,7 @@
             "enabled": true,
             "name": "",
             "value": "",
-            "id": "QJh97BrMAX"
+            "id": "UUmrewRbYC"
           }
         ]
       },
@@ -501,13 +608,13 @@
         "model": "http_request",
         "id": "rq_TSkZUrqOKj",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-02-07T21:12:26.702106",
+        "updatedAt": "2025-02-18T02:35:09.614152",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
         "authenticationType": null,
         "body": {
-          "text": "{\n  \"subtitleId\": 2,\n  \"titleSlug\": \"sonic-the-hedgehog-3-2024\"\n}"
+          "text": "{\n  \"subtitleId\": 212,\n  \"titleSlug\": \"moana-2-2024\"\n}"
         },
         "bodyType": "application/json",
         "description": "",
@@ -529,7 +636,7 @@
         "model": "http_request",
         "id": "rq_lLVuparxgM",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2024-11-12T04:09:30",
+        "updatedAt": "2025-02-19T23:40:59.262499",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
@@ -589,7 +696,7 @@
         "model": "http_request",
         "id": "rq_H9boP0jxGI",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-02-05T20:21:41.290161",
+        "updatedAt": "2025-02-18T02:23:22.780404",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
@@ -612,14 +719,14 @@
           {
             "enabled": true,
             "name": ":fileName",
-            "value": "The.Godfather.1972.720p.BrRip.x264.BOKUTOX.YIFY.mp4",
+            "value": "Four.Lions.2010.1080p.BluRay.x264.YIFY.mp4",
             "id": "wUv9u02A93"
           },
           {
             "enabled": true,
             "name": "",
             "value": "",
-            "id": "tYKRKGwBSD"
+            "id": "3Y8h8dJxrT"
           }
         ]
       },
@@ -833,9 +940,9 @@
         "model": "http_request",
         "id": "rq_SGIsc4WgeJ",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-02-05T20:17:16.093097",
+        "updatedAt": "2025-02-19T23:28:19.508278",
         "workspaceId": "wk_SbrwnSjDzA",
-        "folderId": "fl_G3EShJi9ud",
+        "folderId": "fl_sMnyhYjpX9",
         "authentication": {},
         "authenticationType": null,
         "body": {},
@@ -843,21 +950,21 @@
         "description": "",
         "headers": [],
         "method": "GET",
-        "name": "Get title teaser by file name (/v1/title/teaser/:fileName)",
-        "sortPriority": 0.0,
-        "url": "${[baseUrl]}/v1/title/teaser/:fileName",
+        "name": "Get title YouTube teaser by file name (/v1/providers/youtube/teaser/:fileName)",
+        "sortPriority": 1000.0,
+        "url": "${[baseUrl]}/v1/providers/youtube/teaser/:fileName",
         "urlParameters": [
           {
             "enabled": true,
             "name": ":fileName",
-            "value": "Eyes.Wide.Shut.1999.1080p.BluRay.x264.YIFY.mp4",
+            "value": "Venom.The.Last.Dance.2024.2160p.HDR10Plus.DV.WEBRip.6CH.x265.HEVC-PSA.mkv",
             "id": "Kk3PUkcvVs"
           },
           {
             "enabled": true,
             "name": "",
             "value": "",
-            "id": "sm98RT0BAE"
+            "id": "uI6MrqZQ3b"
           }
         ]
       },

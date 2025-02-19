@@ -9,7 +9,7 @@ import z from "zod";
 import { getSupabaseClient } from "../../lib/supabase";
 import type { AppVariables } from "../../lib/types";
 
-// schemas
+// internals
 import { statsSchema } from "./schemas";
 
 // router

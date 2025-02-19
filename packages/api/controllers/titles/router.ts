@@ -12,7 +12,7 @@ import { titlesQuery } from "../../lib/schemas";
 import { getSupabaseClient } from "../../lib/supabase";
 import type { AppVariables } from "../../lib/types";
 
-// schemas
+// internals
 import {
   recentTitlesResponseSchema,
   recentTitlesSchema,

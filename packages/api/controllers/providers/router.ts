@@ -28,7 +28,7 @@ import { getTmdbMovieSearchUrl, tmdbDiscoverMovieSchema } from "../../lib/tmdb";
 import { getTmdbHeaders } from "../../lib/tmdb";
 import type { AppVariables } from "../../lib/types";
 
-// schemas
+// internals
 import {
   titleJustWatchSlugResponseSchema,
   titleLetterboxdSlugResponseSchema,
@@ -304,7 +304,7 @@ export const providers = new Hono<{ Variables: AppVariables }>()
         },
       },
     }),
-    zValidator("param", z.object({ slug: z.string().openapi({ example: " babygirl-2024" }) })),
+    zValidator("param", z.object({ slug: z.string().openapi({ example: "babygirl-2024" }) })),
     async (context) => {
       const { slug } = context.req.valid("param");
 

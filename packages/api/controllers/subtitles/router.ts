@@ -14,7 +14,7 @@ import { subtitlesQuery } from "../../lib/schemas";
 import { getSupabaseClient } from "../../lib/supabase";
 import type { AppVariables } from "../../lib/types";
 
-// schemas
+// internals
 import { subtitlesResponseSchema, subtitlesSchema } from "./schemas";
 
 // router

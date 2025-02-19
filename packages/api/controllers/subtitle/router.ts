@@ -16,7 +16,7 @@ import { alternativeTitlesSchema, subtitleSchema, subtitleShortenerSchema, subti
 import { getSupabaseClient } from "../../lib/supabase";
 import type { AppVariables } from "../../lib/types";
 
-// schemas
+// internals
 import { alternativeSubtitlesSchema } from "./schemas";
 
 // router
@@ -503,6 +503,11 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         const { error } = await getSupabaseClient(context)
           .from("SubtitlesNotFound")
           .insert({ email, bytes, title_file_name: titleFileName });
+
+        if (error?.code === "23505") {
+          context.status(400);
+          return context.json({ message: "Subtitle already reported" });
+        }
 
         if (error) {
           context.status(500);
