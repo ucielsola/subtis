@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@custom-react-hooks/use-effect-once": "^1.5.1",
-    "@hookform/resolvers": "^3.10.0",
+    "@hookform/resolvers": "^4.1.0",
     "@number-flow/react": "^0.5.5",
     "@openpanel/web": "^1.0.1",
     "@radix-ui/react-accordion": "^1.2.3",
