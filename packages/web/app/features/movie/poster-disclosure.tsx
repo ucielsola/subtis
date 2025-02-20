@@ -3,9 +3,6 @@ import { AnimatePresence, motion, useAnimation } from "motion/react";
 import { useRef, useState } from "react";
 import { useOnClickOutside } from "usehooks-ts";
 
-// lib
-import { getImdbLink } from "@subtis/indexer/imdb";
-
 // ui
 import { Disclosure, DisclosureContent, DisclosureTrigger } from "~/components/ui/disclosure";
 
@@ -40,28 +37,11 @@ type Props = {
   src: string | null;
   hashUrl: string | null;
   title: string;
-  imdbId: string;
   overview: string;
   rating: number;
-  youtubeId: string | null;
-  letterboxdLink: string | null;
-  rottenTomatoesLink: string | null;
-  justwatchLink: string | null;
 };
 
-export function PosterDisclosure({
-  src,
-  alt,
-  hashUrl,
-  title,
-  imdbId,
-  overview,
-  rating,
-  youtubeId,
-  justwatchLink,
-  letterboxdLink,
-  rottenTomatoesLink,
-}: Props) {
+export function PosterDisclosure({ src, alt, hashUrl, title, overview, rating }: Props) {
   // react hooks
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const ref = useRef(null);
@@ -129,67 +109,10 @@ export function PosterDisclosure({
         <DisclosureContent>
           <div className="flex flex-col pb-2 z-10">
             <div>
-              {overview ? <p className="text-zinc-50 text-sm leading-6 pt-2 pb-6 line-clamp-[14]">{overview}</p> : null}
-              <div className="flex items-center">
-                <div className="flex flex-row gap-2">
-                  <a
-                    href={getImdbLink(imdbId)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-zinc-50 underline text-sm hover:text-zinc-300"
-                  >
-                    IMDb
-                  </a>
-                  {rottenTomatoesLink ? (
-                    <a
-                      href={rottenTomatoesLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-zinc-50 underline text-sm hover:text-zinc-300"
-                    >
-                      Rotten Tomatoes
-                    </a>
-                  ) : null}
-                  {letterboxdLink ? (
-                    <a
-                      href={letterboxdLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-zinc-50 underline text-sm hover:text-zinc-300"
-                    >
-                      Letterboxd
-                    </a>
-                  ) : null}
-                  {justwatchLink ? (
-                    <a
-                      href={justwatchLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-zinc-50 underline text-sm hover:text-zinc-300"
-                    >
-                      JustWatch
-                    </a>
-                  ) : null}
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between mt-4">
-                <div className="flex flex-row gap-2">
-                  {youtubeId ? (
-                    <a
-                      href={`https://www.youtube.com/watch?v=${youtubeId}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-zinc-50 underline text-sm hover:text-zinc-300"
-                    >
-                      Trailer
-                    </a>
-                  ) : null}
-                </div>
-                <div className="flex items-center gap-2">
-                  <StarIcon size={16} className="fill-yellow-400 stroke-none" />
-                  <span className="text-zinc-50 text-sm">{rating}/10</span>
-                </div>
+              {overview ? <p className="text-zinc-50 text-sm leading-6 pt-2 pb-2 line-clamp-[14]">{overview}</p> : null}
+              <div className="flex items-center gap-1 self-end justify-end">
+                <StarIcon size={16} className="fill-yellow-400 stroke-none" />
+                <span className="text-zinc-50 text-sm">{rating}/10</span>
               </div>
             </div>
           </div>

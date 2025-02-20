@@ -23,9 +23,6 @@ import { DownloadIcon } from "~/components/icons/download";
 import { apiClient } from "~/lib/api";
 import { cn } from "~/lib/utils";
 
-// hooks
-import { useToast } from "~/hooks/use-toast";
-
 // ui
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
@@ -35,21 +32,31 @@ import { DataTable } from "~/components/ui/data-table";
 import DotPattern from "~/components/ui/dot-pattern";
 import { Label } from "~/components/ui/label";
 import { Separator } from "~/components/ui/separator";
+import { Skeleton } from "~/components/ui/skeleton";
 import { Switch } from "~/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { ToastAction } from "~/components/ui/toast";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
+import { IMDbLogo } from "~/components/logos/imdb";
+import { JustWatchLogo } from "~/components/logos/justwatch";
+import { LetterboxdLogo } from "~/components/logos/letterboxd";
+import { RottenTomatoesLogo } from "~/components/logos/rottentomatoes";
+// logos
+import { YouTubeLogo } from "~/components/logos/youtube";
+
 // features
 import { PosterDisclosure } from "~/features/movie/poster-disclosure";
 
-// hooks
+import { getImdbLink } from "@subtis/indexer/imdb";
 import { useCinemas } from "~/hooks/use-cinemas";
 import { useJustWatch } from "~/hooks/use-justwatch";
 import { useLetterboxd } from "~/hooks/use-letterboxd";
 import { usePlatforms } from "~/hooks/use-platforms";
 import { useRottenTomatoes } from "~/hooks/use-rottentomatoes";
 import { useTeaser } from "~/hooks/use-teaser";
+// hooks
+import { useToast } from "~/hooks/use-toast";
 
 // helpers
 function getResolutionRank(resolution: string): number {
@@ -192,15 +199,21 @@ export default function SubtitlesPage() {
   }
 
   // query hooks
-  const { data: titleTeaser } = useTeaser(
-    "message" in loaderData ? undefined : loaderData.results[0].subtitle.title_file_name,
-  );
   const { data: titleCinemas } = useCinemas("message" in loaderData ? undefined : loaderData.title.slug);
   const { data: titlePlatforms } = usePlatforms("message" in loaderData ? undefined : loaderData.title.slug);
 
-  const { data: titleJustWatch } = useJustWatch("message" in loaderData ? undefined : loaderData.title.slug);
-  const { data: titleLetterboxd } = useLetterboxd("message" in loaderData ? undefined : loaderData.title.slug);
-  const { data: titleRottenTomatoes } = useRottenTomatoes("message" in loaderData ? undefined : loaderData.title.slug);
+  const { data: titleTeaser, isLoading: isLoadingTeaser } = useTeaser(
+    "message" in loaderData ? undefined : loaderData.results[0].subtitle.title_file_name,
+  );
+  const { data: titleJustWatch, isLoading: isLoadingJustWatch } = useJustWatch(
+    "message" in loaderData ? undefined : loaderData.title.slug,
+  );
+  const { data: titleLetterboxd, isLoading: isLoadingLetterboxd } = useLetterboxd(
+    "message" in loaderData ? undefined : loaderData.title.slug,
+  );
+  const { data: titleRottenTomatoes, isLoading: isLoadingRottenTomatoes } = useRottenTomatoes(
+    "message" in loaderData ? undefined : loaderData.title.slug,
+  );
 
   // motion hooks
   const videoTipControl = useAnimation();
@@ -440,9 +453,11 @@ export default function SubtitlesPage() {
       ),
   );
 
+  const isLoadingProviders = isLoadingTeaser || isLoadingJustWatch || isLoadingLetterboxd || isLoadingRottenTomatoes;
+
   return (
     <div className="pt-24 pb-44 flex flex-col lg:flex-row justify-between gap-4">
-      <article className="max-w-screen-md w-full">
+      <article className={`${isAdvancedModeEnabled ? "max-w-screen-md" : "max-w-[630px]"} w-full`}>
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-4">
             {loaderData.title.optimized_logo ? (
@@ -503,7 +518,7 @@ export default function SubtitlesPage() {
           </div>
         </section>
 
-        <section className="flex flex-col gap-12 mt-16">
+        <section className="flex flex-col gap-12 mt-[74px]">
           <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold text-zinc-50">SubTips</h3>
             <h4 className="text-zinc-50 text-sm md:text-base">Para vivir una experiencia óptima, seguí estos tips.</h4>
@@ -748,20 +763,110 @@ export default function SubtitlesPage() {
         ) : null}
       </article>
       {loaderData.title.poster_thumbhash ? (
-        <aside className="hidden lg:flex flex-1 justify-center">
-          <PosterDisclosure
-            src={loaderData.title.optimized_poster}
-            alt={loaderData.title.title_name}
-            hashUrl={loaderData.title.poster_thumbhash}
-            title={loaderData.title.title_name}
-            imdbId={loaderData.title.imdb_id}
-            overview={loaderData.title.overview}
-            rating={loaderData.title.rating}
-            youtubeId={titleTeaser && !("message" in titleTeaser) ? titleTeaser.youTubeVideoId : null}
-            letterboxdLink={titleLetterboxd?.link ?? null}
-            justwatchLink={titleJustWatch?.link ?? null}
-            rottenTomatoesLink={titleRottenTomatoes?.link ?? null}
-          />
+        <aside className="hidden lg:flex flex-1 flex-col items-center">
+          <div>
+            <PosterDisclosure
+              src={loaderData.title.optimized_poster}
+              alt={loaderData.title.title_name}
+              hashUrl={loaderData.title.poster_thumbhash}
+              title={loaderData.title.title_name}
+              overview={loaderData.title.overview}
+              rating={loaderData.title.rating}
+            />
+            <div className="pt-8 px-2 flex flex-col gap-3">
+              {isLoadingProviders ? (
+                <Fragment>
+                  <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm" />
+                  <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm" />
+                  <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm" />
+                  <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm" />
+                </Fragment>
+              ) : (
+                <Fragment>
+                  {loaderData.title.imdb_id ? (
+                    <a
+                      href={getImdbLink(loaderData.title.imdb_id)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex flex-row items-center gap-2 group/imdb"
+                    >
+                      <IMDbLogo
+                        size={20}
+                        className="fill-zinc-50 group-hover/imdb:fill-yellow-500 transition-all ease-in-out"
+                      />
+                      <span className="text-zinc-50 text-sm group-hover/imdb:text-yellow-500 transition-all ease-in-out">
+                        IMDb
+                      </span>
+                    </a>
+                  ) : null}
+                  {titleTeaser && !("message" in titleTeaser) ? (
+                    <a
+                      href={`https://www.youtube.com/watch?v=${titleTeaser.youTubeVideoId}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex flex-row items-center gap-2 group/trailer"
+                    >
+                      <YouTubeLogo
+                        size={20}
+                        className="fill-zinc-50 group-hover/trailer:fill-red-500 transition-all ease-in-out"
+                      />
+                      <span className="text-zinc-50 text-sm group-hover/trailer:text-red-500 transition-all ease-in-out">
+                        Trailer
+                      </span>
+                    </a>
+                  ) : null}
+                  {titleJustWatch ? (
+                    <a
+                      href={titleJustWatch.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex flex-row items-center gap-2 group/justwatch"
+                    >
+                      <JustWatchLogo
+                        size={20}
+                        className="fill-zinc-50 group-hover/justwatch:fill-amber-500 transition-all ease-in-out"
+                      />
+                      <span className="text-zinc-50 text-sm group-hover/justwatch:text-amber-500 transition-all ease-in-out">
+                        JustWatch
+                      </span>
+                    </a>
+                  ) : null}
+                  {titleLetterboxd ? (
+                    <a
+                      href={titleLetterboxd.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex flex-row items-center gap-2 group/letterboxd"
+                    >
+                      <LetterboxdLogo
+                        size={20}
+                        className="fill-zinc-50 group-hover/letterboxd:fill-blue-500 transition-all ease-in-out"
+                      />
+                      <span className="text-zinc-50 text-sm group-hover/letterboxd:text-blue-500 transition-all ease-in-out">
+                        Letterboxd
+                      </span>
+                    </a>
+                  ) : null}
+                  {titleRottenTomatoes ? (
+                    <a
+                      href={titleRottenTomatoes.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex flex-row items-center gap-2 group/rottentomatoes"
+                    >
+                      <RottenTomatoesLogo
+                        size={20}
+                        className="fill-zinc-50 group-hover/rottentomatoes:fill-orange-500 transition-all ease-in-out"
+                      />
+                      <span className="text-zinc-50 text-sm group-hover/rottentomatoes:text-orange-500 transition-all ease-in-out">
+                        Rotten Tomatoes
+                      </span>
+                    </a>
+                  ) : null}
+                </Fragment>
+              )}
+            </div>
+          </div>
         </aside>
       ) : null}
     </div>

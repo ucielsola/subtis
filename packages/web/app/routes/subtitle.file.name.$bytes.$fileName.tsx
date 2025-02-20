@@ -34,6 +34,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { ToastAction } from "~/components/ui/toast";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
+import { getImdbLink } from "@subtis/indexer/imdb";
+import { IMDbLogo } from "~/components/logos/imdb";
+import { JustWatchLogo } from "~/components/logos/justwatch";
+import { LetterboxdLogo } from "~/components/logos/letterboxd";
+import { RottenTomatoesLogo } from "~/components/logos/rottentomatoes";
+import { YouTubeLogo } from "~/components/logos/youtube";
+import { Skeleton } from "~/components/ui/skeleton";
 // hooks
 import { useCinemas } from "~/hooks/use-cinemas";
 import { useJustWatch } from "~/hooks/use-justwatch";
@@ -103,14 +110,14 @@ export default function SubtitlePage() {
   const [captionBlobUrl, setCaptionBlobUrl] = useState<string | null>(null);
 
   // query hooks
-  const { data: titleTeaser } = useTeaser(fileName);
+  const { data: titleTeaser, isLoading: isLoadingTeaser } = useTeaser(fileName);
 
   const { data: titleCinemas } = useCinemas(loaderData.title.imdb_id);
   const { data: titlePlatforms } = usePlatforms(loaderData.title.imdb_id);
 
-  const { data: titleJustWatch } = useJustWatch(loaderData.title.slug);
-  const { data: titleLetterboxd } = useLetterboxd(loaderData.title.slug);
-  const { data: titleRottenTomatoes } = useRottenTomatoes(loaderData.title.slug);
+  const { data: titleJustWatch, isLoading: isLoadingJustWatch } = useJustWatch(loaderData.title.slug);
+  const { data: titleLetterboxd, isLoading: isLoadingLetterboxd } = useLetterboxd(loaderData.title.slug);
+  const { data: titleRottenTomatoes, isLoading: isLoadingRottenTomatoes } = useRottenTomatoes(loaderData.title.slug);
 
   // motion hooks
   const playControls = useAnimation();
@@ -288,9 +295,11 @@ export default function SubtitlePage() {
   const totalHours = runtime ? Math.floor(runtime / 60) : null;
   const totalMinutes = runtime ? runtime % 60 : null;
 
+  const isLoadingProviders = isLoadingTeaser || isLoadingJustWatch || isLoadingLetterboxd || isLoadingRottenTomatoes;
+
   return (
     <div className="pt-24 pb-48 flex flex-col lg:flex-row justify-between gap-4">
-      <article className="max-w-screen-md w-full">
+      <article className="max-w-[630px] w-full">
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-4">
             {loaderData.title.optimized_logo ? (
@@ -375,7 +384,7 @@ export default function SubtitlePage() {
           </video>
         ) : null}
 
-        <section className="flex flex-col gap-12 mt-16">
+        <section className="flex flex-col gap-12 mt-[74px]">
           <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold text-zinc-50">SubTips</h3>
             <h4 className="text-zinc-50 text-sm md:text-base">Para vivir una experiencia óptima, seguí estos tips.</h4>
@@ -550,20 +559,110 @@ export default function SubtitlePage() {
       </article>
 
       {loaderData.title.optimized_poster ? (
-        <aside className="hidden lg:flex flex-1 justify-center">
-          <PosterDisclosure
-            src={loaderData.title.optimized_poster}
-            alt={loaderData.title.title_name}
-            hashUrl={loaderData.title.poster_thumbhash}
-            title={loaderData.title.title_name}
-            imdbId={loaderData.title.imdb_id}
-            overview={loaderData.title.overview}
-            rating={loaderData.title.rating}
-            justwatchLink={titleJustWatch?.link ?? null}
-            letterboxdLink={titleLetterboxd?.link ?? null}
-            rottenTomatoesLink={titleRottenTomatoes?.link ?? null}
-            youtubeId={titleTeaser && !("message" in titleTeaser) ? titleTeaser.youTubeVideoId : null}
-          />
+        <aside className="hidden lg:flex flex-1 flex-col items-center">
+          <div>
+            <PosterDisclosure
+              src={loaderData.title.optimized_poster}
+              alt={loaderData.title.title_name}
+              hashUrl={loaderData.title.poster_thumbhash}
+              title={loaderData.title.title_name}
+              overview={loaderData.title.overview}
+              rating={loaderData.title.rating}
+            />
+            <div className="pt-8 px-2 flex flex-col gap-3">
+              {isLoadingProviders ? (
+                <Fragment>
+                  <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm" />
+                  <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm" />
+                  <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm" />
+                  <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm" />
+                </Fragment>
+              ) : (
+                <Fragment>
+                  {loaderData.title.imdb_id ? (
+                    <a
+                      href={getImdbLink(loaderData.title.imdb_id)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex flex-row items-center gap-2 group/imdb"
+                    >
+                      <IMDbLogo
+                        size={20}
+                        className="fill-zinc-50 group-hover/imdb:fill-yellow-500 transition-all ease-in-out"
+                      />
+                      <span className="text-zinc-50 text-sm group-hover/imdb:text-yellow-500 transition-all ease-in-out">
+                        IMDb
+                      </span>
+                    </a>
+                  ) : null}
+                  {titleTeaser && !("message" in titleTeaser) ? (
+                    <a
+                      href={`https://www.youtube.com/watch?v=${titleTeaser.youTubeVideoId}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex flex-row items-center gap-2 group/trailer"
+                    >
+                      <YouTubeLogo
+                        size={20}
+                        className="fill-zinc-50 group-hover/trailer:fill-red-500 transition-all ease-in-out"
+                      />
+                      <span className="text-zinc-50 text-sm group-hover/trailer:text-red-500 transition-all ease-in-out">
+                        Trailer
+                      </span>
+                    </a>
+                  ) : null}
+                  {titleJustWatch ? (
+                    <a
+                      href={titleJustWatch.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex flex-row items-center gap-2 group/justwatch"
+                    >
+                      <JustWatchLogo
+                        size={20}
+                        className="fill-zinc-50 group-hover/justwatch:fill-amber-500 transition-all ease-in-out"
+                      />
+                      <span className="text-zinc-50 text-sm group-hover/justwatch:text-amber-500 transition-all ease-in-out">
+                        JustWatch
+                      </span>
+                    </a>
+                  ) : null}
+                  {titleLetterboxd ? (
+                    <a
+                      href={titleLetterboxd.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex flex-row items-center gap-2 group/letterboxd"
+                    >
+                      <LetterboxdLogo
+                        size={20}
+                        className="fill-zinc-50 group-hover/letterboxd:fill-blue-500 transition-all ease-in-out"
+                      />
+                      <span className="text-zinc-50 text-sm group-hover/letterboxd:text-blue-500 transition-all ease-in-out">
+                        Letterboxd
+                      </span>
+                    </a>
+                  ) : null}
+                  {titleRottenTomatoes ? (
+                    <a
+                      href={titleRottenTomatoes.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex flex-row items-center gap-2 group/rottentomatoes"
+                    >
+                      <RottenTomatoesLogo
+                        size={20}
+                        className="fill-zinc-50 group-hover/rottentomatoes:fill-orange-500 transition-all ease-in-out"
+                      />
+                      <span className="text-zinc-50 text-sm group-hover/rottentomatoes:text-orange-500 transition-all ease-in-out">
+                        Rotten Tomatoes
+                      </span>
+                    </a>
+                  ) : null}
+                </Fragment>
+              )}
+            </div>
+          </div>
         </aside>
       ) : null}
     </div>
