@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import filesize from "filesize";
+import { filesize } from "filesize";
 import xRay from "x-ray";
 
 const exp = (str, exp) => Number.parseInt(filesize(Number.parseFloat(str), { exponent: exp }));
