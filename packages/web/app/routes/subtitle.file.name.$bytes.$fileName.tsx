@@ -386,8 +386,10 @@ export default function SubtitlePage() {
 
         <section className="flex flex-col gap-12 mt-[74px]">
           <div className="flex flex-col gap-2">
-            <h3 className="text-2xl font-semibold text-zinc-50">SubTips</h3>
-            <h4 className="text-zinc-50 text-sm md:text-base">Para vivir una experiencia óptima, seguí estos tips.</h4>
+            <h3 className="text-2xl font-semibold text-zinc-50">Sugerencias</h3>
+            <h4 className="text-zinc-50 text-sm md:text-base">
+              Para vivir una experiencia óptima, seguí estos consejos.
+            </h4>
           </div>
           <Tabs defaultValue="play-subtitle">
             <TabsList>
