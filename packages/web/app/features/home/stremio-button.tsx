@@ -148,7 +148,7 @@ export function StremioButton() {
                 <p className="text-zinc-400 text-sm">Mirate este video tutorial</p>
               </div>
               <iframe
-                src="https://www.youtube.com/embed/Way9Dexny3w?si=lArvXxxaxXgVZnyw"
+                src="https://www.youtube.com/embed/fOL1tppyYV8?si=qghnzPe_sEasbraX"
                 title="YouTube video player"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
