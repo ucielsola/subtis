@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@custom-react-hooks/use-effect-once": "^1.5.1",
-    "@hookform/resolvers": "^4.1.0",
+    "@hookform/resolvers": "^4.1.2",
     "@number-flow/react": "^0.5.5",
     "@openpanel/web": "^1.0.1",
     "@radix-ui/react-accordion": "^1.2.3",
@@ -81,7 +81,7 @@
     "typescript": "^5.7.3",
     "vite": "^5.4.14",
     "vite-tsconfig-paths": "^4.3.2",
-    "wrangler": "^3.109.2"
+    "wrangler": "^3.109.3"
   },
   "engines": {
     "node": ">=20.0.0"
