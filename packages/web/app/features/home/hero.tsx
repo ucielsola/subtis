@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import { useAnimation } from "motion/react";
+import { useEffect } from "react";
 
 // shared
 import { VideoDropzone } from "~/components/shared/video-dropzone";
