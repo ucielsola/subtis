@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useAnimation } from "motion/react";
 
 // shared
@@ -23,6 +24,16 @@ import { HeroBackground } from "./hero-background";
 export function HomeHero() {
   // motion hooks
   const controls = useAnimation();
+
+  // effects
+  useEffect(function preloadStremioImages() {
+    const images = ["/stremio-1.webp", "/stremio-2.webp", "/stremio-3.webp", "/stremio-4.webp"];
+
+    images.forEach((image) => {
+      const newImage = new Image();
+      newImage.src = image;
+    });
+  }, []);
 
   return (
     <section className="py-16 lg:pt-24 lg:pb-20 isolate relative">
