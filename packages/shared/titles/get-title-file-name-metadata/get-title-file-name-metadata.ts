@@ -51,7 +51,9 @@ export function getTitleFileNameMetadata({
       continue;
     }
 
-    const [rawTitleName, rawAttributes] = parsedMovieFileName.split(yearStringToReplace);
+    const parsedMovieFileNameWithoutYear = parsedMovieFileName.replace(`.${yearStringToReplace}`, "");
+
+    const [rawTitleName, rawAttributes] = parsedMovieFileNameWithoutYear.split(yearStringToReplace);
     const parsedTitleName = getTitleName(rawTitleName);
 
     const episode = getEpisode(rawTitleName);
@@ -68,7 +70,9 @@ export function getTitleFileNameMetadata({
     const videoFileExtension = VIDEO_FILE_EXTENSIONS.find((videoFileExtension) =>
       rawAttributes.includes(videoFileExtension),
     );
-    z.string({ message: `Video file extension not supported: ${parsedMovieFileName}` }).parse(videoFileExtension);
+    z.string({ message: `Video file extension not supported: ${parsedMovieFileNameWithoutYear}` }).parse(
+      videoFileExtension,
+    );
 
     const resolution = match(rawAttributes)
       .with(P.string.includes("480"), () => "480")
