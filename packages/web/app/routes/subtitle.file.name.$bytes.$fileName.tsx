@@ -26,7 +26,6 @@ import { cn } from "~/lib/utils";
 // ui
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
-import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import DotPattern from "~/components/ui/dot-pattern";
 import { Separator } from "~/components/ui/separator";
@@ -291,10 +290,6 @@ export default function SubtitlePage() {
   }
 
   // constants
-  const { runtime } = loaderData.title;
-  const totalHours = runtime ? Math.floor(runtime / 60) : null;
-  const totalMinutes = runtime ? runtime % 60 : null;
-
   const isLoadingProviders = isLoadingTeaser || isLoadingJustWatch || isLoadingLetterboxd || isLoadingRottenTomatoes;
 
   return (
@@ -309,13 +304,7 @@ export default function SubtitlePage() {
                 className="w-full max-h-32 object-contain md:hidden mb-4"
               />
             ) : null}
-            <div className="flex flex-col gap-2">
-              <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold text-balance">¡Subtítulo encontrado!</h1>
-              <div className="flex flex-row gap-2">
-                <Badge variant="outline">{loaderData.title.year}</Badge>
-                <Badge variant="outline">{`${totalHours ? `${totalHours}h ` : ""}${totalMinutes ? `${totalMinutes}m` : ""}`}</Badge>
-              </div>
-            </div>
+            <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold text-balance">¡Subtítulo encontrado!</h1>
             <h2 className="text-zinc-50 text-balance text-sm md:text-base">
               Acomódate y disfrutá tu película subtitulada 🍿
             </h2>
