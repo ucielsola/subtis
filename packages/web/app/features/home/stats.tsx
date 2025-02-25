@@ -17,7 +17,7 @@ export function HomeStats() {
 
   // ts hooks
   const { isIntersecting, ref } = useIntersectionObserver({
-    threshold: 1,
+    threshold: 0.8,
   });
 
   // effects
@@ -42,7 +42,7 @@ export function HomeStats() {
           Explorá algunas de nuestras estadísticas y descubre cómo hacemos que el cine sea más accesible.
         </h3>
       </div>
-      <div className="flex flex-row flex-wrap gap-4 max-w-screen-xl items-center justify-evenly w-full">
+      <div className="flex flex-col md:flex-row flex-wrap gap-12 md:gap-4 max-w-screen-xl items-center justify-evenly w-full">
         <div className="flex flex-col items-center justify-center min-w-56">
           <NumberFlow
             className="text-zinc-50 text-4xl font-bold text-balance"
