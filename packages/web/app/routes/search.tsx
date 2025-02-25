@@ -8,6 +8,9 @@ import { z } from "zod";
 // api
 import { trendingSubtitlesResponseSchema } from "@subtis/api/controllers/titles/schemas";
 
+// shared
+import { getStringWithoutSpecialCharacters } from "@subtis/shared";
+
 // lib
 import { apiClient } from "~/lib/api";
 
@@ -105,12 +108,29 @@ export default function SearchPage() {
 
       const parsedResults = data.results
         .filter((result) => result.type === "movie")
-        .map((result) => ({
-          value: String(result.slug),
-          optimizedPoster: result.optimized_poster,
-          posterThumbHash: result.poster_thumbhash,
-          label: `${result.title_name} (${result.year})`,
-        }));
+        .map((result) => {
+          let label = `${result.title_name} (${result.year})`;
+          const parsedQuery = getStringWithoutSpecialCharacters(query);
+
+          if (getStringWithoutSpecialCharacters(result.title_name_spa ?? "").includes(parsedQuery)) {
+            label = `${result.title_name_spa} (${result.year})`;
+          }
+
+          if (getStringWithoutSpecialCharacters(result.title_name_ja ?? "").includes(parsedQuery)) {
+            label = `${result.title_name_ja} (${result.year})`;
+          }
+
+          if (getStringWithoutSpecialCharacters(result.title_name ?? "").includes(parsedQuery)) {
+            label = `${result.title_name} (${result.year})`;
+          }
+
+          return {
+            label,
+            value: String(result.slug),
+            optimizedPoster: result.optimized_poster,
+            posterThumbHash: result.poster_thumbhash,
+          };
+        });
 
       return { results: parsedResults, statusCode: response.status };
     },

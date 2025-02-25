@@ -5,7 +5,13 @@ import { titleSchema } from "../../lib/schemas";
 
 // schemas
 export const searchTitlesSchema = z
-  .array(titleSchema, { invalid_type_error: "Search titles not found" })
+  .array(
+    titleSchema.extend({
+      title_name_spa: z.string().nullable(),
+      title_name_ja: z.string().nullable(),
+    }),
+    { invalid_type_error: "Search titles not found" },
+  )
   .min(1, { message: "Search titles not found" });
 
 export const searchTitlesResponseSchema = z.object({

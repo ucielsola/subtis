@@ -23,6 +23,8 @@ CREATE OR REPLACE FUNCTION public.fuzzy_search_title(query text)
 RETURNS TABLE (
     imdb_id text,
     title_name text,
+    title_name_spa text,
+    title_name_ja text,
     year int8,
     type text,
     slug text,
@@ -43,6 +45,8 @@ BEGIN
     SELECT
         t.imdb_id,
         t.title_name,
+        t.title_name_spa,
+        t.title_name_ja,
         t.year,
         t.type,
         t.slug,
@@ -59,9 +63,9 @@ BEGIN
         t.youtube_id
     FROM "Titles" t
     WHERE (
-        (unaccent(query) % unaccent(t.title_name) AND similarity(unaccent(query), unaccent(t.title_name)) > 0.7)
-        OR (unaccent(query) % unaccent(t.title_name_spa) AND similarity(unaccent(query), unaccent(t.title_name_spa)) > 0.7)
-        OR (unaccent(query) % unaccent(t.title_name_ja) AND similarity(unaccent(query), unaccent(t.title_name_ja)) > 0.7)
+        (unaccent(query) % unaccent(t.title_name) AND similarity(unaccent(query), unaccent(t.title_name)) > 0.75)
+        OR (unaccent(query) % unaccent(t.title_name_spa) AND similarity(unaccent(query), unaccent(t.title_name_spa)) > 0.75)
+        OR (unaccent(query) % unaccent(t.title_name_ja) AND similarity(unaccent(query), unaccent(t.title_name_ja)) > 0.75)
         OR unaccent(t.title_name) ILIKE '%' || unaccent(query) || '%'
         OR unaccent(t.title_name_spa) ILIKE '%' || unaccent(query) || '%'
         OR unaccent(t.title_name_ja) ILIKE '%' || unaccent(query) || '%'

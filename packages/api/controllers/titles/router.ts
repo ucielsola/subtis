@@ -85,7 +85,7 @@ export const titles = new Hono<{ Variables: AppVariables }>()
       const titles = searchTitlesSchema.safeParse(data);
       if (!titles.success) {
         context.status(404);
-        return context.json({ message: "Titles not found" });
+        return context.json({ message: "Titles not found", error: titles.error.issues[0].message });
       }
 
       const finalResponse = searchTitlesResponseSchema.safeParse(getResultsWithLength(titles.data));
