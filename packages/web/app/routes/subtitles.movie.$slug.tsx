@@ -6,11 +6,15 @@ import numeral from "numeral";
 import { useQueryState } from "nuqs";
 import { Fragment, useState } from "react";
 import Highlighter from "react-highlight-words";
+import { useCopyToClipboard } from "usehooks-ts";
 import { z } from "zod";
 
-import { subtitlesResponseSchema } from "@subtis/api/controllers/subtitles/schemas";
 // api
+import { subtitlesResponseSchema } from "@subtis/api/controllers/subtitles/schemas";
 import type { SubtitlesNormalized } from "@subtis/api/lib/parsers";
+
+// indexer
+import { getImdbLink } from "@subtis/indexer/imdb";
 
 // shared
 import { VideoDropzone } from "~/components/shared/video-dropzone";
@@ -38,24 +42,23 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { ToastAction } from "~/components/ui/toast";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
+// logos
 import { IMDbLogo } from "~/components/logos/imdb";
 import { JustWatchLogo } from "~/components/logos/justwatch";
 import { LetterboxdLogo } from "~/components/logos/letterboxd";
 import { RottenTomatoesLogo } from "~/components/logos/rottentomatoes";
-// logos
 import { YouTubeLogo } from "~/components/logos/youtube";
 
 // features
 import { PosterDisclosure } from "~/features/movie/poster-disclosure";
 
-import { getImdbLink } from "@subtis/indexer/imdb";
+// hooks
 import { useCinemas } from "~/hooks/use-cinemas";
 import { useJustWatch } from "~/hooks/use-justwatch";
 import { useLetterboxd } from "~/hooks/use-letterboxd";
 import { usePlatforms } from "~/hooks/use-platforms";
 import { useRottenTomatoes } from "~/hooks/use-rottentomatoes";
 import { useTeaser } from "~/hooks/use-teaser";
-// hooks
 import { useToast } from "~/hooks/use-toast";
 
 // helpers
@@ -131,6 +134,9 @@ export default function SubtitlesPage() {
   // toast hooks
   const { toast } = useToast();
 
+  // ts hooks
+  const [_copiedText, copy] = useCopyToClipboard();
+
   // helpers
   function triggerShareToast(): void {
     if ("message" in loaderData) {
@@ -163,8 +169,8 @@ export default function SubtitlesPage() {
   }
 
   // handlers
-  function handleCopyEmailToClipboard() {
-    navigator.clipboard.writeText("soporte@subtis.io");
+  async function handleCopyEmailToClipboard(): Promise<void> {
+    await copy("soporte@subtis.io");
 
     toast({
       title: "¡Email copiado a tu clipboard!",

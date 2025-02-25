@@ -1,4 +1,5 @@
 import { Link } from "@remix-run/react";
+import { useCopyToClipboard } from "usehooks-ts";
 
 // hooks
 import { useToast } from "~/hooks/use-toast";
@@ -10,9 +11,12 @@ export function HomeFooter() {
   // toast hooks
   const { toast } = useToast();
 
+  // ts hooks
+  const [_copiedText, copy] = useCopyToClipboard();
+
   // handlers
-  function handleCopyEmailToClipboard() {
-    navigator.clipboard.writeText("soporte@subtis.io");
+  async function handleCopyEmailToClipboard(): Promise<void> {
+    await copy("soporte@subtis.io");
     toast({
       title: "¡Email copiado a tu clipboard!",
       description: "Escribinos y te responderemos lo antes posible.",
