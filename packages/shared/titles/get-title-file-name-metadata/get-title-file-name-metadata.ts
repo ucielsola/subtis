@@ -51,7 +51,11 @@ export function getTitleFileNameMetadata({
       continue;
     }
 
-    const parsedMovieFileNameWithoutYear = parsedMovieFileName.replace(`.${yearStringToReplace}`, "");
+    const parsedMovieFileNameWithoutYear = parsedMovieFileName.includes(
+      `.${yearStringToReplace}.${yearStringToReplace}`,
+    )
+      ? parsedMovieFileName.replace(`.${yearStringToReplace}`, "")
+      : parsedMovieFileName;
 
     const [rawTitleName, rawAttributes] = parsedMovieFileNameWithoutYear.split(yearStringToReplace);
     const parsedTitleName = getTitleName(rawTitleName);
