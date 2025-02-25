@@ -40,7 +40,28 @@ RETURNS TABLE (
     rating float4,
     youtube_id text
 ) AS $$
+DECLARE
+    year_match int8 := NULL;
+    title_query text := query;
+    year_only_search boolean := false;
 BEGIN
+    -- Check for year-only query
+    IF query ~ '^\d{4}$' THEN
+        year_match := CAST(query AS int8);
+        year_only_search := true;
+    ELSE
+        -- Extract potential year from query for matching
+        IF query ~ '\d{4}' THEN
+            year_match := CAST(substring(query FROM '\d{4}') AS int8);
+        END IF;
+
+        -- For "[TITLE] [YEAR]" format (e.g., "Her 2013"), create a modified query without the year
+        -- for better title matching, but only if the year is at the end with space before it
+        IF query ~ '.+\s+\d{4}$' THEN
+            title_query := regexp_replace(query, '\s+\d{4}$', '', 'g');
+        END IF;
+    END IF;
+
     RETURN QUERY
     SELECT
         t.imdb_id,
@@ -63,14 +84,43 @@ BEGIN
         t.youtube_id
     FROM "Titles" t
     WHERE (
-        (unaccent(query) % unaccent(t.title_name) AND similarity(unaccent(query), unaccent(t.title_name)) > 0.75)
-        OR (unaccent(query) % unaccent(t.title_name_spa) AND similarity(unaccent(query), unaccent(t.title_name_spa)) > 0.75)
-        OR (unaccent(query) % unaccent(t.title_name_ja) AND similarity(unaccent(query), unaccent(t.title_name_ja)) > 0.75)
+        year_only_search OR  -- Skip title matching if only year was provided
+        -- Always try to match against full original query first
+        (unaccent(query) % unaccent(t.title_name) AND similarity(unaccent(query), unaccent(t.title_name)) > 0.65)
+        OR (unaccent(query) % unaccent(t.title_name_spa) AND similarity(unaccent(query), unaccent(t.title_name_spa)) > 0.65)
+        OR (unaccent(query) % unaccent(t.title_name_ja) AND similarity(unaccent(query), unaccent(t.title_name_ja)) > 0.65)
         OR unaccent(t.title_name) ILIKE '%' || unaccent(query) || '%'
         OR unaccent(t.title_name_spa) ILIKE '%' || unaccent(query) || '%'
         OR unaccent(t.title_name_ja) ILIKE '%' || unaccent(query) || '%'
+
+        -- If we've created a modified title query without the year, use that as well
+        OR (title_query != query AND (
+            (unaccent(title_query) % unaccent(t.title_name) AND similarity(unaccent(title_query), unaccent(t.title_name)) > 0.65)
+            OR (unaccent(title_query) % unaccent(t.title_name_spa) AND similarity(unaccent(title_query), unaccent(t.title_name_spa)) > 0.65)
+            OR (unaccent(title_query) % unaccent(t.title_name_ja) AND similarity(unaccent(title_query), unaccent(t.title_name_ja)) > 0.65)
+            OR unaccent(t.title_name) ILIKE '%' || unaccent(title_query) || '%'
+            OR unaccent(t.title_name_spa) ILIKE '%' || unaccent(title_query) || '%'
+            OR unaccent(t.title_name_ja) ILIKE '%' || unaccent(title_query) || '%'
+        ))
     )
-    ORDER BY t.year DESC;
+    AND (
+        year_match IS NULL
+        OR t.year = year_match
+        -- Also match if the year is part of the title name
+        OR t.title_name ILIKE '%' || year_match || '%'
+        OR t.title_name_spa ILIKE '%' || year_match || '%'
+        OR t.title_name_ja ILIKE '%' || year_match || '%'
+    )
+    ORDER BY
+        -- Prioritize exact year matches
+        CASE WHEN year_match IS NOT NULL AND t.year = year_match THEN 0 ELSE 1 END,
+        -- Then by similarity to query
+        GREATEST(
+            similarity(unaccent(query), unaccent(t.title_name)),
+            similarity(unaccent(query), unaccent(t.title_name_spa)),
+            similarity(unaccent(query), unaccent(t.title_name_ja))
+        ) DESC,
+        t.year DESC;
 END;
 $$ LANGUAGE plpgsql;
 ```
