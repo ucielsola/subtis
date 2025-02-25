@@ -112,15 +112,15 @@ export default function SearchPage() {
           let label = `${result.title_name} (${result.year})`;
           const parsedQuery = getStringWithoutSpecialCharacters(query);
 
-          if (getStringWithoutSpecialCharacters(result.title_name_spa ?? "").includes(parsedQuery)) {
+          if (getStringWithoutSpecialCharacters(`${result.title_name_spa} ${result.year}`).includes(parsedQuery)) {
             label = `${result.title_name_spa} (${result.year})`;
           }
 
-          if (getStringWithoutSpecialCharacters(result.title_name_ja ?? "").includes(parsedQuery)) {
+          if (getStringWithoutSpecialCharacters(`${result.title_name_ja} ${result.year}`).includes(parsedQuery)) {
             label = `${result.title_name_ja} (${result.year})`;
           }
 
-          if (getStringWithoutSpecialCharacters(result.title_name ?? "").includes(parsedQuery)) {
+          if (getStringWithoutSpecialCharacters(`${result.title_name} ${result.year}`).includes(parsedQuery)) {
             label = `${result.title_name} (${result.year})`;
           }
 
