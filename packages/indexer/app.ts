@@ -531,9 +531,11 @@ function modifySecondsInTimestamp(timestamp: string, secondsToModify: number): s
 async function addWatermarkToSubtitle({
   path,
   titleType,
+  subtitleId,
   subtitleGroupName,
 }: {
   path: string;
+  subtitleId: string;
   titleType: TitleTypes;
   subtitleGroupName: SubtitleGroupNames;
 }): Promise<void> {
@@ -543,6 +545,20 @@ async function addWatermarkToSubtitle({
 
   let parsedEncoding = encoding === "windows-1251" ? "iso-8859-1" : encoding.toLowerCase();
   let subtitleText = "";
+
+  let providerSubtitleLink = "";
+
+  if (subtitleGroupName === "SubDivX") {
+    providerSubtitleLink = `https://www.subdivx.com/${subtitleId}`;
+  }
+
+  if (subtitleGroupName === "SUBDL") {
+    providerSubtitleLink = `https://subdl.com/s/info/${subtitleId}`;
+  }
+
+  if (subtitleGroupName === "OpenSubtitles") {
+    providerSubtitleLink = `https://www.opensubtitles.com/${subtitleId}`;
+  }
 
   if (parsedEncoding === "utf-16le") {
     parsedEncoding = "utf-16";
@@ -566,9 +582,18 @@ async function addWatermarkToSubtitle({
   const subtitleTextWithWatermark = match(titleType)
     .with(TitleTypes.movie, () => {
       const firstSubtitle = subtitleSplitted.at(0) as string;
+      const lastSubtitle = subtitleSplitted.at(-1) as string;
 
-      const [_id, timestamp] = firstSubtitle.split("\n");
-      const firstSubtitleTimestamp = timestamp.split(" ").at(0) as string;
+      const [_firstSubtitleId, firstTimestamp] = firstSubtitle.split("\n");
+      const firstSubtitleTimestamp = firstTimestamp.split(" ").at(0) as string;
+
+      const [lastId, lastTimestamp] = lastSubtitle.split("\n");
+
+      const lastSubtitleId = Number(lastId);
+      const watermarkNextId = lastSubtitleId + 1;
+
+      const lastSubtitleTimestamp = lastTimestamp.split(" ").at(-1) as string;
+      const extraWatermarkTimestamp = modifySecondsInTimestamp(lastSubtitleTimestamp, 6);
 
       const MAX_WATERMARK_TIME = "00:00:24,000";
 
@@ -588,10 +613,17 @@ async function addWatermarkToSubtitle({
 
       return `0
 00:00:00,000 --> ${watermarkStartTimestamp}
-Subtitulos provistos por <b>Subtis</b> - <i>@subt_is</i>
+Subtitulos por <b>Subtis</b> - <i>@subt_is</i>
 Encontranos en la web https://subtis.io
 
-${subtitleText}`;
+${subtitleText}
+
+${watermarkNextId}
+${lastSubtitleTimestamp} --> ${extraWatermarkTimestamp}
+Fuente del subtítulo: ${subtitleGroupName}
+Link: ${providerSubtitleLink}
+ID: ${subtitleId}
+`;
     })
     .with(TitleTypes.tvShow, () => {
       let lastSubtitle = subtitleSplitted.at(-1) as string;
@@ -614,13 +646,14 @@ ${subtitleText}`;
       return `${subtitleText}
 ${watermarkNextId}
 ${firstTimestamp} --> ${secondTimestamp}
-Subtitulos descargados desde <b>Subtis</b>
-Encontranos en https://subtis.io
+Subtitulos por <b>Subtis</b> - <i>@subt_is</i>
+Encontranos en la web https://subtis.io
 
 ${watermarkNextId + 1}
 ${secondTimestamp} --> ${thirdTimestamp}
-Contactanos por X en <i>@subt_is</i>
-Vía email a <i>soporte@subtis.io</i>
+Fuente del subtítulo: ${subtitleGroupName}
+Link: ${providerSubtitleLink}
+ID: ${subtitleId}
 `;
     })
     .run();
@@ -711,7 +744,7 @@ export async function downloadAndStoreTitleAndSubtitle(data: {
     await uncompressSubtitle({ subtitle, fromRoute: subtitleCompressedAbsolutePath, toRoute: extractedSubtitlePath });
 
     const path = getSubtitleInitialPath({ subtitle, extractedSubtitlePath });
-    await addWatermarkToSubtitle({ path, subtitleGroupName, titleType });
+    await addWatermarkToSubtitle({ path, subtitleGroupName, subtitleId: subtitle.externalId, titleType });
 
     const subtitleFileToUpload = readSubtitleFile(path);
     const author = getSubtitleAuthor(subtitleFileToUpload);

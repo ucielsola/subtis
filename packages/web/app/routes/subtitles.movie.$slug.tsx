@@ -343,7 +343,7 @@ export default function SubtitlesPage() {
           );
         }
 
-        if (subtitle_group_name === "SubDL") {
+        if (subtitle_group_name === "SUBDL") {
           return (
             <div className="w-24">
               <a
