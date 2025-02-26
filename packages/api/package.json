@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250224.0",
-    "@types/bun": "^1.2.3",
+    "@types/bun": "^1.2.4",
     "@types/timestring": "^7.0.0",
     "@types/unescape-js": "^1.0.3",
     "typescript": "^5.7.3",
