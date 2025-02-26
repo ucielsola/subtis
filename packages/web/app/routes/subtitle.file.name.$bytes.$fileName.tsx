@@ -304,10 +304,12 @@ export default function SubtitlePage() {
                 className="w-full max-h-32 object-contain md:hidden mb-4"
               />
             ) : null}
-            <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold text-balance">¡Subtítulo encontrado!</h1>
-            <h2 className="text-zinc-50 text-balance text-sm md:text-base">
-              Acomódate y disfrutá tu película subtitulada 🍿
-            </h2>
+            <div className="flex flex-col gap-2">
+              <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold text-balance">¡Subtítulo encontrado!</h1>
+              <h2 className="text-zinc-50 text-balance text-sm md:text-base">
+                Acomódate y disfrutá tu película subtitulada 🍿
+              </h2>
+            </div>
           </div>
 
           <article className="flex flex-row gap-4">
