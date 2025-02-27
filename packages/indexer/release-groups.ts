@@ -240,6 +240,11 @@ export const RELEASE_GROUPS = {
     release_group_name: "HDRip-C1NEM4",
     matches: ["HDRip-C1NEM4"],
   },
+  "HEVC-3Li": {
+    is_supported: true,
+    release_group_name: "HEVC-3Li",
+    matches: ["HEVC-3Li", "x264-3Li", "x265-3Li"],
+  },
   "HEVC-GOPIHD": {
     is_supported: true,
     release_group_name: "HEVC-GOPIHD",

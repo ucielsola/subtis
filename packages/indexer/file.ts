@@ -378,8 +378,8 @@ export async function indexTitleByFileName({
 // const titleFileName = "Scenes.From.A.Marriage.1974.1080p.BluRay.x264-[YTS.AM].mp4";
 // const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
 
-// const bytes = 521893742345232;
-// const titleFileName = "The.Corruptor.1999.1080p.BluRay.x265-RARBG.mp4";
+// const bytes = 52111742345232;
+// const titleFileName = "Black Panther Wakanda Forever 2022 BluRay 1440p DTS x264-3Li.mkv";
 
 // indexTitleByFileName({
 //   bytes,
@@ -390,6 +390,6 @@ export async function indexTitleByFileName({
 //   shouldIndexAllTorrents: false,
 // });
 
-// GENERAL
+// // GENERAL
 // saveReleaseGroupsToDb(supabase);
 // saveSubtitleGroupsToDb(supabase);
