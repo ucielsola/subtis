@@ -1359,7 +1359,7 @@ export async function getSubtitlesForTitle({
     .map((queryMatch) => queryMatch.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
 
   const releaseGroupsRegex = new RegExp(`\\b(${releaseGroupsqueryMatches.join("|")})\\b`, "gi");
-  const resolutionRegex = /(480p|576p|720p|1080p|2160p|4k|3d)/gi;
+  const resolutionRegex = /(480p|576p|720p|1080p|1440p|2160p|4k|3d)/gi;
 
   const enabledProviders = ["subdivx", "subdl", "openSubtitles"] as SubtitleProvider[];
   // const enabledProviders = ["subdl"] as SubtitleProvider[];

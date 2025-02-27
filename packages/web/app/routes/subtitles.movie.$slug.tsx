@@ -65,9 +65,11 @@ import { useToast } from "~/hooks/use-toast";
 function getResolutionRank(resolution: string): number {
   const ranks = {
     "480p": 1,
-    "720p": 2,
-    "1080p": 3,
-    "2160p": 4,
+    "576p": 2,
+    "720p": 3,
+    "1080p": 4,
+    "1440p": 5,
+    "2160p": 6,
   };
 
   return ranks[resolution as keyof typeof ranks] ?? 0;
@@ -253,7 +255,9 @@ export default function SubtitlesPage() {
         return resA - resB;
       },
       cell: ({ row }) => {
-        if (row.original.subtitle.resolution === "480p") {
+        const { resolution } = row.original.subtitle;
+
+        if (resolution === "480p") {
           return (
             <Tooltip>
               <TooltipTrigger className="truncate cursor-default text-left">
@@ -264,7 +268,7 @@ export default function SubtitlesPage() {
           );
         }
 
-        if (row.original.subtitle.resolution === "720p") {
+        if (resolution === "720p") {
           return (
             <Tooltip>
               <TooltipTrigger className="truncate cursor-default text-left">
@@ -275,7 +279,7 @@ export default function SubtitlesPage() {
           );
         }
 
-        if (row.original.subtitle.resolution === "1080p") {
+        if (resolution === "1080p") {
           return (
             <Tooltip>
               <TooltipTrigger className="truncate cursor-default text-left">
@@ -286,7 +290,18 @@ export default function SubtitlesPage() {
           );
         }
 
-        if (row.original.subtitle.resolution === "2160p") {
+        if (resolution === "1440p") {
+          return (
+            <Tooltip>
+              <TooltipTrigger className="truncate cursor-default text-left">
+                {row.original.subtitle.resolution}
+              </TooltipTrigger>
+              <TooltipContent side="right">2K</TooltipContent>
+            </Tooltip>
+          );
+        }
+
+        if (resolution === "2160p") {
           return (
             <Tooltip>
               <TooltipTrigger className="truncate cursor-default text-left">
@@ -297,7 +312,7 @@ export default function SubtitlesPage() {
           );
         }
 
-        return row.original.subtitle.resolution;
+        return resolution;
       },
     },
     {
