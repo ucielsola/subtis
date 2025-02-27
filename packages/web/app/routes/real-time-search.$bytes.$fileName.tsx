@@ -1,7 +1,7 @@
 import { useEffectOnce } from "@custom-react-hooks/use-effect-once";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
 import { useLoaderData, useNavigate, useParams } from "@remix-run/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useSound from "use-sound";
 import { z } from "zod";
 
@@ -18,7 +18,7 @@ import { TextShimmerWave } from "~/components/ui/text-shimmer-wave";
 import { useToast } from "~/hooks/use-toast";
 
 // features
-import successShortHigh from "~/features/real-time-search/success_short_high.wav";
+import subtleDrumAlert from "~/features/real-time-search/subtle_drum_alert.wav";
 
 // schemas
 const wsMessageSchema = z.object({
@@ -77,7 +77,7 @@ export default function RealTimeSearchPage() {
   const teaser = useLoaderData<typeof loader>();
 
   // sound hooks
-  const [play] = useSound(successShortHigh);
+  const [play] = useSound(subtleDrumAlert);
 
   // toast hooks
   const { toast } = useToast();
@@ -160,7 +160,7 @@ export default function RealTimeSearchPage() {
       });
 
       if (websocketData.ok === true) {
-        play();
+        play({ forceSoundEnabled: true });
 
         toast({
           title: "¡Subtítulo encontrado!",
