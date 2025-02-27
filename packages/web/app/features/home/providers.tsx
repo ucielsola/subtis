@@ -7,7 +7,7 @@ export function HomeProviders() {
           En Subtis, nos apoyamos en estos proveedores para traerte siempre los mejores subtítulos de la web.
         </h3>
       </div>
-      <div className="flex flex-row flex-wrap gap-4 max-w-screen-xl items-center justify-evenly w-full">
+      <div className="flex flex-col md:flex-row gap-12 md:gap-4 flex-wrap max-w-screen-xl items-center justify-evenly w-full">
         <div className="flex flex-col items-center justify-center">
           <a
             href="https://www.opensubtitles.com"
