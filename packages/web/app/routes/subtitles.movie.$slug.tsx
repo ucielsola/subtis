@@ -463,8 +463,8 @@ export default function SubtitlesPage() {
 
   return (
     <div className="pt-24 pb-44 flex flex-col lg:flex-row justify-between gap-4">
-      <article className={`${isAdvancedModeEnabled ? "max-w-screen-md" : "max-w-[630px]"} w-full`}>
-        <section className="flex flex-col gap-12">
+      <article>
+        <section className={`flex flex-col gap-12 ${isAdvancedModeEnabled ? "max-w-screen-md" : "max-w-[630px]"}`}>
           <div className="flex flex-col gap-4">
             {loaderData.title.optimized_logo ? (
               <img
@@ -524,7 +524,7 @@ export default function SubtitlesPage() {
           </div>
         </section>
 
-        <section className="flex flex-col gap-12 mt-[74px]">
+        <section className="flex flex-col gap-12 mt-[74px] max-w-[630px]">
           <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold text-zinc-50">Sugerencias</h3>
             <h4 className="text-zinc-50 text-sm md:text-base">
@@ -682,9 +682,9 @@ export default function SubtitlesPage() {
           </Tabs>
         </section>
 
-        <Separator className="my-16 bg-zinc-700" />
+        <Separator className="my-16 bg-zinc-700  max-w-[630px]" />
 
-        <section className="flex flex-col gap-12">
+        <section className="flex flex-col gap-12  max-w-[630px]">
           <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold text-zinc-50">Buscar nuevo subtítulo por archivo</h3>
             <h4 className="text-zinc-50 text-sm md:text-base">
@@ -703,8 +703,8 @@ export default function SubtitlesPage() {
 
         {titleCinemas ? (
           <Fragment>
-            <Separator className="my-16 bg-zinc-700" />
-            <section className="flex flex-col gap-12 mt-16">
+            <Separator className="my-16 bg-zinc-700 max-w-[630px]" />
+            <section className="flex flex-col gap-12 mt-16 max-w-[630px]">
               <div className="flex flex-col gap-2">
                 <h3 className="text-2xl font-semibold text-zinc-50">Cines</h3>
                 <h4 className="text-zinc-50 text-sm md:text-base">
@@ -744,8 +744,8 @@ export default function SubtitlesPage() {
 
         {titlePlatforms && titlePlatforms.platforms.length > 0 ? (
           <Fragment>
-            <Separator className="my-16 bg-zinc-700" />
-            <section className="flex flex-col gap-12 mt-16">
+            <Separator className="my-16 bg-zinc-700 max-w-[630px]" />
+            <section className="flex flex-col gap-12 mt-16 max-w-[630px]  ">
               <div className="flex flex-col gap-2">
                 <h3 className="text-2xl font-semibold text-zinc-50">Plataformas</h3>
                 <h4 className="text-zinc-50 text-sm md:text-base">
@@ -771,7 +771,7 @@ export default function SubtitlesPage() {
         ) : null}
       </article>
       {loaderData.title.poster_thumbhash ? (
-        <aside className="hidden lg:flex flex-1 flex-col items-center">
+        <aside className="hidden lg:flex flex-1 flex-col items-center max-w-2xl">
           <div>
             <PosterDisclosure
               src={loaderData.title.optimized_poster}
