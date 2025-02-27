@@ -9,9 +9,9 @@ import { saveTmdbMovieGenresToDb } from "./tmdb";
 
 // testing
 indexMovieByName({
-  year: 2008,
+  year: 2025,
   isDebugging: false,
-  name: "Slumdog Millionaire",
+  name: "The Gorge",
 });
 
 saveReleaseGroupsToDb(supabase);

@@ -1133,6 +1133,10 @@ export async function getTorrentVideoFileMetadata(torrent: TorrentFound): Promis
                 resolution = "1080";
               }
 
+              if (firstStream.width === 2560 || firstStream.height === 1440) {
+                resolution = "1440";
+              }
+
               if (firstStream.width === 3840 || firstStream.width === 4096 || firstStream.height === 1440) {
                 resolution = "2160";
               }
