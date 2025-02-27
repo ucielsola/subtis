@@ -1,8 +1,7 @@
 import { useEffectOnce } from "@custom-react-hooks/use-effect-once";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
 import { useLoaderData, useNavigate, useParams } from "@remix-run/react";
-import { useEffect, useState } from "react";
-import useSound from "use-sound";
+import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 
 // api
@@ -18,7 +17,7 @@ import { TextShimmerWave } from "~/components/ui/text-shimmer-wave";
 import { useToast } from "~/hooks/use-toast";
 
 // features
-import subtleDrumAlert from "~/features/real-time-search/subtle_drum_alert.wav";
+import beep from "~/features/real-time-search/beep.mp3";
 
 // schemas
 const wsMessageSchema = z.object({
@@ -32,6 +31,25 @@ const wsOkSchema = z.object({
 
 // types
 type WsOk = z.infer<typeof wsOkSchema>;
+
+// custom hooks
+function useWithSound(audioSource: string) {
+  const soundRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    soundRef.current = new Audio(audioSource);
+  }, [audioSource]);
+
+  function play(): void {
+    if (!soundRef.current) {
+      return;
+    }
+
+    soundRef.current.play();
+  }
+
+  return { play };
+}
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { bytes, fileName } = params;
@@ -77,7 +95,7 @@ export default function RealTimeSearchPage() {
   const teaser = useLoaderData<typeof loader>();
 
   // sound hooks
-  const [play] = useSound(subtleDrumAlert);
+  const { play } = useWithSound(beep);
 
   // toast hooks
   const { toast } = useToast();
@@ -160,7 +178,7 @@ export default function RealTimeSearchPage() {
       });
 
       if (websocketData.ok === true) {
-        play({ forceSoundEnabled: true });
+        play();
 
         toast({
           title: "¡Subtítulo encontrado!",
