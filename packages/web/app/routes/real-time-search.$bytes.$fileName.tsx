@@ -198,6 +198,8 @@ export default function RealTimeSearchPage() {
       });
 
       if (alternativeSubtitleResponse.status === 200) {
+        play();
+
         toast({
           title: "¡Subtítulo alternativo encontrado!",
           description: "Te redireccionaremos en 3 segundos...",
