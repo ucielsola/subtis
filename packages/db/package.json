@@ -19,7 +19,7 @@
     "@types/bun": "^1.2.4",
     "supabase": ">=2.15.8",
     "supabase-to-zod": "^1.0.7",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.2"
   },
   "trustedDependencies": [
     "supabase"
