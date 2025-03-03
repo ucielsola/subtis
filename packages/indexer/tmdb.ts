@@ -769,6 +769,10 @@ export async function getTmdbMovieFromTitle(query: string, year?: number): Promi
   // const sortedMoviesByVoteCount = results.toSorted((a, b) => (a.vote_count < b.vote_count ? 1 : -1));
   const [movie] = results;
 
+  if (!movie) {
+    throw new Error("Movie not found");
+  }
+
   const { id, title: name, genre_ids: genres, release_date: releaseDate, vote_average: voteAverage } = movie;
 
   const movieData = await getMovieMetadataFromTmdbMovie({
