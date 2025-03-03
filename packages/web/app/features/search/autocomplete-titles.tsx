@@ -63,7 +63,7 @@ export function AutocompleteTitles({
     <AutoComplete
       options={data && data.statusCode === 200 ? data.results : []}
       emptyMessage={emptyMessage}
-      placeholder="¿Qué vas a ver hoy?"
+      placeholder='¿Qué vas a ver hoy? Por ej: "El Club de la Pelea" ó "Batman 2022"'
       onInputChange={(inputValue) => {
         if (typeof inputValue === "string") {
           setInputValue(inputValue);
