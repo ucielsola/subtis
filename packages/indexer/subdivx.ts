@@ -165,9 +165,9 @@ async function getSubtitlesFromSubDivXForTitleByQuery({
     }
 
     // TODO: Check if this is needed since sometimes filters more than 16 characters
-    // if (parsedSubtitleTitle.length > titleProviderQuery.length + 16) {
-    //   return false;
-    // }
+    if (parsedSubtitleTitle.length > titleProviderQuery.length + 16) {
+      return false;
+    }
 
     return true;
   });

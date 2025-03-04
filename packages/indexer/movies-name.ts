@@ -10,8 +10,8 @@ import { saveTmdbMovieGenresToDb } from "./tmdb";
 // testing
 indexMovieByName({
   year: 2025,
+  name: "Flow",
   isDebugging: false,
-  name: "The Gorge",
 });
 
 saveReleaseGroupsToDb(supabase);
