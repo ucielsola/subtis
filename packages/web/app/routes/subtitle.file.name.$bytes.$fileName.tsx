@@ -579,9 +579,9 @@ export default function SubtitlePage() {
                     >
                       <IMDbLogo
                         size={20}
-                        className="fill-zinc-50 group-hover/imdb:fill-yellow-500 transition-all ease-in-out"
+                        className="fill-zinc-300 group-hover/imdb:fill-zinc-50 transition-all ease-in-out"
                       />
-                      <span className="text-zinc-50 text-sm group-hover/imdb:text-yellow-500 transition-all ease-in-out">
+                      <span className="text-zinc-50 text-sm group-hover/imdb:text-zinc-50 transition-all ease-in-out">
                         IMDb
                       </span>
                     </a>
@@ -595,9 +595,9 @@ export default function SubtitlePage() {
                     >
                       <YouTubeLogo
                         size={20}
-                        className="fill-zinc-50 group-hover/trailer:fill-red-500 transition-all ease-in-out"
+                        className="fill-zinc-300 group-hover/trailer:fill-zinc-50 transition-all ease-in-out"
                       />
-                      <span className="text-zinc-50 text-sm group-hover/trailer:text-red-500 transition-all ease-in-out">
+                      <span className="text-zinc-50 text-sm group-hover/trailer:text-zinc-50 transition-all ease-in-out">
                         Trailer
                       </span>
                     </a>
@@ -611,9 +611,9 @@ export default function SubtitlePage() {
                     >
                       <JustWatchLogo
                         size={20}
-                        className="fill-zinc-50 group-hover/justwatch:fill-amber-500 transition-all ease-in-out"
+                        className="fill-zinc-300 group-hover/justwatch:fill-zinc-50 transition-all ease-in-out"
                       />
-                      <span className="text-zinc-50 text-sm group-hover/justwatch:text-amber-500 transition-all ease-in-out">
+                      <span className="text-zinc-50 text-sm group-hover/justwatch:text-zinc-50 transition-all ease-in-out">
                         JustWatch
                       </span>
                     </a>
@@ -627,9 +627,9 @@ export default function SubtitlePage() {
                     >
                       <LetterboxdLogo
                         size={20}
-                        className="fill-zinc-50 group-hover/letterboxd:fill-blue-500 transition-all ease-in-out"
+                        className="fill-zinc-300 group-hover/letterboxd:fill-zinc-50 transition-all ease-in-out"
                       />
-                      <span className="text-zinc-50 text-sm group-hover/letterboxd:text-blue-500 transition-all ease-in-out">
+                      <span className="text-zinc-50 text-sm group-hover/letterboxd:text-zinc-50 transition-all ease-in-out">
                         Letterboxd
                       </span>
                     </a>
@@ -643,9 +643,9 @@ export default function SubtitlePage() {
                     >
                       <RottenTomatoesLogo
                         size={20}
-                        className="fill-zinc-50 group-hover/rottentomatoes:fill-orange-500 transition-all ease-in-out"
+                        className="fill-zinc-300 group-hover/rottentomatoes:fill-zinc-50 transition-all ease-in-out"
                       />
-                      <span className="text-zinc-50 text-sm group-hover/rottentomatoes:text-orange-500 transition-all ease-in-out">
+                      <span className="text-zinc-50 text-sm group-hover/rottentomatoes:text-zinc-50 transition-all ease-in-out">
                         Rotten Tomatoes
                       </span>
                     </a>
