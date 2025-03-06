@@ -515,6 +515,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         }
       }
 
+      context.status(201);
       return context.json({ ok: true });
     },
   )
