@@ -112,15 +112,24 @@ export default function SearchPage() {
           let label = `${result.title_name} (${result.year})`;
           const parsedQuery = getStringWithoutSpecialCharacters(query);
 
-          if (getStringWithoutSpecialCharacters(`${result.title_name_spa} ${result.year}`).includes(parsedQuery)) {
+          const spaLabel = getStringWithoutSpecialCharacters(`${result.title_name_spa} ${result.year}`);
+          const jaLabel = getStringWithoutSpecialCharacters(`${result.title_name_ja} ${result.year}`);
+          const enLabel = getStringWithoutSpecialCharacters(`${result.title_name} ${result.year}`);
+
+          const queryWords = parsedQuery.split(" ");
+          const isQueryInSpaLabel = queryWords.every((word) => spaLabel.includes(word));
+          const isQueryInJaLabel = queryWords.every((word) => jaLabel.includes(word));
+          const isQueryInEnLabel = queryWords.every((word) => enLabel.includes(word));
+
+          if (isQueryInSpaLabel) {
             label = `${result.title_name_spa} (${result.year})`;
           }
 
-          if (getStringWithoutSpecialCharacters(`${result.title_name_ja} ${result.year}`).includes(parsedQuery)) {
+          if (isQueryInJaLabel) {
             label = `${result.title_name_ja} (${result.year})`;
           }
 
-          if (getStringWithoutSpecialCharacters(`${result.title_name} ${result.year}`).includes(parsedQuery)) {
+          if (isQueryInEnLabel) {
             label = `${result.title_name} (${result.year})`;
           }
 
@@ -174,7 +183,7 @@ export default function SearchPage() {
               onClearInputValue={handleClearInputValue}
             />
             <p className="text-zinc-400 text-xs">
-              Lo más buscado últimamente es:{" "}
+              Las películas más buscadas últimamente son:{" "}
               <Link to={`/subtitles/movie/${firstTrending.slug}`} className="hover:text-zinc-50">
                 {firstTrending.title}
               </Link>{" "}
