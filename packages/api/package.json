@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@hono/zod-validator": "^0.4.3",
-    "@scalar/hono-api-reference": "^0.5.180",
+    "@scalar/hono-api-reference": "^0.5.181",
     "@supabase/supabase-js": "^2.49.1",
     "hono": "^4.7.4",
     "hono-openapi": "^0.4.6",
