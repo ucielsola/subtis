@@ -33,6 +33,7 @@ export function HomeFooter() {
       </div>
 
       <div className="flex flex-col gap-2 py-2">
+        <span className="text-xs font-bold text-zinc-300 mb-1">Desarrolladores</span>
         <a
           href="https://api.subt.is/v1/docs"
           target="_blank"
@@ -41,9 +42,18 @@ export function HomeFooter() {
         >
           Conectate a la API
         </a>
+        <a
+          href="https://github.com/lndgalante/subtis"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs font-medium text-zinc-50  hover:underline"
+        >
+          Repositorio en GitHub
+        </a>
       </div>
 
       <div className="flex flex-col gap-2 py-2">
+        <span className="text-xs font-bold text-zinc-300 mb-1">Soporte</span>
         <a
           href="https://subtis.canny.io/feature-requests"
           target="_blank"
@@ -60,7 +70,9 @@ export function HomeFooter() {
           Soporte vía email
         </button>
       </div>
+
       <div className="flex flex-col gap-2  py-2">
+        <span className="text-xs font-bold text-zinc-300 mb-1">Legal</span>
         <Link to="/faq" className="text-xs font-medium text-zinc-50  hover:underline">
           Preguntas Frecuentes
         </Link>
@@ -68,7 +80,9 @@ export function HomeFooter() {
           Términos y Condiciones
         </Link>
       </div>
+
       <div className="flex flex-col gap-2 py-2">
+        <span className="text-xs font-bold text-zinc-300 mb-1">Redes</span>
         <a
           href="https://x.com/subt_is"
           target="_blank"

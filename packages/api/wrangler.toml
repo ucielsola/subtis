@@ -1,10 +1,2 @@
 name = "api"
 compatibility_date = "2023-12-01"
-
-# Environment variables should be set using `wrangler secret put` command
-[vars]
-# DO NOT put actual values here - use wrangler secret put for each variable
-SUPABASE_API_KEY = ""
-SUPABASE_BASE_URL = ""
-YOUTUBE_API_KEY = ""
-TMDB_API_KEY = ""

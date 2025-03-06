@@ -35,8 +35,8 @@ export default function FaqPage() {
       <section>
         <h2>¿Qué es Subtis?</h2>
         <p>
-          Subtis es un proyecto gratuito, open-source, y sin fines de lucro, que te permite descargar subtítulos
-          sincronizados para tus películas.
+          Subtis es un proyecto gratuito, open-source, y sin fines de lucro, que te permite encontrar y descargar
+          subtítulos sincronizados para tus películas.
         </p>
       </section>
 
