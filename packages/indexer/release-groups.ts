@@ -771,6 +771,11 @@ export const RELEASE_GROUPS = {
     release_group_name: "HEVC",
     matches: ["HEVC", "x264-HEVC", "x265-HEVC"],
   },
+  HDCLUB: {
+    is_supported: true,
+    release_group_name: "HDCLUB",
+    matches: ["HDCLUB", "H264-HDCLUB"],
+  },
 } as const;
 
 // types
