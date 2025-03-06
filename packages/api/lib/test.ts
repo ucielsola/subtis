@@ -1,5 +1,3 @@
-import data from "../wrangler.json";
-
 // types
 type Vars = {
   TMDB_API_KEY: string;
@@ -10,10 +8,11 @@ type Vars = {
 
 // core
 export function getMockEnv(): Vars {
+  // For tests, use environment variables or mock values
   return {
-    TMDB_API_KEY: data.vars.TMDB_API_KEY,
-    YOUTUBE_API_KEY: data.vars.YOUTUBE_API_KEY,
-    SUPABASE_API_KEY: data.vars.SUPABASE_API_KEY,
-    SUPABASE_BASE_URL: data.vars.SUPABASE_BASE_URL,
+    TMDB_API_KEY: process.env.TMDB_API_KEY ?? "test_tmdb_key",
+    YOUTUBE_API_KEY: process.env.YOUTUBE_API_KEY ?? "test_youtube_key",
+    SUPABASE_API_KEY: process.env.SUPABASE_API_KEY ?? "test_supabase_key",
+    SUPABASE_BASE_URL: process.env.SUPABASE_BASE_URL ?? "http://localhost:54321",
   };
 }

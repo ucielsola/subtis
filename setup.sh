@@ -9,7 +9,6 @@ TARGET_DIRS=(
   "packages/cli"
   "packages/db"
   "packages/indexer"
-  "packages/raycast"
   "packages/shared"
   "packages/stremio"
   "packages/web"
@@ -56,8 +55,13 @@ fi
 # Copy the .env.development file to target directories
 for dir in "${TARGET_DIRS[@]}"; do
   if [[ -d "$dir" ]]; then
-    cp "$ENV_FILE" "$dir/.env.development"
-    echo "Copied $ENV_FILE to $dir"
+    if [[ "$dir" == "packages/api" ]]; then
+      cp "$ENV_FILE" "$dir/.dev.vars"
+      echo "Copied $ENV_FILE to $dir/.dev.vars"
+    else
+      cp "$ENV_FILE" "$dir/.env.development"
+      echo "Copied $ENV_FILE to $dir"
+    fi
   else
     echo "Warning: Directory $dir does not exist. Skipping."
   fi
