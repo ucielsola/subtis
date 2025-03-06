@@ -20,7 +20,7 @@ export function HomeAlert() {
           <MessageCircleMoreIcon size={24} controls={controls} className="flex-shrink-0" />
           <div className="pt-1">
             <AlertTitle className="text-zinc-50">
-              Actualmente contamos con todas las películas del 2024 y el Top 300 de Rotten Tomatoes.
+              Actualmente contamos con todas las películas del 2025 y el Top 300 de Rotten Tomatoes.
             </AlertTitle>
             <AlertDescription className="text-zinc-400 text-sm font-normal">
               Estamos catalogando los años anteriores. Pronto estará disponible un catálogo mucho más amplio.

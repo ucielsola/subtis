@@ -67,7 +67,7 @@ export function HomeFooter() {
           onClick={handleCopyEmailToClipboard}
           className="text-xs font-medium text-zinc-50  hover:underline inline-flex"
         >
-          Soporte vía email
+          Contacto vía email
         </button>
       </div>
 
