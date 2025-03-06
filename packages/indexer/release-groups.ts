@@ -797,7 +797,7 @@ export async function saveReleaseGroupsToDb(supabaseClient: SupabaseClient): Pro
     const { release_group_name, matches, is_supported } = releaseGroup;
 
     // Check if the release group already exists in the database
-    const { data: existingGroups } = await supabaseClient
+    const { data: existingGroups, error: existingGroupsError } = await supabaseClient
       .from("ReleaseGroups")
       .select("id")
       .eq("release_group_name", release_group_name)
@@ -811,7 +811,7 @@ export async function saveReleaseGroupsToDb(supabaseClient: SupabaseClient): Pro
           matches: matches as unknown as string[],
         })
         .eq("id", existingGroups.id);
-    } else {
+    } else if (existingGroupsError?.code !== "PGRST116") {
       await supabaseClient.from("ReleaseGroups").insert({
         is_supported,
         matches: matches as unknown as string[],
