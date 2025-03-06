@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { VideoDropzone } from "~/components/shared/video-dropzone";
 
 // home
-import { BadgeTvShows } from "~/features/home/badge-tv-shows";
+// import { BadgeTvShows } from "~/features/home/badge-tv-shows";
 import { StremioButton } from "~/features/home/stremio-button";
 
 // ui
@@ -40,7 +40,7 @@ export function HomeHero() {
       <HeroBackground className="absolute w-[100%] h-full top-40 right-0 translate-y-[-40%] translate-x-[0%] 2xl:translate-x-[10%] 2xl:translate-y-[-60%] -z-10 -rotate-[25deg]" />
       <div className="flex flex-col lg:flex-row justify-between items-center flex-1 gap-8 lg:gap-4">
         <div className="flex flex-col gap-3 lg:max-w-[624px]">
-          <BadgeTvShows />
+          {/* <BadgeTvShows /> */}
 
           <div className="flex flex-col gap-1">
             <h1 className="text-zinc-50 text-3xl md:text-5xl font-bold text-balance leading-[1.075]">

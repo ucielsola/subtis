@@ -88,7 +88,7 @@ export function PosterTitles({ data, isLoading }: Props) {
             className="flex flex-col gap-2"
           >
             <div className="flex flex-col gap-2">
-              <h3 className="text-zinc-50 text-3xl font-semibold">Títulos encontrados</h3>
+              <h3 className="text-zinc-50 text-3xl font-semibold">Películas encontradas</h3>
             </div>
             <Slider data={data} isLoading={isLoading} />
           </motion.div>

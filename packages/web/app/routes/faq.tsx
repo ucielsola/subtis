@@ -98,7 +98,7 @@ export default function FaqPage() {
 
       <section>
         <h2>¿Qué resoluciones soporta Subtis?</h2>
-        <p>Soportamos títulos desde 480p hasta 2160p (4K). También soportamos títulos en 3D.</p>
+        <p>Soportamos películas desde 480p hasta 2160p (4K). También soportamos películas en 3D.</p>
       </section>
 
       <section>

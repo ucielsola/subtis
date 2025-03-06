@@ -15,8 +15,8 @@ export function HomeTrending() {
 
       <div className="flex flex-col gap-2">
         <div className="flex flex-col gap-2">
-          <h3 className="text-zinc-50 text-3xl font-semibold">Títulos recientes</h3>
-          <h4 className="text-zinc-400">Descargá los subtítulos para las películas más recientes.</h4>
+          <h3 className="text-zinc-50 text-3xl font-semibold">Películas recientes</h3>
+          <h4 className="text-zinc-400">Encontrá subtítulos sincronizados para los últimos estrenos.</h4>
         </div>
         <NewsSlider />
       </div>

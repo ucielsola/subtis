@@ -52,7 +52,7 @@ export function HomeStats() {
             animated={isAnimatingTitlesStats}
             onAnimationsFinish={() => setIsAnimatingSubtitlesStats(true)}
           />
-          <span className="text-zinc-400 text-lg">Títulos</span>
+          <span className="text-zinc-400 text-lg">Películas</span>
         </div>
         <div className="flex flex-col items-center justify-center min-w-56">
           <NumberFlow
