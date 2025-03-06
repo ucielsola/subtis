@@ -93,7 +93,7 @@ bun run deploy:api
 
 1. Create new release in [Github Releases](https://github.com/lndgalante/homebrew-subtis/releases)
 
-2. Update `subtis.rb` with the new release version and push the changes
+2. Update `subtis.rb` with the new release version and SHA256 hash and push the changes
 
 ## Database
 
