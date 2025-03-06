@@ -4,9 +4,10 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { useAnimation } from "motion/react";
 import numeral from "numeral";
 import { useQueryState } from "nuqs";
-import { Fragment, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
 import { useCopyToClipboard } from "usehooks-ts";
+import { useHover } from "usehooks-ts";
 import { z } from "zod";
 
 // api
@@ -128,6 +129,10 @@ export default function SubtitlesPage() {
     typeof window !== "undefined" ? window.localStorage.getItem("advanced-mode") === "true" : false,
   );
 
+  const resolutionTipRef = useRef(null);
+  const formatTipRef = useRef(null);
+  const publisherTipRef = useRef(null);
+
   // nuqs hooks
   const [subtip, setSubtip] = useQueryState("subtip", {
     defaultValue: "message" in loaderData ? "" : loaderData.results.length > 1 ? "choose-subtitle" : "play-subtitle",
@@ -138,6 +143,10 @@ export default function SubtitlesPage() {
 
   // ts hooks
   const [_copiedText, copy] = useCopyToClipboard();
+
+  const isHoveringResolutionTip = useHover(resolutionTipRef);
+  const isHoveringFormatTip = useHover(formatTipRef);
+  const isHoveringPublisherTip = useHover(publisherTipRef);
 
   // helpers
   function triggerShareToast(): void {
@@ -226,13 +235,8 @@ export default function SubtitlesPage() {
   // motion hooks
   const videoTipControl = useAnimation();
   const stremioTipControl = useAnimation();
-  const internalVideoPlayerTipControl = useAnimation();
-
-  const formatTipControl = useAnimation();
-  const publisherTipControl = useAnimation();
-  const resolutionTipControl = useAnimation();
-
   const downloadControls = useAnimation();
+  const internalVideoPlayerTipControl = useAnimation();
 
   // constants
   const columns: ColumnDef<SubtitlesNormalized>[] = [
@@ -260,7 +264,9 @@ export default function SubtitlesPage() {
         if (resolution === "480p") {
           return (
             <Tooltip>
-              <TooltipTrigger className="truncate cursor-default text-left">
+              <TooltipTrigger
+                className={cn("truncate cursor-default text-left", isHoveringResolutionTip && "text-amber-400")}
+              >
                 {row.original.subtitle.resolution}
               </TooltipTrigger>
               <TooltipContent side="right">SD</TooltipContent>
@@ -271,7 +277,9 @@ export default function SubtitlesPage() {
         if (resolution === "720p") {
           return (
             <Tooltip>
-              <TooltipTrigger className="truncate cursor-default text-left">
+              <TooltipTrigger
+                className={cn("truncate cursor-default text-left", isHoveringResolutionTip && "text-amber-400")}
+              >
                 {row.original.subtitle.resolution}
               </TooltipTrigger>
               <TooltipContent side="right">HD</TooltipContent>
@@ -282,7 +290,9 @@ export default function SubtitlesPage() {
         if (resolution === "1080p") {
           return (
             <Tooltip>
-              <TooltipTrigger className="truncate cursor-default text-left">
+              <TooltipTrigger
+                className={cn("truncate cursor-default text-left", isHoveringResolutionTip && "text-amber-400")}
+              >
                 {row.original.subtitle.resolution}
               </TooltipTrigger>
               <TooltipContent side="right">Full HD</TooltipContent>
@@ -293,7 +303,9 @@ export default function SubtitlesPage() {
         if (resolution === "1440p") {
           return (
             <Tooltip>
-              <TooltipTrigger className="truncate cursor-default text-left">
+              <TooltipTrigger
+                className={cn("truncate cursor-default text-left", isHoveringResolutionTip && "text-amber-400")}
+              >
                 {row.original.subtitle.resolution}
               </TooltipTrigger>
               <TooltipContent side="right">2K</TooltipContent>
@@ -304,7 +316,9 @@ export default function SubtitlesPage() {
         if (resolution === "2160p") {
           return (
             <Tooltip>
-              <TooltipTrigger className="truncate cursor-default text-left">
+              <TooltipTrigger
+                className={cn("truncate cursor-default text-left", isHoveringResolutionTip && "text-amber-400")}
+              >
                 {row.original.subtitle.resolution}
               </TooltipTrigger>
               <TooltipContent side="right">4K</TooltipContent>
@@ -321,7 +335,9 @@ export default function SubtitlesPage() {
       cell: ({ row }) => {
         return (
           <Tooltip>
-            <TooltipTrigger className="truncate w-20 cursor-default text-left">
+            <TooltipTrigger
+              className={cn("truncate w-20 cursor-default text-left", isHoveringPublisherTip && "text-emerald-400")}
+            >
               {row.original.release_group.release_group_name}
             </TooltipTrigger>
             <TooltipContent side="bottom">{row.original.release_group.release_group_name}</TooltipContent>
@@ -334,6 +350,11 @@ export default function SubtitlesPage() {
       accessorKey: "subtitle.rip_type",
       header: "Formato",
       enableSorting: false,
+      cell: ({ row }) => {
+        const { rip_type } = row.original.subtitle;
+
+        return <span className={cn("text-zinc-50", isHoveringFormatTip && "text-indigo-400")}>{rip_type}</span>;
+      },
     },
     {
       accessorKey: "subtitle.external_id",
@@ -563,9 +584,11 @@ export default function SubtitlesPage() {
 
             <TabsContent value="choose-subtitle" className="flex flex-col gap-4 mt-0">
               <Alert
-                className="bg-zinc-950 border border-zinc-700 flex items-start gap-6"
-                onMouseEnter={() => resolutionTipControl.start("animate")}
-                onMouseLeave={() => resolutionTipControl.start("normal")}
+                ref={resolutionTipRef}
+                className={cn(
+                  "bg-zinc-950 border border-zinc-700 flex items-start gap-6",
+                  isHoveringResolutionTip && "border-amber-400",
+                )}
               >
                 <span className="text-zinc-50 text-lg font-bold font-mono size-6">1</span>
                 <div className="pt-1">
@@ -587,11 +610,37 @@ export default function SubtitlesPage() {
                 </div>
               </Alert>
               <Alert
-                className="bg-zinc-950 border border-zinc-700 flex items-start gap-6"
-                onMouseEnter={() => formatTipControl.start("animate")}
-                onMouseLeave={() => formatTipControl.start("normal")}
+                ref={publisherTipRef}
+                className={cn(
+                  "bg-zinc-950 border border-zinc-700 flex items-start gap-6",
+                  isHoveringPublisherTip && "border-emerald-400",
+                )}
               >
                 <span className="text-zinc-50 text-lg font-bold font-mono size-6">2</span>
+                <div className="pt-1">
+                  <AlertTitle className="text-zinc-50">Asegurate que el publicador coincida correctamente</AlertTitle>
+                  <AlertDescription className="text-zinc-400 text-sm font-normal">
+                    Por ejemplo para el archivo{" "}
+                    <Highlighter
+                      highlightClassName="bg-zinc-950 text-zinc-50 font-medium"
+                      className="break-all"
+                      searchWords={[release_group_name]}
+                      autoEscape={true}
+                      textToHighlight={`"${title_file_name}"`}
+                    />{" "}
+                    seleccioná en la tabla el subtítulo cuyo publicador sea{" "}
+                    <span className="font-medium text-zinc-50">{release_group_name}</span>.
+                  </AlertDescription>
+                </div>
+              </Alert>
+              <Alert
+                ref={formatTipRef}
+                className={cn(
+                  "bg-zinc-950 border border-zinc-700 flex items-start gap-6",
+                  isHoveringFormatTip && "border-indigo-400",
+                )}
+              >
+                <span className="text-zinc-50 text-lg font-bold font-mono size-6">3</span>
                 <div className="pt-1">
                   <AlertTitle className="text-zinc-50">
                     Revisá que el formato del subtítulo coincida con el del video
@@ -607,28 +656,6 @@ export default function SubtitlesPage() {
                     />{" "}
                     seleccioná en la tabla el subtítulo cuyo formato sea{" "}
                     <span className="font-medium text-zinc-50">{rip_type}</span>.
-                  </AlertDescription>
-                </div>
-              </Alert>
-              <Alert
-                className="bg-zinc-950 border border-zinc-700 flex items-start gap-6"
-                onMouseEnter={() => publisherTipControl.start("animate")}
-                onMouseLeave={() => publisherTipControl.start("normal")}
-              >
-                <span className="text-zinc-50 text-lg font-bold font-mono size-6">3</span>
-                <div className="pt-1">
-                  <AlertTitle className="text-zinc-50">Asegurate que el publicador coincida correctamente</AlertTitle>
-                  <AlertDescription className="text-zinc-400 text-sm font-normal">
-                    Por ejemplo para el archivo{" "}
-                    <Highlighter
-                      highlightClassName="bg-zinc-950 text-zinc-50 font-medium"
-                      className="break-all"
-                      searchWords={[release_group_name]}
-                      autoEscape={true}
-                      textToHighlight={`"${title_file_name}"`}
-                    />{" "}
-                    seleccioná en la tabla el subtítulo cuyo publicador sea{" "}
-                    <span className="font-medium text-zinc-50">{release_group_name}</span>.
                   </AlertDescription>
                 </div>
               </Alert>
