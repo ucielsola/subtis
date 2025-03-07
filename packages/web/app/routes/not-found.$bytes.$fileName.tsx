@@ -401,7 +401,7 @@ export default function NotFoundSubtitlePage() {
                           <FormControl>
                             <Input
                               placeholder="tom@cruise.com"
-                              className="w-full bg-zinc-950 border border-zinc-700 placeholder:text-zinc-400 focus:border-zinc-400 focus-visible:ring-0 rounded-sm"
+                              className="w-full bg-zinc-950 border border-zinc-700 placeholder:text-zinc-400 focus:border-zinc-400 focus-visible:ring-0 rounded-sm h-9"
                               {...field}
                             />
                           </FormControl>
@@ -410,15 +410,12 @@ export default function NotFoundSubtitlePage() {
                               <BadgeAlertIcon size={16} className="text-zinc-400" />
                               <p className="text-zinc-400 text-sm">Por favor ingresa un correo electrónico válido.</p>
                             </div>
-                          ) : (
-                            <p className="text-zinc-400 text-sm">
-                              Ingresa una dirección de correo válida para recibir tu subtítulo.
-                            </p>
-                          )}
+                          ) : null}
                         </FormItem>
                       )}
                     />
                     <Button
+                      size="sm"
                       type="submit"
                       disabled={form.formState.isSubmitting}
                       className="w-36 flex-shrink-0 rounded-sm"
