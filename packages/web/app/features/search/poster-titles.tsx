@@ -1,5 +1,6 @@
 import { Link } from "@remix-run/react";
 import { AnimatePresence, motion } from "motion/react";
+import { useMediaQuery } from "usehooks-ts";
 
 // lib
 import { apiClient } from "~/lib/api";
@@ -23,6 +24,11 @@ type SliderProps = {
 };
 
 function Slider({ data, isLoading }: SliderProps) {
+  // ts hooks
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  const isTablet = useMediaQuery("(max-width: 1366px)");
+  const slidesToScroll = isMobile ? 1 : isTablet ? 2 : 3;
+
   // handlers
   async function handleUpdateSearchMetrics(slug: string) {
     await apiClient.v1.title.metrics.search.$patch({
@@ -39,7 +45,12 @@ function Slider({ data, isLoading }: SliderProps) {
   }
 
   return (
-    <Carousel className="w-full">
+    <Carousel
+      className="w-full"
+      opts={{
+        slidesToScroll,
+      }}
+    >
       <CarouselContent className="p-4">
         {data.results.map((title) => {
           if (!title.optimizedPoster) {

@@ -1,4 +1,5 @@
 import { Link, useLoaderData } from "@remix-run/react";
+import { useMediaQuery } from "usehooks-ts";
 
 // routes
 import type { loader } from "~/routes/_index";
@@ -10,14 +11,25 @@ import { ThumbHashNewsImage } from "./thumbhash-news-image";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "~/components/ui/carousel";
 
 export function NewsSlider() {
+  // remix hooks
   const loaderData = useLoaderData<typeof loader>();
+
+  // ts hooks
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  const isTablet = useMediaQuery("(max-width: 1366px)");
+  const slidesToScroll = isMobile ? 1 : isTablet ? 2 : 3;
 
   if ("message" in loaderData) {
     return null;
   }
 
   return (
-    <Carousel className="w-full">
+    <Carousel
+      className="w-full"
+      opts={{
+        slidesToScroll,
+      }}
+    >
       <CarouselContent className="p-4">
         {loaderData.recentDownloadedTitles.results.map((title) => {
           if (!title.optimized_backdrop) {
