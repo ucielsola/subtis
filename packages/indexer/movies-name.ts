@@ -1,11 +1,11 @@
 // db
-import { supabase } from "@subtis/db";
+// import { supabase } from "@subtis/db";
 
 // internals
 // import { indexMovieByName } from "./movies";
-import { saveReleaseGroupsToDb } from "./release-groups";
-import { saveSubtitleGroupsToDb } from "./subtitle-groups";
-import { saveTmdbMovieGenresToDb } from "./tmdb";
+// import { saveReleaseGroupsToDb } from "./release-groups";
+// import { saveSubtitleGroupsToDb } from "./subtitle-groups";
+// import { saveTmdbMovieGenresToDb } from "./tmdb";
 
 // testing
 // indexMovieByName({
@@ -14,6 +14,6 @@ import { saveTmdbMovieGenresToDb } from "./tmdb";
 //   isDebugging: false,
 // });
 
-saveReleaseGroupsToDb(supabase);
-saveSubtitleGroupsToDb(supabase);
-saveTmdbMovieGenresToDb(supabase);
+// saveReleaseGroupsToDb(supabase);
+// saveSubtitleGroupsToDb(supabase);
+// saveTmdbMovieGenresToDb(supabase);
