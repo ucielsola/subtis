@@ -166,7 +166,7 @@ export default function SearchPage() {
                   Ingresa el nombre de la película para localizar el subtítulo.
                 </h2>
                 <p className="text-zinc-300 text-xs md:text-sm">
-                  Admitimos búsquedas en distintos idiomas como español, inglés y japonés.
+                  Aceptamos búsquedas en español, inglés y japonés (alfabeto latino).
                 </p>
               </div>
             </div>
