@@ -42,7 +42,7 @@ export function AutocompleteTitles({
 
   const noResultsMessage = "No hay resultados.";
   const difference = minimumCharacters - inputValue.length;
-  const minimumCharactersMessage = `Ingresa al menos ${difference} ${difference > 1 ? "caracteres" : "caracter"} para buscar.`;
+  const minimumCharactersMessage = `Ingresa ${difference} ${difference > 1 ? "caracteres" : "caracter"} más para buscar.`;
 
   const emptyMessage = error
     ? "Error al buscar."
