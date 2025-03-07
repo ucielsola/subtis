@@ -45,6 +45,7 @@ export const titleMetadataSchema = titlesRowSchema
 
 // titles
 export const titleSchema = titlesRowSchema.pick({
+  id: true,
   slug: true,
   imdb_id: true,
   queried_times: true,
@@ -64,6 +65,7 @@ export const titleSchema = titlesRowSchema.pick({
 });
 
 export const titlesQuery = `
+  id,
   slug,
   imdb_id,
   queried_times,
