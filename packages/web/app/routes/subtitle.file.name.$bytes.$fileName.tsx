@@ -307,7 +307,7 @@ export default function SubtitlePage() {
             <div className="flex flex-col gap-2">
               <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold text-balance">¡Subtítulo encontrado!</h1>
               <h2 className="text-zinc-50 text-balance text-sm md:text-base">
-                Acomódate y disfrutá tu película subtitulada 🍿
+                Acomódate y disfrutá de {loaderData.title.title_name} ({loaderData.title.year}) subtitulada 🍿
               </h2>
             </div>
           </div>
