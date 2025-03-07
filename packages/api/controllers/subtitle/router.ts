@@ -432,7 +432,7 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       tags: ["Subtitle (3)"],
       description: "Report a subtitle not found",
       responses: {
-        200: {
+        201: {
           description: "Successful subtitle not found response",
           content: {
             "application/json": {
