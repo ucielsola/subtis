@@ -35,7 +35,7 @@ export const links: LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="es" className="dark">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
@@ -76,7 +76,7 @@ export function ErrorBoundary() {
   const navigate = useNavigate();
 
   return (
-    <html lang="en">
+    <html lang="es">
       <head>
         <title>Subtis | Error</title>
         <Meta />
