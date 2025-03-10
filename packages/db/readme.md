@@ -21,6 +21,7 @@
 ```sql
 CREATE OR REPLACE FUNCTION public.fuzzy_search_title(query text)
 RETURNS TABLE (
+    id int8,
     imdb_id text,
     title_name text,
     title_name_spa text,
@@ -64,6 +65,7 @@ BEGIN
 
     RETURN QUERY
     SELECT
+        t.id,
         t.imdb_id,
         t.title_name,
         t.title_name_spa,
