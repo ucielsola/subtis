@@ -60,7 +60,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250310.0",
+    "@cloudflare/workers-types": "^4.20250311.0",
     "@remix-run/dev": "^2.16.0",
     "@tailwindcss/typography": "^0.5.16",
     "@types/numeral": "^2.0.5",
