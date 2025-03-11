@@ -524,19 +524,40 @@ export default function SubtitlesPage() {
           </div>
           <div>
             <div className="flex flex-row items-center gap-4">
-              <Button asChild size="sm">
-                <a
-                  download
-                  href={loaderData.results[0].subtitle.subtitle_link}
-                  onMouseEnter={() => downloadControls.start("animate")}
-                  onMouseLeave={() => downloadControls.start("normal")}
-                  className={`transition-all ease-in-out duration-300 ${isAdvancedModeEnabled ? "opacity-30 pointer-events-none" : "opacity-100"}`}
-                  onClick={triggerShareToast}
-                >
-                  <DownloadIcon size={18} controls={downloadControls} />
-                  Descargar Subtítulo
-                </a>
-              </Button>
+              {isAdvancedModeEnabled ? (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button asChild size="sm">
+                      <a
+                        download
+                        href={loaderData.results[0].subtitle.subtitle_link}
+                        onMouseEnter={() => downloadControls.start("animate")}
+                        onMouseLeave={() => downloadControls.start("normal")}
+                        className="transition-all ease-in-out duration-300 opacity-30 cursor-not-allowed"
+                        onClick={triggerShareToast}
+                      >
+                        <DownloadIcon size={18} controls={downloadControls} />
+                        Descargar Subtítulo
+                      </a>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="top">Habilitame desactivando el modo experto</TooltipContent>
+                </Tooltip>
+              ) : (
+                <Button asChild size="sm">
+                  <a
+                    download
+                    href={loaderData.results[0].subtitle.subtitle_link}
+                    onMouseEnter={() => downloadControls.start("animate")}
+                    onMouseLeave={() => downloadControls.start("normal")}
+                    className="transition-all ease-in-out duration-300 opacity-100"
+                    onClick={triggerShareToast}
+                  >
+                    <DownloadIcon size={18} controls={downloadControls} />
+                    Descargar Subtítulo
+                  </a>
+                </Button>
+              )}
               <div className="flex items-center space-x-2">
                 <Switch id="advanced-mode" checked={isAdvancedModeEnabled} onCheckedChange={handleToggleAdvancedMode} />
                 <Label htmlFor="advanced-mode">Experto</Label>
