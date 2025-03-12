@@ -29,6 +29,6 @@
     "@types/timestring": "^7.0.0",
     "@types/unescape-js": "^1.0.3",
     "typescript": "^5.8.2",
-    "wrangler": "^3.114.0"
+    "wrangler": "^3.114.1"
   }
 }
