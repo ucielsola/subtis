@@ -68,7 +68,7 @@ export const loader = async () => {
 // meta
 export const meta: MetaFunction = () => {
   return [
-    { title: "Subtis | Búsqueda en catálogo" },
+    { title: "Subtis | Búsqueda por nombre" },
     { name: "description", content: "Subtítutlos para todas tus películas" },
   ];
 };
@@ -160,7 +160,7 @@ export default function SearchPage() {
         <article className="max-w-xl w-full">
           <section className="flex flex-col gap-12">
             <div className="flex flex-col gap-4">
-              <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold">Búsqueda en catálogo</h1>
+              <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold">Búsqueda por nombre</h1>
               <div className="flex flex-col gap-1">
                 <h2 className="text-zinc-50 text-sm md:text-base">
                   Ingresa el nombre de la película para localizar el subtítulo.
