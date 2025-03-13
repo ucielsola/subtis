@@ -263,6 +263,7 @@ export type Database = {
           runtime: number | null;
           searched_times: number | null;
           slug: string;
+          spotify_id: string | null;
           title_name: string;
           title_name_ja: string | null;
           title_name_spa: string;
@@ -296,6 +297,7 @@ export type Database = {
           runtime?: number | null;
           searched_times?: number | null;
           slug: string;
+          spotify_id?: string | null;
           title_name: string;
           title_name_ja?: string | null;
           title_name_spa: string;
@@ -329,6 +331,7 @@ export type Database = {
           runtime?: number | null;
           searched_times?: number | null;
           slug?: string;
+          spotify_id?: string | null;
           title_name?: string;
           title_name_ja?: string | null;
           title_name_spa?: string;
@@ -384,8 +387,11 @@ export type Database = {
           query: string;
         };
         Returns: {
+          id: number;
           imdb_id: string;
           title_name: string;
+          title_name_spa: string;
+          title_name_ja: string;
           year: number;
           type: string;
           slug: string;
@@ -438,17 +444,11 @@ export type Database = {
         };
         Returns: number;
       };
-      show_limit: {
-        Returns: number;
-      };
       show_trgm: {
         Args: {
           "": string;
         };
         Returns: string[];
-      };
-      sum_queried_times: {
-        Returns: number;
       };
       update_subtitle_and_title_download_metrics: {
         Args: {

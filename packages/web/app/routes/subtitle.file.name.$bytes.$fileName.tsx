@@ -8,6 +8,9 @@ import { transformSrtTracks } from "srt-support-for-html5-videos";
 // api
 import { subtitleNormalizedSchema } from "@subtis/api/lib/parsers";
 
+// indexer
+import { getImdbLink } from "@subtis/indexer/imdb";
+
 // shared
 import { VideoDropzone } from "~/components/shared/video-dropzone";
 
@@ -29,23 +32,26 @@ import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Button } from "~/components/ui/button";
 import DotPattern from "~/components/ui/dot-pattern";
 import { Separator } from "~/components/ui/separator";
+import { Skeleton } from "~/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { ToastAction } from "~/components/ui/toast";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
-import { getImdbLink } from "@subtis/indexer/imdb";
+// logos
 import { IMDbLogo } from "~/components/logos/imdb";
 import { JustWatchLogo } from "~/components/logos/justwatch";
 import { LetterboxdLogo } from "~/components/logos/letterboxd";
 import { RottenTomatoesLogo } from "~/components/logos/rottentomatoes";
+import { SpotifyLogo } from "~/components/logos/spotify";
 import { YouTubeLogo } from "~/components/logos/youtube";
-import { Skeleton } from "~/components/ui/skeleton";
+
 // hooks
 import { useCinemas } from "~/hooks/use-cinemas";
 import { useJustWatch } from "~/hooks/use-justwatch";
 import { useLetterboxd } from "~/hooks/use-letterboxd";
 import { usePlatforms } from "~/hooks/use-platforms";
 import { useRottenTomatoes } from "~/hooks/use-rottentomatoes";
+import { useSpotify } from "~/hooks/use-spotify";
 import { useTeaser } from "~/hooks/use-teaser";
 import { useToast } from "~/hooks/use-toast";
 
@@ -114,6 +120,7 @@ export default function SubtitlePage() {
   const { data: titleCinemas } = useCinemas(loaderData.title.imdb_id);
   const { data: titlePlatforms } = usePlatforms(loaderData.title.imdb_id);
 
+  const { data: titleSpotify, isLoading: isLoadingSpotify } = useSpotify(loaderData.title.slug);
   const { data: titleJustWatch, isLoading: isLoadingJustWatch } = useJustWatch(loaderData.title.slug);
   const { data: titleLetterboxd, isLoading: isLoadingLetterboxd } = useLetterboxd(loaderData.title.slug);
   const { data: titleRottenTomatoes, isLoading: isLoadingRottenTomatoes } = useRottenTomatoes(loaderData.title.slug);
@@ -290,7 +297,8 @@ export default function SubtitlePage() {
   }
 
   // constants
-  const isLoadingProviders = isLoadingTeaser || isLoadingJustWatch || isLoadingLetterboxd || isLoadingRottenTomatoes;
+  const isLoadingProviders =
+    isLoadingTeaser || isLoadingJustWatch || isLoadingLetterboxd || isLoadingRottenTomatoes || isLoadingSpotify;
 
   return (
     <div className="pt-24 pb-48 flex flex-col lg:flex-row justify-between gap-4">
@@ -566,6 +574,8 @@ export default function SubtitlePage() {
                   <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm" />
                   <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm" />
                   <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm" />
+                  <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm mt-5" />
+                  <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm" />
                   <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm" />
                 </Fragment>
               ) : (
@@ -602,12 +612,28 @@ export default function SubtitlePage() {
                       </span>
                     </a>
                   ) : null}
+                  {titleSpotify ? (
+                    <a
+                      href={titleSpotify.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex flex-row items-center gap-2 group/spotify"
+                    >
+                      <SpotifyLogo
+                        size={20}
+                        className="fill-zinc-300 group-hover/spotify:fill-zinc-50 transition-all ease-in-out"
+                      />
+                      <span className="text-zinc-300 text-sm group-hover/spotify:text-zinc-50 transition-all ease-in-out">
+                        Soundtrack
+                      </span>
+                    </a>
+                  ) : null}
                   {titleJustWatch ? (
                     <a
                       href={titleJustWatch.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex flex-row items-center gap-2 group/justwatch"
+                      className="flex flex-row items-center gap-2 group/justwatch mt-5"
                     >
                       <JustWatchLogo
                         size={20}

@@ -53,12 +53,14 @@ import { YouTubeLogo } from "~/components/logos/youtube";
 // features
 import { PosterDisclosure } from "~/features/movie/poster-disclosure";
 
+import { SpotifyLogo } from "~/components/logos/spotify";
 // hooks
 import { useCinemas } from "~/hooks/use-cinemas";
 import { useJustWatch } from "~/hooks/use-justwatch";
 import { useLetterboxd } from "~/hooks/use-letterboxd";
 import { usePlatforms } from "~/hooks/use-platforms";
 import { useRottenTomatoes } from "~/hooks/use-rottentomatoes";
+import { useSpotify } from "~/hooks/use-spotify";
 import { useTeaser } from "~/hooks/use-teaser";
 import { useToast } from "~/hooks/use-toast";
 
@@ -229,6 +231,9 @@ export default function SubtitlesPage() {
     "message" in loaderData ? undefined : loaderData.title.slug,
   );
   const { data: titleRottenTomatoes, isLoading: isLoadingRottenTomatoes } = useRottenTomatoes(
+    "message" in loaderData ? undefined : loaderData.title.slug,
+  );
+  const { data: titleSpotify, isLoading: isLoadingSpotify } = useSpotify(
     "message" in loaderData ? undefined : loaderData.title.slug,
   );
 
@@ -495,7 +500,8 @@ export default function SubtitlesPage() {
       ),
   );
 
-  const isLoadingProviders = isLoadingTeaser || isLoadingJustWatch || isLoadingLetterboxd || isLoadingRottenTomatoes;
+  const isLoadingProviders =
+    isLoadingTeaser || isLoadingJustWatch || isLoadingLetterboxd || isLoadingRottenTomatoes || isLoadingSpotify;
 
   return (
     <div className="pt-24 pb-44 flex flex-col lg:flex-row justify-between gap-4">
@@ -850,6 +856,8 @@ export default function SubtitlesPage() {
                   <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm" />
                   <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm" />
                   <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm" />
+                  <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm mt-5" />
+                  <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm" />
                   <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm" />
                 </Fragment>
               ) : (
@@ -886,12 +894,28 @@ export default function SubtitlesPage() {
                       </span>
                     </a>
                   ) : null}
+                  {titleSpotify ? (
+                    <a
+                      href={titleSpotify.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex flex-row items-center gap-2 group/spotify"
+                    >
+                      <SpotifyLogo
+                        size={20}
+                        className="fill-zinc-300 group-hover/spotify:fill-zinc-50 transition-all ease-in-out"
+                      />
+                      <span className="text-zinc-300 text-sm group-hover/spotify:text-zinc-50 transition-all ease-in-out">
+                        Soundtrack
+                      </span>
+                    </a>
+                  ) : null}
                   {titleJustWatch ? (
                     <a
                       href={titleJustWatch.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex flex-row items-center gap-2 group/justwatch"
+                      className="flex flex-row items-center gap-2 group/justwatch mt-5"
                     >
                       <JustWatchLogo
                         size={20}

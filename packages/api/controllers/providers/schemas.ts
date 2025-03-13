@@ -18,3 +18,7 @@ export const titleJustWatchSlugResponseSchema = z.object({
 export const titleRottenTomatoesSlugResponseSchema = z.object({
   link: z.string(),
 });
+
+export const titleSpotifySlugResponseSchema = z.object({
+  link: z.string(),
+});
