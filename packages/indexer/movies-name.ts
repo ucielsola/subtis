@@ -2,17 +2,17 @@
 // import { supabase } from "@subtis/db";
 
 // internals
-// import { indexMovieByName } from "./movies";
+import { indexMovieByName } from "./movies";
 // import { saveReleaseGroupsToDb } from "./release-groups";
 // import { saveSubtitleGroupsToDb } from "./subtitle-groups";
 // import { saveTmdbMovieGenresToDb } from "./tmdb";
 
 // testing
-// indexMovieByName({
-//   year: 2025,
-//   name: "The Brutalist",
-//   isDebugging: false,
-// });
+indexMovieByName({
+  year: 2003,
+  name: "The Pirates of the Caribbean: The Curse of the Black Pearl",
+  isDebugging: false,
+});
 
 // saveReleaseGroupsToDb(supabase);
 // saveSubtitleGroupsToDb(supabase);

@@ -59,7 +59,6 @@ export function runApi() {
       "/docs",
       apiReference({
         theme: "saturn",
-        spec: { url: "/v1/openapi" },
         metaData: {
           title: "Subtis API",
           description: "API for subtitles and titles",

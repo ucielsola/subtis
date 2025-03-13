@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@hono/zod-validator": "^0.4.3",
-    "@scalar/hono-api-reference": "^0.5.184",
+    "@scalar/hono-api-reference": "^0.6.0",
     "@supabase/supabase-js": "^2.49.1",
     "hono": "^4.7.4",
     "hono-openapi": "^0.4.6",
@@ -29,6 +29,6 @@
     "@types/timestring": "^7.0.0",
     "@types/unescape-js": "^1.0.3",
     "typescript": "^5.8.2",
-    "wrangler": "^3.114.1"
+    "wrangler": "^4.0.0"
   }
 }
