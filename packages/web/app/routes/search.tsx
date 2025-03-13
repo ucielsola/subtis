@@ -183,7 +183,7 @@ export default function SearchPage() {
               onClearInputValue={handleClearInputValue}
             />
             <p className="text-zinc-400 text-xs">
-              Las películas más buscadas últimamente son:{" "}
+              Lo más buscado últimamente:{" "}
               <Link to={`/subtitles/movie/${firstTrending.slug}`} className="hover:text-zinc-50">
                 {firstTrending.title}
               </Link>{" "}
