@@ -34,128 +34,17 @@ import {
   titleJustWatchSlugResponseSchema,
   titleLetterboxdSlugResponseSchema,
   titleRottenTomatoesSlugResponseSchema,
+  titleSpotifySlugResponseSchema,
   titleTeaserFileNameResponseSchema,
 } from "./schemas";
 
 // router
 export const providers = new Hono<{ Variables: AppVariables }>()
   .get(
-    "/spotify/soundtrack/:slug",
-    describeRoute({
-      tags: ["Providers (2)"],
-      description: "Get title Spotify soundtrack from slug",
-      responses: {
-        200: {
-          description: "Successful Spotify soundtrack response",
-          content: {
-            "application/json": {
-              // schema: resolver(titleSpotifySoundtrackSlugResponseSchema),
-            },
-          },
-          404: {
-            description: "Title Spotify soundtrack not found",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
-            },
-          },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
-            },
-          },
-        },
-      },
-    }),
-    zValidator("param", z.object({ slug: z.string().openapi({ example: "nosferatu-2024" }) })),
-    async (context) => {
-      const { slug } = context.req.valid("param");
-      const SPOTIFY_ALBUM_URL = "https://open.spotify.com/album";
-
-      const supabaseClient = getSupabaseClient(context);
-      const { data: title } = await supabaseClient
-        .from("Titles")
-        .select("title_name, year, spotify_id")
-        .match({ slug })
-        .single();
-
-      if (!title) {
-        context.status(404);
-        return context.json({ message: "Title not found" });
-      }
-
-      if (title.spotify_id) {
-        return context.json({ link: `${SPOTIFY_ALBUM_URL}/${title.spotify_id}` });
-      }
-
-      const { clientId, clientSecret } = getSpotifyApiKey(context);
-      const tokenResponse = await fetch("https://accounts.spotify.com/api/token", {
-        method: "POST",
-        body: new URLSearchParams({
-          client_id: clientId,
-          client_secret: clientSecret,
-          grant_type: "client_credentials",
-        }),
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      });
-
-      const tokenData = await tokenResponse.json();
-      const {
-        data: spotifyTokenData,
-        error: spotifyTokenError,
-        success: spotifyTokenSuccess,
-      } = spotifyTokenSchema.safeParse(tokenData);
-
-      if (!spotifyTokenSuccess) {
-        context.status(500);
-        return context.json({ message: "An error occurred", error: spotifyTokenError.issues[0].message });
-      }
-
-      const spotifyQuery = `${title.title_name} ${title.year} original soundtrack`;
-
-      const queryParams = querystring.stringify({ limit: 1, type: "album", q: spotifyQuery });
-      const searchEndpoint = `https://api.spotify.com/v1/search?${queryParams}`;
-
-      const searchResponse = await fetch(searchEndpoint, {
-        headers: { Authorization: `Bearer ${spotifyTokenData.access_token}` },
-      });
-
-      const searchData = await searchResponse.json();
-      const {
-        data: spotifySearchData,
-        error: spotifySearchError,
-        success: spotifySearchSuccess,
-      } = spotifySearchSchema.safeParse(searchData);
-
-      if (!spotifySearchSuccess) {
-        context.status(500);
-        return context.json({ message: "An error occurred", error: spotifySearchError.issues[0].message });
-      }
-
-      if (spotifySearchData?.albums.items.length === 0) {
-        context.status(404);
-        return context.json({ message: "No soundtrack found" });
-      }
-
-      const soundtrack = spotifySearchData.albums.items[0];
-      const soundtrackId = soundtrack.id;
-
-      await supabaseClient.from("Titles").update({ spotify_id: soundtrackId }).match({ slug });
-
-      return context.json({ link: `${SPOTIFY_ALBUM_URL}/${soundtrackId}` });
-    },
-    cache({ cacheName: "subtis-api-providers", cacheControl: `max-age=${timestring("1 month")}` }),
-  )
-
-  .get(
     "/youtube/teaser/:fileName",
     describeRoute({
       hide: true,
-      tags: ["Providers (2)"],
+      tags: ["Providers (4)"],
       description: "Get title YouTube teaser from file name",
       responses: {
         200: {
@@ -316,9 +205,120 @@ export const providers = new Hono<{ Variables: AppVariables }>()
     cache({ cacheName: "subtis-api-providers", cacheControl: `max-age=${timestring("1 month")}` }),
   )
   .get(
+    "/spotify/soundtrack/:slug",
+    describeRoute({
+      tags: ["Providers (4)"],
+      description: "Get title Spotify soundtrack from slug",
+      responses: {
+        200: {
+          description: "Successful Spotify soundtrack response",
+          content: {
+            "application/json": {
+              schema: resolver(titleSpotifySlugResponseSchema),
+            },
+          },
+          404: {
+            description: "Title Spotify soundtrack not found",
+            content: {
+              "application/json": {
+                schema: resolver(z.object({ message: z.string() })),
+              },
+            },
+          },
+          500: {
+            description: "An error occurred",
+            content: {
+              "application/json": {
+                schema: resolver(z.object({ message: z.string(), error: z.string() })),
+              },
+            },
+          },
+        },
+      },
+    }),
+    zValidator("param", z.object({ slug: z.string().openapi({ example: "nosferatu-2024" }) })),
+    async (context) => {
+      const { slug } = context.req.valid("param");
+      const SPOTIFY_ALBUM_URL = "https://open.spotify.com/album";
+
+      const supabaseClient = getSupabaseClient(context);
+      const { data: title } = await supabaseClient
+        .from("Titles")
+        .select("title_name, year, spotify_id")
+        .match({ slug })
+        .single();
+
+      if (!title) {
+        context.status(404);
+        return context.json({ message: "Title not found" });
+      }
+
+      if (title.spotify_id) {
+        return context.json({ link: `${SPOTIFY_ALBUM_URL}/${title.spotify_id}` });
+      }
+
+      const { clientId, clientSecret } = getSpotifyApiKey(context);
+      const tokenResponse = await fetch("https://accounts.spotify.com/api/token", {
+        method: "POST",
+        body: new URLSearchParams({
+          client_id: clientId,
+          client_secret: clientSecret,
+          grant_type: "client_credentials",
+        }),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      });
+
+      const tokenData = await tokenResponse.json();
+      const {
+        data: spotifyTokenData,
+        error: spotifyTokenError,
+        success: spotifyTokenSuccess,
+      } = spotifyTokenSchema.safeParse(tokenData);
+
+      if (!spotifyTokenSuccess) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error: spotifyTokenError.issues[0].message });
+      }
+
+      const spotifyQuery = `${title.title_name} ${title.year} original soundtrack`;
+
+      const queryParams = querystring.stringify({ limit: 1, type: "album", q: spotifyQuery });
+      const searchEndpoint = `https://api.spotify.com/v1/search?${queryParams}`;
+
+      const searchResponse = await fetch(searchEndpoint, {
+        headers: { Authorization: `Bearer ${spotifyTokenData.access_token}` },
+      });
+
+      const searchData = await searchResponse.json();
+      const {
+        data: spotifySearchData,
+        error: spotifySearchError,
+        success: spotifySearchSuccess,
+      } = spotifySearchSchema.safeParse(searchData);
+
+      if (!spotifySearchSuccess) {
+        context.status(500);
+        return context.json({ message: "An error occurred", error: spotifySearchError.issues[0].message });
+      }
+
+      if (spotifySearchData?.albums.items.length === 0) {
+        context.status(404);
+        return context.json({ message: "No soundtrack found" });
+      }
+
+      const soundtrack = spotifySearchData.albums.items[0];
+      const soundtrackId = soundtrack.id;
+
+      await supabaseClient.from("Titles").update({ spotify_id: soundtrackId }).match({ slug });
+
+      return context.json({ link: `${SPOTIFY_ALBUM_URL}/${soundtrackId}` });
+    },
+    cache({ cacheName: "subtis-api-providers", cacheControl: `max-age=${timestring("1 month")}` }),
+  )
+  .get(
     "/letterboxd/:slug",
     describeRoute({
-      tags: ["Providers (2)"],
+      tags: ["Providers (4)"],
       description: "Get title Letterboxd from slug",
       responses: {
         200: {
@@ -388,7 +388,7 @@ export const providers = new Hono<{ Variables: AppVariables }>()
   .get(
     "/justwatch/:slug",
     describeRoute({
-      tags: ["Providers (2)"],
+      tags: ["Providers (4)"],
       description: "Get title JustWatch from slug",
       responses: {
         200: {
@@ -470,7 +470,7 @@ export const providers = new Hono<{ Variables: AppVariables }>()
   .get(
     "/rottentomatoes/:slug",
     describeRoute({
-      tags: ["Providers (2)"],
+      tags: ["Providers (4)"],
       description: "Get title Rotten Tomatoes from slug",
       responses: {
         200: {
