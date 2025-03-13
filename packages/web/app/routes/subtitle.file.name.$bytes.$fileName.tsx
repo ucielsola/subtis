@@ -617,7 +617,7 @@ export default function SubtitlePage() {
                       href={titleSpotify.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex flex-row items-center gap-2 group/spotify"
+                      className="flex flex-row items-center gap-2 group/spotify mb-5"
                     >
                       <SpotifyLogo
                         size={20}
@@ -633,7 +633,7 @@ export default function SubtitlePage() {
                       href={titleJustWatch.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex flex-row items-center gap-2 group/justwatch mt-5"
+                      className="flex flex-row items-center gap-2 group/justwatch"
                     >
                       <JustWatchLogo
                         size={20}
@@ -649,7 +649,7 @@ export default function SubtitlePage() {
                       href={titleLetterboxd.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex flex-row items-center gap-2 group/letterboxd"
+                      className={"flex flex-row items-center gap-2 group/letterboxd"}
                     >
                       <LetterboxdLogo
                         size={20}
