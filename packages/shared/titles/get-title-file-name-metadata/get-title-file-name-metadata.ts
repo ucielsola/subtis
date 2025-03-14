@@ -16,7 +16,8 @@ import { getTitleName } from "../get-title-name";
 export type TitleFileNameMetadata = ReturnType<typeof getTitleFileNameMetadata>;
 
 // constants
-export const RIP_TYPES_REGEX = /bluray|blu-ray|bdrip|brrip|webdl|web-dl|webrip|hdrip|web|theater|brrip|hdtv|dvdrip|/gi;
+export const RIP_TYPES_REGEX =
+  /bluray|blu-ray|bdrip|brrip|webdl|web-dl|webrip|hdrip|web|theater|brrip|hdtv|dvdrip|hdtvrip|/gi;
 
 export function getTitleFileNameMetadata({
   titleFileName,
