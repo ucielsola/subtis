@@ -309,18 +309,20 @@ export default function SubtitlePage() {
               <img
                 src={loaderData.title.optimized_logo}
                 alt={loaderData.title.title_name}
-                className="w-full max-h-32 object-contain md:hidden mb-4"
+                className="w-full max-h-32 object-contain md:hidden"
               />
             ) : null}
             <div className="flex flex-col gap-2">
-              <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold text-balance">¡Subtítulo encontrado!</h1>
-              <h2 className="text-zinc-50 text-balance text-sm md:text-base">
+              <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold text-balance text-center md:text-left">
+                ¡Subtítulo encontrado!
+              </h1>
+              <h2 className="text-zinc-50 text-balance text-sm md:text-base text-center md:text-left">
                 Acomódate y disfrutá de {loaderData.title.title_name} ({loaderData.title.year}) subtitulada 🍿
               </h2>
             </div>
           </div>
 
-          <article className="flex flex-row gap-4">
+          <article className="flex flex-row gap-4 justify-center md:justify-start">
             {displayVideoElements ? (
               <Button
                 size="sm"

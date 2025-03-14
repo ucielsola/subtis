@@ -512,24 +512,24 @@ export default function SubtitlesPage() {
               <img
                 src={loaderData.title.optimized_logo}
                 alt={loaderData.title.title_name}
-                className="w-full max-h-32 object-contain md:hidden mb-4"
+                className="w-full max-h-32 object-contain md:hidden"
               />
             ) : null}
             <div className="flex flex-col gap-2">
-              <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold text-balance">
+              <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold text-balance hidden md:block">
                 {loaderData.title.title_name}
               </h1>
-              <div className="flex flex-row gap-2">
+              <div className="flex flex-row gap-2 justify-center md:justify-start">
                 <Badge variant="outline">{loaderData.title.year}</Badge>
                 <Badge variant="outline">{`${totalHours ? `${totalHours}h ` : ""}${totalMinutes ? `${totalMinutes}m` : ""}`}</Badge>
               </div>
             </div>
-            <h2 className="text-zinc-50 text-balance text-sm md:text-base">
+            <h2 className="text-zinc-50 text-balance text-sm md:text-base text-center md:text-left">
               Acomódate y disfrutá tu película subtitulada 🍿
             </h2>
           </div>
           <div>
-            <div className="flex flex-row items-center gap-4">
+            <div className="flex flex-row items-center gap-4 justify-center md:justify-start">
               {isAdvancedModeEnabled ? (
                 <Tooltip>
                   <TooltipTrigger asChild>
