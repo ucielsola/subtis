@@ -131,9 +131,9 @@ export default function SubtitlesPage() {
     typeof window !== "undefined" ? window.localStorage.getItem("advanced-mode") === "true" : false,
   );
 
-  const resolutionTipRef = useRef(null);
-  const formatTipRef = useRef(null);
-  const publisherTipRef = useRef(null);
+  const resolutionTipRef = useRef<HTMLDivElement>(null);
+  const formatTipRef = useRef<HTMLDivElement>(null);
+  const publisherTipRef = useRef<HTMLDivElement>(null);
 
   // nuqs hooks
   const [subtip, setSubtip] = useQueryState("subtip", {
@@ -610,82 +610,85 @@ export default function SubtitlesPage() {
             </TabsList>
 
             <TabsContent value="choose-subtitle" className="flex flex-col gap-4 mt-0">
-              <Alert
-                ref={resolutionTipRef}
-                className={cn(
-                  "bg-zinc-950 border border-zinc-700 flex items-start gap-6",
-                  isHoveringResolutionTip && "border-amber-400",
-                )}
-              >
-                <span className="text-zinc-50 text-lg font-bold font-mono size-6">1</span>
-                <div className="pt-1">
-                  <AlertTitle className="text-zinc-50">
-                    Verificá que la resolución del subtítulo coincida con la del video
-                  </AlertTitle>
-                  <AlertDescription className="text-zinc-400 text-sm font-normal">
-                    Por ejemplo para el archivo{" "}
-                    <Highlighter
-                      highlightClassName="bg-zinc-950 text-zinc-50 font-medium"
-                      className="break-all"
-                      searchWords={[resolution]}
-                      autoEscape={true}
-                      textToHighlight={`"${title_file_name}"`}
-                    />{" "}
-                    seleccioná en la tabla el subtítulo cuya resolución sea{" "}
-                    <span className="font-medium text-zinc-50">{resolution}</span>.
-                  </AlertDescription>
-                </div>
-              </Alert>
-              <Alert
-                ref={publisherTipRef}
-                className={cn(
-                  "bg-zinc-950 border border-zinc-700 flex items-start gap-6",
-                  isHoveringPublisherTip && "border-emerald-400",
-                )}
-              >
-                <span className="text-zinc-50 text-lg font-bold font-mono size-6">2</span>
-                <div className="pt-1">
-                  <AlertTitle className="text-zinc-50">Asegurate que el publicador coincida correctamente</AlertTitle>
-                  <AlertDescription className="text-zinc-400 text-sm font-normal">
-                    Por ejemplo para el archivo{" "}
-                    <Highlighter
-                      highlightClassName="bg-zinc-950 text-zinc-50 font-medium"
-                      className="break-all"
-                      searchWords={[release_group_name]}
-                      autoEscape={true}
-                      textToHighlight={`"${title_file_name}"`}
-                    />{" "}
-                    seleccioná en la tabla el subtítulo cuyo publicador sea{" "}
-                    <span className="font-medium text-zinc-50">{release_group_name}</span>.
-                  </AlertDescription>
-                </div>
-              </Alert>
-              <Alert
-                ref={formatTipRef}
-                className={cn(
-                  "bg-zinc-950 border border-zinc-700 flex items-start gap-6",
-                  isHoveringFormatTip && "border-indigo-400",
-                )}
-              >
-                <span className="text-zinc-50 text-lg font-bold font-mono size-6">3</span>
-                <div className="pt-1">
-                  <AlertTitle className="text-zinc-50">
-                    Revisá que el formato del subtítulo coincida con el del video
-                  </AlertTitle>
-                  <AlertDescription className="text-zinc-400 text-sm font-normal">
-                    Por ejemplo para el archivo{" "}
-                    <Highlighter
-                      highlightClassName="bg-zinc-950 text-zinc-50 font-medium"
-                      className="break-all"
-                      searchWords={[rip_type ?? ""]}
-                      autoEscape={true}
-                      textToHighlight={`"${title_file_name}"`}
-                    />{" "}
-                    seleccioná en la tabla el subtítulo cuyo formato sea{" "}
-                    <span className="font-medium text-zinc-50">{rip_type}</span>.
-                  </AlertDescription>
-                </div>
-              </Alert>
+              <div ref={resolutionTipRef}>
+                <Alert
+                  className={cn(
+                    "bg-zinc-950 border border-zinc-700 flex items-start gap-6",
+                    isHoveringResolutionTip && "border-amber-400",
+                  )}
+                >
+                  <span className="text-zinc-50 text-lg font-bold font-mono size-6">1</span>
+                  <div className="pt-1">
+                    <AlertTitle className="text-zinc-50">
+                      Verificá que la resolución del subtítulo coincida con la del video
+                    </AlertTitle>
+                    <AlertDescription className="text-zinc-400 text-sm font-normal">
+                      Por ejemplo para el archivo{" "}
+                      <Highlighter
+                        highlightClassName="bg-zinc-950 text-zinc-50 font-medium"
+                        className="break-all"
+                        searchWords={[resolution]}
+                        autoEscape={true}
+                        textToHighlight={`"${title_file_name}"`}
+                      />{" "}
+                      seleccioná en la tabla el subtítulo cuya resolución sea{" "}
+                      <span className="font-medium text-zinc-50">{resolution}</span>.
+                    </AlertDescription>
+                  </div>
+                </Alert>
+              </div>
+              <div ref={publisherTipRef}>
+                <Alert
+                  className={cn(
+                    "bg-zinc-950 border border-zinc-700 flex items-start gap-6",
+                    isHoveringPublisherTip && "border-emerald-400",
+                  )}
+                >
+                  <span className="text-zinc-50 text-lg font-bold font-mono size-6">2</span>
+                  <div className="pt-1">
+                    <AlertTitle className="text-zinc-50">Asegurate que el publicador coincida correctamente</AlertTitle>
+                    <AlertDescription className="text-zinc-400 text-sm font-normal">
+                      Por ejemplo para el archivo{" "}
+                      <Highlighter
+                        highlightClassName="bg-zinc-950 text-zinc-50 font-medium"
+                        className="break-all"
+                        searchWords={[release_group_name]}
+                        autoEscape={true}
+                        textToHighlight={`"${title_file_name}"`}
+                      />{" "}
+                      seleccioná en la tabla el subtítulo cuyo publicador sea{" "}
+                      <span className="font-medium text-zinc-50">{release_group_name}</span>.
+                    </AlertDescription>
+                  </div>
+                </Alert>
+              </div>
+              <div ref={formatTipRef}>
+                <Alert
+                  className={cn(
+                    "bg-zinc-950 border border-zinc-700 flex items-start gap-6",
+                    isHoveringFormatTip && "border-indigo-400",
+                  )}
+                >
+                  <span className="text-zinc-50 text-lg font-bold font-mono size-6">3</span>
+                  <div className="pt-1">
+                    <AlertTitle className="text-zinc-50">
+                      Revisá que el formato del subtítulo coincida con el del video
+                    </AlertTitle>
+                    <AlertDescription className="text-zinc-400 text-sm font-normal">
+                      Por ejemplo para el archivo{" "}
+                      <Highlighter
+                        highlightClassName="bg-zinc-950 text-zinc-50 font-medium"
+                        className="break-all"
+                        searchWords={[rip_type ?? ""]}
+                        autoEscape={true}
+                        textToHighlight={`"${title_file_name}"`}
+                      />{" "}
+                      seleccioná en la tabla el subtítulo cuyo formato sea{" "}
+                      <span className="font-medium text-zinc-50">{rip_type}</span>.
+                    </AlertDescription>
+                  </div>
+                </Alert>
+              </div>
             </TabsContent>
 
             <TabsContent value="play-subtitle" className="flex flex-col gap-4 mt-0">
