@@ -41,8 +41,16 @@ export default function FaqPage() {
       </section>
 
       <section>
+        <h2>¿Cuáles películas soporta Subtis?</h2>
+        <p>
+          Actualmente contamos con todas las películas del 2025 y el Top 300 de Rotten Tomatoes. Estamos catalogando los
+          años anteriores. Pronto estará disponible un catálogo mucho más amplio.
+        </p>
+      </section>
+
+      <section>
         <h2>¿Cómo funciona Subtis?</h2>
-        <p>Subtis busca en varios proveedores de subtítulos el mejor subtítulo para tu película.</p>
+        <p>Subtis en alto nivel busca en varios proveedores de subtítulos el mejor subtítulo para tu película.</p>
       </section>
 
       <section>

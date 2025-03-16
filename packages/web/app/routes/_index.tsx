@@ -7,7 +7,6 @@ import { statsSchema } from "@subtis/api/controllers/stats/schemas";
 import { trendingSubtitlesResponseSchema } from "@subtis/api/controllers/titles/schemas";
 
 // home
-import { HomeAlert } from "~/features/home/alert";
 import { HomeFeatures } from "~/features/home/features";
 import { HomeHero } from "~/features/home/hero";
 import { HomeProviders } from "~/features/home/providers";
@@ -86,7 +85,6 @@ export default function Index() {
       <HomeStats />
       <HomeFeatures />
       <HomeProviders />
-      <HomeAlert />
     </Fragment>
   );
 }

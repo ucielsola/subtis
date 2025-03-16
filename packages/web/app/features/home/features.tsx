@@ -32,7 +32,7 @@ export function HomeFeatures() {
   };
 
   return (
-    <section className="py-16 flex flex-col gap-16 items-center justify-center">
+    <section className="py-32 flex flex-col gap-16 items-center justify-center">
       <div className="flex flex-col gap-4 items-center justify-center text-center">
         <h2 className="text-zinc-50 text-4xl font-bold text-balance">Las mejores features</h2>
         <h3 className="text-zinc-400 text-balance max-w-[624px]">

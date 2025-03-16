@@ -1,10 +1,10 @@
 export function HomeProviders() {
   return (
-    <section className="py-16 flex flex-col gap-16 items-center justify-center">
+    <section className="py-32 pb-48 flex flex-col gap-16 items-center justify-center">
       <div className="flex flex-col gap-4 items-center justify-center text-center">
         <h2 className="text-zinc-50 text-4xl font-bold text-balance">Proveedores</h2>
         <h3 className="text-zinc-400 text-balance max-w-[624px]">
-          En Subtis, nos apoyamos en estos proveedores para traerte siempre los mejores subtítulos de la web.
+          En Subtis, nos paramos sobre los hombros de gigantes para traerte siempre los mejores subtítulos de la web.
         </h3>
       </div>
       <div className="flex flex-col md:flex-row gap-12 md:gap-4 flex-wrap max-w-screen-xl items-center justify-evenly w-full">
