@@ -17,7 +17,7 @@ export function Header() {
         </Link>
         <Link
           to="/search"
-          className="text-zinc-50 text-sm font-semibold p-2 bg-zinc-50/20 backdrop-blur rounded-full hover:bg-zinc-50/25 transition-all ease-in-out duration-300"
+          className="text-zinc-50 text-sm font-semibold p-2 bg-zinc-50/20 backdrop-blur rounded-full hover:bg-zinc-50/25 transition-all ease-in-out duration-300 mb-[2px]"
           onMouseEnter={() => controls.start("animate")}
           onMouseLeave={() => controls.start("normal")}
         >
