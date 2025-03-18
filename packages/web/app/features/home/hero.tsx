@@ -87,9 +87,14 @@ export function HomeHero() {
                 )}
               />
             </AspectRatio>
-            <p className="text-sm text-zinc-300 text-center hidden lg:block w-fit container mx-auto">
-              Si contás con el archivo de video podés arrastrarlo acá
-            </p>
+            <div className="flex flex-col gap-0">
+              <p className="text-sm text-zinc-300 text-center hidden lg:block w-fit container mx-auto">
+                Si contás con el archivo de video podés arrastrarlo acá
+              </p>
+              <p className="text-[11px] text-zinc-400 text-center hidden lg:block w-fit container mx-auto">
+                El procesamiento es local, tu archivo no se sube a internet
+              </p>
+            </div>
           </div>
         </div>
       </div>
