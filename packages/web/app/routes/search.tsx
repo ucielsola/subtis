@@ -182,7 +182,7 @@ export default function SearchPage() {
               minimumCharacters={MINIMUM_CHARACTERS}
               onClearInputValue={handleClearInputValue}
             />
-            <p className="text-zinc-400 text-xs">
+            <p className="text-zinc-400 text-xs truncate">
               Lo más buscado últimamente:{" "}
               <Link to={`/subtitles/movie/${firstTrending.slug}`} className="hover:text-zinc-50">
                 {firstTrending.title}
