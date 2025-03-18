@@ -18,6 +18,7 @@ import TorrentSearchApi from "torrent-search-api";
 import torrentStream, { type File } from "torrent-stream";
 import { match } from "ts-pattern";
 import { unrar } from "unrar-promise";
+import { decode as decodeWindows1252 } from "windows-1252";
 import { z } from "zod";
 
 // internals
@@ -280,7 +281,7 @@ async function storeSubtitleInSupabaseStorage({
   const { data } = await supabase.storage.from("subtitles").upload(subtitleSrtFileName, subtitleFileToUpload, {
     upsert: true,
     cacheControl: "31536000",
-    contentType: "text/plain;charset=UTF-8",
+    contentType: "text/plain; charset=UTF-8",
   });
 
   const { fullPath } = uploadSupabaseSchema.parse(data);
@@ -542,10 +543,13 @@ async function addWatermarkToSubtitle({
   const subtitleBuffer = await fs.promises.readFile(path);
 
   const { encoding } = jschardet.detect(subtitleBuffer);
+  const encodingLowerCased = encoding.toLowerCase();
 
-  let parsedEncoding = encoding === "windows-1251" ? "iso-8859-1" : encoding.toLowerCase();
+  let parsedEncoding = ["windows-1251", "windows-1252"].includes(encodingLowerCased)
+    ? "iso-8859-1"
+    : encodingLowerCased;
+
   let subtitleText = "";
-
   let providerSubtitleLink = "";
 
   if (subtitleGroupName === "SubDivX") {
@@ -560,12 +564,16 @@ async function addWatermarkToSubtitle({
     providerSubtitleLink = `https://www.opensubtitles.com/${subtitleId}`;
   }
 
-  if (parsedEncoding === "utf-16le") {
+  if (["utf-16le"].includes(parsedEncoding)) {
     parsedEncoding = "utf-16";
   }
 
   try {
-    subtitleText = new TextDecoder(parsedEncoding).decode(subtitleBuffer);
+    if (parsedEncoding === "koi8-r") {
+      subtitleText = decodeWindows1252(subtitleBuffer);
+    } else {
+      subtitleText = new TextDecoder(parsedEncoding).decode(subtitleBuffer);
+    }
   } catch (error) {
     subtitleText = decode(subtitleBuffer, parsedEncoding);
     console.log("\n ~ addWatermarkToSubtitle ~ error:", error);
