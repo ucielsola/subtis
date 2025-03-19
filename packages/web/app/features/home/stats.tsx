@@ -1,6 +1,5 @@
 import NumberFlow from "@number-flow/react";
 import { useLoaderData } from "@remix-run/react";
-import { useEffect, useState } from "react";
 import { useIntersectionObserver } from "usehooks-ts";
 
 // internals
@@ -10,25 +9,10 @@ export function HomeStats() {
   // remix hooks
   const loaderData = useLoaderData<typeof loader>();
 
-  // react hooks
-  const [isAnimatingTitlesStats, setIsAnimatingTitlesStats] = useState<boolean>(false);
-  const [isAnimatingSubtitlesStats, setIsAnimatingSubtitlesStats] = useState<boolean>(false);
-  const [isAnimatingQueriedTimesStats, setIsAnimatingQueriedTimesStats] = useState<boolean>(false);
-
   // ts hooks
   const { isIntersecting, ref } = useIntersectionObserver({
-    threshold: 0.2,
+    threshold: 0.6,
   });
-
-  // effects
-  useEffect(
-    function handleIntersection() {
-      if (isIntersecting) {
-        setIsAnimatingTitlesStats(true);
-      }
-    },
-    [isIntersecting],
-  );
 
   if ("message" in loaderData) {
     return null;
@@ -46,32 +30,30 @@ export function HomeStats() {
         <div className="flex flex-col items-center justify-center min-w-56">
           <NumberFlow
             className="text-zinc-50 text-4xl font-bold text-balance"
-            value={isAnimatingTitlesStats ? loaderData.stats.total_titles : 0}
+            value={isIntersecting ? loaderData.stats.total_titles : 0}
             format={{ signDisplay: "always" }}
             locales="es-AR"
-            animated={isAnimatingTitlesStats}
-            onAnimationsFinish={() => setIsAnimatingSubtitlesStats(true)}
+            animated={isIntersecting}
           />
           <span className="text-zinc-400 text-lg">Películas</span>
         </div>
         <div className="flex flex-col items-center justify-center min-w-56">
           <NumberFlow
             className="text-zinc-50 text-4xl font-bold text-balance"
-            value={isAnimatingSubtitlesStats ? loaderData.stats.total_subtitles : 0}
+            value={isIntersecting ? loaderData.stats.total_subtitles : 0}
             format={{ signDisplay: "always" }}
             locales="es-AR"
-            animated={isAnimatingSubtitlesStats}
-            onAnimationsFinish={() => setIsAnimatingQueriedTimesStats(true)}
+            animated={isIntersecting}
           />
           <span className="text-zinc-400 text-lg">Subtítulos</span>
         </div>
         <div className="flex flex-col items-center justify-center min-w-56">
           <NumberFlow
             className="text-zinc-50 text-4xl font-bold text-balance"
-            value={isAnimatingQueriedTimesStats ? loaderData.stats.total_queried_times : 0}
+            value={isIntersecting ? loaderData.stats.total_queried_times : 0}
             format={{ signDisplay: "always" }}
             locales="es-AR"
-            animated={isAnimatingQueriedTimesStats}
+            animated={isIntersecting}
           />
           <span className="text-zinc-400 text-lg">Descargas</span>
         </div>
