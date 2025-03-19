@@ -17,7 +17,7 @@ export function HomeStats() {
 
   // ts hooks
   const { isIntersecting, ref } = useIntersectionObserver({
-    threshold: 0.8,
+    threshold: 0.2,
   });
 
   // effects
