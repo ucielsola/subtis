@@ -1,7 +1,6 @@
 import NumberFlow from "@number-flow/react";
 import { useLoaderData } from "@remix-run/react";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useIntersectionObserver } from "usehooks-ts";
 
 // internals
