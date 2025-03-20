@@ -138,7 +138,19 @@ export default function SearchPage() {
             value: String(result.slug),
             optimizedPoster: result.optimized_poster,
             posterThumbHash: result.poster_thumbhash,
+            isNumericTitle: /^\d+$/.test(result.title_name),
           };
+        })
+        .sort((a, b) => {
+          if (a.isNumericTitle && !b.isNumericTitle) {
+            return -1;
+          }
+
+          if (!a.isNumericTitle && b.isNumericTitle) {
+            return 1;
+          }
+
+          return 0;
         });
 
       return { results: parsedResults, statusCode: response.status };
