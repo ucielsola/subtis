@@ -300,15 +300,12 @@ export default function NotFoundSubtitlePage() {
                 </div>
               </div>
               <div className="flex flex-col gap-1">
-                <h2 className="text-zinc-50 text-sm md:text-base">
-                  No encontramos el subtítulo específico para tu versión.
-                </h2>
+                <h2 className="text-zinc-50 text-sm md:text-base">No encontramos el subtítulo para tu versión.</h2>
                 <p className="text-zinc-300 text-xs md:text-sm">
-                  Probá con la siguiente versión alternativa de{" "}
+                  Probá este subtítulo alternativo para{" "}
                   <Link to={`/subtitles/movie/${loaderData.title.slug}`} className="hover:underline text-zinc-50">
                     {loaderData.title.title_name} ({loaderData.title.year})
                   </Link>
-                  .
                 </p>
               </div>
             </div>

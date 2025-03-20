@@ -317,7 +317,7 @@ export default function SubtitlePage() {
                 ¡Subtítulo encontrado!
               </h1>
               <h2 className="text-zinc-50 text-balance text-sm md:text-base text-center md:text-left">
-                Acomódate y disfrutá de {loaderData.title.title_name} ({loaderData.title.year}) subtitulada 🍿
+                🍿 Acomódate y disfrutá de {loaderData.title.title_name} ({loaderData.title.year}) subtitulada.
               </h2>
             </div>
           </div>
