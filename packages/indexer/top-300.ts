@@ -1,7 +1,7 @@
 import { indexMovieByName } from "./movies";
 import top300 from "./top-300-rotten.json";
 
-let lastIndexedMovieName = "The Taking of Pelham One Two Three";
+let lastIndexedMovieName = "";
 console.log("\n ~ lastIndexedMovieName:", lastIndexedMovieName);
 
 async function indexTop300FromRottenTomatoes() {

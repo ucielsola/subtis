@@ -48,7 +48,7 @@ export function HomeStats() {
             locales="es-AR"
             animated={isAnimatingTitlesStats}
           />
-          <span className="text-zinc-400 text-lg">Películas</span>
+          <span className="text-zinc-400 text-xl pl-2.5">Películas</span>
         </div>
         <div className="flex flex-col items-center justify-center min-w-56">
           <NumberFlow
@@ -58,7 +58,7 @@ export function HomeStats() {
             locales="es-AR"
             animated={isAnimatingTitlesStats}
           />
-          <span className="text-zinc-400 text-lg">Subtítulos</span>
+          <span className="text-zinc-400 text-xl pl-2.5">Subtítulos</span>
         </div>
         <div className="flex flex-col items-center justify-center min-w-56">
           <NumberFlow
@@ -68,7 +68,7 @@ export function HomeStats() {
             locales="es-AR"
             animated={isAnimatingTitlesStats}
           />
-          <span className="text-zinc-400 text-lg">Descargas</span>
+          <span className="text-zinc-400 text-xl pl-2.5">Descargas</span>
         </div>
       </div>
     </section>
