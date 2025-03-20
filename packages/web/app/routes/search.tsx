@@ -138,7 +138,7 @@ export default function SearchPage() {
             value: String(result.slug),
             optimizedPoster: result.optimized_poster,
             posterThumbHash: result.poster_thumbhash,
-            isNumericTitle: /^\d+$/.test(result.title_name),
+            isNumericTitle: /\d+$/.test(result.title_name),
           };
         })
         .sort((a, b) => {

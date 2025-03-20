@@ -9,8 +9,8 @@ import { indexMovieByName } from "./movies";
 
 // testing
 indexMovieByName({
-  year: 2012,
-  name: "V/H/S",
+  year: 2022,
+  name: "Argentina, 1985",
   isDebugging: false,
 });
 
