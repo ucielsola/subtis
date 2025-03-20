@@ -282,7 +282,12 @@ export const providers = new Hono<{ Variables: AppVariables }>()
 
       const spotifyQuery = `${title.title_name} ${title.year} original soundtrack`;
 
-      const queryParams = querystring.stringify({ limit: 1, type: "album", q: spotifyQuery });
+      const queryParams = querystring.stringify({
+        limit: 1,
+        market: "US",
+        type: "album",
+        q: spotifyQuery,
+      });
       const searchEndpoint = `https://api.spotify.com/v1/search?${queryParams}`;
 
       const searchResponse = await fetch(searchEndpoint, {

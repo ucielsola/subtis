@@ -89,10 +89,10 @@ export function HomeHero() {
             </AspectRatio>
             <div className="flex flex-col gap-0">
               <p className="text-sm text-zinc-300 text-center hidden lg:block w-fit container mx-auto">
-                Si tenés el archivo de tu película, arrastralo acá.
+                Si tenés el archivo de tu película, arrastralo acá
               </p>
               <p className="text-[11px] text-zinc-400 text-center w-fit container mx-auto">
-                El procesamiento es local, tu archivo no se sube a internet.
+                El procesamiento es local, tu archivo no se sube a internet
               </p>
             </div>
           </div>
