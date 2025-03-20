@@ -9,8 +9,8 @@ import { indexMovieByName } from "./movies";
 
 // testing
 indexMovieByName({
-  year: 2003,
-  name: "The Pirates of the Caribbean: The Curse of the Black Pearl",
+  year: 2024,
+  name: "Anora",
   isDebugging: false,
 });
 

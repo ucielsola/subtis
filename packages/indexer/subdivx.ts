@@ -257,8 +257,8 @@ export async function getSubtitlesFromSubDivXForTitle({
 
     return subtitlesByImdbId;
   } catch (error) {
-    console.log("Couldn't get subtitles from OpenSubtitles");
-    console.log("\n ~ getSubtitlesFromOpenSubtitlesForTitle ~ error:", error);
+    console.log("Couldn't get subtitles from SubDivX");
+    console.log("\n ~ getSubtitlesFromSubDivXForTitle ~ error:", error);
     return null;
   }
 }

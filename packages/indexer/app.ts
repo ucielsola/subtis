@@ -561,7 +561,7 @@ async function addWatermarkToSubtitle({
   }
 
   if (subtitleGroupName === "OpenSubtitles") {
-    providerSubtitleLink = `https://www.opensubtitles.com/${subtitleId}`;
+    providerSubtitleLink = `https://www.opensubtitles.com/en/subtitles/legacy/${subtitleId}`;
   }
 
   if (["utf-16le"].includes(parsedEncoding)) {
@@ -1184,12 +1184,30 @@ export function getVideoFromFiles(files: File[]): File | undefined {
     });
 }
 
-async function hasSubtitleInDatabase(title_file_name: string): Promise<boolean> {
-  const { data: subtitles } = await supabase.from("Subtitles").select("*").match({
-    title_file_name,
-  });
+async function hasSubDivXSubtitleInDatabase(title_file_name: string): Promise<boolean> {
+  const { data: subtitle } = await supabase
+    .from("Subtitles")
+    .select("id")
+    .match({
+      title_file_name,
+      subtitle_group_id: 1,
+    })
+    .single();
 
-  return subtitles ? subtitles.length > 0 : false;
+  return Boolean(subtitle);
+}
+
+async function hasOpenSubtitlesSubtitleInDatabase(title_file_name: string): Promise<boolean> {
+  const { data: subtitle } = await supabase
+    .from("Subtitles")
+    .select("id")
+    .match({
+      title_file_name,
+      subtitle_group_id: 2,
+    })
+    .single();
+
+  return Boolean(subtitle);
 }
 
 type SubtitleProvider = "subdivx" | "subdl" | "openSubtitles";
@@ -1558,8 +1576,8 @@ export async function getSubtitlesForTitle({
 
     console.log(`4.${index}.${torrentIndex}) Buscando subtítulo para ${name}`);
 
-    const subtitleAlreadyExists = await hasSubtitleInDatabase(fileName);
-    if (subtitleAlreadyExists) {
+    const subDivxSubtitleAlreadyExists = await hasSubDivXSubtitleInDatabase(fileName);
+    if (subDivxSubtitleAlreadyExists) {
       console.log(`4.${index}.${torrentIndex}) Subtítulo ya existe en la base de datos 🙌`);
       continue;
     }
@@ -1633,8 +1651,8 @@ export async function getSubtitlesForTitle({
       `4.${index}.${torrentIndex}) Subtítulo no encontrado en SubDivX para ${name} ${finalResolution} ${releaseGroup.release_group_name} (Puede llegar a existir en otro proveedor) \n`,
     );
 
-    const subtitleAlreadyExistsForSubDivX = await hasSubtitleInDatabase(fileName);
-    if (subtitleAlreadyExistsForSubDivX) {
+    const subDivxSubtitleAlreadyExistsForSubDivX = await hasSubDivXSubtitleInDatabase(fileName);
+    if (subDivxSubtitleAlreadyExistsForSubDivX) {
       console.log(`4.${index}.${torrentIndex}) Subtítulo ya existe en la base de datos 🙌`);
       continue;
     }
@@ -1704,8 +1722,8 @@ export async function getSubtitlesForTitle({
       `4.${index}.${torrentIndex}) Subtítulo no encontrado en SUBDL para ${name} ${finalResolution} ${releaseGroup.release_group_name} (Puede llegar a existir en otro proveedor) \n`,
     );
 
-    const subtitleAlreadyExistsForSubdl = await hasSubtitleInDatabase(fileName);
-    if (subtitleAlreadyExistsForSubdl) {
+    const openSubtitlesSubtitleAlreadyExistsForSubdl = await hasOpenSubtitlesSubtitleInDatabase(fileName);
+    if (openSubtitlesSubtitleAlreadyExistsForSubdl) {
       console.log(`4.${index}.${torrentIndex}) Subtítulo ya existe en la base de datos 🙌`);
       continue;
     }

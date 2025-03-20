@@ -403,7 +403,7 @@ export default function SubtitlesPage() {
           return (
             <div className="w-24">
               <a
-                href={`${website}/${external_id}`}
+                href={`${website}/es/subtitles/legacy/${external_id}`}
                 target="_blank"
                 className="hover:underline"
                 rel="noopener noreferrer"

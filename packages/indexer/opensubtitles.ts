@@ -160,7 +160,15 @@ export async function getSubtitlesFromOpenSubtitlesForTitle({
 
     const data = await response.json();
 
-    return subtitlesSchema.parse(data);
+    const parsedData = subtitlesSchema.parse(data);
+
+    return {
+      ...parsedData,
+      data: parsedData.data.map((subtitle) => ({
+        ...subtitle,
+        id: String(subtitle.attributes.legacy_subtitle_id) ?? subtitle.id,
+      })),
+    };
   } catch (error) {
     console.log("Couldn't get subtitles from OpenSubtitles");
     console.log("\n ~ getSubtitlesFromOpenSubtitlesForTitle ~ error:", error);
