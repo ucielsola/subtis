@@ -532,19 +532,10 @@ export default function SubtitlesPage() {
             <div className="flex flex-row items-center gap-4 justify-center md:justify-start">
               {isAdvancedModeEnabled ? (
                 <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button asChild size="sm">
-                      <a
-                        download
-                        href={loaderData.results[0].subtitle.subtitle_link}
-                        onMouseEnter={() => downloadControls.start("animate")}
-                        onMouseLeave={() => downloadControls.start("normal")}
-                        className="transition-all ease-in-out duration-300 opacity-30 cursor-not-allowed"
-                        onClick={triggerShareToast}
-                      >
-                        <DownloadIcon size={18} controls={downloadControls} />
-                        Descargar Subtítulo
-                      </a>
+                  <TooltipTrigger className=" cursor-not-allowed">
+                    <Button size="sm" disabled className="transition-all ease-in-out duration-300 opacity-30">
+                      <DownloadIcon size={18} controls={downloadControls} />
+                      Descargar Subtítulo
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent side="top">Habilitame desactivando el modo experto</TooltipContent>
