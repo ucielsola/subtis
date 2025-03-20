@@ -5,7 +5,7 @@ import { getSubtitleShortLink } from "./links";
 import { type SubtisSubtitle, releaseGroupSchema, subtitleGroupSchema, subtitleSchema, titleSchema } from "./schemas";
 
 // parsed rip types
-type RipTypeOutput = "BluRay" | "HDRip" | "Theater" | "BrRip" | "WEBRip" | "Web-DL" | "WEB" | null;
+type RipTypeOutput = "BluRay" | "HDRip" | "Theater" | "BrRip" | "WEBRip" | "Web-DL" | "WEB" | "DV" | null;
 
 export function getParsedRipType(ripType: string | null): RipTypeOutput {
   if (!ripType) {
@@ -42,6 +42,10 @@ export function getParsedRipType(ripType: string | null): RipTypeOutput {
 
   if (ripType === "web") {
     return "WEB";
+  }
+
+  if (ripType === "dv") {
+    return "DV";
   }
 
   throw new Error(`Unknown rip type: ${ripType}`);

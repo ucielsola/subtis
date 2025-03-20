@@ -358,7 +358,7 @@ export default function SubtitlesPage() {
       cell: ({ row }) => {
         const { rip_type } = row.original.subtitle;
 
-        return <span className={cn("text-zinc-50", isHoveringFormatTip && "text-indigo-400")}>{rip_type}</span>;
+        return <span className={cn("text-zinc-50", isHoveringFormatTip && "text-indigo-400")}>{rip_type ?? "-"}</span>;
       },
     },
     {
