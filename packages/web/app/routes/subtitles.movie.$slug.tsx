@@ -4,10 +4,9 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { useAnimation } from "motion/react";
 import numeral from "numeral";
 import { useQueryState } from "nuqs";
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useState } from "react";
 import Highlighter from "react-highlight-words";
 import { useCopyToClipboard } from "usehooks-ts";
-import { useHover } from "usehooks-ts";
 import { z } from "zod";
 
 // api
@@ -127,13 +126,13 @@ export default function SubtitlesPage() {
   const loaderData = useLoaderData<typeof loader>();
 
   // react hooks
+  const [isHoveringResolutionTip, setIsHoveringResolutionTip] = useState<boolean>(false);
+  const [isHoveringFormatTip, setIsHoveringFormatTip] = useState<boolean>(false);
+  const [isHoveringPublisherTip, setIsHoveringPublisherTip] = useState<boolean>(false);
+
   const [isAdvancedModeEnabled, setIsAdvancedModeEnabled] = useState<boolean>(
     typeof window !== "undefined" ? window.localStorage.getItem("advanced-mode") === "true" : false,
   );
-
-  const resolutionTipRef = useRef<HTMLDivElement>(null);
-  const formatTipRef = useRef<HTMLDivElement>(null);
-  const publisherTipRef = useRef<HTMLDivElement>(null);
 
   // nuqs hooks
   const [subtip, setSubtip] = useQueryState("subtip", {
@@ -145,10 +144,6 @@ export default function SubtitlesPage() {
 
   // ts hooks
   const [_copiedText, copy] = useCopyToClipboard();
-
-  const isHoveringResolutionTip = useHover(resolutionTipRef);
-  const isHoveringFormatTip = useHover(formatTipRef);
-  const isHoveringPublisherTip = useHover(publisherTipRef);
 
   // helpers
   function triggerShareToast(): void {
@@ -601,7 +596,10 @@ export default function SubtitlesPage() {
             </TabsList>
 
             <TabsContent value="choose-subtitle" className="flex flex-col gap-4 mt-0">
-              <div ref={resolutionTipRef}>
+              <div
+                onMouseEnter={() => setIsHoveringResolutionTip(true)}
+                onMouseLeave={() => setIsHoveringResolutionTip(false)}
+              >
                 <Alert
                   className={cn(
                     "bg-zinc-950 border border-zinc-700 flex items-start gap-6",
@@ -628,7 +626,11 @@ export default function SubtitlesPage() {
                   </div>
                 </Alert>
               </div>
-              <div ref={publisherTipRef}>
+
+              <div
+                onMouseEnter={() => setIsHoveringPublisherTip(true)}
+                onMouseLeave={() => setIsHoveringPublisherTip(false)}
+              >
                 <Alert
                   className={cn(
                     "bg-zinc-950 border border-zinc-700 flex items-start gap-6",
@@ -653,7 +655,8 @@ export default function SubtitlesPage() {
                   </div>
                 </Alert>
               </div>
-              <div ref={formatTipRef}>
+
+              <div onMouseEnter={() => setIsHoveringFormatTip(true)} onMouseLeave={() => setIsHoveringFormatTip(false)}>
                 <Alert
                   className={cn(
                     "bg-zinc-950 border border-zinc-700 flex items-start gap-6",
