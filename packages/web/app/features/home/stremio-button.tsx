@@ -54,11 +54,11 @@ export function StremioButton() {
                   </div>
                   <div className="text-zinc-50 pb-1">Instalá el Add-on</div>
                 </div>
-                <div className="flex flex-row gap-4">
+                <div className="flex flex-col md:flex-row gap-4">
                   <MorphingDialogBasicImage
                     src="/stremio-1.webp"
                     alt="Instalación de add-on de Stremio"
-                    containerClassName="w-44 border border-zinc-700 rounded-sm flex-shrink-0"
+                    containerClassName="w-full md:w-44 border border-zinc-700 rounded-sm flex-shrink-0"
                   />
                   <p className="text-zinc-400 text-sm">
                     Haz click en este{" "}
@@ -86,11 +86,11 @@ export function StremioButton() {
                   </div>
                   <div className="text-zinc-50 pb-1">Ir al Visualizador de Subtítulos</div>
                 </div>
-                <div className="flex flex-row gap-4">
+                <div className="flex flex-col md:flex-row gap-4">
                   <MorphingDialogBasicImage
                     src="/stremio-2.webp"
                     alt="Instalación de add-on de Stremio"
-                    containerClassName="w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0"
+                    containerClassName="w-full md:w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0"
                   />
                   <p className="text-zinc-400 text-sm">
                     Mientras estás viendo una película, haz click en el ícono de subtítulos en la barra de reproducción.
@@ -107,11 +107,11 @@ export function StremioButton() {
                   </div>
                   <div className="text-zinc-50 pb-1">Seleccionar Subtítulos</div>
                 </div>
-                <div className="flex flex-row gap-4">
+                <div className="flex flex-col md:flex-row gap-4">
                   <MorphingDialogBasicImage
                     src="/stremio-3.webp"
                     alt="Instalación de add-on de Stremio"
-                    containerClassName="w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0"
+                    containerClassName="w-full md:w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0"
                   />
                   <p className="text-zinc-400 text-sm">
                     En la sección debajo de &ldquo;Add-ons&rdquo; haz click en &ldquo;español&rdquo; para reproducir el
@@ -129,11 +129,11 @@ export function StremioButton() {
                   </div>
                   <div className="text-zinc-50 pb-1">Desinstalá otros Add-ons (Opcional)</div>
                 </div>
-                <div className="flex flex-row gap-4">
+                <div className="flex flex-col md:flex-row gap-4">
                   <MorphingDialogBasicImage
                     src="/stremio-4.webp"
                     alt="Instalación de add-on de Stremio"
-                    containerClassName="w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0"
+                    containerClassName="w-full md:w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0"
                   />
                   <p className="text-zinc-400 text-sm">
                     Para disfrutar de una mejor experiencia, te sugerimos desinstalar otros complementos de subtítulos,

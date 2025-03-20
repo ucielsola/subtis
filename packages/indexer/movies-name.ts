@@ -9,8 +9,8 @@ import { indexMovieByName } from "./movies";
 
 // testing
 indexMovieByName({
-  year: 2024,
-  name: "Anora",
+  year: 2012,
+  name: "V/H/S",
   isDebugging: false,
 });
 
