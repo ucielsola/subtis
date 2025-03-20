@@ -109,7 +109,11 @@ export function PosterDisclosure({ src, alt, hashUrl, title, overview, rating }:
         <DisclosureContent>
           <div className="flex flex-col pb-2 z-10">
             <div>
-              {overview ? <p className="text-zinc-50 text-sm leading-6 pt-2 pb-2 line-clamp-[14]">{overview}</p> : null}
+              {overview ? (
+                <p className="text-zinc-50 text-sm leading-6 pt-2 pb-2 line-clamp-[14]">{overview}</p>
+              ) : (
+                <p className="text-zinc-50 text-sm leading-6 pt-2 pb-2 line-clamp-[14]">Sinopsis no disponible</p>
+              )}
               <div className="flex items-center gap-1 self-end justify-end">
                 <StarIcon size={16} className="fill-yellow-400 stroke-none" />
                 <span className="text-zinc-50 text-sm">{rating}/10</span>
