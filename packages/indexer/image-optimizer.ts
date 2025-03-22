@@ -39,7 +39,7 @@ export async function optimizeTitleTableImages() {
 
       const imageWebp = await sharp(imageBuffer)
         .resize(Math.floor(MAX_IMAGE_WIDTH * 1), Math.floor(MAX_IMAGE_HEIGHT * 1), { fit: "outside" })
-        .toFormat("webp", { quality: 80, effort: 0, nearLossless: true })
+        .toFormat("webp", { quality: 90, effort: 6, nearLossless: true })
         .toBuffer();
 
       const newPosterFileName = `${title.poster.split("/").pop()?.split(".")[0]}.webp`;
@@ -83,7 +83,7 @@ export async function optimizeTitleTableImages() {
 
       const imageWebp = await sharp(imageBuffer)
         .resize(Math.floor(MAX_IMAGE_WIDTH * 1), Math.floor(MAX_IMAGE_HEIGHT * 1), { fit: "outside" })
-        .toFormat("webp", { quality: 80, effort: 0, nearLossless: true })
+        .toFormat("webp", { quality: 90, effort: 6, nearLossless: true })
         .toBuffer();
 
       const newBackdropFileName = `${title.backdrop.split("/").pop()?.split(".")[0]}.webp`;
@@ -124,7 +124,7 @@ export async function optimizeTitleTableImages() {
 
       // convert to webp
       const imageWebp = await sharp(imageBuffer)
-        .toFormat("webp", { quality: 80, effort: 0, nearLossless: true })
+        .toFormat("webp", { quality: 90, effort: 6, nearLossless: true })
         .toBuffer();
 
       const newLogoFileName = `${title.logo.split("/").pop()?.split(".")[0]}.webp`;
