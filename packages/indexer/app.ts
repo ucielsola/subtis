@@ -400,6 +400,30 @@ async function storeSubtitleInSupabaseTable({
   const { bytes, fileName, fileNameExtension } = titleFile;
   const { current_season, current_episode } = getSeasonAndEpisode(title.episode);
 
+  const { subtitleSrtFileName } = subtitle;
+
+  // Remove existing subtitle from database if it exists
+  const { data: existingSubtitle } = await supabase
+    .from("Subtitles")
+    .select("id, release_group_id")
+    .match({ title_file_name: fileName })
+    .single();
+
+  if (existingSubtitle?.id && existingSubtitle.release_group_id !== releaseGroupId) {
+    await supabase.from("Subtitles").delete().match({ id: existingSubtitle.id });
+
+    console.log(`Removed existing subtitle with ID ${existingSubtitle.id} for ${fileName}`);
+
+    // Remove existing subtitle file from storage if it exists
+    if (subtitleSrtFileName) {
+      const { error: storageError } = await supabase.storage.from("subtitles").remove([subtitleSrtFileName]);
+
+      if (!storageError) {
+        console.log(`Removed existing subtitle file: ${subtitleSrtFileName}`);
+      }
+    }
+  }
+
   const { error } = await supabase.from("Subtitles").insert({
     lang,
     author,
@@ -1197,7 +1221,7 @@ async function hasSubDivXSubtitleInDatabase(title_file_name: string): Promise<bo
   return Boolean(subtitle);
 }
 
-async function hasOpenSubtitlesSubtitleInDatabase(title_file_name: string): Promise<boolean> {
+async function hasSubDlSubtitleInDatabase(title_file_name: string): Promise<boolean> {
   const { data: subtitle } = await supabase
     .from("Subtitles")
     .select("id")
@@ -1578,7 +1602,7 @@ export async function getSubtitlesForTitle({
 
     const subDivxSubtitleAlreadyExists = await hasSubDivXSubtitleInDatabase(fileName);
     if (subDivxSubtitleAlreadyExists) {
-      console.log(`4.${index}.${torrentIndex}) Subtítulo ya existe en la base de datos 🙌`);
+      console.log(`4.${index}.${torrentIndex}) Subtítulo (de SubDivX) ya existe en la base de datos 🙌`);
       continue;
     }
 
@@ -1651,9 +1675,9 @@ export async function getSubtitlesForTitle({
       `4.${index}.${torrentIndex}) Subtítulo no encontrado en SubDivX para ${name} ${finalResolution} ${releaseGroup.release_group_name} (Puede llegar a existir en otro proveedor) \n`,
     );
 
-    const subDivxSubtitleAlreadyExistsForSubDivX = await hasSubDivXSubtitleInDatabase(fileName);
-    if (subDivxSubtitleAlreadyExistsForSubDivX) {
-      console.log(`4.${index}.${torrentIndex}) Subtítulo ya existe en la base de datos 🙌`);
+    const subDivxSubtitleAlreadyExists2 = await hasSubDivXSubtitleInDatabase(fileName);
+    if (subDivxSubtitleAlreadyExists2) {
+      console.log(`4.${index}.${torrentIndex}) Subtítulo (de SubDivX) ya existe en la base de datos 🙌`);
       continue;
     }
 
@@ -1722,9 +1746,9 @@ export async function getSubtitlesForTitle({
       `4.${index}.${torrentIndex}) Subtítulo no encontrado en SUBDL para ${name} ${finalResolution} ${releaseGroup.release_group_name} (Puede llegar a existir en otro proveedor) \n`,
     );
 
-    const openSubtitlesSubtitleAlreadyExistsForSubdl = await hasOpenSubtitlesSubtitleInDatabase(fileName);
-    if (openSubtitlesSubtitleAlreadyExistsForSubdl) {
-      console.log(`4.${index}.${torrentIndex}) Subtítulo ya existe en la base de datos 🙌`);
+    const subDlSubtitleAlreadyExists = await hasSubDlSubtitleInDatabase(fileName);
+    if (subDlSubtitleAlreadyExists) {
+      console.log(`4.${index}.${torrentIndex}) Subtítulo (de SubDL) ya existe en la base de datos 🙌`);
       continue;
     }
 
