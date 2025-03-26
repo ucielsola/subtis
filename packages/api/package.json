@@ -13,7 +13,7 @@
   "dependencies": {
     "@hono/zod-validator": "^0.4.3",
     "@scalar/hono-api-reference": "^0.6.0",
-    "@supabase/supabase-js": "^2.49.1",
+    "@supabase/supabase-js": "^2.49.3",
     "hono": "^4.7.5",
     "hono-openapi": "^0.4.6",
     "jszip": "^3.10.1",
@@ -25,10 +25,10 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250321.0",
-    "@types/bun": "^1.2.5",
+    "@types/bun": "^1.2.6",
     "@types/timestring": "^7.0.0",
     "@types/unescape-js": "^1.0.3",
     "typescript": "^5.8.2",
-    "wrangler": "^4.4.0"
+    "wrangler": "^4.5.0"
   }
 }

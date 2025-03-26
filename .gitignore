@@ -7,6 +7,7 @@ coverage
 node_modules
 *.zip
 bun.lockb
+bun.lock
 **/bin/*
 **/bin/subtis
 **/bin/subtis.bin
