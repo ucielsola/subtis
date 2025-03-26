@@ -17,7 +17,7 @@ import { indexMoviesByYear } from "./movies";
 indexMoviesByYear({
   year: 2025,
   isDebugging: false,
-  indexFromPage: 3,
+  indexFromPage: 10,
 });
 
 // saveReleaseGroupsToDb(supabase);

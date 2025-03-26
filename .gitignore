@@ -1,4 +1,4 @@
-torrents
+packages/indexer/torrents
 uncompressed-subtitles
 compressed-subtitles
 .env
