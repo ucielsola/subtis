@@ -9,9 +9,9 @@ import { indexMovieByName } from "./movies";
 
 // testing
 indexMovieByName({
-  year: 2022,
-  name: "Argentina, 1985",
+  year: 2002,
   isDebugging: false,
+  name: "xXx",
 });
 
 // saveReleaseGroupsToDb(supabase);

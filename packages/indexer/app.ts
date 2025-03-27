@@ -1022,6 +1022,30 @@ function getFilteredTorrents(torrents: TorrentFound[], maxTorrents: number, shou
 
       return true;
     })
+    .filter((torrent) => {
+      const pornRegex = /\b(xxx|porn|adult|sex|erotic|brazzers|bangbros|naughty|playboy)\b/i;
+      const isPorn = pornRegex.test(torrent.title);
+
+      const WHITELISTED_MOVIES_TITLES = [
+        "xXx: Return of Xander Cage (2017) [720p] [YTS] [YIFY]",
+        "xXx: Return of Xander Cage (2017) [1080p] [YTS] [YIFY]",
+        "xXx (2002) 720p BrRip x264 - YIFY",
+        "xXx (2002) 1080p BrRip x264 - YIFY",
+        "xXx (2002) [1080p] [x264] [5.1] YTS",
+      ];
+      const isWhitelisted = WHITELISTED_MOVIES_TITLES.includes(torrent.title);
+
+      if (isWhitelisted) {
+        console.log("\n Torrent whitelisted:", torrent.title);
+        return true;
+      }
+
+      if (isPorn) {
+        console.log("Porn torrent found!", torrent.title);
+      }
+
+      return !isPorn;
+    })
     .map((torrent) => {
       const bytes = torrent.isBytesFormatted
         ? filesizeParser((torrent.size as string).replaceAll(",", ""))
