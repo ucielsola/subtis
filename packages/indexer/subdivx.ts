@@ -22,6 +22,7 @@ const subdivxSubtitleSchema = z.object({
   calificacion: z.string().optional(),
   cds: z.number(),
   comentarios: z.number(),
+  imdb: z.string().nullable(),
   descargas: z.number(),
   descripcion: z.string(),
   eliminado: z.union([z.literal(0), z.literal(1)]),
@@ -34,6 +35,9 @@ const subdivxSubtitleSchema = z.object({
   nick: z.string(),
   promedio: z.string(),
   titulo: z.string(),
+  id_subido_por: z.number(),
+  fecha_subida: z.string(),
+  pais: z.number(),
 });
 
 const subdivxSubtitlesSchema = z.object({
@@ -78,12 +82,14 @@ export async function getSubDivXToken(): Promise<SubDivXToken & { cookie: string
 }
 
 async function getSubtitlesFromSubDivXForTitleByQuery({
+  fullImdbId,
   subdivxToken,
   subdivxCookie,
   subdivxParameter,
   titleProviderQuery,
   hasBeenExecutedOnce,
 }: {
+  fullImdbId: string;
   subdivxToken: string;
   subdivxCookie: string | null;
   subdivxParameter: string;
@@ -122,6 +128,7 @@ async function getSubtitlesFromSubDivXForTitleByQuery({
     await Bun.sleep(6000);
 
     return getSubtitlesFromSubDivXForTitleByQuery({
+      fullImdbId,
       subdivxToken,
       subdivxCookie,
       subdivxParameter,
@@ -136,6 +143,7 @@ async function getSubtitlesFromSubDivXForTitleByQuery({
     await Bun.sleep(6000);
 
     return getSubtitlesFromSubDivXForTitleByQuery({
+      fullImdbId,
       subdivxToken,
       subdivxCookie,
       subdivxParameter,
@@ -160,6 +168,12 @@ async function getSubtitlesFromSubDivXForTitleByQuery({
     //   parsedSubtitleTitle = parsedSubtitleTitle.slice(0, directorsCutIndex);
     // }
 
+    // TODO: Check if we need to check if the imdb is a string
+    // if (typeof subtitle.imdb === "string" && subtitle.imdb !== fullImdbId) {
+    if (subtitle.imdb !== fullImdbId) {
+      return false;
+    }
+
     if (!parsedSubtitleTitleWithoutSpecialCharacters.includes(titleOnlyWithoutYear)) {
       return false;
     }
@@ -181,17 +195,16 @@ async function getSubtitlesFromSubDivXForTitleByQuery({
 }
 
 async function getSubtitlesFromSubDivXForTitleByImdbId({
-  imdbId,
+  fullImdbId,
   subdivxToken,
   subdivxCookie,
   subdivxParameter,
 }: {
-  imdbId: string;
+  fullImdbId: string;
   subdivxToken: string;
   subdivxCookie: string | null;
   subdivxParameter: string;
 }): Promise<SubDivXSubtitles> {
-  const fullImdbId = getFullImdbId(imdbId);
   const bodyURL = `tabla=resultados&filtros=&${subdivxParameter}=${fullImdbId}&token=${subdivxToken}`;
 
   const response = await fetch(`${SUBDIVX_BASE_URL}/inc/ajax.php`, {
@@ -235,7 +248,10 @@ export async function getSubtitlesFromSubDivXForTitle({
   titleProviderQuery: string;
 }): Promise<SubDivXSubtitles | null> {
   try {
+    const fullImdbId = getFullImdbId(imdbId);
+
     const subtitlesByQuery = await getSubtitlesFromSubDivXForTitleByQuery({
+      fullImdbId,
       subdivxToken,
       subdivxCookie,
       subdivxParameter,
@@ -249,7 +265,7 @@ export async function getSubtitlesFromSubDivXForTitle({
 
     await Bun.sleep(6000);
     const subtitlesByImdbId = await getSubtitlesFromSubDivXForTitleByImdbId({
-      imdbId,
+      fullImdbId,
       subdivxToken,
       subdivxCookie,
       subdivxParameter,

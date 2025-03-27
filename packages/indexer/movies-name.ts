@@ -9,9 +9,9 @@ import { indexMovieByName } from "./movies";
 
 // testing
 indexMovieByName({
-  year: 2002,
+  year: 2013,
   isDebugging: false,
-  name: "xXx",
+  name: "Her",
 });
 
 // saveReleaseGroupsToDb(supabase);
