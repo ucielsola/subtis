@@ -36,7 +36,7 @@ const subdivxSubtitleSchema = z.object({
   promedio: z.string(),
   titulo: z.string(),
   id_subido_por: z.number(),
-  fecha_subida: z.string(),
+  fecha_subida: z.string().nullable(),
   pais: z.number(),
 });
 
