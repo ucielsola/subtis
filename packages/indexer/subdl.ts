@@ -101,12 +101,10 @@ export async function getSubtitlesFromSubdl({
 
     if (parsedData.success) {
       return parsedData.data.subtitles.map((subtitle) => {
-        const [id] = subtitle.subtitlePage.split("/").reverse();
         const subtitleLink = `https://dl.subdl.com${subtitle.url}`;
 
         return {
           ...subtitle,
-          id,
           subtitleLink,
         };
       });
@@ -221,7 +219,7 @@ export async function filterSubdlSubtitlesForTorrent({
     releaseGroupName: releaseGroup.release_group_name,
   });
 
-  const subtitleId = subtitleLink.split(/\//gi).reverse()[0].split(".")[0];
+  const [subtitleId] = subtitle.subtitlePage.split("/").reverse();
 
   return {
     lang: "es",
