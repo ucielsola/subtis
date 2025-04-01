@@ -708,10 +708,9 @@ export default function SubtitlesPage() {
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
                     Te recomendamos usar el{" "}
                     <a
-                      href="stremio://stremio.subt.is/manifest.json
-"
+                      href="stremio://stremio.subt.is/manifest.json"
                       target="_blank"
-                      className="text-zinc-300 hover:text-zinc-50 hover:underline"
+                      className="text-emerald-400 hover:text-emerald-300 hover:underline transition-all ease-in-out"
                       rel="noreferrer"
                     >
                       add-on
