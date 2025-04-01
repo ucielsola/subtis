@@ -63,8 +63,7 @@ export function StremioButton() {
                   <p className="text-zinc-400 text-sm">
                     Haz click en este{" "}
                     <a
-                      href="stremio://stremio.subt.is/manifest.json
-"
+                      href="stremio://stremio.subt.is/manifest.json"
                       target="_blank"
                       className="text-zinc-50 underline"
                       rel="noreferrer"
