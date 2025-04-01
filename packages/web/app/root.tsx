@@ -32,10 +32,10 @@ export const links: Route.LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className="dark antialiased">
+    <html lang="es" className="antialiased">
       <head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, maximum-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
       </head>
