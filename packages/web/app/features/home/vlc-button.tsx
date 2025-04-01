@@ -230,7 +230,7 @@ export function VlcButton() {
                   <p className="text-zinc-400 text-sm">
                     Haz click en este{" "}
                     <a
-                      href="stremio://stremio.subt.is/manifest.json
+                      href="stremio://stremio.fly.dev/manifest.json
 "
                       target="_blank"
                       className="text-zinc-50 underline"
