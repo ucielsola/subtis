@@ -1,4 +1,4 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 
 // lib
 import { cn } from "~/lib/utils";
@@ -10,7 +10,7 @@ import { Marquee } from "~/components/shared/marquee";
 import { AspectRatio } from "~/components/ui/aspect-ratio";
 
 // types
-import type { loader } from "~/routes/_index";
+import type { loader } from "~/routes/home";
 
 // constants
 const IMAGE_WIDTH = 19.3;

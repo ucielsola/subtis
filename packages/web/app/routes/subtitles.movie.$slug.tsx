@@ -1,5 +1,4 @@
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, type LoaderFunctionArgs } from "react-router";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useAnimation } from "motion/react";
 import numeral from "numeral";
@@ -39,7 +38,6 @@ import { Separator } from "~/components/ui/separator";
 import { Skeleton } from "~/components/ui/skeleton";
 import { Switch } from "~/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import { ToastAction } from "~/components/ui/toast";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
 // logos
@@ -61,7 +59,7 @@ import { usePlatforms } from "~/hooks/use-platforms";
 import { useRottenTomatoes } from "~/hooks/use-rottentomatoes";
 import { useSpotify } from "~/hooks/use-spotify";
 import { useTeaser } from "~/hooks/use-teaser";
-import { useToast } from "~/hooks/use-toast";
+import { toast } from "sonner";
 
 // helpers
 function getResolutionRank(resolution: string): number {
@@ -139,9 +137,6 @@ export default function SubtitlesPage() {
     defaultValue: "message" in loaderData ? "" : loaderData.results.length > 1 ? "choose-subtitle" : "play-subtitle",
   });
 
-  // toast hooks
-  const { toast } = useToast();
-
   // ts hooks
   const [_copiedText, copy] = useCopyToClipboard();
 
@@ -151,16 +146,15 @@ export default function SubtitlesPage() {
       return;
     }
 
-    toast({
-      title: "¡Disfruta de tu subtítulo!",
+    toast.success("¡Disfruta de tu subtítulo!", {
       description: (
         <p className="flex flex-row items-center gap-1">
           Compartí tu experiencia en <img src="/x.svg" alt="X" className="w-3 h-3" />
         </p>
       ),
       action: (
-        <ToastAction
-          altText="Compartir"
+        <Button
+          variant="outline"
           onClick={() => {
             window.open(
               `https://twitter.com/intent/tweet?text=${encodeURIComponent(
@@ -171,7 +165,7 @@ export default function SubtitlesPage() {
           }}
         >
           Compartir
-        </ToastAction>
+        </Button>
       ),
     });
   }
@@ -180,8 +174,7 @@ export default function SubtitlesPage() {
   async function handleCopyEmailToClipboard(): Promise<void> {
     await copy("soporte@subtis.io");
 
-    toast({
-      title: "¡Email copiado a tu clipboard!",
+    toast.success("¡Email copiado a tu clipboard!", {
       description: "Escribinos y te responderemos lo antes posible.",
     });
   }
@@ -460,7 +453,7 @@ export default function SubtitlesPage() {
                 })
               }
               href={row.original.subtitle.subtitle_link}
-              className="hover:bg-zinc-800 bg-zinc-900 transition-all ease-in-out rounded-sm"
+              className="hover:bg-zinc-800 hover:text-zinc-50 bg-zinc-900 transition-all ease-in-out rounded-sm"
             >
               <DownloadIcon size={14} controls={controls} />
               Descargar

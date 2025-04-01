@@ -1,6 +1,6 @@
 {
   "name": "@subtis/api",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "license": "MIT",
   "main": "app.ts",
   "scripts": {
@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@hono/zod-validator": "^0.4.3",
-    "@scalar/hono-api-reference": "^0.6.0",
-    "@supabase/supabase-js": "^2.49.3",
+    "@scalar/hono-api-reference": "^0.7.4",
+    "@supabase/supabase-js": "^2.49.4",
     "hono": "^4.7.5",
     "hono-openapi": "^0.4.6",
     "jszip": "^3.10.1",
@@ -21,7 +21,7 @@
     "timestring": "^7.0.0",
     "unescape-js": "^1.1.4",
     "zod": "^3.24.2",
-    "zod-openapi": "^4.2.3"
+    "zod-openapi": "^4.2.4"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250327.0",
@@ -29,6 +29,6 @@
     "@types/timestring": "^7.0.0",
     "@types/unescape-js": "^1.0.3",
     "typescript": "^5.8.2",
-    "wrangler": "^4.5.1"
+    "wrangler": "^4.6.0"
   }
 }

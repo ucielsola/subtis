@@ -5,18 +5,17 @@ import { useEffect } from "react";
 import { VideoDropzone } from "~/components/shared/video-dropzone";
 
 // home
-// import { BadgeTvShows } from "~/features/home/badge-tv-shows";
 import { StremioButton } from "~/features/home/stremio-button";
 
 // ui
 import { AspectRatio } from "~/components/ui/aspect-ratio";
 import { DotPattern } from "~/components/ui/dot-pattern";
 
-// lib
-import { cn } from "~/lib/utils";
-
 // icons
 import { Terminal } from "~/components/icons/terminal";
+
+// lib
+import { cn } from "~/lib/utils";
 
 // internals
 import { HeroBackground } from "./hero-background";

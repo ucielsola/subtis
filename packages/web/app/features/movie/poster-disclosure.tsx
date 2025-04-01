@@ -1,6 +1,6 @@
 import { StarIcon } from "lucide-react";
 import { AnimatePresence, motion, useAnimation } from "motion/react";
-import { useRef, useState } from "react";
+import { useRef, useState, type RefObject } from "react";
 import { useOnClickOutside } from "usehooks-ts";
 
 // ui
@@ -44,7 +44,7 @@ type Props = {
 export function PosterDisclosure({ src, alt, hashUrl, title, overview, rating }: Props) {
   // react hooks
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   // motion hooks
   const controls = useAnimation();
@@ -59,7 +59,7 @@ export function PosterDisclosure({ src, alt, hashUrl, title, overview, rating }:
   }
 
   // ts hooks
-  useOnClickOutside(ref, handleClickOutside);
+  useOnClickOutside(ref as RefObject<HTMLDivElement>, handleClickOutside);
 
   return (
     <div className="relative w-[384px] h-[611px] overflow-hidden rounded-sm" ref={ref}>

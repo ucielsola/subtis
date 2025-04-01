@@ -1,9 +1,10 @@
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
-import { redirect, useLoaderData, useParams } from "@remix-run/react";
+import type { LoaderFunctionArgs, MetaFunction } from "react-router";
+import { redirect, useLoaderData, useParams } from "react-router";
 import { parseMedia } from "@remotion/media-parser";
 import { AnimatePresence, motion, useAnimation } from "motion/react";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { transformSrtTracks } from "srt-support-for-html5-videos";
+import { toast } from "sonner";
 
 // api
 import { subtitleNormalizedSchema } from "@subtis/api/lib/parsers";
@@ -34,7 +35,6 @@ import DotPattern from "~/components/ui/dot-pattern";
 import { Separator } from "~/components/ui/separator";
 import { Skeleton } from "~/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import { ToastAction } from "~/components/ui/toast";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
 // logos
@@ -53,7 +53,6 @@ import { usePlatforms } from "~/hooks/use-platforms";
 import { useRottenTomatoes } from "~/hooks/use-rottentomatoes";
 import { useSpotify } from "~/hooks/use-spotify";
 import { useTeaser } from "~/hooks/use-teaser";
-import { useToast } from "~/hooks/use-toast";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { bytes, fileName } = params;
@@ -132,9 +131,6 @@ export default function SubtitlePage() {
   const stremioTipControl = useAnimation();
   const internalVideoPlayerTipControl = useAnimation();
   const externalVideoPlayerTipControl = useAnimation();
-
-  // toast hooks
-  const { toast } = useToast();
 
   // effects
   useEffect(
@@ -229,16 +225,15 @@ export default function SubtitlePage() {
       return;
     }
 
-    toast({
-      title: "¡Disfruta de tu subtítulo!",
+    toast.success("¡Disfruta de tu subtítulo!", {
       description: (
         <p className="flex flex-row items-center gap-1">
           Compartí tu experiencia en <img src="/x.svg" alt="X" className="w-3 h-3" />
         </p>
       ),
       action: (
-        <ToastAction
-          altText="Compartir"
+        <Button
+          variant="outline"
           onClick={() => {
             window.open(
               `https://twitter.com/intent/tweet?text=${encodeURIComponent(
@@ -249,7 +244,7 @@ export default function SubtitlePage() {
           }}
         >
           Compartir
-        </ToastAction>
+        </Button>
       ),
     });
   }

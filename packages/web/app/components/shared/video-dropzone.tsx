@@ -1,8 +1,9 @@
-import { useNavigate, useNavigation } from "@remix-run/react";
+import { useNavigate, useNavigation } from "react-router";
 import filesizeParser from "filesize-parser";
 import { useAnimation } from "motion/react";
 import Dropzone from "react-dropzone-esm";
 import { Fragment } from "react/jsx-runtime";
+import { toast } from "sonner";
 
 // shared external
 import { getIsTvShow } from "@subtis/shared/files";
@@ -13,9 +14,6 @@ import { Button } from "~/components/ui/button";
 // icons
 import { AttachFileIcon } from "~/components/icons/attach-file";
 
-// hooks
-import { useToast } from "~/hooks/use-toast";
-
 // constants
 const MIN_BYTES = filesizeParser("500MB");
 
@@ -23,9 +21,6 @@ export function VideoDropzone() {
   // remix hooks
   const navigate = useNavigate();
   const navigation = useNavigation();
-
-  // toast hooks
-  const { toast } = useToast();
 
   // motion hooks
   const controls = useAnimation();
@@ -49,8 +44,7 @@ export function VideoDropzone() {
           fileType !== "video/avi" &&
           fileType !== "video/x-msvideo"
         ) {
-          toast({
-            title: `Formato de archivo no soportado (${format})`,
+          toast.error(`Formato de archivo no soportado (${format})`, {
             description: "Soportamos mp4, mkv, avi y mpeg.",
           });
 
@@ -58,8 +52,7 @@ export function VideoDropzone() {
         }
 
         if (bytes < MIN_BYTES) {
-          toast({
-            title: "Archivo demasiado pequeño",
+          toast.error("Archivo demasiado pequeño", {
             description: "El archivo debe ser mayor a 500MB.",
           });
 
@@ -67,8 +60,7 @@ export function VideoDropzone() {
         }
 
         if (isTvShow) {
-          toast({
-            title: "Series no soportadas",
+          toast.error("Series no soportadas", {
             description: "No soportamos series por el momento.",
           });
 
@@ -97,7 +89,7 @@ export function VideoDropzone() {
               <Fragment>
                 <Button
                   variant="outline"
-                  className="hover:bg-zinc-950 bg-zinc-950 border border-zinc-700 transition-all ease-in-out z-10"
+                  className="hover:bg-zinc-950 hover:text-zinc-50 bg-zinc-950 border border-zinc-700 transition-all ease-in-out z-10"
                   onMouseEnter={() => controls.start("animate")}
                   onMouseLeave={() => controls.start("normal")}
                 >

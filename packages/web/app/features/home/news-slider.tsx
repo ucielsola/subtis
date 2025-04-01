@@ -1,8 +1,8 @@
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "react-router";
 import { useMediaQuery } from "usehooks-ts";
 
 // routes
-import type { loader } from "~/routes/_index";
+import type { loader } from "~/routes/home";
 
 // internals
 import { ThumbHashNewsImage } from "./thumbhash-news-image";

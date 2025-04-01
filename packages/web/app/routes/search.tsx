@@ -1,8 +1,8 @@
-import type { MetaFunction } from "@remix-run/cloudflare";
-import { Link, useLoaderData } from "@remix-run/react";
+import type { MetaFunction } from "react-router";
+import { Link, useLoaderData } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useQueryState } from "nuqs";
-import { useDebounce } from "use-debounce";
+import { useDebounceValue } from 'usehooks-ts'
 import { z } from "zod";
 
 // api
@@ -84,7 +84,7 @@ export default function SearchPage() {
   const [inputValue, setInputValue] = useQueryState("query", { defaultValue: "" });
 
   // debounce hooks
-  const [value] = useDebounce(inputValue, 400);
+  const [value] = useDebounceValue(inputValue, 400);
 
   // query hooks
   const { data, isLoading, error } = useQuery({

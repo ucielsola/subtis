@@ -1,11 +1,11 @@
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "react-router";
 import { useMediaQuery } from "usehooks-ts";
 
 // ui
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "~/components/ui/carousel";
 
 // routes
-import type { loader } from "~/routes/_index";
+import type { loader } from "~/routes/home";
 
 // internals
 import { ThumbHashTrendingImage } from "./thumbhash-trending-image";

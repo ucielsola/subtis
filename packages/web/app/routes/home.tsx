@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@remix-run/cloudflare";
+import type { MetaFunction } from "react-router";
 import { Fragment } from "react/jsx-runtime";
 import { z } from "zod";
 
@@ -77,7 +77,7 @@ export const loader = async () => {
   };
 };
 
-export default function Index() {
+export default function HomePage() {
   return (
     <Fragment>
       <HomeHero />

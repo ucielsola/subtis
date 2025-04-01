@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import { Link } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { useMediaQuery } from "usehooks-ts";
 

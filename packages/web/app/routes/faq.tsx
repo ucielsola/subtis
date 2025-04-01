@@ -1,8 +1,6 @@
-import type { MetaFunction } from "@remix-run/cloudflare";
+import type { MetaFunction } from "react-router";
 import { useCopyToClipboard } from "usehooks-ts";
-
-// hooks
-import { useToast } from "~/hooks/use-toast";
+import { toast } from "sonner";
 
 // meta
 export const meta: MetaFunction = () => {
@@ -13,9 +11,6 @@ export const meta: MetaFunction = () => {
 };
 
 export default function FaqPage() {
-  // toast hooks
-  const { toast } = useToast();
-
   // ts hooks
   const [_copiedText, copy] = useCopyToClipboard();
 
@@ -23,8 +18,7 @@ export default function FaqPage() {
   async function handleCopyEmailToClipboard(): Promise<void> {
     await copy("soporte@subtis.io");
 
-    toast({
-      title: "¡Email copiado a tu clipboard!",
+    toast.success("¡Email copiado a tu clipboard!", {
       description: "Escribinos y te responderemos lo antes posible.",
     });
   }

@@ -46,7 +46,7 @@ export function ThumbHashNewsImage({ src, hashUrl, alt }: Props) {
         <img
           ref={imageReference}
           onLoad={onLoaded}
-          className={`absolute inset-[2px] ${imgIsLoading ? "opacity-0" : "opacity-100"} transition-all ease-in-out duration-300 w-[326px] h-[176px] rounded-[2px] object-cover`}
+          className={`absolute inset-[2px] brightness-110 ${imgIsLoading ? "opacity-0" : "opacity-100"} transition-all ease-in-out duration-300 w-[326px] h-[176px] rounded-[2px] object-cover`}
           src={src}
           alt={alt}
           loading="lazy"

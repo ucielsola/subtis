@@ -1,10 +1,10 @@
 import NumberFlow from "@number-flow/react";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 import { useEffect, useState } from "react";
 import { useIntersectionObserver } from "usehooks-ts";
 
 // internals
-import type { loader } from "~/routes/_index";
+import type { loader } from "~/routes/home";
 
 export function HomeStats() {
   // remix hooks

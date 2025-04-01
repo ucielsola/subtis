@@ -1,8 +1,9 @@
 import { useEffectOnce } from "@custom-react-hooks/use-effect-once";
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
-import { useLoaderData, useNavigate, useParams } from "@remix-run/react";
+import type { LoaderFunctionArgs, MetaFunction } from "react-router";
+import { useLoaderData, useNavigate, useParams } from "react-router";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
+import { toast } from "sonner";
 
 // api
 import { titleTeaserFileNameResponseSchema } from "@subtis/api/controllers/title/schemas";
@@ -12,9 +13,6 @@ import { apiClient } from "~/lib/api";
 
 // ui
 import { TextShimmerWave } from "~/components/ui/text-shimmer-wave";
-
-// hooks
-import { useToast } from "~/hooks/use-toast";
 
 // features
 import beep from "~/features/real-time-search/beep.mp3";
@@ -97,9 +95,6 @@ export default function RealTimeSearchPage() {
   // sound hooks
   const { play } = useWithSound(beep);
 
-  // toast hooks
-  const { toast } = useToast();
-
   // navigation hooks
   const navigate = useNavigate();
   const { bytes, fileName } = useParams();
@@ -180,8 +175,7 @@ export default function RealTimeSearchPage() {
       if (websocketData.ok === true) {
         play();
 
-        toast({
-          title: "¡Subtítulo encontrado!",
+        toast.success("¡Subtítulo encontrado!", {
           description: "Te redireccionaremos en 3 segundos...",
         });
 
@@ -200,8 +194,7 @@ export default function RealTimeSearchPage() {
       if (alternativeSubtitleResponse.status === 200) {
         play();
 
-        toast({
-          title: "¡Subtítulo alternativo encontrado!",
+        toast.success("¡Subtítulo alternativo encontrado!", {
           description: "Te redireccionaremos en 3 segundos...",
         });
 
