@@ -23,7 +23,7 @@ export default function TermsPage() {
   }
 
   return (
-    <article className="prose dark:prose-invert pt-24 pb-48">
+    <article className="prose prose-invert pt-24 pb-48">
       <h1>Términos y Condiciones</h1>
       <section>
         <h2>1. Definición del Servicio</h2>

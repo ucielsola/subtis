@@ -24,7 +24,7 @@ export default function FaqPage() {
   }
 
   return (
-    <article className="prose dark:prose-invert pt-24 pb-48">
+    <article className="prose prose-invert pt-24 pb-48">
       <h1>Preguntas Frecuentes</h1>
       <section>
         <h2>¿Qué es Subtis?</h2>
