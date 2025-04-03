@@ -16,6 +16,7 @@ import {
   OFFICIAL_SUBTIS_CHANNELS,
   type TitleFileNameMetadata,
   YOUTUBE_SEARCH_URL,
+  getStringWithoutSpecialCharacters,
   getTitleFileNameMetadata,
   videoFileNameSchema,
   youTubeSchema,
@@ -283,7 +284,7 @@ export const providers = new Hono<{ Variables: AppVariables }>()
       const spotifyQuery = `${title.title_name} ${title.year} original soundtrack`;
 
       const queryParams = querystring.stringify({
-        limit: 1,
+        limit: 15,
         market: "US",
         type: "album",
         q: spotifyQuery,
@@ -295,6 +296,7 @@ export const providers = new Hono<{ Variables: AppVariables }>()
       });
 
       const searchData = await searchResponse.json();
+
       const {
         data: spotifySearchData,
         error: spotifySearchError,
@@ -311,9 +313,16 @@ export const providers = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "No soundtrack found" });
       }
 
-      const soundtrack = spotifySearchData.albums.items[0];
-      const soundtrackId = soundtrack.id;
+      const soundtrack = spotifySearchData.albums.items.find(({ name }) =>
+        getStringWithoutSpecialCharacters(name).includes(getStringWithoutSpecialCharacters(title.title_name)),
+      );
 
+      if (!soundtrack) {
+        context.status(404);
+        return context.json({ message: "No soundtrack found" });
+      }
+
+      const { id: soundtrackId } = soundtrack;
       await supabaseClient.from("Titles").update({ spotify_id: soundtrackId }).match({ slug });
 
       return context.json({ link: `${SPOTIFY_ALBUM_URL}/${soundtrackId}` });
