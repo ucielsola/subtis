@@ -345,7 +345,7 @@ export default function NotFoundSubtitlePage() {
                   href={loaderData.subtitle.subtitle_link}
                   onMouseEnter={() => downloadControls.start("animate")}
                   onMouseLeave={() => downloadControls.start("normal")}
-                  className="hover:bg-zinc-800 bg-zinc-900 transition-all ease-in-out rounded-sm"
+                  className="hover:bg-zinc-800 hover:text-zinc-50 transition-all ease-in-out rounded-sm"
                 >
                   <DownloadIcon size={18} controls={downloadControls} />
                   Descargar Subtítulo
