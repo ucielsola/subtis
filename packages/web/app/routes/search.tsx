@@ -1,12 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useQueryState } from "nuqs";
+import { Suspense } from "react";
 import type { MetaFunction } from "react-router";
-import { Link, useLoaderData } from "react-router";
 import { useDebounceValue } from "usehooks-ts";
-import { z } from "zod";
-
-// api
-import { trendingSubtitlesResponseSchema } from "@subtis/api/controllers/titles/schemas";
 
 // shared
 import { getStringWithoutSpecialCharacters } from "@subtis/shared";
@@ -16,10 +12,15 @@ import { apiClient } from "~/lib/api";
 
 // ui
 import { Lens } from "~/components/ui/lens";
+import { Skeleton } from "~/components/ui/skeleton";
 
 // features
 import { AutocompleteTitles } from "~/features/search/autocomplete-titles";
 import { PosterTitles } from "~/features/search/poster-titles";
+import { TrendingSearch } from "~/features/search/trending-search";
+
+// types
+import type { Route } from "./+types/search";
 
 // types
 type Result = {
@@ -31,38 +32,13 @@ type Result = {
 
 // loader
 export const loader = async () => {
-  const trendingSearchResponse = await apiClient.v1.titles.trending.search[":limit"].$get({
-    param: { limit: "2" },
-  });
+  const trendingSearchPromise = apiClient.v1.titles.trending.search[":limit"]
+    .$get({
+      param: { limit: "2" },
+    })
+    .then((response) => response.json());
 
-  const trendingSearchData = await trendingSearchResponse.json();
-
-  if (!trendingSearchResponse.ok) {
-    const trendingSearchError = z.object({ message: z.string() }).safeParse(trendingSearchData);
-
-    if (trendingSearchError.error) {
-      throw new Error("Invalid trending search data");
-    }
-
-    return trendingSearchError.data;
-  }
-
-  const trendingSearchParsedData = trendingSubtitlesResponseSchema.safeParse(trendingSearchData);
-
-  if (trendingSearchParsedData.error) {
-    throw new Error("Invalid trending search data");
-  }
-
-  const parsedTrendingSearch = trendingSearchParsedData.data.results.map((result) => ({
-    title: result.title_name,
-    year: result.year,
-    slug: result.slug,
-    searchedTimes: result.searched_times,
-  }));
-
-  return {
-    trendingSearch: parsedTrendingSearch,
-  };
+  return { trendingSearchPromise };
 };
 
 // meta
@@ -76,9 +52,9 @@ export const meta: MetaFunction = () => {
 // constants
 const MINIMUM_CHARACTERS = 2;
 
-export default function SearchPage() {
-  // remix hooks
-  const loaderData = useLoaderData<typeof loader>();
+export default function SearchPage({ loaderData }: Route.ComponentProps) {
+  // constants
+  const { trendingSearchPromise } = loaderData;
 
   // nuqs hooks
   const [inputValue, setInputValue] = useQueryState("query", { defaultValue: "" });
@@ -163,9 +139,6 @@ export default function SearchPage() {
     setInputValue("");
   }
 
-  // constants
-  const [firstTrending, secondTrending] = "message" in loaderData ? [] : loaderData.trendingSearch;
-
   return (
     <div className="pt-24 flex-1">
       <div className=" flex flex-col lg:flex-row justify-between gap-4">
@@ -194,16 +167,15 @@ export default function SearchPage() {
               minimumCharacters={MINIMUM_CHARACTERS}
               onClearInputValue={handleClearInputValue}
             />
-            <p className="text-zinc-400 text-xs truncate">
-              Lo más buscado últimamente:{" "}
-              <Link to={`/subtitles/movie/${firstTrending.slug}`} className="hover:text-zinc-50">
-                {firstTrending.title}
-              </Link>{" "}
-              y{" "}
-              <Link to={`/subtitles/movie/${secondTrending.slug}`} className="hover:text-zinc-50">
-                {secondTrending.title}
-              </Link>
-            </p>
+            <Suspense
+              fallback={
+                <div className="text-zinc-400 text-xs truncate flex">
+                  Lo más buscado últimamente: <Skeleton className="w-[120px] h-[16px] rounded-sm inline-flex ml-0.5" />
+                </div>
+              }
+            >
+              <TrendingSearch trendingSearchPromise={trendingSearchPromise} />
+            </Suspense>
           </section>
         </article>
         <figure className="flex-1 hidden lg:flex justify-center">

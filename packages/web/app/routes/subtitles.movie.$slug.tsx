@@ -833,12 +833,12 @@ export default function SubtitlesPage() {
             <div className="pt-8 px-2 flex flex-col gap-3">
               {isLoadingProviders ? (
                 <Fragment>
-                  <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm" />
-                  <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm" />
-                  <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm" />
-                  <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm mt-5" />
-                  <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm" />
-                  <Skeleton className="w-[130px] h-5 bg-zinc-900 rounded-sm" />
+                  <Skeleton className="w-[130px] h-5 rounded-sm" />
+                  <Skeleton className="w-[130px] h-5 rounded-sm" />
+                  <Skeleton className="w-[130px] h-5 rounded-sm" />
+                  <Skeleton className="w-[130px] h-5 rounded-sm mt-5" />
+                  <Skeleton className="w-[130px] h-5 rounded-sm" />
+                  <Skeleton className="w-[130px] h-5 rounded-sm" />
                 </Fragment>
               ) : (
                 <Fragment>
