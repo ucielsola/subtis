@@ -1,7 +1,7 @@
+import { QueryClientProvider } from "@tanstack/react-query";
+import { NuqsAdapter } from "nuqs/adapters/react-router/v7";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, isRouteErrorResponse } from "react-router";
 import { Toaster } from "sonner";
-import { NuqsAdapter } from "nuqs/adapters/react-router/v7";
-import { QueryClientProvider } from "@tanstack/react-query";
 
 // ui
 import { TooltipProvider } from "~/components/ui/tooltip";
@@ -9,9 +9,9 @@ import { TooltipProvider } from "~/components/ui/tooltip";
 // lib
 import { queryClient } from "~/lib/react-query";
 
+import { HomeFooter } from "./components/layout/footer";
 // components
 import { Header } from "./components/layout/header";
-import { HomeFooter } from "./components/layout/footer";
 
 // internals
 import "./app.css";

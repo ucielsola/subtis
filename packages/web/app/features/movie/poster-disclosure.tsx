@@ -1,6 +1,6 @@
 import { StarIcon } from "lucide-react";
 import { AnimatePresence, motion, useAnimation } from "motion/react";
-import { useRef, useState, type RefObject } from "react";
+import { type RefObject, useRef, useState } from "react";
 import { useOnClickOutside } from "usehooks-ts";
 
 // ui

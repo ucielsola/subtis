@@ -1,6 +1,6 @@
 import type { MetaFunction } from "react-router";
-import { useCopyToClipboard } from "usehooks-ts";
 import { toast } from "sonner";
+import { useCopyToClipboard } from "usehooks-ts";
 
 // meta
 export const meta: MetaFunction = () => {

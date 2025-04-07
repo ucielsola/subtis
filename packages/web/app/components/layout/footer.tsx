@@ -1,5 +1,5 @@
-import { toast } from "sonner"
 import { Link } from "react-router";
+import { toast } from "sonner";
 import { useCopyToClipboard } from "usehooks-ts";
 
 // hooks

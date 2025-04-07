@@ -1,10 +1,10 @@
-import { useLoaderData, type LoaderFunctionArgs } from "react-router";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useAnimation } from "motion/react";
 import numeral from "numeral";
 import { useQueryState } from "nuqs";
 import { Fragment, useState } from "react";
 import Highlighter from "react-highlight-words";
+import { type LoaderFunctionArgs, useLoaderData } from "react-router";
 import { useCopyToClipboard } from "usehooks-ts";
 import { z } from "zod";
 
@@ -50,6 +50,7 @@ import { YouTubeLogo } from "~/components/logos/youtube";
 // features
 import { PosterDisclosure } from "~/features/movie/poster-disclosure";
 
+import { toast } from "sonner";
 import { SpotifyLogo } from "~/components/logos/spotify";
 // hooks
 import { useCinemas } from "~/hooks/use-cinemas";
@@ -59,7 +60,6 @@ import { usePlatforms } from "~/hooks/use-platforms";
 import { useRottenTomatoes } from "~/hooks/use-rottentomatoes";
 import { useSpotify } from "~/hooks/use-spotify";
 import { useTeaser } from "~/hooks/use-teaser";
-import { toast } from "sonner";
 
 // helpers
 function getResolutionRank(resolution: string): number {

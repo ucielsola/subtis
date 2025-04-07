@@ -1,10 +1,10 @@
-import type { LoaderFunctionArgs, MetaFunction } from "react-router";
-import { redirect, useLoaderData, useParams } from "react-router";
 import { parseMedia } from "@remotion/media-parser";
 import { AnimatePresence, motion, useAnimation } from "motion/react";
 import { Fragment, useEffect, useRef, useState } from "react";
-import { transformSrtTracks } from "srt-support-for-html5-videos";
+import type { LoaderFunctionArgs, MetaFunction } from "react-router";
+import { redirect, useLoaderData, useParams } from "react-router";
 import { toast } from "sonner";
+import { transformSrtTracks } from "srt-support-for-html5-videos";
 
 // api
 import { subtitleNormalizedSchema } from "@subtis/api/lib/parsers";

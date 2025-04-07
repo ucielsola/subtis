@@ -1,6 +1,6 @@
 import NumberFlow from "@number-flow/react";
-import { useLoaderData } from "react-router";
 import { useEffect, useState } from "react";
+import { useLoaderData } from "react-router";
 import { useIntersectionObserver } from "usehooks-ts";
 
 // internals

@@ -1,5 +1,5 @@
-import { Link } from "react-router";
 import { useAnimation } from "motion/react";
+import { Link } from "react-router";
 
 // components
 import { SearchIcon } from "~/components/icons/search";

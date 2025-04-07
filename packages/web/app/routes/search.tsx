@@ -1,8 +1,8 @@
-import type { MetaFunction } from "react-router";
-import { Link, useLoaderData } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useQueryState } from "nuqs";
-import { useDebounceValue } from 'usehooks-ts'
+import type { MetaFunction } from "react-router";
+import { Link, useLoaderData } from "react-router";
+import { useDebounceValue } from "usehooks-ts";
 import { z } from "zod";
 
 // api
