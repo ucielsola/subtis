@@ -55,7 +55,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "^0.1.21",
+    "@cloudflare/vite-plugin": "^1.0.1",
     "@cloudflare/workers-types": "^4.20250407.0",
     "@react-router/dev": "^7.5.0",
     "@tailwindcss/typography": "^0.5.16",
