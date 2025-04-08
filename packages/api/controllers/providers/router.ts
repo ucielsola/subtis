@@ -285,7 +285,7 @@ export const providers = new Hono<{ Variables: AppVariables }>()
       const spotifyQuery = `${title.title_name} ${title.year} original soundtrack`;
 
       const queryParams = querystring.stringify({
-        limit: 15,
+        limit: 20,
         market: "US",
         type: "album",
         q: spotifyQuery,
@@ -317,9 +317,8 @@ export const providers = new Hono<{ Variables: AppVariables }>()
       let soundtrack = spotifySearchData.albums.items.find(({ name, release_date }) => {
         const parsedName = getStringWithoutSpecialCharacters(name);
         const parsedTitle = getStringWithoutSpecialCharacters(title.title_name);
-        const parsedYear = Number(release_date);
 
-        return parsedName.includes(parsedTitle) && parsedYear === title.year;
+        return parsedName.includes(parsedTitle) && release_date.includes(String(title.year));
       });
 
       if (!soundtrack) {

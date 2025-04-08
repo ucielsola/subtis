@@ -9,9 +9,9 @@ import { indexMovieByName } from "./movies";
 
 // testing
 indexMovieByName({
-  year: 2024,
+  year: 2008,
   isDebugging: false,
-  name: "Nosferatu",
+  name: "The Wrestler",
 });
 
 // saveReleaseGroupsToDb(supabase);
