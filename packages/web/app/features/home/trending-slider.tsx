@@ -1,37 +1,36 @@
+import { Suspense, use } from "react";
 import { Link, useLoaderData } from "react-router";
 import { useMediaQuery } from "usehooks-ts";
-
-// ui
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "~/components/ui/carousel";
 
 // routes
 import type { loader } from "~/routes/home";
 
+// api
+import { trendingSubtitlesResponseSchema } from "@subtis/api/controllers/titles/schemas";
+
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "~/components/ui/carousel";
+// ui
+import { Skeleton } from "~/components/ui/skeleton";
+
 // internals
 import { ThumbHashTrendingImage } from "./thumbhash-trending-image";
 
-export function TrendingSlider() {
-  // remix hooks
-  const loaderData = useLoaderData<typeof loader>();
+type PropsContainer = {
+  slidesToScroll: number;
+  trendingDownloadedTitlesPromise: ReturnType<typeof loader>["trendingDownloadedTitlesPromise"];
+};
 
-  // ts hooks
-  const isMobile = useMediaQuery("(max-width: 768px)");
-  const isTablet = useMediaQuery("(max-width: 1366px)");
-  const slidesToScroll = isMobile ? 1 : isTablet ? 2 : 3;
+function CarouselContainer({ trendingDownloadedTitlesPromise, slidesToScroll }: PropsContainer) {
+  // react hooks
+  const trendingDownloadedTitlesData = use(trendingDownloadedTitlesPromise);
 
-  if ("message" in loaderData) {
-    return null;
-  }
+  // constants
+  const trending = trendingSubtitlesResponseSchema.parse(trendingDownloadedTitlesData);
 
   return (
-    <Carousel
-      className="w-full"
-      opts={{
-        slidesToScroll,
-      }}
-    >
+    <Carousel className="w-full" opts={{ slidesToScroll }}>
       <CarouselContent className="p-4">
-        {loaderData.trendingDownloadedTitles.results.map((title) => {
+        {trending.results.map((title) => {
           if (!title.optimized_poster) {
             return null;
           }
@@ -59,5 +58,36 @@ export function TrendingSlider() {
       <CarouselPrevious />
       <CarouselNext />
     </Carousel>
+  );
+}
+
+export function TrendingSlider() {
+  // remix hooks
+  const { trendingDownloadedTitlesPromise } = useLoaderData<typeof loader>();
+
+  // ts hooks
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  const isTablet = useMediaQuery("(max-width: 1366px)");
+  const slidesToScroll = isMobile ? 1 : isTablet ? 2 : 3;
+
+  return (
+    <Suspense
+      fallback={
+        <Carousel className="w-full" opts={{ slidesToScroll }}>
+          <CarouselContent className="p-4">
+            {Array.from({ length: 10 }).map((_, index) => (
+              <CarouselItem key={`trending-slider-skeleton-${index}`} className="basis-auto pl-3 select-none">
+                <Skeleton className="w-[228px] h-[340px] rounded-sm" />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+      }
+    >
+      <CarouselContainer
+        trendingDownloadedTitlesPromise={trendingDownloadedTitlesPromise}
+        slidesToScroll={slidesToScroll}
+      />
+    </Suspense>
   );
 }

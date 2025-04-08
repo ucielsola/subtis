@@ -1,5 +1,9 @@
+import { Suspense, use } from "react";
 import { Link, useLoaderData } from "react-router";
 import { useMediaQuery } from "usehooks-ts";
+
+// api
+import { trendingSubtitlesResponseSchema } from "@subtis/api/controllers/titles/schemas";
 
 // routes
 import type { loader } from "~/routes/home";
@@ -9,19 +13,19 @@ import { ThumbHashNewsImage } from "./thumbhash-news-image";
 
 // ui
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "~/components/ui/carousel";
+import { Skeleton } from "~/components/ui/skeleton";
 
-export function NewsSlider() {
-  // remix hooks
-  const loaderData = useLoaderData<typeof loader>();
+type PropsContainer = {
+  slidesToScroll: number;
+  recentDownloadedTitlesPromise: ReturnType<typeof loader>["recentDownloadedTitlesPromise"];
+};
 
-  // ts hooks
-  const isMobile = useMediaQuery("(max-width: 768px)");
-  const isTablet = useMediaQuery("(max-width: 1366px)");
-  const slidesToScroll = isMobile ? 1 : isTablet ? 2 : 3;
+function CarouselContainer({ recentDownloadedTitlesPromise, slidesToScroll }: PropsContainer) {
+  // react hooks
+  const recentDownloadedTitlesData = use(recentDownloadedTitlesPromise);
 
-  if ("message" in loaderData) {
-    return null;
-  }
+  // constants
+  const recent = trendingSubtitlesResponseSchema.parse(recentDownloadedTitlesData);
 
   return (
     <Carousel
@@ -31,7 +35,7 @@ export function NewsSlider() {
       }}
     >
       <CarouselContent className="p-4">
-        {loaderData.recentDownloadedTitles.results.map((title) => {
+        {recent.results.map((title) => {
           if (!title.optimized_backdrop) {
             return null;
           }
@@ -59,5 +63,40 @@ export function NewsSlider() {
       <CarouselPrevious />
       <CarouselNext />
     </Carousel>
+  );
+}
+
+export function NewsSlider() {
+  // remix hooks
+  const loaderData = useLoaderData<typeof loader>();
+
+  // ts hooks
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  const isTablet = useMediaQuery("(max-width: 1366px)");
+  const slidesToScroll = isMobile ? 1 : isTablet ? 2 : 3;
+
+  if ("message" in loaderData) {
+    return null;
+  }
+
+  return (
+    <Suspense
+      fallback={
+        <Carousel className="w-full" opts={{ slidesToScroll }}>
+          <CarouselContent className="p-4">
+            {Array.from({ length: 10 }).map((_, index) => (
+              <CarouselItem key={`news-slider-skeleton-${index}`} className="basis-auto pl-3 select-none">
+                <Skeleton className="w-[330px] h-[180px] rounded-sm" />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+      }
+    >
+      <CarouselContainer
+        recentDownloadedTitlesPromise={loaderData.recentDownloadedTitlesPromise}
+        slidesToScroll={slidesToScroll}
+      />
+    </Suspense>
   );
 }

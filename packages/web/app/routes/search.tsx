@@ -31,7 +31,7 @@ type Result = {
 };
 
 // loader
-export const loader = async () => {
+export const loader = () => {
   const trendingSearchPromise = apiClient.v1.titles.trending.search[":limit"]
     .$get({
       param: { limit: "2" },

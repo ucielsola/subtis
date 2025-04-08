@@ -1,5 +1,5 @@
-import { Link } from "react-router";
 import { Fragment, use } from "react";
+import { Link } from "react-router";
 
 // api
 import { trendingSubtitlesResponseSchema } from "@subtis/api/controllers/titles/schemas";

@@ -73,27 +73,25 @@ export function HomeHero() {
           </div>
         </div>
 
-        <div className="flex-1 flex flex-col items-end justify-center w-full  lg:pt-4">
-          <div className="lg:max-w-[540px] w-full h-full flex flex-col gap-2">
-            <AspectRatio
-              ratio={16 / 9}
-              className="bg-zinc-950 border border-zinc-700 hover:border-zinc-600 transition-all ease-in-out duration-300 rounded-md group/video overflow-hidden"
-            >
-              <VideoDropzone />
-              <DotPattern
-                className={cn(
-                  "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)] opacity-40 backdrop-blur-md group-hover/video:opacity-60 group-hover/video:scale-105 transition-all ease-in-out",
-                )}
-              />
-            </AspectRatio>
-            <div className="flex flex-col gap-0">
-              <p className="text-sm text-zinc-300 text-center hidden lg:block w-fit container mx-auto">
-                Si tenés el archivo de tu película, arrastralo acá
-              </p>
-              <p className="text-[11px] text-zinc-400 text-center w-fit container mx-auto">
-                El procesamiento es local, tu archivo no se sube a internet
-              </p>
-            </div>
+        <div className="lg:max-w-[540px] w-full h-full flex flex-col gap-2 lg:pt-4">
+          <AspectRatio
+            ratio={16 / 9}
+            className="bg-zinc-950 border border-zinc-700 hover:border-zinc-600 transition-all ease-in-out duration-300 rounded-md group/video overflow-hidden"
+          >
+            <VideoDropzone />
+            <DotPattern
+              className={cn(
+                "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)] opacity-40 backdrop-blur-md group-hover/video:opacity-60 group-hover/video:scale-105 transition-all ease-in-out",
+              )}
+            />
+          </AspectRatio>
+          <div className="flex flex-col gap-0">
+            <p className="text-sm text-zinc-300 text-center hidden lg:block w-fit container mx-auto">
+              Si tenés el archivo de tu película, arrastralo acá
+            </p>
+            <p className="text-[11px] text-zinc-400 text-center w-fit container mx-auto">
+              El procesamiento es local, tu archivo no se sube a internet
+            </p>
           </div>
         </div>
       </div>

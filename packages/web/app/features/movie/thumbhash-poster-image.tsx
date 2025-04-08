@@ -47,7 +47,7 @@ export function ThumbHashPosterImage({ src, hashUrl, alt }: Props) {
         />
         <img
           onLoad={onLoaded}
-          className={`absolute inset-0 brightness-110 ${imgIsLoading ? "opacity-0" : "opacity-100"} transition-opacity ease-in-out duration-300 w-[380px] h-[571px] rounded-[2px] inset-[2px] object-cover`}
+          className={`absolute inset-0 brightness-105 ${imgIsLoading ? "opacity-0" : "opacity-100"} transition-opacity ease-in-out duration-300 w-[380px] h-[571px] rounded-[2px] inset-[2px] object-cover`}
           src={src}
           alt={alt}
           loading="eager"

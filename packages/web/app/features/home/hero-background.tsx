@@ -1,7 +1,11 @@
+import { Suspense, use, useEffect, useState } from "react";
 import { useLoaderData } from "react-router";
 
 // lib
 import { cn } from "~/lib/utils";
+
+// api
+import { trendingSubtitlesResponseSchema } from "@subtis/api/controllers/titles/schemas";
 
 // shared internal
 import { Marquee } from "~/components/shared/marquee";
@@ -16,27 +20,44 @@ import type { loader } from "~/routes/home";
 const IMAGE_WIDTH = 19.3;
 const BASE_VELOCITIES = [20, 25, 15, 30]; // Velocidades base más altas porque ahora el factor de velocidad es más pequeño
 
-type Props = {
+type PropsContainer = {
   className?: string;
+  recentDownloadedTitlesPromise: ReturnType<typeof loader>["recentDownloadedTitlesPromise"];
 };
 
-export function HeroBackground({ className }: Props) {
-  // remix hooks
-  const loaderData = useLoaderData<typeof loader>();
+function HeroBackgroundContainer({ className, recentDownloadedTitlesPromise }: PropsContainer) {
+  // react hooks
+  const recentDownloadedTitlesData = use(recentDownloadedTitlesPromise);
+  const [allImagesAreLoaded, setAllImagesAreLoaded] = useState<boolean>(false);
 
   // constants
-  const images =
-    "message" in loaderData
-      ? []
-      : loaderData.recentDownloadedTitles.results
-          .map(({ optimized_backdrop, title_name, slug }) => ({
-            id: slug,
-            alt: title_name,
-            src: optimized_backdrop,
-          }))
-          .filter((img): img is { src: string; alt: string; id: string } => Boolean(img.src));
+  const recent = trendingSubtitlesResponseSchema.parse(recentDownloadedTitlesData);
 
-  if (images.length === 0) {
+  // constants
+  const images = recent.results
+    .map(({ optimized_backdrop, title_name, slug }) => ({
+      id: slug,
+      alt: title_name,
+      src: optimized_backdrop,
+    }))
+    .filter((img): img is { src: string; alt: string; id: string } => Boolean(img.src));
+
+  // effects
+  useEffect(() => {
+    let imagesLoaded = 0;
+    for (const image of images) {
+      const img = new Image();
+      img.src = image.src;
+      img.onload = () => {
+        imagesLoaded++;
+        if (imagesLoaded === images.length) {
+          setAllImagesAreLoaded(true);
+        }
+      };
+    }
+  }, [images]);
+
+  if (images.length === 0 || !allImagesAreLoaded) {
     return null;
   }
 
@@ -59,7 +80,7 @@ export function HeroBackground({ className }: Props) {
                     <img
                       src={image.src}
                       alt={image.alt}
-                      className="w-full h-full object-cover rounded-[8px]"
+                      className="w-full h-full object-cover rounded-[8px] grayscale-50 hover:grayscale-0 transition-all duration-300 ease-in-out"
                       loading="lazy"
                     />
                   </AspectRatio>
@@ -70,5 +91,20 @@ export function HeroBackground({ className }: Props) {
         ))}
       </div>
     </div>
+  );
+}
+
+type Props = {
+  className?: string;
+};
+
+export function HeroBackground({ className }: Props) {
+  // remix hooks
+  const { recentDownloadedTitlesPromise } = useLoaderData<typeof loader>();
+
+  return (
+    <Suspense fallback={null}>
+      <HeroBackgroundContainer recentDownloadedTitlesPromise={recentDownloadedTitlesPromise} className={className} />
+    </Suspense>
   );
 }
