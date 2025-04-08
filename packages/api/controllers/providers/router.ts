@@ -270,6 +270,7 @@ export const providers = new Hono<{ Variables: AppVariables }>()
       });
 
       const tokenData = await tokenResponse.json();
+
       const {
         data: spotifyTokenData,
         error: spotifyTokenError,
@@ -313,9 +314,22 @@ export const providers = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "No soundtrack found" });
       }
 
-      const soundtrack = spotifySearchData.albums.items.find(({ name }) =>
-        getStringWithoutSpecialCharacters(name).includes(getStringWithoutSpecialCharacters(title.title_name)),
-      );
+      let soundtrack = spotifySearchData.albums.items.find(({ name, release_date }) => {
+        const parsedName = getStringWithoutSpecialCharacters(name);
+        const parsedTitle = getStringWithoutSpecialCharacters(title.title_name);
+        const parsedYear = Number(release_date);
+
+        return parsedName.includes(parsedTitle) && parsedYear === title.year;
+      });
+
+      if (!soundtrack) {
+        soundtrack = spotifySearchData.albums.items.find(({ name }) => {
+          const parsedName = getStringWithoutSpecialCharacters(name);
+          const parsedTitle = getStringWithoutSpecialCharacters(title.title_name);
+
+          return parsedName.includes(parsedTitle);
+        });
+      }
 
       if (!soundtrack) {
         context.status(404);

@@ -12,6 +12,7 @@ export const spotifySearchSchema = z.object({
       z.object({
         id: z.string(),
         name: z.string(),
+        release_date: z.string(),
       }),
     ),
   }),

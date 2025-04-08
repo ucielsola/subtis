@@ -64,7 +64,11 @@ function HeroBackgroundContainer({ className, recentDownloadedTitlesPromise }: P
   const rows = Array.from({ length: Math.ceil(images.length / 4) }, (_, i) => images.slice(i * 4, i * 4 + 4));
 
   return (
-    <div className={cn("w-full h-full opacity-0 transition-opacity duration-300 ease-in-out", className, { "opacity-60": allImagesAreLoaded })}>
+    <div
+      className={cn("w-full h-full opacity-0 transition-opacity duration-300 ease-in-out", className, {
+        "opacity-60": allImagesAreLoaded,
+      })}
+    >
       <div className="flex flex-col gap-4 w-[120%] [mask-image:radial-gradient(circle_at_top_right,black_30%,transparent_70%)]">
         {rows.map((row, i) => (
           <Marquee
