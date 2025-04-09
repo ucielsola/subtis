@@ -15,6 +15,7 @@ export default async function handleRequest(
 
   const body = await renderToReadableStream(<ServerRouter context={routerContext} url={request.url} />, {
     onError(error: unknown) {
+      // biome-ignore lint/style/noParameterAssign: react router codebase
       responseStatusCode = 500;
       // Log streaming rendering errors from inside the shell.  Don't log
       // errors encountered during initial shell rendering since they'll
