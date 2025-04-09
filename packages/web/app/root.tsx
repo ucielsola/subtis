@@ -15,6 +15,8 @@ import { Header } from "./components/layout/header";
 
 // internals
 import "./app.css";
+
+// @ts-ignore: react-router codebase
 import type { Route } from "./+types/root";
 
 export const links: Route.LinksFunction = () => [

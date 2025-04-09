@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
 import { Link, useLoaderData, useParams } from "react-router";
+import { toast } from "sonner";
 import { transformSrtTracks } from "srt-support-for-html5-videos";
 import { z } from "zod";
 
@@ -203,16 +204,16 @@ export default function NotFoundSubtitlePage() {
       return;
     }
 
-    toast({
-      title: "¡Disfruta de tu subtítulo!",
+    toast("¡Disfruta de tu subtítulo!", {
       description: (
         <p className="flex flex-row items-center gap-1">
           Compartí tu experiencia en <img src="/x.svg" alt="X" className="w-3 h-3" />
         </p>
       ),
       action: (
-        <ToastAction
-          altText="Compartir"
+        <Button
+          size="sm"
+          variant="outline"
           onClick={() => {
             window.open(
               `https://twitter.com/intent/tweet?text=${encodeURIComponent(
@@ -223,7 +224,7 @@ export default function NotFoundSubtitlePage() {
           }}
         >
           Compartir
-        </ToastAction>
+        </Button>
       ),
     });
   }

@@ -108,3 +108,9 @@ declare module 'windows-1252' {
   ): string;
   export type labels = string[];
 }
+
+
+declare module '*.mp3' {
+  const src: string;
+  export default src;
+}

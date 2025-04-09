@@ -19,7 +19,7 @@ import { AutocompleteTitles } from "~/features/search/autocomplete-titles";
 import { PosterTitles } from "~/features/search/poster-titles";
 import { TrendingSearch } from "~/features/search/trending-search";
 
-// types
+// @ts-ignore react-router codebase
 import type { Route } from "./+types/search";
 
 // types

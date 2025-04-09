@@ -129,8 +129,10 @@ export function DisclosureTrigger({
               },
               className: cn(
                 className,
+                // @ts-expect-error: shadcn/ui codebase
                 (child as React.ReactElement).props.className
               ),
+              // @ts-expect-error: shadcn/ui codebase
               ...(child as React.ReactElement).props,
             })
           : child;

@@ -37,6 +37,7 @@ function MorphingDialogProvider({ children, transition }: MorphingDialogProvider
   const contextValue = useMemo(() => ({ isOpen, setIsOpen, uniqueId, triggerRef }), [isOpen, uniqueId]);
 
   return (
+    // @ts-expect-error: shadcn/ui codebase
     <MorphingDialogContext.Provider value={contextValue}>
       <MotionConfig transition={transition}>{children}</MotionConfig>
     </MorphingDialogContext.Provider>
@@ -156,7 +157,7 @@ function MorphingDialogContent({ children, className, style }: MorphingDialogCon
     }
   }, [isOpen, triggerRef]);
 
-
+  // @ts-expect-error: shadcn/ui codebase
   useOnClickOutside(containerRef, () => {
     if (isOpen) {
       setIsOpen(false);

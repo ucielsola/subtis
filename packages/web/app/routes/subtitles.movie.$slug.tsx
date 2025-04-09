@@ -4,7 +4,7 @@ import numeral from "numeral";
 import { useQueryState } from "nuqs";
 import { Fragment, useState } from "react";
 import Highlighter from "react-highlight-words";
-import { type LoaderFunctionArgs, useLoaderData } from "react-router";
+import { type LoaderFunctionArgs, type MetaFunction, useLoaderData } from "react-router";
 import { useCopyToClipboard } from "usehooks-ts";
 import { z } from "zod";
 
