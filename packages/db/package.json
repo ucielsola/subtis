@@ -10,15 +10,14 @@
     "supabase:schemas": "supabase-to-zod --input types/types.ts --output schemas/schemas.ts",
     "generate:schemas": "bun run supabase:type:definitions && bun run supabase:schemas",
     "generate:dump": "pg_dump -h aws-0-sa-east-1.pooler.supabase.com -U postgres.yelhsmnvfyyjuamxbobs -d postgres -p 6543 -s > schema-new.sql"
-
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.4",
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@types/bun": "^1.2.8",
-    "supabase": ">=2.20.5",
+    "@types/bun": "^1.2.9",
+    "supabase": ">=2.20.12",
     "supabase-to-zod": "^1.0.7",
     "typescript": "^5.8.3"
   },
