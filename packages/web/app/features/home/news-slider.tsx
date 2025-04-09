@@ -28,12 +28,7 @@ function CarouselContainer({ recentDownloadedTitlesPromise, slidesToScroll }: Pr
   const recent = trendingSubtitlesResponseSchema.parse(recentDownloadedTitlesData);
 
   return (
-    <Carousel
-      className="w-full"
-      opts={{
-        slidesToScroll,
-      }}
-    >
+    <Carousel className="w-[calc(100%-32px)] absolute left-4 right-4 mt-32" opts={{ slidesToScroll }}>
       <CarouselContent className="p-4">
         {recent.results.map((title) => {
           if (!title.optimized_backdrop) {
@@ -82,9 +77,9 @@ export function NewsSlider() {
   return (
     <Suspense
       fallback={
-        <Carousel className="w-full" opts={{ slidesToScroll }}>
+        <Carousel className="w-[calc(100%-32px)] absolute left-4 right-4 mt-32" opts={{ slidesToScroll }}>
           <CarouselContent className="p-4">
-            {Array.from({ length: 10 }).map((_, index) => (
+            {Array.from({ length: 22 }).map((_, index) => (
               <CarouselItem key={`news-slider-skeleton-${index}`} className="basis-auto pl-3 select-none">
                 <Skeleton className="w-[330px] h-[180px] rounded-sm" />
               </CarouselItem>
