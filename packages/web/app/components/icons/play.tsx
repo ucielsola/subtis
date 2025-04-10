@@ -20,22 +20,20 @@ const pathVariants: Variants = {
 export function Play({ size, controls, isWrapped }: { size: number; controls: AnimationControls; isWrapped: boolean }) {
   if (isWrapped) {
     return (
-      <div className="select-none p-2 flex items-center justify-center">
-        {/* biome-ignore lint/a11y/noSvgWithoutTitle: is being used as a tooltip */}
-        <motion.svg
-          xmlns="http://www.w3.org/2000/svg"
-          width={size}
-          height={size}
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <motion.polygon points="6 3 20 12 6 21 6 3" variants={pathVariants} animate={controls} />
-        </motion.svg>
-      </div>
+      /* biome-ignore lint/a11y/noSvgWithoutTitle: is being used as a tooltip */
+      <motion.svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={size}
+        height={size}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <motion.polygon points="6 3 20 12 6 21 6 3" variants={pathVariants} animate={controls} />
+      </motion.svg>
     );
   }
 

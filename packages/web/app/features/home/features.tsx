@@ -34,75 +34,122 @@ export function HomeFeatures() {
   return (
     <section className="py-32 flex flex-col gap-16 items-center justify-center">
       <div className="flex flex-col gap-4 items-center justify-center text-center">
-        <h2 className="text-zinc-50 text-4xl font-bold text-balance">Las mejores features</h2>
-        <h3 className="text-zinc-400 text-balance max-w-[624px]">
-          Subtis está diseñada de punta a punta para que siempre encuentres el subtítulo perfecto para tu película.
-        </h3>
+        <h2 className="text-zinc-50 text-4xl font-bold text-balance">Todo lo que necesitas</h2>
       </div>
-      <div className="flex flex-row flex-wrap gap-4 max-w-screen-xl items-center justify-center">
-        <div
-          className="flex flex-col justify-center items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
-          onMouseEnter={() => audiolinesControls.start("animate")}
-          onMouseLeave={() => audiolinesControls.start("normal")}
-        >
-          <AudioLinesIcon size={24} controls={audiolinesControls} />
-          <span className="text-zinc-50">Sincronización perfecta</span>
+
+      <div className="flex flex-row gap-8">
+        <div className="flex flex-col gap-8">
+          <div
+            className="flex flex-row gap-3 items-start"
+            onMouseEnter={() => audiolinesControls.start("animate")}
+            onMouseLeave={() => audiolinesControls.start("normal")}
+          >
+            <div className="pt-[2.5px]">
+              <AudioLinesIcon size={16} controls={audiolinesControls} />
+            </div>
+            <div className="flex flex-col gap-[2px] leading-4">
+              <p className="text-zinc-50 font-medium text-sm uppercase tracking-widest">Sincronización perfecta</p>
+              <p className="text-zinc-400 text-sm">El subtítulo correcto, siempre.</p>
+            </div>
+          </div>
+          <div
+            className="flex flex-row gap-3 items-start"
+            onMouseEnter={() => timerControls.start("animate")}
+            onMouseLeave={() => timerControls.start("normal")}
+          >
+            <div className="pt-[2.5px]">
+              <TimerIcon size={16} controls={timerControls} />
+            </div>
+            <div className="flex flex-col gap-[2px] leading-4">
+              <p className="text-zinc-50 font-medium text-sm uppercase tracking-widest">Búsqueda en tiempo real</p>
+              <p className="text-zinc-400 text-sm">Nuestro index siempre activo.</p>
+            </div>
+          </div>
+
+          <div
+            className="flex flex-row gap-3 items-start"
+            onMouseEnter={() => circleCheckControls.start("animate")}
+            onMouseLeave={() => circleCheckControls.start("normal")}
+          >
+            <div className="pt-[2.5px]">
+              <CircleCheckIcon size={16} controls={circleCheckControls} />
+            </div>
+            <div className="flex flex-col gap-[2px] leading-4">
+              <p className="text-zinc-50 font-medium text-sm uppercase tracking-widest">SRT estándar compatible</p>
+              <p className="text-zinc-400 text-sm">Cumplimos con el standard.</p>
+            </div>
+          </div>
+
+          <div
+            className="flex flex-row gap-3 items-start"
+            onMouseEnter={() => cpuControls.start("animate")}
+            onMouseLeave={() => cpuControls.start("normal")}
+          >
+            <div className="pt-[2.5px]">
+              <Cpu size={16} controls={cpuControls} />
+            </div>
+            <div className="flex flex-col gap-[2px] leading-4">
+              <p className="text-zinc-50 font-medium text-sm uppercase tracking-widest">Generación por AI</p>
+              <p className="text-zinc-400 text-sm">Genera subtítulos con IA.</p>
+            </div>
+          </div>
         </div>
-        <div
-          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
-          onMouseEnter={() => earthControls.start("animate")}
-          onMouseLeave={() => earthControls.start("normal")}
-        >
-          <Earth size={24} controls={earthControls} />
-          <span className="text-zinc-50">Español latino</span>
-        </div>
-        <div
-          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
-          onMouseEnter={() => timerControls.start("animate")}
-          onMouseLeave={() => timerControls.start("normal")}
-        >
-          <TimerIcon size={24} controls={timerControls} />
-          <span className="text-zinc-50">Búsqueda en tiempo real</span>
-        </div>
-        <div
-          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
-          onMouseEnter={() => squareStackControls.start("animate")}
-          onMouseLeave={() => squareStackControls.start("normal")}
-        >
-          <SquareStackIcon size={24} controls={squareStackControls} />
-          <span className="text-zinc-50">Múltiples clientes</span>
-        </div>
-        <div
-          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
-          onMouseEnter={() => circleCheckControls.start("animate")}
-          onMouseLeave={() => circleCheckControls.start("normal")}
-        >
-          <CircleCheckIcon size={24} controls={circleCheckControls} />
-          <span className="text-zinc-50">SRT estándar compatible</span>
-        </div>
-        <div
-          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
-          onMouseEnter={onAnimationStart}
-          onMouseLeave={onAnimationEnd}
-        >
-          <LanguagesIcon size={24} svgControls={svgControls} pathControls={pathControls} />
-          <span className="text-zinc-50">Búsqueda multi-idioma</span>
-        </div>
-        <div
-          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
-          onMouseEnter={() => cpuControls.start("animate")}
-          onMouseLeave={() => cpuControls.start("normal")}
-        >
-          <Cpu size={24} controls={cpuControls} />
-          <span className="text-zinc-50">Generación por AI</span>
-        </div>
-        <div
-          className="flex flex-col items-center text-center gap-2 bg-zinc-900/80 rounded-sm p-4 md:w-72 w-full h-28"
-          onMouseEnter={() => playControls.start("animate")}
-          onMouseLeave={() => playControls.start("normal")}
-        >
-          <Play size={24} controls={playControls} isWrapped />
-          <span className="text-zinc-50">Reproductor de video</span>
+        <div className="flex flex-col gap-8">
+          <div
+            className="flex flex-row gap-3 items-start"
+            onMouseEnter={() => earthControls.start("animate")}
+            onMouseLeave={() => earthControls.start("normal")}
+          >
+            <div className="pt-[2.5px]">
+              <Earth size={16} controls={earthControls} />
+            </div>
+            <div className="flex flex-col gap-[2px] leading-4">
+              <p className="text-zinc-50 font-medium text-sm uppercase tracking-widest">Español latino</p>
+              <p className="text-zinc-400 text-sm">Claridad en todos los diálogos.</p>
+            </div>
+          </div>
+
+          <div
+            className="flex flex-row gap-3 items-start"
+            onMouseEnter={() => squareStackControls.start("animate")}
+            onMouseLeave={() => squareStackControls.start("normal")}
+          >
+            <div className="pt-[2.5px]">
+              <SquareStackIcon size={16} controls={squareStackControls} />
+            </div>
+            <div className="flex flex-col gap-[2px] leading-4">
+              <p className="text-zinc-50 font-medium text-sm uppercase tracking-widest">Múltiples clientes</p>
+              <p className="text-zinc-400 text-sm">Variedad de integraciones.</p>
+            </div>
+          </div>
+
+          <div
+            className="flex flex-row gap-3 items-start"
+            onMouseEnter={onAnimationStart}
+            onMouseLeave={onAnimationEnd}
+          >
+            <div className="pt-[2.5px]">
+              <LanguagesIcon size={16} svgControls={svgControls} pathControls={pathControls} />
+            </div>
+            <div className="flex flex-col gap-[2px] leading-4">
+              <p className="text-zinc-50 font-medium text-sm uppercase tracking-widest">Búsqueda multi-idioma</p>
+              <p className="text-zinc-400 text-sm">Busca películas en cualquier idioma.</p>
+            </div>
+          </div>
+
+          <div
+            className="flex flex-row gap-3 items-start"
+            onMouseEnter={() => playControls.start("animate")}
+            onMouseLeave={() => playControls.start("normal")}
+          >
+            <div className="pt-[2.5px]">
+              <Play size={16} controls={playControls} isWrapped />
+            </div>
+            <div className="flex flex-col gap-[2px] leading-4">
+              <p className="text-zinc-50 font-medium text-sm uppercase tracking-widest">Reproductor de video</p>
+              <p className="text-zinc-400 text-sm">Reproducí directo desde Subtis.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>

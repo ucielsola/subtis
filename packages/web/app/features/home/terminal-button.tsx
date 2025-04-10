@@ -1,4 +1,6 @@
-import { Fragment, type SVGProps, useState } from "react";
+import { useAnimation } from "motion/react";
+import { Fragment, useState } from "react";
+import { Terminal } from "~/components/icons/terminal";
 
 // ui
 import { MorphingDialogBasicImage } from "~/components/ui/morphin-dialog-image";
@@ -7,27 +9,16 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "
 // lib
 import { op } from "~/lib/analytics";
 
-function StremioWhiteLogo({ size = 24, ...props }: SVGProps<SVGSVGElement> & { size: number }) {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} fill="none" viewBox="0 0 25 25" {...props}>
-      <title>Stremio</title>
-      <path
-        fill="#fff"
-        fillRule="evenodd"
-        d="m12.338.338 10.37 10.37c.45.45.45 1.18 0 1.63l-10.37 10.37c-.45.45-1.18.45-1.63 0L.337 12.337c-.45-.45-.45-1.18 0-1.63L10.708.337c.45-.45 1.18-.45 1.63 0Zm3.205 11.03a.192.192 0 0 1 0 .31l-5.502 4.046a.192.192 0 0 1-.306-.155V7.476a.192.192 0 0 1 .306-.155l5.502 4.047Z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
-}
-
-export function StremioButton() {
+export function TerminalButton() {
   // react hooks
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  // motion hooks
+  const controls = useAnimation();
+
   // handlers
   function handleToggleIsOpen(): void {
-    op.track("stremio_button_clicked");
+    op.track("terminal_button_clicked");
     setIsOpen((previousIsOpen) => !previousIsOpen);
   }
 
@@ -162,14 +153,17 @@ export function StremioButton() {
 
       <button
         type="button"
-        className={`text-zinc-50 h-10 group relative isolate cursor-pointer ${isOpen ? "pointer-events-none" : ""}`}
         onClick={handleToggleIsOpen}
+        onMouseEnter={() => controls.start("hover")}
+        onMouseLeave={() => controls.start("normal")}
+        className={`inline-flex flex-row items-center gap-1 px-1.5 text-zinc-300 group/cli cursor-pointer ${isOpen ? "pointer-events-none" : ""}`}
       >
-        <div className="border-[#1155D9] rounded-md relative h-full px-4 z-10 border-2 flex gap-2 items-center bg-gradient-to-br from-[#1155D9] to-[#7B5BF5] transition-transform duration-300 ease-in-out group-hover:-translate-x-[3px] group-hover:-translate-y-[3px] group-active:-translate-x-[1.5px] group-active:-translate-y-[1.5px] text-sm font-semibold">
-          <StremioWhiteLogo size={20} />
-          Agregar a Stremio
-        </div>
-        <div className="absolute inset-0 rounded-md bg-[#1155D9]" />
+        <Terminal
+          controls={controls}
+          size={14}
+          className="fill-transparent stroke-zinc-300 transition-all ease-in-out group-hover/cli:stroke-zinc-50"
+        />
+        <span className="group-hover/cli:text-zinc-50">Terminal</span>
       </button>
     </Fragment>
   );

@@ -96,7 +96,14 @@ export function VideoDropzone() {
                   <AttachFileIcon controls={controls} />
                   Seleccionar archivo
                 </Button>
-                <p className="text-xs text-zinc-400 z-10 bg-zinc-950 rounded-sm">.mp4, .mkv, .avi</p>
+                <div className="flex flex-col gap-0 z-10 bg-zinc-950 rounded-sm mt-6">
+                  <p className="text-sm text-zinc-300 text-center hidden lg:block w-fit container mx-auto">
+                    Si tenés el archivo de tu película, arrastralo acá
+                  </p>
+                  <p className="text-[11px] text-zinc-400 text-center w-fit container mx-auto">
+                    El procesamiento es local, tu archivo no se sube a internet
+                  </p>
+                </div>
               </Fragment>
             )}
           </div>

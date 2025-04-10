@@ -329,7 +329,7 @@ export function VlcButton() {
       <button
         type="button"
         disabled
-        className={"bg-zinc-950 text-zinc-50 h-10 group relative isolate pointer-events-none grayscale opacity-40"}
+        className={"bg-zinc-950 text-zinc-50 h-10 group relative isolate pointer-events-none"}
         onClick={handleToggleIsOpen}
       >
         <div className="border-[#E26400] rounded-md relative h-full px-4 z-10 border-2 flex gap-2 items-center bg-gradient-to-br from-[#E26400] to-[#FF9800] transition-transform duration-300 ease-in-out group-hover:-translate-x-[3px] group-hover:-translate-y-[3px] group-active:-translate-x-[1.5px] group-active:-translate-y-[1.5px] text-sm">

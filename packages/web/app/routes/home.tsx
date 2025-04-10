@@ -1,6 +1,7 @@
 import type { MetaFunction } from "react-router";
 import { Fragment } from "react/jsx-runtime";
 
+import { HomeDropzone } from "~/features/home/dropzone";
 // home
 import { HomeFeatures } from "~/features/home/features";
 import { HomeHero } from "~/features/home/hero";
@@ -46,9 +47,10 @@ export default function HomePage() {
   return (
     <Fragment>
       <HomeHero />
+      <HomeDropzone />
       <HomeTrending />
-      <HomeStats />
       <HomeFeatures />
+      <HomeStats />
       <HomeProviders />
     </Fragment>
   );
