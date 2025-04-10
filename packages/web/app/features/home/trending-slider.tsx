@@ -77,7 +77,7 @@ export function TrendingSlider() {
           <CarouselContent className="p-4">
             {Array.from({ length: 22 }).map((_, index) => (
               <CarouselItem key={`trending-slider-skeleton-${index}`} className="basis-auto pl-3 select-none">
-                <Skeleton className="w-[228px] h-[340px] rounded-sm" />
+                <Skeleton className="w-[280px] h-[420px] rounded-sm" />
               </CarouselItem>
             ))}
           </CarouselContent>

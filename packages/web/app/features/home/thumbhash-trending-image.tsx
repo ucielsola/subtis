@@ -36,17 +36,17 @@ export function ThumbHashTrendingImage({ src, hashUrl, alt }: Props) {
   const placeholderURL = generatePlaceholderURL(hashUrl);
 
   return (
-    <div className="w-[228px] h-[340px]">
+    <div className="w-[284px] h-[424px]">
       <AspectRatio ratio={57 / 85} className="relative">
         <img
           src={placeholderURL}
           alt={`${alt} placeholder`}
-          className={`absolute inset-0 w-[228px] h-[340px] ${imgIsLoading ? "opacity-100" : "opacity-0"} transition-all duration-75 ease-linear lg:group-hover:opacity-100 object-cover`}
+          className={`absolute inset-0 w-[284px] h-[424px] ${imgIsLoading ? "opacity-100" : "opacity-0"} transition-all duration-75 ease-linear lg:group-hover:opacity-100 object-cover`}
         />
         <img
           ref={imageReference}
           onLoad={onLoaded}
-          className={`absolute inset-[2px] brightness-105 w-[224px] h-[336px] ${imgIsLoading ? "opacity-0" : "opacity-100"} transition-all ease-in-out duration-300 rounded-[2px] object-cover`}
+          className={`absolute inset-[2px] brightness-105 w-[280px] h-[420px] ${imgIsLoading ? "opacity-0" : "opacity-100"} transition-all ease-in-out duration-300 rounded-[2px] object-cover`}
           src={src}
           alt={alt}
           loading="eager"
