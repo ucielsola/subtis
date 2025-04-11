@@ -6,7 +6,7 @@ import type { AppVariables } from "./types";
 
 // schemas
 export const tmdbDiscoverMovieSchema = z.object({
-  results: z.array(z.object({ original_title: z.string(), vote_count: z.number() })),
+  results: z.array(z.object({ original_title: z.string(), vote_count: z.number(), release_date: z.string() })),
 });
 
 // helpers

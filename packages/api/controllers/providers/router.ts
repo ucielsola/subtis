@@ -111,6 +111,8 @@ export const providers = new Hono<{ Variables: AppVariables }>()
       const { data: tmdbData, success } = tmdbDiscoverMovieSchema.safeParse(data);
 
       let queryName = name;
+      let realYear = year;
+
       if (success && tmdbData) {
         if (tmdbData.results.length === 0) {
           context.status(404);
@@ -121,10 +123,11 @@ export const providers = new Hono<{ Variables: AppVariables }>()
         const movie = tmdbData.results[index];
 
         queryName = movie.original_title;
+        realYear = Number(movie.release_date.split("-")[0]);
       }
 
       const supabaseClient = getSupabaseClient(context);
-      const slug = getTitleSlugifiedName(queryName, year ?? 0);
+      const slug = getTitleSlugifiedName(queryName, realYear ?? 0);
       const { data: foundSlug } = await supabaseClient.from("Titles").select("youtube_id").match({ slug }).single();
 
       if (foundSlug?.youtube_id) {
