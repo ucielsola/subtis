@@ -585,7 +585,7 @@ export const providers = new Hono<{ Variables: AppVariables }>()
           const newLinkResponse = await fetch(newLink);
 
           if (newLinkResponse.status === 200) {
-            await supabaseClient.from("Titles").update({ rottentomatoes_id: newSlug }).match({ slug });
+            await supabaseClient.from("Titles").update({ rottentomatoes_id: slugWithoutYear }).match({ slug });
             return context.json({ link: newLink });
           }
 
