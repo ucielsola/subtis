@@ -1,8 +1,8 @@
 import type { MetaFunction } from "react-router";
 import { Fragment } from "react/jsx-runtime";
 
-import { HomeDropzone } from "~/features/home/dropzone";
 // home
+import { HomeDropzone } from "~/features/home/dropzone";
 import { HomeFeatures } from "~/features/home/features";
 import { HomeHero } from "~/features/home/hero";
 import { HomeProviders } from "~/features/home/providers";

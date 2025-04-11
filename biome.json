@@ -40,7 +40,8 @@
       "*.d.ts",
       "packages/raycast",
       "packages/web/app/components/ui",
-      "packages/indexer/torrent-grabber"
+      "packages/indexer/torrent-grabber",
+      "packages/web/.react-router"
     ]
   }
 }
