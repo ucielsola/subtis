@@ -588,7 +588,10 @@ export default function SubtitlesPage() {
               ) : null}
             </TabsList>
 
-            <TabsContent value="choose-subtitle" className="flex flex-col gap-4 mt-0">
+            <TabsContent value="choose-subtitle" className="flex flex-col gap-4 mt-0 relative">
+              <p className="text-sm mt-2 text-zinc-400 absolute -bottom-7 left-0">
+                Poné el cursor sobre un tip para ver qué parámetros afecta.
+              </p>
               <div
                 onMouseEnter={() => setIsHoveringResolutionTip(true)}
                 onMouseLeave={() => setIsHoveringResolutionTip(false)}
