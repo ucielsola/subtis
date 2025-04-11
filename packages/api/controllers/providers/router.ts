@@ -398,16 +398,28 @@ export const providers = new Hono<{ Variables: AppVariables }>()
       }
 
       if (response.status === 404) {
+        const slugArray = slug.split("-");
+        const year = Number(slugArray.at(-1));
         const slugWithoutYear = slug.split("-").slice(0, -1).join("-");
-        const newLink = `https://letterboxd.com/film/${slugWithoutYear}`;
+
+        const newSlug = `${slugWithoutYear}-${year - 1}`;
+        const newLink = `https://letterboxd.com/film/${newSlug}`;
         const newLinkResponse = await fetch(newLink);
 
         if (newLinkResponse.status === 200) {
-          await supabaseClient.from("Titles").update({ letterboxd_id: slugWithoutYear }).match({ slug });
+          await supabaseClient.from("Titles").update({ letterboxd_id: newSlug }).match({ slug });
           return context.json({ link: newLink });
         }
 
         if (newLinkResponse.status === 404) {
+          const newLink = `https://letterboxd.com/film/${slugWithoutYear}`;
+          const newLinkResponse = await fetch(newLink);
+
+          if (newLinkResponse.status === 200) {
+            await supabaseClient.from("Titles").update({ letterboxd_id: slugWithoutYear }).match({ slug });
+            return context.json({ link: newLink });
+          }
+
           context.status(404);
           return context.json({ message: "Title letterboxd not found" });
         }
