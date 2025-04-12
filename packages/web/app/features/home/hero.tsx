@@ -31,7 +31,7 @@ export function HomeHero() {
           {/* <VlcButton /> */}
         </div>
         <div className="text-zinc-400 text-sm flex flex-row items-center">
-          <span>También en tu</span>
+          <span>También en formato</span>
           <TerminalButton />
         </div>
       </div>

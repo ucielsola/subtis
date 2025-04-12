@@ -80,7 +80,7 @@ export function HomeFooter() {
         </div>
       </div>
 
-      <div className="border-t border-zinc-900/60 flex flex-row justify-between items-center flex-1 pt-7 mt-20">
+      <div className="flex flex-row justify-between items-center flex-1 pt-7 mt-20">
         <span className="text-xs text-zinc-400 text-left">&#169; Subtis {new Date().getFullYear()}</span>
 
         <div className="flex flex-row gap-4">
