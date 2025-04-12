@@ -22,7 +22,7 @@ export function Screen({ isGlowing = false, className }: Props) {
       }}
       transition={{ duration: 0.6, ease: "easeInOut" }}
     >
-      <title>Screen</title>
+      <title>Televisor</title>
       <motion.path stroke="#F5F5F5" strokeWidth={2} d="M16 50.688c220.15-46 334.9-46.5 561 0" />
       <g filter="url(#a)">
         <motion.path stroke="#F5F5F5" strokeWidth={2} d="M16 50.688c220.15-46 334.9-46.5 561 0" />

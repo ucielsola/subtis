@@ -58,7 +58,7 @@ function StatsContainer({ statsPromise }: Props) {
               locales="es-AR"
               animated={isIntersecting}
             />{" "}
-            descargas totales
+            descargas totales.
           </h3>
         </div>
         <div className="flex flex-row gap-6 items-center justify-center">
@@ -95,7 +95,7 @@ export function HomeStats() {
               <div className="text-zinc-400 text-base flex flex-row gap-1">
                 <Skeleton className="w-[40px] h-[19.5px] rounded-sm" /> peliculas catalogadas,{" "}
                 <Skeleton className="w-[40px] h-[19.5px] rounded-sm" /> subtítulos subidos,{" "}
-                <Skeleton className="w-[40px] h-[19.5px] rounded-sm" /> descargas totales
+                <Skeleton className="w-[40px] h-[19.5px] rounded-sm" /> descargas totales.
               </div>
             </div>
             <div className="flex flex-row gap-6 items-center justify-center">
