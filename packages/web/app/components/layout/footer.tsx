@@ -28,7 +28,7 @@ export function HomeFooter() {
           <AnimatedLogo />
         </Link>
 
-        <div className="flex flex-row gap-16">
+        <div className="flex md:flex-row flex-col md:gap-16 gap-4">
           <div className="flex flex-col gap-2 py-2">
             <span className="text-xs font-bold text-zinc-400 mb-1">Soporte</span>
             <a
