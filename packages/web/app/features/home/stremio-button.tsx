@@ -68,10 +68,17 @@ export function StremioButton() {
                       className="text-zinc-50 underline"
                       rel="noreferrer"
                     >
-                      link
+                      Deeplink
                     </a>{" "}
                     para instalar el add-on de Subtis. Una vez abierto Stremio, haz click en &ldquo;Instalar&rdquo; o
                     &ldquo;Install&rdquo;.
+                    Si no tenes Stremio instalado, puedes navegar al siguiente{" "}
+                    <a href="https://stremio.fly.dev" target="_blank" className="text-zinc-50 underline"
+                      rel="noreferrer"
+                    >
+                      Link
+                    </a>
+                    .
                   </p>
                 </div>
               </div>
