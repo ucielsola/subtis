@@ -781,6 +781,11 @@ export const RELEASE_GROUPS = {
     release_group_name: "VXT",
     matches: ["x264-VXT", "x265-VXT"],
   },
+  EtHD: {
+    is_supported: true,
+    release_group_name: "EtHD",
+    matches: ["EtHD", "BluRay[EtHD]", "[EtHD]"],
+  },
 } as const;
 
 // types
@@ -816,7 +821,7 @@ export async function saveReleaseGroupsToDb(supabaseClient: SupabaseClient): Pro
           matches: matches as unknown as string[],
         })
         .eq("id", existingGroups.id);
-    } else if (existingGroupsError?.code !== "PGRST116") {
+    } else if (existingGroupsError?.code === "PGRST116") {
       await supabaseClient.from("ReleaseGroups").insert({
         is_supported,
         matches: matches as unknown as string[],
@@ -824,6 +829,8 @@ export async function saveReleaseGroupsToDb(supabaseClient: SupabaseClient): Pro
       });
     }
   }
+
+  console.log("Release groups saved to database");
 }
 
 // core
