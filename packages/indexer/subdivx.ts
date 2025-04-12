@@ -250,20 +250,20 @@ export async function getSubtitlesFromSubDivXForTitle({
   try {
     const fullImdbId = getFullImdbId(imdbId);
 
-    const subtitlesByQuery = await getSubtitlesFromSubDivXForTitleByQuery({
-      fullImdbId,
-      subdivxToken,
-      subdivxCookie,
-      subdivxParameter,
-      titleProviderQuery,
-      hasBeenExecutedOnce: false,
-    });
+    // const subtitlesByQuery = await getSubtitlesFromSubDivXForTitleByQuery({
+    //   fullImdbId,
+    //   subdivxToken,
+    //   subdivxCookie,
+    //   subdivxParameter,
+    //   titleProviderQuery,
+    //   hasBeenExecutedOnce: false,
+    // });
 
-    if (subtitlesByQuery.aaData.length > 0) {
-      return subtitlesByQuery;
-    }
+    // if (subtitlesByQuery.aaData.length > 0) {
+    //   return subtitlesByQuery;
+    // }
 
-    await Bun.sleep(6000);
+    // await Bun.sleep(6000);
     const subtitlesByImdbId = await getSubtitlesFromSubDivXForTitleByImdbId({
       fullImdbId,
       subdivxToken,

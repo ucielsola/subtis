@@ -9,9 +9,9 @@ import { indexMovieByName } from "./movies";
 
 // testing
 indexMovieByName({
-  year: 2004,
+  year: 1987,
   isDebugging: false,
-  name: "The Merchant of Venice",
+  name: "Over the top",
 });
 
 // saveReleaseGroupsToDb(supabase);
