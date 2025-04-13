@@ -93,12 +93,12 @@ export const AutoComplete = ({
 
   return (
     <CommandPrimitive onKeyDown={handleKeyDown} shouldFilter={false}>
-      <div className=" border border-zinc-700 rounded-md bg-zinc-950">
         <CommandInput
           ref={inputRef}
           value={inputValue}
           onValueChange={onInputChange}
           onBlur={handleBlur}
+          isOpen={isOpen}
           onFocus={() => setOpen(true)}
           placeholder={placeholder}
           disabled={disabled}
@@ -112,8 +112,7 @@ export const AutoComplete = ({
             }, 400);
           }}
         />
-      </div>
-      <div className="relative mt-1">
+      <div className="relative mt-0">
         <div
           className={cn(
             "animate-in fade-in-0 zoom-in-95 absolute top-0 z-10 w-full rounded-md bg-zinc-950 outline-none",
@@ -121,7 +120,7 @@ export const AutoComplete = ({
           )}
         >
           <CommandList
-            className={`rounded-md border ${isLoading || emptyMessage || options.length > 0 ? "border-zinc-700" : "border-transparent"} max-h-[106px]`}
+            className={`rounded-md border rounded-tl-none rounded-tr-none ${isLoading || emptyMessage || options.length > 0 ? "border-zinc-700" : "border-transparent"} max-h-[106px]`}
           >
             {isLoading ? (
               <CommandPrimitive.Loading>
