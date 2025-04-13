@@ -43,6 +43,7 @@ function CarouselContainer({ trendingDownloadedTitlesPromise, slidesToScroll }: 
             <CarouselItem key={`trending-slider-${title.slug}`} className="basis-auto pl-3 select-none">
               <Link
                 viewTransition
+                prefetch="viewport"
                 to={`/subtitles/movie/${title.slug}`}
                 className="flex flex-none rounded-sm overflow-hidden cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-300 group will-change-transform"
               >

@@ -299,7 +299,11 @@ export default function NotFoundSubtitlePage() {
                 <h2 className="text-zinc-50 text-sm md:text-base">No encontramos el subtítulo para tu versión.</h2>
                 <p className="text-zinc-300 text-xs md:text-sm">
                   Probá este subtítulo alternativo para{" "}
-                  <Link to={`/subtitles/movie/${loaderData.title.slug}`} className="hover:underline text-zinc-50">
+                  <Link
+                    prefetch="viewport"
+                    className="hover:underline text-zinc-50"
+                    to={`/subtitles/movie/${loaderData.title.slug}`}
+                  >
                     {loaderData.title.title_name} ({loaderData.title.year})
                   </Link>
                 </p>

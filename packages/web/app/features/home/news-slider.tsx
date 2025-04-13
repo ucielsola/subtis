@@ -42,6 +42,7 @@ function CarouselContainer({ recentDownloadedTitlesPromise, slidesToScroll }: Pr
           return (
             <CarouselItem key={`news-slider-${title.slug}`} className="basis-auto pl-3 select-none">
               <Link
+                prefetch="viewport"
                 to={`/subtitles/movie/${title.slug}`}
                 className="flex flex-none rounded-sm overflow-hidden cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-300 group will-change-transform"
               >

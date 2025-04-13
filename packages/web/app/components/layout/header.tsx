@@ -15,12 +15,13 @@ export function Header() {
   return (
     <header className="fixed z-40 top-0 left-0 right-0 mx-auto p-4 bg-zinc-950/90 backdrop-blur-md w-full h-16">
       <nav className="flex items-center justify-between w-full relative container mx-auto">
-        <Link to="/" className="cursor-pointer group">
+        <Link to="/" prefetch="viewport" className="cursor-pointer group">
           <AnimatedLogo />
         </Link>
         <Button asChild variant="secondary" size="sm">
           <Link
             to="/search"
+            prefetch="viewport"
             onMouseEnter={() => controls.start("animate")}
             onMouseLeave={() => controls.start("normal")}
             className={

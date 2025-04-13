@@ -24,7 +24,7 @@ export function HomeFooter() {
   return (
     <footer className="pt-8 pb-20 flex flex-col gap-6 border-t border-zinc-700">
       <div className="flex md:flex-row flex-col gap-6 justify-between items-start">
-        <Link to="/" className="cursor-pointer group">
+        <Link to="/" prefetch="viewport" className="cursor-pointer group">
           <AnimatedLogo />
         </Link>
 
@@ -70,10 +70,10 @@ export function HomeFooter() {
 
           <div className="flex flex-col gap-2 py-2">
             <span className="text-xs font-bold text-zinc-400 mb-1">Legal</span>
-            <Link to="/faq" className="text-xs font-medium text-zinc-50 hover:underline">
+            <Link to="/faq" prefetch="viewport" className="text-xs font-medium text-zinc-50 hover:underline">
               Preguntas Frecuentes
             </Link>
-            <Link to="/terms" className="text-xs font-medium text-zinc-50 hover:underline">
+            <Link to="/terms" prefetch="viewport" className="text-xs font-medium text-zinc-50 hover:underline">
               Términos y Condiciones
             </Link>
           </div>

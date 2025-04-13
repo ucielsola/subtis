@@ -24,11 +24,11 @@ export function TrendingSearch({ trendingSearchPromise }: { trendingSearchPromis
     <Fragment>
       <p className="text-zinc-400 text-xs truncate">
         Lo más buscado últimamente:{" "}
-        <Link to={`/subtitles/movie/${firstTrending.slug}`} className="hover:text-zinc-50">
+        <Link to={`/subtitles/movie/${firstTrending.slug}`} prefetch="viewport" className="hover:text-zinc-50">
           {firstTrending.title}
         </Link>{" "}
         y{" "}
-        <Link to={`/subtitles/movie/${secondTrending.slug}`} className="hover:text-zinc-50">
+        <Link to={`/subtitles/movie/${secondTrending.slug}`} prefetch="viewport" className="hover:text-zinc-50">
           {secondTrending.title}
         </Link>
       </p>
