@@ -1,10 +1,10 @@
 import * as cheerio from "cheerio";
-import phpurlencode from "phpurlencode";
 import invariant from "tiny-invariant";
 import { z } from "zod";
+// import phpurlencode from "phpurlencode";
 
 // shared
-import { type TitleFileNameMetadata, getIsCinemaRecording, getStringWithoutSpecialCharacters } from "@subtis/shared";
+import { type TitleFileNameMetadata, getIsCinemaRecording } from "@subtis/shared";
 
 // internals
 import { getFullImdbId } from "./imdb";
@@ -81,118 +81,118 @@ export async function getSubDivXToken(): Promise<SubDivXToken & { cookie: string
   return { token, cookie: response.headers.get("Set-Cookie") };
 }
 
-async function getSubtitlesFromSubDivXForTitleByQuery({
-  fullImdbId,
-  subdivxToken,
-  subdivxCookie,
-  subdivxParameter,
-  titleProviderQuery,
-  hasBeenExecutedOnce,
-}: {
-  fullImdbId: string;
-  subdivxToken: string;
-  subdivxCookie: string | null;
-  subdivxParameter: string;
-  titleProviderQuery: string;
-  hasBeenExecutedOnce: boolean;
-}): Promise<SubDivXSubtitles> {
-  const encodedTitleProviderQuery = phpurlencode(titleProviderQuery);
-  const titleOnlyWithoutYear = titleProviderQuery.replace(/\d{4}/gi, "").trim().toLowerCase();
+// async function getSubtitlesFromSubDivXForTitleByQuery({
+//   fullImdbId,
+//   subdivxToken,
+//   subdivxCookie,
+//   subdivxParameter,
+//   titleProviderQuery,
+//   hasBeenExecutedOnce,
+// }: {
+//   fullImdbId: string;
+//   subdivxToken: string;
+//   subdivxCookie: string | null;
+//   subdivxParameter: string;
+//   titleProviderQuery: string;
+//   hasBeenExecutedOnce: boolean;
+// }): Promise<SubDivXSubtitles> {
+//   const encodedTitleProviderQuery = phpurlencode(titleProviderQuery);
+//   const titleOnlyWithoutYear = titleProviderQuery.replace(/\d{4}/gi, "").trim().toLowerCase();
 
-  const bodyURL = `tabla=resultados&filtros=&${subdivxParameter}=${encodedTitleProviderQuery}&token=${subdivxToken}`;
+//   const bodyURL = `tabla=resultados&filtros=&${subdivxParameter}=${encodedTitleProviderQuery}&token=${subdivxToken}`;
 
-  const response = await fetch(`${SUBDIVX_BASE_URL}/inc/ajax.php`, {
-    headers: {
-      Cookie: subdivxCookie ?? "",
-      "X-Requested-With": "XMLHttpRequest",
-      "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-    },
-    method: "POST",
-    body: bodyURL,
-  });
+//   const response = await fetch(`${SUBDIVX_BASE_URL}/inc/ajax.php`, {
+//     headers: {
+//       Cookie: subdivxCookie ?? "",
+//       "X-Requested-With": "XMLHttpRequest",
+//       "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+//     },
+//     method: "POST",
+//     body: bodyURL,
+//   });
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch subtitles from SubDivX");
-  }
+//   if (!response.ok) {
+//     throw new Error("Failed to fetch subtitles from SubDivX");
+//   }
 
-  const data = await response.json();
+//   const data = await response.json();
 
-  if (data === null) {
-    return { aaData: [], iTotalDisplayRecords: 0, iTotalRecords: 0, sEcho: "" };
-  }
+//   if (data === null) {
+//     return { aaData: [], iTotalDisplayRecords: 0, iTotalRecords: 0, sEcho: "" };
+//   }
 
-  const subtitles = subdivxSubtitlesSchema.parse(data);
+//   const subtitles = subdivxSubtitlesSchema.parse(data);
 
-  if (subtitles.aaData.length === 0 && hasBeenExecutedOnce === false && titleProviderQuery.includes("&")) {
-    const parsedTitleProviderQuery = titleProviderQuery.replace(" & ", " and ");
-    await Bun.sleep(6000);
+//   if (subtitles.aaData.length === 0 && hasBeenExecutedOnce === false && titleProviderQuery.includes("&")) {
+//     const parsedTitleProviderQuery = titleProviderQuery.replace(" & ", " and ");
+//     await Bun.sleep(6000);
 
-    return getSubtitlesFromSubDivXForTitleByQuery({
-      fullImdbId,
-      subdivxToken,
-      subdivxCookie,
-      subdivxParameter,
-      hasBeenExecutedOnce: true,
-      titleProviderQuery: parsedTitleProviderQuery,
-    });
-  }
+//     return getSubtitlesFromSubDivXForTitleByQuery({
+//       fullImdbId,
+//       subdivxToken,
+//       subdivxCookie,
+//       subdivxParameter,
+//       hasBeenExecutedOnce: true,
+//       titleProviderQuery: parsedTitleProviderQuery,
+//     });
+//   }
 
-  if (subtitles.aaData.length === 0 && hasBeenExecutedOnce === false) {
-    const lastCharacter = titleProviderQuery.at(-1);
-    const newTitleProviderQuery = `${titleProviderQuery.slice(0, -1)}${Number(lastCharacter) - 1}`;
-    await Bun.sleep(6000);
+//   if (subtitles.aaData.length === 0 && hasBeenExecutedOnce === false) {
+//     const lastCharacter = titleProviderQuery.at(-1);
+//     const newTitleProviderQuery = `${titleProviderQuery.slice(0, -1)}${Number(lastCharacter) - 1}`;
+//     await Bun.sleep(6000);
 
-    return getSubtitlesFromSubDivXForTitleByQuery({
-      fullImdbId,
-      subdivxToken,
-      subdivxCookie,
-      subdivxParameter,
-      hasBeenExecutedOnce: true,
-      titleProviderQuery: newTitleProviderQuery,
-    });
-  }
+//     return getSubtitlesFromSubDivXForTitleByQuery({
+//       fullImdbId,
+//       subdivxToken,
+//       subdivxCookie,
+//       subdivxParameter,
+//       hasBeenExecutedOnce: true,
+//       titleProviderQuery: newTitleProviderQuery,
+//     });
+//   }
 
-  // Filter similar titles
-  const filteredSubtitles = subtitles.aaData.filter((subtitle) => {
-    const parsedSubtitleTitle = subtitle.titulo.toLowerCase();
-    const parsedSubtitleTitleWithoutSpecialCharacters = getStringWithoutSpecialCharacters(parsedSubtitleTitle);
+//   // Filter similar titles
+//   const filteredSubtitles = subtitles.aaData.filter((subtitle) => {
+//     const parsedSubtitleTitle = subtitle.titulo.toLowerCase();
+//     const parsedSubtitleTitleWithoutSpecialCharacters = getStringWithoutSpecialCharacters(parsedSubtitleTitle);
 
-    // const akaIndex = parsedSubtitleTitle.indexOf("aka");
-    // const directorsCutIndex = parsedSubtitleTitle.indexOf("director");
+//     // const akaIndex = parsedSubtitleTitle.indexOf("aka");
+//     // const directorsCutIndex = parsedSubtitleTitle.indexOf("director");
 
-    // if (akaIndex !== -1) {
-    //   parsedSubtitleTitle = parsedSubtitleTitle.slice(0, akaIndex);
-    // }
+//     // if (akaIndex !== -1) {
+//     //   parsedSubtitleTitle = parsedSubtitleTitle.slice(0, akaIndex);
+//     // }
 
-    // if (directorsCutIndex !== -1) {
-    //   parsedSubtitleTitle = parsedSubtitleTitle.slice(0, directorsCutIndex);
-    // }
+//     // if (directorsCutIndex !== -1) {
+//     //   parsedSubtitleTitle = parsedSubtitleTitle.slice(0, directorsCutIndex);
+//     // }
 
-    // TODO: Check if we need to check if the imdb is a string
-    // if (typeof subtitle.imdb === "string" && subtitle.imdb !== fullImdbId) {
-    if (subtitle.imdb !== fullImdbId) {
-      return false;
-    }
+//     // TODO: Check if we need to check if the imdb is a string
+//     // if (typeof subtitle.imdb === "string" && subtitle.imdb !== fullImdbId) {
+//     if (subtitle.imdb !== fullImdbId) {
+//       return false;
+//     }
 
-    if (!parsedSubtitleTitleWithoutSpecialCharacters.includes(titleOnlyWithoutYear)) {
-      return false;
-    }
+//     if (!parsedSubtitleTitleWithoutSpecialCharacters.includes(titleOnlyWithoutYear)) {
+//       return false;
+//     }
 
-    // TODO: Check if this is needed since sometimes filters more than 30 characters
-    if (parsedSubtitleTitle.length > titleProviderQuery.length + 30) {
-      return false;
-    }
+//     // TODO: Check if this is needed since sometimes filters more than 30 characters
+//     if (parsedSubtitleTitle.length > titleProviderQuery.length + 30) {
+//       return false;
+//     }
 
-    return true;
-  });
+//     return true;
+//   });
 
-  const result = {
-    ...subtitles,
-    aaData: filteredSubtitles,
-  };
+//   const result = {
+//     ...subtitles,
+//     aaData: filteredSubtitles,
+//   };
 
-  return result;
-}
+//   return result;
+// }
 
 async function getSubtitlesFromSubDivXForTitleByImdbId({
   fullImdbId,
@@ -239,7 +239,6 @@ export async function getSubtitlesFromSubDivXForTitle({
   subdivxToken,
   subdivxCookie,
   subdivxParameter,
-  titleProviderQuery,
 }: {
   imdbId: string;
   subdivxToken: string;
