@@ -39,9 +39,10 @@ type Props = {
   title: string;
   overview: string;
   rating: number;
+  slug?: string;
 };
 
-export function PosterDisclosure({ src, alt, hashUrl, title, overview, rating }: Props) {
+export function PosterDisclosure({ src, alt, hashUrl, title, overview, rating, slug }: Props) {
   // react hooks
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -70,7 +71,7 @@ export function PosterDisclosure({ src, alt, hashUrl, title, overview, rating }:
         onMouseLeave={() => controls.start("normal")}
       >
         <motion.div animate={isOpen ? "expanded" : "collapsed"} variants={imageVariants} transition={transition}>
-          <ThumbHashPosterImage src={src} alt={alt} hashUrl={hashUrl} />
+          <ThumbHashPosterImage src={src} alt={alt} hashUrl={hashUrl} slug={slug} />
         </motion.div>
       </div>
       <Disclosure

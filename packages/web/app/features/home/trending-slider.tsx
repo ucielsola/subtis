@@ -42,6 +42,7 @@ function CarouselContainer({ trendingDownloadedTitlesPromise, slidesToScroll }: 
           return (
             <CarouselItem key={`trending-slider-${title.slug}`} className="basis-auto pl-3 select-none">
               <Link
+                viewTransition
                 to={`/subtitles/movie/${title.slug}`}
                 className="flex flex-none rounded-sm overflow-hidden cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-300 group will-change-transform"
               >
@@ -49,6 +50,7 @@ function CarouselContainer({ trendingDownloadedTitlesPromise, slidesToScroll }: 
                   src={title.optimized_poster}
                   hashUrl={title.poster_thumbhash}
                   alt={title.title_name}
+                  slug={title.slug}
                 />
               </Link>
             </CarouselItem>

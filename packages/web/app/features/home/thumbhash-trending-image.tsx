@@ -9,9 +9,10 @@ type Props = {
   alt: string;
   src: string | null;
   hashUrl: string | null;
+  slug?: string;
 };
 
-export function ThumbHashTrendingImage({ src, hashUrl, alt }: Props) {
+export function ThumbHashTrendingImage({ src, hashUrl, alt, slug }: Props) {
   // react hooks
   const [imgIsLoading, setImgIsLoading] = useState(true);
   const imageReference = useRef<HTMLImageElement>(null);
@@ -34,6 +35,7 @@ export function ThumbHashTrendingImage({ src, hashUrl, alt }: Props) {
 
   // constants
   const placeholderURL = generatePlaceholderURL(hashUrl);
+  const viewTransitionName = slug ? `movie-poster-${slug}` : "movie-poster";
 
   return (
     <div className="w-[284px] h-[424px]">
@@ -47,6 +49,7 @@ export function ThumbHashTrendingImage({ src, hashUrl, alt }: Props) {
           ref={imageReference}
           onLoad={onLoaded}
           className={`absolute inset-[2px] brightness-105 w-[280px] h-[420px] ${imgIsLoading ? "opacity-0" : "opacity-100"} transition-all ease-in-out duration-300 rounded-[2px] object-cover`}
+          style={{ viewTransitionName }}
           src={src}
           alt={alt}
           loading="eager"

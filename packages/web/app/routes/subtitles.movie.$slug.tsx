@@ -841,6 +841,7 @@ export default function SubtitlesPage() {
               title={loaderData.title.title_name}
               overview={loaderData.title.overview}
               rating={loaderData.title.rating}
+              slug={loaderData.title.slug}
             />
             <div className="pt-8 px-2 flex flex-col gap-3">
               {isLoadingProviders ? (

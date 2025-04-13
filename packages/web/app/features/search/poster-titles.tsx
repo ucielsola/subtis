@@ -60,11 +60,17 @@ function Slider({ data, isLoading }: SliderProps) {
           return (
             <CarouselItem key={title.value} className="basis-auto pl-3 select-none">
               <Link
+                viewTransition
                 to={`/subtitles/movie/${title.value}`}
                 onClick={() => handleUpdateSearchMetrics(title.value)}
                 className="flex flex-none rounded-sm overflow-hidden cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-300 group will-change-transform"
               >
-                <ThumbHashTrendingImage src={title.optimizedPoster} hashUrl={title.posterThumbHash} alt={title.label} />
+                <ThumbHashTrendingImage
+                  src={title.optimizedPoster}
+                  hashUrl={title.posterThumbHash}
+                  alt={title.label}
+                  slug={title.value}
+                />
               </Link>
             </CarouselItem>
           );
