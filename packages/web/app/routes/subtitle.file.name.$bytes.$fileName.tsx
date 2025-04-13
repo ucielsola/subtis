@@ -318,37 +318,7 @@ export default function SubtitlePage() {
           </div>
 
           <article className="flex flex-row gap-4 justify-center md:justify-start">
-            {displayVideoElements ? (
-              <Button
-                size="sm"
-                onClick={handlePlaySubtitle}
-                onMouseEnter={() => playControls.start("animate")}
-                onMouseLeave={() => playControls.start("normal")}
-              >
-                <Play size={18} controls={playControls} isWrapped={false} />
-                Reproducir Video
-              </Button>
-            ) : (
-              <Tooltip>
-                <TooltipTrigger className="cursor-not-allowed">
-                  <Button
-                    size="sm"
-                    disabled
-                    onClick={handlePlaySubtitle}
-                    onMouseEnter={() => playControls.start("animate")}
-                    onMouseLeave={() => playControls.start("normal")}
-                  >
-                    <Play size={18} controls={playControls} isWrapped={false} />
-                    Reproducir Video
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="bottom">
-                  {hasVideoError ? "No podemos reproducir el video" : ""}
-                  {!hasVideoError && !videoSource ? "No hay video disponible" : ""}
-                </TooltipContent>
-              </Tooltip>
-            )}
-            <Button asChild variant="ghost" size="sm">
+            <Button asChild size="sm">
               <a
                 download
                 onClick={handleDownloadSubtitle}
@@ -366,6 +336,38 @@ export default function SubtitlePage() {
                 Descargar Subtítulo
               </a>
             </Button>
+            {displayVideoElements ? (
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={handlePlaySubtitle}
+                onMouseEnter={() => playControls.start("animate")}
+                onMouseLeave={() => playControls.start("normal")}
+              >
+                <Play size={18} controls={playControls} isWrapped={false} />
+                Reproducir Video
+              </Button>
+            ) : (
+              <Tooltip>
+                <TooltipTrigger className="cursor-not-allowed">
+                  <Button
+                    size="sm"
+                    disabled
+                    variant="ghost"
+                    onClick={handlePlaySubtitle}
+                    onMouseEnter={() => playControls.start("animate")}
+                    onMouseLeave={() => playControls.start("normal")}
+                  >
+                    <Play size={18} controls={playControls} isWrapped={false} />
+                    Reproducir Video
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">
+                  {hasVideoError ? "No podemos reproducir el video" : ""}
+                  {!hasVideoError && !videoSource ? "No hay video disponible" : ""}
+                </TooltipContent>
+              </Tooltip>
+            )}
           </article>
         </section>
 

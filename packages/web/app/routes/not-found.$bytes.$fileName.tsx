@@ -309,9 +309,23 @@ export default function NotFoundSubtitlePage() {
 
           {"message" in loaderData ? null : (
             <article className="flex flex-row gap-4">
+              <Button asChild size="sm">
+                <a
+                  download
+                  onClick={triggerShareToast}
+                  href={loaderData.subtitle.subtitle_link}
+                  onMouseEnter={() => downloadControls.start("animate")}
+                  onMouseLeave={() => downloadControls.start("normal")}
+                  className={"transition-all ease-in-out rounded-sm bg-zinc-100 text-zinc-900 hover:bg-zinc-50"}
+                >
+                  <DownloadIcon size={18} controls={downloadControls} />
+                  Descargar Subtítulo
+                </a>
+              </Button>
               {displayVideoElements ? (
                 <Button
                   size="sm"
+                  variant="ghost"
                   onClick={handlePlaySubtitle}
                   onMouseEnter={() => playControls.start("animate")}
                   onMouseLeave={() => playControls.start("normal")}
@@ -325,6 +339,7 @@ export default function NotFoundSubtitlePage() {
                     <Button
                       size="sm"
                       disabled
+                      variant="ghost"
                       onClick={handlePlaySubtitle}
                       onMouseEnter={() => playControls.start("animate")}
                       onMouseLeave={() => playControls.start("normal")}
@@ -339,24 +354,6 @@ export default function NotFoundSubtitlePage() {
                   </TooltipContent>
                 </Tooltip>
               )}
-              <Button asChild variant="ghost" size="sm">
-                <a
-                  download
-                  onClick={triggerShareToast}
-                  href={loaderData.subtitle.subtitle_link}
-                  onMouseEnter={() => downloadControls.start("animate")}
-                  onMouseLeave={() => downloadControls.start("normal")}
-                  className={cn(
-                    "transition-all ease-in-out rounded-sm",
-                    displayVideoElements
-                      ? "hover:bg-zinc-800 bg-zinc-900 hover:text-zinc-50"
-                      : "bg-zinc-100 text-zinc-900 hover:bg-zinc-50",
-                  )}
-                >
-                  <DownloadIcon size={18} controls={downloadControls} />
-                  Descargar Subtítulo
-                </a>
-              </Button>
             </article>
           )}
 
