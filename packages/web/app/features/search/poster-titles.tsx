@@ -46,7 +46,7 @@ function Slider({ data, isLoading }: SliderProps) {
 
   return (
     <Carousel
-      className="w-full"
+      className="w-[calc(100%-32px)] absolute left-4 right-4 mt-12"
       opts={{
         slidesToScroll,
       }}
@@ -88,7 +88,7 @@ type Props = {
 
 export function PosterTitles({ data, isLoading }: Props) {
   return (
-    <section className="py-16 flex flex-col gap-32 min-h-[550px]">
+    <section className="py-16 flex flex-col gap-32 min-h-[670px]">
       <AnimatePresence>
         {data && data.results.length > 0 ? (
           <motion.div
