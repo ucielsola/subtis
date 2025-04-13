@@ -325,10 +325,10 @@ export default function NotFoundSubtitlePage() {
               {displayVideoElements ? (
                 <Button
                   size="sm"
-                  variant="ghost"
                   onClick={handlePlaySubtitle}
                   onMouseEnter={() => playControls.start("animate")}
                   onMouseLeave={() => playControls.start("normal")}
+                  className={"transition-all ease-in-out rounded-sm bg-zinc-900 text-zinc-50 hover:bg-zinc-800"}
                 >
                   <Play size={18} controls={playControls} isWrapped={false} />
                   Reproducir Video
@@ -339,10 +339,10 @@ export default function NotFoundSubtitlePage() {
                     <Button
                       size="sm"
                       disabled
-                      variant="ghost"
                       onClick={handlePlaySubtitle}
                       onMouseEnter={() => playControls.start("animate")}
                       onMouseLeave={() => playControls.start("normal")}
+                      className={"transition-all ease-in-out rounded-sm bg-zinc-900 text-zinc-50 hover:bg-zinc-800"}
                     >
                       <Play size={18} controls={playControls} isWrapped={false} />
                       Reproducir Video
