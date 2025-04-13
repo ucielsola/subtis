@@ -853,10 +853,10 @@ export default function SubtitlesPage() {
                       className="flex flex-row items-center gap-2 group/imdb"
                     >
                       <IMDbLogo
-                        size={20}
+                        size={18}
                         className="fill-zinc-300 group-hover/imdb:fill-zinc-50 transition-all ease-in-out"
                       />
-                      <span className="text-zinc-300 text-sm group-hover/imdb:text-zinc-50 transition-all ease-in-out">
+                      <span className="text-zinc-300 text-xs group-hover/imdb:text-zinc-50 transition-all ease-in-out">
                         IMDb
                       </span>
                     </a>
@@ -869,10 +869,10 @@ export default function SubtitlesPage() {
                       className="flex flex-row items-center gap-2 group/trailer"
                     >
                       <YouTubeLogo
-                        size={20}
+                        size={18}
                         className="fill-zinc-300 group-hover/trailer:fill-zinc-50 transition-all ease-in-out"
                       />
-                      <span className="text-zinc-300 text-sm group-hover/trailer:text-zinc-50 transition-all ease-in-out">
+                      <span className="text-zinc-300 text-xs group-hover/trailer:text-zinc-50 transition-all ease-in-out">
                         Trailer
                       </span>
                     </a>
@@ -885,10 +885,10 @@ export default function SubtitlesPage() {
                       className="flex flex-row items-center gap-2 group/spotify mb-5"
                     >
                       <SpotifyLogo
-                        size={20}
+                        size={18}
                         className="fill-zinc-300 group-hover/spotify:fill-zinc-50 transition-all ease-in-out"
                       />
-                      <span className="text-zinc-300 text-sm group-hover/spotify:text-zinc-50 transition-all ease-in-out">
+                      <span className="text-zinc-300 text-xs group-hover/spotify:text-zinc-50 transition-all ease-in-out">
                         Soundtrack
                       </span>
                     </a>
@@ -901,10 +901,10 @@ export default function SubtitlesPage() {
                       className="flex flex-row items-center gap-2 group/justwatch"
                     >
                       <JustWatchLogo
-                        size={20}
+                        size={18}
                         className="fill-zinc-300 group-hover/justwatch:fill-zinc-50 transition-all ease-in-out"
                       />
-                      <span className="text-zinc-300 text-sm group-hover/justwatch:text-zinc-50 transition-all ease-in-out">
+                      <span className="text-zinc-300 text-xs group-hover/justwatch:text-zinc-50 transition-all ease-in-out">
                         JustWatch
                       </span>
                     </a>
@@ -917,10 +917,10 @@ export default function SubtitlesPage() {
                       className="flex flex-row items-center gap-2 group/letterboxd"
                     >
                       <LetterboxdLogo
-                        size={20}
+                        size={18}
                         className="fill-zinc-300 group-hover/letterboxd:fill-zinc-50 transition-all ease-in-out"
                       />
-                      <span className="text-zinc-300 text-sm group-hover/letterboxd:text-zinc-50 transition-all ease-in-out">
+                      <span className="text-zinc-300 text-xs group-hover/letterboxd:text-zinc-50 transition-all ease-in-out">
                         Letterboxd
                       </span>
                     </a>
@@ -933,10 +933,10 @@ export default function SubtitlesPage() {
                       className="flex flex-row items-center gap-2 group/rottentomatoes"
                     >
                       <RottenTomatoesLogo
-                        size={20}
+                        size={18}
                         className="fill-zinc-300 group-hover/rottentomatoes:fill-zinc-50 transition-all ease-in-out"
                       />
-                      <span className="text-zinc-300 text-sm group-hover/rottentomatoes:text-zinc-50 transition-all ease-in-out">
+                      <span className="text-zinc-300 text-xs group-hover/rottentomatoes:text-zinc-50 transition-all ease-in-out">
                         Rotten Tomatoes
                       </span>
                     </a>

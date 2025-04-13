@@ -89,7 +89,7 @@ export function PosterDisclosure({ src, alt, hashUrl, title, overview, rating }:
             onMouseLeave={() => controls.start("normal")}
           >
             <span
-              className={`text-left ${isOpen ? "text-zinc-50 text-2xl" : "text-zinc-300 text-sm"} transition-all duration-300 ease-in-out`}
+              className={`text-left ${isOpen ? "text-zinc-50 text-2xl" : "text-zinc-300 text-xs uppercase tracking-widest"}`}
             >
               {isOpen ? title : "Ver sinopsis"}
             </span>
@@ -107,15 +107,15 @@ export function PosterDisclosure({ src, alt, hashUrl, title, overview, rating }:
           </button>
         </DisclosureTrigger>
         <DisclosureContent>
-          <div className="flex flex-col pb-2 z-10">
+          <div className="flex flex-col pb-14 z-10">
             <div>
               {overview ? (
-                <p className="text-zinc-50 text-sm leading-6 pt-2 pb-2 line-clamp-[14]">{overview}</p>
+                <p className="text-zinc-50 text-sm leading-6 pt-2 pb-4 line-clamp-[14]">{overview}</p>
               ) : (
-                <p className="text-zinc-300 text-sm leading-6 pt-2 pb-2 line-clamp-[14]">Sinopsis no disponible.</p>
+                <p className="text-zinc-300 text-sm leading-6 pt-2 pb-4 line-clamp-[14]">Sinopsis no disponible.</p>
               )}
-              <div className="flex items-center gap-1 self-end justify-end">
-                <StarIcon size={16} className="fill-yellow-400 stroke-none" />
+              <div className="flex items-center gap-1">
+                <StarIcon size={16} className="fill-yellow-300 stroke-none" />
                 <span className="text-zinc-50 text-sm">{rating}/10</span>
               </div>
             </div>
