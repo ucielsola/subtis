@@ -2,12 +2,10 @@ import { Link } from "react-router";
 import { toast } from "sonner";
 import { useCopyToClipboard } from "usehooks-ts";
 
-import { GitHub } from "~/components/logos/github";
 // logos
 import { X } from "~/components/logos/x";
-
-// shared components
-import { AnimatedLogo } from "~/components/shared/animated-logo";
+import { GitHub } from "~/components/logos/github";
+import { SubtisSmall } from "../logos/subtis-small";
 
 export function HomeFooter() {
   // ts hooks
@@ -25,7 +23,7 @@ export function HomeFooter() {
     <footer className="pt-8 pb-20 flex flex-col gap-6 border-t border-zinc-700">
       <div className="flex md:flex-row flex-col gap-6 justify-between items-start">
         <Link to="/" prefetch="viewport" className="cursor-pointer group">
-          <AnimatedLogo />
+          <SubtisSmall size={32} />
         </Link>
 
         <div className="flex md:flex-row flex-col md:gap-16 gap-4">
