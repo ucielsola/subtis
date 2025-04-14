@@ -14,7 +14,25 @@ import { apiClient } from "~/lib/api";
 
 // meta
 export const meta: MetaFunction = () => {
-  return [{ title: "Subtis" }, { name: "description", content: "Subtítulos para todas tus películas" }];
+  return [
+    { title: "Subtis | Subtítulos para tus películas" },
+    { name: "description", content: "Subtítutlos para todas tus películas" },
+    {
+      name: "keywords",
+      content: "subtítulos, películas, subtis, descargar subtítulos, subtítulos español, subtítulos sincronizados",
+    },
+    { name: "robots", content: "index, follow" },
+    { name: "author", content: "Subtis" },
+    { property: "og:title", content: "Subtis | Subtítulos para tus películas" },
+    { property: "og:description", content: "Subtítutlos para todas tus películas" },
+    { property: "og:type", content: "website" },
+    { property: "og:site_name", content: "Subtis" },
+    { name: "twitter:card", content: "summary" },
+    { name: "twitter:site", content: "@subt_is" },
+    { name: "twitter:title", content: "Subtis | Subtítulos para tus películas" },
+    { name: "twitter:description", content: "Subtítutlos para todas tus películas" },
+    { name: "twitter:image", content: "https://subtis.io/twitter.png" },
+  ];
 };
 
 export const loader = () => {

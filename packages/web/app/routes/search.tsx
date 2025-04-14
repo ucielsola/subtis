@@ -22,12 +22,27 @@ import { TrendingSearch } from "~/features/search/trending-search";
 // @ts-ignore react-router codebase
 import type { Route } from "./+types/search";
 
-// types
-type Result = {
-  value: string;
-  label: string;
-  optimizedPoster: string | null;
-  posterThumbHash: string | null;
+// meta
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Subtis | Búsqueda por nombre de película" },
+    { name: "description", content: "Subtítutlos para todas tus películas" },
+    {
+      name: "keywords",
+      content: "subtítulos, películas, subtis, descargar subtítulos, subtítulos español, subtítulos sincronizados",
+    },
+    { name: "robots", content: "index, follow" },
+    { name: "author", content: "Subtis" },
+    { property: "og:title", content: "Subtis | Búsqueda por nombre de película" },
+    { property: "og:description", content: "Subtítutlos para todas tus películas" },
+    { property: "og:type", content: "website" },
+    { property: "og:site_name", content: "Subtis" },
+    { name: "twitter:card", content: "summary" },
+    { name: "twitter:site", content: "@subt_is" },
+    { name: "twitter:title", content: "Subtis | Búsqueda por nombre de película" },
+    { name: "twitter:description", content: "Subtítutlos para todas tus películas" },
+    { name: "twitter:image", content: "https://subtis.io/twitter.png" },
+  ];
 };
 
 // loader
@@ -41,16 +56,16 @@ export const loader = () => {
   return { trendingSearchPromise };
 };
 
-// meta
-export const meta: MetaFunction = () => {
-  return [
-    { title: "Subtis | Búsqueda por nombre" },
-    { name: "description", content: "Subtítutlos para todas tus películas" },
-  ];
-};
-
 // constants
 const MINIMUM_CHARACTERS = 2;
+
+// types
+type Result = {
+  value: string;
+  label: string;
+  optimizedPoster: string | null;
+  posterThumbHash: string | null;
+};
 
 export default function SearchPage({ loaderData }: Route.ComponentProps) {
   // constants

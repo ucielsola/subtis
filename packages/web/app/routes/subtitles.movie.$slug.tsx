@@ -75,6 +75,51 @@ function getResolutionRank(resolution: string): number {
   return ranks[resolution as keyof typeof ranks] ?? 0;
 }
 
+// meta
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  if (!data || "message" in data) {
+    return [
+      { title: "Subtis" },
+      { name: "description", content: "Encontrá tus subtítulos rápidamente!" },
+      {
+        name: "keywords",
+        content: "subtítulos, películas, subtis, descargar subtítulos, subtítulos español, subtítulos sincronizados",
+      },
+      { name: "robots", content: "index, follow" },
+      { name: "author", content: "Subtis" },
+      { property: "og:title", content: "Subtis | Búsqueda por nombre de película" },
+      { property: "og:description", content: "Subtítutlos para todas tus películas" },
+      { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Subtis" },
+      { name: "twitter:card", content: "summary" },
+      { name: "twitter:site", content: "@subt_is" },
+      { name: "twitter:title", content: "Subtis | Búsqueda por nombre de película" },
+      { name: "twitter:description", content: "Subtítutlos para todas tus películas" },
+      { name: "twitter:image", content: "https://subtis.io/twitter.png" },
+    ];
+  }
+
+  return [
+    { title: `Subtis | Subtítulo para ${data.title.title_name} (${data.title.year})` },
+    { name: "description", content: "Subtítutlos para todas tus películas" },
+    {
+      name: "keywords",
+      content: "subtítulos, películas, subtis, descargar subtítulos, subtítulos español, subtítulos sincronizados",
+    },
+    { name: "robots", content: "index, follow" },
+    { name: "author", content: "Subtis" },
+    { property: "og:title", content: `Subtis | Subtítulo para ${data.title.title_name} (${data.title.year})` },
+    { property: "og:description", content: "Subtítutlos para todas tus películas" },
+    { property: "og:type", content: "website" },
+    { property: "og:site_name", content: "Subtis" },
+    { name: "twitter:card", content: "summary" },
+    { name: "twitter:site", content: "@subt_is" },
+    { name: "twitter:title", content: `Subtis | Subtítulo para ${data.title.title_name} (${data.title.year})` },
+    { name: "twitter:description", content: "Subtítutlos para todas tus películas" },
+    { name: "twitter:image", content: "https://subtis.io/twitter.png" },
+  ];
+};
+
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { slug } = params;
 
@@ -105,18 +150,6 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   }
 
   return primarySubtitleParsedData.data;
-};
-
-// meta
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  if (!data || "message" in data) {
-    return [{ title: "Subtis" }, { name: "description", content: "Encontrá tus subtítulos rápidamente!" }];
-  }
-
-  return [
-    { title: `Subtis | Subtítutlos para ${data.title.title_name} (${data.title.year})` },
-    { name: "description", content: "Subtítutlos para todas tus películas" },
-  ];
 };
 
 export default function SubtitlesPage() {

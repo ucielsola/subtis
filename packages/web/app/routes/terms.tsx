@@ -7,6 +7,21 @@ export const meta: MetaFunction = () => {
   return [
     { title: "Subtis | Términos y Condiciones" },
     { name: "description", content: "Subtítutlos para todas tus películas" },
+    {
+      name: "keywords",
+      content: "subtítulos, películas, subtis, faq, preguntas frecuentes, subtítulos español, descargar subtítulos",
+    },
+    { name: "robots", content: "index, follow" },
+    { name: "author", content: "Subtis" },
+    { property: "og:title", content: "Subtis | Preguntas Frecuentes" },
+    { property: "og:description", content: "Subtítutlos para todas tus películas" },
+    { property: "og:type", content: "website" },
+    { property: "og:site_name", content: "Subtis" },
+    { name: "twitter:card", content: "summary" },
+    { name: "twitter:site", content: "@subt_is" },
+    { name: "twitter:title", content: "Subtis | Preguntas Frecuentes" },
+    { name: "twitter:description", content: "Subtítutlos para todas tus películas" },
+    { name: "twitter:image", content: "https://subtis.io/twitter.png" },
   ];
 };
 export default function TermsPage() {
