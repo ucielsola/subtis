@@ -3,8 +3,8 @@ import { toast } from "sonner";
 import { useCopyToClipboard } from "usehooks-ts";
 
 // logos
-import { X } from "~/components/logos/x";
 import { GitHub } from "~/components/logos/github";
+import { X } from "~/components/logos/x";
 import { SubtisSmall } from "../logos/subtis-small";
 
 export function HomeFooter() {
