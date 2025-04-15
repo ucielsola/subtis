@@ -47,7 +47,11 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data || "message" in data) {
     return [
       { title: "Subtis | Subtitulos No Encontrados" },
-      { name: "description", content: "Subtítutlos para todas tus películas" },
+      {
+        name: "description",
+        content:
+          "Subtítulos para todas tus películas. Buscador gratuito de subtítulos en español para películas. Compatible también con Stremio y VLC. Encuentra subtítulos sincronizados y descargalos al instante.",
+      },
       {
         name: "keywords",
         content: "subtítulos, películas, subtis, descargar subtítulos, subtítulos español, subtítulos sincronizados",
@@ -55,20 +59,34 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
       { name: "robots", content: "index, follow" },
       { name: "author", content: "Subtis" },
       { property: "og:title", content: "Subtis | Subtítulos para tus películas" },
-      { property: "og:description", content: "Subtítutlos para todas tus películas" },
+      {
+        property: "og:description",
+        content:
+          "Subtítulos para todas tus películas. Buscador gratuito de subtítulos en español para películas. Compatible también con Stremio y VLC. Encuentra subtítulos sincronizados y descargalos al instante.",
+      },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Subtis" },
+      { property: "og:url", content: "https://subtis.io/not-found" },
+      { property: "og:image", content: "https://subtis.io/og.png" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@subt_is" },
       { name: "twitter:title", content: "Subtis | Subtítulos para tus películas" },
-      { name: "twitter:description", content: "Subtítutlos para todas tus películas" },
+      {
+        name: "twitter:description",
+        content:
+          "Subtítulos para todas tus películas. Buscador gratuito de subtítulos en español para películas. Compatible también con Stremio y VLC. Encuentra subtítulos sincronizados y descargalos al instante.",
+      },
       { name: "twitter:image", content: "https://subtis.io/twitter.png" },
     ];
   }
 
   return [
     { title: `Subtis | Subtitulos Alternativos para ${data.title.title_name} (${data.title.year})` },
-    { name: "description", content: "Subtítutlos para todas tus películas" },
+    {
+      name: "description",
+      content:
+        "Subtítulos para todas tus películas. Buscador gratuito de subtítulos en español para películas. Compatible también con Stremio y VLC. Encuentra subtítulos sincronizados y descargalos al instante.",
+    },
     {
       name: "keywords",
       content: "subtítulos, películas, subtis, descargar subtítulos, subtítulos español, subtítulos sincronizados",
@@ -76,16 +94,29 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     { name: "robots", content: "index, follow" },
     { name: "author", content: "Subtis" },
     { property: "og:title", content: "Subtis | Subtítulos para tus películas" },
-    { property: "og:description", content: "Subtítutlos para todas tus películas" },
+    {
+      property: "og:description",
+      content:
+        "Subtítulos para todas tus películas. Buscador gratuito de subtítulos en español para películas. Compatible también con Stremio y VLC. Encuentra subtítulos sincronizados y descargalos al instante.",
+    },
     { property: "og:type", content: "website" },
     { property: "og:site_name", content: "Subtis" },
+    {
+      property: "og:url",
+      content: `https://subtis.io/not-found/${data.subtitle.bytes}/${data.subtitle.title_file_name}`,
+    },
+    { property: "og:image", content: "https://subtis.io/og.png" },
     { name: "twitter:card", content: "summary" },
     { name: "twitter:site", content: "@subt_is" },
     {
       name: "twitter:title",
       content: `Subtis | Subtítulos Alternativos para ${data.title.title_name} (${data.title.year})`,
     },
-    { name: "twitter:description", content: "Subtítutlos para todas tus películas" },
+    {
+      name: "twitter:description",
+      content:
+        "Subtítulos para todas tus películas. Buscador gratuito de subtítulos en español para películas. Compatible también con Stremio y VLC. Encuentra subtítulos sincronizados y descargalos al instante.",
+    },
     { name: "twitter:image", content: "https://subtis.io/twitter.png" },
   ];
 };
