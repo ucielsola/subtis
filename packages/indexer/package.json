@@ -37,7 +37,7 @@
     "node-cron": "^3.0.3",
     "phpurlencode": "^1.1.2",
     "pretty-bytes": "^6.1.1",
-    "resend": "^4.2.0",
+    "resend": "^4.3.0",
     "rimraf": "^6.0.1",
     "sharp": "^0.34.1",
     "slugify": "^1.6.6",
