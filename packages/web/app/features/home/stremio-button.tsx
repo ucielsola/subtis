@@ -59,7 +59,7 @@ export function StremioButton() {
                   <p className="text-zinc-400 text-sm">
                     Haz click en este{" "}
                     <a
-                      href="stremio://stremio.fly.dev/manifest.json"
+                      href="stremio://stremio.subt.is/manifest.json"
                       target="_blank"
                       className="text-zinc-50 underline"
                       rel="noreferrer"
@@ -69,7 +69,7 @@ export function StremioButton() {
                     para instalar el add-on de Subtis. Una vez abierto Stremio, haz click en &ldquo;Instalar&rdquo; o
                     &ldquo;Install&rdquo;. Si no tenes Stremio instalado, puedes navegar al siguiente{" "}
                     <a
-                      href="https://stremio.fly.dev"
+                      href="https://stremio.subt.is"
                       target="_blank"
                       className="text-zinc-50 underline"
                       rel="noreferrer"

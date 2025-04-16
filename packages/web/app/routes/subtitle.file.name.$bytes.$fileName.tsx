@@ -523,7 +523,7 @@ export default function SubtitlePage() {
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
                     Te recomendamos usar el{" "}
                     <a
-                      href="https://stremio.fly.dev"
+                      href="https://stremio.subt.is"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-yellow-300 hover:underline"

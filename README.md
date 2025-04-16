@@ -8,7 +8,7 @@
 | API       | https://api.subt.is                 | -                                       |
 | API Docs  | https://api.subt.is/v1/docs         | -                                       |
 | WebSocket | https://real-time-indexer.fly.dev   | -                                       |
-| Stremio   | https://stremio.subt.is             | stremio://stremio.fly.dev/manifest.json |
+| Stremio   | https://stremio.subt.is             | stremio://stremio.subt.is/manifest.json |
 
 ## Packages
 
