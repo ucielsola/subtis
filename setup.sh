@@ -25,14 +25,10 @@ REQUIRED_VARS=(
   "SPOTIFY_CLIENT_SECRET"
   "TMDB_API_KEY"
   "RESEND_API_KEY"
-  "CLOUDFLARE_API_TOKEN"
-  "CLOUDFLARE_ZONE_ID"
   "PUBLIC_API_BASE_URL_DEVELOPMENT"
   "PUBLIC_API_BASE_URL_PRODUCTION"
   "PUBLIC_WEBSOCKET_BASE_URL_DEVELOPMENT"
   "PUBLIC_WEBSOCKET_BASE_URL_PRODUCTION"
-  "OPEN_PANEL_CLIENT_ID"
-  "OPEN_PANEL_CLIENT_SECRET"
 )
 
 # Check if the .env.development file exists
@@ -59,7 +55,7 @@ fi
 # Copy the .env.development file to target directories
 for dir in "${TARGET_DIRS[@]}"; do
   if [[ -d "$dir" ]]; then
-    if [[ "$dir" == "packages/api" ]]; then
+    if [[ "$dir" == "packages/api" || "$dir" == "packages/web" ]]; then
       cp "$ENV_FILE" "$dir/.dev.vars"
       echo "Copied $ENV_FILE to $dir/.dev.vars"
     else

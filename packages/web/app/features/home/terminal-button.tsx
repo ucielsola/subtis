@@ -6,9 +6,6 @@ import { Terminal } from "~/components/icons/terminal";
 import { MorphingDialogBasicImage } from "~/components/ui/morphin-dialog-image";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "~/components/ui/sheet";
 
-// lib
-import { op } from "~/lib/analytics";
-
 export function TerminalButton() {
   // react hooks
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -18,7 +15,6 @@ export function TerminalButton() {
 
   // handlers
   function handleToggleIsOpen(): void {
-    op.track("terminal_button_clicked");
     setIsOpen((previousIsOpen) => !previousIsOpen);
   }
 
