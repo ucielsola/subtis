@@ -1,6 +1,6 @@
 {
   "name": "@subtis/cli",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "license": "MIT",
   "main": "app.ts",
   "scripts": {
