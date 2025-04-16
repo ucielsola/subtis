@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/bun";
 import { type ContentType, type Subtitle as StremioSubtitle, addonBuilder, serveHTTP } from "stremio-addon-sdk";
 
 // shared
@@ -8,6 +9,12 @@ import type { SubtitleNormalized } from "@subtis/api/lib/parsers";
 
 // internals
 import { apiClient } from "./api";
+
+// sentry
+Sentry.init({
+  tracesSampleRate: 1.0,
+  dsn: Bun.env.STREMIO_SENTRY_DSN,
+});
 
 // types
 type Extra = { videoHash: string; videoSize: string };
@@ -53,8 +60,9 @@ async function getTitleSubtitle(args: Args): Promise<{ subtitles: StremioSubtitl
 
     return Promise.resolve({ subtitles: [alternativeSubtitleMetadata], ...CACHE_SETTINGS });
   } catch (error) {
-    console.log("\n ~ getTitleSubtitle ~ catch ~ args:", args);
-    console.log("\n ~ getTitleSubtitle ~ catch ~ error:", error);
+    console.log("getTitleSubtitle catch (error, args)", error, args);
+
+    Sentry.captureException(error, { extra: { args } });
     return Promise.resolve({ subtitles: [], ...CACHE_SETTINGS });
   }
 }
