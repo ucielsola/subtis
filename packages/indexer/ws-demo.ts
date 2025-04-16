@@ -1,9 +1,9 @@
 import WebSocket from "ws";
 
 // Create a WebSocket connection to the server
-// const ws = new WebSocket("https://real-time-indexer.fly.dev"); // Change the port if needed
+// const ws = new WebSocket("https://ws-search.subt.is"); // Change the port if needed
 // const ws = new WebSocket("ws://127.0.0.1:3000"); // Change the port if needed
-const ws = new WebSocket("https://real-time-indexer.fly.dev"); // Change the port if needed
+const ws = new WebSocket("https://ws-search.subt.is"); // Change the port if needed
 
 // When the connection is open, send a test message
 ws.on("open", () => {
