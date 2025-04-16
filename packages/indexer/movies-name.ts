@@ -9,9 +9,9 @@ import { indexMovieByName } from "./movies";
 
 // testing
 indexMovieByName({
-  year: 1987,
+  year: 2019,
   isDebugging: false,
-  name: "Over the top",
+  name: "Heroic Losers",
 });
 
 // saveReleaseGroupsToDb(supabase);
