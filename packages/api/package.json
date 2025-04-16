@@ -12,9 +12,9 @@
   },
   "dependencies": {
     "@hono/zod-validator": "^0.4.3",
-    "@scalar/hono-api-reference": "^0.8.1",
+    "@scalar/hono-api-reference": "^0.8.2",
     "@supabase/supabase-js": "^2.49.4",
-    "hono": "^4.7.6",
+    "hono": "^4.7.7",
     "hono-openapi": "^0.4.6",
     "jszip": "^3.10.1",
     "slugify": "^1.6.6",
@@ -24,7 +24,7 @@
     "zod-openapi": "^4.2.4"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250415.0",
+    "@cloudflare/workers-types": "^4.20250416.0",
     "@types/bun": "^1.2.9",
     "@types/timestring": "^7.0.0",
     "@types/unescape-js": "^1.0.3",
