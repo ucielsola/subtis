@@ -1,7 +1,7 @@
 {
-  "yaakVersion": "2025.2.0-beta.1",
+  "yaakVersion": "2025.1.2",
   "yaakSchema": 3,
-  "timestamp": "2025-03-13T22:54:33.879469",
+  "timestamp": "2025-04-17T22:53:09.071694",
   "resources": {
     "workspaces": [
       {
@@ -92,10 +92,10 @@
         "model": "folder",
         "id": "fl_sMnyhYjpX9",
         "createdAt": "2025-02-18T02:28:23.575400",
-        "updatedAt": "2025-02-19T23:29:37.466888",
+        "updatedAt": "2025-04-17T22:52:32.723156",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": null,
-        "name": "Providers - Internal (4)",
+        "name": "Providers - Internal (5)",
         "description": "",
         "sortPriority": 4500.0
       },
@@ -103,12 +103,12 @@
         "model": "folder",
         "id": "fl_sQpySodbfx",
         "createdAt": "2025-02-17T23:28:17.505130",
-        "updatedAt": "2025-02-19T23:42:26.615582",
+        "updatedAt": "2025-04-17T22:52:42.210714",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": null,
         "name": "Stats (1)",
         "description": "",
-        "sortPriority": 4250.0
+        "sortPriority": 500.0
       },
       {
         "model": "folder",
@@ -193,7 +193,7 @@
         "model": "http_request",
         "id": "rq_8NCVsoaLvX",
         "createdAt": "2025-03-12T14:01:53.695009",
-        "updatedAt": "2025-03-12T14:03:20.166794",
+        "updatedAt": "2025-04-08T01:22:54.904351",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_sMnyhYjpX9",
         "authentication": {},
@@ -210,14 +210,14 @@
           {
             "enabled": true,
             "name": ":slug",
-            "value": "a-complete-unknown-2024",
+            "value": "all-about-eve-1950",
             "id": "c2j7tTrKu0"
           },
           {
             "enabled": true,
             "name": "",
             "value": "",
-            "id": "XumnUjE507"
+            "id": "7sqzZAz2X0"
           }
         ]
       },
@@ -257,7 +257,7 @@
         "model": "http_request",
         "id": "rq_eXUfwoFrde",
         "createdAt": "2025-02-19T23:26:41.108745",
-        "updatedAt": "2025-02-24T23:15:47.237892",
+        "updatedAt": "2025-04-11T00:11:06.578651",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_sMnyhYjpX9",
         "authentication": {},
@@ -274,14 +274,14 @@
           {
             "enabled": true,
             "name": ":slug",
-            "value": "conclave-2024",
+            "value": "heart-eyes-2025",
             "id": "8x88mpt9Km"
           },
           {
             "enabled": true,
             "name": "",
             "value": "",
-            "id": "k6SSVPrMEU"
+            "id": "cpiYhSsDKz"
           }
         ]
       },
@@ -353,7 +353,7 @@
         "model": "http_request",
         "id": "rq_JMyl9L64oX",
         "createdAt": "2025-01-13T22:59:57",
-        "updatedAt": "2025-02-05T20:17:16.093344",
+        "updatedAt": "2025-04-17T00:31:27.094953",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_G3EShJi9ud",
         "authentication": {},
@@ -370,14 +370,14 @@
           {
             "enabled": true,
             "name": ":slug",
-            "value": "nosferatu-2024",
+            "value": "mickey-17-2025",
             "id": "yiSI3sB9Zi"
           },
           {
             "enabled": true,
             "name": "",
             "value": "",
-            "id": "XqUrAtMZhj"
+            "id": "tcQPnEsS4R"
           }
         ]
       },
@@ -481,7 +481,7 @@
         "model": "http_request",
         "id": "rq_om9XNHwzbJ",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-02-17T23:29:00.247493",
+        "updatedAt": "2025-04-17T22:51:46.638718",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_sQpySodbfx",
         "authentication": {},
@@ -491,7 +491,7 @@
         "description": "",
         "headers": [],
         "method": "GET",
-        "name": "Get subtitle short link by subtitle ID (/v1/subtitle/link/:subtitleId)",
+        "name": "Get all stats (/v1/subtitle/stats/all)",
         "sortPriority": 0.0,
         "url": "${[baseUrl]}/v1/stats/all",
         "urlParameters": [
@@ -614,7 +614,7 @@
         "model": "http_request",
         "id": "rq_yFlpz2bvCj",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2024-11-08T22:37:51",
+        "updatedAt": "2025-04-11T00:09:48.669952",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_ob31em44Zh",
         "authentication": {},
@@ -798,7 +798,7 @@
         "model": "http_request",
         "id": "rq_N17uAhCV9T",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-02-05T20:24:54.996050",
+        "updatedAt": "2025-04-07T22:58:32.435765",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_XJ7aMDkIoi",
         "authentication": {},
@@ -815,14 +815,14 @@
           {
             "enabled": true,
             "name": ":slug",
-            "value": "nosferatu-2024",
+            "value": "annie-hall-1977",
             "id": "A4BgRG6XFC"
           },
           {
             "enabled": true,
             "name": "",
             "value": "",
-            "id": "26VqJvj7zH"
+            "id": "33Yjph37ah"
           }
         ]
       },
@@ -972,7 +972,7 @@
         "model": "http_request",
         "id": "rq_SGIsc4WgeJ",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-02-19T23:28:19.508278",
+        "updatedAt": "2025-04-10T23:54:33.281393",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_sMnyhYjpX9",
         "authentication": {},
@@ -989,14 +989,14 @@
           {
             "enabled": true,
             "name": ":fileName",
-            "value": "Venom.The.Last.Dance.2024.2160p.HDR10Plus.DV.WEBRip.6CH.x265.HEVC-PSA.mkv",
+            "value": "Street.Trash.2024.1080p.WEBRip.x264.AAC5.1-[YTS.MX].mp4",
             "id": "Kk3PUkcvVs"
           },
           {
             "enabled": true,
             "name": "",
             "value": "",
-            "id": "uI6MrqZQ3b"
+            "id": "mV4ERQh4t0"
           }
         ]
       },
