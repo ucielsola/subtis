@@ -24,11 +24,11 @@
     "zod-openapi": "^4.2.4"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250416.0",
-    "@types/bun": "^1.2.9",
+    "@cloudflare/workers-types": "^4.20250417.0",
+    "@types/bun": "^1.2.10",
     "@types/timestring": "^7.0.0",
     "@types/unescape-js": "^1.0.3",
     "typescript": "^5.8.3",
-    "wrangler": "^4.11.1"
+    "wrangler": "^4.12.0"
   }
 }
