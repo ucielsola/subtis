@@ -89,19 +89,17 @@ export function PosterDisclosure({ src, alt, hashUrl, title, overview, rating, s
             onMouseEnter={() => controls.start("animate")}
             onMouseLeave={() => controls.start("normal")}
           >
-            <span
-              className={`text-left ${isOpen ? "text-zinc-50 text-2xl" : "text-zinc-300 text-xs uppercase tracking-widest"}`}
-            >
-              {isOpen ? title : "Ver sinopsis"}
+            <span className={`text-left text-zinc-50 text-xl ${isOpen ? "opacity-100" : "opacity-0"} transition-all duration-300 ease-in-out`}>
+              {title}
             </span>
             <AnimatePresence mode="wait">
               {isOpen ? (
                 <motion.div key="down-up" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                  <ChevronsDownUpIcon controls={controls} size={16} className="stroke-zinc-50" />
+                  <ChevronsDownUpIcon controls={controls} size={16} className="stroke-zinc-50 -rotate-45" />
                 </motion.div>
               ) : (
                 <motion.div key="up-down" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                  <ChevronsUpDownIcon controls={controls} size={16} className="stroke-zinc-50" />
+                  <ChevronsUpDownIcon controls={controls} size={16} className="stroke-zinc-50 -rotate-45" />
                 </motion.div>
               )}
             </AnimatePresence>
