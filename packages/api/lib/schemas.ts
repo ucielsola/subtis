@@ -2,10 +2,10 @@ import { z } from "zod";
 
 // db
 import {
-  releaseGroupsRowSchema,
-  subtitleGroupsRowSchema,
-  subtitlesRowSchema,
-  titlesRowSchema,
+  publicReleasegroupsRowSchemaSchema,
+  publicSubtitlegroupsRowSchemaSchema,
+  publicSubtitlesRowSchemaSchema,
+  publicTitlesRowSchemaSchema,
 } from "@subtis/db/schemas";
 
 // title
@@ -25,7 +25,7 @@ export const titleMetadataQuery = `
   subtitles: Subtitles ( id )
 `;
 
-export const titleMetadataSchema = titlesRowSchema
+export const titleMetadataSchema = publicTitlesRowSchemaSchema
   .pick({
     slug: true,
     type: true,
@@ -40,11 +40,11 @@ export const titleMetadataSchema = titlesRowSchema
     optimized_backdrop: true,
   })
   .extend({
-    subtitles: z.array(subtitlesRowSchema.pick({ id: true })),
+    subtitles: z.array(publicSubtitlesRowSchemaSchema.pick({ id: true })),
   });
 
 // titles
-export const titleSchema = titlesRowSchema.pick({
+export const titleSchema = publicTitlesRowSchemaSchema.pick({
   id: true,
   slug: true,
   imdb_id: true,
@@ -85,20 +85,20 @@ export const titlesQuery = `
 `;
 
 // alternative titles
-export const alternativeTitlesSchema = titlesRowSchema.pick({ slug: true });
+export const alternativeTitlesSchema = publicTitlesRowSchemaSchema.pick({ slug: true });
 
 // release groups
-export const releaseGroupSchema = releaseGroupsRowSchema.pick({ id: true, release_group_name: true });
+export const releaseGroupSchema = publicReleasegroupsRowSchemaSchema.pick({ id: true, release_group_name: true });
 
 // subtitle groups
-export const subtitleGroupSchema = subtitleGroupsRowSchema.pick({
+export const subtitleGroupSchema = publicSubtitlegroupsRowSchemaSchema.pick({
   id: true,
   website: true,
   subtitle_group_name: true,
 });
 
 // subtitles
-export const subtitleSchema = subtitlesRowSchema
+export const subtitleSchema = publicSubtitlesRowSchemaSchema
   .pick({
     id: true,
     bytes: true,
@@ -122,7 +122,7 @@ export const subtitleSchema = subtitlesRowSchema
 
 export type SubtisSubtitle = z.infer<typeof subtitleSchema>;
 
-export const subtitleShortenerSchema = subtitlesRowSchema.pick({ subtitle_link: true });
+export const subtitleShortenerSchema = publicSubtitlesRowSchemaSchema.pick({ subtitle_link: true });
 
 export const subtitlesQuery = `
   id,

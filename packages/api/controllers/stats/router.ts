@@ -74,7 +74,6 @@ export const stats = new Hono<{ Variables: AppVariables }>().get(
       return context.json({ message: "An error occurred", error: totalSubtitlesError.message });
     }
 
-    // @ts-expect-error
     const { data: totalQueriedTimes, error: totalQueriedTimesError } = await supabaseClient.rpc("sum_queried_times");
 
     if (totalQueriedTimesError) {

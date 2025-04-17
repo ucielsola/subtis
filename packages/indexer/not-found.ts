@@ -2,7 +2,7 @@
 import { z } from "zod";
 
 // db
-import { subtitlesNotFoundRowSchema, supabase } from "@subtis/db";
+import { publicSubtitlesnotfoundRowSchemaSchema, supabase } from "@subtis/db";
 
 // api
 import { subtitleNormalizedSchema } from "@subtis/api/lib/parsers";
@@ -34,7 +34,7 @@ export async function indexNotFoundSubtitles({ ascending = true }: { ascending: 
       break;
     }
 
-    const notFoundSubtitles = z.array(subtitlesNotFoundRowSchema).safeParse(data);
+    const notFoundSubtitles = z.array(publicSubtitlesnotfoundRowSchemaSchema).safeParse(data);
 
     if (!notFoundSubtitles.success) {
       console.error("Error parsing subtitles:", notFoundSubtitles.error);
