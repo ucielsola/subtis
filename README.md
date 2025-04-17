@@ -147,29 +147,9 @@ bun run update:db:dump
 
 - Bump DB schemas
 
-  1. Move to `packages/db` directory
-
-  ```bash
-  cd packages/db
-  ```
-
-  2. Run the following command
-
-  ```bash
-  bun run supabase:type:definitions
-  ```
-
-  3. Remove the following line you see repeated
-
-  ```typescript
-    Args: Record<PropertyKey, never>;
-  ```
-
-  4. Generate new zod schemas
-
-  ```bash
-  bun run supabase:schemas
-  ```
+```bash
+bun run update:db:schemas
+```
 
 - Bump project dependencies
 
