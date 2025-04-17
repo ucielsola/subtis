@@ -29,7 +29,7 @@ export function Header() {
             }
           >
             <SearchIcon controls={controls} className="size-5" />
-            <span>Buscar subtítulo</span>
+            <span>Buscar película</span>
           </Link>
         </Button>
         <div className="border-b border-b-zinc-900/20 absolute left-0 right-0 -bottom-[11.5px] w-3/4 mx-auto h-0.5 bg-gradient-to-r from-transparent via-zinc-200/20 to-transparent" />
