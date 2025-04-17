@@ -84,7 +84,7 @@ function HeroBackgroundContainer({ className, recentDownloadedTitlesPromise }: P
                     <img
                       src={image.src}
                       alt={image.alt}
-                      className="w-full h-full object-cover rounded-[8px] grayscale-50 hover:grayscale-25 transition-all duration-300 ease-in-out"
+                      className="w-full h-full object-cover rounded-[8px] hover:brightness-105 transition-all duration-300 ease-in-out"
                       loading="lazy"
                     />
                   </AspectRatio>
