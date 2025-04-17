@@ -105,7 +105,9 @@ export default class TorrentEngine {
       const trackerMap = new Map();
 
       results.forEach((arr) => {
-        trackerMap.set(arr[0].tracker, arr);
+        if (arr.length > 0) {
+          trackerMap.set(arr[0].tracker, arr);
+        }
       });
 
       results = trackerMap;

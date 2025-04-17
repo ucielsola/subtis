@@ -9,9 +9,9 @@ import { indexMovieByName } from "./movies";
 
 // testing
 indexMovieByName({
-  year: 2019,
+  year: 1999,
   isDebugging: false,
-  name: "Heroic Losers",
+  name: "The Matrix",
 });
 
 // saveReleaseGroupsToDb(supabase);

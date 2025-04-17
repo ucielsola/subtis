@@ -1,6 +1,5 @@
 import { confirm } from "@clack/prompts";
 import cliProgress from "cli-progress";
-import TorrentSearchApi from "torrent-search-api";
 
 // db
 import { supabase } from "@subtis/db";
@@ -10,9 +9,6 @@ import { getReleaseGroups } from "./release-groups";
 import { getSubDivXParameter, getSubDivXToken } from "./subdivx";
 import { getSubtitleGroups } from "./subtitle-groups";
 import { getMoviesFromTmdb, getTmdbMovieFromTitle, getTmdbMoviesTotalPagesArray } from "./tmdb";
-
-// internals
-import tg from "./torrent-grabber";
 
 // core
 export async function indexMoviesByYear({
@@ -25,9 +21,6 @@ export async function indexMoviesByYear({
   isDebugging: boolean;
 }): Promise<void> {
   try {
-    await tg.activate("ThePirateBay");
-    TorrentSearchApi.enableProvider("1337x");
-
     const releaseGroups = await getReleaseGroups(supabase);
     const subtitleGroups = await getSubtitleGroups(supabase);
 
@@ -113,9 +106,6 @@ export async function indexMovieByName({
   isDebugging: boolean;
 }) {
   try {
-    await tg.activate("ThePirateBay");
-    TorrentSearchApi.enableProvider("1337x");
-
     const [releaseGroups, subtitleGroups, parameter, { token, cookie }] = await Promise.all([
       getReleaseGroups(supabase),
       getSubtitleGroups(supabase),

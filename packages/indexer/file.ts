@@ -156,9 +156,6 @@ export async function indexTitleByFileName({
       websocket.send(JSON.stringify({ total: 0.05, message: "Obteniendo proveedores de subtítulos" }));
     }
 
-    await tg.activate("ThePirateBay");
-    TorrentSearchApi.enableProvider("1337x");
-
     const [releaseGroups, subtitleGroups] = await Promise.all([
       getReleaseGroups(supabase),
       getSubtitleGroups(supabase),
@@ -311,8 +308,7 @@ export async function indexTitleByFileName({
     });
 
     if (!shouldIndexAllTorrents) {
-      const query = `${titleProviderQuery} ${title.resolution ? `${title.resolution}p` : ""}${title.releaseGroup?.release_group_name ? ` ${title.releaseGroup?.release_group_name}` : ""}`;
-      console.log("\n ~ query:", query);
+      const query = `${titleProviderQuery} ${title.resolution ? `${title.resolution}p` : ""}`;
       const torrents = await getFileTitleTorrents(query, TitleTypes.movie, movieData.imdbId);
 
       console.log("\n Torrents without filter \n");
@@ -378,18 +374,17 @@ export async function indexTitleByFileName({
 // const titleFileName = "Scenes.From.A.Marriage.1974.1080p.BluRay.x264-[YTS.AM].mp4";
 // const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
 
-// const bytes = 891212322231;
-// const titleFileName =
-//   "The.Substance.2024.2160p.DV.HDR10Plus.Ai-Enhanced.HEVC.DDP.5.1-RIFE.4.25v2.Heavy-60fps-DirtyHippie.mkv";
+const bytes = 12934128353;
+const titleFileName = "X-Men.2000.1080p.BrRip.x264.YIFY.mp4";
 
-// indexTitleByFileName({
-//   bytes,
-//   titleFileName,
-//   shouldStoreNotFoundSubtitle: true,
-//   isDebugging: true,
-//   indexedBy: "indexer-file",
-//   shouldIndexAllTorrents: false,
-// });
+indexTitleByFileName({
+  bytes,
+  titleFileName,
+  shouldStoreNotFoundSubtitle: true,
+  isDebugging: true,
+  indexedBy: "indexer-file",
+  shouldIndexAllTorrents: false,
+});
 
 // // GENERAL
 // saveReleaseGroupsToDb(supabase);
