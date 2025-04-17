@@ -8,9 +8,9 @@ import { type LoaderFunctionArgs, type MetaFunction, useLoaderData } from "react
 import { useCopyToClipboard } from "usehooks-ts";
 import { z } from "zod";
 
-// api
-import { subtitlesResponseSchema } from "@subtis/api/controllers/subtitles/schemas";
 import type { SubtitlesNormalized } from "@subtis/api/lib/parsers";
+// api
+import { subtitlesResponseSchema } from "@subtis/api/routers/subtitles/schemas";
 
 // indexer
 import { getImdbLink } from "@subtis/indexer/imdb";

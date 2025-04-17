@@ -6,7 +6,7 @@ import { useMediaQuery } from "usehooks-ts";
 import type { loader } from "~/routes/home";
 
 // api
-import { trendingSubtitlesResponseSchema } from "@subtis/api/controllers/titles/schemas";
+import { trendingSubtitlesResponseSchema } from "@subtis/api/routers/titles/schemas";
 
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "~/components/ui/carousel";
 // ui

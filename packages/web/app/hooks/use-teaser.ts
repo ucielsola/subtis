@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { z } from "zod";
 
 // api
-import { titleTeaserFileNameResponseSchema } from "@subtis/api/controllers/title/schemas";
+import { titleTeaserFileNameResponseSchema } from "@subtis/api/routers/title/schemas";
 
 // lib
 import { apiClient } from "~/lib/api";

@@ -8,7 +8,7 @@ import type { loader } from "~/routes/home";
 import { Screen } from "./screen";
 
 // api
-import { statsSchema } from "@subtis/api/controllers/stats/schemas";
+import { statsSchema } from "@subtis/api/routers/stats/schemas";
 
 // ui
 import { Skeleton } from "~/components/ui/skeleton";

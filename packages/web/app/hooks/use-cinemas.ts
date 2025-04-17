@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 // shared
-import { titleCinemaSlugResponseSchema } from "@subtis/api/controllers/title/schemas";
+import { titleCinemaSlugResponseSchema } from "@subtis/api/routers/title/schemas";
 
 // lib
 import { apiClient } from "~/lib/api";

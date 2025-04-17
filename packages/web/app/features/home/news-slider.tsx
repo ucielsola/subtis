@@ -3,7 +3,7 @@ import { Link, useLoaderData } from "react-router";
 import { useMediaQuery } from "usehooks-ts";
 
 // api
-import { trendingSubtitlesResponseSchema } from "@subtis/api/controllers/titles/schemas";
+import { trendingSubtitlesResponseSchema } from "@subtis/api/routers/titles/schemas";
 
 // routes
 import type { loader } from "~/routes/home";

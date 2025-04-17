@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 // api
-import { titlePlatformsSlugResponseSchema } from "@subtis/api/controllers/title/schemas";
+import { titlePlatformsSlugResponseSchema } from "@subtis/api/routers/title/schemas";
 
 // lib
 import { apiClient } from "~/lib/api";

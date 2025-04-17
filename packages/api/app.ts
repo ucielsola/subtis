@@ -1,5 +1,5 @@
 import "zod-openapi/extend";
-import { apiReference } from "@scalar/hono-api-reference";
+import { Scalar } from "@scalar/hono-api-reference";
 import { Hono } from "hono";
 import { openAPISpecs } from "hono-openapi";
 import { cors } from "hono/cors";
@@ -9,12 +9,12 @@ import { secureHeaders } from "hono/secure-headers";
 import type { AppVariables } from "./lib/types";
 
 // internals
-import { providers } from "./controllers/providers/router";
-import { stats } from "./controllers/stats/router";
-import { subtitle } from "./controllers/subtitle/router";
-import { subtitles } from "./controllers/subtitles/router";
-import { title } from "./controllers/title/router";
-import { titles } from "./controllers/titles/router";
+import { providers } from "./routers/providers/router";
+import { stats } from "./routers/stats/router";
+import { subtitle } from "./routers/subtitle/router";
+import { subtitles } from "./routers/subtitles/router";
+import { title } from "./routers/title/router";
+import { titles } from "./routers/titles/router";
 
 // app
 export function runApi() {
@@ -57,7 +57,7 @@ export function runApi() {
     )
     .get(
       "/docs",
-      apiReference({
+      Scalar({
         theme: "saturn",
         url: "/v1/openapi",
         metaData: {

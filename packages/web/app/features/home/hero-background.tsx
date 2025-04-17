@@ -5,7 +5,7 @@ import { useLoaderData } from "react-router";
 import { cn } from "~/lib/utils";
 
 // api
-import { trendingSubtitlesResponseSchema } from "@subtis/api/controllers/titles/schemas";
+import { trendingSubtitlesResponseSchema } from "@subtis/api/routers/titles/schemas";
 
 // shared internal
 import { Marquee } from "~/components/shared/marquee";

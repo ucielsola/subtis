@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 // api
-import { titleLetterboxdSlugResponseSchema } from "@subtis/api/controllers/providers/schemas";
+import { titleLetterboxdSlugResponseSchema } from "@subtis/api/routers/providers/schemas";
 
 // lib
 import { apiClient } from "~/lib/api";

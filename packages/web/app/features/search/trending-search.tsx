@@ -2,7 +2,7 @@ import { Fragment, use } from "react";
 import { Link } from "react-router";
 
 // api
-import { trendingSubtitlesResponseSchema } from "@subtis/api/controllers/titles/schemas";
+import { trendingSubtitlesResponseSchema } from "@subtis/api/routers/titles/schemas";
 
 export function TrendingSearch({ trendingSearchPromise }: { trendingSearchPromise: Promise<undefined> }) {
   // react hooks
