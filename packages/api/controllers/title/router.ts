@@ -199,7 +199,15 @@ export const title = new Hono<{ Variables: AppVariables }>()
       }
 
       const contentTypeToSearch = data.type === "movie" ? "MOVIE" : "SHOW";
-      const titles = buscalaData.data.results.filter(({ contentType }) => contentType === contentTypeToSearch);
+      const titles = buscalaData.data.results
+        .filter(({ contentType }) => contentType === contentTypeToSearch)
+        .map((title) => {
+          const platforms = title.platforms.filter(({ url }) => url && !url.includes(".br"));
+          return {
+            ...title,
+            platforms,
+          };
+        });
 
       const title = titles.find(
         ({ name, releaseYear }) =>
