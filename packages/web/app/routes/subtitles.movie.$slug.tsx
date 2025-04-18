@@ -591,7 +591,12 @@ export default function SubtitlesPage() {
                     onMouseEnter={() => downloadControls.start("animate")}
                     onMouseLeave={() => downloadControls.start("normal")}
                     className="transition-all ease-in-out duration-300 opacity-100"
-                    onClick={triggerShareToast}
+                    onClick={() =>
+                      handleDownloadSubtitle({
+                        titleSlug: loaderData.title.slug,
+                        subtitleId: loaderData.results[0].subtitle.id,
+                      })
+                    }
                   >
                     <DownloadIcon size={18} controls={downloadControls} />
                     Descargar Subtítulo
