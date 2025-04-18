@@ -41,6 +41,7 @@ RETURNS TABLE (
     rating float4,
     youtube_id text
 )
+SET search_path = ''
 AS $$
 DECLARE
     year_match int8 := NULL;
