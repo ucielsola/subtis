@@ -41,7 +41,6 @@ RETURNS TABLE (
     rating float4,
     youtube_id text
 )
-SET search_path = ''
 AS $$
 DECLARE
     year_match int8 := NULL;
@@ -85,7 +84,7 @@ BEGIN
         t.runtime,
         t.rating,
         t.youtube_id
-    FROM "Titles" t
+    FROM public."Titles" t
     WHERE (
         year_only_search OR
         (unaccent(query) % unaccent(t.title_name) AND similarity(unaccent(query), unaccent(t.title_name)) > 0.65)
@@ -123,7 +122,7 @@ $$ LANGUAGE plpgsql;
 ```
 
 ```sql
-CREATE OR REPLACE FUNCTION subtis_functions.update_subtitle_and_title_download_metrics(
+CREATE OR REPLACE FUNCTION public.update_subtitle_and_title_download_metrics(
     _title_slug text,
     _subtitle_id int8
 )
@@ -133,14 +132,14 @@ AS $$
 DECLARE
     success boolean;
 BEGIN
-    UPDATE "Subtitles"
+    UPDATE public."Subtitles"
     SET last_queried_at = CURRENT_TIMESTAMP,
         queried_times = queried_times + 1
     WHERE id = _subtitle_id
     RETURNING true INTO success;
 
     IF success THEN
-        UPDATE "Titles"
+        UPDATE public."Titles"
         SET last_queried_at = CURRENT_TIMESTAMP,
             queried_times = queried_times + 1
         WHERE slug = _title_slug
@@ -153,7 +152,7 @@ $$ LANGUAGE plpgsql;
 ```
 
 ```sql
-CREATE OR REPLACE FUNCTION subtis_functions.update_title_search_metrics(
+CREATE OR REPLACE FUNCTION public.update_title_search_metrics(
     _slug text
 )
 RETURNS boolean
@@ -162,7 +161,7 @@ AS $$
 DECLARE
     success boolean;
 BEGIN
-    UPDATE "Titles"
+    UPDATE public."Titles"
     SET last_queried_at = CURRENT_TIMESTAMP,
         searched_times = searched_times + 1
     WHERE slug = _slug
@@ -174,10 +173,10 @@ $$ LANGUAGE plpgsql;
 ```
 
 ```sql
-CREATE OR REPLACE FUNCTION subtis_functions.sum_queried_times()
+CREATE OR REPLACE FUNCTION public.sum_queried_times()
 RETURNS bigint
 SET search_path = public
 AS $$
-    SELECT SUM(s.queried_times) FROM "Subtitles" s;
+    SELECT SUM(s.queried_times) FROM public."Subtitles" s;
 $$ LANGUAGE sql;
 ```
