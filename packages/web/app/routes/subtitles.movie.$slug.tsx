@@ -307,14 +307,15 @@ export default function SubtitlesPage() {
         const resB = getResolutionRank(rowB.original.subtitle.resolution);
         return resA - resB;
       },
-      cell: ({ row }) => {
+      cell: ({ row, table }) => {
         const { resolution } = row.original.subtitle;
+        const isFirstRow = table.getSortedRowModel().flatRows.findIndex((r) => r.id === row.id) === 0;
 
         if (resolution === "480p") {
           return (
             <Tooltip>
               <TooltipTrigger
-                className={cn("truncate cursor-default text-left", isHoveringResolutionTip && "text-amber-400")}
+                className={cn("truncate cursor-default text-left", isFirstRow && isHoveringResolutionTip && "text-amber-400")}
               >
                 {row.original.subtitle.resolution}
               </TooltipTrigger>
@@ -327,7 +328,7 @@ export default function SubtitlesPage() {
           return (
             <Tooltip>
               <TooltipTrigger
-                className={cn("truncate cursor-default text-left", isHoveringResolutionTip && "text-amber-400")}
+                className={cn("truncate cursor-default text-left", isFirstRow && isHoveringResolutionTip && "text-amber-400")}
               >
                 {row.original.subtitle.resolution}
               </TooltipTrigger>
@@ -340,7 +341,7 @@ export default function SubtitlesPage() {
           return (
             <Tooltip>
               <TooltipTrigger
-                className={cn("truncate cursor-default text-left", isHoveringResolutionTip && "text-amber-400")}
+                className={cn("truncate cursor-default text-left", isFirstRow && isHoveringResolutionTip && "text-amber-400")}
               >
                 {row.original.subtitle.resolution}
               </TooltipTrigger>
@@ -353,7 +354,7 @@ export default function SubtitlesPage() {
           return (
             <Tooltip>
               <TooltipTrigger
-                className={cn("truncate cursor-default text-left", isHoveringResolutionTip && "text-amber-400")}
+                className={cn("truncate cursor-default text-left", isFirstRow && isHoveringResolutionTip && "text-amber-400")}
               >
                 {row.original.subtitle.resolution}
               </TooltipTrigger>
@@ -366,7 +367,7 @@ export default function SubtitlesPage() {
           return (
             <Tooltip>
               <TooltipTrigger
-                className={cn("truncate cursor-default text-left", isHoveringResolutionTip && "text-amber-400")}
+                className={cn("truncate cursor-default text-left", isFirstRow && isHoveringResolutionTip && "text-amber-400")}
               >
                 {row.original.subtitle.resolution}
               </TooltipTrigger>
@@ -381,11 +382,13 @@ export default function SubtitlesPage() {
     {
       accessorKey: "release_group.release_group_name",
       header: "Publicador",
-      cell: ({ row }) => {
+      cell: ({ row, table }) => {
+        const isFirstRow = table.getSortedRowModel().flatRows.findIndex((r) => r.id === row.id) === 0;
+
         return (
           <Tooltip>
             <TooltipTrigger
-              className={cn("truncate w-20 cursor-default text-left", isHoveringPublisherTip && "text-emerald-400")}
+              className={cn("truncate w-20 cursor-default text-left", isFirstRow && isHoveringPublisherTip && "text-emerald-400")}
             >
               {row.original.release_group.release_group_name}
             </TooltipTrigger>
@@ -399,10 +402,15 @@ export default function SubtitlesPage() {
       accessorKey: "subtitle.rip_type",
       header: "Formato",
       enableSorting: false,
-      cell: ({ row }) => {
+      cell: ({ row, table }) => {
         const { rip_type } = row.original.subtitle;
+        const isFirstRow = table.getSortedRowModel().flatRows.findIndex((r) => r.id === row.id) === 0;
 
-        return <span className={cn("text-zinc-50", isHoveringFormatTip && "text-indigo-400")}>{rip_type ?? "-"}</span>;
+        return (
+          <span className={cn("text-zinc-50", isFirstRow && isHoveringFormatTip && "text-indigo-400")}>
+            {rip_type ?? "-"}
+          </span>
+        );
       },
     },
     {
