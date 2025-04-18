@@ -351,13 +351,13 @@ export default function NotFoundSubtitlePage() {
           ) : (
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-2">
-                <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold text-balance">
-                  {loaderData.title.title_name}
-                </h1>
                 <div className="flex flex-row gap-2">
                   <Badge variant="outline">{loaderData.title.year}</Badge>
                   <Badge variant="outline">{`${totalHours ? `${totalHours}h ` : ""}${totalMinutes ? `${totalMinutes}m` : ""}`}</Badge>
                 </div>
+                <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold text-balance">
+                  {loaderData.title.title_name}
+                </h1>
               </div>
               <div className="flex flex-col gap-1">
                 <h2 className="text-zinc-50 text-sm md:text-base">No encontramos el subtítulo para tu versión.</h2>

@@ -13,7 +13,11 @@ const arrowVariants: Variants = {
   },
 };
 
-export function DownloadIcon({ size, controls }: { size: number; controls: AnimationControls }) {
+export function DownloadIcon({
+  size,
+  controls,
+  className,
+}: { size: number; controls: AnimationControls; className?: string }) {
   return (
     // biome-ignore lint/a11y/noSvgWithoutTitle: is being used as a tooltip
     <svg
@@ -26,6 +30,7 @@ export function DownloadIcon({ size, controls }: { size: number; controls: Anima
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      className={className}
     >
       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
       <motion.g variants={arrowVariants} animate={controls}>

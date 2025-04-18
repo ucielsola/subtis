@@ -1,8 +1,60 @@
-export function LetterboxdLogo({ size = 24, className }: { size?: number; className?: string }) {
+export function LetterboxdLogo({
+  size = 24,
+  firstDotClassName,
+  secondDotClassName,
+  thirdDotClassName,
+}: { size?: number; firstDotClassName?: string; secondDotClassName?: string; thirdDotClassName?: string }) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={size} height={size} className={className}>
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} fill="none" viewBox="0 0 378 142">
       <title>Letterboxd</title>
-      <path d="M8.224 14.352a4.447 4.447 0 0 1-3.775 2.092C1.992 16.444 0 14.454 0 12s1.992-4.444 4.45-4.444c1.592 0 2.988.836 3.774 2.092-.427.682-.673 1.488-.673 2.352s.246 1.67.673 2.352zM15.101 12c0-.864.247-1.67.674-2.352-.786-1.256-2.183-2.092-3.775-2.092s-2.989.836-3.775 2.092c.427.682.674 1.488.674 2.352s-.247 1.67-.674 2.352c.786 1.256 2.183 2.092 3.775 2.092s2.989-.836 3.775-2.092A4.42 4.42 0 0 1 15.1 12zm4.45-4.444a4.447 4.447 0 0 0-3.775 2.092c.427.682.673 1.488.673 2.352s-.246 1.67-.673 2.352a4.447 4.447 0 0 0 3.775 2.092C22.008 16.444 24 14.454 24 12s-1.992-4.444-4.45-4.444z" />
+      <path
+        className={firstDotClassName}
+        d="M189 139.947c38.703 0 70.078-31.329 70.078-69.974S227.703 0 189 0c-38.704 0-70.079 31.328-70.079 69.973 0 38.645 31.375 69.974 70.079 69.974Z"
+      />
+      <mask
+        id="a"
+        width={130}
+        height={142}
+        x={248}
+        y={0}
+        maskUnits="userSpaceOnUse"
+        style={{
+          maskType: "luminance",
+        }}
+      >
+        <path fill="#fff" d="M378 0H248.152v141.389H378V0Z" />
+      </mask>
+      <g mask="url(#a)">
+        <path
+          className={secondDotClassName}
+          d="M307.921 139.947c38.704 0 70.079-31.329 70.079-69.974S346.625 0 307.921 0c-38.703 0-70.078 31.328-70.078 69.973 0 38.645 31.375 69.974 70.078 69.974Z"
+        />
+      </g>
+      <mask
+        id="b"
+        width={130}
+        height={142}
+        x={0}
+        y={0}
+        maskUnits="userSpaceOnUse"
+        style={{
+          maskType: "luminance",
+        }}
+      >
+        <path fill="#fff" d="M129.847 0H0v141.389h129.847V0Z" />
+      </mask>
+      <g mask="url(#b)">
+        <path
+          className={thirdDotClassName}
+          d="M70.079 139.947c38.703 0 70.078-31.329 70.078-69.974S108.782 0 70.079 0C31.375 0 0 31.328 0 69.973c0 38.645 31.375 69.974 70.079 69.974Z"
+        />
+      </g>
+      <path
+        fill="#567"
+        fillRule="evenodd"
+        d="M129.539 107.022c-6.729-10.744-10.618-23.443-10.618-37.049 0-13.606 3.889-26.305 10.618-37.049 6.729 10.744 10.618 23.443 10.618 37.05 0 13.605-3.889 26.304-10.618 37.048ZM248.461 32.924c6.729 10.744 10.618 23.443 10.618 37.05 0 13.605-3.889 26.304-10.618 37.048-6.729-10.744-10.618-23.443-10.618-37.049 0-13.606 3.889-26.305 10.618-37.049Z"
+        clipRule="evenodd"
+      />
     </svg>
   );
 }

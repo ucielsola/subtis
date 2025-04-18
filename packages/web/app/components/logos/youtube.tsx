@@ -1,8 +1,13 @@
-export function YouTubeLogo({ size = 24, className }: { size?: number; className?: string }) {
+export function YouTubeLogo({
+  size = 24,
+  className,
+  playerClassName,
+}: { size?: number; className?: string; playerClassName?: string }) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={size} height={size} className={className}>
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 29 20" className={className}>
       <title>YouTube</title>
-      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+      <path d="M14.485 20s9.085 0 11.338-.6a3.622 3.622 0 0 0 2.558-2.53C29 14.65 29 9.98 29 9.98s0-4.64-.62-6.84A3.554 3.554 0 0 0 25.824.61C23.57 0 14.485 0 14.485 0S5.42 0 3.177.61A3.65 3.65 0 0 0 .6 3.14C0 5.34 0 9.98 0 9.98s0 4.67.599 6.89a3.723 3.723 0 0 0 2.578 2.53c2.243.6 11.308.6 11.308.6Z" />
+      <path d="m19 10-7.5-4.25v8.5L19 10Z" className={playerClassName} />
     </svg>
   );
 }

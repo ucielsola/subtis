@@ -28,6 +28,7 @@ import { apiClient } from "~/lib/api";
 import { cn } from "~/lib/utils";
 
 // ui
+import { Badge } from "~/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Button } from "~/components/ui/button";
@@ -360,6 +361,10 @@ export default function SubtitlePage() {
   }
 
   // constants
+  const { runtime } = loaderData.title;
+  const totalHours = runtime ? Math.floor(runtime / 60) : null;
+  const totalMinutes = runtime ? runtime % 60 : null;
+
   const isLoadingProviders =
     isLoadingTeaser || isLoadingJustWatch || isLoadingLetterboxd || isLoadingRottenTomatoes || isLoadingSpotify;
 
@@ -376,15 +381,18 @@ export default function SubtitlePage() {
               />
             ) : null}
             <div className="flex flex-col gap-2">
-              <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold text-balance text-center md:text-left">
-                ¡Subtítulo encontrado!
+              <div className="flex flex-row gap-2 justify-center md:justify-start">
+                <Badge variant="outline">{loaderData.title.year}</Badge>
+                <Badge variant="outline">{`${totalHours ? `${totalHours}h ` : ""}${totalMinutes ? `${totalMinutes}m` : ""}`}</Badge>
+              </div>
+              <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold text-balance hidden md:block">
+                {loaderData.title.title_name}
               </h1>
-              <h2 className="text-zinc-50 text-balance text-sm md:text-base text-center md:text-left">
-                🍿 Acomódate y disfrutá de {loaderData.title.title_name} ({loaderData.title.year}) subtitulada.
-              </h2>
             </div>
+            <h2 className="text-zinc-50 text-sm md:text-base text-center md:text-left">
+              🍿 Disfrutá de {loaderData.title.title_name} subtitulada.
+            </h2>
           </div>
-
           <article className="flex flex-row gap-4 justify-center md:justify-start">
             <Button asChild size="sm">
               <a
@@ -640,113 +648,128 @@ export default function SubtitlePage() {
               rating={loaderData.title.rating}
               slug={loaderData.title.slug}
             />
-            <div className="pt-8 px-2 flex flex-col gap-3">
+            <div className="pt-4 px-2 flex flex-row items-center gap-6">
               {isLoadingProviders ? (
-                <Fragment>
-                  <Skeleton className="w-[130px] h-5 rounded-sm" />
-                  <Skeleton className="w-[130px] h-5 rounded-sm" />
-                  <Skeleton className="w-[130px] h-5 rounded-sm" />
-                  <Skeleton className="w-[130px] h-5 rounded-sm mt-5" />
-                  <Skeleton className="w-[130px] h-5 rounded-sm" />
-                  <Skeleton className="w-[130px] h-5 rounded-sm" />
-                </Fragment>
+                <Skeleton className="w-full h-5 rounded-sm" />
               ) : (
                 <Fragment>
                   {loaderData.title.imdb_id ? (
-                    <a
-                      href={getImdbLink(loaderData.title.imdb_id)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex flex-row items-center gap-2 group/imdb"
-                    >
-                      <IMDbLogo
-                        size={20}
-                        className="fill-zinc-300 group-hover/imdb:fill-zinc-50 transition-all ease-in-out"
-                      />
-                      <span className="text-zinc-50 text-sm group-hover/imdb:text-zinc-50 transition-all ease-in-out">
-                        IMDb
-                      </span>
-                    </a>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <a
+                          href={getImdbLink(loaderData.title.imdb_id)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group/imdb"
+                        >
+                          <IMDbLogo
+                            size={32}
+                            className="fill-zinc-300 group-hover/imdb:fill-[#F5C518] transition-all ease-in-out duration-300"
+                          />
+                        </a>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom">
+                        <p>IMDb</p>
+                      </TooltipContent>
+                    </Tooltip>
                   ) : null}
                   {titleTeaser && !("message" in titleTeaser) ? (
-                    <a
-                      href={`https://www.youtube.com/watch?v=${titleTeaser.youTubeVideoId}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex flex-row items-center gap-2 group/trailer"
-                    >
-                      <YouTubeLogo
-                        size={20}
-                        className="fill-zinc-300 group-hover/trailer:fill-zinc-50 transition-all ease-in-out"
-                      />
-                      <span className="text-zinc-50 text-sm group-hover/trailer:text-zinc-50 transition-all ease-in-out">
-                        Trailer
-                      </span>
-                    </a>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <a
+                          href={`https://www.youtube.com/watch?v=${titleTeaser.youTubeVideoId}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group/trailer"
+                        >
+                          <YouTubeLogo
+                            size={24}
+                            className="fill-zinc-300 group-hover/trailer:fill-[#F03] transition-all ease-in-out duration-300"
+                            playerClassName="fill-zinc-950 group-hover/trailer:fill-white"
+                          />
+                        </a>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom">
+                        <p>Trailer</p>
+                      </TooltipContent>
+                    </Tooltip>
                   ) : null}
                   {titleSpotify ? (
-                    <a
-                      href={titleSpotify.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex flex-row items-center gap-2 group/spotify mb-5"
-                    >
-                      <SpotifyLogo
-                        size={20}
-                        className="fill-zinc-300 group-hover/spotify:fill-zinc-50 transition-all ease-in-out"
-                      />
-                      <span className="text-zinc-300 text-sm group-hover/spotify:text-zinc-50 transition-all ease-in-out">
-                        Soundtrack
-                      </span>
-                    </a>
-                  ) : null}
-                  {titleJustWatch ? (
-                    <a
-                      href={titleJustWatch.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex flex-row items-center gap-2 group/justwatch"
-                    >
-                      <JustWatchLogo
-                        size={20}
-                        className="fill-zinc-300 group-hover/justwatch:fill-zinc-50 transition-all ease-in-out"
-                      />
-                      <span className="text-zinc-50 text-sm group-hover/justwatch:text-zinc-50 transition-all ease-in-out">
-                        JustWatch
-                      </span>
-                    </a>
-                  ) : null}
-                  {titleLetterboxd ? (
-                    <a
-                      href={titleLetterboxd.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={"flex flex-row items-center gap-2 group/letterboxd"}
-                    >
-                      <LetterboxdLogo
-                        size={20}
-                        className="fill-zinc-300 group-hover/letterboxd:fill-zinc-50 transition-all ease-in-out"
-                      />
-                      <span className="text-zinc-50 text-sm group-hover/letterboxd:text-zinc-50 transition-all ease-in-out">
-                        Letterboxd
-                      </span>
-                    </a>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <a href={titleSpotify.link} target="_blank" rel="noopener noreferrer" className="group/spotify">
+                          <SpotifyLogo
+                            size={22}
+                            className="fill-zinc-300 group-hover/spotify:fill-[#1CD760] transition-all ease-in-out duration-300"
+                          />
+                        </a>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom">
+                        <p>Spotify</p>
+                      </TooltipContent>
+                    </Tooltip>
                   ) : null}
                   {titleRottenTomatoes ? (
-                    <a
-                      href={titleRottenTomatoes.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex flex-row items-center gap-2 group/rottentomatoes"
-                    >
-                      <RottenTomatoesLogo
-                        size={20}
-                        className="fill-zinc-300 group-hover/rottentomatoes:fill-zinc-50 transition-all ease-in-out"
-                      />
-                      <span className="text-zinc-50 text-sm group-hover/rottentomatoes:text-zinc-50 transition-all ease-in-out">
-                        Rotten Tomatoes
-                      </span>
-                    </a>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <a
+                          href={titleRottenTomatoes.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group/rottentomatoes"
+                        >
+                          <RottenTomatoesLogo
+                            size={22}
+                            className="fill-zinc-300 group-hover/rottentomatoes:fill-[#F9310A] transition-all ease-in-out duration-300"
+                          />
+                        </a>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom">
+                        <p>Rotten Tomatoes</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  ) : null}
+                  {titleJustWatch ? (
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <a
+                          href={titleJustWatch.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group/justwatch"
+                        >
+                          <JustWatchLogo
+                            size={18}
+                            className="fill-zinc-300 group-hover/justwatch:fill-[#E5B817] transition-all ease-in-out duration-300"
+                          />
+                        </a>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom">
+                        <p>JustWatch</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  ) : null}
+                  {titleLetterboxd ? (
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <a
+                          href={titleLetterboxd.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group/letterboxd"
+                        >
+                          <LetterboxdLogo
+                            size={26}
+                            firstDotClassName="fill-zinc-300 group-hover/letterboxd:fill-[#00E054] transition-all ease-in-out duration-300"
+                            secondDotClassName="fill-zinc-300 group-hover/letterboxd:fill-[#40BCF4] transition-all ease-in-out duration-300"
+                            thirdDotClassName="fill-zinc-300 group-hover/letterboxd:fill-[#FF8000] transition-all ease-in-out duration-300"
+                          />
+                        </a>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom">
+                        <p>Letterboxd</p>
+                      </TooltipContent>
+                    </Tooltip>
                   ) : null}
                 </Fragment>
               )}

@@ -53,7 +53,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
+      <TooltipProvider delayDuration={300}>
         <NuqsAdapter>
           <Header />
           <main className="min-h-screen text-zinc-50 selection:text-zinc-950 selection:bg-zinc-50 pt-20 overflow-x-hidden">
