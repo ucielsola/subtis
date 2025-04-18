@@ -123,7 +123,7 @@ $$ LANGUAGE plpgsql;
 ```
 
 ```sql
-CREATE OR REPLACE FUNCTION update_subtitle_and_title_download_metrics(
+CREATE OR REPLACE FUNCTION subtis_functions.update_subtitle_and_title_download_metrics(
     _title_slug text,
     _subtitle_id int8
 )
@@ -153,7 +153,7 @@ $$ LANGUAGE plpgsql;
 ```
 
 ```sql
-CREATE OR REPLACE FUNCTION update_title_search_metrics(
+CREATE OR REPLACE FUNCTION subtis_functions.update_title_search_metrics(
     _slug text
 )
 RETURNS boolean
@@ -174,7 +174,7 @@ $$ LANGUAGE plpgsql;
 ```
 
 ```sql
-CREATE OR REPLACE FUNCTION sum_queried_times()
+CREATE OR REPLACE FUNCTION subtis_functions.sum_queried_times()
 RETURNS bigint
 SET search_path = public
 AS $$
