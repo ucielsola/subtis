@@ -22,7 +22,6 @@
     "dev:web": "cd packages/web && bun run dev",
     "dev:api": "cd packages/api && bun run dev",
     "dev:cli": "cd packages/cli && bun run dev --",
-    "dev:raycast": "cd packages/raycast && bun run dev",
     "dev:stremio": "cd packages/stremio && bun run dev",
     "dev:indexer:ws": "cd packages/indexer && bun run dev:ws",
     "dev:indexer:file": "cd packages/indexer && bun run dev:file",
@@ -39,7 +38,6 @@
     "deploy:stremio": "fly deploy -c fly-stremio.toml",
     "deploy:cli": "cd packages/cli && bun run build && bun run copy:bin",
     "deploy:real-time-indexer": "fly deploy -c fly-real-time-indexer.toml",
-    "deploy:raycast": "npm install --package-lock-only && mv ./package-lock.json ./packages/raycast && cd packages/raycast && bun run deploy",
     "bump:deps": "taze -r -w",
     "update:deps": "bun bump:deps && bun clean:install",
     "clean:install": "rm -rf node_modules bun.lock && bun pm cache rm && bun install --force"
