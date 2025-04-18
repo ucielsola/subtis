@@ -7,7 +7,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 import type { SubtitleNormalized } from "@subtis/api/lib/parsers";
 
 // helpers
-export async function sendEmail(subtitle: SubtitleNormalized, email: string) {
+export async function sendEmail(subtitle: SubtitleNormalized, email: string): Promise<void> {
   const isMovie = subtitle.title.type === "movie";
   const isTvShow = subtitle.title.type === "tv-show";
 

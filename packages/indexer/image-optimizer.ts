@@ -13,7 +13,7 @@ function getFullPathFromSupabasePath(path: string): string {
   return `${process.env.SUPABASE_BASE_URL}/storage/v1/object/public/${path}`;
 }
 
-export async function optimizeTitleTableImages() {
+export async function optimizeTitleTableImages(): Promise<void> {
   const { data, error } = await supabase
     .from("Titles")
     .select("id, poster, backdrop, logo, optimized_poster, optimized_backdrop, optimized_logo")

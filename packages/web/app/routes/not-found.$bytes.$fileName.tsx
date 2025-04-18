@@ -177,8 +177,8 @@ export default function NotFoundSubtitlePage() {
 
   // effects
   useEffect(
-    function fetchSubtitle(): void {
-      const fetchCaptions = async (subtitleUrl: string) => {
+    function fetchSubtitle() {
+      async function fetchCaptions(subtitleUrl: string): Promise<void> {
         try {
           const response = await fetch(subtitleUrl);
 
@@ -193,7 +193,7 @@ export default function NotFoundSubtitlePage() {
         } catch (error) {
           console.error("Error fetching captions:", error);
         }
-      };
+      }
 
       if ("message" in loaderData) {
         return;
@@ -219,12 +219,12 @@ export default function NotFoundSubtitlePage() {
   );
 
   useEffect(function listenFullscreenChange() {
-    const pauseVideoOnExitFullscreen = () => {
+    function pauseVideoOnExitFullscreen(): void {
       if (!document.fullscreenElement) {
         setIsFullscreen(false);
         player.current?.pause();
       }
-    };
+    }
 
     document.addEventListener("fullscreenchange", pauseVideoOnExitFullscreen);
 
@@ -235,7 +235,7 @@ export default function NotFoundSubtitlePage() {
 
   useEffect(
     function throwErrorIfAudioCodecIsUnsupported() {
-      async function throwErrorOnUnsupportedAudioCodec() {
+      async function throwErrorOnUnsupportedAudioCodec(): Promise<void> {
         const videoSource = typeof window !== "undefined" && fileName ? localStorage.getItem(fileName) : null;
 
         if (!videoSource) {
@@ -294,7 +294,7 @@ export default function NotFoundSubtitlePage() {
   }
 
   // handlers
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>): Promise<void> {
     if (!bytes || !fileName) {
       return;
     }

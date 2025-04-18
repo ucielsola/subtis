@@ -485,7 +485,7 @@ async function storeSubtitleInSupabaseTable({
   }
 }
 
-function parseTorrentTrackerId(trackerId: string) {
+function parseTorrentTrackerId(trackerId: string): string {
   return trackerId.slice(0, 60).toLowerCase();
 }
 

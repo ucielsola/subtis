@@ -53,7 +53,7 @@ export function AutocompleteTitles({
         : "";
 
   // handlers
-  async function handleUpdateSearchMetrics(slug: string) {
+  async function handleUpdateSearchMetrics(slug: string): Promise<void> {
     await apiClient.v1.title.metrics.search.$patch({
       json: { slug },
     });

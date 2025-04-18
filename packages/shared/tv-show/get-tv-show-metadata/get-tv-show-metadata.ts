@@ -16,7 +16,17 @@ export type TvShowData = {
   name: string;
 };
 
-export function getTvShowMetadata(tvShowFileName: string, tvShowQuery: string, tvShowTitle: string) {
+export function getTvShowMetadata(
+  tvShowFileName: string,
+  tvShowQuery: string,
+  tvShowTitle: string,
+): {
+  name: string;
+  fileNameWithoutExtension: string;
+  releaseGroup: ReleaseGroup;
+  resolution: string;
+  searchableQuery: string;
+} {
   const [_tvShowNameWithYear, rawAttributes] = tvShowFileName.split(/s\d{2}e\d{2}/gi);
 
   const lowerCaseRawAttributes = rawAttributes.toLowerCase();

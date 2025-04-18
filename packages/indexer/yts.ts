@@ -125,7 +125,17 @@ export const YTS_TRACKERS = [
 ];
 const [FIRST_YTS_TRACKER] = YTS_TRACKERS;
 
-export async function getYtsTorrents(imdbId: string) {
+export async function getYtsTorrents(imdbId: string): Promise<
+  {
+    tracker: string;
+    title: string;
+    size: number;
+    trackerId: string;
+    seeds: number;
+    isBytesFormatted: boolean;
+    id: number;
+  }[]
+> {
   const response = await fetch(
     `https://yts.am/api/v2/movie_details.json?imdb_id=${imdbId}&with_images=false&with_cast=false`,
   );
@@ -165,7 +175,18 @@ export async function getYtsTorrents(imdbId: string) {
 }
 
 // https://github.com/BrokenEmpire/YTS/blob/master/API.md
-export async function getYtsTorrent(imdbId: number, resolution: string) {
+export async function getYtsTorrent(
+  imdbId: number,
+  resolution: string,
+): Promise<{
+  tracker: string;
+  title: string;
+  size: number;
+  trackerId: string;
+  seeds: number;
+  isBytesFormatted: boolean;
+  id: number;
+} | null> {
   const response = await fetch(
     `https://yts.am/api/v2/movie_details.json?imdb_id=${imdbId}&with_images=false&with_cast=false`,
   );

@@ -60,15 +60,6 @@ export async function saveSubtitleGroupsToDb(supabaseClient: SupabaseClient): Pr
   }
 }
 
-// export function getEnabledSubtitleProviders(subtitleGroups: SubtitleGroupMap, providers: SubtitleGroupNames[]) {
-//   return Object.values(subtitleGroups)
-//     .map((subtitleGroup) => {
-//       const subtitleGroupGetter = SUBTITLE_GROUPS_GETTERS[subtitleGroup.subtitle_group_name as SubtitleGroupNames];
-//       return { ...subtitleGroup, getSubtitleFromProvider: subtitleGroupGetter };
-//     })
-//     .filter((subtitleGroup) => providers.includes(subtitleGroup.subtitle_group_name));
-// }
-
 // core
 export async function getSubtitleGroups(supabaseClient: SupabaseClient): Promise<SubtitleGroupMap> {
   const { data } = await supabaseClient.from("SubtitleGroups").select("*");

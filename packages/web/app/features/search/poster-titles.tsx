@@ -30,7 +30,7 @@ function Slider({ data, isLoading }: SliderProps) {
   const slidesToScroll = isMobile ? 1 : isTablet ? 2 : 3;
 
   // handlers
-  async function handleUpdateSearchMetrics(slug: string) {
+  async function handleUpdateSearchMetrics(slug: string): Promise<void> {
     await apiClient.v1.title.metrics.search.$patch({
       json: { slug },
     });
@@ -105,9 +105,6 @@ export function PosterTitles({ data, isLoading }: Props) {
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="flex flex-col gap-2"
           >
-            <div className="flex flex-col gap-2">
-              <h3 className="text-zinc-50 text-3xl font-semibold">Películas encontradas</h3>
-            </div>
             <Slider data={data} isLoading={isLoading} />
           </motion.div>
         ) : null}

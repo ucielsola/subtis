@@ -32,7 +32,6 @@ export async function getImageData(imageBuffer: Buffer): Promise<{
 }
 
 export async function encodeImageToThumbhash(imageUrl: string): Promise<string> {
-  // Fetch the image from URL
   const response = await fetch(imageUrl);
 
   if (!response.ok) {

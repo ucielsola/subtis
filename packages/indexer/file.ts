@@ -42,7 +42,16 @@ export const wsOkSchema = z.object({
 export type WsOk = z.infer<typeof wsOkSchema>;
 
 // helpers
-async function getTorrentFromPirateBayOr1337x(query: string, title: TitleFileNameMetadata) {
+async function getTorrentFromPirateBayOr1337x(
+  query: string,
+  title: TitleFileNameMetadata,
+): Promise<
+  TorrentFound & {
+    id: number;
+    bytes: number;
+    formattedBytes: string;
+  }
+> {
   const torrents: TorrentFound[] = (await tg.search(query, { groupByTracker: false })) as unknown as TorrentFound[];
 
   if (torrents.length === 0) {
