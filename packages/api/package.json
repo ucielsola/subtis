@@ -1,6 +1,6 @@
 {
   "name": "@subtis/api",
-  "version": "0.6.6",
+  "version": "0.6.7",
   "license": "MIT",
   "main": "app.ts",
   "scripts": {
@@ -24,7 +24,7 @@
     "zod-openapi": "^4.2.4"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250417.0",
+    "@cloudflare/workers-types": "^4.20250418.0",
     "@types/bun": "^1.2.10",
     "@types/timestring": "^7.0.0",
     "@types/unescape-js": "^1.0.3",
