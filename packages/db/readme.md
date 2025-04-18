@@ -40,7 +40,9 @@ RETURNS TABLE (
     runtime int2,
     rating float4,
     youtube_id text
-) AS $$
+)
+SET search_path = ''
+AS $$
 DECLARE
     year_match int8 := NULL;
     title_query text := query;
@@ -57,7 +59,6 @@ BEGIN
         END IF;
 
         -- For "[TITLE] [YEAR]" format (e.g., "Her 2013"), create a modified query without the year
-        -- for better title matching, but only if the year is at the end with space before it
         IF query ~ '.+\s+\d{4}$' THEN
             title_query := regexp_replace(query, '\s+\d{4}$', '', 'g');
         END IF;
@@ -86,16 +87,13 @@ BEGIN
         t.youtube_id
     FROM "Titles" t
     WHERE (
-        year_only_search OR  -- Skip title matching if only year was provided
-        -- Always try to match against full original query first
+        year_only_search OR
         (unaccent(query) % unaccent(t.title_name) AND similarity(unaccent(query), unaccent(t.title_name)) > 0.65)
         OR (unaccent(query) % unaccent(t.title_name_spa) AND similarity(unaccent(query), unaccent(t.title_name_spa)) > 0.65)
         OR (unaccent(query) % unaccent(t.title_name_ja) AND similarity(unaccent(query), unaccent(t.title_name_ja)) > 0.65)
         OR unaccent(t.title_name) ILIKE '%' || unaccent(query) || '%'
         OR unaccent(t.title_name_spa) ILIKE '%' || unaccent(query) || '%'
         OR unaccent(t.title_name_ja) ILIKE '%' || unaccent(query) || '%'
-
-        -- If we've created a modified title query without the year, use that as well
         OR (title_query != query AND (
             (unaccent(title_query) % unaccent(t.title_name) AND similarity(unaccent(title_query), unaccent(t.title_name)) > 0.65)
             OR (unaccent(title_query) % unaccent(t.title_name_spa) AND similarity(unaccent(title_query), unaccent(t.title_name_spa)) > 0.65)
@@ -108,15 +106,12 @@ BEGIN
     AND (
         year_match IS NULL
         OR t.year = year_match
-        -- Also match if the year is part of the title name
         OR t.title_name ILIKE '%' || year_match || '%'
         OR t.title_name_spa ILIKE '%' || year_match || '%'
         OR t.title_name_ja ILIKE '%' || year_match || '%'
     )
     ORDER BY
-        -- Prioritize exact year matches
         CASE WHEN year_match IS NOT NULL AND t.year = year_match THEN 0 ELSE 1 END,
-        -- Then by similarity to query
         GREATEST(
             similarity(unaccent(query), unaccent(t.title_name)),
             similarity(unaccent(query), unaccent(t.title_name_spa)),
@@ -128,8 +123,13 @@ $$ LANGUAGE plpgsql;
 ```
 
 ```sql
-CREATE OR REPLACE FUNCTION update_subtitle_and_title_download_metrics(_title_slug text, _subtitle_id int8)
-RETURNS boolean AS $$
+CREATE OR REPLACE FUNCTION update_subtitle_and_title_download_metrics(
+    _title_slug text,
+    _subtitle_id int8
+)
+RETURNS boolean
+SET search_path = ''
+AS $$
 DECLARE
     success boolean;
 BEGIN
@@ -153,8 +153,12 @@ $$ LANGUAGE plpgsql;
 ```
 
 ```sql
-CREATE OR REPLACE FUNCTION update_title_search_metrics(_slug text)
-RETURNS boolean AS $$
+CREATE OR REPLACE FUNCTION update_title_search_metrics(
+    _slug text
+)
+RETURNS boolean
+SET search_path = ''
+AS $$
 DECLARE
     success boolean;
 BEGIN
@@ -170,7 +174,10 @@ $$ LANGUAGE plpgsql;
 ```
 
 ```sql
-CREATE OR REPLACE FUNCTION sum_queried_times() RETURNS BIGINT AS $$
+CREATE OR REPLACE FUNCTION sum_queried_times()
+RETURNS bigint
+SET search_path = public
+AS $$
     SELECT SUM(s.queried_times) FROM "Subtitles" s;
 $$ LANGUAGE sql;
 ```
