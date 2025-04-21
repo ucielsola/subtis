@@ -648,7 +648,7 @@ export default function SubtitlePage() {
               rating={loaderData.title.rating}
               slug={loaderData.title.slug}
             />
-            <div className="pt-4 px-2 flex flex-row items-center gap-6">
+            <div className="pt-2 px-2 flex flex-row items-center gap-6">
               {isLoadingProviders ? (
                 <Skeleton className="w-full h-5 rounded-sm" />
               ) : (

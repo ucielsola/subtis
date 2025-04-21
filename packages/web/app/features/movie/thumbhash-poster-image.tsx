@@ -40,7 +40,7 @@ export function ThumbHashPosterImage({ src, hashUrl, alt, slug }: Props) {
   const viewTransitionName = slug ? `movie-poster-${slug}` : "movie-poster";
 
   return (
-    <div className="w-[384px] h-[575px] rounded-sm overflow-hidden">
+    <div className="w-[384px] h-[575px] rounded-sm rounded-b-none overflow-hidden">
       <AspectRatio ratio={384 / 575} className="relative">
         <img
           src={placeholderURL}

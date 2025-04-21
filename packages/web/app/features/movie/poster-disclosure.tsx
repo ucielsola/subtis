@@ -77,7 +77,7 @@ export function PosterDisclosure({ src, alt, hashUrl, title, overview, rating, s
       <Disclosure
         onOpenChange={setIsOpen}
         open={isOpen}
-        className={`absolute bottom-0 left-0 right-0 ${isOpen ? "bg-zinc-950/90" : "bg-zinc-950/40"}  backdrop-blur-md transition-all duration-300 ease-in-out px-2 pt-2 rounded-b-sm`}
+        className={`absolute bottom-0 left-0 right-0 ${isOpen ? "bg-zinc-950/90" : "bg-zinc-950/5"}  backdrop-blur-md transition-all duration-300 ease-in-out px-2 pt-2 rounded-b-sm`}
         variants={contentVariants}
         transition={transition}
       >
