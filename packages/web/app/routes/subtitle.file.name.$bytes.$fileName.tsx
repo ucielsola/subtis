@@ -27,10 +27,10 @@ import { Play } from "~/components/icons/play";
 import { apiClient } from "~/lib/api";
 import { cn } from "~/lib/utils";
 
-// ui
-import { Badge } from "~/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
+// ui
+import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import DotPattern from "~/components/ui/dot-pattern";
 import { Separator } from "~/components/ui/separator";

@@ -1,5 +1,4 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { ExternalLink } from "lucide-react";
 import { useAnimation } from "motion/react";
 import numeral from "numeral";
 import { useQueryState } from "nuqs";
@@ -20,9 +19,10 @@ import { getImdbLink } from "@subtis/indexer/imdb";
 // shared
 import { VideoDropzone } from "~/components/shared/video-dropzone";
 
-// icons
 import { CheckIcon } from "~/components/icons/check";
 import { DownloadIcon } from "~/components/icons/download";
+// icons
+import { LinkIcon } from "~/components/icons/link";
 
 // lib
 import { apiClient } from "~/lib/api";
@@ -53,6 +53,7 @@ import { YouTubeLogo } from "~/components/logos/youtube";
 // features
 import { PosterDisclosure } from "~/features/movie/poster-disclosure";
 
+import { Arrow } from "~/components/icons/arrow";
 // hooks
 import { useCinemas } from "~/hooks/use-cinemas";
 import { useJustWatch } from "~/hooks/use-justwatch";
@@ -315,7 +316,10 @@ export default function SubtitlesPage() {
           return (
             <Tooltip>
               <TooltipTrigger
-                className={cn("truncate cursor-default text-left", isFirstRow && isHoveringResolutionTip && "text-amber-400")}
+                className={cn(
+                  "truncate cursor-default text-left",
+                  isFirstRow && isHoveringResolutionTip && "text-amber-400",
+                )}
               >
                 {row.original.subtitle.resolution}
               </TooltipTrigger>
@@ -328,7 +332,10 @@ export default function SubtitlesPage() {
           return (
             <Tooltip>
               <TooltipTrigger
-                className={cn("truncate cursor-default text-left", isFirstRow && isHoveringResolutionTip && "text-amber-400")}
+                className={cn(
+                  "truncate cursor-default text-left",
+                  isFirstRow && isHoveringResolutionTip && "text-amber-400",
+                )}
               >
                 {row.original.subtitle.resolution}
               </TooltipTrigger>
@@ -341,7 +348,10 @@ export default function SubtitlesPage() {
           return (
             <Tooltip>
               <TooltipTrigger
-                className={cn("truncate cursor-default text-left", isFirstRow && isHoveringResolutionTip && "text-amber-400")}
+                className={cn(
+                  "truncate cursor-default text-left",
+                  isFirstRow && isHoveringResolutionTip && "text-amber-400",
+                )}
               >
                 {row.original.subtitle.resolution}
               </TooltipTrigger>
@@ -354,7 +364,10 @@ export default function SubtitlesPage() {
           return (
             <Tooltip>
               <TooltipTrigger
-                className={cn("truncate cursor-default text-left", isFirstRow && isHoveringResolutionTip && "text-amber-400")}
+                className={cn(
+                  "truncate cursor-default text-left",
+                  isFirstRow && isHoveringResolutionTip && "text-amber-400",
+                )}
               >
                 {row.original.subtitle.resolution}
               </TooltipTrigger>
@@ -367,7 +380,10 @@ export default function SubtitlesPage() {
           return (
             <Tooltip>
               <TooltipTrigger
-                className={cn("truncate cursor-default text-left", isFirstRow && isHoveringResolutionTip && "text-amber-400")}
+                className={cn(
+                  "truncate cursor-default text-left",
+                  isFirstRow && isHoveringResolutionTip && "text-amber-400",
+                )}
               >
                 {row.original.subtitle.resolution}
               </TooltipTrigger>
@@ -388,7 +404,10 @@ export default function SubtitlesPage() {
         return (
           <Tooltip>
             <TooltipTrigger
-              className={cn("truncate w-20 cursor-default text-left", isFirstRow && isHoveringPublisherTip && "text-emerald-400")}
+              className={cn(
+                "truncate w-20 cursor-default text-left",
+                isFirstRow && isHoveringPublisherTip && "text-emerald-400",
+              )}
             >
               {row.original.release_group.release_group_name}
             </TooltipTrigger>
@@ -411,62 +430,6 @@ export default function SubtitlesPage() {
             {rip_type ?? "-"}
           </span>
         );
-      },
-    },
-    {
-      accessorKey: "subtitle.external_id",
-      header: "Fuente",
-      enableSorting: false,
-      cell: ({ row }) => {
-        const { external_id } = row.original.subtitle;
-        const { subtitle_group_name, website } = row.original.subtitle_group;
-
-        if (subtitle_group_name === "SubDivX") {
-          return (
-            <div className="w-24">
-              <a
-                href={`${website}/${external_id}`}
-                target="_blank"
-                className="hover:underline"
-                rel="noopener noreferrer"
-              >
-                {subtitle_group_name}
-              </a>
-            </div>
-          );
-        }
-
-        if (subtitle_group_name === "SUBDL") {
-          return (
-            <div className="w-24">
-              <a
-                href={`${website}/s/info/${external_id}`}
-                target="_blank"
-                className="hover:underline"
-                rel="noopener noreferrer"
-              >
-                {subtitle_group_name}
-              </a>
-            </div>
-          );
-        }
-
-        if (subtitle_group_name === "OpenSubtitles") {
-          return (
-            <div className="w-24">
-              <a
-                href={`${website}/es/subtitles/legacy/${external_id}`}
-                target="_blank"
-                className="hover:underline"
-                rel="noopener noreferrer"
-              >
-                {subtitle_group_name}
-              </a>
-            </div>
-          );
-        }
-
-        return external_id;
       },
     },
     {
@@ -493,21 +456,43 @@ export default function SubtitlesPage() {
       enableSorting: false,
       cell: ({ row }) => {
         // motion hooks
-        const controls = useAnimation();
+        const linkControls = useAnimation();
+        const arrowControls = useAnimation();
+        const downloadControls = useAnimation();
 
         if ("message" in loaderData) {
           return null;
         }
 
+        // constants
+        const { external_id } = row.original.subtitle;
+        const { subtitle_group_name, website } = row.original.subtitle_group;
+
+        const subDivXLink = `${website}/${external_id}`;
+        const subDLLink = `${website}/s/info/${external_id}`;
+        const opensubtitlesLink = `${website}/es/subtitles/legacy/${external_id}`;
+
+        const externalLink =
+          subtitle_group_name === "SubDivX"
+            ? subDivXLink
+            : subtitle_group_name === "SUBDL"
+              ? subDLLink
+              : subtitle_group_name === "OpenSubtitles"
+                ? opensubtitlesLink
+                : undefined;
+
         return (
           <div className="flex justify-center flex-row gap-2">
-            <Button
-              asChild
-              variant="secondary"
-              size="sm"
-              className="p-2 h-7"
-              onMouseEnter={() => controls.start("animate")}
-              onMouseLeave={() => controls.start("normal")}
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  asChild
+                  variant="secondary"
+                  size="sm"
+                  className="p-2 h-7"
+                  onMouseEnter={() => downloadControls.start("animate")}
+              onMouseLeave={() => downloadControls.start("normal")}
             >
               <a
                 download
@@ -519,23 +504,50 @@ export default function SubtitlesPage() {
                 }
                 href={row.original.subtitle.subtitle_link}
               >
-                <DownloadIcon size={18} controls={controls} className="stroke-zinc-950" />
-              </a>
-            </Button>
-            <Button
-              asChild
-              variant="secondary"
-              size="sm"
-              className="p-2 h-7 hover:bg-zinc-800 bg-zinc-900 hover:text-zinc-50"
+                <DownloadIcon size={18} controls={downloadControls} className="stroke-zinc-950" />
+                </a>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">Descargar Subtítulo</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                asChild
+                variant="secondary"
+                size="sm"
+                className="p-2 h-7 hover:bg-zinc-800 bg-zinc-800 hover:text-zinc-50"
+                onMouseEnter={() => linkControls.start("animate")}
+              onMouseLeave={() => linkControls.start("normal")}
             >
               <a
                 target="_blank"
                 rel="noopener noreferrer"
                 href={`https://subtis.io/subtitle/file/name/${row.original.subtitle.bytes}/${row.original.subtitle.title_file_name}`}
               >
-                <ExternalLink size={18} className="stroke-zinc-100" />
+                <LinkIcon controls={linkControls} size={18} className="stroke-zinc-100" />
               </a>
-            </Button>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">Link del Subtítulo</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  asChild
+                  variant="secondary"
+                  size="sm"
+                  className="p-2 h-7 hover:bg-zinc-800 bg-zinc-800 hover:text-zinc-50"
+                  onMouseEnter={() => arrowControls.start("animate")}
+              onMouseLeave={() => arrowControls.start("normal")}
+            >
+              <a target="_blank" rel="noopener noreferrer" href={externalLink}>
+                <Arrow controls={arrowControls} size={18} className="stroke-zinc-100" />
+                </a>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">Ver en {subtitle_group_name}</TooltipContent>
+            </Tooltip>
           </div>
         );
       },
