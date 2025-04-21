@@ -705,7 +705,7 @@ export default function SubtitlePage() {
                         </a>
                       </TooltipTrigger>
                       <TooltipContent side="bottom">
-                        <p>Spotify</p>
+                        <p>Soundtrack</p>
                       </TooltipContent>
                     </Tooltip>
                   ) : null}
