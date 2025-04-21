@@ -483,7 +483,6 @@ export default function SubtitlesPage() {
 
         return (
           <div className="flex justify-center flex-row gap-2">
-
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
@@ -492,44 +491,44 @@ export default function SubtitlesPage() {
                   size="sm"
                   className="p-2 h-7"
                   onMouseEnter={() => downloadControls.start("animate")}
-              onMouseLeave={() => downloadControls.start("normal")}
-            >
-              <a
-                download
-                onClick={() =>
-                  handleDownloadSubtitle({
-                    titleSlug: loaderData.title.slug,
-                    subtitleId: row.original.subtitle.id,
-                  })
-                }
-                href={row.original.subtitle.subtitle_link}
-              >
-                <DownloadIcon size={18} controls={downloadControls} className="stroke-zinc-950" />
-                </a>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="bottom">Descargar Subtítulo</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                asChild
-                variant="secondary"
-                size="sm"
-                className="p-2 h-7 hover:bg-zinc-800 bg-zinc-800 hover:text-zinc-50"
-                onMouseEnter={() => linkControls.start("animate")}
-              onMouseLeave={() => linkControls.start("normal")}
-            >
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href={`https://subtis.io/subtitle/file/name/${row.original.subtitle.bytes}/${row.original.subtitle.title_file_name}`}
-              >
-                <LinkIcon controls={linkControls} size={18} className="stroke-zinc-100" />
-              </a>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="bottom">Link del Subtítulo</TooltipContent>
+                  onMouseLeave={() => downloadControls.start("normal")}
+                >
+                  <a
+                    download
+                    onClick={() =>
+                      handleDownloadSubtitle({
+                        titleSlug: loaderData.title.slug,
+                        subtitleId: row.original.subtitle.id,
+                      })
+                    }
+                    href={row.original.subtitle.subtitle_link}
+                  >
+                    <DownloadIcon size={18} controls={downloadControls} className="stroke-zinc-950" />
+                  </a>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">Descargar Subtítulo</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  asChild
+                  variant="secondary"
+                  size="sm"
+                  className="p-2 h-7 hover:bg-zinc-800 bg-zinc-800 hover:text-zinc-50"
+                  onMouseEnter={() => linkControls.start("animate")}
+                  onMouseLeave={() => linkControls.start("normal")}
+                >
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={`https://subtis.io/subtitle/file/name/${row.original.subtitle.bytes}/${row.original.subtitle.title_file_name}`}
+                  >
+                    <LinkIcon controls={linkControls} size={18} className="stroke-zinc-100" />
+                  </a>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">Link del Subtítulo</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -539,14 +538,14 @@ export default function SubtitlesPage() {
                   size="sm"
                   className="p-2 h-7 hover:bg-zinc-800 bg-zinc-800 hover:text-zinc-50"
                   onMouseEnter={() => arrowControls.start("animate")}
-              onMouseLeave={() => arrowControls.start("normal")}
-            >
-              <a target="_blank" rel="noopener noreferrer" href={externalLink}>
-                <Arrow controls={arrowControls} size={18} className="stroke-zinc-100" />
-                </a>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="bottom">Ver en {subtitle_group_name}</TooltipContent>
+                  onMouseLeave={() => arrowControls.start("normal")}
+                >
+                  <a target="_blank" rel="noopener noreferrer" href={externalLink}>
+                    <Arrow controls={arrowControls} size={18} className="stroke-zinc-100" />
+                  </a>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">Ver en {subtitle_group_name}</TooltipContent>
             </Tooltip>
           </div>
         );
@@ -691,12 +690,7 @@ export default function SubtitlesPage() {
                 onMouseEnter={() => setIsHoveringResolutionTip(true)}
                 onMouseLeave={() => setIsHoveringResolutionTip(false)}
               >
-                <Alert
-                  className={cn(
-                    "bg-zinc-950 border border-zinc-700 flex items-start gap-6",
-                    isHoveringResolutionTip && "border-amber-400",
-                  )}
-                >
+                <Alert className="bg-zinc-950 border border-zinc-700 flex items-start gap-6">
                   <span className="text-zinc-50 text-lg font-bold font-mono size-6">1</span>
                   <div className="pt-1">
                     <AlertTitle className="text-zinc-50">
@@ -705,14 +699,20 @@ export default function SubtitlesPage() {
                     <AlertDescription className="text-zinc-400 text-sm font-normal">
                       Por ejemplo para el archivo{" "}
                       <Highlighter
-                        highlightClassName="bg-zinc-950 text-zinc-50 font-medium"
+                        highlightClassName={cn(
+                          "bg-zinc-950 text-zinc-50 font-medium",
+                          isHoveringResolutionTip && "text-amber-400",
+                        )}
                         className="break-all"
                         searchWords={[resolution]}
                         autoEscape={true}
                         textToHighlight={`"${title_file_name}"`}
                       />{" "}
                       seleccioná en la tabla el subtítulo cuya resolución sea{" "}
-                      <span className="font-medium text-zinc-50">{resolution}</span>.
+                      <span className={cn("font-medium text-zinc-50", isHoveringResolutionTip && "text-amber-400")}>
+                        {resolution}
+                      </span>
+                      .
                     </AlertDescription>
                   </div>
                 </Alert>
@@ -722,38 +722,34 @@ export default function SubtitlesPage() {
                 onMouseEnter={() => setIsHoveringPublisherTip(true)}
                 onMouseLeave={() => setIsHoveringPublisherTip(false)}
               >
-                <Alert
-                  className={cn(
-                    "bg-zinc-950 border border-zinc-700 flex items-start gap-6",
-                    isHoveringPublisherTip && "border-emerald-400",
-                  )}
-                >
+                <Alert className="bg-zinc-950 border border-zinc-700 flex items-start gap-6">
                   <span className="text-zinc-50 text-lg font-bold font-mono size-6">2</span>
                   <div className="pt-1">
                     <AlertTitle className="text-zinc-50">Asegurate que el publicador coincida correctamente</AlertTitle>
                     <AlertDescription className="text-zinc-400 text-sm font-normal">
                       Por ejemplo para el archivo{" "}
                       <Highlighter
-                        highlightClassName="bg-zinc-950 text-zinc-50 font-medium"
+                        highlightClassName={cn(
+                          "bg-zinc-950 text-zinc-50 font-medium",
+                          isHoveringPublisherTip && "text-emerald-400",
+                        )}
                         className="break-all"
                         searchWords={[release_group_name]}
                         autoEscape={true}
                         textToHighlight={`"${title_file_name}"`}
                       />{" "}
                       seleccioná en la tabla el subtítulo cuyo publicador sea{" "}
-                      <span className="font-medium text-zinc-50">{release_group_name}</span>.
+                      <span className={cn("font-medium text-zinc-50", isHoveringPublisherTip && "text-emerald-400")}>
+                        {release_group_name}
+                      </span>
+                      .
                     </AlertDescription>
                   </div>
                 </Alert>
               </div>
 
               <div onMouseEnter={() => setIsHoveringFormatTip(true)} onMouseLeave={() => setIsHoveringFormatTip(false)}>
-                <Alert
-                  className={cn(
-                    "bg-zinc-950 border border-zinc-700 flex items-start gap-6",
-                    isHoveringFormatTip && "border-indigo-400",
-                  )}
-                >
+                <Alert className="bg-zinc-950 border border-zinc-700 flex items-start gap-6">
                   <span className="text-zinc-50 text-lg font-bold font-mono size-6">3</span>
                   <div className="pt-1">
                     <AlertTitle className="text-zinc-50">
@@ -762,14 +758,20 @@ export default function SubtitlesPage() {
                     <AlertDescription className="text-zinc-400 text-sm font-normal">
                       Por ejemplo para el archivo{" "}
                       <Highlighter
-                        highlightClassName="bg-zinc-950 text-zinc-50 font-medium"
+                        highlightClassName={cn(
+                          "bg-zinc-950 text-zinc-50 font-medium",
+                          isHoveringFormatTip && "text-indigo-400",
+                        )}
                         className="break-all"
                         searchWords={[rip_type ?? ""]}
                         autoEscape={true}
                         textToHighlight={`"${title_file_name}"`}
                       />{" "}
                       seleccioná en la tabla el subtítulo cuyo formato sea{" "}
-                      <span className="font-medium text-zinc-50">{rip_type}</span>.
+                      <span className={cn("font-medium text-zinc-50", isHoveringFormatTip && "text-indigo-400")}>
+                        {rip_type}
+                      </span>
+                      .
                     </AlertDescription>
                   </div>
                 </Alert>
