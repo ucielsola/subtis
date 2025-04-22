@@ -411,7 +411,7 @@ export default function SubtitlesPage() {
             >
               {row.original.release_group.release_group_name}
             </TooltipTrigger>
-            <TooltipContent side="bottom">{row.original.release_group.release_group_name}</TooltipContent>
+            <TooltipContent side="right">{row.original.release_group.release_group_name}</TooltipContent>
           </Tooltip>
         );
       },
