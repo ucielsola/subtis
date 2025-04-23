@@ -1864,8 +1864,10 @@ export async function getSubtitlesForTitle({
     console.log(`4.${index}) Esperando 2s para pasar al siguiente titulo... \n`);
     await Bun.sleep(2000);
 
-    console.log(`4.${index}) Pasando al siguiente titulo... \n`);
-    console.log("------------------------------ \n");
+    if (indexedBy !== "indexer-movie") {
+      console.log(`4.${index}) Pasando al siguiente titulo... \n`);
+      console.log("------------------------------ \n");
+    }
   }
 
   return wsSubtitleHasBeenFound;

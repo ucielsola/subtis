@@ -9,9 +9,9 @@ import { indexMovieByName } from "./movies";
 
 // testing
 indexMovieByName({
-  year: 1999,
+  year: 2025,
   isDebugging: false,
-  name: "The Matrix",
+  name: "A Minecraft Movie",
 });
 
 // saveReleaseGroupsToDb(supabase);
