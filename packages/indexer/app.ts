@@ -946,7 +946,7 @@ export async function getTitleTorrents(query: string, titleType: TitleTypes, imd
 
   try {
     const thePirateBayResult = await tg.search(query, { groupByTracker: false });
-    const thePirateBayTorrentsRaw = thePirateBayResult instanceof Map ? thePirateBayResult.get("ThePirateBay") : [];
+    const thePirateBayTorrentsRaw = thePirateBayResult instanceof Map ? thePirateBayResult.get("ThePirateBay") : Array.isArray(thePirateBayResult) ? thePirateBayResult : [];
 
     // @ts-ignore
     thePirateBayTorrents = thePirateBayTorrentsRaw.map((torrent) => ({
