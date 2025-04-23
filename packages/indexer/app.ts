@@ -894,7 +894,7 @@ export async function getFileTitleTorrents(
   let thePirateBayTorrents: TorrentFound[] = [];
   try {
     const thePirateBayResult = await tg.search(query, { groupByTracker: false });
-    const thePirateBayTorrentsRaw = thePirateBayResult instanceof Map ? thePirateBayResult.get("ThePirateBay") : [];
+    const thePirateBayTorrentsRaw = thePirateBayResult instanceof Map ? thePirateBayResult.get("ThePirateBay") : Array.isArray(thePirateBayResult) ? thePirateBayResult : [];
 
     // @ts-ignore
     thePirateBayTorrents = thePirateBayTorrentsRaw.map((torrent) => ({
@@ -908,6 +908,7 @@ export async function getFileTitleTorrents(
       console.log(error);
     }
   }
+
   const torrentSearchApiCategory = titleType === TitleTypes.tvShow ? "TV" : "Movies";
   let torrents1337xWithMagnet: TorrentFound[] = [];
 
