@@ -1004,7 +1004,7 @@ export async function getTitleTorrents(query: string, titleType: TitleTypes, imd
 
 function getFilteredTorrents(torrents: TorrentFound[], maxTorrents: number, shouldSort: boolean): TorrentFoundWithId[] {
   const MIN_SEEDS = 8;
-  const seenSizes = new Set<string | number>();
+  // const seenSizes = new Set<string | number>();
 
   const result = torrents
     .slice(0, maxTorrents)
@@ -1016,15 +1016,15 @@ function getFilteredTorrents(torrents: TorrentFound[], maxTorrents: number, shou
 
       return bytes > MIN_BYTES;
     })
-    .filter((torrent) => {
-      if (seenSizes.has(torrent.size)) {
-        return false;
-      }
+    // .filter((torrent) => {
+    //   if (seenSizes.has(torrent.size)) {
+    //     return false;
+    //   }
 
-      seenSizes.add(torrent.size);
+    //   seenSizes.add(torrent.size);
 
-      return true;
-    })
+    //   return true;
+    // })
     .filter((torrent) => {
       const pornRegex = /\b(xxx|porn|adult|sex|erotic|brazzers|bangbros|naughty|playboy)\b/i;
       const isPorn = pornRegex.test(torrent.title);
@@ -1407,7 +1407,7 @@ export async function getSubtitlesForTitle({
   console.log("\nTorrents without filter \n");
   console.table(torrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
 
-  const filteredTorrents = getFilteredTorrents(torrents, 30, !initialTorrents);
+  const filteredTorrents = getFilteredTorrents(torrents, 40, !initialTorrents);
 
   console.log("\nFiltered torrents \n");
   console.table(filteredTorrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
