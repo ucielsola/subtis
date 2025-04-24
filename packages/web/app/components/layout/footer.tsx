@@ -67,7 +67,7 @@ export function HomeFooter() {
           </div>
 
           <div className="flex flex-col gap-2 py-2">
-            <span className="text-xs font-bold text-zinc-400 mb-1">Legal</span>
+            <span className="text-xs font-bold text-zinc-400 mb-1">Legales</span>
             <Link to="/faq" prefetch="viewport" className="text-xs font-medium text-zinc-50 hover:underline">
               Preguntas Frecuentes
             </Link>
