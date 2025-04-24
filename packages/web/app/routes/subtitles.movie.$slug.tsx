@@ -405,7 +405,7 @@ export default function SubtitlesPage() {
           <Tooltip>
             <TooltipTrigger
               className={cn(
-                "truncate w-20 cursor-default text-left",
+                "truncate w-[120px] cursor-default text-left",
                 isFirstRow && isHoveringPublisherTip && "text-emerald-400",
               )}
             >
