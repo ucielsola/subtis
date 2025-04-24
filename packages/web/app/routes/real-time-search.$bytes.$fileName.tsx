@@ -157,7 +157,7 @@ export default function RealTimeSearchPage() {
       }
 
       const websocketData = await new Promise<WsOk>((resolve) => {
-        const ws = new WebSocket("https://ws-search.subt.is");
+        const ws = new WebSocket("wss://ws-search.subt.is");
         // const ws = new WebSocket("ws://localhost:3000");
 
         ws.addEventListener("open", () => {
