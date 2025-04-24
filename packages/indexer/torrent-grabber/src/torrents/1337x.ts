@@ -16,6 +16,7 @@ export default class _1337x implements TorrentProvider {
     this.requireLogin = false;
 
     this.BASE_LINK = "https://1337x.to";
+    // this.BASE_LINK = "https://x1337x.cc";
   }
 
   async search(query: string): Promise<TorrentItem[]> {
