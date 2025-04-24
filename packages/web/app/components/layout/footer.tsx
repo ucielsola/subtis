@@ -79,7 +79,10 @@ export function HomeFooter() {
       </div>
 
       <div className="flex flex-row justify-between items-center flex-1 pt-7 mt-20">
-        <span className="text-xs text-zinc-400 text-left">&#169; Subtis {new Date().getFullYear()}</span>
+        <div className="flex flex-row items-center gap-4">
+          <span className="text-sm text-zinc-400 text-left">&#169; Subtis {new Date().getFullYear()}</span>
+          <iframe width="210" height="30" title="Subtis Status" src="https://status.subtis.io/badge?theme=dark" />
+        </div>
 
         <div className="flex flex-row gap-4">
           <a href="https://x.com/subt_is" target="_blank" rel="noopener noreferrer">

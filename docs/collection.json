@@ -1,7 +1,7 @@
 {
   "yaakVersion": "2025.1.2",
   "yaakSchema": 3,
-  "timestamp": "2025-04-17T22:53:09.071694",
+  "timestamp": "2025-04-24T00:48:28.008264",
   "resources": {
     "workspaces": [
       {
@@ -88,6 +88,17 @@
       }
     ],
     "folders": [
+      {
+        "model": "folder",
+        "id": "fl_JBDb8xbcpW",
+        "createdAt": "2025-04-24T00:46:55.863655",
+        "updatedAt": "2025-04-24T00:46:55.863656",
+        "workspaceId": "wk_SbrwnSjDzA",
+        "folderId": null,
+        "name": "Health (2)",
+        "description": "",
+        "sortPriority": -1745455700000.0
+      },
       {
         "model": "folder",
         "id": "fl_sMnyhYjpX9",
@@ -189,6 +200,44 @@
       }
     ],
     "httpRequests": [
+      {
+        "model": "http_request",
+        "id": "rq_AAAvGXsBSY",
+        "createdAt": "2025-04-24T00:47:36.858643",
+        "updatedAt": "2025-04-24T00:48:09.727633",
+        "workspaceId": "wk_SbrwnSjDzA",
+        "folderId": "fl_JBDb8xbcpW",
+        "authentication": {},
+        "authenticationType": null,
+        "body": {},
+        "bodyType": null,
+        "description": "",
+        "headers": [],
+        "method": "GET",
+        "name": "Get Database health status (/v1/heath/database)",
+        "sortPriority": 0.00090000004,
+        "url": "${[baseUrl]}/v1/health/database",
+        "urlParameters": []
+      },
+      {
+        "model": "http_request",
+        "id": "rq_EyvosDZmSJ",
+        "createdAt": "2025-04-24T00:47:04.939178",
+        "updatedAt": "2025-04-24T00:48:04.722548",
+        "workspaceId": "wk_SbrwnSjDzA",
+        "folderId": "fl_JBDb8xbcpW",
+        "authentication": {},
+        "authenticationType": null,
+        "body": {},
+        "bodyType": null,
+        "description": "",
+        "headers": [],
+        "method": "GET",
+        "name": "Get API health status (/v1/heath/api)",
+        "sortPriority": -0.0001,
+        "url": "",
+        "urlParameters": []
+      },
       {
         "model": "http_request",
         "id": "rq_8NCVsoaLvX",

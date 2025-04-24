@@ -9,6 +9,7 @@ import { secureHeaders } from "hono/secure-headers";
 import type { AppVariables } from "./lib/types";
 
 // internals
+import { health } from "./routers/health/router";
 import { providers } from "./routers/providers/router";
 import { stats } from "./routers/stats/router";
 import { subtitle } from "./routers/subtitle/router";
@@ -28,6 +29,7 @@ export function runApi() {
   return app
     .basePath("/v1")
     .route("/stats", stats)
+    .route("/health", health)
     .route("/subtitle", subtitle)
     .route("/subtitles", subtitles)
     .route("/title", title)

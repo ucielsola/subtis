@@ -723,7 +723,9 @@ export default function SubtitlesPage() {
                   <Alert className="bg-zinc-950 border border-zinc-700 flex items-start gap-6">
                     <span className="text-zinc-50 text-lg font-bold font-mono size-6">2</span>
                     <div className="pt-1">
-                      <AlertTitle className="text-zinc-50">Asegurate que el publicador coincida correctamente</AlertTitle>
+                      <AlertTitle className="text-zinc-50">
+                        Asegurate que el publicador coincida correctamente
+                      </AlertTitle>
                       <AlertDescription className="text-zinc-400 text-sm font-normal">
                         Por ejemplo para el archivo{" "}
                         <Highlighter
@@ -746,7 +748,10 @@ export default function SubtitlesPage() {
                   </Alert>
                 </div>
 
-                <div onMouseEnter={() => setIsHoveringFormatTip(true)} onMouseLeave={() => setIsHoveringFormatTip(false)}>
+                <div
+                  onMouseEnter={() => setIsHoveringFormatTip(true)}
+                  onMouseLeave={() => setIsHoveringFormatTip(false)}
+                >
                   <Alert className="bg-zinc-950 border border-zinc-700 flex items-start gap-6">
                     <span className="text-zinc-50 text-lg font-bold font-mono size-6">3</span>
                     <div className="pt-1">
