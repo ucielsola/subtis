@@ -195,6 +195,7 @@ bun run code:duplications
 
 3. Select your environment to test like LOCALHOST or PRODUCTION
 
-## Diagrams
+## Links
 
-[Whimsical](https://whimsical.com/Subtis-9VTuUJTU3KcGLHGbk19ioA)
+- [DeepWiki](https://deepwiki.com/lndgalante/subtis/1-overview)
+- [Whimsical](https://whimsical.com/Subtis-9VTuUJTU3KcGLHGbk19ioA)
