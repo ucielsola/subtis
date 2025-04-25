@@ -149,7 +149,7 @@ export async function indexTitleByFileName({
   indexedBy: IndexedBy;
   shouldIndexAllTorrents: boolean;
 }): Promise<{ ok: boolean }> {
-  console.time("Tardo en indexar");
+  const t0 = performance.now();
 
   try {
     if (websocket) {
@@ -347,6 +347,15 @@ export async function indexTitleByFileName({
       });
 
       if (wsSubtitleHasBeenFound) {
+        const t1 = performance.now();
+        const totalTime = t1 - t0;
+        const totalTimeInSeconds = Number((totalTime / 1000).toFixed(2));
+
+        await supabase
+          .from("Subtitles")
+          .update({ time_to_index_in_s: totalTimeInSeconds })
+          .eq("title_file_name", titleFileName);
+
         if (websocket) {
           websocket.send(JSON.stringify({ total: 1, message: "Subtitulo encontrado" }));
         }
@@ -375,16 +384,14 @@ export async function indexTitleByFileName({
     console.log("\n ~ mainIndexer ~ error message:", (error as Error).message);
 
     return { ok: false };
-  } finally {
-    console.timeEnd("Tardo en indexar");
   }
 }
 // FILES
 // const titleFileName = "Scenes.From.A.Marriage.1974.1080p.BluRay.x264-[YTS.AM].mp4";
 // const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
 
-const bytes = 123123125444456;
-const titleFileName = "Avengers.Infinity.War.2018.1080p.BluRay.x264-[YTS.AM].mp4";
+const bytes = 873658721312;
+const titleFileName = "Fast.and.Furious.F9.The.Fast.Saga.2021.1080p.WEBRip.x264-RARBG.mp4";
 
 indexTitleByFileName({
   bytes,

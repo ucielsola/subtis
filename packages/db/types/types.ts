@@ -90,6 +90,7 @@ export type Database = {
           subtitle_file_name: string;
           subtitle_group_id: number;
           subtitle_link: string;
+          time_to_index_in_s: number | null;
           title_file_name: string;
           title_slug: string;
           torrent_id: number;
@@ -115,6 +116,7 @@ export type Database = {
           subtitle_file_name: string;
           subtitle_group_id: number;
           subtitle_link: string;
+          time_to_index_in_s?: number | null;
           title_file_name: string;
           title_slug: string;
           torrent_id: number;
@@ -140,6 +142,7 @@ export type Database = {
           subtitle_file_name?: string;
           subtitle_group_id?: number;
           subtitle_link?: string;
+          time_to_index_in_s?: number | null;
           title_file_name?: string;
           title_slug?: string;
           torrent_id?: number;
@@ -441,6 +444,14 @@ export type Database = {
       sum_queried_times: {
         Args: Record<PropertyKey, never>;
         Returns: number;
+      };
+      unaccent: {
+        Args: { "": string };
+        Returns: string;
+      };
+      unaccent_init: {
+        Args: { "": unknown };
+        Returns: unknown;
       };
       update_subtitle_and_title_download_metrics: {
         Args: { _title_slug: string; _subtitle_id: number };

@@ -99,6 +99,7 @@ export const publicSubtitlesRowSchemaSchema = z.object({
   subtitle_file_name: z.string(),
   subtitle_group_id: z.number(),
   subtitle_link: z.string(),
+  time_to_index_in_s: z.number().nullable(),
   title_file_name: z.string(),
   title_slug: z.string(),
   torrent_id: z.number(),
@@ -125,6 +126,7 @@ export const publicSubtitlesInsertSchemaSchema = z.object({
   subtitle_file_name: z.string(),
   subtitle_group_id: z.number(),
   subtitle_link: z.string(),
+  time_to_index_in_s: z.number().optional().nullable(),
   title_file_name: z.string(),
   title_slug: z.string(),
   torrent_id: z.number(),
@@ -151,6 +153,7 @@ export const publicSubtitlesUpdateSchemaSchema = z.object({
   subtitle_file_name: z.string().optional(),
   subtitle_group_id: z.number().optional(),
   subtitle_link: z.string().optional(),
+  time_to_index_in_s: z.number().optional().nullable(),
   title_file_name: z.string().optional(),
   title_slug: z.string().optional(),
   torrent_id: z.number().optional(),
@@ -468,6 +471,18 @@ export const publicShowTrgmReturnsSchemaSchema = z.array(z.string());
 export const publicSumQueriedTimesArgsSchemaSchema = z.object({});
 
 export const publicSumQueriedTimesReturnsSchemaSchema = z.number();
+
+export const publicUnaccentArgsSchemaSchema = z.object({
+  "": z.string(),
+});
+
+export const publicUnaccentReturnsSchemaSchema = z.string();
+
+export const publicUnaccentInitArgsSchemaSchema = z.object({
+  "": z.unknown(),
+});
+
+export const publicUnaccentInitReturnsSchemaSchema = z.unknown();
 
 export const publicUpdateSubtitleAndTitleDownloadMetricsArgsSchemaSchema = z.object({
   _title_slug: z.string(),

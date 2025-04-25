@@ -17,7 +17,6 @@
 
 ## Functions
 
-
 ```sql
 CREATE OR REPLACE FUNCTION public.fuzzy_search_title(query text)
 RETURNS TABLE (
@@ -180,4 +179,15 @@ SET search_path = public
 AS $$
     SELECT SUM(s.queried_times) FROM public."Subtitles" s;
 $$ LANGUAGE sql;
+```
+
+Get mean time to index subtitles
+
+```sql
+SELECT
+    AVG(time_to_index_in_s) AS mean_time_to_index
+FROM
+    "Subtitles"
+WHERE
+    time_to_index_in_s IS NOT NULL;
 ```
