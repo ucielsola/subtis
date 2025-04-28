@@ -11,12 +11,12 @@ import type { AppVariables } from "./lib/types";
 // internals
 import { health } from "./routers/health/router";
 import { providers } from "./routers/providers/router";
+import { qa } from "./routers/qa/router";
 import { stats } from "./routers/stats/router";
 import { subtitle } from "./routers/subtitle/router";
 import { subtitles } from "./routers/subtitles/router";
 import { title } from "./routers/title/router";
 import { titles } from "./routers/titles/router";
-
 // app
 export function runApi() {
   const app = new Hono<{ Variables: AppVariables }>();
@@ -28,6 +28,7 @@ export function runApi() {
   // routes
   return app
     .basePath("/v1")
+    .route("/qa", qa)
     .route("/stats", stats)
     .route("/health", health)
     .route("/subtitle", subtitle)
@@ -73,6 +74,7 @@ export function runApi() {
 function defineRoutes() {
   const app = new Hono().basePath("/v1");
   const routes = app
+    .route("/qa", qa)
     .route("/stats", stats)
     .route("/title", title)
     .route("/titles", titles)

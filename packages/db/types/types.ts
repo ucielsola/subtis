@@ -167,6 +167,13 @@ export type Database = {
             foreignKeyName: "Subtitles_title_slug_fkey";
             columns: ["title_slug"];
             isOneToOne: false;
+            referencedRelation: "RandomTitles";
+            referencedColumns: ["slug"];
+          },
+          {
+            foreignKeyName: "Subtitles_title_slug_fkey";
+            columns: ["title_slug"];
+            isOneToOne: false;
             referencedRelation: "Titles";
             referencedColumns: ["slug"];
           },
@@ -382,7 +389,18 @@ export type Database = {
       };
     };
     Views: {
-      [_ in never]: never;
+      RandomTitles: {
+        Row: {
+          slug: string | null;
+        };
+        Insert: {
+          slug?: string | null;
+        };
+        Update: {
+          slug?: string | null;
+        };
+        Relationships: [];
+      };
     };
     Functions: {
       fuzzy_search_title: {

@@ -179,6 +179,13 @@ export const publicSubtitlesRelationshipsSchemaSchema = z.tuple([
     foreignKeyName: z.literal("Subtitles_title_slug_fkey"),
     columns: z.tuple([z.literal("title_slug")]),
     isOneToOne: z.literal(false),
+    referencedRelation: z.literal("RandomTitles"),
+    referencedColumns: z.tuple([z.literal("slug")]),
+  }),
+  z.object({
+    foreignKeyName: z.literal("Subtitles_title_slug_fkey"),
+    columns: z.tuple([z.literal("title_slug")]),
+    isOneToOne: z.literal(false),
     referencedRelation: z.literal("Titles"),
     referencedColumns: z.tuple([z.literal("slug")]),
   }),
@@ -392,6 +399,18 @@ export const publicTorrentsUpdateSchemaSchema = z.object({
   torrent_seeds: z.number().optional(),
   torrent_size: z.string().optional(),
   torrent_tracker: z.string().optional(),
+});
+
+export const publicRandomtitlesRowSchemaSchema = z.object({
+  slug: z.string().nullable(),
+});
+
+export const publicRandomtitlesInsertSchemaSchema = z.object({
+  slug: z.string().optional().nullable(),
+});
+
+export const publicRandomtitlesUpdateSchemaSchema = z.object({
+  slug: z.string().optional().nullable(),
 });
 
 export const publicFuzzySearchTitleArgsSchemaSchema = z.object({

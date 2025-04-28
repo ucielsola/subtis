@@ -55,28 +55,28 @@ export const providers = new Hono<{ Variables: AppVariables }>()
               schema: resolver(titleTeaserFileNameResponseSchema),
             },
           },
-          415: {
-            description: "Unsupported file name",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        415: {
+          description: "Unsupported file name",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          404: {
-            description: "Title teaser not found",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        404: {
+          description: "Title teaser not found",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
+        },
+        500: {
+          description: "An error occurred",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string(), error: z.string() })),
             },
           },
         },
@@ -221,20 +221,20 @@ export const providers = new Hono<{ Variables: AppVariables }>()
               schema: resolver(titleSpotifySlugResponseSchema),
             },
           },
-          404: {
-            description: "Title Spotify soundtrack not found",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        404: {
+          description: "Title Spotify soundtrack not found",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
+        },
+        500: {
+          description: "An error occurred",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string(), error: z.string() })),
             },
           },
         },
@@ -358,20 +358,20 @@ export const providers = new Hono<{ Variables: AppVariables }>()
               schema: resolver(titleLetterboxdSlugResponseSchema),
             },
           },
-          404: {
-            description: "Title letterboxd not found",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        404: {
+          description: "Title letterboxd not found",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
+        },
+        500: {
+          description: "An error occurred",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string(), error: z.string() })),
             },
           },
         },
@@ -440,20 +440,20 @@ export const providers = new Hono<{ Variables: AppVariables }>()
               schema: resolver(titleJustWatchSlugResponseSchema),
             },
           },
-          404: {
-            description: "Title JustWatch not found",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        404: {
+          description: "Title JustWatch not found",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
+        },
+        500: {
+          description: "An error occurred",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string(), error: z.string() })),
             },
           },
         },
@@ -522,20 +522,20 @@ export const providers = new Hono<{ Variables: AppVariables }>()
               schema: resolver(titleRottenTomatoesSlugResponseSchema),
             },
           },
-          404: {
-            description: "Title Rotten tomatoes not found",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        404: {
+          description: "Title Rotten tomatoes not found",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
+        },
+        500: {
+          description: "An error occurred",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string(), error: z.string() })),
             },
           },
         },

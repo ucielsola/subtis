@@ -36,20 +36,20 @@ export const title = new Hono<{ Variables: AppVariables }>()
               schema: resolver(titleCinemaSlugResponseSchema),
             },
           },
-          404: {
-            description: "Title not found",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        404: {
+          description: "Title not found",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
+        },
+        500: {
+          description: "An error occurred",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string(), error: z.string() })),
             },
           },
         },
@@ -144,20 +144,20 @@ export const title = new Hono<{ Variables: AppVariables }>()
               schema: resolver(titlePlatformsSlugResponseSchema),
             },
           },
-          404: {
-            description: "Title not found",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        404: {
+          description: "Title not found",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
+        },
+        500: {
+          description: "An error occurred",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string(), error: z.string() })),
             },
           },
         },
@@ -247,20 +247,20 @@ export const title = new Hono<{ Variables: AppVariables }>()
               schema: resolver(titleMetadataSlugResponseSchema),
             },
           },
-          404: {
-            description: "Title not found",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        404: {
+          description: "Title not found",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
+        },
+        500: {
+          description: "An error occurred",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string(), error: z.string() })),
             },
           },
         },
@@ -325,20 +325,20 @@ export const title = new Hono<{ Variables: AppVariables }>()
               schema: resolver(titleMetricsSearchResponseSchema),
             },
           },
-          404: {
-            description: "Title not found",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        404: {
+          description: "Title not found",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
+        },
+        500: {
+          description: "An error occurred",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string(), error: z.string() })),
             },
           },
         },

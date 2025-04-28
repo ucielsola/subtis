@@ -37,28 +37,28 @@ export const titles = new Hono<{ Variables: AppVariables }>()
               schema: resolver(searchTitlesResponseSchema),
             },
           },
-          400: {
-            description: "Invalid query",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        400: {
+          description: "Invalid query",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          404: {
-            description: "Titles not found",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        404: {
+          description: "Titles not found",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
+        },
+        500: {
+          description: "An error occurred",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string(), error: z.string() })),
             },
           },
         },
@@ -111,28 +111,28 @@ export const titles = new Hono<{ Variables: AppVariables }>()
               schema: resolver(recentTitlesResponseSchema),
             },
           },
-          400: {
-            description: "Invalid limit",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        400: {
+          description: "Invalid limit",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          404: {
-            description: "Recent titles not found",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        404: {
+          description: "Recent titles not found",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
+        },
+        500: {
+          description: "An error occurred",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string(), error: z.string() })),
             },
           },
         },
@@ -209,28 +209,28 @@ export const titles = new Hono<{ Variables: AppVariables }>()
               schema: resolver(trendingSubtitlesResponseSchema),
             },
           },
-          400: {
-            description: "Invalid limit",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        400: {
+          description: "Invalid limit",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          404: {
-            description: "Trending titles not found",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        404: {
+          description: "Trending titles not found",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
+        },
+        500: {
+          description: "An error occurred",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string(), error: z.string() })),
             },
           },
         },
@@ -300,28 +300,28 @@ export const titles = new Hono<{ Variables: AppVariables }>()
               schema: resolver(trendingSubtitlesResponseSchema),
             },
           },
-          400: {
-            description: "Invalid limit",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        400: {
+          description: "Invalid limit",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          404: {
-            description: "Trending titles not found",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        404: {
+          description: "Trending titles not found",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
+        },
+        500: {
+          description: "An error occurred",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string(), error: z.string() })),
             },
           },
         },

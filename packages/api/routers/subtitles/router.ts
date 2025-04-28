@@ -32,20 +32,20 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
               schema: resolver(subtitlesResponseSchema),
             },
           },
-          404: {
-            description: "Subtitles not found for movie slug",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        404: {
+          description: "Subtitles not found for movie slug",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
+        },
+        500: {
+          description: "An error occurred",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string(), error: z.string() })),
             },
           },
         },
@@ -114,20 +114,20 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
               schema: resolver(subtitlesResponseSchema),
             },
           },
-          404: {
-            description: "Subtitles not found for tv show slug, season and episode",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        404: {
+          description: "Subtitles not found for tv show slug, season and episode",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
+        },
+        500: {
+          description: "An error occurred",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string(), error: z.string() })),
             },
           },
         },
@@ -215,20 +215,20 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
               schema: resolver(subtitlesResponseSchema),
             },
           },
-          404: {
-            description: "Subtitles download metadata not found for tv show slug, season",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        404: {
+          description: "Subtitles download metadata not found for tv show slug, season",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
+        },
+        500: {
+          description: "An error occurred",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string(), error: z.string() })),
             },
           },
         },
@@ -316,20 +316,20 @@ export const subtitles = new Hono<{ Variables: AppVariables }>()
               schema: resolver(subtitlesResponseSchema),
             },
           },
-          404: {
-            description: "Subtitles download metadata not found for tv show slug, season",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        404: {
+          description: "Subtitles download metadata not found for tv show slug, season",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
+        },
+        500: {
+          description: "An error occurred",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string(), error: z.string() })),
             },
           },
         },

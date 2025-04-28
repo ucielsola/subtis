@@ -34,20 +34,20 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
               schema: resolver(subtitleNormalizedSchema),
             },
           },
-          404: {
-            description: "Subtitle link not found",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        404: {
+          description: "Subtitle link not found",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
+        },
+        500: {
+          description: "An error occurred",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string(), error: z.string() })),
             },
           },
         },
@@ -105,20 +105,20 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
               schema: resolver(subtitleNormalizedSchema),
             },
           },
-          404: {
-            description: "Subtitle not found",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        404: {
+          description: "Subtitle not found",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
+        },
+        500: {
+          description: "An error occurred",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string(), error: z.string() })),
             },
           },
         },
@@ -177,20 +177,20 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
               schema: resolver(subtitleNormalizedSchema),
             },
           },
-          404: {
-            description: "Alternative subtitle not found",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        404: {
+          description: "Alternative subtitle not found",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
+        },
+        500: {
+          description: "An error occurred",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string(), error: z.string() })),
             },
           },
         },
@@ -340,20 +340,20 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
               schema: resolver(subtitleNormalizedSchema),
             },
           },
-          404: {
-            description: "Primary subtitle not found",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        404: {
+          description: "Primary subtitle not found",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
+        },
+        500: {
+          description: "An error occurred",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string(), error: z.string() })),
             },
           },
         },
@@ -439,28 +439,28 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
               schema: resolver(subtitleNormalizedSchema),
             },
           },
-          400: {
-            description: "Invalid bytes",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        400: {
+          description: "Invalid bytes",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          415: {
-            description: "Invalid video file name",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        415: {
+          description: "Invalid video file name",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
+        },
+        500: {
+          description: "An error occurred",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string(), error: z.string() })),
             },
           },
         },
@@ -533,28 +533,29 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
               schema: resolver(subtitleNormalizedSchema),
             },
           },
-          400: {
-            description: "Invalid bytes",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+
+        400: {
+          description: "Invalid bytes",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          415: {
-            description: "Invalid video file name",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string() })),
-              },
+        },
+        415: {
+          description: "Invalid video file name",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
             },
           },
-          500: {
-            description: "An error occurred",
-            content: {
-              "application/json": {
-                schema: resolver(z.object({ message: z.string(), error: z.string() })),
-              },
+        },
+        500: {
+          description: "An error occurred",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string(), error: z.string() })),
             },
           },
         },

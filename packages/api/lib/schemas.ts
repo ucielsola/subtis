@@ -9,6 +9,14 @@ import {
 } from "@subtis/db/schemas";
 
 // title
+export const titleRandomQuery = `
+  slug
+`;
+
+export const titleRandomSchema = publicTitlesRowSchemaSchema.pick({
+  slug: true,
+});
+
 export const titleMetadataQuery = `
   id,
   slug,

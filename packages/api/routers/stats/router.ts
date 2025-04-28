@@ -26,28 +26,28 @@ export const stats = new Hono<{ Variables: AppVariables }>().get(
             schema: resolver(statsSchema),
           },
         },
-        400: {
-          description: "Invalid stats",
-          content: {
-            "application/json": {
-              schema: resolver(z.object({ message: z.string() })),
-            },
+      },
+      400: {
+        description: "Invalid stats",
+        content: {
+          "application/json": {
+            schema: resolver(z.object({ message: z.string() })),
           },
         },
-        404: {
-          description: "Stats not found",
-          content: {
-            "application/json": {
-              schema: resolver(z.object({ message: z.string() })),
-            },
+      },
+      404: {
+        description: "Stats not found",
+        content: {
+          "application/json": {
+            schema: resolver(z.object({ message: z.string() })),
           },
         },
-        500: {
-          description: "An error occurred",
-          content: {
-            "application/json": {
-              schema: resolver(z.object({ message: z.string(), error: z.string() })),
-            },
+      },
+      500: {
+        description: "An error occurred",
+        content: {
+          "application/json": {
+            schema: resolver(z.object({ message: z.string(), error: z.string() })),
           },
         },
       },
