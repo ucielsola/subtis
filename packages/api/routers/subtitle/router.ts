@@ -396,7 +396,12 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
         if (!isTvShow && !isCinemaRecording) {
           try {
-            getTitleFileNameMetadata({ titleFileName: fileName });
+            const { resolution, year } = getTitleFileNameMetadata({ titleFileName: fileName });
+
+            if (!resolution || !year) {
+              throw new Error("Resolution or year not found");
+            }
+
             await supabase.from("SubtitlesNotFound").insert({ bytes: parsedBytes, title_file_name: fileName });
           } catch (error) {
             console.error(error);
