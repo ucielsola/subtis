@@ -395,21 +395,15 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         const isCinemaRecording = getIsCinemaRecording(fileName);
 
         if (!isTvShow && !isCinemaRecording) {
-          try {
-            const { resolution, year } = getTitleFileNameMetadata({ titleFileName: fileName });
+          const { resolution, year } = getTitleFileNameMetadata({ titleFileName: fileName });
 
-            if (!resolution || !year) {
-              throw new Error("Resolution or year not found");
-            }
-
-            await supabase.from("SubtitlesNotFound").insert({ bytes: parsedBytes, title_file_name: fileName });
-          } catch (error) {
-            console.error(error);
+          if (!resolution || !year) {
+            context.status(404);
+            return context.json({ message: "Subtitle not found for file" });
           }
-        }
 
-        context.status(404);
-        return context.json({ message: "Subtitle not found for file" });
+          await supabase.from("SubtitlesNotFound").insert({ bytes: parsedBytes, title_file_name: fileName });
+        }
       }
 
       if (error) {

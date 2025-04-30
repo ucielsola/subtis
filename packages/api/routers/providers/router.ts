@@ -95,10 +95,9 @@ export const providers = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: videoFileName.error.issues[0].message });
       }
 
-      let titleFileNameMetadata: TitleFileNameMetadata | null = null;
-      try {
-        titleFileNameMetadata = getTitleFileNameMetadata({ titleFileName: videoFileName.data });
-      } catch (error) {
+      const titleFileNameMetadata = getTitleFileNameMetadata({ titleFileName: videoFileName.data });
+
+      if (!titleFileNameMetadata.resolution || !titleFileNameMetadata.year) {
         context.status(415);
         return context.json({ message: "File name is not supported" });
       }

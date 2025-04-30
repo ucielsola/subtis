@@ -1593,10 +1593,16 @@ export async function getSubtitlesForTitle({
     let titleFileNameMetadata: TitleFileNameMetadata | null = null;
 
     try {
-      titleFileNameMetadata = getTitleFileNameMetadata({
+      const titleFileNameMetadataTemp = getTitleFileNameMetadata({
         titleFileName: fileName,
         titleName: name,
       });
+
+      if (!titleFileNameMetadataTemp.resolution || !titleFileNameMetadataTemp.year) {
+        throw new Error("Resolution or year not found");
+      }
+
+      titleFileNameMetadata = titleFileNameMetadataTemp;
     } catch (error) {
       console.log(`\nNo pudimos parsear ${fileName} correctamente`, error);
     }
