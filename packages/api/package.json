@@ -24,8 +24,8 @@
     "zod-openapi": "^4.2.4"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250430.0",
-    "@types/bun": "^1.2.11",
+    "@cloudflare/workers-types": "^4.20250504.0",
+    "@types/bun": "^1.2.12",
     "@types/timestring": "^7.0.0",
     "@types/unescape-js": "^1.0.3",
     "typescript": "^5.8.3",
