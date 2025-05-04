@@ -23,6 +23,7 @@
     "dev:api": "cd packages/api && bun run dev",
     "dev:cli": "cd packages/cli && bun run dev --",
     "dev:stremio": "cd packages/stremio && bun run dev",
+    "dev": "concurrently \"bun run dev:web\" \"bun run dev:api\" \"bun run dev:stremio\"",
     "dev:indexer:ws": "cd packages/indexer && bun run dev:ws",
     "dev:indexer:file": "cd packages/indexer && bun run dev:file",
     "dev:indexer:movies:year": "cd packages/indexer && bun run dev:movies:year",
@@ -47,6 +48,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
+    "concurrently": "^9.1.2",
     "jscpd": "^4.0.5",
     "taze": "^19.0.4",
     "typescript-coverage-report": "^1.1.1"
