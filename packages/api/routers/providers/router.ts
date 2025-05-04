@@ -14,7 +14,6 @@ import { getTitleSlugifiedName } from "@subtis/indexer/utils/slugify-title";
 // shared
 import {
   OFFICIAL_SUBTIS_CHANNELS,
-  type TitleFileNameMetadata,
   YOUTUBE_SEARCH_URL,
   getStringWithoutSpecialCharacters,
   getTitleFileNameMetadata,
