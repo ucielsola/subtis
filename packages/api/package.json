@@ -20,11 +20,11 @@
     "slugify": "^1.6.6",
     "timestring": "^7.0.0",
     "unescape-js": "^1.1.4",
-    "zod": "^3.24.3",
+    "zod": "^3.24.4",
     "zod-openapi": "^4.2.4"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250504.0",
+    "@cloudflare/workers-types": "^4.20250505.0",
     "@types/bun": "^1.2.12",
     "@types/timestring": "^7.0.0",
     "@types/unescape-js": "^1.0.3",
