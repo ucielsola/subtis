@@ -1,4 +1,4 @@
-// import { confirm } from "@clack/prompts";
+import { confirm } from "@clack/prompts";
 import { z } from "zod";
 
 // db
@@ -50,13 +50,13 @@ export async function indexNotFoundSubtitles({ ascending = true }: { ascending: 
       try {
         console.table([notFoundSubtitle]);
 
-        // const continueToNextTitle = await confirm({
-        //   message: `¿Desea indexar el siguiente titulo? ${notFoundSubtitle.title_file_name}`,
-        // });
+        const continueToNextTitle = await confirm({
+          message: `¿Desea indexar el siguiente titulo? ${notFoundSubtitle.title_file_name}`,
+        });
 
-        // if (!continueToNextTitle) {
-        //   continue;
-        // }
+        if (!continueToNextTitle) {
+          continue;
+        }
 
         const isTvShow = getIsTvShow(notFoundSubtitle.title_file_name);
         const isCinemaRecording = getIsCinemaRecording(notFoundSubtitle.title_file_name);
@@ -156,10 +156,6 @@ export async function indexNotFoundSubtitles({ ascending = true }: { ascending: 
         console.log("\n ~ forawait ~ error 3:", error);
       } finally {
         await supabase.from("SubtitlesNotFound").delete().eq("title_file_name", notFoundSubtitle.title_file_name);
-
-        // await confirm({
-        //   message: "¿Desea continuar al siguiente titulo?",
-        // });
       }
     }
 
