@@ -1,5 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { useAnimation } from "motion/react";
+import { AnimatePresence, motion, useAnimation } from "motion/react";
 import numeral from "numeral";
 import { useQueryState } from "nuqs";
 import { Fragment, useState } from "react";
@@ -19,10 +19,11 @@ import { getImdbLink } from "@subtis/indexer/imdb";
 // shared
 import { VideoDropzone } from "~/components/shared/video-dropzone";
 
-import { CheckIcon } from "~/components/icons/check";
-import { DownloadIcon } from "~/components/icons/download";
 // icons
-import { LinkIcon } from "~/components/icons/link";
+import { Arrow } from "~/components/icons/arrow";
+import { CheckIcon } from "~/components/icons/check";
+import { CopyIcon } from "~/components/icons/copy";
+import { DownloadIcon } from "~/components/icons/download";
 
 // lib
 import { apiClient } from "~/lib/api";
@@ -42,18 +43,17 @@ import { Switch } from "~/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
+// logos
 import { IMDbLogo } from "~/components/logos/imdb";
 import { JustWatchLogo } from "~/components/logos/justwatch";
 import { LetterboxdLogo } from "~/components/logos/letterboxd";
 import { RottenTomatoesLogo } from "~/components/logos/rottentomatoes";
-// logos
 import { SpotifyLogo } from "~/components/logos/spotify";
 import { YouTubeLogo } from "~/components/logos/youtube";
 
 // features
 import { PosterDisclosure } from "~/features/movie/poster-disclosure";
 
-import { Arrow } from "~/components/icons/arrow";
 // hooks
 import { useCinemas } from "~/hooks/use-cinemas";
 import { useJustWatch } from "~/hooks/use-justwatch";
@@ -455,9 +455,13 @@ export default function SubtitlesPage() {
       header: "Acciones",
       enableSorting: false,
       cell: ({ row }) => {
+        // react hooks
+        const [isCopied, setIsCopied] = useState<boolean>(false);
+
         // motion hooks
-        const linkControls = useAnimation();
+        const copyControls = useAnimation();
         const arrowControls = useAnimation();
+        const checkControls = useAnimation();
         const downloadControls = useAnimation();
 
         if ("message" in loaderData) {
@@ -465,7 +469,7 @@ export default function SubtitlesPage() {
         }
 
         // constants
-        const { external_id } = row.original.subtitle;
+        const { external_id, bytes, title_file_name } = row.original.subtitle;
         const { subtitle_group_name, website } = row.original.subtitle_group;
 
         const subDivXLink = `${website}/${external_id}`;
@@ -480,6 +484,34 @@ export default function SubtitlesPage() {
               : subtitle_group_name === "OpenSubtitles"
                 ? opensubtitlesLink
                 : undefined;
+
+        const internalLink = `https://subtis.io/subtitle/file/name/${bytes}/${title_file_name}`;
+
+        // handlers
+        async function handleCopyLinkToClipboard(): Promise<void> {
+          setIsCopied(true);
+          await navigator.clipboard.writeText(internalLink);
+
+          setTimeout(() => {
+            setIsCopied(false);
+          }, 800);
+        }
+
+        function handleMouseEnterCopyLink(): void {
+          if (isCopied) {
+            return;
+          }
+
+          copyControls.start("animate");
+        }
+
+        function handleMouseLeaveCopyLink(): void {
+          if (isCopied) {
+            return;
+          }
+
+          copyControls.start("normal");
+        }
 
         return (
           <div className="flex justify-center flex-row gap-2">
@@ -507,28 +539,44 @@ export default function SubtitlesPage() {
                   </a>
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side="bottom">Descargar Subtítulo</TooltipContent>
+              <TooltipContent side="bottom">Descargar</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  asChild
                   variant="secondary"
                   size="sm"
-                  className="p-2 h-7 hover:bg-zinc-800 bg-zinc-800 hover:text-zinc-50"
-                  onMouseEnter={() => linkControls.start("animate")}
-                  onMouseLeave={() => linkControls.start("normal")}
+                  className="p-2 h-7 hover:bg-zinc-800 bg-zinc-800 hover:text-zinc-50 cursor-pointer"
+                  onMouseEnter={handleMouseEnterCopyLink}
+                  onMouseLeave={handleMouseLeaveCopyLink}
+                  onClick={handleCopyLinkToClipboard}
                 >
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={`https://subtis.io/subtitle/file/name/${row.original.subtitle.bytes}/${row.original.subtitle.title_file_name}`}
-                  >
-                    <LinkIcon controls={linkControls} size={18} className="stroke-zinc-100" />
-                  </a>
+                  <AnimatePresence mode="wait" initial={false}>
+                    {isCopied ? (
+                      <motion.div
+                        key="check"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <CheckIcon controls={checkControls} size={18} className="stroke-zinc-100" />
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="copy"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <CopyIcon controls={copyControls} size={18} className="stroke-zinc-100" />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side="bottom">Link del Subtítulo</TooltipContent>
+              <TooltipContent side="bottom">Copiar Link</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
