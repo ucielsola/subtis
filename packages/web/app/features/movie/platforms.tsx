@@ -1,5 +1,5 @@
-import { Fragment } from "react/jsx-runtime";
 import { useLoaderData } from "react-router";
+import { Fragment } from "react/jsx-runtime";
 
 // hooks
 import { usePlatforms } from "~/hooks/use-platforms";
