@@ -2,19 +2,16 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { AnimatePresence, motion, useAnimation } from "motion/react";
 import numeral from "numeral";
 import { useQueryState } from "nuqs";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import Highlighter from "react-highlight-words";
 import { type LoaderFunctionArgs, type MetaFunction, useLoaderData } from "react-router";
 import { toast } from "sonner";
 import { useCopyToClipboard } from "usehooks-ts";
 import { z } from "zod";
 
-import type { SubtitlesNormalized } from "@subtis/api/lib/parsers";
 // api
+import type { SubtitlesNormalized } from "@subtis/api/lib/parsers";
 import { subtitlesResponseSchema } from "@subtis/api/routers/subtitles/schemas";
-
-// indexer
-import { getImdbLink } from "@subtis/indexer/imdb";
 
 // shared
 import { VideoDropzone } from "~/components/shared/video-dropzone";
@@ -30,7 +27,6 @@ import { apiClient } from "~/lib/api";
 import { cn } from "~/lib/utils";
 
 // ui
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
@@ -38,30 +34,15 @@ import { DataTable } from "~/components/ui/data-table";
 import DotPattern from "~/components/ui/dot-pattern";
 import { Label } from "~/components/ui/label";
 import { Separator } from "~/components/ui/separator";
-import { Skeleton } from "~/components/ui/skeleton";
 import { Switch } from "~/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
-// logos
-import { IMDbLogo } from "~/components/logos/imdb";
-import { JustWatchLogo } from "~/components/logos/justwatch";
-import { LetterboxdLogo } from "~/components/logos/letterboxd";
-import { RottenTomatoesLogo } from "~/components/logos/rottentomatoes";
-import { SpotifyLogo } from "~/components/logos/spotify";
-import { YouTubeLogo } from "~/components/logos/youtube";
-
 // features
+import { MovieCinemas } from "~/features/movie/cinemas";
+import { MoviePlatforms } from "~/features/movie/platforms";
 import { PosterDisclosure } from "~/features/movie/poster-disclosure";
-
-// hooks
-import { useCinemas } from "~/hooks/use-cinemas";
-import { useJustWatch } from "~/hooks/use-justwatch";
-import { useLetterboxd } from "~/hooks/use-letterboxd";
-import { usePlatforms } from "~/hooks/use-platforms";
-import { useRottenTomatoes } from "~/hooks/use-rottentomatoes";
-import { useSpotify } from "~/hooks/use-spotify";
-import { useTeaser } from "~/hooks/use-teaser";
+import { MovieProviders } from "~/features/movie/providers";
 
 // helpers
 function getResolutionRank(resolution: string): number {
@@ -261,26 +242,6 @@ export default function SubtitlesPage() {
       return !previousIsAdvancedModeEnabled;
     });
   }
-
-  // query hooks
-  const { data: titleCinemas } = useCinemas("message" in loaderData ? undefined : loaderData.title.slug);
-  const { data: titlePlatforms } = usePlatforms("message" in loaderData ? undefined : loaderData.title.slug);
-
-  const { data: titleTeaser, isLoading: isLoadingTeaser } = useTeaser(
-    "message" in loaderData ? undefined : loaderData.results[0].subtitle.title_file_name,
-  );
-  const { data: titleJustWatch, isLoading: isLoadingJustWatch } = useJustWatch(
-    "message" in loaderData ? undefined : loaderData.title.slug,
-  );
-  const { data: titleLetterboxd, isLoading: isLoadingLetterboxd } = useLetterboxd(
-    "message" in loaderData ? undefined : loaderData.title.slug,
-  );
-  const { data: titleRottenTomatoes, isLoading: isLoadingRottenTomatoes } = useRottenTomatoes(
-    "message" in loaderData ? undefined : loaderData.title.slug,
-  );
-  const { data: titleSpotify, isLoading: isLoadingSpotify } = useSpotify(
-    "message" in loaderData ? undefined : loaderData.title.slug,
-  );
 
   // motion hooks
   const videoTipControl = useAnimation();
@@ -625,9 +586,6 @@ export default function SubtitlesPage() {
       ),
   );
 
-  const isLoadingProviders =
-    isLoadingTeaser || isLoadingJustWatch || isLoadingLetterboxd || isLoadingRottenTomatoes || isLoadingSpotify;
-
   return (
     <div className="pt-24 pb-44 flex flex-col lg:flex-row justify-between gap-4">
       <article>
@@ -915,74 +873,8 @@ export default function SubtitlesPage() {
           </div>
         </section>
 
-        {titleCinemas ? (
-          <Fragment>
-            <Separator className="my-16 bg-zinc-700 max-w-[630px]" />
-            <section className="flex flex-col gap-12 mt-16 max-w-[630px]">
-              <div className="flex flex-col gap-2">
-                <h3 className="text-2xl font-semibold text-zinc-50">Cines</h3>
-                <h4 className="text-zinc-50 text-sm md:text-base">
-                  Mirá en que cines se está proyectando la película.
-                </h4>
-              </div>
-              <div className="flex flex-col gap-4">
-                {Object.entries(titleCinemas.cinemas).map(([city, cinemas]) => {
-                  return (
-                    <Accordion key={city} type="single" collapsible className="w-full">
-                      <AccordionItem value={city}>
-                        <AccordionTrigger>{city}</AccordionTrigger>
-                        <AccordionContent>
-                          <ul className="flex flex-col list-disc list-inside pl-4 pt-1 gap-1">
-                            {cinemas.map((cinema) => (
-                              <li key={cinema.name}>
-                                <a
-                                  href={titleCinemas.link}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                  className="text-zinc-50 text-sm hover:underline"
-                                >
-                                  {cinema.name}
-                                </a>
-                              </li>
-                            ))}
-                          </ul>
-                        </AccordionContent>
-                      </AccordionItem>
-                    </Accordion>
-                  );
-                })}
-              </div>
-            </section>
-          </Fragment>
-        ) : null}
-
-        {titlePlatforms && titlePlatforms.platforms.length > 0 ? (
-          <Fragment>
-            <Separator className="my-16 bg-zinc-700 max-w-[630px]" />
-            <section className="flex flex-col gap-12 mt-16 max-w-[630px]  ">
-              <div className="flex flex-col gap-2">
-                <h3 className="text-2xl font-semibold text-zinc-50">Plataformas</h3>
-                <h4 className="text-zinc-50 text-sm md:text-base">
-                  También podés disfrutar de la película en las siguientes plataformas.
-                </h4>
-              </div>
-              <ul className="flex flex-col list-disc list-inside">
-                {titlePlatforms.platforms.map((platform) => (
-                  <li key={platform.name}>
-                    <a
-                      href={platform.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-zinc-50 text-sm hover:underline"
-                    >
-                      {platform.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          </Fragment>
-        ) : null}
+        <MovieCinemas />
+        <MoviePlatforms />
       </article>
       {loaderData.title.poster_thumbhash ? (
         <aside className="hidden lg:flex flex-1 flex-col items-center max-w-2xl">
@@ -996,132 +888,7 @@ export default function SubtitlesPage() {
               rating={loaderData.title.rating}
               slug={loaderData.title.slug}
             />
-            <div className="pt-1 px-2 flex flex-row items-center gap-6">
-              {isLoadingProviders ? (
-                <Skeleton className="w-full h-5 rounded-sm" />
-              ) : (
-                <Fragment>
-                  {loaderData.title.imdb_id ? (
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <a
-                          href={getImdbLink(loaderData.title.imdb_id)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="group/imdb"
-                        >
-                          <IMDbLogo
-                            size={32}
-                            className="fill-zinc-300 group-hover/imdb:fill-[#F5C518] transition-all ease-in-out duration-300"
-                          />
-                        </a>
-                      </TooltipTrigger>
-                      <TooltipContent side="bottom">
-                        <p>IMDb</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  ) : null}
-                  {titleTeaser && !("message" in titleTeaser) ? (
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <a
-                          href={`https://www.youtube.com/watch?v=${titleTeaser.youTubeVideoId}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="group/trailer"
-                        >
-                          <YouTubeLogo
-                            size={24}
-                            className="fill-zinc-300 group-hover/trailer:fill-[#F03] transition-all ease-in-out duration-300"
-                            playerClassName="fill-zinc-950 group-hover/trailer:fill-white"
-                          />
-                        </a>
-                      </TooltipTrigger>
-                      <TooltipContent side="bottom">
-                        <p>Trailer</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  ) : null}
-                  {titleSpotify ? (
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <a href={titleSpotify.link} target="_blank" rel="noopener noreferrer" className="group/spotify">
-                          <SpotifyLogo
-                            size={22}
-                            className="fill-zinc-300 group-hover/spotify:fill-[#1CD760] transition-all ease-in-out duration-300"
-                          />
-                        </a>
-                      </TooltipTrigger>
-                      <TooltipContent side="bottom">
-                        <p>Soundtrack</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  ) : null}
-                  {titleRottenTomatoes ? (
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <a
-                          href={titleRottenTomatoes.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="group/rottentomatoes"
-                        >
-                          <RottenTomatoesLogo
-                            size={22}
-                            className="fill-zinc-300 group-hover/rottentomatoes:fill-[#F9310A] transition-all ease-in-out duration-300"
-                          />
-                        </a>
-                      </TooltipTrigger>
-                      <TooltipContent side="bottom">
-                        <p>Rotten Tomatoes</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  ) : null}
-                  {titleJustWatch ? (
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <a
-                          href={titleJustWatch.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="group/justwatch"
-                        >
-                          <JustWatchLogo
-                            size={18}
-                            className="fill-zinc-300 group-hover/justwatch:fill-[#E5B817] transition-all ease-in-out duration-300"
-                          />
-                        </a>
-                      </TooltipTrigger>
-                      <TooltipContent side="bottom">
-                        <p>JustWatch</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  ) : null}
-                  {titleLetterboxd ? (
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <a
-                          href={titleLetterboxd.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="group/letterboxd"
-                        >
-                          <LetterboxdLogo
-                            size={26}
-                            firstDotClassName="fill-zinc-300 group-hover/letterboxd:fill-[#00E054] transition-all ease-in-out duration-300"
-                            secondDotClassName="fill-zinc-300 group-hover/letterboxd:fill-[#40BCF4] transition-all ease-in-out duration-300"
-                            thirdDotClassName="fill-zinc-300 group-hover/letterboxd:fill-[#FF8000] transition-all ease-in-out duration-300"
-                          />
-                        </a>
-                      </TooltipTrigger>
-                      <TooltipContent side="bottom">
-                        <p>Letterboxd</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  ) : null}
-                </Fragment>
-              )}
-            </div>
+            <MovieProviders />
           </div>
         </aside>
       ) : null}
