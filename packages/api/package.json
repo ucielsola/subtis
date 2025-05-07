@@ -11,7 +11,7 @@
     "test:preload:db": "bun test --env-file=.env.development --preload ./setup.ts"
   },
   "dependencies": {
-    "@hono/zod-validator": "^0.4.3",
+    "@hono/zod-validator": "^0.5.0",
     "@scalar/hono-api-reference": "^0.8.8",
     "@supabase/supabase-js": "^2.49.4",
     "hono": "^4.7.8",
@@ -24,7 +24,7 @@
     "zod-openapi": "^4.2.4"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250505.0",
+    "@cloudflare/workers-types": "^4.20250506.0",
     "@types/bun": "^1.2.12",
     "@types/timestring": "^7.0.0",
     "@types/unescape-js": "^1.0.3",

@@ -50,7 +50,7 @@
     "@biomejs/biome": "^1.9.4",
     "concurrently": "^9.1.2",
     "jscpd": "^4.0.5",
-    "taze": "^19.0.4",
+    "taze": "^19.1.0",
     "typescript-coverage-report": "^1.1.1"
   }
 }

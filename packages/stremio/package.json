@@ -14,7 +14,7 @@
     "stremio-addon-sdk": "^1.6.10"
   },
   "devDependencies": {
-    "@types/stremio-addon-sdk": "^1.6.11",
+    "@types/stremio-addon-sdk": "^1.6.12",
     "typescript": "^5.8.3"
   }
 }
