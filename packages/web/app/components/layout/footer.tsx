@@ -40,7 +40,7 @@ export function HomeFooter() {
             <button
               type="button"
               onClick={handleCopyEmailToClipboard}
-              className="text-xs font-medium text-zinc-50 hover:underline inline-flex"
+              className="text-xs font-medium text-zinc-50 hover:underline inline-flex cursor-pointer"
             >
               Contacto vía email
             </button>
