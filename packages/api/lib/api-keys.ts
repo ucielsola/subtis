@@ -25,3 +25,8 @@ export function getTmdbApiKey(context: Context<{ Variables: AppVariables }>): st
   const env = z.object({ TMDB_API_KEY: z.string() }).parse(context.env);
   return env.TMDB_API_KEY;
 }
+
+export function getJwtSecret(context: Context<{ Variables: AppVariables }>): string {
+  const env = z.object({ JWT_SECRET: z.string() }).parse(context.env);
+  return env.JWT_SECRET;
+}

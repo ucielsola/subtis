@@ -11,7 +11,7 @@ import { supabase } from "@subtis/db";
 // shared
 import { type TitleFileNameMetadata, getEpisode, getIsTvShow, getTitleFileNameMetadata } from "@subtis/shared";
 
-import { apiClient } from "./api";
+// internals
 import { TitleTypes, type TorrentFound, getFileTitleTorrents, getSubtitlesForTitle } from "./app";
 import { FILE_NAME_TO_TMDB_INDEX } from "./edge-cases";
 import { getReleaseGroups } from "./release-groups";
@@ -23,7 +23,6 @@ import {
   tmdbDiscoverMovieSchema,
   tmdbDiscoverSerieSchema,
 } from "./tmdb";
-// internals
 import tg from "./torrent-grabber";
 import type { IndexedBy } from "./types";
 import { getQueryForTorrentProvider } from "./utils/query";
@@ -375,8 +374,9 @@ export async function indexTitleByFileName({
     console.log("\n ~ error:", error);
 
     if (shouldStoreNotFoundSubtitle) {
-      await apiClient.v1.subtitle["not-found"].$post({
-        json: { bytes, titleFileName },
+      await fetch("https://subtis.io/api/not-found", {
+        method: "POST",
+        body: JSON.stringify({ bytes, titleFileName }),
       });
     }
 

@@ -2,9 +2,6 @@ import { AnimatePresence, motion } from "motion/react";
 import { Link } from "react-router";
 import { useMediaQuery } from "usehooks-ts";
 
-// lib
-import { apiClient } from "~/lib/api";
-
 // ui
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "~/components/ui/carousel";
 
@@ -30,9 +27,10 @@ function Slider({ data, isLoading }: SliderProps) {
   const slidesToScroll = isMobile ? 1 : isTablet ? 2 : 3;
 
   // handlers
-  async function handleUpdateSearchMetrics(slug: string): Promise<void> {
-    await apiClient.v1.title.metrics.search.$patch({
-      json: { slug },
+  async function handleUpdateSearchMetrics(titleSlug: string): Promise<void> {
+    await fetch("/api/search", {
+      method: "PATCH",
+      body: JSON.stringify({ titleSlug }),
     });
   }
 

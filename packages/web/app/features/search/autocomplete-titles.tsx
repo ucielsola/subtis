@@ -1,8 +1,5 @@
 import { useNavigate } from "react-router";
 
-// lib
-import { apiClient } from "~/lib/api";
-
 // ui
 import { AutoComplete } from "~/components/ui/autocomplete";
 
@@ -53,9 +50,10 @@ export function AutocompleteTitles({
         : "";
 
   // handlers
-  async function handleUpdateSearchMetrics(slug: string): Promise<void> {
-    await apiClient.v1.title.metrics.search.$patch({
-      json: { slug },
+  async function handleUpdateSearchMetrics(titleSlug: string): Promise<void> {
+    await fetch("/api/search", {
+      method: "PATCH",
+      body: JSON.stringify({ titleSlug }),
     });
   }
 

@@ -12,7 +12,8 @@ import type { AppVariables } from "../../lib/types";
 export const qa = new Hono<{ Variables: AppVariables }>().get(
   "/random/movies",
   describeRoute({
-    tags: ["QA (1)"],
+    tags: ["QA"],
+    hide: true,
     description: "Get random movies",
     responses: {
       200: {

@@ -225,12 +225,9 @@ export default function SubtitlesPage() {
     titleSlug: string;
     subtitleId: number;
   }) {
-    if ("message" in loaderData) {
-      return;
-    }
-
-    await apiClient.v1.subtitle.metrics.download.$patch({
-      json: { titleSlug, subtitleId },
+    await fetch("/api/download", {
+      method: "PATCH",
+      body: JSON.stringify({ titleSlug, subtitleId }),
     });
 
     triggerShareToast();

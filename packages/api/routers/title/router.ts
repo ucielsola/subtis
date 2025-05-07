@@ -2,11 +2,13 @@ import { Hono } from "hono";
 import { describeRoute } from "hono-openapi";
 import { resolver, validator as zValidator } from "hono-openapi/zod";
 import { cache } from "hono/cache";
+import { verify } from "hono/jwt";
 import slugify from "slugify";
 import timestring from "timestring";
 import z from "zod";
 
 // lib
+import { getJwtSecret } from "../../lib/api-keys";
 import { buscalaSchema } from "../../lib/buscala";
 import { cinemarkSchema } from "../../lib/cinemark";
 import { titleMetadataQuery, titleMetadataSchema } from "../../lib/schemas";
@@ -326,6 +328,14 @@ export const title = new Hono<{ Variables: AppVariables }>()
             },
           },
         },
+        401: {
+          description: "Unauthorized",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
+            },
+          },
+        },
         404: {
           description: "Title not found",
           content: {
@@ -344,12 +354,35 @@ export const title = new Hono<{ Variables: AppVariables }>()
         },
       },
     }),
-    zValidator("json", z.object({ slug: z.string().openapi({ example: "nosferatu-2024" }) })),
+    zValidator("json", z.object({ titleSlug: z.string().openapi({ example: "nosferatu-2024" }) })),
     async (context) => {
-      const { slug } = context.req.valid("json");
+      const authorizationHeader = context.req.header("Authorization");
+
+      if (!authorizationHeader) {
+        context.status(401);
+        return context.json({ message: "No Authorization header provided" });
+      }
+
+      const [, token] = authorizationHeader.split(" ");
+
+      if (!token) {
+        context.status(401);
+        return context.json({ message: "No token provided in Authorization header" });
+      }
+
+      try {
+        const jwtSecret = getJwtSecret(context);
+        await verify(token, jwtSecret);
+      } catch (error) {
+        console.log("\n ~ error:", error);
+        context.status(401);
+        return context.json({ message: "Invalid or expired authentication token" });
+      }
+
+      const { titleSlug } = context.req.valid("json");
 
       const { data, error } = await getSupabaseClient(context).rpc("update_title_search_metrics", {
-        _slug: slug,
+        _slug: titleSlug,
       });
 
       if (error) {

@@ -9,4 +9,7 @@ export default [
   route("/faq", "./routes/faq.tsx"),
   route("/terms", "./routes/terms.tsx"),
   route("/search", "./routes/search.tsx"),
+  route("/api/search", "./routes/api/search.ts"),
+  route("/api/download", "./routes/api/download.ts"),
+  route("/api/not-found", "./routes/api/not-found.ts"),
 ] satisfies RouteConfig;

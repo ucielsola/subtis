@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { describeRoute } from "hono-openapi";
 import { resolver, validator as zValidator } from "hono-openapi/zod";
 import { cache } from "hono/cache";
+import { verify } from "hono/jwt";
 import timestring from "timestring";
 import z from "zod";
 
@@ -11,6 +12,7 @@ import { getIsCinemaRecording, getIsTvShow, getStringWithoutSpecialCharacters } 
 import { getTitleFileNameMetadata } from "@subtis/shared";
 
 // lib
+import { getJwtSecret } from "../../lib/api-keys";
 import { getSubtitleNormalized, subtitleNormalizedSchema } from "../../lib/parsers";
 import { alternativeTitlesSchema, subtitleSchema, subtitleShortenerSchema, subtitlesQuery } from "../../lib/schemas";
 import { getSupabaseClient } from "../../lib/supabase";
@@ -439,6 +441,14 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
             },
           },
         },
+        401: {
+          description: "Unauthorized",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
+            },
+          },
+        },
         400: {
           description: "Invalid bytes",
           content: {
@@ -482,6 +492,29 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         }),
     ),
     async (context) => {
+      const authorizationHeader = context.req.header("Authorization");
+
+      if (!authorizationHeader) {
+        context.status(401);
+        return context.json({ message: "No Authorization header provided" });
+      }
+
+      const [, token] = authorizationHeader.split(" ");
+
+      if (!token) {
+        context.status(401);
+        return context.json({ message: "No token provided in Authorization header" });
+      }
+
+      try {
+        const jwtSecret = getJwtSecret(context);
+        await verify(token, jwtSecret);
+      } catch (error) {
+        console.log("\n ~ error:", error);
+        context.status(401);
+        return context.json({ message: "Invalid or expired authentication token" });
+      }
+
       const { email, bytes, titleFileName } = context.req.valid("json");
 
       if (Number(bytes) < 1) {
@@ -542,6 +575,14 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
             },
           },
         },
+        401: {
+          description: "Unauthorized",
+          content: {
+            "application/json": {
+              schema: resolver(z.object({ message: z.string() })),
+            },
+          },
+        },
         415: {
           description: "Invalid video file name",
           content: {
@@ -575,6 +616,28 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       if (Number.isNaN(subtitleId) || subtitleId < 1) {
         context.status(400);
         return context.json({ message: "Invalid Subtitle ID: it should be a positive integer number" });
+      }
+
+      const authorizationHeader = context.req.header("Authorization");
+
+      if (!authorizationHeader) {
+        context.status(401);
+        return context.json({ message: "No Authorization header provided" });
+      }
+
+      const [, token] = authorizationHeader.split(" ");
+
+      if (!token) {
+        context.status(401);
+        return context.json({ message: "No token provided in Authorization header" });
+      }
+
+      try {
+        const jwtSecret = getJwtSecret(context);
+        await verify(token, jwtSecret);
+      } catch (error) {
+        context.status(401);
+        return context.json({ message: "Invalid or expired authentication token" });
       }
 
       const supabase = getSupabaseClient(context);

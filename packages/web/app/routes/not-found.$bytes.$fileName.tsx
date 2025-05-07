@@ -299,8 +299,9 @@ export default function NotFoundSubtitlePage() {
       return;
     }
 
-    await apiClient.v1.subtitle["not-found"].$post({
-      json: { email: values.email, bytes: Number(bytes), titleFileName: fileName },
+    await fetch("https://subtis.io/api/not-found", {
+      method: "POST",
+      body: JSON.stringify({ email: values.email, bytes: Number(bytes), titleFileName: fileName }),
     });
   }
 

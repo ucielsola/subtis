@@ -106,11 +106,9 @@ async function askForEmail(bytes: string, fileName: string) {
   });
 
   if (!shouldAskForEmail) {
-    await apiClient.v1.subtitle["not-found"].$post({
-      json: {
-        bytes: Number(bytes),
-        titleFileName: fileName,
-      },
+    await fetch("https://subtis.io/api/not-found", {
+      method: "POST",
+      body: JSON.stringify({ bytes: Number(bytes), titleFileName: fileName }),
     });
 
     outro("⛏ Estaremos buscando el subtítulo para vos!");
@@ -130,12 +128,9 @@ async function askForEmail(bytes: string, fileName: string) {
     },
   });
 
-  await apiClient.v1.subtitle["not-found"].$post({
-    json: {
-      bytes: Number(bytes),
-      email: email as string,
-      titleFileName: fileName,
-    },
+  await fetch("https://subtis.io/api/not-found", {
+    method: "POST",
+    body: JSON.stringify({ bytes: Number(bytes), titleFileName: fileName, email: email as string }),
   });
 
   outro("🙌 Gracias por tu paciencia! Pronto te avisaremos cuando esté disponible el subtítulo.");
