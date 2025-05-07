@@ -1,3 +1,6 @@
+import { sign } from "hono/jwt";
+import { z } from "zod";
+
 // api
 import { type SubtitleNormalized, subtitleNormalizedSchema } from "@subtis/api/lib/parsers";
 
@@ -5,6 +8,10 @@ import { type SubtitleNormalized, subtitleNormalizedSchema } from "@subtis/api/l
 import type { ApiClient } from "../ui/client";
 
 // helpers
+function getJwtSecret(): string {
+  return z.string().parse(process.env.JWT_SECRET);
+}
+
 export async function getPrimarySubtitle(
   apiClient: ApiClient,
   {
@@ -30,10 +37,15 @@ export async function getPrimarySubtitle(
   const data = await response.json();
   const primarySubtitle = subtitleNormalizedSchema.parse(data);
 
-  await fetch("https://subtis.io/api/download", {
-    method: "PATCH",
-    body: JSON.stringify({ titleSlug: primarySubtitle.title.slug, subtitleId: primarySubtitle.subtitle.id }),
-  });
+  const token = await sign(
+    { titleSlug: primarySubtitle.title.slug, subtitleId: primarySubtitle.subtitle.id },
+    getJwtSecret(),
+  );
+
+  await apiClient.v1.subtitle.metrics.download.$patch(
+    { json: { titleSlug: primarySubtitle.title.slug, subtitleId: primarySubtitle.subtitle.id } },
+    { headers: { Authorization: `Bearer ${token}` } },
+  );
 
   return primarySubtitle;
 }
@@ -53,10 +65,27 @@ export async function getAlternativeSubtitle(
   const data = await response.json();
   const alternativeSubtitle = subtitleNormalizedSchema.parse(data);
 
-  await fetch("https://subtis.io/api/download", {
-    method: "PATCH",
-    body: JSON.stringify({ titleSlug: alternativeSubtitle.title.slug, subtitleId: alternativeSubtitle.subtitle.id }),
-  });
+  const token = await sign(
+    { titleSlug: alternativeSubtitle.title.slug, subtitleId: alternativeSubtitle.subtitle.id },
+    getJwtSecret(),
+  );
+
+  await apiClient.v1.subtitle.metrics.download.$patch(
+    { json: { titleSlug: alternativeSubtitle.title.slug, subtitleId: alternativeSubtitle.subtitle.id } },
+    { headers: { Authorization: `Bearer ${token}` } },
+  );
 
   return alternativeSubtitle;
+}
+
+export async function setSubtitleNotFound(
+  apiClient: ApiClient,
+  { bytes, fileName, email }: { bytes: string; fileName: string; email?: string },
+) {
+  const token = await sign({ bytes: Number(bytes), titleFileName: fileName, email }, getJwtSecret());
+
+  await apiClient.v1.subtitle["not-found"].$post(
+    { json: { bytes: Number(bytes), titleFileName: fileName, email } },
+    { headers: { Authorization: `Bearer ${token}` } },
+  );
 }

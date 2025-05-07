@@ -13,6 +13,12 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
     return new Response(JSON.stringify({ error: "JWT_SECRET is not set" }), { status: 500 });
   }
 
+  const origin = request.headers.get("origin");
+
+  if (origin !== "https://subtis.io") {
+    return new Response(JSON.stringify({ error: "Origin not allowed" }), { status: 403 });
+  }
+
   if (request.method !== "PATCH") {
     return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405 });
   }

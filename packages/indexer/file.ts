@@ -9,9 +9,16 @@ import { z } from "zod";
 import { supabase } from "@subtis/db";
 
 // shared
-import { type TitleFileNameMetadata, getEpisode, getIsTvShow, getTitleFileNameMetadata } from "@subtis/shared";
+import {
+  type TitleFileNameMetadata,
+  getEpisode,
+  getIsTvShow,
+  getTitleFileNameMetadata,
+  setSubtitleNotFound,
+} from "@subtis/shared";
 
 // internals
+import { apiClient } from "./api";
 import { TitleTypes, type TorrentFound, getFileTitleTorrents, getSubtitlesForTitle } from "./app";
 import { FILE_NAME_TO_TMDB_INDEX } from "./edge-cases";
 import { getReleaseGroups } from "./release-groups";
@@ -374,10 +381,7 @@ export async function indexTitleByFileName({
     console.log("\n ~ error:", error);
 
     if (shouldStoreNotFoundSubtitle) {
-      await fetch("https://subtis.io/api/not-found", {
-        method: "POST",
-        body: JSON.stringify({ bytes, titleFileName }),
-      });
+      await setSubtitleNotFound(apiClient, { bytes: String(bytes), fileName: titleFileName });
     }
 
     console.log("mainIndexer => error =>", error);

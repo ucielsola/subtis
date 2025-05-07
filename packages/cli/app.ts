@@ -8,6 +8,7 @@ import {
   getAlternativeSubtitle,
   getMessageFromStatusCode,
   getPrimarySubtitle,
+  setSubtitleNotFound,
   videoFileNameSchema,
 } from "@subtis/shared";
 
@@ -106,13 +107,7 @@ async function askForEmail(bytes: string, fileName: string) {
   });
 
   if (!shouldAskForEmail) {
-    await fetch("https://subtis.io/api/not-found", {
-      method: "POST",
-      body: JSON.stringify({ bytes: Number(bytes), titleFileName: fileName }),
-    });
-
     outro("⛏ Estaremos buscando el subtítulo para vos!");
-
     return;
   }
 
@@ -128,10 +123,7 @@ async function askForEmail(bytes: string, fileName: string) {
     },
   });
 
-  await fetch("https://subtis.io/api/not-found", {
-    method: "POST",
-    body: JSON.stringify({ bytes: Number(bytes), titleFileName: fileName, email: email as string }),
-  });
+  await setSubtitleNotFound(apiClient, { bytes, fileName, email: email as string });
 
   outro("🙌 Gracias por tu paciencia! Pronto te avisaremos cuando esté disponible el subtítulo.");
 }
@@ -269,7 +261,7 @@ const program = new Command();
 program
   .name("subtis")
   .description("CLI to search for movie subtitles")
-  .version("0.6.8")
+  .version("0.6.9")
   .command("search")
   .description("Search a subtitle for a video file")
   .argument("<file>", "Video file")
