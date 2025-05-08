@@ -9,9 +9,9 @@ import { indexMovieByName } from "./movies";
 
 // testing
 indexMovieByName({
-  year: 2025,
+  year: 2023,
   isDebugging: false,
-  name: "A Minecraft Movie",
+  name: "When evil lurks",
 });
 
 // saveReleaseGroupsToDb(supabase);

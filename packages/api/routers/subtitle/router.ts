@@ -219,6 +219,11 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       const titleFileNameMetadata = getTitleFileNameMetadata({ titleFileName: videoFileName.data });
       const { name, year, releaseGroup, resolution, currentEpisode, currentSeason } = titleFileNameMetadata;
 
+      if (!resolution || !year) {
+        context.status(415);
+        return context.json({ message: "File name is not valid" });
+      }
+
       const parsedName = getStringWithoutSpecialCharacters(name);
       const alternativeParsedName = parsedName.replaceAll(" and ", " & ");
 
@@ -400,11 +405,14 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
           const { resolution, year } = getTitleFileNameMetadata({ titleFileName: fileName });
 
           if (!resolution || !year) {
-            context.status(404);
-            return context.json({ message: "Subtitle not found for file" });
+            context.status(415);
+            return context.json({ message: "File name is not valid" });
           }
 
           await supabase.from("SubtitlesNotFound").insert({ bytes: parsedBytes, title_file_name: fileName });
+
+          context.status(404);
+          return context.json({ message: "Subtitle not found for file" });
         }
       }
 
