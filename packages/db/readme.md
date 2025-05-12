@@ -38,9 +38,10 @@ RETURNS TABLE (
     overview text,
     runtime int2,
     rating float4,
-    youtube_id text
+    youtube_id text,
+    certification text
 )
-SET search_path = ''
+SET search_path = 'public'
 AS $$
 DECLARE
     year_match int8 := NULL;
@@ -83,7 +84,8 @@ BEGIN
         t.overview,
         t.runtime,
         t.rating,
-        t.youtube_id
+        t.youtube_id,
+        t.certification
     FROM public."Titles" t
     WHERE (
         year_only_search OR
