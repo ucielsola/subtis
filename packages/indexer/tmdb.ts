@@ -274,6 +274,25 @@ const tmdbMovieAlternativeTitleSchema = z.object({
   titles: z.array(z.object({ iso_3166_1: z.string(), title: z.string(), type: z.string() })),
 });
 
+const tmdbMovieCertificatesSchema = z.object({
+  id: z.number(),
+  results: z.array(
+    z.object({
+      iso_3166_1: z.string(),
+      release_dates: z.array(
+        z.object({
+          certification: z.string(),
+          descriptors: z.array(z.string().optional()),
+          iso_639_1: z.string(),
+          note: z.string(),
+          release_date: z.string(),
+          type: z.number(),
+        }),
+      ),
+    }),
+  ),
+});
+
 // constants
 const TMDB_OPTIONS = {
   headers: {
@@ -347,6 +366,9 @@ const tmdbApiEndpoints = {
   movieDetail: (id: number) => {
     return `https://api.themoviedb.org/3/movie/${id}?language=es-MX&with_original_language=en`;
   },
+  movieCertificates: (id: number) => {
+    return `https://api.themoviedb.org/3/movie/${id}/release_dates`;
+  },
   movieDetailAlternativeTitleJapanese: (id: number) => {
     return `https://api.themoviedb.org/3/movie/${id}/alternative_titles?country=JP`;
   },
@@ -396,6 +418,7 @@ export type TmdbTitle = {
   logo: string | null;
   poster: string | null;
   backdrop: string | null;
+  certification: string | null;
 };
 
 export type TmdbTvShow = TmdbTitle & {
@@ -410,6 +433,25 @@ function generateTmdbImageUrl(path: string | null): string | null {
   }
 
   return `https://image.tmdb.org/t/p/original${path}`;
+}
+
+async function getMovieCertificationFromTmdbMovie(id: number) {
+  const certificatesUrl = tmdbApiEndpoints.movieCertificates(id);
+  const certificatesResponse = await fetch(certificatesUrl, TMDB_OPTIONS);
+  const certificatesData = await certificatesResponse.json();
+
+  const certificates = tmdbMovieCertificatesSchema.parse(certificatesData);
+
+  const usCertifications = certificates.results.filter((result) => result.iso_3166_1 === "US");
+  const certifications = usCertifications
+    .flatMap((result) => result.release_dates.map((releaseDate) => releaseDate.certification))
+    .filter(Boolean);
+  const unrepeatedCertifications = [...new Set(certifications)];
+
+  const [firstCertification] = unrepeatedCertifications;
+  const parsedCertification = firstCertification ?? null;
+
+  return parsedCertification;
 }
 
 export async function getMovieMetadataFromTmdbMovie({
@@ -447,6 +489,9 @@ export async function getMovieMetadataFromTmdbMovie({
   // 6. Get movie poster
   const poster = await getTmdbMoviePosterUrl(id);
 
+  // 7. Get movie certification
+  const certification = await getMovieCertificationFromTmdbMovie(id);
+
   let japanaseName = null;
 
   if (original_language === "ja") {
@@ -474,6 +519,7 @@ export async function getMovieMetadataFromTmdbMovie({
     spanishName,
     releaseDate,
     japanaseName,
+    certification,
     rating: Number(Number(voteAverage).toFixed(1)),
     imdbLink: imdbId ? `https://www.imdb.com/title/tt${imdbId}` : "-",
   };
@@ -635,7 +681,7 @@ export async function getTvShowsFromTmdb(page: number, year: number): Promise<Tm
       voteAverage,
     });
 
-    tvShows.push({ ...tvShowData, runtime: null });
+    tvShows.push({ ...tvShowData, runtime: null, certification: null });
   }
 
   return tvShows;
@@ -668,7 +714,10 @@ export async function getTmdbTvShowFromTitle(query: string, year?: number): Prom
     voteAverage,
   });
 
-  return tvShowData;
+  return {
+    ...tvShowData,
+    certification: null,
+  };
 }
 
 async function getTmdbTvShowLogoUrl(id: number): Promise<string | null> {

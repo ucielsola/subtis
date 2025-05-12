@@ -90,7 +90,7 @@ export function PosterDisclosure({ src, alt, hashUrl, title, overview, rating, s
             onMouseLeave={() => controls.start("normal")}
           >
             <span
-              className={`text-left text-zinc-50 text-xl ${isOpen ? "opacity-100" : "opacity-0"} transition-all duration-300 ease-in-out`}
+              className={`text-left text-zinc-50 text-xl ${isOpen ? "opacity-100" : "opacity-0 truncate"} transition-all duration-300 ease-in-out`}
             >
               {title}
             </span>

@@ -253,6 +253,7 @@ export type Database = {
         Row: {
           backdrop: string | null;
           backdrop_thumbhash: string | null;
+          certification: string | null;
           created_at: string;
           id: number;
           imdb_id: string;
@@ -287,6 +288,7 @@ export type Database = {
         Insert: {
           backdrop?: string | null;
           backdrop_thumbhash?: string | null;
+          certification?: string | null;
           created_at?: string;
           id?: number;
           imdb_id: string;
@@ -321,6 +323,7 @@ export type Database = {
         Update: {
           backdrop?: string | null;
           backdrop_thumbhash?: string | null;
+          certification?: string | null;
           created_at?: string;
           id?: number;
           imdb_id?: string;

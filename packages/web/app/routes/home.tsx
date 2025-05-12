@@ -39,7 +39,10 @@ export const meta: MetaFunction = () => {
     { property: "og:image", content: "https://subtis.io/og.png" },
     { name: "twitter:card", content: "summary" },
     { name: "twitter:site", content: "@subt_is" },
-    { name: "twitter:title", content: "Subtis | Subtítulos para tus películas" },
+    {
+      name: "twitter:title",
+      content: "Subtis | Subtítulos para tus películas",
+    },
     {
       name: "twitter:description",
       content:

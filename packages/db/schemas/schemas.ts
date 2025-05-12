@@ -266,6 +266,7 @@ export const publicTitlegenresRelationshipsSchemaSchema = z.tuple([
 export const publicTitlesRowSchemaSchema = z.object({
   backdrop: z.string().nullable(),
   backdrop_thumbhash: z.string().nullable(),
+  certification: z.string().nullable(),
   created_at: z.string(),
   id: z.number(),
   imdb_id: z.string(),
@@ -301,6 +302,7 @@ export const publicTitlesRowSchemaSchema = z.object({
 export const publicTitlesInsertSchemaSchema = z.object({
   backdrop: z.string().optional().nullable(),
   backdrop_thumbhash: z.string().optional().nullable(),
+  certification: z.string().optional().nullable(),
   created_at: z.string().optional(),
   id: z.number().optional(),
   imdb_id: z.string(),
@@ -336,6 +338,7 @@ export const publicTitlesInsertSchemaSchema = z.object({
 export const publicTitlesUpdateSchemaSchema = z.object({
   backdrop: z.string().optional().nullable(),
   backdrop_thumbhash: z.string().optional().nullable(),
+  certification: z.string().optional().nullable(),
   created_at: z.string().optional(),
   id: z.number().optional(),
   imdb_id: z.string().optional(),

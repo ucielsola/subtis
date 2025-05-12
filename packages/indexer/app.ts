@@ -98,6 +98,7 @@ type TitleWithEpisode = Pick<
   | "total_episodes"
   | "logo"
   | "runtime"
+  | "certification"
 > & {
   episode: string | null;
 };
@@ -1406,6 +1407,7 @@ export async function getSubtitlesForTitle({
     totalSeasons,
     totalEpisodes,
     runtime,
+    certification,
   } = currentTitle;
 
   const titleType = episode ? TitleTypes.tvShow : TitleTypes.movie;
@@ -1695,6 +1697,7 @@ export async function getSubtitlesForTitle({
             logo,
             poster,
             backdrop,
+            certification,
             total_episodes: totalEpisodes,
             total_seasons: totalSeasons,
             type: episode ? TitleTypes.tvShow : TitleTypes.movie,
@@ -1767,6 +1770,7 @@ export async function getSubtitlesForTitle({
             logo,
             poster,
             backdrop,
+            certification,
             total_episodes: totalEpisodes,
             total_seasons: totalSeasons,
             type: episode ? TitleTypes.tvShow : TitleTypes.movie,
@@ -1831,6 +1835,7 @@ export async function getSubtitlesForTitle({
             title_name: name,
             rating,
             overview,
+            certification,
             title_name_spa: spanishName,
             title_name_ja: japanaseName,
             release_date: releaseDate,

@@ -24,6 +24,7 @@ import { DownloadIcon } from "~/components/icons/download";
 
 // lib
 import { apiClient } from "~/lib/api";
+import { getUiCertification } from "~/lib/certifications";
 import { cn } from "~/lib/utils";
 
 // ui
@@ -70,7 +71,10 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
       },
       { name: "robots", content: "index, follow" },
       { name: "author", content: "Subtis" },
-      { property: "og:title", content: "Subtis | Búsqueda por nombre de película" },
+      {
+        property: "og:title",
+        content: "Subtis | Búsqueda por nombre de película",
+      },
       {
         property: "og:description",
         content:
@@ -80,7 +84,10 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
       { property: "og:site_name", content: "Subtis" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@subt_is" },
-      { name: "twitter:title", content: "Subtis | Búsqueda por nombre de película" },
+      {
+        name: "twitter:title",
+        content: "Subtis | Búsqueda por nombre de película",
+      },
       {
         name: "twitter:description",
         content:
@@ -91,7 +98,9 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   }
 
   return [
-    { title: `Subtis | Subtítulo para ${data.title.title_name} (${data.title.year})` },
+    {
+      title: `Subtis | Subtítulo para ${data.title.title_name} (${data.title.year})`,
+    },
     {
       name: "description",
       content:
@@ -103,7 +112,10 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     },
     { name: "robots", content: "index, follow" },
     { name: "author", content: "Subtis" },
-    { property: "og:title", content: `Subtis | Subtítulo para ${data.title.title_name} (${data.title.year})` },
+    {
+      property: "og:title",
+      content: `Subtis | Subtítulo para ${data.title.title_name} (${data.title.year})`,
+    },
     {
       property: "og:description",
       content:
@@ -111,11 +123,17 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     },
     { property: "og:type", content: "website" },
     { property: "og:site_name", content: "Subtis" },
-    { property: "og:url", content: `https://subtis.io/subtitles/movie/${data.title.slug}` },
+    {
+      property: "og:url",
+      content: `https://subtis.io/subtitles/movie/${data.title.slug}`,
+    },
     { property: "og:image", content: "https://subtis.io/og.png" },
     { name: "twitter:card", content: "summary" },
     { name: "twitter:site", content: "@subt_is" },
-    { name: "twitter:title", content: `Subtis | Subtítulo para ${data.title.title_name} (${data.title.year})` },
+    {
+      name: "twitter:title",
+      content: `Subtis | Subtítulo para ${data.title.title_name} (${data.title.year})`,
+    },
     {
       name: "twitter:description",
       content:
@@ -599,6 +617,9 @@ export default function SubtitlesPage() {
               <div className="flex flex-row gap-2 justify-center md:justify-start">
                 <Badge variant="outline">{loaderData.title.year}</Badge>
                 <Badge variant="outline">{`${totalHours ? `${totalHours}h ` : ""}${totalMinutes ? `${totalMinutes}m` : ""}`}</Badge>
+                {loaderData.title.certification ? (
+                  <Badge variant="outline">{getUiCertification(loaderData.title.certification)}</Badge>
+                ) : null}
               </div>
               <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold text-balance hidden md:block">
                 {loaderData.title.title_name}

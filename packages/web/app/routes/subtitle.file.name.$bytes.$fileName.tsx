@@ -25,6 +25,7 @@ import { Play } from "~/components/icons/play";
 
 // lib
 import { apiClient } from "~/lib/api";
+import { getUiCertification } from "~/lib/certifications";
 import { cn } from "~/lib/utils";
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
@@ -107,7 +108,10 @@ export const meta: MetaFunction<typeof loader> = ({ data, params }) => {
       },
       { name: "robots", content: "index, follow" },
       { name: "author", content: "Subtis" },
-      { property: "og:title", content: "Subtis | Subtítulos para tus películas" },
+      {
+        property: "og:title",
+        content: "Subtis | Subtítulos para tus películas",
+      },
       {
         property: "og:description",
         content:
@@ -115,11 +119,17 @@ export const meta: MetaFunction<typeof loader> = ({ data, params }) => {
       },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Subtis" },
-      { property: "og:url", content: `https://subtis.io/subtitle/file/name/${bytes}/${fileName}` },
+      {
+        property: "og:url",
+        content: `https://subtis.io/subtitle/file/name/${bytes}/${fileName}`,
+      },
       { property: "og:image", content: "https://subtis.io/og.png" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@subt_is" },
-      { name: "twitter:title", content: "Subtis | Subtítulos para tus películas" },
+      {
+        name: "twitter:title",
+        content: "Subtis | Subtítulos para tus películas",
+      },
       {
         name: "twitter:description",
         content:
@@ -326,7 +336,10 @@ export default function SubtitlePage() {
 
     await fetch("/api/download", {
       method: "PATCH",
-      body: JSON.stringify({ titleSlug: loaderData.title.slug, subtitleId: loaderData.subtitle.id }),
+      body: JSON.stringify({
+        titleSlug: loaderData.title.slug,
+        subtitleId: loaderData.subtitle.id,
+      }),
     });
 
     triggerShareToast();
@@ -385,13 +398,16 @@ export default function SubtitlePage() {
               <div className="flex flex-row gap-2 justify-center md:justify-start">
                 <Badge variant="outline">{loaderData.title.year}</Badge>
                 <Badge variant="outline">{`${totalHours ? `${totalHours}h ` : ""}${totalMinutes ? `${totalMinutes}m` : ""}`}</Badge>
+                {loaderData.title.certification ? (
+                  <Badge variant="outline">{getUiCertification(loaderData.title.certification)}</Badge>
+                ) : null}
               </div>
               <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold text-balance hidden md:block">
                 {loaderData.title.title_name}
               </h1>
             </div>
             <h2 className="text-zinc-50 text-sm md:text-base text-center md:text-left">
-              🍿 Disfrutá de {loaderData.title.title_name} subtitulada.
+              🍿 Acomódate y disfrutá tu película subtitulada.
             </h2>
           </div>
           <article className="flex flex-row gap-4 justify-center md:justify-start">

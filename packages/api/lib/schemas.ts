@@ -30,7 +30,8 @@ export const titleMetadataQuery = `
   optimized_poster,
   optimized_backdrop,
   title_name,
-  subtitles: Subtitles ( id )
+  subtitles: Subtitles ( id ),
+  certification
 `;
 
 export const titleMetadataSchema = publicTitlesRowSchemaSchema
@@ -46,6 +47,7 @@ export const titleMetadataSchema = publicTitlesRowSchemaSchema
     optimized_logo: true,
     optimized_poster: true,
     optimized_backdrop: true,
+    certification: true,
   })
   .extend({
     subtitles: z.array(publicSubtitlesRowSchemaSchema.pick({ id: true })),
@@ -70,6 +72,7 @@ export const titleSchema = publicTitlesRowSchemaSchema.pick({
   poster_thumbhash: true,
   backdrop_thumbhash: true,
   youtube_id: true,
+  certification: true,
 });
 
 export const titlesQuery = `
@@ -89,7 +92,8 @@ export const titlesQuery = `
   runtime,
   poster_thumbhash,
   backdrop_thumbhash,
-  youtube_id
+  youtube_id,
+  certification
 `;
 
 // alternative titles

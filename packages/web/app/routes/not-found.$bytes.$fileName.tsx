@@ -26,6 +26,7 @@ import { Play } from "~/components/icons/play";
 
 // lib
 import { apiClient } from "~/lib/api";
+import { getUiCertification } from "~/lib/certifications";
 import { cn } from "~/lib/utils";
 
 // ui
@@ -58,7 +59,10 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
       },
       { name: "robots", content: "index, follow" },
       { name: "author", content: "Subtis" },
-      { property: "og:title", content: "Subtis | Subtítulos para tus películas" },
+      {
+        property: "og:title",
+        content: "Subtis | Subtítulos para tus películas",
+      },
       {
         property: "og:description",
         content:
@@ -70,7 +74,10 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
       { property: "og:image", content: "https://subtis.io/og.png" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@subt_is" },
-      { name: "twitter:title", content: "Subtis | Subtítulos para tus películas" },
+      {
+        name: "twitter:title",
+        content: "Subtis | Subtítulos para tus películas",
+      },
       {
         name: "twitter:description",
         content:
@@ -81,7 +88,9 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   }
 
   return [
-    { title: `Subtis | Subtitulos Alternativos para ${data.title.title_name} (${data.title.year})` },
+    {
+      title: `Subtis | Subtitulos Alternativos para ${data.title.title_name} (${data.title.year})`,
+    },
     {
       name: "description",
       content:
@@ -301,7 +310,11 @@ export default function NotFoundSubtitlePage() {
 
     await fetch("https://subtis.io/api/not-found", {
       method: "POST",
-      body: JSON.stringify({ email: values.email, bytes: Number(bytes), titleFileName: fileName }),
+      body: JSON.stringify({
+        email: values.email,
+        bytes: Number(bytes),
+        titleFileName: fileName,
+      }),
     });
   }
 
@@ -355,6 +368,9 @@ export default function NotFoundSubtitlePage() {
                 <div className="flex flex-row gap-2">
                   <Badge variant="outline">{loaderData.title.year}</Badge>
                   <Badge variant="outline">{`${totalHours ? `${totalHours}h ` : ""}${totalMinutes ? `${totalMinutes}m` : ""}`}</Badge>
+                  {loaderData.title.certification ? (
+                    <Badge variant="outline">{getUiCertification(loaderData.title.certification)}</Badge>
+                  ) : null}
                 </div>
                 <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold text-balance">
                   {loaderData.title.title_name}
