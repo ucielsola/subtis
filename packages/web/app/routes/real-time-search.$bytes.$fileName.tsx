@@ -74,11 +74,17 @@ export const meta: MetaFunction<typeof loader> = ({ params }) => {
     },
     { property: "og:type", content: "website" },
     { property: "og:site_name", content: "Subtis" },
-    { property: "og:url", content: `https://subtis.io/real-time-search/${bytes}/${fileName}` },
+    {
+      property: "og:url",
+      content: `https://subtis.io/real-time-search/${bytes}/${fileName}`,
+    },
     { property: "og:image", content: "https://subtis.io/og.png" },
     { name: "twitter:card", content: "summary" },
     { name: "twitter:site", content: "@subt_is" },
-    { name: "twitter:title", content: "Subtis | Buscando subtítulo en tiempo real" },
+    {
+      name: "twitter:title",
+      content: "Subtis | Buscando subtítulo en tiempo real",
+    },
     {
       name: "twitter:description",
       content:
@@ -173,31 +179,26 @@ export default function RealTimeSearchPage() {
           ws.send(JSON.stringify(message));
         });
 
-        ws.addEventListener(
-          "message",
-          (messageEvent: {
-            data: string;
-          }) => {
-            const parsedData = JSON.parse(messageEvent.data);
+        ws.addEventListener("message", (messageEvent: { data: string }) => {
+          const parsedData = JSON.parse(messageEvent.data);
 
-            const okSafeParsed = wsOkSchema.safeParse(parsedData);
-            const messageSafeParsed = wsMessageSchema.safeParse(parsedData);
+          const okSafeParsed = wsOkSchema.safeParse(parsedData);
+          const messageSafeParsed = wsMessageSchema.safeParse(parsedData);
 
-            if (okSafeParsed.success && okSafeParsed.data.ok === true) {
-              resolve(okSafeParsed.data);
-            }
+          if (okSafeParsed.success && okSafeParsed.data.ok === true) {
+            resolve(okSafeParsed.data);
+          }
 
-            if (okSafeParsed.success && okSafeParsed.data.ok === false) {
-              setMessage("No pudimos encontrar el subtítulo en tiempo real.");
-              resolve(okSafeParsed.data);
-            }
+          if (okSafeParsed.success && okSafeParsed.data.ok === false) {
+            setMessage("No pudimos encontrar el subtítulo en tiempo real.");
+            resolve(okSafeParsed.data);
+          }
 
-            if (messageSafeParsed.success) {
-              setTotal(messageSafeParsed.data.total);
-              setMessage(messageSafeParsed.data.message);
-            }
-          },
-        );
+          if (messageSafeParsed.success) {
+            setTotal(messageSafeParsed.data.total);
+            setMessage(messageSafeParsed.data.message);
+          }
+        });
 
         ws.addEventListener("error", () => {
           resolve({ ok: false });
@@ -252,7 +253,7 @@ export default function RealTimeSearchPage() {
               Buscando subtítulo...
             </TextShimmerWave>
             <div className="flex flex-col gap-1">
-              <h2 className="text-zinc-50 text-sm md:text-base">Este proceso puede durar hasta 30 segundos.</h2>
+              <h2 className="text-zinc-50 text-sm md:text-base">Este proceso puede durar alrededor de 20 segundos.</h2>
               {message ? (
                 <p className="text-zinc-300 text-xs md:text-sm">
                   {total === 0 ? "0% " : ""}
