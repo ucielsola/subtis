@@ -346,8 +346,8 @@ export const titles = new Hono<{ Variables: AppVariables }>()
       const { data, error } = await getSupabaseClient(context)
         .from("Titles")
         .select(titlesQuery)
-        .order("queried_times", { ascending: false })
         .order("last_queried_at", { ascending: false })
+        .order("queried_times", { ascending: false })
         .limit(parsedLimit);
 
       if (error && error.code === "PGRST116") {
