@@ -346,6 +346,7 @@ export const titles = new Hono<{ Variables: AppVariables }>()
       const { data, error } = await getSupabaseClient(context)
         .from("Titles")
         .select(titlesQuery)
+        .gt("queried_times", 0)
         .order("last_queried_at", { ascending: false })
         .order("queried_times", { ascending: false })
         .limit(parsedLimit);
