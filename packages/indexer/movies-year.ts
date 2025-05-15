@@ -15,7 +15,7 @@ import { indexMoviesByYear } from "./movies";
 // });
 
 indexMoviesByYear({
-  year: 2022,
+  year: 2025,
   isDebugging: false,
   indexFromPage: 0,
 });

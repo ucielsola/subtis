@@ -9,9 +9,9 @@ import { indexMovieByName } from "./movies";
 
 // testing
 indexMovieByName({
-  year: 2023,
+  year: 2024,
   isDebugging: false,
-  name: "When evil lurks",
+  name: "The Count of Monte Cristo",
 });
 
 // saveReleaseGroupsToDb(supabase);
