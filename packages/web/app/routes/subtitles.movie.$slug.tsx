@@ -450,7 +450,7 @@ export default function SubtitlesPage() {
 
         const subDivXLink = `${website}/${external_id}`;
         const subDLLink = `${website}/s/info/${external_id}`;
-        const opensubtitlesLink = `${website}/es/subtitles/legacy/${external_id}`;
+        const opensubtitlesLink = external_id ? `${website}/es/subtitles/legacy/${external_id}` : null;
 
         const externalLink =
           subtitle_group_name === "SubDivX"
@@ -554,23 +554,25 @@ export default function SubtitlesPage() {
               </TooltipTrigger>
               <TooltipContent side="bottom">Copiar Link</TooltipContent>
             </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  asChild
-                  variant="secondary"
-                  size="sm"
-                  className="p-2 h-7 hover:bg-zinc-800 bg-zinc-800 hover:text-zinc-50"
-                  onMouseEnter={() => arrowControls.start("animate")}
-                  onMouseLeave={() => arrowControls.start("normal")}
-                >
-                  <a target="_blank" rel="noopener noreferrer" href={externalLink}>
-                    <Arrow controls={arrowControls} size={18} className="stroke-zinc-100" />
-                  </a>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">Ver en {subtitle_group_name}</TooltipContent>
-            </Tooltip>
+            {externalLink ? (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    asChild
+                    variant="secondary"
+                    size="sm"
+                    className="p-2 h-7 hover:bg-zinc-800 bg-zinc-800 hover:text-zinc-50"
+                    onMouseEnter={() => arrowControls.start("animate")}
+                    onMouseLeave={() => arrowControls.start("normal")}
+                  >
+                    <a target="_blank" rel="noopener noreferrer" href={externalLink}>
+                      <Arrow controls={arrowControls} size={18} className="stroke-zinc-100" />
+                    </a>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">Ver en {subtitle_group_name}</TooltipContent>
+              </Tooltip>
+            ) : null}
           </div>
         );
       },
