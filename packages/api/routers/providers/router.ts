@@ -283,7 +283,7 @@ export const providers = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "An error occurred", error: spotifyTokenError.issues[0].message });
       }
 
-      const spotifyQuery = `${title.title_name} ${title.year} original soundtrack`;
+      const spotifyQuery = `${title.title_name} ${title.year} soundtrack`;
 
       const queryParams = querystring.stringify({
         limit: 20,
@@ -319,7 +319,11 @@ export const providers = new Hono<{ Variables: AppVariables }>()
         const parsedName = getStringWithoutSpecialCharacters(name);
         const parsedTitle = getStringWithoutSpecialCharacters(title.title_name);
 
-        return parsedName.includes(parsedTitle) && release_date.includes(String(title.year));
+        return (
+          parsedName.includes(parsedTitle) &&
+          release_date.includes(String(title.year)) &&
+          /soundtrack|motion/.test(parsedName)
+        );
       });
 
       if (!soundtrack) {
@@ -327,7 +331,7 @@ export const providers = new Hono<{ Variables: AppVariables }>()
           const parsedName = getStringWithoutSpecialCharacters(name);
           const parsedTitle = getStringWithoutSpecialCharacters(title.title_name);
 
-          return parsedName.includes(parsedTitle);
+          return parsedName.includes(parsedTitle) && /soundtrack|motion/.test(parsedName);
         });
       }
 
