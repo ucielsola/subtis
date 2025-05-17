@@ -5,6 +5,7 @@ import { useOnClickOutside } from "usehooks-ts";
 
 // ui
 import { Disclosure, DisclosureContent, DisclosureTrigger } from "~/components/ui/disclosure";
+import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
 // icons
 import { ChevronsDownUpIcon } from "~/components/icons/chevrons-down-up";
@@ -115,10 +116,17 @@ export function PosterDisclosure({ src, alt, hashUrl, title, overview, rating, s
               ) : (
                 <p className="text-zinc-300 text-sm leading-6 pt-2 pb-4 line-clamp-[14]">Sinopsis no disponible.</p>
               )}
-              <div className="flex items-center gap-1">
-                <StarIcon size={16} className="fill-yellow-300 stroke-none" />
-                <span className="text-zinc-50 text-sm">{rating}/10</span>
-              </div>
+              <Tooltip>
+                <TooltipTrigger>
+                  <div className="flex items-center gap-1">
+                    <StarIcon size={16} className="fill-yellow-300 stroke-none" />
+                    <span className="text-zinc-50 text-sm">{rating}/10</span>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent side="right">
+                  <p className="text-zinc-50 text-sm">Puntuación de IMDb</p>
+                </TooltipContent>
+              </Tooltip>
             </div>
           </div>
         </DisclosureContent>
