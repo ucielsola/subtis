@@ -286,7 +286,7 @@ export const providers = new Hono<{ Variables: AppVariables }>()
       const spotifyQuery = `${title.title_name} ${title.year} soundtrack`;
 
       const queryParams = querystring.stringify({
-        limit: 20,
+        limit: 30,
         market: "US",
         type: "album",
         q: spotifyQuery,
@@ -315,23 +315,22 @@ export const providers = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "No soundtrack found" });
       }
 
+      const parsedTitle = getStringWithoutSpecialCharacters(title.title_name);
+
       let soundtrack = spotifySearchData.albums.items.find(({ name, release_date }) => {
         const parsedName = getStringWithoutSpecialCharacters(name);
-        const parsedTitle = getStringWithoutSpecialCharacters(title.title_name);
 
         return (
-          parsedName.includes(parsedTitle) &&
+          parsedName.startsWith(parsedTitle) &&
           release_date.includes(String(title.year)) &&
-          /soundtrack|motion/.test(parsedName)
+          /soundtrack|motion/gi.test(parsedName)
         );
       });
 
       if (!soundtrack) {
         soundtrack = spotifySearchData.albums.items.find(({ name }) => {
           const parsedName = getStringWithoutSpecialCharacters(name);
-          const parsedTitle = getStringWithoutSpecialCharacters(title.title_name);
-
-          return parsedName.includes(parsedTitle) && /soundtrack|motion/.test(parsedName);
+          return parsedName.startsWith(parsedTitle) && /soundtrack|motion/gi.test(parsedName);
         });
       }
 
