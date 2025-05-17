@@ -6,7 +6,7 @@ type SupportedLanguages = "es";
 export type FileExtension = "rar" | "srt" | "zip";
 
 export type SubtitleData = {
-  externalId: string;
+  externalId: string | null;
   downloadFileName: string;
   fileExtension: FileExtension;
   subtitleCompressedFileName: string;

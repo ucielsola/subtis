@@ -76,7 +76,7 @@ export type Database = {
           created_at: string;
           current_episode: number | null;
           current_season: number | null;
-          external_id: string;
+          external_id: string | null;
           file_extension: string;
           id: number;
           is_valid: boolean;
@@ -102,7 +102,7 @@ export type Database = {
           created_at?: string;
           current_episode?: number | null;
           current_season?: number | null;
-          external_id: string;
+          external_id?: string | null;
           file_extension: string;
           id?: number;
           is_valid: boolean;
@@ -128,7 +128,7 @@ export type Database = {
           created_at?: string;
           current_episode?: number | null;
           current_season?: number | null;
-          external_id?: string;
+          external_id?: string | null;
           file_extension?: string;
           id?: number;
           is_valid?: boolean;
@@ -428,6 +428,7 @@ export type Database = {
           runtime: number;
           rating: number;
           youtube_id: string;
+          certification: string;
         }[];
       };
       gtrgm_compress: {

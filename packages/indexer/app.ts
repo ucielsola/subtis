@@ -561,7 +561,7 @@ async function addWatermarkToSubtitle({
   subtitleGroupName,
 }: {
   path: string;
-  subtitleId: string;
+  subtitleId: string | null;
   titleType: TitleTypes;
   subtitleGroupName: SubtitleGroupNames;
 }): Promise<void> {
@@ -654,7 +654,7 @@ ${subtitleText}
 ${watermarkNextId}
 ${lastSubtitleTimestamp} --> ${extraWatermarkTimestamp}
 Fuente del subtítulo: ${subtitleGroupName}
-Link: ${providerSubtitleLink}
+${subtitleId ? `Link: ${providerSubtitleLink}` : ""}
 ID: ${subtitleId}
 `;
     })

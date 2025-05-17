@@ -450,7 +450,7 @@ export default function SubtitlesPage() {
 
         const subDivXLink = `${website}/${external_id}`;
         const subDLLink = `${website}/s/info/${external_id}`;
-        const opensubtitlesLink = external_id ? `${website}/es/subtitles/legacy/${external_id}` : null;
+        const opensubtitlesLink = `${website}/es/subtitles/legacy/${external_id}`;
 
         const externalLink =
           subtitle_group_name === "SubDivX"
@@ -554,7 +554,7 @@ export default function SubtitlesPage() {
               </TooltipTrigger>
               <TooltipContent side="bottom">Copiar Link</TooltipContent>
             </Tooltip>
-            {externalLink ? (
+            {external_id ? (
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button

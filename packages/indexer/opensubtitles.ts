@@ -326,7 +326,7 @@ export async function filterOpenSubtitleSubtitlesForTorrent({
     subtitleLink,
     fileExtension,
     subtitleGroupName,
-    externalId: subtitle.id,
+    externalId: subtitle.id === "null" ? null : subtitle.id,
     ...subtitleFileNames,
   };
 }
