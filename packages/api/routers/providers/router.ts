@@ -317,7 +317,12 @@ export const providers = new Hono<{ Variables: AppVariables }>()
 
       const parsedTitle = getStringWithoutSpecialCharacters(title.title_name);
 
-      let soundtrack = spotifySearchData.albums.items.find(({ name, release_date }) => {
+      const soundtracksWithoutGamesSoundtracks = spotifySearchData.albums.items.filter(({ name }) => {
+        const parsedName = getStringWithoutSpecialCharacters(name);
+        return !parsedName.includes("game soundtrack");
+      });
+
+      const soundtrack = soundtracksWithoutGamesSoundtracks.find(({ name, release_date }) => {
         const parsedName = getStringWithoutSpecialCharacters(name);
 
         return (
@@ -326,13 +331,6 @@ export const providers = new Hono<{ Variables: AppVariables }>()
           /soundtrack|motion/gi.test(parsedName)
         );
       });
-
-      if (!soundtrack) {
-        soundtrack = spotifySearchData.albums.items.find(({ name }) => {
-          const parsedName = getStringWithoutSpecialCharacters(name);
-          return parsedName.startsWith(parsedTitle) && /soundtrack|motion/gi.test(parsedName);
-        });
-      }
 
       if (!soundtrack) {
         context.status(404);
