@@ -71,7 +71,7 @@ async function getTitleSubtitle(args: Args): Promise<{ subtitles: StremioSubtitl
 const builder = new addonBuilder({
   name: "Subtis - Beta Privada",
   id: "org.subtis",
-  version: "0.7.1",
+  version: "0.7.2",
   description: "Subtis es tu fuente de subtítulos para tus películas favoritas.",
   catalogs: [],
   resources: ["subtitles"],
