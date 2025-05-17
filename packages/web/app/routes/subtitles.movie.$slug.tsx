@@ -633,39 +633,45 @@ export default function SubtitlesPage() {
           </div>
           <div>
             <div className="flex flex-row items-center gap-4 justify-center md:justify-start">
-              {isAdvancedModeEnabled ? (
-                <Tooltip>
-                  <TooltipTrigger className=" cursor-not-allowed">
-                    <Button size="sm" disabled className="transition-all ease-in-out duration-300 opacity-30">
+              <div className="flex flex-col md:flex-row items-center gap-8 md:gap-4 justify-center md:justify-start">
+                {isAdvancedModeEnabled ? (
+                  <Tooltip>
+                    <TooltipTrigger className=" cursor-not-allowed">
+                      <Button size="sm" disabled className="transition-all ease-in-out duration-300 opacity-30">
+                        <DownloadIcon size={18} controls={downloadControls} />
+                        Descargar Subtítulo
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent side="top">Habilitame desactivando el modo experto</TooltipContent>
+                  </Tooltip>
+                ) : (
+                  <Button asChild size="sm">
+                    <a
+                      download
+                      href={loaderData.results[0].subtitle.subtitle_link}
+                      onMouseEnter={() => downloadControls.start("animate")}
+                      onMouseLeave={() => downloadControls.start("normal")}
+                      className="transition-all ease-in-out duration-300 opacity-100"
+                      onClick={() =>
+                        handleDownloadSubtitle({
+                          titleSlug: loaderData.title.slug,
+                          subtitleId: loaderData.results[0].subtitle.id,
+                        })
+                      }
+                    >
                       <DownloadIcon size={18} controls={downloadControls} />
                       Descargar Subtítulo
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent side="top">Habilitame desactivando el modo experto</TooltipContent>
-                </Tooltip>
-              ) : (
-                <Button asChild size="sm">
-                  <a
-                    download
-                    href={loaderData.results[0].subtitle.subtitle_link}
-                    onMouseEnter={() => downloadControls.start("animate")}
-                    onMouseLeave={() => downloadControls.start("normal")}
-                    className="transition-all ease-in-out duration-300 opacity-100"
-                    onClick={() =>
-                      handleDownloadSubtitle({
-                        titleSlug: loaderData.title.slug,
-                        subtitleId: loaderData.results[0].subtitle.id,
-                      })
-                    }
-                  >
-                    <DownloadIcon size={18} controls={downloadControls} />
-                    Descargar Subtítulo
-                  </a>
-                </Button>
-              )}
-              <div className="flex items-center space-x-2">
-                <Switch id="advanced-mode" checked={isAdvancedModeEnabled} onCheckedChange={handleToggleAdvancedMode} />
-                <Label htmlFor="advanced-mode">Modo Experto</Label>
+                    </a>
+                  </Button>
+                )}
+                <div className="flex items-center space-x-2">
+                  <Switch
+                    id="advanced-mode"
+                    checked={isAdvancedModeEnabled}
+                    onCheckedChange={handleToggleAdvancedMode}
+                  />
+                  <Label htmlFor="advanced-mode">Modo Experto</Label>
+                </div>
               </div>
             </div>
             {isAdvancedModeEnabled ? (
