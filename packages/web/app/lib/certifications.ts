@@ -1,10 +1,10 @@
 export function getUiCertification(certification: string): string | null {
-  const mapping: Record<string, number | null> = {
-    G: 0,
-    PG: 10,
-    "PG-13": 13,
-    R: 17,
-    "NC-17": 18,
+  const mapping: Record<string, string | null> = {
+    G: "ATP",
+    PG: "10",
+    "PG-13": "13",
+    R: "17",
+    "NC-17": "18",
     NR: null,
   };
   const result = mapping[certification as keyof typeof mapping] || null;
@@ -13,5 +13,5 @@ export function getUiCertification(certification: string): string | null {
     return null;
   }
 
-  return `${result}+`;
+  return result === "ATP" ? result : `${result}+`;
 }
