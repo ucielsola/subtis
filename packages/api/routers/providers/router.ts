@@ -241,12 +241,15 @@ export const providers = new Hono<{ Variables: AppVariables }>()
     zValidator("param", z.object({ slug: z.string().openapi({ example: "nosferatu-2024" }) })),
     async (context) => {
       const { slug } = context.req.valid("param");
-      const SPOTIFY_ALBUM_URL = "https://open.spotify.com/album";
+
+      const SPOTIFY_URL = "https://open.spotify.com";
+      const SPOTIFY_ALBUM_URL = `${SPOTIFY_URL}/album`;
+      const SPOTIFY_PLAYLIST_URL = `${SPOTIFY_URL}/playlist`;
 
       const supabaseClient = getSupabaseClient(context);
       const { data: title } = await supabaseClient
         .from("Titles")
-        .select("title_name, year, spotify_id")
+        .select("title_name, year, spotify_id, spotify_type")
         .match({ slug })
         .single();
 
@@ -256,7 +259,10 @@ export const providers = new Hono<{ Variables: AppVariables }>()
       }
 
       if (title.spotify_id) {
-        return context.json({ link: `${SPOTIFY_ALBUM_URL}/${title.spotify_id}` });
+        return context.json({
+          type: title.spotify_type,
+          link: `${SPOTIFY_URL}/${title.spotify_type}/${title.spotify_id}`,
+        });
       }
 
       const { clientId, clientSecret } = getSpotifyApiKey(context);
@@ -288,8 +294,8 @@ export const providers = new Hono<{ Variables: AppVariables }>()
       const queryParams = querystring.stringify({
         limit: 30,
         market: "US",
-        type: "album",
         q: spotifyQuery,
+        type: "album,playlist",
       });
       const searchEndpoint = `https://api.spotify.com/v1/search?${queryParams}`;
 
@@ -310,37 +316,74 @@ export const providers = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "An error occurred", error: spotifySearchError.issues[0].message });
       }
 
-      if (spotifySearchData?.albums.items.length === 0) {
-        context.status(404);
-        return context.json({ message: "No soundtrack found" });
-      }
-
       const parsedTitle = getStringWithoutSpecialCharacters(title.title_name);
 
-      const soundtracksWithoutGamesSoundtracks = spotifySearchData.albums.items.filter(({ name }) => {
-        const parsedName = getStringWithoutSpecialCharacters(name);
-        return !parsedName.includes("game soundtrack");
-      });
+      if ("albums" in spotifySearchData && spotifySearchData.albums.items.length > 0) {
+        const soundtracksWithoutGamesSoundtracks = spotifySearchData.albums.items.filter(({ name }) => {
+          const parsedName = getStringWithoutSpecialCharacters(name);
+          return !parsedName.includes("game soundtrack");
+        });
 
-      const soundtrack = soundtracksWithoutGamesSoundtracks.find(({ name, release_date }) => {
-        const parsedName = getStringWithoutSpecialCharacters(name);
+        const soundtrack = soundtracksWithoutGamesSoundtracks.find(({ name, release_date }) => {
+          const parsedName = getStringWithoutSpecialCharacters(name);
 
-        return (
-          parsedName.startsWith(parsedTitle) &&
-          release_date.includes(String(title.year)) &&
-          /soundtrack|motion/gi.test(parsedName)
-        );
-      });
+          return (
+            parsedName.startsWith(parsedTitle) &&
+            release_date.includes(String(title.year)) &&
+            /soundtrack|motion/gi.test(parsedName)
+          );
+        });
 
-      if (!soundtrack) {
-        context.status(404);
-        return context.json({ message: "No soundtrack found" });
+        if (soundtrack) {
+          const { id: soundtrackId } = soundtrack;
+          await supabaseClient
+            .from("Titles")
+            .update({
+              spotify_type: "album",
+              spotify_id: soundtrackId,
+            })
+            .match({ slug });
+
+          return context.json({
+            type: "album",
+            link: `${SPOTIFY_ALBUM_URL}/${soundtrackId}`,
+          });
+        }
       }
 
-      const { id: soundtrackId } = soundtrack;
-      await supabaseClient.from("Titles").update({ spotify_id: soundtrackId }).match({ slug });
+      if ("playlists" in spotifySearchData && spotifySearchData.playlists.items.length > 0) {
+        const parsedPlaylists = spotifySearchData.playlists.items.filter((playlist) => playlist !== null);
 
-      return context.json({ link: `${SPOTIFY_ALBUM_URL}/${soundtrackId}` });
+        const soundtracksWithoutGamesSoundtracks = parsedPlaylists.filter(({ name }) => {
+          const parsedName = getStringWithoutSpecialCharacters(name);
+          return !parsedName.includes("game soundtrack");
+        });
+
+        const soundtrack = soundtracksWithoutGamesSoundtracks.find(({ name }) => {
+          const parsedName = getStringWithoutSpecialCharacters(name);
+
+          return parsedName.startsWith(parsedTitle) && /soundtrack|motion/gi.test(parsedName);
+        });
+
+        if (soundtrack) {
+          const { id: soundtrackId } = soundtrack;
+          await supabaseClient
+            .from("Titles")
+            .update({
+              spotify_type: "playlist",
+              spotify_id: soundtrackId,
+            })
+            .match({ slug });
+
+          return context.json({
+            type: "playlist",
+            link: `${SPOTIFY_PLAYLIST_URL}/${soundtrackId}`,
+          });
+        }
+      }
+
+      context.status(404);
+      return context.json({ message: "No soundtrack found" });
     },
     cache({ cacheName: "subtis-api-providers", cacheControl: `max-age=${timestring("1 month")}` }),
   )

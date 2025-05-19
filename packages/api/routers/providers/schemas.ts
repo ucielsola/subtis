@@ -21,4 +21,5 @@ export const titleRottenTomatoesSlugResponseSchema = z.object({
 
 export const titleSpotifySlugResponseSchema = z.object({
   link: z.string(),
+  type: z.enum(["album", "playlist"]),
 });

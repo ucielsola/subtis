@@ -722,7 +722,14 @@ export default function SubtitlePage() {
                         </a>
                       </TooltipTrigger>
                       <TooltipContent side="bottom">
-                        <p>Soundtrack</p>
+                        <p>
+                          Soundtrack{" "}
+                          {titleSpotify.type === "album"
+                            ? "(Oficial)"
+                            : titleSpotify.type === "playlist"
+                              ? "(No Oficial)"
+                              : ""}
+                        </p>
                       </TooltipContent>
                     </Tooltip>
                   ) : null}

@@ -275,6 +275,7 @@ export type Database = {
           searched_times: number | null;
           slug: string;
           spotify_id: string | null;
+          spotify_type: string | null;
           title_name: string;
           title_name_ja: string | null;
           title_name_spa: string;
@@ -310,6 +311,7 @@ export type Database = {
           searched_times?: number | null;
           slug: string;
           spotify_id?: string | null;
+          spotify_type?: string | null;
           title_name: string;
           title_name_ja?: string | null;
           title_name_spa: string;
@@ -345,6 +347,7 @@ export type Database = {
           searched_times?: number | null;
           slug?: string;
           spotify_id?: string | null;
+          spotify_type?: string | null;
           title_name?: string;
           title_name_ja?: string | null;
           title_name_spa?: string;
