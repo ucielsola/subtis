@@ -24,7 +24,7 @@ export const titlePlatformsSlugResponseSchema = z.object({
   name: z.string(),
   platforms: z.array(
     z.object({
-      name: z.string().optional(),
+      name: z.string(),
       type: z.string().optional(),
       url: z.string().optional(),
     }),

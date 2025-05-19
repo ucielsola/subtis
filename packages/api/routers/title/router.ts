@@ -201,10 +201,13 @@ export const title = new Hono<{ Variables: AppVariables }>()
       }
 
       const contentTypeToSearch = data.type === "movie" ? "MOVIE" : "SHOW";
+      const WHITELIST_PROVIDERS = ["Apple TV", "Amazon Prime Video", "Disney Plus", "Netflix", "Max"];
+
       const titles = buscalaData.data.results
         .filter(({ contentType }) => contentType === contentTypeToSearch)
         .map((title) => {
-          const platforms = title.platforms.filter(({ url }) => url && !url.includes(".br"));
+          const platforms = title.platforms.filter(({ name }) => WHITELIST_PROVIDERS.includes(name));
+
           return {
             ...title,
             platforms,
@@ -231,7 +234,12 @@ export const title = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: "An error occurred", error: finalResponse.error.issues[0].message });
       }
 
-      return context.json(finalResponse.data);
+      const results = {
+        ...finalResponse.data,
+        platforms: finalResponse.data.platforms.sort((a, b) => a.name.localeCompare(b.name)),
+      };
+
+      return context.json(results);
     },
     cache({ cacheName: "subtis-api-title", cacheControl: `max-age=${timestring("1 day")}` }),
   )

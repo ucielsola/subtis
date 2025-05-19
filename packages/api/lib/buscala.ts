@@ -9,7 +9,7 @@ export const buscalaSchema = z.object({
       poster: z.string(),
       platforms: z.array(
         z.object({
-          name: z.string().optional(),
+          name: z.string(),
           url: z.string().optional(),
           type: z.string().optional(),
         }),
