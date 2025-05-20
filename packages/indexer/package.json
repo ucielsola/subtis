@@ -39,7 +39,7 @@
     "pretty-bytes": "^7.0.0",
     "resend": "^4.5.1",
     "rimraf": "^6.0.1",
-    "sharp": "^0.34.1",
+    "sharp": "^0.34.2",
     "slugify": "^1.6.6",
     "srt-parser-2": "^1.2.3",
     "srt-validator": "^6.0.4",
@@ -51,7 +51,7 @@
     "unrar-promise": "^3.1.0",
     "windows-1252": "^3.0.4",
     "x-ray": "^2.3.4",
-    "zod": "^3.25.6"
+    "zod": "^3.25.7"
   },
   "devDependencies": {
     "@types/bun": "^1.2.13",
