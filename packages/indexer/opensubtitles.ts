@@ -321,12 +321,16 @@ export async function filterOpenSubtitleSubtitlesForTorrent({
     releaseGroupName: releaseGroup.release_group_name,
   });
 
+  if (subtitle.id === "null") {
+    throw new Error(`[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: No subtitle id found`);
+  }
+
   return {
     lang: "es",
     subtitleLink,
     fileExtension,
     subtitleGroupName,
-    externalId: subtitle.id === "null" ? null : subtitle.id,
+    externalId: subtitle.id,
     ...subtitleFileNames,
   };
 }
