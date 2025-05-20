@@ -431,34 +431,35 @@ export const providers = new Hono<{ Variables: AppVariables }>()
         return context.json({ link: `https://letterboxd.com/film/${foundSlug.letterboxd_id}` });
       }
 
-      const standardLink = `https://letterboxd.com/film/${slug}`;
+      const slugArray = slug.split("-");
+      const year = Number(slugArray.at(-1));
+      const slugWithoutYear = slug.split("-").slice(0, -1).join("-");
+
+      const standardLink = `https://letterboxd.com/film/${slugWithoutYear}`;
       const response = await fetch(standardLink);
 
       if (response.status === 200) {
-        await supabaseClient.from("Titles").update({ letterboxd_id: slug }).match({ slug });
+        await supabaseClient.from("Titles").update({ letterboxd_id: slugWithoutYear }).match({ slug });
         return context.json({ link: standardLink });
       }
 
       if (response.status === 404) {
-        const slugArray = slug.split("-");
-        const year = Number(slugArray.at(-1));
-        const slugWithoutYear = slug.split("-").slice(0, -1).join("-");
-
-        const newSlug = `${slugWithoutYear}-${year - 1}`;
-        const newLink = `https://letterboxd.com/film/${newSlug}`;
+        const newSlugWithoutYear = slug;
+        const newLink = `https://letterboxd.com/film/${newSlugWithoutYear}`;
         const newLinkResponse = await fetch(newLink);
 
         if (newLinkResponse.status === 200) {
-          await supabaseClient.from("Titles").update({ letterboxd_id: newSlug }).match({ slug });
+          await supabaseClient.from("Titles").update({ letterboxd_id: newSlugWithoutYear }).match({ slug });
           return context.json({ link: newLink });
         }
 
         if (newLinkResponse.status === 404) {
-          const newLink = `https://letterboxd.com/film/${slugWithoutYear}`;
+          const newSlugWithMinusOneYear = `${slugWithoutYear}-${year - 1}`;
+          const newLink = `https://letterboxd.com/film/${newSlugWithMinusOneYear}`;
           const newLinkResponse = await fetch(newLink);
 
           if (newLinkResponse.status === 200) {
-            await supabaseClient.from("Titles").update({ letterboxd_id: slugWithoutYear }).match({ slug });
+            await supabaseClient.from("Titles").update({ letterboxd_id: newSlugWithMinusOneYear }).match({ slug });
             return context.json({ link: newLink });
           }
 
