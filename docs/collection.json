@@ -1,7 +1,7 @@
 {
   "yaakVersion": "2025.1.2",
   "yaakSchema": 3,
-  "timestamp": "2025-05-07T03:32:05.134040",
+  "timestamp": "2025-05-20T15:15:38.928275",
   "resources": {
     "workspaces": [
       {
@@ -125,10 +125,10 @@
         "model": "folder",
         "id": "fl_NCvb88tNGd",
         "createdAt": "2025-04-28T23:18:54.782380",
-        "updatedAt": "2025-05-07T02:38:42.209810",
+        "updatedAt": "2025-05-20T15:15:23.814802",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_uLBhxSMyec",
-        "name": "QA (1)",
+        "name": "QA (2)",
         "description": "",
         "sortPriority": 0.0
       },
@@ -246,6 +246,25 @@
     "httpRequests": [
       {
         "model": "http_request",
+        "id": "rq_JhrEX6BS7v",
+        "createdAt": "2025-05-20T15:11:19.883822",
+        "updatedAt": "2025-05-20T15:11:45.744201",
+        "workspaceId": "wk_SbrwnSjDzA",
+        "folderId": "fl_NCvb88tNGd",
+        "authentication": {},
+        "authenticationType": null,
+        "body": {},
+        "bodyType": null,
+        "description": "",
+        "headers": [],
+        "method": "GET",
+        "name": "Get a Random movies to QA - Specific Year (/v1/qa/random/movies/:year)",
+        "sortPriority": 1000.0,
+        "url": "${[ baseUrl ]}/v1/qa/random/movies/2022",
+        "urlParameters": []
+      },
+      {
+        "model": "http_request",
         "id": "rq_FnFq7LPjqt",
         "createdAt": "2025-05-07T03:28:07.319687",
         "updatedAt": "2025-05-07T03:28:48.603580",
@@ -351,7 +370,7 @@
         "model": "http_request",
         "id": "rq_rjysq3ZkWB",
         "createdAt": "2025-04-24T01:47:50.800222",
-        "updatedAt": "2025-04-28T23:51:07.969849",
+        "updatedAt": "2025-05-20T15:14:06.070915",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_NCvb88tNGd",
         "authentication": {},
@@ -361,9 +380,9 @@
         "description": "",
         "headers": [],
         "method": "GET",
-        "name": "Get a Random movies to QA (/v1/qa/random/movies)",
+        "name": "Get a Random movies to QA - Current Year (/v1/qa/random/movies/2025)",
         "sortPriority": 0.0,
-        "url": "${[ baseUrl ]}/v1/qa/random/movies",
+        "url": "${[ baseUrl ]}/v1/qa/random/movies/2025",
         "urlParameters": []
       },
       {
@@ -921,13 +940,13 @@
         "model": "http_request",
         "id": "rq_lLVuparxgM",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-02-19T23:40:59.262499",
+        "updatedAt": "2025-05-07T03:48:16.179621",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_xTpkMPcGuq",
         "authentication": {},
         "authenticationType": null,
         "body": {
-          "text": "{\n  \"titleFileName\": \"Borderlands.2024.1080p.WEBRip.1400MB.DD5.1.x264-GalaxyRG.mkv\",\n  \"bytes\": 9707206,\n  \"email\": \"agugarcia@gmail.com\"\n}"
+          "text": "{\n    \"email\": \"lndgalante@gmail.com\",\n    \"bytes\": 2121881852,\n    \"titleFileName\": \"Heat 1995 Directors Cut Remastered BluRay 1080p HEVC x265 5.1 BONE.mkv\"\n}"
         },
         "bodyType": "application/json",
         "description": "",
@@ -1197,13 +1216,13 @@
         "model": "http_request",
         "id": "rq_lWYKCjbYhz",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-02-05T20:17:24.730196",
+        "updatedAt": "2025-05-07T03:48:36.779976",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_G3EShJi9ud",
         "authentication": {},
         "authenticationType": null,
         "body": {
-          "text": "{\n  \"slug\": \"nosferatu-2024\"\n}"
+          "text": "{\n    \"titleSlug\": \"the-mule-2018\"\n}"
         },
         "bodyType": "application/json",
         "description": "",
