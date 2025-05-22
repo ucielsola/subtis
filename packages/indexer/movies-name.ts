@@ -9,9 +9,9 @@ import { indexMovieByName } from "./movies";
 
 // testing
 indexMovieByName({
-  year: 2024,
+  year: 1998,
   isDebugging: false,
-  name: "The Count of Monte Cristo",
+  name: "Mulan",
 });
 
 // saveReleaseGroupsToDb(supabase);

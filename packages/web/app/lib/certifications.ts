@@ -1,17 +1,16 @@
+type Certification = "G" | "PG" | "PG-13" | "R" | "NC-17" | "NR";
+
 export function getUiCertification(certification: string): string | null {
-  const mapping: Record<string, string | null> = {
+  const mapping: Record<Certification, string> = {
     G: "ATP",
     PG: "10",
     "PG-13": "13",
     R: "17",
     "NC-17": "18",
-    NR: null,
+    NR: "Sin Calificación",
   };
-  const result = mapping[certification as keyof typeof mapping] || null;
 
-  if (result === null) {
-    return null;
-  }
+  const result = mapping[certification as Certification];
 
-  return result === "ATP" ? result : `${result}+`;
+  return ["G", "NR"].includes(certification) ? result : `${result}+`;
 }
