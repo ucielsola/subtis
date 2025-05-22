@@ -79,20 +79,29 @@ export const titles = new Hono<{ Variables: AppVariables }>()
 
       if (error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: error.message });
+        return context.json({
+          message: "An error occurred",
+          error: error.message,
+        });
       }
 
       const titles = searchTitlesSchema.safeParse(data);
       if (!titles.success) {
         context.status(404);
-        return context.json({ message: "Titles not found", error: titles.error.issues[0].message });
+        return context.json({
+          message: "Titles not found",
+          error: titles.error.issues[0].message,
+        });
       }
 
       const finalResponse = searchTitlesResponseSchema.safeParse(getResultsWithLength(titles.data));
 
       if (!finalResponse.success) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: finalResponse.error.message });
+        return context.json({
+          message: "An error occurred",
+          error: finalResponse.error.message,
+        });
       }
 
       return context.json(finalResponse.data);
@@ -155,12 +164,16 @@ export const titles = new Hono<{ Variables: AppVariables }>()
 
       if (Number.isNaN(parsedLimit) || parsedLimit < 1) {
         context.status(400);
-        return context.json({ message: "Invalid Limit: it should be a positive integer number" });
+        return context.json({
+          message: "Invalid Limit: it should be a positive integer number",
+        });
       }
 
       if (parsedLimit > MAX_LIMIT) {
         context.status(400);
-        return context.json({ message: `Limit must be less than or equal to ${MAX_LIMIT}` });
+        return context.json({
+          message: `Limit must be less than or equal to ${MAX_LIMIT}`,
+        });
       }
 
       const { data, error } = await getSupabaseClient(context)
@@ -176,25 +189,37 @@ export const titles = new Hono<{ Variables: AppVariables }>()
 
       if (error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: error.message });
+        return context.json({
+          message: "An error occurred",
+          error: error.message,
+        });
       }
 
       const recentSubtitles = recentTitlesSchema.safeParse(data);
 
       if (recentSubtitles.error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: recentSubtitles.error.issues[0].message });
+        return context.json({
+          message: "An error occurred",
+          error: recentSubtitles.error.issues[0].message,
+        });
       }
 
       const finalResponse = recentTitlesResponseSchema.safeParse(getResultsWithLength(recentSubtitles.data));
 
       if (!finalResponse.success) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: finalResponse.error.message });
+        return context.json({
+          message: "An error occurred",
+          error: finalResponse.error.message,
+        });
       }
       return context.json(finalResponse.data);
     },
-    cache({ cacheName: "subtis-api-titles", cacheControl: `max-age=${timestring("1 day")}` }),
+    cache({
+      cacheName: "subtis-api-titles",
+      cacheControl: `max-age=${timestring("1 day")}`,
+    }),
   )
   .get(
     "/trending/search/:limit",
@@ -244,12 +269,16 @@ export const titles = new Hono<{ Variables: AppVariables }>()
 
       if (Number.isNaN(parsedLimit) || parsedLimit < 1) {
         context.status(400);
-        return context.json({ message: "Invalid ID: it should be a positive integer number" });
+        return context.json({
+          message: "Invalid ID: it should be a positive integer number",
+        });
       }
 
       if (parsedLimit > MAX_LIMIT) {
         context.status(400);
-        return context.json({ message: `Limit must be less than or equal to ${MAX_LIMIT}` });
+        return context.json({
+          message: `Limit must be less than or equal to ${MAX_LIMIT}`,
+        });
       }
 
       const { data, error } = await getSupabaseClient(context)
@@ -266,26 +295,38 @@ export const titles = new Hono<{ Variables: AppVariables }>()
 
       if (error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: error.message });
+        return context.json({
+          message: "An error occurred",
+          error: error.message,
+        });
       }
 
       const trendingSubtitles = trendingSubtitlesSchema.safeParse(data);
 
       if (trendingSubtitles.error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: trendingSubtitles.error.issues[0].message });
+        return context.json({
+          message: "An error occurred",
+          error: trendingSubtitles.error.issues[0].message,
+        });
       }
 
       const finalResponse = trendingSubtitlesResponseSchema.safeParse(getResultsWithLength(trendingSubtitles.data));
 
       if (!finalResponse.success) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: finalResponse.error.message });
+        return context.json({
+          message: "An error occurred",
+          error: finalResponse.error.message,
+        });
       }
 
       return context.json(finalResponse.data);
     },
-    cache({ cacheName: "subtis-api-titles", cacheControl: `max-age=${timestring("1 day")}` }),
+    cache({
+      cacheName: "subtis-api-titles",
+      cacheControl: `max-age=${timestring("1 day")}`,
+    }),
   )
   .get(
     "/trending/download/:limit",
@@ -335,12 +376,16 @@ export const titles = new Hono<{ Variables: AppVariables }>()
 
       if (Number.isNaN(parsedLimit) || parsedLimit < 1) {
         context.status(400);
-        return context.json({ message: "Invalid ID: it should be a positive integer number" });
+        return context.json({
+          message: "Invalid ID: it should be a positive integer number",
+        });
       }
 
       if (parsedLimit > MAX_LIMIT) {
         context.status(400);
-        return context.json({ message: `Limit must be less than or equal to ${MAX_LIMIT}` });
+        return context.json({
+          message: `Limit must be less than or equal to ${MAX_LIMIT}`,
+        });
       }
 
       const { data, error } = await getSupabaseClient(context)
@@ -358,24 +403,36 @@ export const titles = new Hono<{ Variables: AppVariables }>()
 
       if (error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: error.message });
+        return context.json({
+          message: "An error occurred",
+          error: error.message,
+        });
       }
 
       const trendingSubtitles = trendingSubtitlesSchema.safeParse(data);
 
       if (trendingSubtitles.error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: trendingSubtitles.error.issues[0].message });
+        return context.json({
+          message: "An error occurred",
+          error: trendingSubtitles.error.issues[0].message,
+        });
       }
 
       const finalResponse = trendingSubtitlesResponseSchema.safeParse(getResultsWithLength(trendingSubtitles.data));
 
       if (!finalResponse.success) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: finalResponse.error.message });
+        return context.json({
+          message: "An error occurred",
+          error: finalResponse.error.message,
+        });
       }
 
       return context.json(finalResponse.data);
     },
-    cache({ cacheName: "subtis-api-titles", cacheControl: `max-age=${timestring("1 day")}` }),
+    cache({
+      cacheName: "subtis-api-titles",
+      cacheControl: `max-age=${timestring("1 day")}`,
+    }),
   );

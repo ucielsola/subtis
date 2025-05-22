@@ -37,7 +37,10 @@ export const meta: MetaFunction = () => {
     },
     { name: "robots", content: "index, follow" },
     { name: "author", content: "Subtis" },
-    { property: "og:title", content: "Subtis | Búsqueda por nombre de película" },
+    {
+      property: "og:title",
+      content: "Subtis | Búsqueda por nombre de película",
+    },
     {
       property: "og:description",
       content:
@@ -49,7 +52,10 @@ export const meta: MetaFunction = () => {
     { property: "og:image", content: "https://subtis.io/og.png" },
     { name: "twitter:card", content: "summary" },
     { name: "twitter:site", content: "@subt_is" },
-    { name: "twitter:title", content: "Subtis | Búsqueda por nombre de película" },
+    {
+      name: "twitter:title",
+      content: "Subtis | Búsqueda por nombre de película",
+    },
     {
       name: "twitter:description",
       content:
@@ -86,7 +92,9 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
   const { trendingSearchPromise } = loaderData;
 
   // nuqs hooks
-  const [inputValue, setInputValue] = useQueryState("query", { defaultValue: "" });
+  const [inputValue, setInputValue] = useQueryState("query", {
+    defaultValue: "",
+  });
 
   // debounce hooks
   const [value] = useDebounceValue(inputValue, 400);
@@ -102,7 +110,7 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
       }
 
       const response = await apiClient.v1.titles.search[":query"].$get({
-        param: { query },
+        param: { query: encodeURIComponent(query) },
       });
 
       const data = await response.json();
