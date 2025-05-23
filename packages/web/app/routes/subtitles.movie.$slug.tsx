@@ -25,6 +25,7 @@ import { DownloadIcon } from "~/components/icons/download";
 // lib
 import { apiClient } from "~/lib/api";
 import { getUiCertification } from "~/lib/certifications";
+import { getTotalTime } from "~/lib/duration";
 import { cn } from "~/lib/utils";
 
 // ui
@@ -588,8 +589,7 @@ export default function SubtitlesPage() {
   const { rip_type, resolution, title_file_name } = mostDownloadedSubtitle.subtitle;
 
   const { runtime } = loaderData.title;
-  const totalHours = runtime ? Math.floor(runtime / 60) : null;
-  const totalMinutes = runtime ? runtime % 60 : null;
+  const { uiText } = getTotalTime(runtime);
 
   const resultsWithoutDuplication = loaderData.results.filter(
     (result, index, self) =>
@@ -617,7 +617,7 @@ export default function SubtitlesPage() {
             <div className="flex flex-col gap-2">
               <div className="flex flex-row gap-2 justify-center md:justify-start">
                 <Badge variant="outline">{loaderData.title.year}</Badge>
-                {totalHours ? <Badge variant="outline">{`${`${totalHours}h `}${`${totalMinutes}m`}`}</Badge> : null}
+                {uiText ? <Badge variant="outline">{uiText}</Badge> : null}
                 {loaderData.title.certification ? (
                   <Badge variant="outline">{getUiCertification(loaderData.title.certification)}</Badge>
                 ) : null}

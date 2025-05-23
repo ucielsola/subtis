@@ -26,6 +26,7 @@ import { Play } from "~/components/icons/play";
 // lib
 import { apiClient } from "~/lib/api";
 import { getUiCertification } from "~/lib/certifications";
+import { getTotalTime } from "~/lib/duration";
 import { cn } from "~/lib/utils";
 
 // ui
@@ -373,8 +374,7 @@ export default function SubtitlePage() {
 
   // constants
   const { runtime } = loaderData.title;
-  const totalHours = runtime ? Math.floor(runtime / 60) : null;
-  const totalMinutes = runtime ? runtime % 60 : null;
+  const { uiText } = getTotalTime(runtime);
 
   const isLoadingProviders =
     isLoadingTeaser || isLoadingJustWatch || isLoadingLetterboxd || isLoadingRottenTomatoes || isLoadingSpotify;
@@ -394,7 +394,7 @@ export default function SubtitlePage() {
             <div className="flex flex-col gap-2">
               <div className="flex flex-row gap-2 justify-center md:justify-start">
                 <Badge variant="outline">{loaderData.title.year}</Badge>
-                {totalHours ? <Badge variant="outline">{`${`${totalHours}h `}${`${totalMinutes}m`}`}</Badge> : null}
+                {uiText ? <Badge variant="outline">{uiText}</Badge> : null}
                 {loaderData.title.certification ? (
                   <Badge variant="outline">{getUiCertification(loaderData.title.certification)}</Badge>
                 ) : null}
