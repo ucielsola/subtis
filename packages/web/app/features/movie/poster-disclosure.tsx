@@ -78,7 +78,7 @@ export function PosterDisclosure({ src, alt, hashUrl, title, overview, rating, s
       <Disclosure
         onOpenChange={setIsOpen}
         open={isOpen}
-        className={`absolute bottom-0 left-0 right-0 ${isOpen ? "bg-zinc-950/90" : "bg-zinc-950/5"}  backdrop-blur-md transition-all duration-300 ease-in-out px-2 pt-2 rounded-b-sm`}
+        className={`absolute bottom-0 left-0 right-0 ${isOpen ? "bg-zinc-950/90" : "bg-zinc-950/10"}  backdrop-blur-md transition-all duration-300 ease-in-out px-2 pt-2 rounded-b-sm`}
         variants={contentVariants}
         transition={transition}
       >
@@ -109,13 +109,13 @@ export function PosterDisclosure({ src, alt, hashUrl, title, overview, rating, s
           </button>
         </DisclosureTrigger>
         <DisclosureContent>
-          <div className="flex flex-col pb-14 z-10">
+          <div className="flex flex-col pb-2 z-10 justify-between">
+            {overview ? (
+              <p className="text-zinc-50 text-sm leading-6 pt-2 pb-4">{overview}</p>
+            ) : (
+              <p className="text-zinc-300 text-sm leading-6 pt-2 pb-4">Sinopsis no disponible.</p>
+            )}
             <div>
-              {overview ? (
-                <p className="text-zinc-50 text-sm leading-6 pt-2 pb-4 line-clamp-[14]">{overview}</p>
-              ) : (
-                <p className="text-zinc-300 text-sm leading-6 pt-2 pb-4 line-clamp-[14]">Sinopsis no disponible.</p>
-              )}
               <Tooltip>
                 <TooltipTrigger>
                   <div className="flex items-center gap-1">
