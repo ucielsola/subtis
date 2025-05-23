@@ -3,21 +3,18 @@ import { describeRoute } from "hono-openapi";
 import { resolver, validator as zValidator } from "hono-openapi/zod";
 import { cache } from "hono/cache";
 import { verify } from "hono/jwt";
-import slugify from "slugify";
 import timestring from "timestring";
 import z from "zod";
 
 // lib
 import { getJwtSecret } from "../../lib/api-keys";
 import { buscalaSchema } from "../../lib/buscala";
-import { cinemarkSchema } from "../../lib/cinemark";
 import { titleMetadataQuery, titleMetadataSchema } from "../../lib/schemas";
 import { getSupabaseClient } from "../../lib/supabase";
 import type { AppVariables } from "../../lib/types";
 
 // internals
 import {
-  titleCinemaSlugResponseSchema,
   titleMetadataSlugResponseSchema,
   titleMetricsSearchResponseSchema,
   titlePlatformsSlugResponseSchema,
@@ -25,114 +22,6 @@ import {
 
 // router
 export const title = new Hono<{ Variables: AppVariables }>()
-  .get(
-    "/cinemas/:slug",
-    describeRoute({
-      tags: ["Title (2)"],
-      description: "Get title cinemas from slug",
-      responses: {
-        200: {
-          description: "Successful title cinemas response",
-          content: {
-            "application/json": {
-              schema: resolver(titleCinemaSlugResponseSchema),
-            },
-          },
-        },
-        404: {
-          description: "Title not found",
-          content: {
-            "application/json": {
-              schema: resolver(z.object({ message: z.string() })),
-            },
-          },
-        },
-        500: {
-          description: "An error occurred",
-          content: {
-            "application/json": {
-              schema: resolver(z.object({ message: z.string(), error: z.string() })),
-            },
-          },
-        },
-      },
-    }),
-    zValidator("param", z.object({ slug: z.string().openapi({ example: "nosferatu-2024" }) })),
-    async (context) => {
-      const { slug } = context.req.valid("param");
-
-      const { data, error } = await getSupabaseClient(context)
-        .from("Titles")
-        .select("title_name, title_name_spa, year")
-        .match({ slug })
-        .single();
-
-      if (error && error.code === "PGRST116") {
-        context.status(404);
-        return context.json({ message: "Title not found" });
-      }
-
-      if (error) {
-        context.status(500);
-        return context.json({ message: "An error occurred", error: error.message });
-      }
-
-      const { title_name, title_name_spa, year } = data;
-
-      const cinemarkData = await fetch("https://www.cinemarkhoyts.com.ar/ws/Billboard_WWW_202501082050585424.js");
-      const code = await cinemarkData.text();
-      const value = JSON.parse(code.slice(15, -1));
-
-      const cinemarkParsedData = cinemarkSchema.safeParse(value);
-
-      if (cinemarkParsedData.error) {
-        context.status(500);
-        return context.json({ message: "An error occurred", error: cinemarkParsedData.error.issues[0].message });
-      }
-
-      const { Cinemas, Films } = cinemarkParsedData.data;
-
-      const parsedYear = String(year);
-      const parsedNextYear = String(year + 1);
-
-      const film = Films.find(
-        (film) =>
-          film.Name.toLowerCase().includes(title_name_spa.toLowerCase()) &&
-          (film.OpeningDate.startsWith(parsedYear) || film.OpeningDate.startsWith(parsedNextYear)),
-      );
-
-      if (!film) {
-        context.status(404);
-        return context.json({ message: "Title not found" });
-      }
-
-      const { CinemaList } = film;
-
-      const filmCinemas = Cinemas.filter((cinema) => CinemaList.includes(cinema.Id)).map(({ City, Name }) => ({
-        city: City,
-        name: Name,
-      }));
-      const groupedFilmCinemas = Object.groupBy(filmCinemas, ({ city }) => city);
-
-      const link = `https://www.cinemarkhoyts.com.ar/pelicula/${slugify(title_name_spa).toUpperCase()}`;
-
-      const finalResponse = {
-        link,
-        name: title_name,
-        cinemas: groupedFilmCinemas,
-      };
-
-      const parsedFinalResponse = titleCinemaSlugResponseSchema.safeParse(finalResponse);
-
-      if (parsedFinalResponse.error) {
-        context.status(500);
-        return context.json({ message: "An error occurred", error: parsedFinalResponse.error.issues[0].message });
-      }
-
-      return context.json(parsedFinalResponse.data);
-    },
-    cache({ cacheName: "subtis-api-title", cacheControl: `max-age=${timestring("1 day")}` }),
-  )
   .get(
     "/streaming/:slug",
     describeRoute({
@@ -182,7 +71,10 @@ export const title = new Hono<{ Variables: AppVariables }>()
 
       if (error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: error.message });
+        return context.json({
+          message: "An error occurred",
+          error: error.message,
+        });
       }
 
       const response = await fetch(`https://www.buscala.tv/api/search?title=${data.title_name}`, {
@@ -197,7 +89,10 @@ export const title = new Hono<{ Variables: AppVariables }>()
 
       if (buscalaData.error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: buscalaData.error.issues[0].message });
+        return context.json({
+          message: "An error occurred",
+          error: buscalaData.error.issues[0].message,
+        });
       }
 
       const contentTypeToSearch = data.type === "movie" ? "MOVIE" : "SHOW";
@@ -231,7 +126,10 @@ export const title = new Hono<{ Variables: AppVariables }>()
 
       if (finalResponse.error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: finalResponse.error.issues[0].message });
+        return context.json({
+          message: "An error occurred",
+          error: finalResponse.error.issues[0].message,
+        });
       }
 
       const results = {
@@ -241,7 +139,10 @@ export const title = new Hono<{ Variables: AppVariables }>()
 
       return context.json(results);
     },
-    cache({ cacheName: "subtis-api-title", cacheControl: `max-age=${timestring("1 day")}` }),
+    cache({
+      cacheName: "subtis-api-title",
+      cacheControl: `max-age=${timestring("1 day")}`,
+    }),
   )
   .get(
     "/metadata/:slug",
@@ -293,14 +194,20 @@ export const title = new Hono<{ Variables: AppVariables }>()
 
       if (error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: error.message });
+        return context.json({
+          message: "An error occurred",
+          error: error.message,
+        });
       }
 
       const titleBySlug = titleMetadataSchema.safeParse(data);
 
       if (titleBySlug.error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: titleBySlug.error.issues[0].message });
+        return context.json({
+          message: "An error occurred",
+          error: titleBySlug.error.issues[0].message,
+        });
       }
 
       const { subtitles, ...rest } = titleBySlug.data;
@@ -315,7 +222,10 @@ export const title = new Hono<{ Variables: AppVariables }>()
 
       if (finalResponse.error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: finalResponse.error.issues[0].message });
+        return context.json({
+          message: "An error occurred",
+          error: finalResponse.error.issues[0].message,
+        });
       }
 
       return context.json(finalResponse.data);
@@ -375,7 +285,9 @@ export const title = new Hono<{ Variables: AppVariables }>()
 
       if (!token) {
         context.status(401);
-        return context.json({ message: "No token provided in Authorization header" });
+        return context.json({
+          message: "No token provided in Authorization header",
+        });
       }
 
       try {
@@ -384,7 +296,9 @@ export const title = new Hono<{ Variables: AppVariables }>()
       } catch (error) {
         console.log("\n ~ error:", error);
         context.status(401);
-        return context.json({ message: "Invalid or expired authentication token" });
+        return context.json({
+          message: "Invalid or expired authentication token",
+        });
       }
 
       const { titleSlug } = context.req.valid("json");
@@ -395,7 +309,10 @@ export const title = new Hono<{ Variables: AppVariables }>()
 
       if (error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: error.message });
+        return context.json({
+          message: "An error occurred",
+          error: error.message,
+        });
       }
 
       if (typeof data === "boolean" && data === false) {

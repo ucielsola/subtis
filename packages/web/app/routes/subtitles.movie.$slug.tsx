@@ -40,7 +40,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
 // features
-import { MovieCinemas } from "~/features/movie/cinemas";
 import { MoviePlatforms } from "~/features/movie/platforms";
 import { PosterDisclosure } from "~/features/movie/poster-disclosure";
 import { MovieProviders } from "~/features/movie/providers";
@@ -899,7 +898,6 @@ export default function SubtitlesPage() {
           </div>
         </section>
 
-        <MovieCinemas />
         <MoviePlatforms />
       </article>
       {loaderData.title.poster_thumbhash ? (

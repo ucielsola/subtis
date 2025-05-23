@@ -14,12 +14,6 @@ export const titleTeaserFileNameResponseSchema = z.object({
   youTubeVideoId: z.string(),
 });
 
-export const titleCinemaSlugResponseSchema = z.object({
-  link: z.string(),
-  name: z.string(),
-  cinemas: z.record(z.string(), z.array(z.object({ city: z.string(), name: z.string() }))),
-});
-
 export const titlePlatformsSlugResponseSchema = z.object({
   name: z.string(),
   platforms: z.array(
