@@ -641,7 +641,7 @@ export default function SubtitlesPage() {
                         Descargar Subtítulo
                       </Button>
                     </TooltipTrigger>
-                    <TooltipContent side="top">Habilitame desactivando el modo experto</TooltipContent>
+                    <TooltipContent side="bottom">Habilitame desactivando el modo experto</TooltipContent>
                   </Tooltip>
                 ) : (
                   <Button asChild size="sm">

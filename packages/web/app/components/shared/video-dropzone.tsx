@@ -89,7 +89,7 @@ export function VideoDropzone() {
               <Fragment>
                 <Button
                   variant="outline"
-                  className="hover:bg-zinc-950 hover:text-zinc-50 bg-zinc-950 border border-zinc-700 transition-all ease-in-out z-10"
+                  className="hover:bg-zinc-950 hover:text-zinc-50 bg-zinc-950 border border-zinc-700 transition-all ease-in-out z-10 cursor-pointer"
                   onMouseEnter={() => controls.start("animate")}
                   onMouseLeave={() => controls.start("normal")}
                 >
