@@ -409,14 +409,17 @@ export const publicTorrentsUpdateSchemaSchema = z.object({
 
 export const publicRandomtitlesRowSchemaSchema = z.object({
   slug: z.string().nullable(),
+  year: z.number().nullable(),
 });
 
 export const publicRandomtitlesInsertSchemaSchema = z.object({
   slug: z.string().optional().nullable(),
+  year: z.number().optional().nullable(),
 });
 
 export const publicRandomtitlesUpdateSchemaSchema = z.object({
   slug: z.string().optional().nullable(),
+  year: z.number().optional().nullable(),
 });
 
 export const publicFuzzySearchTitleArgsSchemaSchema = z.object({

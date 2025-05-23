@@ -398,12 +398,15 @@ export type Database = {
       RandomTitles: {
         Row: {
           slug: string | null;
+          year: number | null;
         };
         Insert: {
           slug?: string | null;
+          year?: number | null;
         };
         Update: {
           slug?: string | null;
+          year?: number | null;
         };
         Relationships: [];
       };

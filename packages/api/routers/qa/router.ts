@@ -45,7 +45,7 @@ export const qa = new Hono<{ Variables: AppVariables }>().get(
     const { year } = context.req.valid("param");
     const supabaseClient = await getSupabaseClient(context);
 
-    const { data, error } = await supabaseClient.from("RandomTitles").select("slug").eq("year", year).limit(10);
+    const { data, error } = await supabaseClient.from("RandomTitles").select("slug").eq("year", Number(year)).limit(10);
 
     if (error) {
       context.status(500);
