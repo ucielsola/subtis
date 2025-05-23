@@ -38,6 +38,14 @@ import {
   titleTeaserFileNameResponseSchema,
 } from "./schemas";
 
+// constants
+const EDGE_CASE_MOVIES = {
+  "vhsbeyond-2024": "v-h-s-beyond-2024",
+  "faceoff-1997": "face-off-1997",
+};
+
+type EdgeCaseMovieKeys = keyof typeof EDGE_CASE_MOVIES;
+
 // router
 export const providers = new Hono<{ Variables: AppVariables }>()
   .get(
@@ -83,7 +91,11 @@ export const providers = new Hono<{ Variables: AppVariables }>()
     }),
     zValidator(
       "param",
-      z.object({ fileName: z.string().openapi({ example: "Eyes.Wide.Shut.1999.1080p.BluRay.x264.YIFY.mp4" }) }),
+      z.object({
+        fileName: z.string().openapi({
+          example: "Eyes.Wide.Shut.1999.1080p.BluRay.x264.YIFY.mp4",
+        }),
+      }),
     ),
     async (context) => {
       const { fileName } = context.req.valid("param");
@@ -94,7 +106,9 @@ export const providers = new Hono<{ Variables: AppVariables }>()
         return context.json({ message: videoFileName.error.issues[0].message });
       }
 
-      const titleFileNameMetadata = getTitleFileNameMetadata({ titleFileName: videoFileName.data });
+      const titleFileNameMetadata = getTitleFileNameMetadata({
+        titleFileName: videoFileName.data,
+      });
 
       if (!titleFileNameMetadata.resolution || !titleFileNameMetadata.year) {
         context.status(415);
@@ -137,7 +151,10 @@ export const providers = new Hono<{ Variables: AppVariables }>()
 
         if (finalResponse.error) {
           context.status(500);
-          return context.json({ message: "An error occurred", error: finalResponse.error.issues[0].message });
+          return context.json({
+            message: "An error occurred",
+            error: finalResponse.error.issues[0].message,
+          });
         }
 
         return context.json(finalResponse.data);
@@ -158,7 +175,10 @@ export const providers = new Hono<{ Variables: AppVariables }>()
 
       if (youtubeParsedData.error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: youtubeParsedData.error.issues[0].message });
+        return context.json({
+          message: "An error occurred",
+          error: youtubeParsedData.error.issues[0].message,
+        });
       }
 
       const filteredTeasers = youtubeParsedData.data.items.filter(({ snippet }) => {
@@ -197,14 +217,20 @@ export const providers = new Hono<{ Variables: AppVariables }>()
 
       if (finalResponse.error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: finalResponse.error.issues[0].message });
+        return context.json({
+          message: "An error occurred",
+          error: finalResponse.error.issues[0].message,
+        });
       }
 
       await supabaseClient.from("Titles").update({ youtube_id: youTubeVideoId }).match({ slug });
 
       return context.json(finalResponse.data);
     },
-    cache({ cacheName: "subtis-api-providers", cacheControl: `max-age=${timestring("1 month")}` }),
+    cache({
+      cacheName: "subtis-api-providers",
+      cacheControl: `max-age=${timestring("1 month")}`,
+    }),
   )
   .get(
     "/spotify/soundtrack/:slug",
@@ -286,7 +312,10 @@ export const providers = new Hono<{ Variables: AppVariables }>()
 
       if (!spotifyTokenSuccess) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: spotifyTokenError.issues[0].message });
+        return context.json({
+          message: "An error occurred",
+          error: spotifyTokenError.issues[0].message,
+        });
       }
 
       const spotifyQuery = `${title.title_name} ${title.year} soundtrack`;
@@ -313,7 +342,10 @@ export const providers = new Hono<{ Variables: AppVariables }>()
 
       if (!spotifySearchSuccess) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: spotifySearchError.issues[0].message });
+        return context.json({
+          message: "An error occurred",
+          error: spotifySearchError.issues[0].message,
+        });
       }
 
       const parsedTitle = getStringWithoutSpecialCharacters(title.title_name);
@@ -385,7 +417,10 @@ export const providers = new Hono<{ Variables: AppVariables }>()
       context.status(404);
       return context.json({ message: "No soundtrack found" });
     },
-    cache({ cacheName: "subtis-api-providers", cacheControl: `max-age=${timestring("1 month")}` }),
+    cache({
+      cacheName: "subtis-api-providers",
+      cacheControl: `max-age=${timestring("1 month")}`,
+    }),
   )
   .get(
     "/letterboxd/:slug",
@@ -422,18 +457,21 @@ export const providers = new Hono<{ Variables: AppVariables }>()
     zValidator("param", z.object({ slug: z.string().openapi({ example: "nosferatu-2024" }) })),
     async (context) => {
       const { slug } = context.req.valid("param");
+      const parsedSlug = EDGE_CASE_MOVIES[slug as EdgeCaseMovieKeys] ?? slug;
 
       const supabaseClient = getSupabaseClient(context);
 
       const { data: foundSlug } = await supabaseClient.from("Titles").select("letterboxd_id").match({ slug }).single();
 
       if (foundSlug?.letterboxd_id) {
-        return context.json({ link: `https://letterboxd.com/film/${foundSlug.letterboxd_id}` });
+        return context.json({
+          link: `https://letterboxd.com/film/${foundSlug.letterboxd_id}`,
+        });
       }
 
-      const slugArray = slug.split("-");
+      const slugArray = parsedSlug.split("-");
       const year = Number(slugArray.at(-1));
-      const slugWithoutYear = slug.split("-").slice(0, -1).join("-");
+      const slugWithoutYear = parsedSlug.split("-").slice(0, -1).join("-");
 
       const standardLink = `https://letterboxd.com/film/${slugWithoutYear}`;
       const response = await fetch(standardLink);
@@ -444,7 +482,7 @@ export const providers = new Hono<{ Variables: AppVariables }>()
       }
 
       if (response.status === 404) {
-        const newSlugWithoutYear = slug;
+        const newSlugWithoutYear = parsedSlug;
         const newLink = `https://letterboxd.com/film/${newSlugWithoutYear}`;
         const newLinkResponse = await fetch(newLink);
 
@@ -468,7 +506,10 @@ export const providers = new Hono<{ Variables: AppVariables }>()
         }
       }
     },
-    cache({ cacheName: "subtis-api-providers", cacheControl: `max-age=${timestring("1 month")}` }),
+    cache({
+      cacheName: "subtis-api-providers",
+      cacheControl: `max-age=${timestring("1 month")}`,
+    }),
   )
   .get(
     "/justwatch/:slug",
@@ -505,16 +546,19 @@ export const providers = new Hono<{ Variables: AppVariables }>()
     zValidator("param", z.object({ slug: z.string().openapi({ example: "babygirl-2024" }) })),
     async (context) => {
       const { slug } = context.req.valid("param");
+      const parsedSlug = EDGE_CASE_MOVIES[slug as EdgeCaseMovieKeys] ?? slug;
 
       const supabaseClient = getSupabaseClient(context);
 
       const { data: foundSlug } = await supabaseClient.from("Titles").select("justwatch_id").match({ slug }).single();
 
       if (foundSlug?.justwatch_id) {
-        return context.json({ link: `https://www.justwatch.com/us/movie/${foundSlug.justwatch_id}` });
+        return context.json({
+          link: `https://www.justwatch.com/us/movie/${foundSlug.justwatch_id}`,
+        });
       }
 
-      const standardLink = `https://www.justwatch.com/us/movie/${slug}`;
+      const standardLink = `https://www.justwatch.com/us/movie/${parsedSlug}`;
       const response = await fetch(standardLink);
 
       if (response.status === 200) {
@@ -523,9 +567,9 @@ export const providers = new Hono<{ Variables: AppVariables }>()
       }
 
       if (response.status === 404) {
-        const slugArray = slug.split("-");
+        const slugArray = parsedSlug.split("-");
         const year = Number(slugArray.at(-1));
-        const slugWithoutYear = slug.split("-").slice(0, -1).join("-");
+        const slugWithoutYear = parsedSlug.split("-").slice(0, -1).join("-");
 
         const newSlug = `${slugWithoutYear}-${year - 1}`;
         const newLink = `https://www.justwatch.com/us/movie/${newSlug}`;
@@ -550,7 +594,10 @@ export const providers = new Hono<{ Variables: AppVariables }>()
         }
       }
     },
-    cache({ cacheName: "subtis-api-providers", cacheControl: `max-age=${timestring("1 month")}` }),
+    cache({
+      cacheName: "subtis-api-providers",
+      cacheControl: `max-age=${timestring("1 month")}`,
+    }),
   )
   .get(
     "/rottentomatoes/:slug",
@@ -587,6 +634,7 @@ export const providers = new Hono<{ Variables: AppVariables }>()
     zValidator("param", z.object({ slug: z.string().openapi({ example: "nosferatu-2024" }) })),
     async (context) => {
       const { slug } = context.req.valid("param");
+      const parsedSlug = EDGE_CASE_MOVIES[slug as EdgeCaseMovieKeys] ?? slug;
 
       const supabaseClient = getSupabaseClient(context);
 
@@ -597,10 +645,16 @@ export const providers = new Hono<{ Variables: AppVariables }>()
         .single();
 
       if (foundSlug?.rottentomatoes_id) {
-        return context.json({ link: `https://www.rottentomatoes.com/m/${foundSlug.rottentomatoes_id}` });
+        return context.json({
+          link: `https://www.rottentomatoes.com/m/${foundSlug.rottentomatoes_id}`,
+        });
       }
 
-      const rottenTomatoesSlug = slug.toLowerCase().replaceAll("-", "_").replaceAll("&", "and").replaceAll(":", "");
+      const rottenTomatoesSlug = parsedSlug
+        .toLowerCase()
+        .replaceAll("-", "_")
+        .replaceAll("&", "and")
+        .replaceAll(":", "");
       const standardLink = `https://www.rottentomatoes.com/m/${rottenTomatoesSlug}`;
       const response = await fetch(standardLink);
 
@@ -637,5 +691,8 @@ export const providers = new Hono<{ Variables: AppVariables }>()
         }
       }
     },
-    cache({ cacheName: "subtis-api-providers", cacheControl: `max-age=${timestring("1 month")}` }),
+    cache({
+      cacheName: "subtis-api-providers",
+      cacheControl: `max-age=${timestring("1 month")}`,
+    }),
   );
