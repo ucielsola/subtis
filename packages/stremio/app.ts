@@ -48,17 +48,28 @@ async function getTitleSubtitle(args: Args): Promise<{ subtitles: StremioSubtitl
       return Promise.resolve({ subtitles: [], ...CACHE_SETTINGS });
     }
 
-    const originalSubtitle = await getPrimarySubtitle(apiClient, { bytes, fileName });
+    const originalSubtitle = await getPrimarySubtitle(apiClient, {
+      bytes,
+      fileName,
+    });
 
     if (originalSubtitle) {
       const subtitleMetadata = getSubtitleMetadata(originalSubtitle);
-      return Promise.resolve({ subtitles: [subtitleMetadata], ...CACHE_SETTINGS });
+      return Promise.resolve({
+        subtitles: [subtitleMetadata],
+        ...CACHE_SETTINGS,
+      });
     }
 
-    const alternativeSubtitle = await getAlternativeSubtitle(apiClient, { fileName });
+    const alternativeSubtitle = await getAlternativeSubtitle(apiClient, {
+      fileName,
+    });
     const alternativeSubtitleMetadata = getSubtitleMetadata(alternativeSubtitle);
 
-    return Promise.resolve({ subtitles: [alternativeSubtitleMetadata], ...CACHE_SETTINGS });
+    return Promise.resolve({
+      subtitles: [alternativeSubtitleMetadata],
+      ...CACHE_SETTINGS,
+    });
   } catch (error) {
     console.log("getTitleSubtitle catch (error, args)", error, args);
 
@@ -71,7 +82,7 @@ async function getTitleSubtitle(args: Args): Promise<{ subtitles: StremioSubtitl
 const builder = new addonBuilder({
   name: "Subtis - Beta Privada",
   id: "org.subtis",
-  version: "0.7.3",
+  version: "0.7.4",
   description: "Subtis es tu fuente de subtítulos para tus películas favoritas.",
   catalogs: [],
   resources: ["subtitles"],

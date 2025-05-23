@@ -123,7 +123,11 @@ async function askForEmail(bytes: string, fileName: string) {
     },
   });
 
-  await setSubtitleNotFound(apiClient, { bytes, fileName, email: email as string });
+  await setSubtitleNotFound(apiClient, {
+    bytes,
+    fileName,
+    email: email as string,
+  });
 
   outro("🙌 Gracias por tu paciencia! Pronto te avisaremos cuando esté disponible el subtítulo.");
 }
@@ -135,7 +139,9 @@ async function mod(titleFileName: string): Promise<void> {
   try {
     intro(`👋 Hola, soy ${chalk.magenta("Subtis")} CLI.`);
 
-    const cliArgumentsResult = cliArgumentsSchema.safeParse({ file: titleFileName });
+    const cliArgumentsResult = cliArgumentsSchema.safeParse({
+      file: titleFileName,
+    });
     if (!cliArgumentsResult.success) {
       return outro(chalk.yellow(cliArgumentsResult.error.errors[0].message));
     }
@@ -158,7 +164,10 @@ async function mod(titleFileName: string): Promise<void> {
       return outro(chalk.red("🤔 Archivo no encontrado. Prueba con otra ruta"));
     }
 
-    const originalSubtitle = await getPrimarySubtitle(apiClient, { bytes, fileName });
+    const originalSubtitle = await getPrimarySubtitle(apiClient, {
+      bytes,
+      fileName,
+    });
 
     if (originalSubtitle) {
       loader.stop(`🥳 Descarga tu subtítulo en ${chalk.blue(originalSubtitle.subtitle.subtitle_link)}`);
@@ -181,30 +190,25 @@ async function mod(titleFileName: string): Promise<void> {
         ws.send(JSON.stringify(message));
       });
 
-      ws.addEventListener(
-        "message",
-        (messageEvent: {
-          data: string;
-        }) => {
-          const parsedData = JSON.parse(messageEvent.data);
+      ws.addEventListener("message", (messageEvent: { data: string }) => {
+        const parsedData = JSON.parse(messageEvent.data);
 
-          const okSafeParsed = wsOkSchema.safeParse(parsedData);
-          const messageSafeParsed = wsMessageSchema.safeParse(parsedData);
+        const okSafeParsed = wsOkSchema.safeParse(parsedData);
+        const messageSafeParsed = wsMessageSchema.safeParse(parsedData);
 
-          if (okSafeParsed.success && okSafeParsed.data.ok === true) {
-            resolve(okSafeParsed.data);
-          }
+        if (okSafeParsed.success && okSafeParsed.data.ok === true) {
+          resolve(okSafeParsed.data);
+        }
 
-          if (okSafeParsed.success && okSafeParsed.data.ok === false) {
-            loader.message("No pudimos encontrar el subtítulo en tiempo real.");
-            resolve(okSafeParsed.data);
-          }
+        if (okSafeParsed.success && okSafeParsed.data.ok === false) {
+          loader.message("No pudimos encontrar el subtítulo en tiempo real.");
+          resolve(okSafeParsed.data);
+        }
 
-          if (messageSafeParsed.success) {
-            loader.message(`${messageSafeParsed.data.total * 100}% ${messageSafeParsed.data.message}`);
-          }
-        },
-      );
+        if (messageSafeParsed.success) {
+          loader.message(`${messageSafeParsed.data.total * 100}% ${messageSafeParsed.data.message}`);
+        }
+      });
 
       ws.addEventListener("error", () => {
         resolve({ ok: false });
@@ -212,7 +216,10 @@ async function mod(titleFileName: string): Promise<void> {
     });
 
     if (websocketData.ok === true) {
-      const originalSubtitle = await getPrimarySubtitle(apiClient, { bytes, fileName });
+      const originalSubtitle = await getPrimarySubtitle(apiClient, {
+        bytes,
+        fileName,
+      });
 
       if (originalSubtitle) {
         loader.stop(`🥳 Descarga tu subtítulo en ${chalk.blue(originalSubtitle.subtitle.subtitle_link)}`);
@@ -221,7 +228,9 @@ async function mod(titleFileName: string): Promise<void> {
     }
 
     loader.message("🔎 Buscando subtítulo alternativo");
-    const alternativeSubtitle = await getAlternativeSubtitle(apiClient, { fileName });
+    const alternativeSubtitle = await getAlternativeSubtitle(apiClient, {
+      fileName,
+    });
 
     if (alternativeSubtitle) {
       loader.stop(`🥳 Descarga tu subtítulo alternativo en ${chalk.blue(alternativeSubtitle.subtitle.subtitle_link)}`);
@@ -261,7 +270,7 @@ const program = new Command();
 program
   .name("subtis")
   .description("CLI to search for movie subtitles")
-  .version("0.7.3")
+  .version("0.7.4")
   .command("search")
   .description("Search a subtitle for a video file")
   .argument("<file>", "Video file")
