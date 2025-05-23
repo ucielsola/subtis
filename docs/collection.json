@@ -1,7 +1,7 @@
 {
   "yaakVersion": "2025.2.2",
   "yaakSchema": 4,
-  "timestamp": "2025-05-23T01:12:12.678869",
+  "timestamp": "2025-05-23T01:15:12.710090",
   "resources": {
     "workspaces": [
       {
@@ -17,7 +17,80 @@
         "settingRequestTimeout": 0
       }
     ],
-    "environments": [],
+    "environments": [
+      {
+        "model": "environment",
+        "id": "ev_h7DtAr83FF",
+        "workspaceId": "wk_SbrwnSjDzA",
+        "createdAt": "2025-01-22T23:10:54",
+        "updatedAt": "2025-01-22T23:10:54",
+        "name": "Global Variables",
+        "public": false,
+        "base": true,
+        "variables": [
+          {
+            "enabled": false,
+            "name": "baseUrl",
+            "value": "",
+            "id": null
+          },
+          {
+            "enabled": true,
+            "name": "",
+            "value": "",
+            "id": null
+          }
+        ]
+      },
+      {
+        "model": "environment",
+        "id": "ev_aS4P8qXlUm",
+        "workspaceId": "wk_SbrwnSjDzA",
+        "createdAt": "2024-11-08T22:37:51",
+        "updatedAt": "2024-11-08T22:37:51",
+        "name": "LOCALHOST",
+        "public": false,
+        "base": false,
+        "variables": [
+          {
+            "enabled": true,
+            "name": "baseUrl",
+            "value": "http://localhost:58602",
+            "id": null
+          },
+          {
+            "enabled": true,
+            "name": "",
+            "value": "",
+            "id": null
+          }
+        ]
+      },
+      {
+        "model": "environment",
+        "id": "ev_lxgXUfo7zL",
+        "workspaceId": "wk_SbrwnSjDzA",
+        "createdAt": "2024-11-08T22:37:51",
+        "updatedAt": "2024-11-08T22:37:51",
+        "name": "PRODUCTION",
+        "public": false,
+        "base": false,
+        "variables": [
+          {
+            "enabled": true,
+            "name": "baseUrl",
+            "value": "https://api.subt.is",
+            "id": null
+          },
+          {
+            "enabled": true,
+            "name": "",
+            "value": "",
+            "id": null
+          }
+        ]
+      }
+    ],
     "folders": [
       {
         "model": "folder",
