@@ -490,7 +490,7 @@ export default function SubtitlesPage() {
         }
 
         return (
-          <div className="flex justify-center flex-row gap-2">
+          <div className="flex flex-row gap-2">
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
