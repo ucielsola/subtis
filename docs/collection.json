@@ -1,7 +1,7 @@
 {
-  "yaakVersion": "2025.1.2",
-  "yaakSchema": 3,
-  "timestamp": "2025-05-20T15:15:38.928275",
+  "yaakVersion": "2025.2.2",
+  "yaakSchema": 4,
+  "timestamp": "2025-05-23T01:12:12.678869",
   "resources": {
     "workspaces": [
       {
@@ -11,82 +11,13 @@
         "updatedAt": "2024-11-08T22:37:51",
         "name": "Subtis API",
         "description": "",
+        "encryptionKeyChallenge": null,
         "settingValidateCertificates": true,
         "settingFollowRedirects": true,
         "settingRequestTimeout": 0
       }
     ],
-    "environments": [
-      {
-        "model": "environment",
-        "id": "ev_h7DtAr83FF",
-        "workspaceId": "wk_SbrwnSjDzA",
-        "environmentId": null,
-        "createdAt": "2025-01-22T23:10:54",
-        "updatedAt": "2025-01-22T23:10:54",
-        "name": "Global Variables",
-        "variables": [
-          {
-            "enabled": false,
-            "name": "baseUrl",
-            "value": "",
-            "id": null
-          },
-          {
-            "enabled": true,
-            "name": "",
-            "value": "",
-            "id": null
-          }
-        ]
-      },
-      {
-        "model": "environment",
-        "id": "ev_aS4P8qXlUm",
-        "workspaceId": "wk_SbrwnSjDzA",
-        "environmentId": "ev_h7DtAr83FF",
-        "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2024-11-08T22:37:51",
-        "name": "LOCALHOST",
-        "variables": [
-          {
-            "enabled": true,
-            "name": "baseUrl",
-            "value": "http://localhost:58602",
-            "id": null
-          },
-          {
-            "enabled": true,
-            "name": "",
-            "value": "",
-            "id": null
-          }
-        ]
-      },
-      {
-        "model": "environment",
-        "id": "ev_lxgXUfo7zL",
-        "workspaceId": "wk_SbrwnSjDzA",
-        "environmentId": "ev_h7DtAr83FF",
-        "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2024-11-08T22:37:51",
-        "name": "PRODUCTION",
-        "variables": [
-          {
-            "enabled": true,
-            "name": "baseUrl",
-            "value": "https://api.subt.is",
-            "id": null
-          },
-          {
-            "enabled": true,
-            "name": "",
-            "value": "",
-            "id": null
-          }
-        ]
-      }
-    ],
+    "environments": [],
     "folders": [
       {
         "model": "folder",
@@ -202,10 +133,10 @@
         "model": "folder",
         "id": "fl_G3EShJi9ud",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-05-07T02:38:42.210285",
+        "updatedAt": "2025-05-23T01:11:55.214348",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_uLBhxSMyec",
-        "name": "Title (4)",
+        "name": "Title (3)",
         "description": "",
         "sortPriority": 5000.0
       },
@@ -362,7 +293,7 @@
         "headers": [],
         "method": "GET",
         "name": "Get Web health status (/v1/health/web)",
-        "sortPriority": 0.001,
+        "sortPriority": 0.0010000000474974513,
         "url": "${[ baseUrl ]}/v1/health/web",
         "urlParameters": []
       },
@@ -476,7 +407,7 @@
         "headers": [],
         "method": "GET",
         "name": "Get title Spotify soundtrack by slug (/v1/providers/spotify/sountrack/:slug)",
-        "sortPriority": 1000.001,
+        "sortPriority": 1000.0009765625,
         "url": "${[baseUrl]}/v1/providers/spotify/soundtrack/:slug",
         "urlParameters": [
           {
@@ -604,7 +535,7 @@
         "headers": [],
         "method": "GET",
         "name": "Get subtitle short link by subtitle ID (/v1/subtitle/link/:subtitleId)",
-        "sortPriority": 0.001,
+        "sortPriority": 0.0010000000474974513,
         "url": "${[baseUrl]}/v1/subtitle/link/:subtitleId",
         "urlParameters": [
           {
@@ -650,38 +581,6 @@
             "name": "",
             "value": "",
             "id": "tcQPnEsS4R"
-          }
-        ]
-      },
-      {
-        "model": "http_request",
-        "id": "rq_xm6c36yWmB",
-        "createdAt": "2025-01-09T00:29:15",
-        "updatedAt": "2025-02-19T23:33:22.140431",
-        "workspaceId": "wk_SbrwnSjDzA",
-        "folderId": "fl_G3EShJi9ud",
-        "authentication": {},
-        "authenticationType": null,
-        "body": {},
-        "bodyType": null,
-        "description": "",
-        "headers": [],
-        "method": "GET",
-        "name": "Get title cinemas by slug (v1/title/cinemas/:slug)",
-        "sortPriority": 1000.0,
-        "url": "${[baseUrl]}/v1/title/cinemas/:slug",
-        "urlParameters": [
-          {
-            "enabled": true,
-            "name": ":slug",
-            "value": "nosferatu-2024",
-            "id": "PPrJznJt6v"
-          },
-          {
-            "enabled": true,
-            "name": "",
-            "value": "",
-            "id": "UUmrewRbYC"
           }
         ]
       },
@@ -1276,7 +1175,7 @@
         "model": "http_request",
         "id": "rq_22xbygIhlm",
         "createdAt": "2024-11-08T22:37:51",
-        "updatedAt": "2025-03-10T13:30:29.655950",
+        "updatedAt": "2025-05-22T23:33:03.228635",
         "workspaceId": "wk_SbrwnSjDzA",
         "folderId": "fl_YERMf4idMs",
         "authentication": {},
@@ -1293,14 +1192,14 @@
           {
             "enabled": true,
             "name": ":query",
-            "value": "the",
+            "value": "v/h/s",
             "id": "WjQNYFUJ8p"
           },
           {
             "enabled": true,
             "name": "",
             "value": "",
-            "id": "aURjibwyYf"
+            "id": "56b25F9MRh"
           }
         ]
       },
