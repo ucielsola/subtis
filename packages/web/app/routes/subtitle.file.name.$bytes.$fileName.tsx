@@ -418,12 +418,7 @@ export default function SubtitlePage() {
                 href={loaderData.subtitle.subtitle_link}
                 onMouseEnter={() => downloadControls.start("animate")}
                 onMouseLeave={() => downloadControls.start("normal")}
-                className={cn(
-                  "transition-all ease-in-out rounded-sm",
-                  displayVideoElements
-                    ? "hover:bg-zinc-800 bg-zinc-900 hover:text-zinc-50"
-                    : "bg-zinc-100 text-zinc-900 hover:bg-zinc-50",
-                )}
+                className={"transition-all ease-in-out rounded-sm bg-zinc-100 text-zinc-900 hover:bg-zinc-50"}
               >
                 <DownloadIcon size={18} controls={downloadControls} />
                 Descargar Subtítulo
@@ -435,7 +430,9 @@ export default function SubtitlePage() {
                 onClick={handlePlaySubtitle}
                 onMouseEnter={() => playControls.start("animate")}
                 onMouseLeave={() => playControls.start("normal")}
-                className={"transition-all ease-in-out rounded-sm bg-zinc-900 text-zinc-50 hover:bg-zinc-800"}
+                className={
+                  "transition-all ease-in-out rounded-sm bg-zinc-900 text-zinc-50 hover:bg-zinc-800 cursor-pointer"
+                }
               >
                 <Play size={18} controls={playControls} isWrapped={false} />
                 Reproducir Video
@@ -449,7 +446,9 @@ export default function SubtitlePage() {
                     onClick={handlePlaySubtitle}
                     onMouseEnter={() => playControls.start("animate")}
                     onMouseLeave={() => playControls.start("normal")}
-                    className={"transition-all ease-in-out rounded-sm bg-zinc-900 text-zinc-50 hover:bg-zinc-800"}
+                    className={
+                      "transition-all ease-in-out rounded-sm bg-zinc-900 text-zinc-50 hover:bg-zinc-800 cursor-not-allowed"
+                    }
                   >
                     <Play size={18} controls={playControls} isWrapped={false} />
                     Reproducir Video
