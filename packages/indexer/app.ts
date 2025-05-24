@@ -65,7 +65,11 @@ import { generateIdFromMagnet } from "./utils/torrent";
 
 // types
 type TmdbTvShowEpisode = TmdbTvShow & { episode: string };
-type TmdbMovie = TmdbTitle & { episode: null; totalSeasons: null; totalEpisodes: null };
+type TmdbMovie = TmdbTitle & {
+  episode: null;
+  totalSeasons: null;
+  totalEpisodes: null;
+};
 
 export type CurrentTitle = TmdbMovie | TmdbTvShowEpisode;
 
@@ -774,10 +778,19 @@ export async function downloadAndStoreTitleAndSubtitle(data: {
     await downloadSubtitle(subtitle);
 
     const { subtitleCompressedAbsolutePath, extractedSubtitlePath } = getSubtitleAbsolutePaths(subtitle);
-    await uncompressSubtitle({ subtitle, fromRoute: subtitleCompressedAbsolutePath, toRoute: extractedSubtitlePath });
+    await uncompressSubtitle({
+      subtitle,
+      fromRoute: subtitleCompressedAbsolutePath,
+      toRoute: extractedSubtitlePath,
+    });
 
     const path = getSubtitleInitialPath({ subtitle, extractedSubtitlePath });
-    await addWatermarkToSubtitle({ path, subtitleGroupName, subtitleId: subtitle.externalId, titleType });
+    await addWatermarkToSubtitle({
+      path,
+      subtitleGroupName,
+      subtitleId: subtitle.externalId,
+      titleType,
+    });
 
     const subtitleFileToUpload = readSubtitleFile(path);
     const author = getSubtitleAuthor(subtitleFileToUpload);
@@ -786,7 +799,10 @@ export async function downloadAndStoreTitleAndSubtitle(data: {
     const isValid = await generateSpecValidSrt(srtOriginalString, path);
     const validSrtFileToUpload = readSubtitleFile(path);
 
-    const fullPath = await storeSubtitleInSupabaseStorage({ subtitle, subtitleFileToUpload: validSrtFileToUpload });
+    const fullPath = await storeSubtitleInSupabaseStorage({
+      subtitle,
+      subtitleFileToUpload: validSrtFileToUpload,
+    });
     removeSubtitlesFromFileSystem([subtitleCompressedAbsolutePath, extractedSubtitlePath]);
     const subtitleLink = getSupabaseSubtitleLink({ fullPath, subtitle });
 
@@ -866,8 +882,14 @@ export type TorrentFound = {
   seeds: number;
   isBytesFormatted: boolean;
 };
-export type TorrentFoundWithVideoFile = TorrentFound & { videoFile: VideoFile | undefined };
-export type TorrentFoundWithId = TorrentFound & { id: number; formattedBytes: string; bytes: number };
+export type TorrentFoundWithVideoFile = TorrentFound & {
+  videoFile: VideoFile | undefined;
+};
+export type TorrentFoundWithId = TorrentFound & {
+  id: number;
+  formattedBytes: string;
+  bytes: number;
+};
 export type TorrentFoundWithVideoFileAndId = TorrentFoundWithVideoFile & {
   id: number;
   formattedBytes: string;
@@ -894,7 +916,9 @@ export async function getFileTitleTorrents(
 
   let thePirateBayTorrents: TorrentFound[] = [];
   try {
-    const thePirateBayResult = await tg.search(query, { groupByTracker: false });
+    const thePirateBayResult = await tg.search(query, {
+      groupByTracker: false,
+    });
     const thePirateBayTorrentsRaw =
       thePirateBayResult instanceof Map
         ? thePirateBayResult.get("ThePirateBay")
@@ -920,7 +944,9 @@ export async function getFileTitleTorrents(
 
   try {
     const torrents1337x = await TorrentSearchApi.search(query, torrentSearchApiCategory, 15);
-    type TorrentSearchApiExteneded = TorrentSearchApi.Torrent & { seeds: number };
+    type TorrentSearchApiExteneded = TorrentSearchApi.Torrent & {
+      seeds: number;
+    };
 
     torrents1337xWithMagnet = await Promise.all(
       torrents1337x.map(async (torrent) => {
@@ -951,7 +977,9 @@ export async function getTitleTorrents(query: string, titleType: TitleTypes, imd
   let thePirateBayTorrents: TorrentFound[] = [];
 
   try {
-    const thePirateBayResult = await tg.search(query, { groupByTracker: false });
+    const thePirateBayResult = await tg.search(query, {
+      groupByTracker: false,
+    });
     const thePirateBayTorrentsRaw =
       thePirateBayResult instanceof Map
         ? thePirateBayResult.get("ThePirateBay")
@@ -977,7 +1005,9 @@ export async function getTitleTorrents(query: string, titleType: TitleTypes, imd
 
   try {
     const torrents1337x = await TorrentSearchApi.search(query, torrentSearchApiCategory, 15);
-    type TorrentSearchApiExteneded = TorrentSearchApi.Torrent & { seeds: number };
+    type TorrentSearchApiExteneded = TorrentSearchApi.Torrent & {
+      seeds: number;
+    };
 
     torrents1337xWithMagnet = await Promise.all(
       torrents1337x.map(async (torrent) => {
@@ -1014,13 +1044,24 @@ export async function getTitleTorrents(query: string, titleType: TitleTypes, imd
   return [...ytsTorrents, ...torrents1337xWithMagnet, ...thePirateBayTorrents].flat();
 }
 
-function getFilteredTorrents(torrents: TorrentFound[], maxTorrents: number, shouldSort: boolean): TorrentFoundWithId[] {
+function getFilteredTorrents(
+  torrents: TorrentFound[],
+  name: string,
+  maxTorrents: number,
+  shouldSort: boolean,
+): TorrentFoundWithId[] {
   const MIN_SEEDS = 8;
   // const seenSizes = new Set<string | number>();
 
   const result = torrents
     .slice(0, maxTorrents)
     .sort((torrentA, torrentB) => torrentB.seeds - torrentA.seeds)
+    .filter((torrent) => {
+      const parsedTorrentTitle = getStringWithoutSpecialCharacters(torrent.title);
+      const parsedName = getStringWithoutSpecialCharacters(name);
+
+      return parsedTorrentTitle.startsWith(parsedName);
+    })
     .filter((torrent) => !getIsCinemaRecording(torrent.title))
     .filter(({ seeds }) => seeds >= MIN_SEEDS)
     .filter(({ size, isBytesFormatted }) => {
@@ -1068,7 +1109,12 @@ function getFilteredTorrents(torrents: TorrentFound[], maxTorrents: number, shou
 
       const formattedBytes = prettyBytes(bytes);
 
-      return { ...torrent, id: generateIdFromMagnet(torrent.trackerId), bytes, formattedBytes };
+      return {
+        ...torrent,
+        id: generateIdFromMagnet(torrent.trackerId),
+        bytes,
+        formattedBytes,
+      };
     });
 
   return shouldSort
@@ -1187,7 +1233,9 @@ export async function getTorrentVideoFileMetadata(torrent: TorrentFound): Promis
         await new Promise(() => {
           stream.on("end", async () => {
             try {
-              const info = await ffprobe(tempFilePath, { path: ffprobeStatic.path });
+              const info = await ffprobe(tempFilePath, {
+                path: ffprobeStatic.path,
+              });
               const [firstStream] = info.streams;
 
               let resolution = "";
@@ -1212,14 +1260,24 @@ export async function getTorrentVideoFileMetadata(torrent: TorrentFound): Promis
                 resolution = "2160";
               }
 
-              await fs.promises.rm(tempFilePath, { recursive: true, force: true });
+              await fs.promises.rm(tempFilePath, {
+                recursive: true,
+                force: true,
+              });
 
               clearTimeout(timeoutId);
-              resolve({ name: videoFile.name, length: videoFile.length, resolution });
+              resolve({
+                name: videoFile.name,
+                length: videoFile.length,
+                resolution,
+              });
             } catch (error) {
               reject(error);
             } finally {
-              await fs.promises.rm(tempFilePath, { recursive: true, force: true });
+              await fs.promises.rm(tempFilePath, {
+                recursive: true,
+                force: true,
+              });
             }
           });
         });
@@ -1227,7 +1285,11 @@ export async function getTorrentVideoFileMetadata(torrent: TorrentFound): Promis
 
       if (videoFile) {
         clearTimeout(timeoutId);
-        resolve({ name: videoFile.name, length: videoFile.length, resolution: null });
+        resolve({
+          name: videoFile.name,
+          length: videoFile.length,
+          resolution: null,
+        });
       }
     });
   });
@@ -1299,7 +1361,10 @@ async function getAllSubtitlesFromProviders({
   const providersGetters = [
     { getSubtitles: getSubtitlesFromSubDivXForTitle, provider: "subdivx" },
     { getSubtitles: getSubtitlesFromSubdl, provider: "subdl" },
-    { getSubtitles: getSubtitlesFromOpenSubtitlesForTitle, provider: "openSubtitles" },
+    {
+      getSubtitles: getSubtitlesFromOpenSubtitlesForTitle,
+      provider: "openSubtitles",
+    },
   ] as const;
 
   const filteredProviders = providersGetters.filter(({ provider }) => providers.includes(provider));
@@ -1420,7 +1485,7 @@ export async function getSubtitlesForTitle({
   console.log("\nTorrents without filter \n");
   console.table(torrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
 
-  const filteredTorrents = getFilteredTorrents(torrents, 40, !initialTorrents);
+  const filteredTorrents = getFilteredTorrents(torrents, name, 40, !initialTorrents);
 
   console.log("\nFiltered torrents \n");
   console.table(filteredTorrents.map(({ title, size, seeds }) => ({ title, size, seeds })));
@@ -1666,7 +1731,10 @@ export async function getSubtitlesForTitle({
         const foundSubtitleFromSubDivX = await filterSubDivXSubtitlesForTorrent({
           episode,
           subtitles: subtitles.subdivx,
-          titleFileNameMetadata: { ...titleFileNameMetadata, resolution: finalResolution },
+          titleFileNameMetadata: {
+            ...titleFileNameMetadata,
+            resolution: finalResolution,
+          },
         });
 
         wsSubtitleHasBeenFound = true;
@@ -1738,7 +1806,10 @@ export async function getSubtitlesForTitle({
         const foundSubtitleFromSubdl = await filterSubdlSubtitlesForTorrent({
           episode,
           subtitles: subtitles.subdl,
-          titleFileNameMetadata: { ...titleFileNameMetadata, resolution: finalResolution },
+          titleFileNameMetadata: {
+            ...titleFileNameMetadata,
+            resolution: finalResolution,
+          },
         });
 
         wsSubtitleHasBeenFound = true;
@@ -1810,7 +1881,10 @@ export async function getSubtitlesForTitle({
         const foundSubtitleFromOpenSubtitles = await filterOpenSubtitleSubtitlesForTorrent({
           episode,
           subtitles: subtitles.openSubtitles,
-          titleFileNameMetadata: { ...titleFileNameMetadata, resolution: finalResolution },
+          titleFileNameMetadata: {
+            ...titleFileNameMetadata,
+            resolution: finalResolution,
+          },
         });
 
         wsSubtitleHasBeenFound = true;
