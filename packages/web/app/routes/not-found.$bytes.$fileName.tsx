@@ -13,7 +13,7 @@ import { z } from "zod";
 import { subtitleNormalizedSchema } from "@subtis/api/lib/parsers";
 
 // shared external
-import { getIsCinemaRecording } from "@subtis/shared";
+import { getIsCinemaRecording, getMessageFromStatusCode } from "@subtis/shared";
 
 // shared internal
 import { VideoDropzone } from "~/components/shared/video-dropzone";
@@ -131,10 +131,10 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 };
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  const { fileName } = params;
+  const { bytes, fileName } = params;
 
-  if (!fileName) {
-    throw new Error("Missing fileName");
+  if (!bytes || !fileName) {
+    throw new Error("Missing bytes or fileName");
   }
 
   const alternativeSubtitleResponse = await apiClient.v1.subtitle.file.alternative[":fileName"].$get({
@@ -148,7 +148,10 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   const alternativeSubtitleError = z.object({ message: z.string() }).safeParse(alternativeSubtitleData);
 
   if (alternativeSubtitleError.success) {
-    return alternativeSubtitleError.data;
+    return {
+      ...alternativeSubtitleError.data,
+      status: alternativeSubtitleResponse.status as number,
+    };
   }
 
   const alternativeSubtitleParsedData = subtitleNormalizedSchema.safeParse(alternativeSubtitleData);
@@ -157,7 +160,10 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     throw new Error("Invalid subtitle data");
   }
 
-  return alternativeSubtitleParsedData.data;
+  return {
+    ...alternativeSubtitleParsedData.data,
+    status: alternativeSubtitleResponse.status as number,
+  };
 };
 
 export default function NotFoundSubtitlePage() {
@@ -360,6 +366,11 @@ export default function NotFoundSubtitlePage() {
                 <h2 className="text-zinc-50 text-sm md:text-base">
                   No encontramos el subtítulo específico para tu versión.
                 </h2>
+                {[400, 415].includes(loaderData.status) ? (
+                  <h3 className="text-zinc-50 text-sm md:text-base">
+                    {getMessageFromStatusCode(loaderData.status).description}
+                  </h3>
+                ) : null}
               </div>
             </div>
           ) : (
