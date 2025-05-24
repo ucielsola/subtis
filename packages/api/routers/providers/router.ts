@@ -111,8 +111,10 @@ export const providers = new Hono<{ Variables: AppVariables }>()
       });
 
       if (!titleFileNameMetadata.resolution || !titleFileNameMetadata.year) {
-        context.status(415);
-        return context.json({ message: "File name is not supported" });
+        context.status(400);
+        return context.json({
+          message: "File name is not valid (Does not include resolution or year)",
+        });
       }
 
       const { name, year, currentSeason } = titleFileNameMetadata;

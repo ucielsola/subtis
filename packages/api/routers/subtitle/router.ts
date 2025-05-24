@@ -64,7 +64,9 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
       if (Number.isNaN(parsedSubtitleId) || parsedSubtitleId < 1) {
         context.status(400);
-        return context.json({ message: "Invalid ID: it should be a positive integer number" });
+        return context.json({
+          message: "Invalid ID: it should be a positive integer number",
+        });
       }
 
       const { data, error } = await getSupabaseClient(context)
@@ -75,19 +77,27 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
       if (error && error.code === "PGRST116") {
         context.status(404);
-        return context.json({ message: "Subtitle link not found for subtitle ID" });
+        return context.json({
+          message: "Subtitle link not found for subtitle ID",
+        });
       }
 
       if (error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: error.message });
+        return context.json({
+          message: "An error occurred",
+          error: error.message,
+        });
       }
 
       const subtitleById = subtitleShortenerSchema.safeParse(data);
 
       if (subtitleById.error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: subtitleById.error.issues[0].message });
+        return context.json({
+          message: "An error occurred",
+          error: subtitleById.error.issues[0].message,
+        });
       }
 
       return context.redirect(subtitleById.data.subtitle_link);
@@ -135,7 +145,9 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
       if (Number.isNaN(parsedId) || parsedId < 1) {
         context.status(400);
-        return context.json({ message: "Invalid ID: it should be a positive integer number" });
+        return context.json({
+          message: "Invalid ID: it should be a positive integer number",
+        });
       }
 
       const { data, error } = await getSupabaseClient(context)
@@ -151,14 +163,20 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
       if (error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: error.message });
+        return context.json({
+          message: "An error occurred",
+          error: error.message,
+        });
       }
 
       const subtitleById = subtitleSchema.safeParse(data);
 
       if (subtitleById.error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: subtitleById.error.issues[0].message });
+        return context.json({
+          message: "An error occurred",
+          error: subtitleById.error.issues[0].message,
+        });
       }
 
       const normalizedSubtitle = getSubtitleNormalized(subtitleById.data);
@@ -201,7 +219,9 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
     zValidator(
       "param",
       z.object({
-        fileName: z.string().openapi({ example: "Secrets.and.Lies.1996.720p.BluRay.x264.YIFY.mp4" }),
+        fileName: z.string().openapi({
+          example: "Secrets.and.Lies.1996.720p.BluRay.x264.YIFY.mp4",
+        }),
       }),
     ),
 
@@ -216,12 +236,16 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
       const supabase = getSupabaseClient(context);
 
-      const titleFileNameMetadata = getTitleFileNameMetadata({ titleFileName: videoFileName.data });
+      const titleFileNameMetadata = getTitleFileNameMetadata({
+        titleFileName: videoFileName.data,
+      });
       const { name, year, releaseGroup, resolution, currentEpisode, currentSeason } = titleFileNameMetadata;
 
       if (!resolution || !year) {
-        context.status(415);
-        return context.json({ message: "File name is not valid" });
+        context.status(400);
+        return context.json({
+          message: "File name is not valid (Does not include resolution or year)",
+        });
       }
 
       const parsedName = getStringWithoutSpecialCharacters(name);
@@ -242,19 +266,27 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
       if (error && error.code === "PGRST116") {
         context.status(404);
-        return context.json({ message: "Alternative subtitle not found for file" });
+        return context.json({
+          message: "Alternative subtitle not found for file",
+        });
       }
 
       if (error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: error.message });
+        return context.json({
+          message: "An error occurred",
+          error: error.message,
+        });
       }
 
       const titleByNameAndYear = alternativeTitlesSchema.safeParse(titleData);
 
       if (titleByNameAndYear.error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: titleByNameAndYear.error.issues[0].message });
+        return context.json({
+          message: "An error occurred",
+          error: titleByNameAndYear.error.issues[0].message,
+        });
       }
 
       const subtitleQuery = supabase
@@ -278,19 +310,27 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
       if (subtitleError) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: subtitleError });
+        return context.json({
+          message: "An error occurred",
+          error: subtitleError,
+        });
       }
 
       if (subtitleData.length === 0) {
         context.status(404);
-        return context.json({ message: "Alternative subtitle not found for file" });
+        return context.json({
+          message: "Alternative subtitle not found for file",
+        });
       }
 
       const subtitleByFileName = alternativeSubtitlesSchema.safeParse(subtitleData);
 
       if (subtitleByFileName.error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: subtitleByFileName.error.issues[0].message });
+        return context.json({
+          message: "An error occurred",
+          error: subtitleByFileName.error.issues[0].message,
+        });
       }
 
       const filteredSubtitlesByResolution = subtitleByFileName.data
@@ -324,7 +364,9 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
       if (subtitleByFileName.data.length === 0) {
         context.status(404);
-        return context.json({ message: "Alternative subtitle not found for file" });
+        return context.json({
+          message: "Alternative subtitle not found for file",
+        });
       }
 
       const firstSubtitle = subtitleByFileName.data[0];
@@ -332,7 +374,10 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
       return context.json(normalizedSubtitle);
     },
-    cache({ cacheName: "subtis-api-subtitle", cacheControl: `max-age=${timestring("1 week")}` }),
+    cache({
+      cacheName: "subtis-api-subtitle",
+      cacheControl: `max-age=${timestring("1 week")}`,
+    }),
   )
   .get(
     "/file/name/:bytes/:fileName",
@@ -370,7 +415,9 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       "param",
       z.object({
         bytes: z.string().openapi({ example: "5485380016" }),
-        fileName: z.string().openapi({ example: "Back.In.Action.2025.2160p.4K.WEB.x265.10bit.AAC5.1-[YTS.MX].mkv" }),
+        fileName: z.string().openapi({
+          example: "Back.In.Action.2025.2160p.4K.WEB.x265.10bit.AAC5.1-[YTS.MX].mkv",
+        }),
       }),
     ),
     async (context) => {
@@ -380,7 +427,9 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
       if (Number.isNaN(parsedBytes) || parsedBytes < 0) {
         context.status(400);
-        return context.json({ message: "Invalid Bytes: it should be a positive integer number" });
+        return context.json({
+          message: "Invalid Bytes: it should be a positive integer number",
+        });
       }
 
       const videoFileName = videoFileNameSchema.safeParse(fileName);
@@ -402,11 +451,15 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         const isCinemaRecording = getIsCinemaRecording(fileName);
 
         if (!isTvShow && !isCinemaRecording) {
-          const { resolution, year } = getTitleFileNameMetadata({ titleFileName: fileName });
+          const { resolution, year } = getTitleFileNameMetadata({
+            titleFileName: fileName,
+          });
 
           if (!resolution || !year) {
-            context.status(415);
-            return context.json({ message: "File name is not valid" });
+            context.status(400);
+            return context.json({
+              message: "File name is not valid (Does not include resolution or year)",
+            });
           }
 
           await supabase.from("SubtitlesNotFound").insert({ bytes: parsedBytes, title_file_name: fileName });
@@ -418,21 +471,30 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
       if (error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: error.message });
+        return context.json({
+          message: "An error occurred",
+          error: error.message,
+        });
       }
 
       const subtitleByFileName = subtitleSchema.safeParse(data);
 
       if (subtitleByFileName.error) {
         context.status(500);
-        return context.json({ message: "An error occurred", error: subtitleByFileName.error.issues[0].message });
+        return context.json({
+          message: "An error occurred",
+          error: subtitleByFileName.error.issues[0].message,
+        });
       }
 
       const normalizedSubtitle = getSubtitleNormalized(subtitleByFileName.data);
 
       return context.json(normalizedSubtitle);
     },
-    cache({ cacheName: "subtis-api-subtitle", cacheControl: `max-age=${timestring("1 week")}` }),
+    cache({
+      cacheName: "subtis-api-subtitle",
+      cacheControl: `max-age=${timestring("1 week")}`,
+    }),
   )
   .post(
     "/not-found",
@@ -511,7 +573,9 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
       if (!token) {
         context.status(401);
-        return context.json({ message: "No token provided in Authorization header" });
+        return context.json({
+          message: "No token provided in Authorization header",
+        });
       }
 
       try {
@@ -520,14 +584,18 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
       } catch (error) {
         console.log("\n ~ error:", error);
         context.status(401);
-        return context.json({ message: "Invalid or expired authentication token" });
+        return context.json({
+          message: "Invalid or expired authentication token",
+        });
       }
 
       const { email, bytes, titleFileName } = context.req.valid("json");
 
       if (Number(bytes) < 1) {
         context.status(400);
-        return context.json({ message: "Invalid Bytes: it should be a positive integer number" });
+        return context.json({
+          message: "Invalid Bytes: it should be a positive integer number",
+        });
       }
 
       const videoFileName = videoFileNameSchema.safeParse(titleFileName);
@@ -551,7 +619,10 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
         if (error) {
           context.status(500);
-          return context.json({ message: "An error occurred", error: error.message });
+          return context.json({
+            message: "An error occurred",
+            error: error.message,
+          });
         }
       }
 
@@ -623,7 +694,9 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
       if (Number.isNaN(subtitleId) || subtitleId < 1) {
         context.status(400);
-        return context.json({ message: "Invalid Subtitle ID: it should be a positive integer number" });
+        return context.json({
+          message: "Invalid Subtitle ID: it should be a positive integer number",
+        });
       }
 
       const authorizationHeader = context.req.header("Authorization");
@@ -637,7 +710,9 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
 
       if (!token) {
         context.status(401);
-        return context.json({ message: "No token provided in Authorization header" });
+        return context.json({
+          message: "No token provided in Authorization header",
+        });
       }
 
       try {
@@ -645,7 +720,9 @@ export const subtitle = new Hono<{ Variables: AppVariables }>()
         await verify(token, jwtSecret);
       } catch (error) {
         context.status(401);
-        return context.json({ message: "Invalid or expired authentication token" });
+        return context.json({
+          message: "Invalid or expired authentication token",
+        });
       }
 
       const supabase = getSupabaseClient(context);

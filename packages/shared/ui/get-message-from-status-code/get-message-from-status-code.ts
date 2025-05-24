@@ -6,6 +6,10 @@ export function getMessageFromStatusCode(statusCode: number): {
   title: string;
 } {
   return match(statusCode)
+    .with(400, () => ({
+      title: "Archivo no soportado",
+      description: "El archivo no es válido (No incluye resolución o año)",
+    }))
     .with(415, () => ({
       title: "Extensión de archivo no soportada",
       description: "Prueba con formatos como MKV, MP4, o AVI",

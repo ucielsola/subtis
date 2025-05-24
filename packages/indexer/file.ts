@@ -58,11 +58,15 @@ async function getTorrentFromPirateBayOr1337x(
     formattedBytes: string;
   }
 > {
-  const torrents: TorrentFound[] = (await tg.search(query, { groupByTracker: false })) as unknown as TorrentFound[];
+  const torrents: TorrentFound[] = (await tg.search(query, {
+    groupByTracker: false,
+  })) as unknown as TorrentFound[];
 
   if (torrents.length === 0) {
     const newQuery = query.replaceAll(".", " ");
-    const newTorrents = (await tg.search(newQuery, { groupByTracker: false })) as unknown as TorrentFound[];
+    const newTorrents = (await tg.search(newQuery, {
+      groupByTracker: false,
+    })) as unknown as TorrentFound[];
 
     if (newTorrents.length > 0) {
       torrents.push(...newTorrents);
@@ -71,7 +75,9 @@ async function getTorrentFromPirateBayOr1337x(
 
   if (torrents.length === 0) {
     const newQuery = `${title.name} ${title.year}`;
-    const newTorrents = (await tg.search(newQuery, { groupByTracker: false })) as unknown as TorrentFound[];
+    const newTorrents = (await tg.search(newQuery, {
+      groupByTracker: false,
+    })) as unknown as TorrentFound[];
 
     if (newTorrents.length > 0) {
       torrents.push(...newTorrents);
@@ -80,7 +86,9 @@ async function getTorrentFromPirateBayOr1337x(
 
   if (torrents.length === 0) {
     const newQuery = title.name;
-    const newTorrents = (await tg.search(newQuery, { groupByTracker: false })) as unknown as TorrentFound[];
+    const newTorrents = (await tg.search(newQuery, {
+      groupByTracker: false,
+    })) as unknown as TorrentFound[];
 
     if (newTorrents.length > 0) {
       torrents.push(...newTorrents);
@@ -93,7 +101,9 @@ async function getTorrentFromPirateBayOr1337x(
     const torrentsTvShows1337x = await TorrentSearchApi.search(query, "TV", 10);
     const torrentsMovies1337x = await TorrentSearchApi.search(query, "Movies", 10);
 
-    type TorrentSearchApiExteneded = TorrentSearchApi.Torrent & { seeds: number };
+    type TorrentSearchApiExteneded = TorrentSearchApi.Torrent & {
+      seeds: number;
+    };
 
     torrents1337xWithMagnet = await Promise.all(
       [...torrentsTvShows1337x, ...torrentsMovies1337x].map(async (torrent) => {
@@ -134,7 +144,12 @@ async function getTorrentFromPirateBayOr1337x(
   const bytes = torrent.isBytesFormatted ? filesizeParser(torrent.size) : (torrent.size as number);
   const formattedBytes = prettyBytes(bytes);
 
-  return { ...torrent, id: generateIdFromMagnet(torrent.trackerId), bytes, formattedBytes };
+  return {
+    ...torrent,
+    id: generateIdFromMagnet(torrent.trackerId),
+    bytes,
+    formattedBytes,
+  };
 }
 
 // core
@@ -159,7 +174,12 @@ export async function indexTitleByFileName({
 
   try {
     if (websocket) {
-      websocket.send(JSON.stringify({ total: 0, message: "Obteniendo información del archivo" }));
+      websocket.send(
+        JSON.stringify({
+          total: 0,
+          message: "Obteniendo información del archivo",
+        }),
+      );
     }
 
     const isTvShow = getIsTvShow(titleFileName);
@@ -168,7 +188,12 @@ export async function indexTitleByFileName({
     console.log("\n ~ title:", title);
 
     if (websocket) {
-      websocket.send(JSON.stringify({ total: 0.05, message: "Obteniendo proveedores de subtítulos" }));
+      websocket.send(
+        JSON.stringify({
+          total: 0.05,
+          message: "Obteniendo proveedores de subtítulos",
+        }),
+      );
     }
 
     const [releaseGroups, subtitleGroups] = await Promise.all([
@@ -177,12 +202,22 @@ export async function indexTitleByFileName({
     ]);
 
     if (websocket) {
-      websocket.send(JSON.stringify({ total: 0.1, message: "Obteniendo proveedores de subtítulos" }));
+      websocket.send(
+        JSON.stringify({
+          total: 0.1,
+          message: "Obteniendo proveedores de subtítulos",
+        }),
+      );
     }
 
     if (isTvShow) {
       if (websocket) {
-        websocket.send(JSON.stringify({ total: 0.3, message: `Buscando información de ${title.name}` }));
+        websocket.send(
+          JSON.stringify({
+            total: 0.3,
+            message: `Buscando información de ${title.name}`,
+          }),
+        );
       }
 
       const response = await fetch(
@@ -211,7 +246,12 @@ export async function indexTitleByFileName({
       } = tvShow;
 
       if (websocket) {
-        websocket.send(JSON.stringify({ total: 0.45, message: `Buscando más información sobre ${title.name}` }));
+        websocket.send(
+          JSON.stringify({
+            total: 0.45,
+            message: `Buscando más información sobre ${title.name}`,
+          }),
+        );
       }
 
       const tvShowData = await getTvShowMetadataFromTmdbTvShow({
@@ -226,7 +266,12 @@ export async function indexTitleByFileName({
       const episode = getEpisode(titleFileName);
 
       if (websocket) {
-        websocket.send(JSON.stringify({ total: 0.6, message: "Buscando capitulo en nuestros proveedores" }));
+        websocket.send(
+          JSON.stringify({
+            total: 0.6,
+            message: "Buscando capitulo en nuestros proveedores",
+          }),
+        );
       }
 
       const torrent = await getTorrentFromPirateBayOr1337x(
@@ -235,7 +280,12 @@ export async function indexTitleByFileName({
       );
 
       if (websocket) {
-        websocket.send(JSON.stringify({ total: 0.75, message: "Buscando subtítulo en nuestros proveedores" }));
+        websocket.send(
+          JSON.stringify({
+            total: 0.75,
+            message: "Buscando subtítulo en nuestros proveedores",
+          }),
+        );
       }
 
       const parameter = await getSubDivXParameter();
@@ -266,7 +316,12 @@ export async function indexTitleByFileName({
     }
 
     if (websocket) {
-      websocket.send(JSON.stringify({ total: 0.1, message: `Buscando información de ${title.name}` }));
+      websocket.send(
+        JSON.stringify({
+          total: 0.1,
+          message: `Buscando información de ${title.name}`,
+        }),
+      );
     }
 
     const response = await fetch(
@@ -307,11 +362,21 @@ export async function indexTitleByFileName({
     });
 
     if (websocket) {
-      websocket.send(JSON.stringify({ total: 0.45, message: `Buscando información de ${title.name}` }));
+      websocket.send(
+        JSON.stringify({
+          total: 0.45,
+          message: `Buscando información de ${title.name}`,
+        }),
+      );
     }
 
     if (websocket) {
-      websocket.send(JSON.stringify({ total: 0.45, message: "Buscando pelicula en nuestros proveedores" }));
+      websocket.send(
+        JSON.stringify({
+          total: 0.45,
+          message: "Buscando pelicula en nuestros proveedores",
+        }),
+      );
     }
 
     const titleProviderQuery = getQueryForTorrentProvider({
@@ -332,14 +397,24 @@ export async function indexTitleByFileName({
       const [parameter, { token, cookie }] = await Promise.all([getSubDivXParameter(), getSubDivXToken()]);
 
       if (websocket) {
-        websocket.send(JSON.stringify({ total: 0.6, message: "Buscando subtítulos en nuestros proveedores" }));
+        websocket.send(
+          JSON.stringify({
+            total: 0.6,
+            message: "Buscando subtítulos en nuestros proveedores",
+          }),
+        );
       }
 
       const wsSubtitleHasBeenFound = await getSubtitlesForTitle({
         indexedBy,
         index: "1",
         initialTorrents: shouldIndexAllTorrents ? undefined : torrents,
-        currentTitle: { ...movieData, episode: null, totalEpisodes: null, totalSeasons: null },
+        currentTitle: {
+          ...movieData,
+          episode: null,
+          totalEpisodes: null,
+          totalSeasons: null,
+        },
         releaseGroups,
         subtitleGroups,
         isDebugging,
@@ -381,7 +456,10 @@ export async function indexTitleByFileName({
     console.log("\n ~ error:", error);
 
     if (shouldStoreNotFoundSubtitle) {
-      await setSubtitleNotFound(apiClient, { bytes: String(bytes), fileName: titleFileName });
+      await setSubtitleNotFound(apiClient, {
+        bytes: String(bytes),
+        fileName: titleFileName,
+      });
     }
 
     console.log("mainIndexer => error =>", error);
@@ -394,8 +472,8 @@ export async function indexTitleByFileName({
 // const titleFileName = "Scenes.From.A.Marriage.1974.1080p.BluRay.x264-[YTS.AM].mp4";
 // const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
 
-const bytes = 873658721312;
-const titleFileName = "Fast.and.Furious.F9.The.Fast.Saga.2021.1080p.WEBRip.x264-RARBG.mp4";
+const bytes = 91239123534;
+const titleFileName = "Spirit.Stallion.Of.The.Cimarron.720p.HDTV.x264.YIFY.mp4";
 
 indexTitleByFileName({
   bytes,
