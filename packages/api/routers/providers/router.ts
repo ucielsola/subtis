@@ -473,11 +473,11 @@ export const providers = new Hono<{ Variables: AppVariables }>()
       const year = Number(slugArray.at(-1));
       const slugWithoutYear = parsedSlug.split("-").slice(0, -1).join("-");
 
-      const standardLink = `https://letterboxd.com/film/${slugWithoutYear}`;
+      const standardLink = `https://letterboxd.com/film/${parsedSlug}`;
       const response = await fetch(standardLink);
 
       if (response.status === 200) {
-        await supabaseClient.from("Titles").update({ letterboxd_id: slugWithoutYear }).match({ slug });
+        await supabaseClient.from("Titles").update({ letterboxd_id: parsedSlug }).match({ slug });
         return context.json({ link: standardLink });
       }
 
