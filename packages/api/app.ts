@@ -29,7 +29,7 @@ export function runApi() {
   app.use(secureHeaders());
   app.use((c: Context, next: Next) =>
     rateLimiter<HonoAppType>({
-      limit: 100,
+      limit: 1000,
       windowMs: 15 * 60 * 1000,
       standardHeaders: "draft-6",
       store: new DurableObjectStore({ namespace: c.env.CACHE }),
