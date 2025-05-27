@@ -199,7 +199,7 @@ export const RELEASE_GROUPS = {
   ExKinoRay: {
     is_supported: true,
     release_group_name: "ExKinoRay",
-    matches: ["ExKinoRay", "ExKinoRay", "x264-ExKinoRay", "x265-ExKinoRay"],
+    matches: ["ExKinoRay", "ExKinoRay[EtHD]", "x264-ExKinoRay", "x265-ExKinoRay"],
   },
   EniaHD: {
     is_supported: true,
@@ -795,6 +795,16 @@ export const RELEASE_GROUPS = {
     is_supported: true,
     release_group_name: "squalor",
     matches: ["1-squalor", "squalor"],
+  },
+  URBiN4HD: {
+    is_supported: true,
+    release_group_name: "URBiN4HD",
+    matches: ["URBiN4HD", "1-URBiN4HD"],
+  },
+  REMO: {
+    is_supported: true,
+    release_group_name: "REMO",
+    matches: ["REMO", "X264-REMO", "X265-REMO"],
   },
 } as const;
 
