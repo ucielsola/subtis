@@ -786,6 +786,16 @@ export const RELEASE_GROUPS = {
     release_group_name: "EtHD",
     matches: ["EtHD", "BluRay[EtHD]", "[EtHD]"],
   },
+  GAZ: {
+    is_supported: true,
+    release_group_name: "GAZ",
+    matches: ["GAZ"],
+  },
+  squalor: {
+    is_supported: true,
+    release_group_name: "squalor",
+    matches: ["1-squalor", "squalor"],
+  },
 } as const;
 
 // types
