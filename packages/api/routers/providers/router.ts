@@ -27,7 +27,7 @@ import { spotifySearchSchema, spotifyTokenSchema } from "../../lib/spotify";
 import { getSupabaseClient } from "../../lib/supabase";
 import { getTmdbMovieSearchUrl, tmdbDiscoverMovieSchema } from "../../lib/tmdb";
 import { getTmdbHeaders } from "../../lib/tmdb";
-import type { AppVariables } from "../../lib/types";
+import type { HonoAppType } from "../../lib/types";
 
 // internals
 import {
@@ -47,7 +47,7 @@ const EDGE_CASE_MOVIES = {
 type EdgeCaseMovieKeys = keyof typeof EDGE_CASE_MOVIES;
 
 // router
-export const providers = new Hono<{ Variables: AppVariables }>()
+export const providers = new Hono<HonoAppType>()
   .get(
     "/youtube/teaser/:fileName",
     describeRoute({

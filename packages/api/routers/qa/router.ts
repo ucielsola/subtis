@@ -7,10 +7,10 @@ import z from "zod";
 // lib
 import { titleRandomSchema } from "../../lib/schemas";
 import { getSupabaseClient } from "../../lib/supabase";
-import type { AppVariables } from "../../lib/types";
+import type { HonoAppType } from "../../lib/types";
 
 // router
-export const qa = new Hono<{ Variables: AppVariables }>().get(
+export const qa = new Hono<HonoAppType>().get(
   "/random/movies/:year?",
   describeRoute({
     tags: ["QA"],

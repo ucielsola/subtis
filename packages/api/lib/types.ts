@@ -1,4 +1,7 @@
-export type AppVariables = {
+import type { DurableObjectNamespace } from "@cloudflare/workers-types";
+import type { DurableObjectRateLimiter } from "@hono-rate-limiter/cloudflare";
+
+type Variables = {
   rateLimit: boolean;
   TMDB_API_KEY: string;
   YOUTUBE_API_KEY: string;
@@ -6,6 +9,11 @@ export type AppVariables = {
   SUPABASE_BASE_URL: string;
 };
 
-export type AppBindings = {
-  RATE_LIMITER: RateLimit;
+type Bindings = {
+  CACHE: DurableObjectNamespace<DurableObjectRateLimiter>;
+};
+
+export type HonoAppType = {
+  Variables: Variables;
+  Bindings: Bindings;
 };

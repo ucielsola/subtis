@@ -1,13 +1,14 @@
 import "zod-openapi/extend";
-import { cloudflareRateLimiter } from "@hono-rate-limiter/cloudflare";
+import { DurableObjectStore } from "@hono-rate-limiter/cloudflare";
 import { Scalar } from "@scalar/hono-api-reference";
-import { Hono } from "hono";
+import { type Context, Hono, type Next } from "hono";
 import { openAPISpecs } from "hono-openapi";
+import { rateLimiter } from "hono-rate-limiter";
 import { cors } from "hono/cors";
 import { secureHeaders } from "hono/secure-headers";
 
 // shared internal
-import type { AppBindings, AppVariables } from "./lib/types";
+import type { HonoAppType } from "./lib/types";
 
 // internals
 import { health } from "./routers/health/router";
@@ -19,12 +20,6 @@ import { subtitles } from "./routers/subtitles/router";
 import { title } from "./routers/title/router";
 import { titles } from "./routers/titles/router";
 
-// types
-type HonoAppType = {
-  Variables: AppVariables;
-  Bindings: AppBindings;
-};
-
 // app
 export function runApi() {
   const app = new Hono<HonoAppType>();
@@ -32,19 +27,14 @@ export function runApi() {
   // middlewares
   app.use("*", cors());
   app.use(secureHeaders());
-  app.use(
-    cloudflareRateLimiter<HonoAppType>({
-      rateLimitBinding: (c) => {
-        const rateLimit = c.env.RATE_LIMITER;
-
-        if (!rateLimit) {
-          throw new Error("RATE_LIMITER is not defined");
-        }
-
-        return rateLimit;
-      },
+  app.use((c: Context, next: Next) =>
+    rateLimiter<HonoAppType>({
+      limit: 100,
+      windowMs: 15 * 60 * 1000,
+      standardHeaders: "draft-6",
+      store: new DurableObjectStore({ namespace: c.env.CACHE }),
       keyGenerator: (c) => c.req.header("cf-connecting-ip") ?? "",
-    }),
+    })(c, next),
   );
 
   // routes

@@ -10,7 +10,7 @@ import { MAX_LIMIT } from "../../lib/constants";
 import { getResultsWithLength } from "../../lib/parsers";
 import { titlesQuery } from "../../lib/schemas";
 import { getSupabaseClient } from "../../lib/supabase";
-import type { AppVariables } from "../../lib/types";
+import type { HonoAppType } from "../../lib/types";
 
 // internals
 import {
@@ -23,7 +23,7 @@ import {
 } from "./schemas";
 
 // router
-export const titles = new Hono<{ Variables: AppVariables }>()
+export const titles = new Hono<HonoAppType>()
   .get(
     "/search/:query",
     describeRoute({

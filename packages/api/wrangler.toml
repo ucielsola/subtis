@@ -1,9 +1,10 @@
 name = "api"
-compatibility_date = "2023-12-01"
+compatibility_date = "2024-04-03"
 
-[[unsafe.bindings]]
-name = "RATE_LIMITER"
-type = "ratelimit"
-namespace_id = "1001"
+[[durable_objects.bindings]]
+name = "CACHE"
+class_name = "DurableObjectRateLimiter"
 
-simple = { limit = 100, period = 60 }
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["DurableObjectRateLimiter"]

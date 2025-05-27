@@ -12,13 +12,13 @@ import { getResultsWithLength, getSubtitlesNormalized } from "../../lib/parsers"
 import { RESOLUTION_REGEX } from "../../lib/resolutions";
 import { subtitlesQuery } from "../../lib/schemas";
 import { getSupabaseClient } from "../../lib/supabase";
-import type { AppVariables } from "../../lib/types";
+import type { HonoAppType } from "../../lib/types";
 
 // internals
 import { subtitlesResponseSchema, subtitlesSchema } from "./schemas";
 
 // router
-export const subtitles = new Hono<{ Variables: AppVariables }>()
+export const subtitles = new Hono<HonoAppType>()
   .get(
     "/movie/:slug",
     describeRoute({

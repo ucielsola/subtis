@@ -7,13 +7,13 @@ import z from "zod";
 
 // lib
 import { getSupabaseClient } from "../../lib/supabase";
-import type { AppVariables } from "../../lib/types";
+import type { HonoAppType } from "../../lib/types";
 
 // internals
 import { statsSchema } from "./schemas";
 
 // router
-export const stats = new Hono<{ Variables: AppVariables }>().get(
+export const stats = new Hono<HonoAppType>().get(
   "/all",
   describeRoute({
     hide: true,

@@ -6,10 +6,10 @@ import { z } from "zod";
 import type { Database } from "@subtis/db/types";
 
 // internals
-import type { AppVariables } from "./types";
+import type { HonoAppType } from "./types";
 
 // core
-export function getSupabaseClient(context: Context<{ Variables: AppVariables }>) {
+export function getSupabaseClient(context: Context<HonoAppType>) {
   const client = z.object({ SUPABASE_BASE_URL: z.string(), SUPABASE_API_KEY: z.string() }).parse(context.env);
   return createClient<Database>(client.SUPABASE_BASE_URL, client.SUPABASE_API_KEY, {
     db: {

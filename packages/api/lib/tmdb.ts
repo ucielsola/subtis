@@ -2,7 +2,7 @@ import type { Context } from "hono";
 import { z } from "zod";
 
 // internals
-import type { AppVariables } from "./types";
+import type { HonoAppType } from "./types";
 
 // schemas
 export const tmdbDiscoverMovieSchema = z.object({
@@ -10,7 +10,7 @@ export const tmdbDiscoverMovieSchema = z.object({
 });
 
 // helpers
-export function getTmdbApiKey(context: Context<{ Variables: AppVariables }>) {
+export function getTmdbApiKey(context: Context<HonoAppType>) {
   const env = z.object({ TMDB_API_KEY: z.string() }).parse(context.env);
   return env.TMDB_API_KEY;
 }

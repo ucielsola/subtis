@@ -11,7 +11,7 @@ import { getJwtSecret } from "../../lib/api-keys";
 import { buscalaSchema } from "../../lib/buscala";
 import { titleMetadataQuery, titleMetadataSchema } from "../../lib/schemas";
 import { getSupabaseClient } from "../../lib/supabase";
-import type { AppVariables } from "../../lib/types";
+import type { HonoAppType } from "../../lib/types";
 
 // internals
 import {
@@ -21,7 +21,7 @@ import {
 } from "./schemas";
 
 // router
-export const title = new Hono<{ Variables: AppVariables }>()
+export const title = new Hono<HonoAppType>()
   .get(
     "/streaming/:slug",
     describeRoute({

@@ -16,13 +16,13 @@ import { getJwtSecret } from "../../lib/api-keys";
 import { getSubtitleNormalized, subtitleNormalizedSchema } from "../../lib/parsers";
 import { alternativeTitlesSchema, subtitleSchema, subtitleShortenerSchema, subtitlesQuery } from "../../lib/schemas";
 import { getSupabaseClient } from "../../lib/supabase";
-import type { AppVariables } from "../../lib/types";
+import type { HonoAppType } from "../../lib/types";
 
 // internals
 import { alternativeSubtitlesSchema } from "./schemas";
 
 // router
-export const subtitle = new Hono<{ Variables: AppVariables }>()
+export const subtitle = new Hono<HonoAppType>()
   .get(
     "/link/:subtitleId",
     describeRoute({

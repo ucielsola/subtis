@@ -2,10 +2,10 @@ import type { Context } from "hono";
 import { z } from "zod";
 
 // internals
-import type { AppVariables } from "./types";
+import type { HonoAppType } from "./types";
 
 // helpers
-export function getSpotifyApiKey(context: Context<{ Variables: AppVariables }>): {
+export function getSpotifyApiKey(context: Context<HonoAppType>): {
   clientId: string;
   clientSecret: string;
 } {
@@ -16,17 +16,17 @@ export function getSpotifyApiKey(context: Context<{ Variables: AppVariables }>):
   };
 }
 
-export function getYoutubeApiKey(context: Context<{ Variables: AppVariables }>): string {
+export function getYoutubeApiKey(context: Context<HonoAppType>): string {
   const env = z.object({ YOUTUBE_API_KEY: z.string() }).parse(context.env);
   return env.YOUTUBE_API_KEY;
 }
 
-export function getTmdbApiKey(context: Context<{ Variables: AppVariables }>): string {
+export function getTmdbApiKey(context: Context<HonoAppType>): string {
   const env = z.object({ TMDB_API_KEY: z.string() }).parse(context.env);
   return env.TMDB_API_KEY;
 }
 
-export function getJwtSecret(context: Context<{ Variables: AppVariables }>): string {
+export function getJwtSecret(context: Context<HonoAppType>): string {
   const env = z.object({ JWT_SECRET: z.string() }).parse(context.env);
   return env.JWT_SECRET;
 }

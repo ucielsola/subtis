@@ -5,10 +5,10 @@ import z from "zod";
 
 // lib
 import { getSupabaseClient } from "../../lib/supabase";
-import type { AppVariables } from "../../lib/types";
+import type { HonoAppType } from "../../lib/types";
 
 // router
-export const health = new Hono<{ Variables: AppVariables }>()
+export const health = new Hono<HonoAppType>()
   .get(
     "/api",
     describeRoute({
