@@ -12,6 +12,7 @@ export const health = new Hono<{ Variables: AppVariables }>()
   .get(
     "/api",
     describeRoute({
+      hide: true,
       tags: ["Health (5)"],
       summary: "Check if the API is running",
       responses: {
@@ -35,6 +36,7 @@ export const health = new Hono<{ Variables: AppVariables }>()
   .get(
     "/database",
     describeRoute({
+      hide: true,
       tags: ["Health (5)"],
       summary: "Check if the Database is running",
       responses: {
@@ -61,6 +63,7 @@ export const health = new Hono<{ Variables: AppVariables }>()
   .get(
     "/websocket",
     describeRoute({
+      hide: true,
       tags: ["Health (5)"],
       summary: "Check if the WebSocket is running",
       responses: {
@@ -94,6 +97,7 @@ export const health = new Hono<{ Variables: AppVariables }>()
   .get(
     "/stremio",
     describeRoute({
+      hide: true,
       tags: ["Health (5)"],
       summary: "Check if the Stremio is running",
       responses: {
@@ -118,6 +122,7 @@ export const health = new Hono<{ Variables: AppVariables }>()
   .get(
     "/web",
     describeRoute({
+      hide: true,
       tags: ["Health (5)"],
       summary: "Check if the Web is running",
       responses: {

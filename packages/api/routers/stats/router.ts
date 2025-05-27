@@ -16,6 +16,7 @@ import { statsSchema } from "./schemas";
 export const stats = new Hono<{ Variables: AppVariables }>().get(
   "/all",
   describeRoute({
+    hide: true,
     tags: ["Stats (1)"],
     description: "Get stats",
     responses: {

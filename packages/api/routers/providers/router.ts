@@ -52,7 +52,7 @@ export const providers = new Hono<{ Variables: AppVariables }>()
     "/youtube/teaser/:fileName",
     describeRoute({
       hide: true,
-      tags: ["Providers (4)"],
+      tags: ["Providers (5)"],
       description: "Get title YouTube teaser from file name",
       responses: {
         200: {
@@ -237,7 +237,8 @@ export const providers = new Hono<{ Variables: AppVariables }>()
   .get(
     "/spotify/soundtrack/:slug",
     describeRoute({
-      tags: ["Providers (4)"],
+      hide: true,
+      tags: ["Providers (5)"],
       description: "Get title Spotify soundtrack from slug",
       responses: {
         200: {
@@ -427,7 +428,8 @@ export const providers = new Hono<{ Variables: AppVariables }>()
   .get(
     "/letterboxd/:slug",
     describeRoute({
-      tags: ["Providers (4)"],
+      hide: true,
+      tags: ["Providers (5)"],
       description: "Get title Letterboxd from slug",
       responses: {
         200: {
@@ -516,7 +518,8 @@ export const providers = new Hono<{ Variables: AppVariables }>()
   .get(
     "/justwatch/:slug",
     describeRoute({
-      tags: ["Providers (4)"],
+      hide: true,
+      tags: ["Providers (5)"],
       description: "Get title JustWatch from slug",
       responses: {
         200: {
@@ -604,7 +607,8 @@ export const providers = new Hono<{ Variables: AppVariables }>()
   .get(
     "/rottentomatoes/:slug",
     describeRoute({
-      tags: ["Providers (4)"],
+      hide: true,
+      tags: ["Providers (5)"],
       description: "Get title Rotten Tomatoes from slug",
       responses: {
         200: {
