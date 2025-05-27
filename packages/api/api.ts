@@ -1,5 +1,3 @@
-import { DurableObjectRateLimiter } from "@hono-rate-limiter/cloudflare";
-
 // internals
 import { runApi } from "./app";
 
@@ -8,4 +6,3 @@ const app = runApi();
 
 // exports
 export default app;
-export { DurableObjectRateLimiter };
