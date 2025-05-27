@@ -186,6 +186,7 @@ export default function NotFoundSubtitlePage() {
 
   // form hooks
   const form = useForm<z.infer<typeof formSchema>>({
+    // @ts-expect-error no idea why this is throwing an error
     resolver: zodResolver(formSchema),
     defaultValues: { email: "" },
   });
