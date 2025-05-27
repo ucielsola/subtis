@@ -6,6 +6,7 @@ import { openAPISpecs } from "hono-openapi";
 import { rateLimiter } from "hono-rate-limiter";
 import { cors } from "hono/cors";
 import { secureHeaders } from "hono/secure-headers";
+import ms from "ms";
 
 // shared internal
 import type { HonoAppType } from "./lib/types";
@@ -27,15 +28,29 @@ export function runApi() {
   // middlewares
   app.use("*", cors());
   app.use(secureHeaders());
-  app.use((c: Context, next: Next) =>
-    rateLimiter<HonoAppType>({
+
+  app.use((c: Context, next: Next) => {
+    const origin = c.req.header("Origin");
+
+    const WHITELIST_URLS = [
+      "https://subtis.io",
+      "https://stremio.fly.dev",
+      "https://stremio.subt.is",
+      "https://real-time-indexer.fly.dev",
+      "https://ws-search.subt.is",
+    ];
+    if (origin && WHITELIST_URLS.includes(origin)) {
+      return next();
+    }
+
+    return rateLimiter<HonoAppType>({
       limit: 1000,
-      windowMs: 15 * 60 * 1000,
+      windowMs: ms("15m"),
       standardHeaders: "draft-6",
       store: new DurableObjectStore({ namespace: c.env.CACHE }),
       keyGenerator: (c) => c.req.header("cf-connecting-ip") ?? "",
-    })(c, next),
-  );
+    })(c, next);
+  });
 
   // routes
   return app
