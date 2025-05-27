@@ -606,8 +606,9 @@ export const subtitle = new Hono<HonoAppType>()
 
       const isTvShow = getIsTvShow(titleFileName);
       const isCinemaRecording = getIsCinemaRecording(titleFileName);
+      const { resolution, year } = getTitleFileNameMetadata({ titleFileName });
 
-      if (!isTvShow && !isCinemaRecording) {
+      if (!isTvShow && !isCinemaRecording && resolution && year) {
         const { error } = await getSupabaseClient(context)
           .from("SubtitlesNotFound")
           .insert({ email, bytes, title_file_name: titleFileName });
