@@ -51,7 +51,7 @@
     "unrar-promise": "^3.1.0",
     "windows-1252": "^3.0.4",
     "x-ray": "^2.3.4",
-    "zod": "^3.25.30"
+    "zod": "^3.25.31"
   },
   "devDependencies": {
     "@types/bun": "^1.2.14",
@@ -62,7 +62,7 @@
     "@types/filesize-parser": "^1.5.3",
     "@types/lodash.times": "^4.3.9",
     "@types/ms": "^2.1.0",
-    "@types/node": "^22.15.21",
+    "@types/node": "^22.15.23",
     "@types/node-cron": "^3.0.11",
     "@types/rimraf": "^4.0.5",
     "@types/sound-play": "^1.1.3",
