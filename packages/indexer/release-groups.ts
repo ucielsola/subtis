@@ -806,6 +806,16 @@ export const RELEASE_GROUPS = {
     release_group_name: "REMO",
     matches: ["REMO", "X264-REMO", "X265-REMO"],
   },
+  DUSKLiGHT: {
+    is_supported: true,
+    release_group_name: "DUSKLiGHT",
+    matches: ["DUSKLiGHT", "x264-DUSKLiGHT", "x265-DUSKLiGHT"],
+  },
+  Slay3R: {
+    is_supported: true,
+    release_group_name: "Slay3R",
+    matches: ["Slay3R", "x264-Slay3R", "x265-Slay3R", "h264-Slay3R", "h265-Slay3R", "XviD-Slay3R[PRiME]"],
+  },
 } as const;
 
 // types
