@@ -816,6 +816,16 @@ export const RELEASE_GROUPS = {
     release_group_name: "Slay3R",
     matches: ["Slay3R", "x264-Slay3R", "x265-Slay3R", "h264-Slay3R", "h265-Slay3R", "XviD-Slay3R[PRiME]"],
   },
+  "Sp33dy94-MIRCrew": {
+    is_supported: true,
+    release_group_name: "Sp33dy94-MIRCrew",
+    matches: ["Sp33dy94-MIRCrew"],
+  },
+  afm72: {
+    is_supported: true,
+    release_group_name: "afm72",
+    matches: ["afm72"],
+  },
 } as const;
 
 // types
