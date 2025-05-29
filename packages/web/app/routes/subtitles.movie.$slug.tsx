@@ -605,7 +605,7 @@ export default function SubtitlesPage() {
   return (
     <div className="pt-24 pb-44 flex flex-col lg:flex-row justify-between gap-4">
       <article>
-        <section className={`flex flex-col gap-12 ${isAdvancedModeEnabled ? "max-w-screen-md" : "max-w-[630px]"}`}>
+        <section className="flex flex-col gap-12 max-w-screen-md">
           <div className="flex flex-col gap-4">
             {loaderData.title.optimized_logo ? (
               <img
