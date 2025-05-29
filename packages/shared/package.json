@@ -10,10 +10,10 @@
     "html-escaper": "^3.0.3",
     "replace-special-characters": "^1.2.7",
     "ts-pattern": "^5.7.1",
-    "zod": "^3.25.31"
+    "zod": "^3.25.34"
   },
   "devDependencies": {
-    "@types/bun": "^1.2.14",
+    "@types/bun": "^1.2.15",
     "typescript": "^5.8.3"
   }
 }
