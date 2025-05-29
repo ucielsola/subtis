@@ -669,7 +669,9 @@ export default function SubtitlesPage() {
                     checked={isAdvancedModeEnabled}
                     onCheckedChange={handleToggleAdvancedMode}
                   />
-                  <Label htmlFor="advanced-mode">Modo Experto</Label>
+                  <Label htmlFor="advanced-mode" className="cursor-pointer">
+                    Modo Experto
+                  </Label>
                 </div>
               </div>
             </div>
