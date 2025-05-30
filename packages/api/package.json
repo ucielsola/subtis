@@ -21,15 +21,15 @@
     "slugify": "^1.6.6",
     "timestring": "^7.0.0",
     "unescape-js": "^1.1.4",
-    "zod": "^3.25.34",
+    "zod": "^3.25.42",
     "zod-openapi": "^4.2.4"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250528.0",
+    "@cloudflare/workers-types": "^4.20250529.0",
     "@types/bun": "^1.2.15",
     "@types/timestring": "^7.0.0",
     "@types/unescape-js": "^1.0.3",
     "typescript": "^5.8.3",
-    "wrangler": "^4.17.0"
+    "wrangler": "^4.18.0"
   }
 }
