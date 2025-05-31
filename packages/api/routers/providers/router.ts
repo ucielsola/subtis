@@ -486,12 +486,11 @@ export const providers = new Hono<HonoAppType>()
       }
 
       if (response.status === 404) {
-        const newSlugWithoutYear = parsedSlug;
-        const newLink = `https://letterboxd.com/film/${newSlugWithoutYear}`;
+        const newLink = `https://letterboxd.com/film/${slugWithoutYear}`;
         const newLinkResponse = await fetch(newLink);
 
         if (newLinkResponse.status === 200) {
-          await supabaseClient.from("Titles").update({ letterboxd_id: newSlugWithoutYear }).match({ slug });
+          await supabaseClient.from("Titles").update({ letterboxd_id: slugWithoutYear }).match({ slug });
           return context.json({ link: newLink });
         }
 
@@ -564,6 +563,7 @@ export const providers = new Hono<HonoAppType>()
       }
 
       const standardLink = `https://www.justwatch.com/us/movie/${parsedSlug}`;
+
       const response = await fetch(standardLink);
 
       if (response.status === 200) {
@@ -643,7 +643,6 @@ export const providers = new Hono<HonoAppType>()
       const parsedSlug = EDGE_CASE_MOVIES[slug as EdgeCaseMovieKeys] ?? slug;
 
       const supabaseClient = getSupabaseClient(context);
-
       const { data: foundSlug } = await supabaseClient
         .from("Titles")
         .select("rottentomatoes_id")
@@ -662,6 +661,7 @@ export const providers = new Hono<HonoAppType>()
         .replaceAll("&", "and")
         .replaceAll(":", "");
       const standardLink = `https://www.rottentomatoes.com/m/${rottenTomatoesSlug}`;
+
       const response = await fetch(standardLink);
 
       if (response.status === 200) {
