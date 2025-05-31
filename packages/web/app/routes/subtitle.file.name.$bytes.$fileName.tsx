@@ -277,12 +277,15 @@ export default function SubtitlePage() {
         }
 
         try {
-          const { audioCodec } = await parseMedia({
+          const { audioCodec, videoCodec } = await parseMedia({
             src: videoSource,
-            fields: { audioCodec: true },
+            fields: { audioCodec: true, videoCodec: true },
           });
 
-          if (!audioCodec) {
+          const videoCodecsUnsupported = ["h265"];
+          const isVideoCodecUnsupported = videoCodec ? videoCodecsUnsupported.includes(videoCodec) : false;
+
+          if (!audioCodec || isVideoCodecUnsupported) {
             setHasVideoError(true);
           }
         } catch (error) {
