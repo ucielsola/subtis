@@ -384,21 +384,16 @@ export default function NotFoundSubtitlePage() {
                     <Badge variant="outline">{getUiCertification(loaderData.title.certification)}</Badge>
                   ) : null}
                 </div>
-                <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold text-balance">
-                  {loaderData.title.title_name}
-                </h1>
+                <Link prefetch="viewport" to={`/subtitles/movie/${loaderData.title.slug}`}>
+                  <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold text-balance">
+                    {loaderData.title.title_name}
+                  </h1>
+                </Link>
               </div>
               <div className="flex flex-col gap-1">
                 <h2 className="text-zinc-50 text-sm md:text-base">No encontramos el subtítulo para tu versión.</h2>
                 <p className="text-zinc-300 text-xs md:text-sm">
-                  Probá este subtítulo alternativo para{" "}
-                  <Link
-                    prefetch="viewport"
-                    className="hover:underline text-zinc-50"
-                    to={`/subtitles/movie/${loaderData.title.slug}`}
-                  >
-                    {loaderData.title.title_name} ({loaderData.title.year})
-                  </Link>
+                  Probá con el siguiente subtítulo alternativo para tu película:
                 </p>
               </div>
             </div>
@@ -510,7 +505,7 @@ export default function NotFoundSubtitlePage() {
                       size="sm"
                       type="submit"
                       disabled={form.formState.isSubmitting}
-                      className="w-36 flex-shrink-0 rounded-sm"
+                      className="w-36 flex-shrink-0 rounded-sm cursor-pointer"
                     >
                       {form.formState.isSubmitting ? "Enviando..." : "Recibir subtítulo"}
                     </Button>
