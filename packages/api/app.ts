@@ -42,7 +42,7 @@ export function runApi() {
       openAPISpecs(app, {
         documentation: {
           info: {
-            version: "0.7.6",
+            version: "0.7.7",
             title: "Subtis API",
             description: "API for subtitles and titles",
           },
