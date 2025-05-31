@@ -1057,12 +1057,16 @@ function getFilteredTorrents(
     .slice(0, maxTorrents)
     .sort((torrentA, torrentB) => torrentB.seeds - torrentA.seeds)
     .filter((torrent) => {
-      const parsedTorrentTitle = getStringWithoutSpecialCharacters(torrent.title);
+      const initialTorrentTitle = torrent.title.replaceAll(".", " ");
+      const parsedTorrentTitle = getStringWithoutSpecialCharacters(initialTorrentTitle);
       const parsedName = getStringWithoutSpecialCharacters(name).replaceAll("/", "");
 
       return parsedTorrentTitle.startsWith(parsedName);
     })
-    .filter((torrent) => !getIsCinemaRecording(torrent.title))
+    .filter((torrent) => {
+      const isCinemaRecording = getIsCinemaRecording(torrent.title);
+      return !isCinemaRecording;
+    })
     .filter(({ seeds }) => seeds >= MIN_SEEDS)
     .filter(({ size, isBytesFormatted }) => {
       const bytes = isBytesFormatted ? filesizeParser((size as string).replaceAll(",", "")) : (size as number);
