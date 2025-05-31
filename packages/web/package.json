@@ -46,7 +46,7 @@
     "react-highlight-words": "^0.21.0",
     "react-hook-form": "^7.56.4",
     "react-router": "7.6.0",
-    "sonner": "^2.0.3",
+    "sonner": "^2.0.4",
     "srt-support-for-html5-videos": "^2.6.11",
     "tailwind-merge": "^3.3.0",
     "thumbhash": "^0.1.1",
@@ -56,7 +56,7 @@
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "^1.3.1",
-    "@cloudflare/workers-types": "^4.20250529.0",
+    "@cloudflare/workers-types": "^4.20250531.0",
     "@react-router/dev": "7.6.0",
     "@tailwindcss/typography": "^0.5.16",
     "@tailwindcss/vite": "^4.1.8",
