@@ -1058,7 +1058,7 @@ function getFilteredTorrents(
     .sort((torrentA, torrentB) => torrentB.seeds - torrentA.seeds)
     .filter((torrent) => {
       const parsedTorrentTitle = getStringWithoutSpecialCharacters(torrent.title);
-      const parsedName = getStringWithoutSpecialCharacters(name);
+      const parsedName = getStringWithoutSpecialCharacters(name).replaceAll("/", "");
 
       return parsedTorrentTitle.startsWith(parsedName);
     })
