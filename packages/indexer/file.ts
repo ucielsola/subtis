@@ -446,12 +446,12 @@ export async function indexTitleByFileName({
         if (websocket) {
           websocket.send(JSON.stringify({ total: 1, message: "No se encontró subtítulo" }));
         }
-
-        throw new Error("No se encontró subtítulo");
       }
+
+      return { ok: wsSubtitleHasBeenFound };
     }
 
-    return { ok: true };
+    return { ok: false };
   } catch (error) {
     console.log("\n ~ error:", error);
 
@@ -472,14 +472,14 @@ export async function indexTitleByFileName({
 // const titleFileName = "Scenes.From.A.Marriage.1974.1080p.BluRay.x264-[YTS.AM].mp4";
 // const titleFileName = "Oppenheimer.2023.1080p.BluRay.DD5.1.x264-GalaxyRG.mkv";
 
-// const bytes = 9123912123534;
-// const titleFileName = "Bend It Like Beckham 1080p BluRay HEVC x265 5.1 BONE.mkv";
+// const bytes = 812742345912;
+// const titleFileName = "Harry.Potter.and.the.Chamber.of.Secrets.2002.Extended.1080p.BluRay.DDP.5.1.x265-EDGE2020.mkv";
 
 // indexTitleByFileName({
 //   bytes,
 //   titleFileName,
 //   shouldStoreNotFoundSubtitle: true,
-//   isDebugging: true,
+//   isDebugging: false,
 //   indexedBy: "indexer-file",
 //   shouldIndexAllTorrents: false,
 // });
