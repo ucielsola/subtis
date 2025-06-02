@@ -64,7 +64,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data || "message" in data) {
     return [
       { title: "Subtis" },
-      { name: "description", content: "Encontrá tus subtítulos rápidamente!" },
+      { name: "description", content: "¡Encontrá tus subtítulos rápidamente!" },
       {
         name: "keywords",
         content: "subtítulos, películas, subtis, descargar subtítulos, subtítulos español, subtítulos sincronizados",
@@ -202,7 +202,7 @@ export default function SubtitlesPage() {
       return;
     }
 
-    toast.success("¡Disfruta de tu subtítulo!", {
+    toast.success("¡Disfrutá de tu subtítulo!", {
       description: (
         <p className="flex flex-row items-center gap-1">
           Compartí tu experiencia en <img src="/x.svg" alt="X" className="w-3 h-3" />
@@ -230,7 +230,7 @@ export default function SubtitlesPage() {
   async function handleCopyEmailToClipboard(): Promise<void> {
     await copy("soporte@subtis.io");
 
-    toast.success("¡Email copiado a tu clipboard!", {
+    toast.success("¡Email copiado al portapapeles!", {
       description: "Escribinos y te responderemos lo antes posible.",
     });
   }
@@ -552,7 +552,7 @@ export default function SubtitlesPage() {
                   </AnimatePresence>
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side="bottom">Copiar Link</TooltipContent>
+              <TooltipContent side="bottom">Copiar enlace</TooltipContent>
             </Tooltip>
             {external_id ? (
               <Tooltip>
@@ -627,7 +627,7 @@ export default function SubtitlesPage() {
               </h1>
             </div>
             <h2 className="text-zinc-50 text-balance text-sm md:text-base text-center md:text-left">
-              🍿 Acomódate y disfrutá tu película subtitulada.
+              🍿 Acomodate y disfrutá tu película subtitulada.
             </h2>
           </div>
           <div>
@@ -638,10 +638,10 @@ export default function SubtitlesPage() {
                     <TooltipTrigger className=" cursor-not-allowed">
                       <Button size="sm" disabled className="transition-all ease-in-out duration-300 opacity-30">
                         <DownloadIcon size={18} controls={downloadControls} />
-                        Descargar Subtítulo
+                        Descargar subtítulo
                       </Button>
                     </TooltipTrigger>
-                    <TooltipContent side="bottom">Habilitame desactivando el modo experto</TooltipContent>
+                    <TooltipContent side="bottom">Desactivá el modo experto para habilitar</TooltipContent>
                   </Tooltip>
                 ) : (
                   <Button asChild size="sm">
@@ -659,7 +659,7 @@ export default function SubtitlesPage() {
                       }
                     >
                       <DownloadIcon size={18} controls={downloadControls} />
-                      Descargar Subtítulo
+                      Descargar subtítulo
                     </a>
                   </Button>
                 )}
@@ -670,7 +670,7 @@ export default function SubtitlesPage() {
                     onCheckedChange={handleToggleAdvancedMode}
                   />
                   <Label htmlFor="advanced-mode" className="cursor-pointer">
-                    Modo Experto
+                    Modo experto
                   </Label>
                 </div>
               </div>
@@ -696,9 +696,7 @@ export default function SubtitlesPage() {
         <section className="flex flex-col gap-12 mt-[74px] max-w-[630px]">
           <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold text-zinc-50">Sugerencias</h3>
-            <h4 className="text-zinc-50 text-sm md:text-base">
-              Para vivir una experiencia óptima, seguí estos consejos.
-            </h4>
+            <h4 className="text-zinc-50 text-sm md:text-base">Para una mejor experiencia, seguí estos consejos.</h4>
           </div>
           <Tabs
             onValueChange={setSubtip}
@@ -706,7 +704,7 @@ export default function SubtitlesPage() {
           >
             <TabsList className="mb-6">
               <TabsTrigger value="play-subtitle" className="text-sm">
-                ¿Cómo utilizo un subtítulo?
+                ¿Cómo uso el subtítulo?
               </TabsTrigger>
               {loaderData.results.length > 1 && isAdvancedModeEnabled ? (
                 <TabsTrigger value="choose-subtitle" className="text-sm">
@@ -728,7 +726,7 @@ export default function SubtitlesPage() {
                         Verificá que la resolución del subtítulo coincida con la del video
                       </AlertTitle>
                       <AlertDescription className="text-zinc-400 text-sm font-normal">
-                        Por ejemplo para el archivo{" "}
+                        Por ejemplo, para el archivo{" "}
                         <Highlighter
                           highlightClassName={cn(
                             "bg-zinc-950 text-zinc-50 font-medium",
@@ -756,11 +754,9 @@ export default function SubtitlesPage() {
                   <Alert className="bg-zinc-950 border border-zinc-700 flex items-start gap-6">
                     <span className="text-zinc-50 text-lg font-bold font-mono size-6">2</span>
                     <div className="pt-1">
-                      <AlertTitle className="text-zinc-50">
-                        Asegurate que el publicador coincida correctamente
-                      </AlertTitle>
+                      <AlertTitle className="text-zinc-50">Asegurate de que el publicador coincida</AlertTitle>
                       <AlertDescription className="text-zinc-400 text-sm font-normal">
-                        Por ejemplo para el archivo{" "}
+                        Por ejemplo, para el archivo{" "}
                         <Highlighter
                           highlightClassName={cn(
                             "bg-zinc-950 text-zinc-50 font-medium",
@@ -792,7 +788,7 @@ export default function SubtitlesPage() {
                         Revisá que el formato del subtítulo coincida con el del video
                       </AlertTitle>
                       <AlertDescription className="text-zinc-400 text-sm font-normal">
-                        Por ejemplo para el archivo{" "}
+                        Por ejemplo, para el archivo{" "}
                         <Highlighter
                           highlightClassName={cn(
                             "bg-zinc-950 text-zinc-50 font-medium",
@@ -815,7 +811,7 @@ export default function SubtitlesPage() {
               </div>
 
               <p className="text-sm mt-2 text-zinc-400">
-                Pon el cursor sobre los tips para ver qué parámetros afecta en la tabla.
+                Poné el cursor sobre los tips para ver qué parámetros afectan en la tabla.
               </p>
             </TabsContent>
 
@@ -829,10 +825,10 @@ export default function SubtitlesPage() {
                   <CheckIcon size={22} controls={videoTipControl} className="stroke-zinc-50" />
                 </div>
                 <div className="pt-1">
-                  <AlertTitle className="text-zinc-50">Si vas a usar un reproductor de video</AlertTitle>
+                  <AlertTitle className="text-zinc-50">Si vas a usar otro reproductor de video</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
-                    Recordá mover el archivo del subtítulo a donde esté tu carpeta o bien reproducir la película y
-                    arrastrar el subtítulo al reproductor.
+                    Recordá mover el archivo del subtítulo a la carpeta donde esté la película o, si preferís, reproducí
+                    la película y arrastrá el subtítulo al reproductor.
                   </AlertDescription>
                 </div>
               </Alert>
@@ -856,8 +852,8 @@ export default function SubtitlesPage() {
                     >
                       add-on
                     </a>{" "}
-                    oficial. En caso de que no quieras utilizar el add-on de Subtis, también podés arrastrar el
-                    subtítulo al reproductor de Stremio.
+                    oficial. Si no querés usar el add-on de Subtis, también podés arrastrar el subtítulo al reproductor
+                    de Stremio.
                   </AlertDescription>
                 </div>
               </Alert>{" "}
@@ -870,10 +866,10 @@ export default function SubtitlesPage() {
                   <CheckIcon size={22} controls={internalVideoPlayerTipControl} className="stroke-zinc-50" />
                 </div>
                 <div className="pt-1">
-                  <AlertTitle className="text-zinc-50">Probá con el reproductor de video de Subtis...</AlertTitle>
+                  <AlertTitle className="text-zinc-50">Probá el reproductor de video de Subtis...</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
-                    Si quisieras utilizar el reproductor de video de Subtis, y contas con el archivo de video,
-                    arrastralo en la sección debajo.
+                    Si querés usar el reproductor de video de Subtis y tenés el archivo, arrastralo en la sección de acá
+                    abajo.
                   </AlertDescription>
                 </div>
               </Alert>
@@ -885,9 +881,9 @@ export default function SubtitlesPage() {
 
         <section className="flex flex-col gap-12  max-w-[630px]">
           <div className="flex flex-col gap-2">
-            <h3 className="text-2xl font-semibold text-zinc-50">Buscar nuevo subtítulo por archivo</h3>
+            <h3 className="text-2xl font-semibold text-zinc-50">Buscar otro subtítulo por archivo</h3>
             <h4 className="text-zinc-50 text-sm md:text-base">
-              ¿Querés buscar un subtítulo nuevo? Arrastrá el archivo de video debajo.
+              ¿Querés buscar otro subtítulo? Arrastrá el archivo de video acá abajo.
             </h4>
           </div>
           <div className="bg-zinc-950 border border-zinc-700 hover:border-zinc-600 transition-all ease-in-out duration-300 rounded-sm group/video overflow-hidden h-80 relative">

@@ -40,14 +40,14 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip
 
 // schemas
 const formSchema = z.object({
-  email: z.string().email({ message: "Ingresa una dirección de correo válida." }),
+  email: z.string().email({ message: "Ingresá una dirección de correo válida." }),
 });
 
 // meta
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data || "message" in data) {
     return [
-      { title: "Subtis | Subtitulos No Encontrados" },
+      { title: "Subtis | Subtítulos no encontrados" },
       {
         name: "description",
         content:
@@ -89,7 +89,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
   return [
     {
-      title: `Subtis | Subtitulos Alternativos para ${data.title.title_name} (${data.title.year})`,
+      title: `Subtis | Subtítulos alternativos para ${data.title.title_name} (${data.title.year})`,
     },
     {
       name: "description",
@@ -119,7 +119,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     { name: "twitter:site", content: "@subt_is" },
     {
       name: "twitter:title",
-      content: `Subtis | Subtítulos Alternativos para ${data.title.title_name} (${data.title.year})`,
+      content: `Subtis | Subtítulos alternativos para ${data.title.title_name} (${data.title.year})`,
     },
     {
       name: "twitter:description",
@@ -287,7 +287,7 @@ export default function NotFoundSubtitlePage() {
       return;
     }
 
-    toast("¡Disfruta de tu subtítulo!", {
+    toast("¡Disfrutá de tu subtítulo!", {
       description: (
         <p className="flex flex-row items-center gap-1">
           Compartí tu experiencia en <img src="/x.svg" alt="X" className="w-3 h-3" />
@@ -394,9 +394,11 @@ export default function NotFoundSubtitlePage() {
                 </Link>
               </div>
               <div className="flex flex-col gap-1">
-                <h2 className="text-zinc-50 text-sm md:text-base">No encontramos el subtítulo para tu versión.</h2>
+                <h2 className="text-zinc-50 text-sm md:text-base">
+                  No encontramos el subtítulo exacto para tu versión.
+                </h2>
                 <p className="text-zinc-300 text-xs md:text-sm">
-                  Probá con el siguiente subtítulo alternativo para tu película:
+                  Probá con este subtítulo alternativo para tu película:
                 </p>
               </div>
             </div>
@@ -414,7 +416,7 @@ export default function NotFoundSubtitlePage() {
                   className={"transition-all ease-in-out rounded-sm bg-zinc-100 text-zinc-900 hover:bg-zinc-50"}
                 >
                   <DownloadIcon size={18} controls={downloadControls} />
-                  Descargar Subtítulo
+                  Descargar subtítulo
                 </a>
               </Button>
               {displayVideoElements ? (
@@ -426,7 +428,7 @@ export default function NotFoundSubtitlePage() {
                   className={"transition-all ease-in-out rounded-sm bg-zinc-900 text-zinc-50 hover:bg-zinc-800"}
                 >
                   <Play size={18} controls={playControls} isWrapped={false} />
-                  Reproducir Video
+                  Reproducir video
                 </Button>
               ) : (
                 <Tooltip>
@@ -440,7 +442,7 @@ export default function NotFoundSubtitlePage() {
                       className={"transition-all ease-in-out rounded-sm bg-zinc-900 text-zinc-50 hover:bg-zinc-800"}
                     >
                       <Play size={18} controls={playControls} isWrapped={false} />
-                      Reproducir Video
+                      Reproducir video
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent side="bottom">
@@ -478,7 +480,7 @@ export default function NotFoundSubtitlePage() {
                 <div className="flex flex-col gap-2 mb-12">
                   <p className="text-zinc-50 text-3xl font-semibold">¿Querés que te avisemos?</p>
                   <p className="text-zinc-50 text-balance">
-                    Podés dejarnos tu e-mail y te enviamos el subtítulo apenas lo encontremos.
+                    Dejanos tu e-mail y te enviamos el subtítulo apenas lo encontremos.
                   </p>
                 </div>
                 <Form {...form}>
@@ -498,7 +500,7 @@ export default function NotFoundSubtitlePage() {
                           {form.formState.errors.email ? (
                             <div className="flex flex-row items-center gap-2 ">
                               <BadgeAlertIcon size={16} className="text-zinc-400" />
-                              <p className="text-zinc-400 text-sm">Por favor ingresa un correo electrónico válido.</p>
+                              <p className="text-zinc-400 text-sm">Por favor, ingresá un correo electrónico válido.</p>
                             </div>
                           ) : null}
                         </FormItem>
@@ -526,7 +528,7 @@ export default function NotFoundSubtitlePage() {
                 className="flex flex-row items-center gap-2 h-[68px]"
               >
                 <AirplaneIcon size={24} className="text-zinc-400" />
-                <span className="text-zinc-400 text-sm">Te haremos saber cuando tengamos tu subtítulo disponible.</span>
+                <span className="text-zinc-400 text-sm">Te avisaremos cuando tengamos tu subtítulo disponible.</span>
               </motion.div>
             ) : null}
           </AnimatePresence>
@@ -536,9 +538,9 @@ export default function NotFoundSubtitlePage() {
 
         <section className="flex flex-col gap-12 mt-16">
           <div className="flex flex-col gap-2">
-            <h3 className="text-2xl font-semibold text-zinc-50">Buscar nuevo subtítulo por archivo</h3>
+            <h3 className="text-2xl font-semibold text-zinc-50">Buscar otro subtítulo por archivo</h3>
             <h4 className="text-zinc-50 text-sm md:text-base">
-              ¿Querés buscar un subtítulo nuevo? Arrastrá el archivo de video debajo.
+              ¿Querés buscar otro subtítulo? Arrastrá el archivo de video acá abajo.
             </h4>
           </div>
           <div className="bg-zinc-950 border border-zinc-700 hover:border-zinc-600 transition-all ease-in-out duration-300 rounded-sm group/video overflow-hidden h-80 relative">
@@ -552,7 +554,7 @@ export default function NotFoundSubtitlePage() {
         </section>
       </article>
       <figure className="flex-1 hidden lg:flex justify-center">
-        <img src="/broken-logo.webp" alt="Cargando" className="size-64" />
+        <img src="/broken-logo.webp" alt="Versión no disponible" className="size-64" />
       </figure>
     </div>
   );

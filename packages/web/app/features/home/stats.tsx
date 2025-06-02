@@ -42,7 +42,7 @@ function StatsContainer({ statsPromise }: Props) {
               locales="es-AR"
               animated={isIntersecting}
             />{" "}
-            peliculas catalogadas,{" "}
+            películas catalogadas,{" "}
             <NumberFlow
               className="text-yellow-500"
               value={isIntersecting ? stats.total_subtitles : 0}
@@ -93,7 +93,7 @@ export function HomeStats() {
             <div className="flex flex-col gap-4 text-center">
               <h2 className="text-zinc-50 text-4xl font-bold text-balance">Estadísticas</h2>
               <div className="text-zinc-400 text-base flex flex-row gap-1">
-                <Skeleton className="w-[40px] h-[19.5px] rounded-sm" /> peliculas catalogadas,{" "}
+                <Skeleton className="w-[40px] h-[19.5px] rounded-sm" /> películas catalogadas,{" "}
                 <Skeleton className="w-[40px] h-[19.5px] rounded-sm" /> subtítulos subidos,{" "}
                 <Skeleton className="w-[40px] h-[19.5px] rounded-sm" /> descargas totales.
               </div>

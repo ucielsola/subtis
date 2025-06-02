@@ -22,11 +22,11 @@ export function TerminalButton() {
       <Sheet open={isOpen} onOpenChange={handleToggleIsOpen}>
         <SheetContent className="overflow-y-auto bg-zinc-950 border-zinc-700 border rounded-sm my-3 mr-3 max-h-[calc(100vh-24px)] sm:max-w-md">
           <SheetHeader className="mb-10">
-            <SheetTitle className="text-zinc-50">Instalación y uso de Subtis para tu Terminal</SheetTitle>
+            <SheetTitle className="text-zinc-50">Cómo instalar y usar Subtis en tu Terminal</SheetTitle>
             <SheetDescription className="text-zinc-400 text-sm">
               Seguí estos pasos para instalar Subtis en tu terminal.
               <br />
-              Por el momento la herramienta de Subtis para terminal solamente soporta macOS. Además necesitas tener
+              Por ahora, la herramienta de Subtis para terminal solo funciona en macOS. Además, necesitás tener
               instalado{" "}
               <a href="https://brew.sh/" target="_blank" className="text-zinc-50 font-mono underline" rel="noreferrer">
                 Homebrew
@@ -62,7 +62,7 @@ export function TerminalButton() {
                   <div className="text-zinc-50 pb-1">Instalá la CLI de Subtis</div>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <p className="text-zinc-400 text-sm leading-6">Abrí tu terminal y corre el siguiente comando</p>
+                  <p className="text-zinc-400 text-sm leading-6">Abrí tu terminal y corré el siguiente comando</p>
                   <code className="text-zinc-300 font-mono text-sm">&gt; brew install @lndgalante/subtis</code>
                 </div>
               </div>
@@ -74,10 +74,10 @@ export function TerminalButton() {
                       <span className="text-zinc-700 text-sm">2</span>
                     </div>
                   </div>
-                  <div className="text-zinc-50 pb-1">Corre la CLI sobre tu archivo</div>
+                  <div className="text-zinc-50 pb-1">Corré la CLI sobre tu archivo</div>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <p className="text-zinc-400 text-sm leading-6">Abrí tu terminal y corre el siguiente comando</p>
+                  <p className="text-zinc-400 text-sm leading-6">Abrí tu terminal y corré el siguiente comando</p>
                   <code className="text-zinc-300 font-mono text-sm">&gt; subtis file "nombre-del-archivo.mp4"</code>
                 </div>
               </div>

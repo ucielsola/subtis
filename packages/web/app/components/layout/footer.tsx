@@ -14,7 +14,7 @@ export function HomeFooter() {
   // handlers
   async function handleCopyEmailToClipboard(): Promise<void> {
     await copy("soporte@subtis.io");
-    toast.success("¡Email copiado a tu clipboard!", {
+    toast.success("¡Email copiado al portapapeles!", {
       description: "Escribinos y te responderemos lo antes posible.",
     });
   }
@@ -35,14 +35,14 @@ export function HomeFooter() {
               rel="noopener noreferrer"
               className="text-xs font-medium text-zinc-50 hover:underline"
             >
-              Pedir una feature
+              Sugerir una mejora
             </a>
             <button
               type="button"
               onClick={handleCopyEmailToClipboard}
               className="text-xs font-medium text-zinc-50 hover:underline inline-flex cursor-pointer"
             >
-              Contacto vía email
+              Contacto por email
             </button>
           </div>
 
@@ -69,10 +69,10 @@ export function HomeFooter() {
           <div className="flex flex-col gap-2 py-2">
             <span className="text-xs font-bold text-zinc-400 mb-1">Legales</span>
             <Link to="/faq" prefetch="viewport" className="text-xs font-medium text-zinc-50 hover:underline">
-              Preguntas Frecuentes
+              Preguntas frecuentes
             </Link>
             <Link to="/terms" prefetch="viewport" className="text-xs font-medium text-zinc-50 hover:underline">
-              Términos y Condiciones
+              Términos y condiciones
             </Link>
           </div>
         </div>

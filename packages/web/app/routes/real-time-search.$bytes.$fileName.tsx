@@ -149,7 +149,7 @@ export default function RealTimeSearchPage() {
       }
 
       setTotal(0);
-      setMessage("Chequeando si el subtítulo ya existe");
+      setMessage("Chequeando si ya existe el subtítulo");
 
       const primarySubtitleResponse = await apiClient.v1.subtitle.file.name[":bytes"][":fileName"].$get({
         param: {
@@ -209,7 +209,7 @@ export default function RealTimeSearchPage() {
         play();
 
         toast.success("¡Subtítulo encontrado!", {
-          description: "Te redireccionaremos en 3 segundos...",
+          description: "Te estamos redirigiendo...",
         });
 
         setTimeout(() => {
@@ -228,7 +228,7 @@ export default function RealTimeSearchPage() {
         play();
 
         toast.success("¡Subtítulo alternativo encontrado!", {
-          description: "Te redireccionaremos en 3 segundos...",
+          description: "Te estamos redirigiendo...",
         });
 
         setTimeout(() => {
@@ -253,7 +253,7 @@ export default function RealTimeSearchPage() {
               Buscando subtítulo...
             </TextShimmerWave>
             <div className="flex flex-col gap-1">
-              <h2 className="text-zinc-50 text-sm md:text-base">Este proceso puede durar alrededor de 20 segundos.</h2>
+              <h2 className="text-zinc-50 text-sm md:text-base">Este proceso puede tardar unos 20 segundos.</h2>
               {message ? (
                 <p className="text-zinc-300 text-xs md:text-sm">
                   {total === 0 ? "0% " : ""}
@@ -280,7 +280,7 @@ export default function RealTimeSearchPage() {
         </section>
       </article>
       <figure className="flex-1 hidden lg:flex justify-center">
-        <img src="/loading-logo.webp" alt="Cargando" className="size-64" />
+        <img src="/loading-logo.webp" alt="Buscando..." className="size-64" />
       </figure>
     </div>
   );

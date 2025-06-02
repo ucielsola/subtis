@@ -185,7 +185,7 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
               <h1 className="text-zinc-50 text-3xl md:text-4xl font-bold">Búsqueda por nombre</h1>
               <div className="flex flex-col gap-1">
                 <h2 className="text-zinc-50 text-sm md:text-base">
-                  Ingresa el nombre de la película para localizar el subtítulo.
+                  Ingresá el nombre de la película para encontrar el subtítulo.
                 </h2>
                 <p className="text-zinc-300 text-xs md:text-sm">
                   Aceptamos búsquedas en español, inglés y japonés (alfabeto latino).
@@ -217,7 +217,7 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
         </article>
         <figure className="flex-1 hidden lg:flex justify-center">
           <Lens>
-            <img src="/s-logo.webp" alt="Cargando" className="size-64" />
+            <img src="/s-logo.webp" alt="Subtis" className="size-64" />
           </Lens>
         </figure>
       </div>

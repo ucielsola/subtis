@@ -34,7 +34,7 @@ export function AirplaneIcon({ size, className }: { size?: number; className?: s
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <title>Airplane</title>
+        <title>Avión</title>
         <motion.path
           animate={controls}
           transition={{

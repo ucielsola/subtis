@@ -305,7 +305,7 @@ export default function SubtitlePage() {
       return;
     }
 
-    toast.success("¡Disfruta de tu subtítulo!", {
+    toast.success("¡Disfrutá de tu subtítulo!", {
       description: (
         <p className="flex flex-row items-center gap-1">
           Compartí tu experiencia en <img src="/x.svg" alt="X" className="w-3 h-3" />
@@ -407,7 +407,7 @@ export default function SubtitlePage() {
               </h1>
             </div>
             <h2 className="text-zinc-50 text-sm md:text-base text-center md:text-left">
-              🍿 Acomódate y disfrutá tu película subtitulada.
+              🍿 Acomodate y disfrutá tu película subtitulada.
             </h2>
           </div>
           <article className="flex flex-row gap-4 justify-center md:justify-start">
@@ -421,7 +421,7 @@ export default function SubtitlePage() {
                 className={"transition-all ease-in-out rounded-sm bg-zinc-100 text-zinc-900 hover:bg-zinc-50"}
               >
                 <DownloadIcon size={18} controls={downloadControls} />
-                Descargar Subtítulo
+                Descargar subtítulo
               </a>
             </Button>
             {displayVideoElements ? (
@@ -435,7 +435,7 @@ export default function SubtitlePage() {
                 }
               >
                 <Play size={18} controls={playControls} isWrapped={false} />
-                Reproducir Video
+                Reproducir video
               </Button>
             ) : (
               <Tooltip>
@@ -451,7 +451,7 @@ export default function SubtitlePage() {
                     }
                   >
                     <Play size={18} controls={playControls} isWrapped={false} />
-                    Reproducir Video
+                    Reproducir video
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent side="bottom">
@@ -480,14 +480,12 @@ export default function SubtitlePage() {
         <section className="flex flex-col gap-12 mt-[74px]">
           <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold text-zinc-50">Sugerencias</h3>
-            <h4 className="text-zinc-50 text-sm md:text-base">
-              Para vivir una experiencia óptima, seguí estos consejos.
-            </h4>
+            <h4 className="text-zinc-50 text-sm md:text-base">Para una mejor experiencia, seguí estos consejos.</h4>
           </div>
           <Tabs defaultValue="play-subtitle">
             <TabsList>
               <TabsTrigger value="play-subtitle" className="text-sm">
-                ¿Cómo utilizo un subtítulo?
+                ¿Cómo uso el subtítulo?
               </TabsTrigger>
             </TabsList>
             <TabsContent value="play-subtitle" className="mt-6 flex flex-col gap-4">
@@ -508,10 +506,10 @@ export default function SubtitlePage() {
                         <CheckIcon size={24} controls={internalVideoPlayerTipControl} className="stroke-zinc-50" />
                       </div>
                       <div className="pt-1">
-                        <AlertTitle className="text-zinc-50">Probá con el reproductor de video de Subtis...</AlertTitle>
+                        <AlertTitle className="text-zinc-50">Probá el reproductor de video de Subtis...</AlertTitle>
                         <AlertDescription className="text-zinc-400 text-sm font-normal">
-                          Haz click en el botón de reproducir y disfrutá de tu película con el subtítulo ya integrado
-                          sin hacer más nada.
+                          Hacé clic en el botón de reproducir y disfrutá tu película con el subtítulo ya integrado, sin
+                          hacer más nada.
                         </AlertDescription>
                       </div>
                     </Alert>
@@ -527,10 +525,10 @@ export default function SubtitlePage() {
                   <CheckIcon size={24} controls={externalVideoPlayerTipControl} className="stroke-zinc-50" />
                 </div>
                 <div className="pt-1">
-                  <AlertTitle className="text-zinc-50">Si vas a usar un reproductor de video...</AlertTitle>
+                  <AlertTitle className="text-zinc-50">Si vas a usar otro reproductor de video...</AlertTitle>
                   <AlertDescription className="text-zinc-400 text-sm font-normal">
-                    Recordá mover el archivo de subtítulo a la carpeta donde esté la película o, si prefieres,
-                    reproducir la película y arrastrar el subtítulo al reproductor.
+                    Recordá mover el archivo del subtítulo a la carpeta donde esté la película o, si preferís, reproducí
+                    la película y arrastrá el subtítulo al reproductor.
                   </AlertDescription>
                 </div>
               </Alert>
@@ -554,8 +552,8 @@ export default function SubtitlePage() {
                     >
                       add-on
                     </a>{" "}
-                    oficial. En caso de que no quieras utilizar el add-on de Subtis, también podés arrastrar el
-                    subtítulo al reproductor de Stremio.
+                    oficial. Si no querés usar el add-on de Subtis, también podés arrastrar el subtítulo al reproductor
+                    de Stremio.
                   </AlertDescription>
                 </div>
               </Alert>
@@ -567,9 +565,9 @@ export default function SubtitlePage() {
 
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-2">
-            <h3 className="text-2xl font-semibold text-zinc-50">Buscar nuevo subtítulo por archivo</h3>
+            <h3 className="text-2xl font-semibold text-zinc-50">Buscar otro subtítulo por archivo</h3>
             <h4 className="text-zinc-50 text-sm md:text-base">
-              ¿Querés buscar un subtítulo nuevo? Arrastrá el archivo de video debajo.
+              ¿Querés buscar otro subtítulo? Arrastrá el archivo de video acá abajo.
             </h4>
           </div>
           <div className="bg-zinc-950 border border-zinc-700 hover:border-zinc-600 transition-all ease-in-out duration-300 rounded-sm group/video overflow-hidden h-80 relative">

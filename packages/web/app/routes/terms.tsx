@@ -46,7 +46,7 @@ export default function TermsPage() {
   async function handleCopyEmailToClipboard(): Promise<void> {
     await copy("soporte@subtis.io");
 
-    toast.success("¡Email copiado a tu clipboard!", {
+    toast.success("¡Email copiado al portapapeles!", {
       description: "Escribinos y te responderemos lo antes posible.",
     });
   }
@@ -153,7 +153,7 @@ export default function TermsPage() {
       <section>
         <h2>10. Contacto</h2>
         <p>
-          Si tienes dudas, preguntas o inquietudes sobre estos términos, puedes contactarnos en{" "}
+          Si tenés dudas, preguntas o inquietudes sobre estos términos, puedes contactarnos en{" "}
           <button
             type="button"
             onClick={handleCopyEmailToClipboard}

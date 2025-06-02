@@ -317,7 +317,7 @@ function MorphingDialogClose({ children, className, variants }: MorphingDialogCl
     <motion.button
       onClick={handleClose}
       type="button"
-      aria-label="Close dialog"
+      aria-label="Cerrar diálogo"
       key={`dialog-close-${uniqueId}`}
       className={cn("absolute right-6 top-6", className)}
       initial="initial"

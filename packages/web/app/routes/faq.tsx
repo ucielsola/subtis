@@ -47,7 +47,7 @@ export default function FaqPage() {
   async function handleCopyEmailToClipboard(): Promise<void> {
     await copy("soporte@subtis.io");
 
-    toast.success("¡Email copiado a tu clipboard!", {
+    toast.success("¡Email copiado al portapapeles!", {
       description: "Escribinos y te responderemos lo antes posible.",
     });
   }
@@ -79,16 +79,16 @@ export default function FaqPage() {
       <section>
         <h2>¿Puedo mirar y/o descargar las películas desde Subtis?</h2>
         <p>
-          No. Subtis solamente proporciona subtítulos. De igual manera Subtis te permite reproducir tu video que se
-          encuentra en tu computadora con el subtítulo que te proveemos.
+          No. Subtis solamente proporciona subtítulos. Sin embargo, te permite reproducir el video que tengas en tu
+          computadora con el subtítulo que te damos.
         </p>
       </section>
 
       <section>
         <h2>¿Donde encuentro el reproductor de video?</h2>
         <p>
-          Podés encontrar el reproductor de video cuando dropeas el archivo de video en la sección de "Buscar subtítulo
-          por archivo", o también llamada Página de Subtítulo.
+          Podés encontrar el reproductor de video cuando arrastrás un archivo en la sección de "Buscar subtítulo por
+          archivo", o en la página del subtítulo.
         </p>
       </section>
 
@@ -140,7 +140,7 @@ export default function FaqPage() {
       <section>
         <h2>¿Soportan versiones extendidas como por ej "Director's Cut", "Extended Version"?</h2>
         <p>
-          Por el momento no lo soportamos pero podés contactarnos al email enviándonos la versión que estas buscando.
+          Por el momento no lo soportamos pero podés contactarnos al email enviándonos la versión que estás buscando.
         </p>
       </section>
 

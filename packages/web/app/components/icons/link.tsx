@@ -39,7 +39,7 @@ export function LinkIcon({ controls, size = 28, className }: Props) {
       strokeLinejoin="round"
       className={className}
     >
-      <title>Link</title>
+      <title>Enlace</title>
       <motion.path
         d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
         variants={pathVariants}

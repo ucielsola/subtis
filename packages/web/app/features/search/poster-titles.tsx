@@ -35,7 +35,7 @@ function Slider({ data, isLoading }: SliderProps) {
   }
 
   if (isLoading) {
-    return <span>Loading...</span>;
+    return <span>Cargando...</span>;
   }
 
   if (!data) {

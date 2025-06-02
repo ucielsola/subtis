@@ -45,15 +45,15 @@ export function VideoDropzone() {
           fileType !== "video/x-msvideo"
         ) {
           toast.error(`Formato de archivo no soportado (${format})`, {
-            description: "Soportamos mp4, mkv, avi y mpeg.",
+            description: "Soportamos mp4, mkv y avi.",
           });
 
           return;
         }
 
         if (bytes < MIN_BYTES) {
-          toast.error("Archivo demasiado pequeño", {
-            description: "El archivo debe ser mayor a 500MB.",
+          toast.error("Archivo demasiado chico", {
+            description: "El archivo tiene que ser mayor a 500MB.",
           });
 
           return;
@@ -61,7 +61,7 @@ export function VideoDropzone() {
 
         if (isTvShow) {
           toast.error("Series no soportadas", {
-            description: "No soportamos series por el momento.",
+            description: "Por ahora no tenemos soporte para series.",
           });
 
           return;
@@ -82,7 +82,7 @@ export function VideoDropzone() {
             </label>
             <input id="video-upload" {...getInputProps()} />
             {isDragActive ? (
-              <p className="text-sm text-zinc-400 z-10 bg-zinc-950 rounded-sm">Soltar para buscar subtítulo</p>
+              <p className="text-sm text-zinc-400 z-10 bg-zinc-950 rounded-sm">Soltá acá para buscar el subtítulo</p>
             ) : isNavigating ? (
               <p className="text-sm text-zinc-400 z-10 bg-zinc-950 rounded-sm">Buscando subtítulo...</p>
             ) : (

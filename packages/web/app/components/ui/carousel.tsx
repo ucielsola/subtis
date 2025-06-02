@@ -209,7 +209,7 @@ const CarouselPrevious = React.forwardRef<
             : "translate-y-4 group-hover:translate-y-5"
         )}
       />
-      <span className="sr-only">Previous slide</span>
+      <span className="sr-only">Diapositiva anterior</span>
     </button>
   );
 });
@@ -248,7 +248,7 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, React.HTMLAttributes<HT
               : "translate-y-4 group-hover:translate-y-5"
           )}
         />
-        <span className="sr-only">Next slide</span>
+        <span className="sr-only">Siguiente diapositiva</span>
       </button>
     );
   }

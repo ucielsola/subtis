@@ -113,7 +113,7 @@ export function PosterDisclosure({ src, alt, hashUrl, title, overview, rating, s
             {overview ? (
               <p className="text-zinc-50 text-sm leading-6 pt-2 pb-4">{overview}</p>
             ) : (
-              <p className="text-zinc-300 text-sm leading-6 pt-2 pb-4">Sinopsis no disponible.</p>
+              <p className="text-zinc-300 text-sm leading-6 pt-2 pb-4">No tenemos la sinopsis.</p>
             )}
             <div>
               <Tooltip>
@@ -124,7 +124,7 @@ export function PosterDisclosure({ src, alt, hashUrl, title, overview, rating, s
                   </div>
                 </TooltipTrigger>
                 <TooltipContent side="right">
-                  <p className="text-zinc-50 text-sm">Puntuación de IMDb</p>
+                  <p className="text-zinc-50 text-sm">Puntaje IMDb</p>
                 </TooltipContent>
               </Tooltip>
             </div>

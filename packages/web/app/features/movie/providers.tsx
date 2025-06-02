@@ -114,7 +114,7 @@ export function MovieProviders() {
               <TooltipContent side="bottom">
                 <p>
                   Soundtrack{" "}
-                  {titleSpotify.type === "album" ? "(Oficial)" : titleSpotify.type === "playlist" ? "(No Oficial)" : ""}
+                  {titleSpotify.type === "album" ? "(Oficial)" : titleSpotify.type === "playlist" ? "(No oficial)" : ""}
                 </p>
               </TooltipContent>
             </Tooltip>
