@@ -260,7 +260,7 @@ create table public."Subtitles" (
   subtitle_file_name text not null,
   subtitle_group_id bigint not null,
   subtitle_link text not null,
-  time_to_index_in_s bigint not null,
+  time_to_index_in_s bigint null,
   title_file_name text not null,
   title_slug text not null,
   torrent_id bigint not null,
