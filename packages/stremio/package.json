@@ -10,7 +10,7 @@
     "dev": "bun --watch app.ts"
   },
   "dependencies": {
-    "@sentry/bun": "^9.24.0",
+    "@sentry/bun": "^9.25.1",
     "stremio-addon-sdk": "^1.6.10"
   },
   "devDependencies": {

@@ -51,7 +51,7 @@
     "unrar-promise": "^3.1.0",
     "windows-1252": "^3.0.4",
     "x-ray": "^2.3.4",
-    "zod": "^3.25.48"
+    "zod": "^3.25.49"
   },
   "devDependencies": {
     "@types/bun": "^1.2.15",
