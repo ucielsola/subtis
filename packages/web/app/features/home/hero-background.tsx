@@ -65,9 +65,13 @@ function HeroBackgroundContainer({ className, recentDownloadedTitlesPromise }: P
 
   return (
     <div
-      className={cn("w-full h-full opacity-0 transition-opacity duration-300 ease-in-out select-none", className, {
-        "opacity-60": allImagesAreLoaded,
-      })}
+      className={cn(
+        "w-full h-full opacity-0 transition-opacity duration-300 ease-in-out pointer-events-none select-none",
+        className,
+        {
+          "opacity-60": allImagesAreLoaded,
+        },
+      )}
     >
       <div className="flex flex-col gap-4 w-[120%] [mask-image:radial-gradient(circle_at_top_right,black_30%,transparent_70%)]">
         {rows.map((row, i) => (

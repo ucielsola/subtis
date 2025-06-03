@@ -28,7 +28,7 @@ function CarouselContainer({ trendingDownloadedTitlesPromise, slidesToScroll }: 
   const trending = trendingSubtitlesResponseSchema.parse(trendingDownloadedTitlesData);
 
   return (
-    <Carousel className="w-[calc(100%-32px)] absolute left-4 right-4 mt-32" opts={{ slidesToScroll }}>
+    <Carousel className="w-full absolute left-0 right-0 mt-32" opts={{ slidesToScroll }}>
       <CarouselContent className="p-4">
         {trending.results.map((title) => {
           if (!title.optimized_poster) {
@@ -45,7 +45,7 @@ function CarouselContainer({ trendingDownloadedTitlesPromise, slidesToScroll }: 
                 viewTransition
                 prefetch="viewport"
                 to={`/subtitles/movie/${title.slug}`}
-                className="flex flex-none rounded-sm overflow-hidden cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-300 group will-change-transform"
+                className="flex flex-none rounded-sm overflow-hidden cursor-pointer lg:hover:scale-[103%] transition-all ease-in-out duration-300 group will-change-transform"
               >
                 <ThumbHashTrendingImage
                   src={title.optimized_poster}
@@ -76,7 +76,7 @@ export function TrendingSlider() {
   return (
     <Suspense
       fallback={
-        <Carousel className="w-[calc(100%-32px)] absolute left-4 right-4 mt-32" opts={{ slidesToScroll }}>
+        <Carousel className="w-[calc(100%-32px)] absolute left-0 right-0 mt-32" opts={{ slidesToScroll }}>
           <CarouselContent className="p-4">
             {Array.from({ length: 22 }).map((_, index) => (
               <CarouselItem key={`trending-slider-skeleton-${index}`} className="basis-auto pl-3 select-none">

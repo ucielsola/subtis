@@ -29,22 +29,22 @@ function StatsContainer({ statsPromise }: Props) {
   const { isIntersecting, ref } = useIntersectionObserver({ threshold: 0.8, freezeOnceVisible: true });
 
   return (
-    <section className="py-32 flex flex-col gap-16 items-center justify-center" ref={ref}>
+    <section className="py-32 flex flex-col gap-40 items-center justify-center" ref={ref}>
       <Screen isGlowing={isIntersecting} />
-      <div className="flex flex-col gap-8">
-        <div className="flex flex-col gap-4 text-center">
-          <h2 className="text-zinc-50 text-4xl font-bold text-balance">Estadísticas</h2>
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-10 text-center">
+          <h2 className="text-zinc-50 text-xs tracking-[3px] font-normal uppercase">Subtis en números</h2>
           <h3 className="text-zinc-400 text-base">
             <NumberFlow
-              className="text-purple-500"
+              className="text-[#754AD6]"
               value={isIntersecting ? stats.total_titles : 0}
               format={{ signDisplay: "always" }}
               locales="es-AR"
               animated={isIntersecting}
             />{" "}
-            películas catalogadas,{" "}
+            películas en catálogo,{" "}
             <NumberFlow
-              className="text-yellow-500"
+              className="text-[#E1FB00]"
               value={isIntersecting ? stats.total_subtitles : 0}
               format={{ signDisplay: "always" }}
               locales="es-AR"
@@ -52,27 +52,27 @@ function StatsContainer({ statsPromise }: Props) {
             />{" "}
             subtítulos subidos,{" "}
             <NumberFlow
-              className="text-emerald-500"
+              className="text-[#3AED61]"
               value={isIntersecting ? stats.total_queried_times : 0}
               format={{ signDisplay: "always" }}
               locales="es-AR"
               animated={isIntersecting}
             />{" "}
-            descargas totales.
+            descargas totales
           </h3>
         </div>
         <div className="flex flex-row gap-6 items-center justify-center">
           <div className="flex flex-row gap-2 items-center">
-            <div className="size-2 rounded-full bg-purple-500" />
-            <span className="text-zinc-50">Películas</span>
+            <div className="size-2 rounded-full bg-[#754AD6]" />
+            <span className="text-zinc-50 text-xs">Pelis</span>
           </div>
           <div className="flex flex-row gap-2 items-center">
-            <div className="size-2 rounded-full bg-yellow-500" />
-            <span className="text-zinc-50">Subtítulos</span>
+            <div className="size-2 rounded-full bg-[#E1FB00]" />
+            <span className="text-zinc-50 text-xs">Subtítulos</span>
           </div>
           <div className="flex flex-row gap-2 items-center">
-            <div className="size-2 rounded-full bg-emerald-500" />
-            <span className="text-zinc-50">Descargas</span>
+            <div className="size-2 rounded-full bg-[#3AED61]" />
+            <span className="text-zinc-50 text-xs">Descargas</span>
           </div>
         </div>
       </div>
@@ -87,29 +87,29 @@ export function HomeStats() {
   return (
     <Suspense
       fallback={
-        <section className="py-32 flex flex-col gap-16 items-center justify-center">
+        <section className="py-32 flex flex-col gap-40 items-center justify-center">
           <Screen isGlowing={false} />
           <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-4 text-center">
-              <h2 className="text-zinc-50 text-4xl font-bold text-balance">Estadísticas</h2>
+              <h2 className="text-zinc-50 text-xs tracking-[3px] font-normal uppercase">Subtis en números</h2>
               <div className="text-zinc-400 text-base flex flex-row gap-1">
-                <Skeleton className="w-[40px] h-[19.5px] rounded-sm" /> películas catalogadas,{" "}
-                <Skeleton className="w-[40px] h-[19.5px] rounded-sm" /> subtítulos subidos,{" "}
-                <Skeleton className="w-[40px] h-[19.5px] rounded-sm" /> descargas totales.
+                <Skeleton className="w-[40px] h-[19.5px] rounded-sm" /> películas en catálogo,{" "}
+                <Skeleton className="w-[40px] h-[19.5px] rounded-sm" /> subtítulos cargados,{" "}
+                <Skeleton className="w-[40px] h-[19.5px] rounded-sm" /> descargas.
               </div>
             </div>
             <div className="flex flex-row gap-6 items-center justify-center">
               <div className="flex flex-row gap-2 items-center">
-                <div className="size-2 rounded-full bg-purple-500" />
-                <span className="text-zinc-50">Películas</span>
+                <div className="size-2 rounded-full bg-[#754AD6]" />
+                <span className="text-zinc-50 text-xs">Películas</span>
               </div>
               <div className="flex flex-row gap-2 items-center">
-                <div className="size-2 rounded-full bg-yellow-500" />
-                <span className="text-zinc-50">Subtítulos</span>
+                <div className="size-2 rounded-full bg-[#E1FB00]" />
+                <span className="text-zinc-50 text-xs">Subtítulos</span>
               </div>
               <div className="flex flex-row gap-2 items-center">
-                <div className="size-2 rounded-full bg-emerald-500" />
-                <span className="text-zinc-50">Descargas</span>
+                <div className="size-2 rounded-full bg-[#3AED61]" />
+                <span className="text-zinc-50 text-xs">Descargas</span>
               </div>
             </div>
           </div>

@@ -83,8 +83,8 @@ export default function HomePage() {
     <Fragment>
       <HomeHero />
       <HomeDropzone />
-      <HomeTrending />
       <HomeFeatures />
+      <HomeTrending />
       <HomeStats />
       <HomeProviders />
     </Fragment>

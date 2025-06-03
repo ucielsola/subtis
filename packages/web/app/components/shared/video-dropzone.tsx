@@ -2,7 +2,6 @@ import filesizeParser from "filesize-parser";
 import { useAnimation } from "motion/react";
 import Dropzone from "react-dropzone-esm";
 import { useNavigate, useNavigation } from "react-router";
-import { Fragment } from "react/jsx-runtime";
 import { toast } from "sonner";
 
 // shared external
@@ -13,6 +12,9 @@ import { Button } from "~/components/ui/button";
 
 // icons
 import { AttachFileIcon } from "~/components/icons/attach-file";
+
+// internals
+import { Macbook } from "./macbook";
 
 // constants
 const MIN_BYTES = filesizeParser("500MB");
@@ -75,39 +77,41 @@ export function VideoDropzone() {
       }}
     >
       {({ getRootProps, getInputProps, isDragActive }) => (
-        <section className="w-full h-full cursor-pointer">
-          <div {...getRootProps()} className="w-full h-full flex flex-col gap-2 items-center justify-center">
-            <label htmlFor="video-upload" className="sr-only">
-              Seleccionar archivo de video
-            </label>
-            <input id="video-upload" {...getInputProps()} />
-            {isDragActive ? (
-              <p className="text-sm text-zinc-400 z-10 bg-zinc-950 rounded-sm">Soltá acá para buscar el subtítulo</p>
-            ) : isNavigating ? (
-              <p className="text-sm text-zinc-400 z-10 bg-zinc-950 rounded-sm">Buscando subtítulo...</p>
-            ) : (
-              <Fragment>
-                <Button
-                  variant="outline"
-                  className="hover:bg-zinc-950 hover:text-zinc-50 bg-zinc-950 border border-zinc-700 transition-all ease-in-out z-10 cursor-pointer"
-                  onMouseEnter={() => controls.start("animate")}
-                  onMouseLeave={() => controls.start("normal")}
-                >
-                  <AttachFileIcon controls={controls} />
-                  Seleccionar archivo
-                </Button>
-                <div className="flex flex-col gap-0 z-10 bg-zinc-950 rounded-sm mt-6">
-                  <p className="text-sm text-zinc-300 text-center w-fit container mx-auto">
-                    Si tenés el archivo de tu película, arrastralo acá
-                  </p>
-                  <p className="text-[11px] text-zinc-400 text-center w-fit container mx-auto">
-                    El procesamiento es local, tu archivo no se sube a internet
-                  </p>
+        <Macbook className="z-50">
+          <section className="w-full h-full cursor-pointer relative bg-[#131313]">
+            <div {...getRootProps()} className="w-full h-full flex flex-col gap-2 items-center justify-center">
+              <label htmlFor="video-upload" className="sr-only">
+                Seleccionar archivo de video
+              </label>
+              <input id="video-upload" {...getInputProps()} />
+              {isDragActive ? (
+                <p className="text-sm text-zinc-400 z-10 bg-zinc-950 rounded-sm">Soltá acá para buscar el subtítulo</p>
+              ) : isNavigating ? (
+                <p className="text-sm text-zinc-400 z-10 bg-zinc-950 rounded-sm">Buscando subtítulo...</p>
+              ) : (
+                <div className="flex flex-col gap-3 items-center mt-6">
+                  <Button
+                    variant="outline"
+                    className="hover:bg-zinc-950 hover:text-zinc-50 bg-zinc-950 border border-zinc-800 transition-all ease-in-out z-10 cursor-pointer"
+                    onMouseEnter={() => controls.start("animate")}
+                    onMouseLeave={() => controls.start("normal")}
+                  >
+                    <AttachFileIcon controls={controls} />
+                    Seleccionar archivo
+                  </Button>
+                  <div className="flex flex-col gap-0 z-10 rounded-sm mt-3">
+                    <p className="text-sm text-zinc-300 text-center w-fit container mx-auto">
+                      Si tenés el archivo de tu película, arrastralo acá
+                    </p>
+                    <p className="text-[11px] text-zinc-400 text-center w-fit container mx-auto">
+                      El procesamiento es local, tu archivo no se sube a internet
+                    </p>
+                  </div>
                 </div>
-              </Fragment>
-            )}
-          </div>
-        </section>
+              )}
+            </div>
+          </section>
+        </Macbook>
       )}
     </Dropzone>
   );

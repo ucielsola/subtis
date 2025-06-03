@@ -33,7 +33,6 @@ import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { DataTable } from "~/components/ui/data-table";
-import DotPattern from "~/components/ui/dot-pattern";
 import { Label } from "~/components/ui/label";
 import { Separator } from "~/components/ui/separator";
 import { Switch } from "~/components/ui/switch";
@@ -886,14 +885,7 @@ export default function SubtitlesPage() {
               ¿Querés buscar otro subtítulo? Arrastrá el archivo de video acá abajo.
             </h4>
           </div>
-          <div className="bg-zinc-950 border border-zinc-700 hover:border-zinc-600 transition-all ease-in-out duration-300 rounded-sm group/video overflow-hidden h-80 relative">
-            <VideoDropzone />
-            <DotPattern
-              className={cn(
-                "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)] opacity-40 backdrop-blur-md group-hover/video:opacity-60 group-hover/video:scale-105 transition-all ease-in-out",
-              )}
-            />
-          </div>
+          <VideoDropzone />
         </section>
 
         <MoviePlatforms />

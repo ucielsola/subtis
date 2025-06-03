@@ -27,12 +27,10 @@ import { Play } from "~/components/icons/play";
 // lib
 import { apiClient } from "~/lib/api";
 import { getUiCertification } from "~/lib/certifications";
-import { cn } from "~/lib/utils";
 
 // ui
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
-import DotPattern from "~/components/ui/dot-pattern";
 import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Separator } from "~/components/ui/separator";
@@ -543,14 +541,7 @@ export default function NotFoundSubtitlePage() {
               ¿Querés buscar otro subtítulo? Arrastrá el archivo de video acá abajo.
             </h4>
           </div>
-          <div className="bg-zinc-950 border border-zinc-700 hover:border-zinc-600 transition-all ease-in-out duration-300 rounded-sm group/video overflow-hidden h-80 relative">
-            <VideoDropzone />
-            <DotPattern
-              className={cn(
-                "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)] opacity-40 backdrop-blur-md group-hover/video:opacity-60 group-hover/video:scale-105 transition-all ease-in-out",
-              )}
-            />
-          </div>
+          <VideoDropzone />
         </section>
       </article>
       <figure className="flex-1 hidden lg:flex justify-center">
