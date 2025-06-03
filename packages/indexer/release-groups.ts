@@ -826,6 +826,11 @@ export const RELEASE_GROUPS = {
     release_group_name: "afm72",
     matches: ["afm72"],
   },
+  WADU: {
+    is_supported: true,
+    release_group_name: "WADU",
+    matches: ["WADU", "265-WADU", "264-WADU"],
+  },
 } as const;
 
 // types
