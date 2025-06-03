@@ -48,7 +48,7 @@ export function ThumbHashTrendingImage({ src, hashUrl, alt, slug }: Props) {
         <img
           ref={imageReference}
           onLoad={onLoaded}
-          className={`absolute inset-[2px] brightness-105 w-[280px] h-[420px] ${imgIsLoading ? "opacity-0" : "opacity-100"} transition-all ease-in-out duration-300 rounded-[2px] object-cover`}
+          className={`absolute inset-[2px] brightness-105 w-[280px] h-[420px] ${imgIsLoading ? "opacity-0" : "opacity-100"} transition-all ease-in-out duration-300 object-cover rounded-[5px]`}
           style={{ viewTransitionName }}
           src={src}
           alt={alt}

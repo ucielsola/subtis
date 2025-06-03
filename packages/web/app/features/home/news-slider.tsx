@@ -44,7 +44,7 @@ function CarouselContainer({ recentDownloadedTitlesPromise, slidesToScroll }: Pr
               <Link
                 prefetch="viewport"
                 to={`/subtitles/movie/${title.slug}`}
-                className="flex flex-none rounded-sm overflow-hidden cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-300 group will-change-transform"
+                className="flex flex-none rounded-sm overflow-hidden cursor-pointer lg:hover:scale-[103%] transition-all ease-in-out duration-300 group will-change-transform"
               >
                 <ThumbHashNewsImage
                   src={title.optimized_backdrop}
