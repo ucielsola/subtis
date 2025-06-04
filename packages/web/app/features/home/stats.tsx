@@ -33,7 +33,7 @@ function StatsContainer({ statsPromise }: Props) {
       <Screen isGlowing={isIntersecting} />
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-10 text-center">
-          <h2 className="text-zinc-50 text-xs tracking-[3px] font-normal uppercase">Subtis en números</h2>
+          <h2 className="text-zinc-50 text-xs tracking-[3px] font-medium font-gillsans uppercase">Subtis en números</h2>
           <h3 className="text-zinc-400 text-base">
             <NumberFlow
               className="text-[#754AD6]"
@@ -64,7 +64,7 @@ function StatsContainer({ statsPromise }: Props) {
         <div className="flex flex-row gap-6 items-center justify-center">
           <div className="flex flex-row gap-2 items-center">
             <div className="size-2 rounded-full bg-[#754AD6]" />
-            <span className="text-zinc-50 text-xs">Pelis</span>
+            <span className="text-zinc-50 text-xs">Películas</span>
           </div>
           <div className="flex flex-row gap-2 items-center">
             <div className="size-2 rounded-full bg-[#E1FB00]" />
@@ -91,7 +91,9 @@ export function HomeStats() {
           <Screen isGlowing={false} />
           <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-4 text-center">
-              <h2 className="text-zinc-50 text-xs tracking-[3px] font-normal uppercase">Subtis en números</h2>
+              <h2 className="text-zinc-50 text-xs tracking-[3px] font-medium font-gillsans uppercase">
+                Subtis en números
+              </h2>
               <div className="text-zinc-400 text-base flex flex-row gap-1">
                 <Skeleton className="w-[40px] h-[19.5px] rounded-sm" /> películas en catálogo,{" "}
                 <Skeleton className="w-[40px] h-[19.5px] rounded-sm" /> subtítulos cargados,{" "}

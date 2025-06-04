@@ -9,8 +9,8 @@ import { TooltipProvider } from "~/components/ui/tooltip";
 // lib
 import { queryClient } from "~/lib/react-query";
 
-import { HomeFooter } from "./components/layout/footer";
 // components
+import { HomeFooter } from "./components/layout/footer";
 import { Header } from "./components/layout/header";
 
 // internals

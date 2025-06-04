@@ -77,8 +77,8 @@ export function VideoDropzone() {
       }}
     >
       {({ getRootProps, getInputProps, isDragActive }) => (
-        <Macbook className="z-50">
-          <section className="w-full h-full cursor-pointer relative bg-[#131313]">
+        <Macbook className="z-50 max-w-4xl">
+          <section className="w-full h-full cursor-pointer relative bg-[#131313] scale-150 md:scale-110">
             <div {...getRootProps()} className="w-full h-full flex flex-col gap-2 items-center justify-center">
               <label htmlFor="video-upload" className="sr-only">
                 Seleccionar archivo de video

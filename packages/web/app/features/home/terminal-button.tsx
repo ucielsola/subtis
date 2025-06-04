@@ -98,7 +98,7 @@ export function TerminalButton() {
           size={14}
           className="fill-transparent stroke-zinc-300 transition-all ease-in-out group-hover/cli:stroke-zinc-50"
         />
-        <span className="group-hover/cli:text-zinc-50">CLI</span>
+        <span className="group-hover/cli:text-zinc-50 font-gillsans font-medium tracking-[3px] pt-[3px]">CLI</span>
       </button>
     </Fragment>
   );

@@ -8,7 +8,7 @@ export function HomeDropzone() {
         <VideoDropzone />
       </div>
       <div className="flex flex-col mx-auto items-center gap-2">
-        <p className="uppercase text-zinc-300 tracking-[3px] text-xs">Formatos soportados</p>
+        <p className="uppercase text-zinc-300 tracking-[3px] text-xs font-gillsans font-medium">Formatos soportados</p>
         <div className="flex flex-row gap-2">
           <div className="py-1 px-2 border border-zinc-700 rounded-sm uppercase text-zinc-400 text-xs">mp4</div>
           <div className="py-1 px-2 border border-zinc-700 rounded-sm uppercase text-zinc-400 text-xs">mkv</div>

@@ -169,9 +169,9 @@ export function StremioButton() {
         className={`text-zinc-50 h-10 group relative isolate cursor-pointer ${isOpen ? "pointer-events-none" : ""}`}
         onClick={handleToggleIsOpen}
       >
-        <div className="border-[#6521FF] rounded-md relative h-full px-4 z-10 border-2 flex gap-2 items-center bg-[#754AD6] transition-transform duration-300 ease-in-out group-hover:-translate-x-[3px] group-hover:-translate-y-[3px] group-active:-translate-x-[1.5px] group-active:-translate-y-[1.5px] text-xs tracking-widest font-normal uppercase">
+        <div className="border-[#6521FF] rounded-md relative h-full px-4 z-10 border-2 flex gap-2 items-center bg-[#754AD6] transition-transform duration-300 ease-in-out group-hover:-translate-x-[3px] group-hover:-translate-y-[3px] group-active:-translate-x-[1.5px] group-active:-translate-y-[1.5px] text-xs tracking-[3px] font-medium uppercase font-gillsans">
           <StremioWhiteLogo size={20} />
-          Agregar a Stremio
+          <span className="pt-[3px]">AGREGAR A STREMIO</span>
         </div>
         <div className="absolute inset-0 rounded-md bg-[#6521FF]" />
       </button>
