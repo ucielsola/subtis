@@ -3,6 +3,7 @@ import { Fragment } from "react/jsx-runtime";
 
 // home
 import { HomeDropzone } from "~/features/home/dropzone";
+import { HomeFaq } from "~/features/home/faq";
 import { HomeFeatures } from "~/features/home/features";
 import { HomeHero } from "~/features/home/hero";
 import { HomeProviders } from "~/features/home/providers";
@@ -87,6 +88,7 @@ export default function HomePage() {
       <HomeTrending />
       <HomeStats />
       <HomeProviders />
+      <HomeFaq />
     </Fragment>
   );
 }

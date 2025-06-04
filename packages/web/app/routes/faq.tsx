@@ -58,60 +58,39 @@ export default function FaqPage() {
       <section>
         <h2>¿Qué es Subtis?</h2>
         <p>
-          Subtis es un proyecto gratuito, open-source, y sin fines de lucro, que te permite encontrar y descargar
-          subtítulos sincronizados para tus películas.
+          Subtis es una herramienta gratuita y open-source para encontrar y descargar subtítulos sincronizados para tus
+          películas.
         </p>
       </section>
 
       <section>
-        <h2>¿Cuáles películas soporta Subtis?</h2>
+        <h2>¿Qué películas tienen subtítulos disponibles?</h2>
         <p>
-          Actualmente contamos con todas las películas del 2025 y el Top 300 de Rotten Tomatoes. Estamos catalogando los
-          años anteriores. Pronto estará disponible un catálogo mucho más amplio.
+          Tenemos todas las películas del 2025 y el Top 300 de Rotten Tomatoes. Estamos sumando los años anteriores, así
+          que pronto vas a tener muchas más opciones.
         </p>
       </section>
 
       <section>
-        <h2>¿Cómo funciona Subtis?</h2>
-        <p>Subtis en alto nivel busca en varios proveedores de subtítulos el mejor subtítulo para tu película.</p>
+        <h2>¿Cómo funciona?</h2>
+        <p>Buscamos en varios sitios de subtítulos para encontrarte el mejor subtítulo para tu película.</p>
       </section>
 
       <section>
-        <h2>¿Puedo mirar y/o descargar las películas desde Subtis?</h2>
+        <h2>¿Dónde está el reproductor?</h2>
+        <p>Lo encontrás cuando arrastrás un archivo en "Buscar subtítulo por archivo" o en la página del subtítulo.</p>
+      </section>
+
+      <section>
+        <h2>No encuentro mi película. ¿Qué hago?</h2>
+        <p>Si no aparece en la búsqueda es porque todavía no tenemos subtítulos para esa película.</p>
+      </section>
+
+      <section>
+        <h2>El subtítulo no coincide con el video. ¿Cómo lo arreglo?</h2>
         <p>
-          No. Subtis solamente proporciona subtítulos. Sin embargo, te permite reproducir el video que tengas en tu
-          computadora con el subtítulo que te damos.
-        </p>
-      </section>
-
-      <section>
-        <h2>¿Donde encuentro el reproductor de video?</h2>
-        <p>
-          Podés encontrar el reproductor de video cuando arrastrás un archivo en la sección de "Buscar subtítulo por
-          archivo", o en la página del subtítulo.
-        </p>
-      </section>
-
-      <section>
-        <h2>¿Qué formatos soporta el reproductor de video?</h2>
-        <p>Por el momento solamente soportamos el formato MP4.</p>
-      </section>
-
-      <section>
-        <h2>Todavía no recibí mi subtítulo en mi email. ¿Cuando lo recibiré?</h2>
-        <p>Si todavía no recibiste tu subtítulo por email, es probable que aún no esté disponible.</p>
-      </section>
-
-      <section>
-        <h2>No encuentro mi película en la búsqueda. ¿Cómo puedo solucionarlo?</h2>
-        <p>Si tu película no está en la búsqueda significa que por el momento no tenemos los subtítulos disponibles.</p>
-      </section>
-
-      <section>
-        <h2>Mi subtítulo no está sincronizado con el video. ¿Qué puedo hacer?</h2>
-        <p>
-          Si descargaste el subtítulo desde la página de película, probá arrastrando y soltando el archivo de video para
-          poder buscar el subtítulo correcto. En caso de que el problema persista podés escribirnos a{" "}
+          Si bajaste el subtítulo desde la página de la película, probá arrastrando el archivo de video para buscar el
+          subtítulo correcto. Si sigue sin funcionar, escribinos a{" "}
           <button
             type="button"
             onClick={handleCopyEmailToClipboard}
@@ -123,40 +102,56 @@ export default function FaqPage() {
       </section>
 
       <section>
-        <h2>¿Cuál es el cliente o extensión de Subtis que debería usar?</h2>
-        <p>Te recomendamos principalmente la extensión para Stremio.</p>
-      </section>
-
-      <section>
-        <h2>¿Qué resoluciones soporta Subtis?</h2>
-        <p>Soportamos películas desde 480p hasta 2160p (4K). También soportamos películas en 3D.</p>
-      </section>
-
-      <section>
-        <h2>¿Qué publicadores o release groups soporta Subtis?</h2>
-        <p>Soportamos los release groups más conocidos como YTS/YIFI, GalaxyRG, ETHEL y otros 75 más.</p>
-      </section>
-
-      <section>
-        <h2>¿Soportan versiones extendidas como por ej "Director's Cut", "Extended Version"?</h2>
+        <h2>¿Puedo ver o descargar películas desde acá?</h2>
         <p>
-          Por el momento no lo soportamos pero podés contactarnos al email enviándonos la versión que estás buscando.
+          No, solo damos subtítulos. Pero podés reproducir el video que tengas en tu compu con el subtítulo que te
+          damos.
         </p>
       </section>
 
       <section>
-        <h2>¿Si utilizo la búsqueda por archivo, el video se sube a algún servidor?</h2>
-        <p>No, el video no se sube a ningún lado. Solo obtenemos la metadata del archivo.</p>
+        <h2>¿Se sube mi video a algún servidor?</h2>
+        <p>No, tu video se queda en tu computadora. Solo leemos la información del archivo.</p>
       </section>
 
       <section>
-        <h2>¿Hay add-ons para software de Home Theaters como Plex o Kodi?</h2>
-        <p>No, pero tenemos planes de hacerlo en el futuro.</p>
+        <h2>¿Qué formatos de video acepta?</h2>
+        <p>Por el momento solamente MP4, MKV y AVI.</p>
       </section>
 
       <section>
-        <h2>¿Hay planes para ser proveedor de Bazarr?</h2>
-        <p>Esto depende de Bazarr, y esto puede llegar a tomar tiempo.</p>
+        <h2>No me llegó el subtítulo por email. ¿Cuándo llega?</h2>
+        <p>Si no te llegó, probablemente todavía no esté listo. Te avisamos apenas lo tengamos.</p>
+      </section>
+
+      <section>
+        <h2>¿Cómo recomiendan usar Subtis?</h2>
+        <p>Te recomendamos usar la extensión para Stremio.</p>
+      </section>
+
+      <section>
+        <h2>¿Qué resoluciones soportan?</h2>
+        <p>Desde 480p hasta 4K (2160p). También películas en 3D.</p>
+      </section>
+
+      <section>
+        <h2>¿Qué grupos de release soportan?</h2>
+        <p>Los más conocidos como YTS/YIFI, GalaxyRG, ETHEL y otros 200 más.</p>
+      </section>
+
+      <section>
+        <h2>¿Tienen versiones extendidas como "Director's Cut"?</h2>
+        <p>Todavía no, pero escribinos contándonos qué versión buscás y vemos qué podemos hacer.</p>
+      </section>
+
+      <section>
+        <h2>¿Hay extensiones para Plex o Kodi?</h2>
+        <p>Todavía no, pero está en nuestros planes hacerlas.</p>
+      </section>
+
+      <section>
+        <h2>¿Van a ser proveedor de Bazarr?</h2>
+        <p>Depende de ellos, pero puede llevar tiempo.</p>
       </section>
     </article>
   );
