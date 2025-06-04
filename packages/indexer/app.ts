@@ -124,14 +124,30 @@ const UNCOMPRESSED_SUBTITLES_FOLDER_NAME = "uncompressed-subtitles";
 // helpers
 async function downloadSubtitle(subtitle: SubtitleWithResolutionAndTorrentId): Promise<void> {
   const { fileExtension, subtitleCompressedFileName, subtitleLink } = subtitle;
+  console.log(`[DEBUG] Entering downloadSubtitle for ${subtitleCompressedFileName} from ${subtitleLink}`);
 
   const subtitlesFolderAbsolutePath = path.join(__dirname, "..", "indexer", COMPRESSED_SUBTITLES_FOLDER_NAME);
 
   if (["rar", "zip"].includes(fileExtension)) {
-    await download(subtitleLink, subtitlesFolderAbsolutePath, {
-      filename: subtitleCompressedFileName,
-    });
+    console.log(
+      `[DEBUG] Attempting to download ${subtitleLink} (type: ${fileExtension}) to ${subtitleCompressedFileName}`,
+    );
+    try {
+      await download(subtitleLink, subtitlesFolderAbsolutePath, {
+        filename: subtitleCompressedFileName,
+        timeout: 30000, // 30-second timeout
+      });
+      console.log(`[DEBUG] Successfully downloaded ${subtitleCompressedFileName}`);
+    } catch (error) {
+      console.error(`[DEBUG] Error downloading ${subtitleCompressedFileName} from ${subtitleLink}:`, error);
+      throw error; // Re-throw to be caught by calling function's error handler
+    }
+  } else {
+    console.log(
+      `[DEBUG] Skipping download within downloadSubtitle for ${subtitleCompressedFileName} as extension is '${fileExtension}'. Direct .srt or other types are handled elsewhere (e.g., uncompressSubtitle).`,
+    );
   }
+  console.log(`[DEBUG] Exiting downloadSubtitle for ${subtitleCompressedFileName}`);
 }
 
 function getSubtitleAbsolutePaths(subtitle: SubtitleWithResolutionAndTorrentId): {
@@ -758,6 +774,12 @@ export async function downloadAndStoreTitleAndSubtitle(data: {
   bytesFromNotFoundSubtitle?: number;
   titleFileNameFromNotFoundSubtitle?: string;
 }): Promise<void> {
+  const functionName = "downloadAndStoreTitleAndSubtitle";
+  let operationName = "initialization";
+  const subtitleIdForLogging = data.subtitle.subtitleSrtFileName || data.subtitle.subtitleCompressedFileName;
+  console.log(
+    `[DEBUG] ${functionName} - ENTERING for title: ${data.title.title_name}, subtitle file: ${subtitleIdForLogging}`,
+  );
   try {
     const {
       indexedBy,
@@ -774,42 +796,100 @@ export async function downloadAndStoreTitleAndSubtitle(data: {
       bytesFromNotFoundSubtitle,
       titleFileNameFromNotFoundSubtitle,
     } = data;
+    console.log("\\n ~ data:", data);
 
+    operationName = "downloadSubtitle";
+    console.log(`[DEBUG] ${functionName} - Starting: ${operationName}`);
     await downloadSubtitle(subtitle);
+    console.log(`[DEBUG] ${functionName} - Completed: ${operationName}`);
+    console.log("\\n ~ subtitle downloaded:", subtitle);
 
     const { subtitleCompressedAbsolutePath, extractedSubtitlePath } = getSubtitleAbsolutePaths(subtitle);
+    console.log("\\n ~ subtitleCompressedAbsolutePath:", subtitleCompressedAbsolutePath);
+    console.log("\\n ~ extractedSubtitlePath:", extractedSubtitlePath);
+    operationName = "uncompressSubtitle";
+    console.log(`[DEBUG] ${functionName} - Starting: ${operationName}`);
     await uncompressSubtitle({
       subtitle,
       fromRoute: subtitleCompressedAbsolutePath,
       toRoute: extractedSubtitlePath,
     });
+    console.log(`[DEBUG] ${functionName} - Completed: ${operationName}`);
+    console.log("\\n ~ subtitle uncompressed:", subtitle);
 
+    operationName = "getSubtitleInitialPath";
+    console.log(`[DEBUG] ${functionName} - Starting: ${operationName}`);
     const path = getSubtitleInitialPath({ subtitle, extractedSubtitlePath });
+    console.log(`[DEBUG] ${functionName} - Completed: ${operationName}`);
+    console.log("\\n ~ path:", path);
+
+    operationName = "addWatermarkToSubtitle";
+    console.log(`[DEBUG] ${functionName} - Starting: ${operationName}`);
     await addWatermarkToSubtitle({
       path,
       subtitleGroupName,
       subtitleId: subtitle.externalId,
       titleType,
     });
+    console.log(`[DEBUG] ${functionName} - Completed: ${operationName}`);
+    console.log("\\n ~ subtitle watermarked:", subtitle);
 
+    operationName = "readSubtitleFile (original)";
+    console.log(`[DEBUG] ${functionName} - Starting: ${operationName}`);
     const subtitleFileToUpload = readSubtitleFile(path);
+    console.log(`[DEBUG] ${functionName} - Completed: ${operationName}`);
+    console.log("\\n ~ subtitleFileToUpload:", subtitleFileToUpload);
     const author = getSubtitleAuthor(subtitleFileToUpload);
 
     const srtOriginalString = subtitleFileToUpload.toString();
+    operationName = "generateSpecValidSrt";
+    console.log(`[DEBUG] ${functionName} - Starting: ${operationName}`);
     const isValid = await generateSpecValidSrt(srtOriginalString, path);
-    const validSrtFileToUpload = readSubtitleFile(path);
+    console.log(`[DEBUG] ${functionName} - Completed: ${operationName}`);
 
+    operationName = "readSubtitleFile (validated)";
+    console.log(`[DEBUG] ${functionName} - Starting: ${operationName}`);
+    const validSrtFileToUpload = readSubtitleFile(path);
+    console.log(`[DEBUG] ${functionName} - Completed: ${operationName}`);
+    console.log("\\n ~ validSrtFileToUpload:", validSrtFileToUpload);
+
+    operationName = "storeSubtitleInSupabaseStorage";
+    console.log(`[DEBUG] ${functionName} - Starting: ${operationName}`);
     const fullPath = await storeSubtitleInSupabaseStorage({
       subtitle,
       subtitleFileToUpload: validSrtFileToUpload,
     });
+    console.log(`[DEBUG] ${functionName} - Completed: ${operationName}`);
+    console.log("\\n ~ fullPath:", fullPath);
+
+    operationName = "removeSubtitlesFromFileSystem";
+    console.log(`[DEBUG] ${functionName} - Starting: ${operationName}`);
     removeSubtitlesFromFileSystem([subtitleCompressedAbsolutePath, extractedSubtitlePath]);
+    console.log(`[DEBUG] ${functionName} - Completed: ${operationName}`);
+
     const subtitleLink = getSupabaseSubtitleLink({ fullPath, subtitle });
+    console.log("\\n ~ subtitleLink:", subtitleLink);
 
+    operationName = "storeTorrentInSupabaseTable";
+    console.log(`[DEBUG] ${functionName} - Starting: ${operationName}`);
     await storeTorrentInSupabaseTable(torrent);
-    const titleId = await storeTitleInSupabaseTable(title);
-    await storeTitleGenresInSupabaseTable(titleId, titleGenres);
+    console.log(`[DEBUG] ${functionName} - Completed: ${operationName}`);
+    console.log("\\n ~ torrent stored:", torrent);
 
+    operationName = "storeTitleInSupabaseTable";
+    console.log(`[DEBUG] ${functionName} - Starting: ${operationName}`);
+    const titleId = await storeTitleInSupabaseTable(title);
+    console.log(`[DEBUG] ${functionName} - Completed: ${operationName}`);
+    console.log("\\n ~ titleId:", titleId);
+
+    operationName = "storeTitleGenresInSupabaseTable";
+    console.log(`[DEBUG] ${functionName} - Starting: ${operationName}`);
+    await storeTitleGenresInSupabaseTable(titleId, titleGenres);
+    console.log(`[DEBUG] ${functionName} - Completed: ${operationName}`);
+    console.log("\\n ~ titleGenres stored:", titleGenres);
+
+    operationName = "storeSubtitleInSupabaseTable";
+    console.log(`[DEBUG] ${functionName} - Starting: ${operationName}`);
     await storeSubtitleInSupabaseTable({
       indexedBy,
       title,
@@ -825,6 +905,8 @@ export async function downloadAndStoreTitleAndSubtitle(data: {
       bytesFromNotFoundSubtitle,
       titleFileNameFromNotFoundSubtitle,
     });
+    console.log(`[DEBUG] ${functionName} - Completed: ${operationName}`);
+    console.log("\\n ~ subtitle stored:", subtitle);
 
     // const { current_season, current_episode } = getSeasonAndEpisode(title.episode);
 
@@ -841,8 +923,7 @@ export async function downloadAndStoreTitleAndSubtitle(data: {
     //   ]);
     // }
 
-    console.log("\n✅ Subtítulo guardado en la base de datos!\n");
-
+    console.log("\\n✅ Subtítulo guardado en la base de datos!\\n");
     console.table([
       {
         imdbLink: getImdbLink(title.imdb_id),
@@ -854,8 +935,16 @@ export async function downloadAndStoreTitleAndSubtitle(data: {
       },
     ]);
   } catch (error) {
-    console.log("\n ~ error:", error);
-    console.log("\n ~ error message:", error instanceof Error ? error.message : "");
+    console.error(
+      `[DEBUG] ${functionName} - ERROR during operation '${operationName}' for title: ${data.title.title_name}, subtitle file: ${subtitleIdForLogging}:`,
+      error,
+    );
+    console.log("\\n ~ error:", error);
+    console.log("\\n ~ error message:", error instanceof Error ? error.message : "");
+  } finally {
+    console.log(
+      `[DEBUG] ${functionName} - EXITING for title: ${data.title.title_name}, subtitle file: ${subtitleIdForLogging}`,
+    );
   }
 }
 
@@ -1748,6 +1837,9 @@ export async function getSubtitlesForTitle({
           `4.${index}.${torrentIndex}) Subtítulo encontrado en SubDivX (ID: ${foundSubtitleFromSubDivX.externalId}) para ${name} ${finalResolution} ${releaseGroupName} \n`,
         );
 
+        console.log(
+          `[DEBUG] 4.${index}.${torrentIndex}) Preparing to call downloadAndStoreTitleAndSubtitle for ${name} (SubDivX)`,
+        );
         await downloadAndStoreTitleAndSubtitle({
           titleType,
           titleGenres: genres,
@@ -1823,6 +1915,9 @@ export async function getSubtitlesForTitle({
           `4.${index}.${torrentIndex}) Subtítulo encontrado en SubDL (ID: ${foundSubtitleFromSubdl.externalId}) para ${name} ${finalResolution} ${releaseGroupName} \n`,
         );
 
+        console.log(
+          `[DEBUG] 4.${index}.${torrentIndex}) Preparing to call downloadAndStoreTitleAndSubtitle for ${name} (SubDL)`,
+        );
         await downloadAndStoreTitleAndSubtitle({
           indexedBy,
           titleType,
@@ -1898,6 +1993,9 @@ export async function getSubtitlesForTitle({
           `4.${index}.${torrentIndex}) Subtítulo encontrado en OpenSubtitles (ID: ${foundSubtitleFromOpenSubtitles.externalId}) para ${name} ${finalResolution} ${releaseGroupName} \n`,
         );
 
+        console.log(
+          `[DEBUG] 4.${index}.${torrentIndex}) Preparing to call downloadAndStoreTitleAndSubtitle for ${name} (OpenSubtitles)`,
+        );
         await downloadAndStoreTitleAndSubtitle({
           indexedBy,
           titleType,
