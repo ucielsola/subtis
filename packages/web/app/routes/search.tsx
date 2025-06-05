@@ -188,7 +188,7 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
                   Ingresá el nombre de la película para encontrar el subtítulo.
                 </h2>
                 <p className="text-zinc-300 text-xs md:text-sm">
-                  Aceptamos búsquedas en español, inglés y japonés (alfabeto latino).
+                  Aceptamos búsquedas en español, inglés y japonés romanizado.
                 </p>
               </div>
             </div>
