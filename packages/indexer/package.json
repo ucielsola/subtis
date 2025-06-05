@@ -16,7 +16,14 @@
     "dev:ws": "bun --watch websocket-not-found.ts",
     "dev:image-optimizer": "bun --watch image-optimizer.ts",
     "start:ws": "bun run websocket-not-found.ts",
-    "start:cron": "bun run cron.ts"
+    "start:cron": "bun run cron.ts",
+    "start:movies:year": "bun run movies-year.ts",
+    "start:movies:name": "bun run movies-name.ts",
+    "start:top-300": "bun run top-300.ts",
+    "start:tv-shows": "bun run tv-shows.ts",
+    "start:not-found-asc": "bun run not-found-asc.ts",
+    "start:not-found-desc": "bun run not-found-desc.ts",
+    "start:supabase-not-found": "bun run supabase-not-found.ts"
   },
   "dependencies": {
     "@clack/prompts": "^0.11.0",
