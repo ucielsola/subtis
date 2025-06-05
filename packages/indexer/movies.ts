@@ -50,6 +50,16 @@ export async function indexMoviesByYear({
     for await (const tmbdMoviesPage of totalPagesFromLastPage) {
       console.log(`\n2) Buscando en página ${tmbdMoviesPage} de TMDB \n`);
 
+      try {
+        await Bun.write(`./movie-indexer-year-${year}.txt`, String(tmbdMoviesPage));
+        console.log(`Successfully wrote current TMDB page ${tmbdMoviesPage} to tmdb_current_page.txt`);
+      } catch (fileWriteError) {
+        console.error(
+          `Failed to write TMDB page ${tmbdMoviesPage} to tmdb_current_page.txt:`,
+          (fileWriteError as Error).message,
+        );
+      }
+
       console.log("\nProgreso total del indexador:\n");
       totalMoviesResultBar.update(tmbdMoviesPage);
 
