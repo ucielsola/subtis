@@ -2,7 +2,6 @@ import { Buffer } from "node:buffer";
 import fs from "node:fs";
 import path from "node:path";
 import { confirm } from "@clack/prompts";
-import download from "download";
 import extract from "extract-zip";
 import ffprobe from "ffprobe";
 import ffprobeStatic from "ffprobe-static";
@@ -122,30 +121,75 @@ const MIN_BYTES = filesizeParser("500MB");
 const COMPRESSED_SUBTITLES_FOLDER_NAME = "compressed-subtitles";
 const UNCOMPRESSED_SUBTITLES_FOLDER_NAME = "uncompressed-subtitles";
 
+async function downloadFileWithTimeout(
+  url: string,
+  destination: string,
+  filename: string,
+  fileExtension: string,
+  fileOriginalName: string,
+): Promise<void> {
+  const controller = new AbortController();
+  const signal = controller.signal;
+  const fetchTimeoutMs = 15000; // 15 seconds
+  let timeoutId: NodeJS.Timeout | undefined;
+
+  console.log(
+    `[DEBUG] Attempting to download ${url} (type: ${fileExtension}) to ${destination} using Bun.fetch with ${fetchTimeoutMs / 1000}s timeout`,
+  );
+  try {
+    timeoutId = setTimeout(() => {
+      console.error(`[DEBUG] Fetch timeout of ${fetchTimeoutMs / 1000}s triggered for ${filename}. Aborting request.`);
+      controller.abort();
+    }, fetchTimeoutMs);
+
+    const response = await fetch(url, { signal });
+    clearTimeout(timeoutId); // Important: clear timeout if fetch completes/errors before timeout
+    timeoutId = undefined; // Reset timeoutId
+
+    if (!response.ok) {
+      throw new Error(`Failed to download file: ${response.status} ${response.statusText}, URL: ${url}`);
+    }
+
+    await Bun.write(destination, response);
+    console.log(`[DEBUG] Successfully downloaded and wrote ${filename} to ${destination}`);
+  } catch (error) {
+    if (timeoutId) {
+      // If timeoutId is still set, it means timeout didn't cause this error, so clear it.
+      clearTimeout(timeoutId);
+    }
+    if (error instanceof Error && error.name === "AbortError") {
+      // This error is expected if the timeout triggered controller.abort()
+      console.error(`[DEBUG] Fetch for ${fileOriginalName} was aborted due to timeout.`);
+      // Re-throw a more specific error or the original AbortError
+      throw new Error(`Download aborted due to ${fetchTimeoutMs / 1000}s timeout for ${url}`);
+    }
+
+    console.error(`[DEBUG] Error during Bun.fetch or Bun.write for ${fileOriginalName} from ${url}:`, error);
+    throw error; // Re-throw other errors
+  }
+}
+
 // helpers
 async function downloadSubtitle(subtitle: SubtitleWithResolutionAndTorrentId): Promise<void> {
   const { fileExtension, subtitleCompressedFileName, subtitleLink } = subtitle;
-  console.log(`[DEBUG] Entering downloadSubtitle for ${subtitleCompressedFileName} from ${subtitleLink}`);
+  console.log(
+    `[DEBUG] Entering downloadSubtitle for ${subtitleCompressedFileName} from ${subtitleLink} using Bun.fetch with AbortController`,
+  );
 
   const subtitlesFolderAbsolutePath = path.join(__dirname, "..", "indexer", COMPRESSED_SUBTITLES_FOLDER_NAME);
+  const destinationPath = path.join(subtitlesFolderAbsolutePath, subtitleCompressedFileName);
 
   if (["rar", "zip"].includes(fileExtension)) {
-    console.log(
-      `[DEBUG] Attempting to download ${subtitleLink} (type: ${fileExtension}) to ${subtitleCompressedFileName}`,
+    await downloadFileWithTimeout(
+      subtitleLink,
+      destinationPath,
+      subtitleCompressedFileName,
+      fileExtension,
+      subtitleCompressedFileName,
     );
-    try {
-      await download(subtitleLink, subtitlesFolderAbsolutePath, {
-        filename: subtitleCompressedFileName,
-        timeout: 30000, // 30-second timeout
-      });
-      console.log(`[DEBUG] Successfully downloaded ${subtitleCompressedFileName}`);
-    } catch (error) {
-      console.error(`[DEBUG] Error downloading ${subtitleCompressedFileName} from ${subtitleLink}:`, error);
-      throw error; // Re-throw to be caught by calling function's error handler
-    }
   } else {
     console.log(
-      `[DEBUG] Skipping download within downloadSubtitle for ${subtitleCompressedFileName} as extension is '${fileExtension}'. Direct .srt or other types are handled elsewhere (e.g., uncompressSubtitle).`,
+      `[DEBUG] Skipping download within downloadSubtitle for ${subtitleCompressedFileName} as extension is '${fileExtension}'.`,
     );
   }
   console.log(`[DEBUG] Exiting downloadSubtitle for ${subtitleCompressedFileName}`);
@@ -196,9 +240,8 @@ async function uncompressSubtitle({
       await extract(fromRoute, { dir: toRoute });
     })
     .with("srt", async () => {
-      await download(subtitleLink, toRoute, {
-        filename: subtitleSrtFileName,
-      });
+      const srtFilePath = path.join(toRoute, subtitleSrtFileName);
+      await downloadFileWithTimeout(subtitleLink, srtFilePath, subtitleSrtFileName, fileExtension, subtitleSrtFileName);
     })
     .exhaustive();
 }
@@ -1857,14 +1900,14 @@ export async function getSubtitlesForTitle({
             title_name: name,
             rating,
             overview,
-            optimized_backdrop_main: backdropMain,
             title_name_spa: spanishName,
             title_name_ja: japanaseName,
             release_date: releaseDate,
             year,
             logo,
-            poster,
             backdrop,
+            poster,
+            optimized_backdrop_main: backdropMain,
             certification,
             total_episodes: totalEpisodes,
             total_seasons: totalSeasons,
@@ -1937,13 +1980,13 @@ export async function getSubtitlesForTitle({
             title_name: name,
             rating,
             overview,
+            poster,
             optimized_backdrop_main: backdropMain,
             title_name_spa: spanishName,
             title_name_ja: japanaseName,
             release_date: releaseDate,
             year,
             logo,
-            poster,
             backdrop,
             certification,
             total_episodes: totalEpisodes,
@@ -2023,8 +2066,8 @@ export async function getSubtitlesForTitle({
             year,
             logo,
             poster,
-            backdrop,
             optimized_backdrop_main: backdropMain,
+            backdrop,
             total_episodes: totalEpisodes,
             total_seasons: totalSeasons,
             type: episode ? TitleTypes.tvShow : TitleTypes.movie,
