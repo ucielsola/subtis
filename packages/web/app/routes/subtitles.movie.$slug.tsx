@@ -201,7 +201,7 @@ export default function SubtitlesPage() {
       return;
     }
 
-    toast.success("¡Disfrutá de tu subtítulo!", {
+    toast("¡Disfrutá de tu subtítulo!", {
       description: (
         <p className="flex flex-row items-center gap-1">
           Compartí tu experiencia en <img src="/x.svg" alt="X" className="w-3 h-3" />
@@ -210,6 +210,7 @@ export default function SubtitlesPage() {
       action: (
         <Button
           variant="outline"
+          className="ml-3"
           onClick={() => {
             window.open(
               `https://twitter.com/intent/tweet?text=${encodeURIComponent(
@@ -625,7 +626,7 @@ export default function SubtitlesPage() {
                 {loaderData.title.title_name}
               </h1>
             </div>
-            <h2 className="text-zinc-50 text-balance text-sm md:text-base text-center md:text-left">
+            <h2 className="text-zinc-300 text-balance text-sm md:text-base text-center md:text-left">
               🍿 Acomodate y disfrutá tu película subtitulada.
             </h2>
           </div>
@@ -695,7 +696,7 @@ export default function SubtitlesPage() {
         <section className="flex flex-col gap-12 mt-[74px] max-w-[630px]">
           <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold text-zinc-50">Sugerencias</h3>
-            <h4 className="text-zinc-50 text-sm md:text-base">Para una mejor experiencia, seguí estos consejos.</h4>
+            <h4 className="text-zinc-300 text-sm md:text-base">Para una mejor experiencia, seguí estos consejos.</h4>
           </div>
           <Tabs
             onValueChange={setSubtip}
@@ -881,7 +882,7 @@ export default function SubtitlesPage() {
         <section className="flex flex-col gap-12  max-w-[630px]">
           <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold text-zinc-50">Buscar otro subtítulo por archivo</h3>
-            <h4 className="text-zinc-50 text-sm md:text-base">
+            <h4 className="text-zinc-300 text-sm md:text-base">
               ¿Querés buscar otro subtítulo? Arrastrá el archivo de video acá abajo.
             </h4>
           </div>
