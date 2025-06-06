@@ -54,7 +54,7 @@ export function StremioButton() {
                   <MorphingDialogBasicImage
                     src="/stremio-1.webp"
                     alt="Instalación de add-on de Stremio"
-                    containerClassName="w-full md:w-44 border border-zinc-700 rounded-sm flex-shrink-0"
+                    containerClassName="w-full md:w-44 border border-zinc-700 rounded-sm flex-shrink-0 overflow-hidden"
                   />
                   <p className="text-zinc-400 text-sm">
                     Hacé clic en este{" "}
@@ -94,7 +94,7 @@ export function StremioButton() {
                   <MorphingDialogBasicImage
                     src="/stremio-2.webp"
                     alt="Instalación de add-on de Stremio"
-                    containerClassName="w-full md:w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0"
+                    containerClassName="w-full md:w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0 overflow-hidden"
                   />
                   <p className="text-zinc-400 text-sm">
                     Mientras estás viendo una película, hacé clic en el ícono de subtítulos en la barra de reproducción.
@@ -115,7 +115,7 @@ export function StremioButton() {
                   <MorphingDialogBasicImage
                     src="/stremio-3.webp"
                     alt="Instalación de add-on de Stremio"
-                    containerClassName="w-full md:w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0"
+                    containerClassName="w-full md:w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0 overflow-hidden"
                   />
                   <p className="text-zinc-400 text-sm">
                     En la sección debajo de &ldquo;Add-ons&rdquo;, hacé clic en &ldquo;español&rdquo; para poner los
@@ -137,7 +137,7 @@ export function StremioButton() {
                   <MorphingDialogBasicImage
                     src="/stremio-4.webp"
                     alt="Instalación de add-on de Stremio"
-                    containerClassName="w-full md:w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0"
+                    containerClassName="w-full md:w-44 h-fit border border-zinc-700 rounded-sm flex-shrink-0 overflow-hidden"
                   />
                   <p className="text-zinc-400 text-sm">
                     Para una mejor experiencia, te sugerimos desinstalar otros add-ons de subtítulos, como los de
