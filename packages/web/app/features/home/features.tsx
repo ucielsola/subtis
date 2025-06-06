@@ -1,5 +1,5 @@
-import { ListSearch } from "~/components/icons/list-search";
 // icons
+import { ListSearch } from "~/components/icons/list-search";
 import { Lock } from "~/components/icons/lock";
 import { MonitorPlay } from "~/components/icons/monitor-play";
 import { Robot } from "~/components/icons/robot";
@@ -10,8 +10,8 @@ import { Translate } from "~/components/icons/translate";
 
 export function HomeFeatures() {
   return (
-    <section className="py-32 flex flex-col gap-16 items-center justify-center">
-      <div className="flex flex-row gap-14">
+    <section className="py-24 flex flex-col gap-16 items-center justify-center">
+      <div className="flex flex-col md:flex-row gap-6 md:gap-14">
         <div className="flex flex-col gap-8">
           <div className="flex flex-row gap-3 items-start">
             <div className="pt-[2.5px]">

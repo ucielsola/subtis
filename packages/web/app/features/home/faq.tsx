@@ -3,7 +3,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/
 
 export function HomeFaq() {
   return (
-    <section className="py-32 pb-72 flex flex-col gap-20 items-center justify-center">
+    <section className="py-24 pb-72 flex flex-col gap-20 items-center justify-center">
       <div className="flex flex-col gap-4 items-center justify-center text-center">
         <h2 className="text-zinc-50 text-4xl font-semibold text-balance">Preguntas Frecuentes</h2>
       </div>
