@@ -6,7 +6,6 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "
 function VlcColouredLogo({ size = 24, ...props }: SVGProps<SVGSVGElement> & { size: number }) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 1220.23 1384.355" {...props}>
-      <title>VLC</title>
       <filter id="j" colorInterpolationFilters="sRGB">
         <feGaussianBlur stdDeviation={1.135} />
       </filter>

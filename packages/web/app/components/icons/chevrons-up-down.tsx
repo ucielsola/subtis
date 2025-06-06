@@ -25,7 +25,6 @@ export function ChevronsUpDownIcon({
       strokeLinejoin="round"
       className={className}
     >
-      <title>Expandir</title>
       <motion.path
         variants={{
           normal: { translateY: "0%" },

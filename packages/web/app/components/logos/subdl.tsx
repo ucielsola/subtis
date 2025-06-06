@@ -3,7 +3,6 @@ import type { SVGProps } from "react";
 export function SubDLLogo(props: SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width={54} height={40} fill="none" {...props}>
-      <title>SubDL</title>
       <g clipPath="url(#a)">
         <path fill="#fff" d="M.75 0h52.5v40H.75V0Z" />
         <path

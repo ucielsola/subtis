@@ -25,6 +25,8 @@
         "noForEach": "off"
       },
       "a11y": {
+        "useMediaCaption": "off",
+        "noSvgWithoutTitle": "off",
         "useKeyWithClickEvents": "off"
       },
       "suspicious": {

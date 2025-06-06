@@ -20,7 +20,6 @@ const pathVariants: Variants = {
 export function Play({ size, controls, isWrapped }: { size: number; controls: AnimationControls; isWrapped: boolean }) {
   if (isWrapped) {
     return (
-      /* biome-ignore lint/a11y/noSvgWithoutTitle: is being used as a tooltip */
       <motion.svg
         xmlns="http://www.w3.org/2000/svg"
         width={size}
@@ -38,7 +37,6 @@ export function Play({ size, controls, isWrapped }: { size: number; controls: An
   }
 
   return (
-    // biome-ignore lint/a11y/noSvgWithoutTitle: is being used as a tooltip
     <motion.svg
       xmlns="http://www.w3.org/2000/svg"
       width={size}

@@ -27,7 +27,6 @@ export function AttachFileIcon({ controls }: { controls: AnimationControls }) {
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <title>Adjuntar archivo</title>
         <motion.path
           variants={pathVariants}
           initial="normal"

@@ -462,7 +462,6 @@ export default function SubtitlePage() {
         </section>
 
         {displayVideoElements ? (
-          // biome-ignore lint/a11y/useMediaCaption: track is defined but idk why
           <video
             controls
             ref={player}

@@ -14,7 +14,6 @@ export function SubtisSmall({ size, ...props }: Props) {
       fill="none"
       {...props}
     >
-      <title>Subtis</title>
       <g>
         <rect width={178.105} height={188} x={0.105} fill="#fff" rx={39.579} />
       </g>

@@ -8,7 +8,6 @@ export function IMDbLogo({ size = 24, className }: { size?: number; className?: 
       viewBox="0 0 64 32"
       className={className}
     >
-      <title>IMDb</title>
       <g clipPath="url(#a)">
         <path className={className} d="M60 0H4a4 4 0 0 0-4 4v24a4 4 0 0 0 4 4h56a4 4 0 0 0 4-4V4a4 4 0 0 0-4-4Z" />
         <path

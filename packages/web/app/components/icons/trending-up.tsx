@@ -71,7 +71,6 @@ export function TrendingUpIcon({ size, controls }: { size: number; controls: Ani
         initial="normal"
         animate={controls}
       >
-        <title>Trending hacia arriba</title>
         <motion.polyline
           points="22 7 13.5 15.5 8.5 10.5 2 17"
           variants={pathVariants}

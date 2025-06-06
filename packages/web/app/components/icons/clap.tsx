@@ -47,7 +47,6 @@ export function Clap({ size, controls }: { size: number; controls: AnimationCont
         strokeLinejoin="round"
         style={{ overflow: "visible" }}
       >
-        <title>Grabación</title>
         <motion.g animate={controls} variants={variants}>
           <motion.g animate={controls} variants={clapVariants}>
             <path d="M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3Z" />

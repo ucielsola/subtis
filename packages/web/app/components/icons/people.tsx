@@ -34,7 +34,6 @@ export function People({ size, controls }: { size: number; controls: AnimationCo
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <title>Usuarios</title>
         <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
         <circle cx="9" cy="7" r="4" />
         <motion.path d="M22 21v-2a4 4 0 0 0-3-3.87" variants={pathVariants} animate={controls} />

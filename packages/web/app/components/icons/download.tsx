@@ -19,7 +19,6 @@ export function DownloadIcon({
   className,
 }: { size: number; controls: AnimationControls; className?: string }) {
   return (
-    // biome-ignore lint/a11y/noSvgWithoutTitle: is being used as a tooltip
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={size}

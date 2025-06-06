@@ -45,7 +45,6 @@ export function Arrow({ controls, className, size = 28 }: Props) {
       strokeLinejoin="round"
       className={cn("rotate-45", className)}
     >
-      <title>Enlace externo</title>
       <motion.path d="m5 12 7-7 7 7" variants={pathVariants} animate={controls} />
       <motion.path d="M12 19V5" variants={secondPathVariants} animate={controls} />
     </svg>

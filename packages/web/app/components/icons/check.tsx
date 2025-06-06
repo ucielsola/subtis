@@ -39,7 +39,6 @@ export function CheckIcon({
       strokeLinejoin="round"
       className={className}
     >
-      <title>Verificado</title>
       <motion.path variants={pathVariants} initial="normal" animate={controls} d="M4 12 9 17L20 6" />
     </svg>
   );

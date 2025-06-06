@@ -1,7 +1,8 @@
 import filesizeParser from "filesize-parser";
 import { useAnimation } from "motion/react";
+import { useState } from "react";
 import Dropzone from "react-dropzone-esm";
-import { useNavigate, useNavigation } from "react-router";
+import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
 // shared external
@@ -20,20 +21,18 @@ import { Macbook } from "./macbook";
 const MIN_BYTES = filesizeParser("500MB");
 
 export function VideoDropzone() {
+  // react hooks
+  const [isNavigating, setIsNavigating] = useState<boolean>(false);
+
   // remix hooks
   const navigate = useNavigate();
-  const navigation = useNavigation();
 
   // motion hooks
   const controls = useAnimation();
 
-  // constants
-  const isNavigating =
-    navigation.state === "loading" && navigation.location.pathname.startsWith("/subtitle/file/name/");
-
   return (
     <Dropzone
-      onDrop={(acceptedFiles) => {
+      onDrop={async (acceptedFiles) => {
         const [firstFile] = acceptedFiles;
         const { size: bytes, name: fileName, type: fileType } = firstFile;
 
@@ -73,7 +72,8 @@ export function VideoDropzone() {
         const videoSrc = URL.createObjectURL(acceptedFiles[0]);
         localStorage.setItem(fileName, videoSrc);
 
-        navigate(`/subtitle/file/name/${bytes}/${fileName}`);
+        setIsNavigating(true);
+        await navigate(`/subtitle/file/name/${bytes}/${fileName}`);
       }}
     >
       {({ getRootProps, getInputProps, isDragActive }) => (

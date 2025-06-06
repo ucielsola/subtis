@@ -45,7 +45,6 @@ export function MessageCircleMoreIcon({
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <title>Mensajes</title>
         <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
         <motion.path d="M8 12h.01" variants={dotVariants} animate={controls} custom={0} />
         <motion.path d="M12 12h.01" variants={dotVariants} animate={controls} custom={1} />

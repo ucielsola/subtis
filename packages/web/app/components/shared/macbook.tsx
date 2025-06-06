@@ -2,7 +2,6 @@ import type { SVGProps } from "react";
 
 export const Macbook = ({ children, ...props }: SVGProps<SVGSVGElement>) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1008 577" fill="none" {...props}>
-    <title>Macbook</title>
     <g filter="url(#a)">
       <ellipse cx={504.5} cy={586} fill="#000" rx={452.5} ry={5} />
     </g>

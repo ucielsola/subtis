@@ -6,7 +6,6 @@ export function LetterboxdLogo({
 }: { size?: number; firstDotClassName?: string; secondDotClassName?: string; thirdDotClassName?: string }) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} fill="none" viewBox="0 0 378 142">
-      <title>Letterboxd</title>
       <path
         className={firstDotClassName}
         d="M189 139.947c38.703 0 70.078-31.329 70.078-69.974S227.703 0 189 0c-38.704 0-70.079 31.328-70.079 69.973 0 38.645 31.375 69.974 70.079 69.974Z"

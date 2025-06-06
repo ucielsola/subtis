@@ -25,7 +25,6 @@ export function ChevronsDownUpIcon({
       strokeLinejoin="round"
       className={className}
     >
-      <title>Contraer</title>
       <motion.path
         variants={{
           normal: { translateY: "0%" },

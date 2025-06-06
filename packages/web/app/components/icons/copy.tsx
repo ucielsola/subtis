@@ -32,7 +32,6 @@ export function CopyIcon({ controls, className, size = 28 }: CopyIconProps) {
       strokeLinejoin="round"
       className={className}
     >
-      <title>Copiar</title>
       <motion.rect
         width="14"
         height="14"
