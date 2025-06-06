@@ -24,7 +24,7 @@ export function MoviePlatforms() {
 
   return (
     <Fragment>
-      <Separator className="my-16 bg-zinc-700 max-w-[630px]" />
+      <Separator className="my-16 bg-zinc-800 max-w-[630px]" />
       <section className="flex flex-col gap-12 mt-16 max-w-[630px]">
         <div className="flex flex-col gap-2">
           <h3 className="text-2xl font-semibold text-zinc-50">Plataformas</h3>

@@ -495,7 +495,7 @@ export default function SubtitlePage() {
                     transition={{ duration: 0.2 }}
                   >
                     <Alert
-                      className="bg-zinc-950 border border-zinc-700 flex items-start gap-4"
+                      className="bg-zinc-950 border border-zinc-800 flex items-start gap-4"
                       onMouseEnter={() => internalVideoPlayerTipControl.start("animate")}
                       onMouseLeave={() => internalVideoPlayerTipControl.start("normal")}
                     >
@@ -514,7 +514,7 @@ export default function SubtitlePage() {
                 )}
               </AnimatePresence>
               <Alert
-                className="bg-zinc-950 border border-zinc-700 flex items-start gap-4"
+                className="bg-zinc-950 border border-zinc-800 flex items-start gap-4"
                 onMouseEnter={() => externalVideoPlayerTipControl.start("animate")}
                 onMouseLeave={() => externalVideoPlayerTipControl.start("normal")}
               >
@@ -530,7 +530,7 @@ export default function SubtitlePage() {
                 </div>
               </Alert>
               <Alert
-                className="bg-zinc-950 border border-zinc-700 flex items-start gap-4"
+                className="bg-zinc-950 border border-zinc-800 flex items-start gap-4"
                 onMouseEnter={() => stremioTipControl.start("animate")}
                 onMouseLeave={() => stremioTipControl.start("normal")}
               >
@@ -558,7 +558,7 @@ export default function SubtitlePage() {
           </Tabs>
         </section>
 
-        <Separator className="my-16 bg-zinc-700" />
+        <Separator className="my-16 bg-zinc-800" />
 
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-2">
@@ -572,7 +572,7 @@ export default function SubtitlePage() {
 
         {titlePlatforms && titlePlatforms.platforms.length > 0 ? (
           <Fragment>
-            <Separator className="my-16 bg-zinc-700" />
+            <Separator className="my-16 bg-zinc-800" />
             <section className="flex flex-col gap-12 mt-16">
               <div className="flex flex-col gap-2">
                 <h3 className="text-2xl font-semibold text-zinc-50">Plataformas</h3>

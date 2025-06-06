@@ -718,7 +718,7 @@ export default function SubtitlesPage() {
                   onMouseEnter={() => setIsHoveringResolutionTip(true)}
                   onMouseLeave={() => setIsHoveringResolutionTip(false)}
                 >
-                  <Alert className="bg-zinc-950 border border-zinc-700 flex items-start gap-6">
+                  <Alert className="bg-zinc-950 border border-zinc-800 flex items-start gap-6">
                     <span className="text-zinc-50 text-lg font-bold font-mono size-6">1</span>
                     <div className="pt-1">
                       <AlertTitle className="text-zinc-50">
@@ -750,7 +750,7 @@ export default function SubtitlesPage() {
                   onMouseEnter={() => setIsHoveringPublisherTip(true)}
                   onMouseLeave={() => setIsHoveringPublisherTip(false)}
                 >
-                  <Alert className="bg-zinc-950 border border-zinc-700 flex items-start gap-6">
+                  <Alert className="bg-zinc-950 border border-zinc-800 flex items-start gap-6">
                     <span className="text-zinc-50 text-lg font-bold font-mono size-6">2</span>
                     <div className="pt-1">
                       <AlertTitle className="text-zinc-50">Asegurate de que el publicador coincida</AlertTitle>
@@ -780,7 +780,7 @@ export default function SubtitlesPage() {
                   onMouseEnter={() => setIsHoveringFormatTip(true)}
                   onMouseLeave={() => setIsHoveringFormatTip(false)}
                 >
-                  <Alert className="bg-zinc-950 border border-zinc-700 flex items-start gap-6">
+                  <Alert className="bg-zinc-950 border border-zinc-800 flex items-start gap-6">
                     <span className="text-zinc-50 text-lg font-bold font-mono size-6">3</span>
                     <div className="pt-1">
                       <AlertTitle className="text-zinc-50">
@@ -816,7 +816,7 @@ export default function SubtitlesPage() {
 
             <TabsContent value="play-subtitle" className="flex flex-col gap-4 mt-0">
               <Alert
-                className="bg-zinc-950 border border-zinc-700 flex items-start gap-3"
+                className="bg-zinc-950 border border-zinc-800 flex items-start gap-3"
                 onMouseEnter={() => videoTipControl.start("animate")}
                 onMouseLeave={() => videoTipControl.start("normal")}
               >
@@ -832,7 +832,7 @@ export default function SubtitlesPage() {
                 </div>
               </Alert>
               <Alert
-                className="bg-zinc-950 border border-zinc-700 flex items-start gap-3"
+                className="bg-zinc-950 border border-zinc-800 flex items-start gap-3"
                 onMouseEnter={() => stremioTipControl.start("animate")}
                 onMouseLeave={() => stremioTipControl.start("normal")}
               >
@@ -857,7 +857,7 @@ export default function SubtitlesPage() {
                 </div>
               </Alert>{" "}
               <Alert
-                className="bg-zinc-950 border border-zinc-700 flex items-start gap-4"
+                className="bg-zinc-950 border border-zinc-800 flex items-start gap-4"
                 onMouseEnter={() => internalVideoPlayerTipControl.start("animate")}
                 onMouseLeave={() => internalVideoPlayerTipControl.start("normal")}
               >
@@ -876,7 +876,7 @@ export default function SubtitlesPage() {
           </Tabs>
         </section>
 
-        <Separator className="my-16 bg-zinc-700  max-w-[630px]" />
+        <Separator className="my-16 bg-zinc-800  max-w-[630px]" />
 
         <section className="flex flex-col gap-12  max-w-[630px]">
           <div className="flex flex-col gap-2">

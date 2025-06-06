@@ -201,7 +201,7 @@ export function VlcButton() {
   return (
     <Fragment>
       <Sheet open={isOpen} onOpenChange={handleToggleIsOpen}>
-        <SheetContent className="overflow-auto bg-zinc-950 border-zinc-700 border rounded-md mt-3 mr-3 h-[1280px]">
+        <SheetContent className="overflow-auto bg-zinc-950 border-zinc-800 border rounded-md mt-3 mr-3 h-[1280px]">
           <SheetHeader className="mb-10">
             <SheetTitle className="text-zinc-50">Instalación de Subtis para Stremio</SheetTitle>
             <SheetDescription className="text-zinc-400 text-sm">
@@ -213,9 +213,9 @@ export function VlcButton() {
               <div className="flex flex-col gap-3 items-start">
                 <div className="flex flex-row items-end gap-3 ">
                   <div className="flex flex-col items-center">
-                    <div className="h-8 border border-dashed border-zinc-700 w-[1px]" />
+                    <div className="h-8 border border-dashed border-zinc-800 w-[1px]" />
                     <div className="size-8 flex items-center justify-center rounded-full bg-zinc-100">
-                      <span className="text-zinc-700 text-sm">1</span>
+                      <span className="text-zinc-800 text-sm">1</span>
                     </div>
                   </div>
                   <div className="text-zinc-50 pb-1">Instala el Addon</div>
@@ -224,7 +224,7 @@ export function VlcButton() {
                   <img
                     src="/stremio-1.webp"
                     alt="Instalación de addon de Stremio"
-                    className="object-bottom w-44 border border-zinc-700 rounded-sm"
+                    className="object-bottom w-44 border border-zinc-800 rounded-sm"
                   />
                   <p className="text-zinc-400 text-sm">
                     Haz click en este{" "}
@@ -244,9 +244,9 @@ export function VlcButton() {
               <div className="flex flex-col gap-3 items-start">
                 <div className="flex flex-row items-end gap-3 ">
                   <div className="flex flex-col items-center">
-                    <div className="h-8 border border-dashed border-zinc-700 w-[1px]" />
+                    <div className="h-8 border border-dashed border-zinc-800 w-[1px]" />
                     <div className="size-8 flex items-center justify-center rounded-full bg-zinc-100">
-                      <span className="text-zinc-700 text-sm">2</span>
+                      <span className="text-zinc-800 text-sm">2</span>
                     </div>
                   </div>
                   <div className="text-zinc-50 pb-1">Ir al Visualizador de Subtitulos</div>
@@ -255,7 +255,7 @@ export function VlcButton() {
                   <img
                     src="/stremio-2.webp"
                     alt="Instalación de addon de Stremio"
-                    className="object-cover w-44 border border-zinc-700 rounded-sm"
+                    className="object-cover w-44 border border-zinc-800 rounded-sm"
                   />
                   <p className="text-zinc-400 text-sm">
                     Mientras estás viendo una película, haz click en el ícono de subtítulos en la barra de reproducción.
@@ -265,9 +265,9 @@ export function VlcButton() {
               <div className="flex flex-col gap-3 items-start">
                 <div className="flex flex-row items-end gap-3 ">
                   <div className="flex flex-col items-center">
-                    <div className="h-8 border border-dashed border-zinc-700 w-[1px]" />
+                    <div className="h-8 border border-dashed border-zinc-800 w-[1px]" />
                     <div className="size-8 flex items-center justify-center rounded-full bg-zinc-100">
-                      <span className="text-zinc-700 text-sm">3</span>
+                      <span className="text-zinc-800 text-sm">3</span>
                     </div>
                   </div>
                   <div className="text-zinc-50 pb-1">Seleccionar Subtitulos</div>
@@ -276,7 +276,7 @@ export function VlcButton() {
                   <img
                     src="/stremio-3.webp"
                     alt="Instalación de addon de Stremio"
-                    className="object-cover w-44 border border-zinc-700 rounded-sm"
+                    className="object-cover w-44 border border-zinc-800 rounded-sm"
                   />
                   <p className="text-zinc-400 text-sm">
                     En la sección debajo de "Addons" haz click en "español" para reproducir el subtítulo en español.
@@ -286,9 +286,9 @@ export function VlcButton() {
               <div className="flex flex-col gap-3 items-start">
                 <div className="flex flex-row items-end gap-3 ">
                   <div className="flex flex-col items-center">
-                    <div className="h-8 border border-dashed border-zinc-700 w-[1px]" />
+                    <div className="h-8 border border-dashed border-zinc-800 w-[1px]" />
                     <div className="size-8 flex items-center justify-center rounded-full bg-zinc-100">
-                      <span className="text-zinc-700 text-sm">4</span>
+                      <span className="text-zinc-800 text-sm">4</span>
                     </div>
                   </div>
                   <div className="text-zinc-50 pb-1">Desinstalá otros Addons (Opcional)</div>
@@ -297,7 +297,7 @@ export function VlcButton() {
                   <img
                     src="/stremio-4.webp"
                     alt="Instalación de addon de Stremio"
-                    className="object-cover object-right-bottom w-44 border border-zinc-700 rounded-sm"
+                    className="object-cover object-right-bottom w-44 border border-zinc-800 rounded-sm"
                   />
                   <p className="text-zinc-400 text-sm">
                     Para una mejor experiencia te recomendamos desintalar los otros addons de subtítulos como por

@@ -490,7 +490,7 @@ export default function NotFoundSubtitlePage() {
                           <FormControl>
                             <Input
                               placeholder="tom@cruise.com"
-                              className="w-full bg-zinc-950 border border-zinc-700 placeholder:text-zinc-400 focus:border-zinc-400 focus-visible:ring-0 rounded-sm h-9"
+                              className="w-full bg-zinc-950 border border-zinc-800 placeholder:text-zinc-400 focus:border-zinc-400 focus-visible:ring-0 rounded-sm h-9"
                               {...field}
                             />
                           </FormControl>
@@ -531,7 +531,7 @@ export default function NotFoundSubtitlePage() {
           </AnimatePresence>
         </section>
 
-        <Separator className="my-16 bg-zinc-700" />
+        <Separator className="my-16 bg-zinc-800" />
 
         <section className="flex flex-col gap-12 mt-16">
           <div className="flex flex-col gap-2">

@@ -41,7 +41,7 @@ const CommandInput = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Input>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input> & { onClear?: () => void; isOpen?: boolean }
 >(({ className, onClear, isOpen, ...props }, ref) => (
-  <div className={cn("flex items-center px-3 border border-zinc-700 bg-zinc-950 rounded-md", props.value && isOpen && props.value.length > 0 ? "rounded-bl-none rounded-br-none" : "rounded-md")} cmdk-input-wrapper="">
+  <div className={cn("flex items-center px-3 border border-zinc-800 bg-zinc-950 rounded-md", props.value && isOpen && props.value.length > 0 ? "rounded-bl-none rounded-br-none" : "rounded-md")} cmdk-input-wrapper="">
     <Search className="mr-2 h-4 w-4 shrink-0 text-zinc-400" />
     <CommandPrimitive.Input
       ref={ref}
