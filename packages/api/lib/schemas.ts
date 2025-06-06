@@ -2,10 +2,10 @@ import { z } from "zod";
 
 // db
 import {
-  publicReleasegroupsRowSchemaSchema,
-  publicSubtitlegroupsRowSchemaSchema,
-  publicSubtitlesRowSchemaSchema,
-  publicTitlesRowSchemaSchema,
+  publicReleasegroupsRowSchema,
+  publicSubtitlegroupsRowSchema,
+  publicSubtitlesRowSchema,
+  publicTitlesRowSchema,
 } from "@subtis/db/schemas";
 
 // title
@@ -13,7 +13,7 @@ export const titleRandomQuery = `
   slug
 `;
 
-export const titleRandomSchema = publicTitlesRowSchemaSchema.pick({
+export const titleRandomSchema = publicTitlesRowSchema.pick({
   slug: true,
 });
 
@@ -34,7 +34,7 @@ export const titleMetadataQuery = `
   certification
 `;
 
-export const titleMetadataSchema = publicTitlesRowSchemaSchema
+export const titleMetadataSchema = publicTitlesRowSchema
   .pick({
     slug: true,
     type: true,
@@ -50,11 +50,11 @@ export const titleMetadataSchema = publicTitlesRowSchemaSchema
     certification: true,
   })
   .extend({
-    subtitles: z.array(publicSubtitlesRowSchemaSchema.pick({ id: true })),
+    subtitles: z.array(publicSubtitlesRowSchema.pick({ id: true })),
   });
 
 // titles
-export const titleSchema = publicTitlesRowSchemaSchema.pick({
+export const titleSchema = publicTitlesRowSchema.pick({
   id: true,
   slug: true,
   imdb_id: true,
@@ -66,6 +66,7 @@ export const titleSchema = publicTitlesRowSchemaSchema.pick({
   optimized_logo: true,
   optimized_poster: true,
   optimized_backdrop: true,
+  optimized_backdrop_main: true,
   overview: true,
   runtime: true,
   rating: true,
@@ -86,6 +87,7 @@ export const titlesQuery = `
   optimized_logo,
   optimized_poster,
   optimized_backdrop,
+  optimized_backdrop_main,
   title_name,
   overview,
   rating,
@@ -97,20 +99,20 @@ export const titlesQuery = `
 `;
 
 // alternative titles
-export const alternativeTitlesSchema = publicTitlesRowSchemaSchema.pick({ slug: true });
+export const alternativeTitlesSchema = publicTitlesRowSchema.pick({ slug: true });
 
 // release groups
-export const releaseGroupSchema = publicReleasegroupsRowSchemaSchema.pick({ id: true, release_group_name: true });
+export const releaseGroupSchema = publicReleasegroupsRowSchema.pick({ id: true, release_group_name: true });
 
 // subtitle groups
-export const subtitleGroupSchema = publicSubtitlegroupsRowSchemaSchema.pick({
+export const subtitleGroupSchema = publicSubtitlegroupsRowSchema.pick({
   id: true,
   website: true,
   subtitle_group_name: true,
 });
 
 // subtitles
-export const subtitleSchema = publicSubtitlesRowSchemaSchema
+export const subtitleSchema = publicSubtitlesRowSchema
   .pick({
     id: true,
     bytes: true,
@@ -134,7 +136,7 @@ export const subtitleSchema = publicSubtitlesRowSchemaSchema
 
 export type SubtisSubtitle = z.infer<typeof subtitleSchema>;
 
-export const subtitleShortenerSchema = publicSubtitlesRowSchemaSchema.pick({ subtitle_link: true });
+export const subtitleShortenerSchema = publicSubtitlesRowSchema.pick({ subtitle_link: true });
 
 export const subtitlesQuery = `
   id,

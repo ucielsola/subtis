@@ -262,6 +262,7 @@ export type Database = {
           letterboxd_id: string | null;
           logo: string | null;
           optimized_backdrop: string | null;
+          optimized_backdrop_main: string | null;
           optimized_logo: string | null;
           optimized_poster: string | null;
           overview: string;
@@ -298,6 +299,7 @@ export type Database = {
           letterboxd_id?: string | null;
           logo?: string | null;
           optimized_backdrop?: string | null;
+          optimized_backdrop_main?: string | null;
           optimized_logo?: string | null;
           optimized_poster?: string | null;
           overview: string;
@@ -334,6 +336,7 @@ export type Database = {
           letterboxd_id?: string | null;
           logo?: string | null;
           optimized_backdrop?: string | null;
+          optimized_backdrop_main?: string | null;
           optimized_logo?: string | null;
           optimized_poster?: string | null;
           overview?: string;

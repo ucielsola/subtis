@@ -16,8 +16,10 @@ function getFullPathFromSupabasePath(path: string): string {
 export async function optimizeTitleTableImages(): Promise<void> {
   const { data, error } = await supabase
     .from("Titles")
-    .select("id, poster, backdrop, logo, optimized_poster, optimized_backdrop, optimized_logo")
-    .or("optimized_poster.not.ilike.%.webp,optimized_backdrop.not.ilike.%.webp,optimized_logo.not.ilike.%.webp");
+    .select("id, poster, backdrop, logo, optimized_poster, optimized_backdrop, optimized_logo, optimized_backdrop_main")
+    .or(
+      "optimized_poster.not.ilike.%.webp,optimized_backdrop.not.ilike.%.webp,optimized_logo.not.ilike.%.webp,optimized_backdrop_main.not.ilike.%.webp",
+    );
 
   if (error) {
     console.error(error);
@@ -26,7 +28,6 @@ export async function optimizeTitleTableImages(): Promise<void> {
 
   console.log("total titles", data.length);
 
-  console.time("optimizeTitleTableImages");
   for await (const title of data) {
     if (title.poster && title.optimized_poster && !title.optimized_poster.endsWith(".webp")) {
       // download image
@@ -58,7 +59,6 @@ export async function optimizeTitleTableImages(): Promise<void> {
       }
 
       const posterPath = getFullPathFromSupabasePath(data.fullPath);
-      console.log("\n ~ forawait ~ posterPath:", posterPath);
 
       // update supabase with new image url
       await supabase.from("Titles").update({ optimized_poster: posterPath }).eq("id", title.id);
@@ -114,6 +114,40 @@ export async function optimizeTitleTableImages(): Promise<void> {
       const thumbHashToBase64 = Buffer.from(binaryThumbHash).toString("base64");
 
       await supabase.from("Titles").update({ backdrop_thumbhash: thumbHashToBase64 }).eq("id", title.id);
+    }
+
+    // do the same for backdrop_main
+    if (title.backdrop && title.optimized_backdrop_main && !title.optimized_backdrop_main.endsWith(".webp")) {
+      const image = await fetch(title.optimized_backdrop_main);
+      const imageBlob = await image.blob();
+      const imageBuffer = await imageBlob.arrayBuffer();
+
+      const MAX_IMAGE_WIDTH = 1920;
+      const MAX_IMAGE_HEIGHT = 1080;
+
+      const imageWebp = await sharp(imageBuffer)
+        .resize(Math.floor(MAX_IMAGE_WIDTH * 1), Math.floor(MAX_IMAGE_HEIGHT * 1), { fit: "outside" })
+        .toFormat("webp", { quality: 90, effort: 6, nearLossless: true })
+        .toBuffer();
+
+      const newBackdropFileName = `${title.optimized_backdrop_main.split("/").pop()?.split(".")[0]}_main.webp`;
+
+      // upload to supabase
+      const { data, error } = await supabase.storage.from("images").upload(newBackdropFileName, imageWebp, {
+        upsert: true,
+        cacheControl: "31536000",
+        contentType: "image/webp",
+      });
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      // update supabase with new image url
+      await supabase
+        .from("Titles")
+        .update({ optimized_backdrop_main: getFullPathFromSupabasePath(data.fullPath) })
+        .eq("id", title.id);
     }
 
     // do the same for logo

@@ -603,8 +603,17 @@ export default function SubtitlesPage() {
   );
 
   return (
-    <div className="pt-24 pb-44 flex flex-col lg:flex-row justify-between gap-4">
-      <article>
+    <div className="pt-24 pb-44 flex flex-col lg:flex-row justify-between gap-4 relative">
+      {loaderData.title.optimized_backdrop_main ? (
+        <div className="absolute -top-[417px] -right-[700px] max-w-[1920px] opacity-40">
+          <img
+            src={loaderData.title.optimized_backdrop_main ?? ""}
+            alt={loaderData.title.title_name}
+            className="w-full h-full object-cover rounded-full"
+          />
+        </div>
+      ) : null}
+      <article className="z-10">
         <section className="flex flex-col gap-12 max-w-screen-md">
           <div className="flex flex-col gap-4">
             {loaderData.title.optimized_logo ? (
@@ -892,7 +901,7 @@ export default function SubtitlesPage() {
         <MoviePlatforms />
       </article>
       {loaderData.title.poster_thumbhash ? (
-        <aside className="hidden lg:flex flex-1 flex-col items-center max-w-2xl">
+        <aside className="hidden lg:flex flex-1 flex-col items-center max-w-2xl z-10">
           <div>
             <PosterDisclosure
               src={loaderData.title.optimized_poster}

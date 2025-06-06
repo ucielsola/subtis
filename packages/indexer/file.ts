@@ -294,7 +294,7 @@ export async function indexTitleByFileName({
       await getSubtitlesForTitle({
         indexedBy,
         index: "1",
-        currentTitle: { ...tvShowData, episode, certification: null },
+        currentTitle: { ...tvShowData, episode, certification: null, backdropMain: null },
         releaseGroups,
         subtitleGroups,
         isDebugging,

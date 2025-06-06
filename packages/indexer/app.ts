@@ -97,6 +97,7 @@ type TitleWithEpisode = Pick<
   | "year"
   | "poster"
   | "backdrop"
+  | "optimized_backdrop_main"
   | "type"
   | "total_seasons"
   | "total_episodes"
@@ -351,6 +352,7 @@ async function storeTitleInSupabaseTable(title: TitleWithEpisode): Promise<numbe
       optimized_logo: title.logo,
       optimized_poster: title.poster,
       optimized_backdrop: title.backdrop,
+      optimized_backdrop_main: title.optimized_backdrop_main,
       poster_thumbhash: posterThumbhash,
       backdrop_thumbhash: backdropThumbhash,
       slug: getTitleSlugifiedName(title.title_name, title.year),
@@ -1555,6 +1557,7 @@ export async function getSubtitlesForTitle({
     genres,
     imdbId,
     rating,
+    backdropMain,
     japanaseName,
     releaseDate,
     poster,
@@ -1854,6 +1857,7 @@ export async function getSubtitlesForTitle({
             title_name: name,
             rating,
             overview,
+            optimized_backdrop_main: backdropMain,
             title_name_spa: spanishName,
             title_name_ja: japanaseName,
             release_date: releaseDate,
@@ -1933,6 +1937,7 @@ export async function getSubtitlesForTitle({
             title_name: name,
             rating,
             overview,
+            optimized_backdrop_main: backdropMain,
             title_name_spa: spanishName,
             title_name_ja: japanaseName,
             release_date: releaseDate,
@@ -2019,6 +2024,7 @@ export async function getSubtitlesForTitle({
             logo,
             poster,
             backdrop,
+            optimized_backdrop_main: backdropMain,
             total_episodes: totalEpisodes,
             total_seasons: totalSeasons,
             type: episode ? TitleTypes.tvShow : TitleTypes.movie,

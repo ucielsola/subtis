@@ -13,28 +13,28 @@ export const jsonSchema: z.ZodSchema<Json> = z.lazy(() =>
     .nullable(),
 );
 
-export const publicGenresRowSchemaSchema = z.object({
+export const publicGenresRowSchema = z.object({
   created_at: z.string(),
   genre_id: z.number(),
   id: z.number(),
   name: z.string(),
 });
 
-export const publicGenresInsertSchemaSchema = z.object({
+export const publicGenresInsertSchema = z.object({
   created_at: z.string().optional(),
   genre_id: z.number(),
   id: z.number().optional(),
   name: z.string(),
 });
 
-export const publicGenresUpdateSchemaSchema = z.object({
+export const publicGenresUpdateSchema = z.object({
   created_at: z.string().optional(),
   genre_id: z.number().optional(),
   id: z.number().optional(),
   name: z.string().optional(),
 });
 
-export const publicReleasegroupsRowSchemaSchema = z.object({
+export const publicReleasegroupsRowSchema = z.object({
   created_at: z.string(),
   id: z.number(),
   is_supported: z.boolean().nullable(),
@@ -42,7 +42,7 @@ export const publicReleasegroupsRowSchemaSchema = z.object({
   release_group_name: z.string(),
 });
 
-export const publicReleasegroupsInsertSchemaSchema = z.object({
+export const publicReleasegroupsInsertSchema = z.object({
   created_at: z.string().optional(),
   id: z.number().optional(),
   is_supported: z.boolean().optional().nullable(),
@@ -50,7 +50,7 @@ export const publicReleasegroupsInsertSchemaSchema = z.object({
   release_group_name: z.string(),
 });
 
-export const publicReleasegroupsUpdateSchemaSchema = z.object({
+export const publicReleasegroupsUpdateSchema = z.object({
   created_at: z.string().optional(),
   id: z.number().optional(),
   is_supported: z.boolean().optional().nullable(),
@@ -58,28 +58,28 @@ export const publicReleasegroupsUpdateSchemaSchema = z.object({
   release_group_name: z.string().optional(),
 });
 
-export const publicSubtitlegroupsRowSchemaSchema = z.object({
+export const publicSubtitlegroupsRowSchema = z.object({
   created_at: z.string(),
   id: z.number(),
   subtitle_group_name: z.string(),
   website: z.string(),
 });
 
-export const publicSubtitlegroupsInsertSchemaSchema = z.object({
+export const publicSubtitlegroupsInsertSchema = z.object({
   created_at: z.string().optional(),
   id: z.number().optional(),
   subtitle_group_name: z.string(),
   website: z.string(),
 });
 
-export const publicSubtitlegroupsUpdateSchemaSchema = z.object({
+export const publicSubtitlegroupsUpdateSchema = z.object({
   created_at: z.string().optional(),
   id: z.number().optional(),
   subtitle_group_name: z.string().optional(),
   website: z.string().optional(),
 });
 
-export const publicSubtitlesRowSchemaSchema = z.object({
+export const publicSubtitlesRowSchema = z.object({
   author: z.string().nullable(),
   bytes: z.number(),
   created_at: z.string(),
@@ -106,7 +106,7 @@ export const publicSubtitlesRowSchemaSchema = z.object({
   uploaded_by: z.string().nullable(),
 });
 
-export const publicSubtitlesInsertSchemaSchema = z.object({
+export const publicSubtitlesInsertSchema = z.object({
   author: z.string().optional().nullable(),
   bytes: z.number(),
   created_at: z.string().optional(),
@@ -133,7 +133,7 @@ export const publicSubtitlesInsertSchemaSchema = z.object({
   uploaded_by: z.string().optional().nullable(),
 });
 
-export const publicSubtitlesUpdateSchemaSchema = z.object({
+export const publicSubtitlesUpdateSchema = z.object({
   author: z.string().optional().nullable(),
   bytes: z.number().optional(),
   created_at: z.string().optional(),
@@ -160,7 +160,7 @@ export const publicSubtitlesUpdateSchemaSchema = z.object({
   uploaded_by: z.string().optional().nullable(),
 });
 
-export const publicSubtitlesRelationshipsSchemaSchema = z.tuple([
+export const publicSubtitlesRelationshipsSchema = z.tuple([
   z.object({
     foreignKeyName: z.literal("Subtitles_release_group_id_fkey"),
     columns: z.tuple([z.literal("release_group_id")]),
@@ -198,7 +198,7 @@ export const publicSubtitlesRelationshipsSchemaSchema = z.tuple([
   }),
 ]);
 
-export const publicSubtitlesnotfoundRowSchemaSchema = z.object({
+export const publicSubtitlesnotfoundRowSchema = z.object({
   bytes: z.number(),
   created_at: z.string(),
   email: z.string().nullable(),
@@ -207,7 +207,7 @@ export const publicSubtitlesnotfoundRowSchemaSchema = z.object({
   title_file_name: z.string(),
 });
 
-export const publicSubtitlesnotfoundInsertSchemaSchema = z.object({
+export const publicSubtitlesnotfoundInsertSchema = z.object({
   bytes: z.number(),
   created_at: z.string().optional(),
   email: z.string().optional().nullable(),
@@ -216,7 +216,7 @@ export const publicSubtitlesnotfoundInsertSchemaSchema = z.object({
   title_file_name: z.string(),
 });
 
-export const publicSubtitlesnotfoundUpdateSchemaSchema = z.object({
+export const publicSubtitlesnotfoundUpdateSchema = z.object({
   bytes: z.number().optional(),
   created_at: z.string().optional(),
   email: z.string().optional().nullable(),
@@ -225,28 +225,28 @@ export const publicSubtitlesnotfoundUpdateSchemaSchema = z.object({
   title_file_name: z.string().optional(),
 });
 
-export const publicTitlegenresRowSchemaSchema = z.object({
+export const publicTitlegenresRowSchema = z.object({
   created_at: z.string(),
   genre_id: z.number(),
   id: z.number(),
   title_id: z.number(),
 });
 
-export const publicTitlegenresInsertSchemaSchema = z.object({
+export const publicTitlegenresInsertSchema = z.object({
   created_at: z.string().optional(),
   genre_id: z.number(),
   id: z.number().optional(),
   title_id: z.number(),
 });
 
-export const publicTitlegenresUpdateSchemaSchema = z.object({
+export const publicTitlegenresUpdateSchema = z.object({
   created_at: z.string().optional(),
   genre_id: z.number().optional(),
   id: z.number().optional(),
   title_id: z.number().optional(),
 });
 
-export const publicTitlegenresRelationshipsSchemaSchema = z.tuple([
+export const publicTitlegenresRelationshipsSchema = z.tuple([
   z.object({
     foreignKeyName: z.literal("TitleGenres_genre_id_fkey"),
     columns: z.tuple([z.literal("genre_id")]),
@@ -263,7 +263,7 @@ export const publicTitlegenresRelationshipsSchemaSchema = z.tuple([
   }),
 ]);
 
-export const publicTitlesRowSchemaSchema = z.object({
+export const publicTitlesRowSchema = z.object({
   backdrop: z.string().nullable(),
   backdrop_thumbhash: z.string().nullable(),
   certification: z.string().nullable(),
@@ -275,6 +275,7 @@ export const publicTitlesRowSchemaSchema = z.object({
   letterboxd_id: z.string().nullable(),
   logo: z.string().nullable(),
   optimized_backdrop: z.string().nullable(),
+  optimized_backdrop_main: z.string().nullable(),
   optimized_logo: z.string().nullable(),
   optimized_poster: z.string().nullable(),
   overview: z.string(),
@@ -300,7 +301,7 @@ export const publicTitlesRowSchemaSchema = z.object({
   youtube_id: z.string().nullable(),
 });
 
-export const publicTitlesInsertSchemaSchema = z.object({
+export const publicTitlesInsertSchema = z.object({
   backdrop: z.string().optional().nullable(),
   backdrop_thumbhash: z.string().optional().nullable(),
   certification: z.string().optional().nullable(),
@@ -312,6 +313,7 @@ export const publicTitlesInsertSchemaSchema = z.object({
   letterboxd_id: z.string().optional().nullable(),
   logo: z.string().optional().nullable(),
   optimized_backdrop: z.string().optional().nullable(),
+  optimized_backdrop_main: z.string().optional().nullable(),
   optimized_logo: z.string().optional().nullable(),
   optimized_poster: z.string().optional().nullable(),
   overview: z.string(),
@@ -337,7 +339,7 @@ export const publicTitlesInsertSchemaSchema = z.object({
   youtube_id: z.string().optional().nullable(),
 });
 
-export const publicTitlesUpdateSchemaSchema = z.object({
+export const publicTitlesUpdateSchema = z.object({
   backdrop: z.string().optional().nullable(),
   backdrop_thumbhash: z.string().optional().nullable(),
   certification: z.string().optional().nullable(),
@@ -349,6 +351,7 @@ export const publicTitlesUpdateSchemaSchema = z.object({
   letterboxd_id: z.string().optional().nullable(),
   logo: z.string().optional().nullable(),
   optimized_backdrop: z.string().optional().nullable(),
+  optimized_backdrop_main: z.string().optional().nullable(),
   optimized_logo: z.string().optional().nullable(),
   optimized_poster: z.string().optional().nullable(),
   overview: z.string().optional(),
@@ -374,7 +377,7 @@ export const publicTitlesUpdateSchemaSchema = z.object({
   youtube_id: z.string().optional().nullable(),
 });
 
-export const publicTorrentsRowSchemaSchema = z.object({
+export const publicTorrentsRowSchema = z.object({
   created_at: z.string(),
   id: z.number(),
   torrent_bytes: z.number(),
@@ -385,7 +388,7 @@ export const publicTorrentsRowSchemaSchema = z.object({
   torrent_tracker: z.string(),
 });
 
-export const publicTorrentsInsertSchemaSchema = z.object({
+export const publicTorrentsInsertSchema = z.object({
   created_at: z.string().optional(),
   id: z.number().optional(),
   torrent_bytes: z.number(),
@@ -396,7 +399,7 @@ export const publicTorrentsInsertSchemaSchema = z.object({
   torrent_tracker: z.string(),
 });
 
-export const publicTorrentsUpdateSchemaSchema = z.object({
+export const publicTorrentsUpdateSchema = z.object({
   created_at: z.string().optional(),
   id: z.number().optional(),
   torrent_bytes: z.number().optional(),
@@ -407,26 +410,26 @@ export const publicTorrentsUpdateSchemaSchema = z.object({
   torrent_tracker: z.string().optional(),
 });
 
-export const publicRandomtitlesRowSchemaSchema = z.object({
+export const publicRandomtitlesRowSchema = z.object({
   slug: z.string().nullable(),
   year: z.number().nullable(),
 });
 
-export const publicRandomtitlesInsertSchemaSchema = z.object({
+export const publicRandomtitlesInsertSchema = z.object({
   slug: z.string().optional().nullable(),
   year: z.number().optional().nullable(),
 });
 
-export const publicRandomtitlesUpdateSchemaSchema = z.object({
+export const publicRandomtitlesUpdateSchema = z.object({
   slug: z.string().optional().nullable(),
   year: z.number().optional().nullable(),
 });
 
-export const publicFuzzySearchTitleArgsSchemaSchema = z.object({
+export const publicFuzzySearchTitleArgsSchema = z.object({
   query: z.string(),
 });
 
-export const publicFuzzySearchTitleReturnsSchemaSchema = z.array(
+export const publicFuzzySearchTitleReturnsSchema = z.array(
   z.object({
     id: z.number(),
     imdb_id: z.string(),
@@ -451,77 +454,77 @@ export const publicFuzzySearchTitleReturnsSchemaSchema = z.array(
   }),
 );
 
-export const publicGtrgmCompressArgsSchemaSchema = z.object({
+export const publicGtrgmCompressArgsSchema = z.object({
   "": z.unknown(),
 });
 
-export const publicGtrgmCompressReturnsSchemaSchema = z.unknown();
+export const publicGtrgmCompressReturnsSchema = z.unknown();
 
-export const publicGtrgmDecompressArgsSchemaSchema = z.object({
+export const publicGtrgmDecompressArgsSchema = z.object({
   "": z.unknown(),
 });
 
-export const publicGtrgmDecompressReturnsSchemaSchema = z.unknown();
+export const publicGtrgmDecompressReturnsSchema = z.unknown();
 
-export const publicGtrgmInArgsSchemaSchema = z.object({
+export const publicGtrgmInArgsSchema = z.object({
   "": z.unknown(),
 });
 
-export const publicGtrgmInReturnsSchemaSchema = z.unknown();
+export const publicGtrgmInReturnsSchema = z.unknown();
 
-export const publicGtrgmOptionsArgsSchemaSchema = z.object({
+export const publicGtrgmOptionsArgsSchema = z.object({
   "": z.unknown(),
 });
 
-export const publicGtrgmOptionsReturnsSchemaSchema = z.undefined();
+export const publicGtrgmOptionsReturnsSchema = z.undefined();
 
-export const publicGtrgmOutArgsSchemaSchema = z.object({
+export const publicGtrgmOutArgsSchema = z.object({
   "": z.unknown(),
 });
 
-export const publicGtrgmOutReturnsSchemaSchema = z.unknown();
+export const publicGtrgmOutReturnsSchema = z.unknown();
 
-export const publicSetLimitArgsSchemaSchema = z.object({
+export const publicSetLimitArgsSchema = z.object({
   "": z.number(),
 });
 
-export const publicSetLimitReturnsSchemaSchema = z.number();
+export const publicSetLimitReturnsSchema = z.number();
 
-export const publicShowLimitArgsSchemaSchema = z.object({});
+export const publicShowLimitArgsSchema = z.object({});
 
-export const publicShowLimitReturnsSchemaSchema = z.number();
+export const publicShowLimitReturnsSchema = z.number();
 
-export const publicShowTrgmArgsSchemaSchema = z.object({
+export const publicShowTrgmArgsSchema = z.object({
   "": z.string(),
 });
 
-export const publicShowTrgmReturnsSchemaSchema = z.array(z.string());
+export const publicShowTrgmReturnsSchema = z.array(z.string());
 
-export const publicSumQueriedTimesArgsSchemaSchema = z.object({});
+export const publicSumQueriedTimesArgsSchema = z.object({});
 
-export const publicSumQueriedTimesReturnsSchemaSchema = z.number();
+export const publicSumQueriedTimesReturnsSchema = z.number();
 
-export const publicUnaccentArgsSchemaSchema = z.object({
+export const publicUnaccentArgsSchema = z.object({
   "": z.string(),
 });
 
-export const publicUnaccentReturnsSchemaSchema = z.string();
+export const publicUnaccentReturnsSchema = z.string();
 
-export const publicUnaccentInitArgsSchemaSchema = z.object({
+export const publicUnaccentInitArgsSchema = z.object({
   "": z.unknown(),
 });
 
-export const publicUnaccentInitReturnsSchemaSchema = z.unknown();
+export const publicUnaccentInitReturnsSchema = z.unknown();
 
-export const publicUpdateSubtitleAndTitleDownloadMetricsArgsSchemaSchema = z.object({
+export const publicUpdateSubtitleAndTitleDownloadMetricsArgsSchema = z.object({
   _title_slug: z.string(),
   _subtitle_id: z.number(),
 });
 
-export const publicUpdateSubtitleAndTitleDownloadMetricsReturnsSchemaSchema = z.boolean();
+export const publicUpdateSubtitleAndTitleDownloadMetricsReturnsSchema = z.boolean();
 
-export const publicUpdateTitleSearchMetricsArgsSchemaSchema = z.object({
+export const publicUpdateTitleSearchMetricsArgsSchema = z.object({
   _slug: z.string(),
 });
 
-export const publicUpdateTitleSearchMetricsReturnsSchemaSchema = z.boolean();
+export const publicUpdateTitleSearchMetricsReturnsSchema = z.boolean();

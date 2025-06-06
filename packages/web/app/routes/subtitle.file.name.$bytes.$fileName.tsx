@@ -382,7 +382,16 @@ export default function SubtitlePage() {
     isLoadingTeaser || isLoadingJustWatch || isLoadingLetterboxd || isLoadingRottenTomatoes || isLoadingSpotify;
 
   return (
-    <div className="pt-24 pb-48 flex flex-col lg:flex-row justify-between gap-4">
+    <div className="pt-24 pb-48 flex flex-col lg:flex-row justify-between gap-4 relative">
+      {loaderData.title.optimized_backdrop_main ? (
+        <div className="absolute -top-[417px] -right-[700px] max-w-[1920px] opacity-40">
+          <img
+            src={loaderData.title.optimized_backdrop_main ?? ""}
+            alt={loaderData.title.title_name}
+            className="w-full h-full object-cover rounded-full"
+          />
+        </div>
+      ) : null}
       <article className="max-w-[630px] w-full">
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-4">

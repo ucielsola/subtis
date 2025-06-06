@@ -418,6 +418,7 @@ export type TmdbTitle = {
   logo: string | null;
   poster: string | null;
   backdrop: string | null;
+  backdropMain: string | null;
   certification: string | null;
 };
 
@@ -486,6 +487,9 @@ export async function getMovieMetadataFromTmdbMovie({
   // 5. Get movie backdrop
   const backdrop = await getTmdbMovieBackdropUrl(id);
 
+  // 5. Get movie backdrop main
+  const backdropMain = await getTmdbMovieBackdropMainUrl(id);
+
   // 6. Get movie poster
   const poster = await getTmdbMoviePosterUrl(id);
 
@@ -514,6 +518,7 @@ export async function getMovieMetadataFromTmdbMovie({
     imdbId,
     genres,
     backdrop,
+    backdropMain,
     overview,
     runtime,
     spanishName,
@@ -681,7 +686,7 @@ export async function getTvShowsFromTmdb(page: number, year: number): Promise<Tm
       voteAverage,
     });
 
-    tvShows.push({ ...tvShowData, runtime: null, certification: null });
+    tvShows.push({ ...tvShowData, runtime: null, certification: null, backdropMain: null });
   }
 
   return tvShows;
@@ -717,6 +722,7 @@ export async function getTmdbTvShowFromTitle(query: string, year?: number): Prom
   return {
     ...tvShowData,
     certification: null,
+    backdropMain: null,
   };
 }
 
@@ -792,6 +798,24 @@ async function getTmdbMovieBackdropUrl(id: number): Promise<string | null> {
   }
 
   return generateTmdbImageUrl(backdrop.file_path);
+}
+
+async function getTmdbMovieBackdropMainUrl(id: number): Promise<string | null> {
+  const response = await fetch(tmdbApiEndpoints.movieImages(id), TMDB_OPTIONS);
+  const data = await response.json();
+
+  const images = tmdbImageSchema.parse(data);
+  console.log(
+    "\n ~ getTmdbMovieBackdropMainUrl ~ images:",
+    images.backdrops.map((backdrop) => generateTmdbImageUrl(backdrop.file_path)),
+  );
+  const [, backdropMain] = images.backdrops;
+
+  if (!backdropMain) {
+    return null;
+  }
+
+  return generateTmdbImageUrl(backdropMain.file_path);
 }
 
 async function getTmdbMoviePosterUrl(id: number): Promise<string | null> {
