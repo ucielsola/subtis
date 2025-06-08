@@ -805,10 +805,6 @@ async function getTmdbMovieBackdropMainUrl(id: number): Promise<string | null> {
   const data = await response.json();
 
   const images = tmdbImageSchema.parse(data);
-  console.log(
-    "\n ~ getTmdbMovieBackdropMainUrl ~ images:",
-    images.backdrops.map((backdrop) => generateTmdbImageUrl(backdrop.file_path)),
-  );
   const [, backdropMain] = images.backdrops;
 
   if (!backdropMain) {
