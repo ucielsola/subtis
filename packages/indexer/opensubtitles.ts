@@ -155,7 +155,7 @@ export async function getSubtitlesFromOpenSubtitlesForTitle({
     const response = await fetch(URL, { headers });
 
     if (!response.ok) {
-      throw new Error(`[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: ${response.statusText}`);
+      throw new Error(`[${OPEN_SUBTITLES_BREADCRUMB_ERROR}]: ${response.status} ${response.statusText}`);
     }
 
     const data = await response.json();
