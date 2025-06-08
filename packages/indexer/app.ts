@@ -1614,6 +1614,11 @@ export async function getSubtitlesForTitle({
     certification,
   } = currentTitle;
 
+  if (!imdbId) {
+    console.log(`4.${index}) No se encontró el imdbId para el titulo "${name}" \n`);
+    return false;
+  }
+
   const titleType = episode ? TitleTypes.tvShow : TitleTypes.movie;
   const { current_season: currentSeason, current_episode: currentEpisode } = getSeasonAndEpisode(episode);
 
