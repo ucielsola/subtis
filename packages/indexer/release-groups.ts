@@ -831,6 +831,21 @@ export const RELEASE_GROUPS = {
     release_group_name: "WADU",
     matches: ["WADU", "265-WADU", "264-WADU"],
   },
+  PHOBOS: {
+    is_supported: true,
+    release_group_name: "PHOBOS",
+    matches: ["PHOBOS", "x264-PHOBOS", "x265-PHOBOS"],
+  },
+  SWAXXON: {
+    is_supported: true,
+    release_group_name: "SWAXXON",
+    matches: ["x264-SWAXXON", "x265-SWAXXON", "AV1-SWAXXON", "1-SWAXXON", "SWAXXON"],
+  },
+  "DTS-JYK": {
+    is_supported: true,
+    release_group_name: "DTS-JYK",
+    matches: ["DTS-JYK"],
+  },
 } as const;
 
 // types
