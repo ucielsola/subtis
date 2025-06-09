@@ -128,23 +128,11 @@ async function downloadFileWithTimeout(
   fileExtension: string,
   fileOriginalName: string,
 ): Promise<void> {
-  const controller = new AbortController();
-  const signal = controller.signal;
-  const fetchTimeoutMs = 15000; // 15 seconds
-  let timeoutId: NodeJS.Timeout | undefined;
-
-  console.log(
-    `[DEBUG] Attempting to download ${url} (type: ${fileExtension}) to ${destination} using Bun.fetch with ${fetchTimeoutMs / 1000}s timeout`,
-  );
   try {
-    timeoutId = setTimeout(() => {
-      console.error(`[DEBUG] Fetch timeout of ${fetchTimeoutMs / 1000}s triggered for ${filename}. Aborting request.`);
-      controller.abort();
-    }, fetchTimeoutMs);
-
-    const response = await fetch(url, { signal });
-    clearTimeout(timeoutId); // Important: clear timeout if fetch completes/errors before timeout
-    timeoutId = undefined; // Reset timeoutId
+    console.log(
+      `[DEBUG] Attempting to download ${url} (type: ${fileExtension}) to ${destination} using Bun.fetch with 15s timeout`,
+    );
+    const response = await fetch(url, { signal: AbortSignal.timeout(15000) });
 
     if (!response.ok) {
       throw new Error(`Failed to download file: ${response.status} ${response.statusText}, URL: ${url}`);
@@ -153,17 +141,6 @@ async function downloadFileWithTimeout(
     await Bun.write(destination, response);
     console.log(`[DEBUG] Successfully downloaded and wrote ${filename} to ${destination}`);
   } catch (error) {
-    if (timeoutId) {
-      // If timeoutId is still set, it means timeout didn't cause this error, so clear it.
-      clearTimeout(timeoutId);
-    }
-    if (error instanceof Error && error.name === "AbortError") {
-      // This error is expected if the timeout triggered controller.abort()
-      console.error(`[DEBUG] Fetch for ${fileOriginalName} was aborted due to timeout.`);
-      // Re-throw a more specific error or the original AbortError
-      throw new Error(`Download aborted due to ${fetchTimeoutMs / 1000}s timeout for ${url}`);
-    }
-
     console.error(`[DEBUG] Error during Bun.fetch or Bun.write for ${fileOriginalName} from ${url}:`, error);
     throw error; // Re-throw other errors
   }
@@ -841,7 +818,6 @@ export async function downloadAndStoreTitleAndSubtitle(data: {
       bytesFromNotFoundSubtitle,
       titleFileNameFromNotFoundSubtitle,
     } = data;
-    console.log("\\n ~ data:", data);
 
     operationName = "downloadSubtitle";
     console.log(`[DEBUG] ${functionName} - Starting: ${operationName}`);
