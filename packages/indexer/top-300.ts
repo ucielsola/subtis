@@ -1,7 +1,7 @@
 import { indexMovieByName } from "./movies";
 import top300 from "./top-300-rotten.json";
 
-let lastIndexedMovieName = "";
+let lastIndexedMovieName = "Being There";
 console.log("\n ~ lastIndexedMovieName:", lastIndexedMovieName);
 
 async function indexTop300FromRottenTomatoes() {
@@ -15,8 +15,8 @@ async function indexTop300FromRottenTomatoes() {
   const leftTotal = fromLastIndexedMovie.length;
   console.log("\n ~ indexTop300FromRottenTomatoes ~ leftTotal:", leftTotal);
 
-  for await (const movie of fromLastIndexedMovie) {
-    console.log(`Indexing ${movie.name} (${movie.year})`);
+  for await (const [index, movie] of Object.entries(fromLastIndexedMovie)) {
+    console.log(`Indexing ${movie.name} (${movie.year}) - ${index + 1}/${leftTotal}`);
     await indexMovieByName({
       name: movie.name,
       year: movie.year,
