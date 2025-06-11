@@ -62,7 +62,16 @@ export default function App() {
               <HomeFooter />
             </div>
           </main>
-          <Toaster />
+          <Toaster
+            duration={Number.POSITIVE_INFINITY}
+            toastOptions={{
+              classNames: {
+                title: "!text-zinc-50",
+                description: "!text-zinc-50",
+                toast: "!bg-zinc-950 !border !border-[#232323] !rounded-sm !justify-between",
+              },
+            }}
+          />
         </NuqsAdapter>
       </TooltipProvider>
     </QueryClientProvider>

@@ -117,7 +117,7 @@ export async function optimizeTitleTableImages(): Promise<void> {
     }
 
     // do the same for backdrop_main
-    if (title.backdrop && title.optimized_backdrop_main && !title.optimized_backdrop_main.endsWith(".webp")) {
+    if (title.optimized_backdrop_main && !title.optimized_backdrop_main.endsWith(".webp")) {
       const image = await fetch(title.optimized_backdrop_main);
       const imageBlob = await image.blob();
       const imageBuffer = await imageBlob.arrayBuffer();

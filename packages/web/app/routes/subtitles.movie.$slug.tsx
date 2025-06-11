@@ -209,7 +209,7 @@ export default function SubtitlesPage() {
       action: (
         <Button
           variant="outline"
-          className="ml-3"
+          className="cursor-pointer"
           onClick={() => {
             window.open(
               `https://twitter.com/intent/tweet?text=${encodeURIComponent(

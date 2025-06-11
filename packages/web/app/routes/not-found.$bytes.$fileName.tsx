@@ -293,6 +293,7 @@ export default function NotFoundSubtitlePage() {
         <Button
           size="sm"
           variant="outline"
+          className="cursor-pointer"
           onClick={() => {
             window.open(
               `https://twitter.com/intent/tweet?text=${encodeURIComponent(
@@ -475,7 +476,7 @@ export default function NotFoundSubtitlePage() {
                 <div className="flex flex-col gap-2 mb-12">
                   <p className="text-zinc-50 text-3xl font-semibold">¿Querés que te avisemos?</p>
                   <p className="text-zinc-50 text-balance">
-                    Dejanos tu e-mail y te enviamos el subtítulo apenas lo encontremos.
+                    Dejanos tu email y te enviamos el subtítulo apenas lo encontremos.
                   </p>
                 </div>
                 <Form {...form}>
@@ -488,7 +489,7 @@ export default function NotFoundSubtitlePage() {
                           <FormControl>
                             <Input
                               placeholder="tom@cruise.com"
-                              className="w-full bg-zinc-950 border border-zinc-800 placeholder:text-zinc-400 focus:border-zinc-400 focus-visible:ring-0 rounded-sm h-9"
+                              className="w-full bg-[#141414] border border-[#232323] placeholder:text-zinc-400 focus:border-zinc-400 focus-visible:ring-0 rounded-sm h-9"
                               {...field}
                             />
                           </FormControl>
@@ -532,7 +533,9 @@ export default function NotFoundSubtitlePage() {
         <section className="flex flex-col gap-12 mt-16">
           <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold text-zinc-50">Buscar otro subtítulo</h3>
-            <h4 className="text-zinc-400 text-sm md:text-base">Arrastrá tu video acá abajo</h4>
+            <h4 className="text-zinc-400 text-sm md:text-base">
+              Arrastrá tu archivo de video para encontrar una versión compatible
+            </h4>
           </div>
           <div className="h-[338px] rounded-sm border border-dashed border-zinc-800 hover:border-zinc-700 overflow-hidden">
             <VideoDropzone withMacbook={false} />
