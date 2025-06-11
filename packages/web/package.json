@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@custom-react-hooks/use-effect-once": "^1.5.1",
-    "@hookform/resolvers": "^5.0.1",
-    "@number-flow/react": "^0.5.9",
+    "@hookform/resolvers": "^5.1.1",
+    "@number-flow/react": "^0.5.10",
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-aspect-ratio": "^1.1.7",
     "@radix-ui/react-dialog": "^1.1.14",
@@ -36,7 +36,7 @@
     "hono": "^4.7.11",
     "isbot": "^5.1.28",
     "lucide-react": "^0.511.0",
-    "motion": "^12.16.0",
+    "motion": "^12.17.0",
     "next-themes": "^0.4.6",
     "numeral": "^2.0.6",
     "nuqs": "^2.4.3",
@@ -48,28 +48,28 @@
     "react-router": "7.6.0",
     "sonner": "^2.0.5",
     "srt-support-for-html5-videos": "^2.6.11",
-    "tailwind-merge": "^3.3.0",
+    "tailwind-merge": "^3.3.1",
     "thumbhash": "^0.1.1",
     "tw-animate-css": "^1.3.4",
     "usehooks-ts": "^3.1.1",
-    "zod": "^3.25.56"
+    "zod": "^3.25.62"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "^1.5.0",
-    "@cloudflare/workers-types": "^4.20250606.0",
+    "@cloudflare/vite-plugin": "^1.5.1",
+    "@cloudflare/workers-types": "^4.20250610.0",
     "@react-router/dev": "7.6.0",
     "@tailwindcss/typography": "^0.5.16",
-    "@tailwindcss/vite": "^4.1.8",
+    "@tailwindcss/vite": "^4.1.10",
     "@types/filesize-parser": "^1.5.3",
-    "@types/node": "^22.15.30",
+    "@types/node": "^22.15.31",
     "@types/numeral": "^2.0.5",
-    "@types/react": "^19.1.6",
+    "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@types/react-highlight-words": "^0.20.0",
-    "tailwindcss": "^4.1.8",
+    "tailwindcss": "^4.1.10",
     "typescript": "^5.8.3",
     "vite": "^6.3.5",
     "vite-tsconfig-paths": "^5.1.4",
-    "wrangler": "^4.19.1"
+    "wrangler": "^4.19.2"
   }
 }

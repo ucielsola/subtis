@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.50.0",
-    "zod": "^3.25.56"
+    "zod": "^3.25.62"
   },
   "devDependencies": {
     "@types/bun": "^1.2.15",
