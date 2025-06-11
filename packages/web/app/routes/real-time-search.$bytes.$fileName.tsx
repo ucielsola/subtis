@@ -11,9 +11,11 @@ import { titleTeaserFileNameResponseSchema } from "@subtis/api/routers/title/sch
 // lib
 import { apiClient } from "~/lib/api";
 
+// ui
+import { LogoFill } from "~/components/ui/logo-fill";
+
 // features
 import beep from "~/features/real-time-search/beep.mp3";
-import { LogoFill } from "~/components/ui/logo-fill";
 
 // schemas
 const wsMessageSchema = z.object({
