@@ -33,7 +33,6 @@ import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { Separator } from "~/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
 // schemas
@@ -530,16 +529,12 @@ export default function NotFoundSubtitlePage() {
           </AnimatePresence>
         </section>
 
-        <Separator className="my-16 bg-zinc-800" />
-
         <section className="flex flex-col gap-12 mt-16">
           <div className="flex flex-col gap-2">
-            <h3 className="text-2xl font-semibold text-zinc-50">Buscar otro subtítulo por archivo</h3>
-            <h4 className="text-zinc-50 text-sm md:text-base">
-              ¿Querés buscar otro subtítulo? Arrastrá el archivo de video acá abajo.
-            </h4>
+            <h3 className="text-2xl font-semibold text-zinc-50">Buscar otro subtítulo</h3>
+            <h4 className="text-zinc-400 text-sm md:text-base">Arrastrá tu video acá abajo</h4>
           </div>
-          <div className="bg-zinc-950 border border-zinc-700 hover:border-zinc-600 transition-all ease-in-out duration-300 rounded-sm group/video overflow-hidden h-80 relative">
+          <div className="h-[338px] rounded-sm border border-dashed border-zinc-800 hover:border-zinc-700 overflow-hidden">
             <VideoDropzone withMacbook={false} />
           </div>
         </section>

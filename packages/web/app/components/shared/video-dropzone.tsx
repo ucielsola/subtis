@@ -8,11 +8,12 @@ import { toast } from "sonner";
 // shared external
 import { getIsTvShow } from "@subtis/shared/files";
 
+import { AttachFileIcon } from "~/components/icons/attach-file";
 // ui
 import { Button } from "~/components/ui/button";
 
-// icons
-import { AttachFileIcon } from "~/components/icons/attach-file";
+// lib
+import { cn } from "~/lib/utils";
 
 // internals
 import { Macbook } from "./macbook";
@@ -83,7 +84,7 @@ export function VideoDropzone({ withMacbook }: Props) {
     >
       {({ getRootProps, getInputProps, isDragActive }) => {
         const children = (
-          <section className="w-full h-full cursor-pointer relative bg-[#131313]">
+          <section className="w-full h-full cursor-pointer relative bg-[#161616]">
             <div {...getRootProps()} className="w-full h-full flex flex-col gap-2 items-center justify-center">
               <label htmlFor="video-upload" className="sr-only">
                 Seleccionar archivo de video
@@ -97,7 +98,10 @@ export function VideoDropzone({ withMacbook }: Props) {
                 <div className="flex flex-col gap-3 items-center mt-6">
                   <Button
                     variant="outline"
-                    className="hover:bg-zinc-950 hover:text-zinc-50 bg-zinc-950 border border-zinc-800 transition-all ease-in-out z-10 cursor-pointer"
+                    className={cn(
+                      "hover:bg-zinc-950 hover:text-zinc-50 bg-zinc-950 border border-zinc-800 transition-all ease-in-out z-10 cursor-pointer",
+                      withMacbook === false && "border-zinc-100 hover:border-zinc-50 rounded-lg",
+                    )}
                     onMouseEnter={() => controls.start("animate")}
                     onMouseLeave={() => controls.start("normal")}
                   >

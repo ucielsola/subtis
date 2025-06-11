@@ -90,28 +90,35 @@ export function PosterDisclosure({ src, alt, hashUrl, title, overview, rating, s
             onMouseEnter={() => controls.start("animate")}
             onMouseLeave={() => controls.start("normal")}
           >
-            <span
-              className={`text-left text-zinc-50 text-xl ${isOpen ? "opacity-100" : "opacity-0 truncate"} transition-all duration-300 ease-in-out`}
-            >
-              {title}
-            </span>
-            <AnimatePresence mode="wait">
+            <div className="flex items-center justify-between flex-1">
               {isOpen ? (
-                <motion.div key="down-up" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                  <ChevronsDownUpIcon controls={controls} size={16} className="stroke-zinc-50 -rotate-45" />
-                </motion.div>
-              ) : (
-                <motion.div key="up-down" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                  <ChevronsUpDownIcon controls={controls} size={16} className="stroke-zinc-50 -rotate-45" />
-                </motion.div>
+                <span className="text-left text-zinc-50 text-xl transition-all duration-300 ease-in-out">{title}</span>
+              ) : null}
+              {isOpen ? null : (
+                <span className="font-gillsans uppercase tracking-[3px] text-zinc-50 text-xs">Ver Sinopsis</span>
               )}
-            </AnimatePresence>
+              <AnimatePresence mode="wait">
+                {isOpen ? (
+                  <motion.div key="down-up" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                    <ChevronsDownUpIcon controls={controls} size={16} className="stroke-zinc-50 -rotate-45" />
+                  </motion.div>
+                ) : (
+                  <motion.div key="up-down" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                    <ChevronsUpDownIcon controls={controls} size={16} className="stroke-zinc-50 -rotate-45" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </button>
         </DisclosureTrigger>
         <DisclosureContent>
           <div className="flex flex-col pb-2 z-10 justify-between">
             {overview ? (
-              <p className="text-zinc-50 text-sm leading-6 pt-2 pb-4">{overview}</p>
+              <p
+                className={`text-zinc-50 text-sm leading-6 pt-2 pb-4 ${isOpen ? "opacity-100" : "opacity-0"} transition-all duration-300 ease-in-out`}
+              >
+                {overview}
+              </p>
             ) : (
               <p className="text-zinc-300 text-sm leading-6 pt-2 pb-4">No tenemos la sinopsis.</p>
             )}

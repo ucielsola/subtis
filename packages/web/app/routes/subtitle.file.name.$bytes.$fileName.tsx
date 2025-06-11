@@ -1,6 +1,6 @@
 import { parseMedia } from "@remotion/media-parser";
 import { AnimatePresence, motion, useAnimation } from "motion/react";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
 import { redirect, useLoaderData, useParams } from "react-router";
 import { toast } from "sonner";
@@ -9,13 +9,11 @@ import { transformSrtTracks } from "srt-support-for-html5-videos";
 // api
 import { subtitleNormalizedSchema } from "@subtis/api/lib/parsers";
 
-// indexer
-import { getImdbLink } from "@subtis/indexer/imdb";
-
 // shared
 import { VideoDropzone } from "~/components/shared/video-dropzone";
 
 // features
+import { MoviePlatforms } from "~/features/movie/platforms";
 import { PosterDisclosure } from "~/features/movie/poster-disclosure";
 
 // icons
@@ -32,26 +30,8 @@ import { getTotalTime } from "~/lib/duration";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
-import { Separator } from "~/components/ui/separator";
-import { Skeleton } from "~/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
-
-// logos
-import { IMDbLogo } from "~/components/logos/imdb";
-import { JustWatchLogo } from "~/components/logos/justwatch";
-import { LetterboxdLogo } from "~/components/logos/letterboxd";
-import { RottenTomatoesLogo } from "~/components/logos/rottentomatoes";
-import { SpotifyLogo } from "~/components/logos/spotify";
-import { YouTubeLogo } from "~/components/logos/youtube";
-
-// hooks
-import { useJustWatch } from "~/hooks/use-justwatch";
-import { useLetterboxd } from "~/hooks/use-letterboxd";
-import { usePlatforms } from "~/hooks/use-platforms";
-import { useRottenTomatoes } from "~/hooks/use-rottentomatoes";
-import { useSpotify } from "~/hooks/use-spotify";
-import { useTeaser } from "~/hooks/use-teaser";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { bytes, fileName } = params;
@@ -188,16 +168,6 @@ export default function SubtitlePage() {
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   const [hasVideoError, setHasVideoError] = useState<boolean>(false);
   const [captionBlobUrl, setCaptionBlobUrl] = useState<string | null>(null);
-
-  // query hooks
-  const { data: titleTeaser, isLoading: isLoadingTeaser } = useTeaser(fileName);
-
-  const { data: titlePlatforms } = usePlatforms(loaderData.title.imdb_id);
-
-  const { data: titleSpotify, isLoading: isLoadingSpotify } = useSpotify(loaderData.title.slug);
-  const { data: titleJustWatch, isLoading: isLoadingJustWatch } = useJustWatch(loaderData.title.slug);
-  const { data: titleLetterboxd, isLoading: isLoadingLetterboxd } = useLetterboxd(loaderData.title.slug);
-  const { data: titleRottenTomatoes, isLoading: isLoadingRottenTomatoes } = useRottenTomatoes(loaderData.title.slug);
 
   // motion hooks
   const playControls = useAnimation();
@@ -378,9 +348,6 @@ export default function SubtitlePage() {
   const { runtime } = loaderData.title;
   const { uiText } = getTotalTime(runtime);
 
-  const isLoadingProviders =
-    isLoadingTeaser || isLoadingJustWatch || isLoadingLetterboxd || isLoadingRottenTomatoes || isLoadingSpotify;
-
   return (
     <div className="pt-24 pb-48 flex flex-col lg:flex-row justify-between gap-4 relative">
       {loaderData.title.optimized_backdrop_main ? (
@@ -486,8 +453,8 @@ export default function SubtitlePage() {
 
         <section className="flex flex-col gap-12 mt-[74px]">
           <div className="flex flex-col gap-2">
-            <h3 className="text-2xl font-semibold text-zinc-50">Sugerencias</h3>
-            <h4 className="text-zinc-300 text-sm md:text-base">Para una mejor experiencia, seguí estos consejos.</h4>
+            <h3 className="text-2xl font-semibold text-zinc-50">Subtips</h3>
+            <h4 className="text-zinc-400 text-sm md:text-base">Para una mejor experiencia, seguí estos consejos.</h4>
           </div>
           <Tabs defaultValue="play-subtitle">
             <TabsList>
@@ -505,7 +472,7 @@ export default function SubtitlePage() {
                     transition={{ duration: 0.2 }}
                   >
                     <Alert
-                      className="bg-zinc-950 border border-zinc-800 flex items-start gap-4"
+                      className="bg-[#161616] border border-[#232323] flex items-start gap-4"
                       onMouseEnter={() => internalVideoPlayerTipControl.start("animate")}
                       onMouseLeave={() => internalVideoPlayerTipControl.start("normal")}
                     >
@@ -524,7 +491,7 @@ export default function SubtitlePage() {
                 )}
               </AnimatePresence>
               <Alert
-                className="bg-zinc-950 border border-zinc-800 flex items-start gap-4"
+                className="bg-[#161616] border border-[#232323] flex items-start gap-4"
                 onMouseEnter={() => externalVideoPlayerTipControl.start("animate")}
                 onMouseLeave={() => externalVideoPlayerTipControl.start("normal")}
               >
@@ -540,7 +507,7 @@ export default function SubtitlePage() {
                 </div>
               </Alert>
               <Alert
-                className="bg-zinc-950 border border-zinc-800 flex items-start gap-4"
+                className="bg-[#161616] border border-[#232323] flex items-start gap-4"
                 onMouseEnter={() => stremioTipControl.start("animate")}
                 onMouseLeave={() => stremioTipControl.start("normal")}
               >
@@ -568,51 +535,21 @@ export default function SubtitlePage() {
           </Tabs>
         </section>
 
-        <Separator className="my-16 bg-zinc-800" />
-
-        <section className="flex flex-col gap-12">
+        <section className="flex flex-col gap-12 mt-16">
           <div className="flex flex-col gap-2">
-            <h3 className="text-2xl font-semibold text-zinc-50">Buscar otro subtítulo por archivo</h3>
-            <h4 className="text-zinc-300 text-sm md:text-base">
-              ¿Querés buscar otro subtítulo? Arrastrá el archivo de video acá abajo.
-            </h4>
+            <h3 className="text-2xl font-semibold text-zinc-50">Buscar otro subtítulo</h3>
+            <h4 className="text-zinc-400 text-sm md:text-base">Arrastrá tu video acá abajo</h4>
           </div>
-          <div className="bg-zinc-950 border border-zinc-700 hover:border-zinc-600 transition-all ease-in-out duration-300 rounded-sm group/video overflow-hidden h-80 relative">
+          <div className="h-[338px] rounded-sm border border-dashed border-zinc-800 hover:border-zinc-700 overflow-hidden">
             <VideoDropzone withMacbook={false} />
           </div>
         </section>
 
-        {titlePlatforms && titlePlatforms.platforms.length > 0 ? (
-          <Fragment>
-            <Separator className="my-16 bg-zinc-800" />
-            <section className="flex flex-col gap-12 mt-16">
-              <div className="flex flex-col gap-2">
-                <h3 className="text-2xl font-semibold text-zinc-50">Plataformas</h3>
-                <h4 className="text-zinc-300 text-sm md:text-base">
-                  También podés disfrutar de la película en las siguientes plataformas.
-                </h4>
-              </div>
-              <ul className="flex flex-col list-disc list-inside">
-                {titlePlatforms.platforms.map((platform) => (
-                  <li key={platform.name}>
-                    <a
-                      href={platform.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-zinc-50 text-sm hover:underline"
-                    >
-                      {platform.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          </Fragment>
-        ) : null}
+        <MoviePlatforms />
       </article>
 
       {loaderData.title.optimized_poster ? (
-        <aside className="hidden lg:flex flex-1 flex-col items-center z-10">
+        <aside className="hidden lg:flex flex-1 flex-col items-center max-w-2xl z-10">
           <div>
             <PosterDisclosure
               src={loaderData.title.optimized_poster}
@@ -623,139 +560,6 @@ export default function SubtitlePage() {
               rating={loaderData.title.rating}
               slug={loaderData.title.slug}
             />
-            <div className="pt-1 px-2 flex flex-row items-center gap-6">
-              {isLoadingProviders ? (
-                <Skeleton className="w-full h-5 rounded-sm" />
-              ) : (
-                <Fragment>
-                  {loaderData.title.imdb_id ? (
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <a
-                          href={getImdbLink(loaderData.title.imdb_id)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="group/imdb"
-                        >
-                          <IMDbLogo
-                            size={32}
-                            className="fill-zinc-300 group-hover/imdb:fill-[#F5C518] transition-all ease-in-out duration-300"
-                          />
-                        </a>
-                      </TooltipTrigger>
-                      <TooltipContent side="bottom">
-                        <p>IMDb</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  ) : null}
-                  {titleTeaser && !("message" in titleTeaser) ? (
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <a
-                          href={`https://www.youtube.com/watch?v=${titleTeaser.youTubeVideoId}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="group/trailer"
-                        >
-                          <YouTubeLogo
-                            size={24}
-                            className="fill-zinc-300 group-hover/trailer:fill-[#F03] transition-all ease-in-out duration-300"
-                            playerClassName="fill-zinc-950 group-hover/trailer:fill-white"
-                          />
-                        </a>
-                      </TooltipTrigger>
-                      <TooltipContent side="bottom">
-                        <p>Trailer</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  ) : null}
-                  {titleSpotify ? (
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <a href={titleSpotify.link} target="_blank" rel="noopener noreferrer" className="group/spotify">
-                          <SpotifyLogo
-                            size={22}
-                            className="fill-zinc-300 group-hover/spotify:fill-[#1CD760] transition-all ease-in-out duration-300"
-                          />
-                        </a>
-                      </TooltipTrigger>
-                      <TooltipContent side="bottom">
-                        <p>
-                          Soundtrack{" "}
-                          {titleSpotify.type === "album"
-                            ? "(Oficial)"
-                            : titleSpotify.type === "playlist"
-                              ? "(No Oficial)"
-                              : ""}
-                        </p>
-                      </TooltipContent>
-                    </Tooltip>
-                  ) : null}
-                  {titleRottenTomatoes ? (
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <a
-                          href={titleRottenTomatoes.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="group/rottentomatoes"
-                        >
-                          <RottenTomatoesLogo
-                            size={22}
-                            className="fill-zinc-300 group-hover/rottentomatoes:fill-[#F9310A] transition-all ease-in-out duration-300"
-                          />
-                        </a>
-                      </TooltipTrigger>
-                      <TooltipContent side="bottom">
-                        <p>Rotten Tomatoes</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  ) : null}
-                  {titleJustWatch ? (
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <a
-                          href={titleJustWatch.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="group/justwatch"
-                        >
-                          <JustWatchLogo
-                            size={18}
-                            className="fill-zinc-300 group-hover/justwatch:fill-[#E5B817] transition-all ease-in-out duration-300"
-                          />
-                        </a>
-                      </TooltipTrigger>
-                      <TooltipContent side="bottom">
-                        <p>JustWatch</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  ) : null}
-                  {titleLetterboxd ? (
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <a
-                          href={titleLetterboxd.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="group/letterboxd"
-                        >
-                          <LetterboxdLogo
-                            size={26}
-                            firstDotClassName="fill-zinc-300 group-hover/letterboxd:fill-[#00E054] transition-all ease-in-out duration-300"
-                            secondDotClassName="fill-zinc-300 group-hover/letterboxd:fill-[#40BCF4] transition-all ease-in-out duration-300"
-                            thirdDotClassName="fill-zinc-300 group-hover/letterboxd:fill-[#FF8000] transition-all ease-in-out duration-300"
-                          />
-                        </a>
-                      </TooltipTrigger>
-                      <TooltipContent side="bottom">
-                        <p>Letterboxd</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  ) : null}
-                </Fragment>
-              )}
-            </div>
           </div>
         </aside>
       ) : null}

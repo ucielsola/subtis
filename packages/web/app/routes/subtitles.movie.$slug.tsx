@@ -34,7 +34,6 @@ import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { DataTable } from "~/components/ui/data-table";
 import { Label } from "~/components/ui/label";
-import { Separator } from "~/components/ui/separator";
 import { Switch } from "~/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
@@ -704,8 +703,8 @@ export default function SubtitlesPage() {
 
         <section className="flex flex-col gap-12 mt-[74px] max-w-[630px]">
           <div className="flex flex-col gap-2">
-            <h3 className="text-2xl font-semibold text-zinc-50">Sugerencias</h3>
-            <h4 className="text-zinc-300 text-sm md:text-base">Para una mejor experiencia, seguí estos consejos.</h4>
+            <h3 className="text-2xl font-semibold text-zinc-50">Subtips</h3>
+            <h4 className="text-zinc-400 text-sm md:text-base">Para una mejor experiencia, seguí estos consejos.</h4>
           </div>
           <Tabs
             onValueChange={setSubtip}
@@ -728,7 +727,7 @@ export default function SubtitlesPage() {
                   onMouseEnter={() => setIsHoveringResolutionTip(true)}
                   onMouseLeave={() => setIsHoveringResolutionTip(false)}
                 >
-                  <Alert className="bg-zinc-950 border border-zinc-800 flex items-start gap-6">
+                  <Alert className="bg-[#161616] border border-[#232323] flex items-start gap-6">
                     <span className="text-zinc-50 text-lg font-bold font-mono size-6">1</span>
                     <div className="pt-1">
                       <AlertTitle className="text-zinc-50">
@@ -760,7 +759,7 @@ export default function SubtitlesPage() {
                   onMouseEnter={() => setIsHoveringPublisherTip(true)}
                   onMouseLeave={() => setIsHoveringPublisherTip(false)}
                 >
-                  <Alert className="bg-zinc-950 border border-zinc-800 flex items-start gap-6">
+                  <Alert className="bg-[#161616] border border-[#232323] flex items-start gap-6">
                     <span className="text-zinc-50 text-lg font-bold font-mono size-6">2</span>
                     <div className="pt-1">
                       <AlertTitle className="text-zinc-50">Asegurate de que el publicador coincida</AlertTitle>
@@ -790,7 +789,7 @@ export default function SubtitlesPage() {
                   onMouseEnter={() => setIsHoveringFormatTip(true)}
                   onMouseLeave={() => setIsHoveringFormatTip(false)}
                 >
-                  <Alert className="bg-zinc-950 border border-zinc-800 flex items-start gap-6">
+                  <Alert className="bg-[#161616] border border-[#232323] flex items-start gap-6">
                     <span className="text-zinc-50 text-lg font-bold font-mono size-6">3</span>
                     <div className="pt-1">
                       <AlertTitle className="text-zinc-50">
@@ -826,7 +825,7 @@ export default function SubtitlesPage() {
 
             <TabsContent value="play-subtitle" className="flex flex-col gap-4 mt-0">
               <Alert
-                className="bg-zinc-950 border border-zinc-800 flex items-start gap-3"
+                className="bg-[#161616] border border-zinc-800 flex items-start gap-3"
                 onMouseEnter={() => videoTipControl.start("animate")}
                 onMouseLeave={() => videoTipControl.start("normal")}
               >
@@ -842,7 +841,7 @@ export default function SubtitlesPage() {
                 </div>
               </Alert>
               <Alert
-                className="bg-zinc-950 border border-zinc-800 flex items-start gap-3"
+                className="bg-[#161616] border border-zinc-800 flex items-start gap-3"
                 onMouseEnter={() => stremioTipControl.start("animate")}
                 onMouseLeave={() => stremioTipControl.start("normal")}
               >
@@ -867,7 +866,7 @@ export default function SubtitlesPage() {
                 </div>
               </Alert>{" "}
               <Alert
-                className="bg-zinc-950 border border-zinc-800 flex items-start gap-4"
+                className="bg-[#161616] border border-zinc-800 flex items-start gap-4"
                 onMouseEnter={() => internalVideoPlayerTipControl.start("animate")}
                 onMouseLeave={() => internalVideoPlayerTipControl.start("normal")}
               >
@@ -886,16 +885,12 @@ export default function SubtitlesPage() {
           </Tabs>
         </section>
 
-        <Separator className="my-16 bg-zinc-800  max-w-[630px]" />
-
-        <section className="flex flex-col gap-12  max-w-[630px]">
+        <section className="flex flex-col gap-12 max-w-[630px] mt-16">
           <div className="flex flex-col gap-2">
-            <h3 className="text-2xl font-semibold text-zinc-50">Buscar otro subtítulo por archivo</h3>
-            <h4 className="text-zinc-300 text-sm md:text-base">
-              ¿Querés buscar otro subtítulo? Arrastrá el archivo de video acá abajo.
-            </h4>
+            <h3 className="text-2xl font-semibold text-zinc-50">Buscar nuevo subtítulo</h3>
+            <h4 className="text-zinc-400 text-sm md:text-base">Arrastra el archivo para buscar un nuevo subtítulo</h4>
           </div>
-          <div className="bg-zinc-950 border border-zinc-700 hover:border-zinc-600 transition-all ease-in-out duration-300 rounded-sm group/video overflow-hidden h-80 relative">
+          <div className="h-[338px] rounded-sm border border-dashed border-zinc-800 hover:border-zinc-700 overflow-hidden">
             <VideoDropzone withMacbook={false} />
           </div>
         </section>
