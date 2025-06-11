@@ -13,6 +13,7 @@ import { apiClient } from "~/lib/api";
 
 // features
 import beep from "~/features/real-time-search/beep.mp3";
+import { LogoFill } from "~/components/ui/logo-fill";
 
 // schemas
 const wsMessageSchema = z.object({
@@ -274,9 +275,9 @@ export default function RealTimeSearchPage() {
           )}
         </section>
       </article>
-      <figure className="flex-1 hidden lg:flex justify-center">
-        <img src="/loading-logo.webp" alt="Buscando..." className="size-64" />
-      </figure>
+      <div className="flex-1 hidden lg:flex justify-center">
+        <LogoFill percent={total ? total * 100 : 0} />
+      </div>
     </div>
   );
 }
