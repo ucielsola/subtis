@@ -61,7 +61,13 @@ function HeroBackgroundContainer({ className, recentDownloadedTitlesPromise }: P
     return null;
   }
 
-  const rows = Array.from({ length: Math.ceil(images.length / 4) }, (_, i) => images.slice(i * 4, i * 4 + 4));
+  const rows = Array.from({ length: Math.ceil(images.length / 3) }, (_, i) => {
+    const row = images.slice(i * 3, i * 3 + 3);
+    while (row.length < 3) {
+      row.push(images[row.length % images.length]);
+    }
+    return row;
+  });
 
   return (
     <div
@@ -73,17 +79,26 @@ function HeroBackgroundContainer({ className, recentDownloadedTitlesPromise }: P
         },
       )}
     >
-      <div className="flex flex-col gap-4 w-[120%] [mask-image:radial-gradient(circle_at_top_right,black_30%,transparent_70%)]">
+      {/* [mask-image:radial-gradient(circle_at_top_right,black_30%,transparent_70%)] */}
+      <div className="flex flex-col gap-4 w-[100%] [mask-image:radial-gradient(ellipse_closest-side_at_center,black_50%,rgba(0,0,0,0.1)_70%,transparent_100%)]">
+        <div className="absolute top-0 left-0 bottom-0 right-0 z-20 blur-[32px] bg-white/16 opacity-40 mix-blend-hue" />
+        <div className="absolute top-0 left-0 bottom-0 right-0 z-30 blur-[32px] bg-black/16 opacity-32" />
         {rows.map((row, i) => (
           <Marquee
             key={row.map((img) => img.id).join("-")}
             inverted={i % 2 === 0}
             baseVelocity={BASE_VELOCITIES[i % BASE_VELOCITIES.length]}
             className="flex gap-4 whitespace-nowrap"
+            repeat={4}
           >
             <div className="flex gap-4 mr-4">
               {row.map((image) => (
-                <div key={image.id} className="inline-block shrink-0" style={{ width: `${IMAGE_WIDTH}vw` }}>
+                <div
+                  key={image.id}
+                  className="inline-block shrink-0 relative isolate"
+                  style={{ width: `${IMAGE_WIDTH}vw` }}
+                >
+                  <div className="absolute top-0 left-0 w-full h-full bg-[url('/noise-texture.png')] opacity-5 bg-repeat z-10" />
                   <AspectRatio ratio={1.78}>
                     <img
                       src={image.src}
