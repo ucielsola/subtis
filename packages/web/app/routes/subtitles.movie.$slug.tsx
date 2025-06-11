@@ -895,7 +895,9 @@ export default function SubtitlesPage() {
               ¿Querés buscar otro subtítulo? Arrastrá el archivo de video acá abajo.
             </h4>
           </div>
-          <VideoDropzone />
+          <div className="bg-zinc-950 border border-zinc-700 hover:border-zinc-600 transition-all ease-in-out duration-300 rounded-sm group/video overflow-hidden h-80 relative">
+            <VideoDropzone withMacbook={false} />
+          </div>
         </section>
 
         <MoviePlatforms />

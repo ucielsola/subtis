@@ -5,7 +5,7 @@ export function HomeDropzone() {
   return (
     <section className="pb-28 flex flex-col gap-8">
       <div className="w-full flex justify-center">
-        <VideoDropzone />
+        <VideoDropzone withMacbook />
       </div>
       <div className="flex flex-col mx-auto items-center gap-2">
         <p className="uppercase text-zinc-300 tracking-[3px] text-xs font-gillsans font-medium">Formatos soportados</p>

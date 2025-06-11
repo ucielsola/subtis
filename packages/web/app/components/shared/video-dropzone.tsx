@@ -20,7 +20,12 @@ import { Macbook } from "./macbook";
 // constants
 const MIN_BYTES = filesizeParser("500MB");
 
-export function VideoDropzone() {
+// types
+type Props = {
+  withMacbook: boolean;
+};
+
+export function VideoDropzone({ withMacbook }: Props) {
   // react hooks
   const [isNavigating, setIsNavigating] = useState<boolean>(false);
 
@@ -76,9 +81,9 @@ export function VideoDropzone() {
         await navigate(`/subtitle/file/name/${bytes}/${fileName}`);
       }}
     >
-      {({ getRootProps, getInputProps, isDragActive }) => (
-        <Macbook className="z-40 max-w-4xl">
-          <section className="w-full h-full cursor-pointer relative bg-[#131313] scale-150 md:scale-110">
+      {({ getRootProps, getInputProps, isDragActive }) => {
+        const children = (
+          <section className="w-full h-full cursor-pointer relative bg-[#131313]">
             <div {...getRootProps()} className="w-full h-full flex flex-col gap-2 items-center justify-center">
               <label htmlFor="video-upload" className="sr-only">
                 Seleccionar archivo de video
@@ -111,8 +116,14 @@ export function VideoDropzone() {
               )}
             </div>
           </section>
-        </Macbook>
-      )}
+        );
+
+        if (withMacbook) {
+          return <Macbook className="z-40 max-w-4xl">{children}</Macbook>;
+        }
+
+        return <section className="w-full h-full cursor-pointer">{children}</section>;
+      }}
     </Dropzone>
   );
 }

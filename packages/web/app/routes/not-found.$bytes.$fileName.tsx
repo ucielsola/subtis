@@ -184,7 +184,6 @@ export default function NotFoundSubtitlePage() {
 
   // form hooks
   const form = useForm<z.infer<typeof formSchema>>({
-    // @ts-expect-error no idea why this is throwing an error
     resolver: zodResolver(formSchema),
     defaultValues: { email: "" },
   });
@@ -540,7 +539,9 @@ export default function NotFoundSubtitlePage() {
               ¿Querés buscar otro subtítulo? Arrastrá el archivo de video acá abajo.
             </h4>
           </div>
-          <VideoDropzone />
+          <div className="bg-zinc-950 border border-zinc-700 hover:border-zinc-600 transition-all ease-in-out duration-300 rounded-sm group/video overflow-hidden h-80 relative">
+            <VideoDropzone withMacbook={false} />
+          </div>
         </section>
       </article>
       <figure className="flex-1 hidden lg:flex justify-center">

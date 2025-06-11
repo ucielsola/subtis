@@ -15,9 +15,9 @@ import { indexMoviesByYear } from "./movies";
 // });
 
 indexMoviesByYear({
-  year: 2025,
+  year: 2024,
   isDebugging: false,
-  indexFromPage: 216,
+  indexFromPage: 1,
 });
 
 // saveReleaseGroupsToDb(supabase);

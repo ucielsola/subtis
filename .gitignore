@@ -35,3 +35,4 @@ pnpm-lock.yaml
 *.avi
 cli-latest
 movie-indexer-year-2025.txt
+*.txt
