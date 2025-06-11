@@ -128,11 +128,22 @@ async function downloadFileWithTimeout(
   fileExtension: string,
   fileOriginalName: string,
 ): Promise<void> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => {
+    controller.abort(new Error(`[DEBUG] Manual timeout of 20s reached for ${url}`));
+  }, 20000);
+
   try {
     console.log(
-      `[DEBUG] Attempting to download ${url} (type: ${fileExtension}) to ${destination} using Bun.fetch with 15s timeout`,
+      `[DEBUG] Attempting to download ${url} (type: ${fileExtension}) to ${destination} using Bun.fetch with 20s timeout`,
     );
-    const response = await fetch(url, { signal: AbortSignal.timeout(15000) });
+    const response = await fetch(url, {
+      signal: controller.signal,
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+      },
+    });
 
     if (!response.ok) {
       throw new Error(`Failed to download file: ${response.status} ${response.statusText}, URL: ${url}`);
@@ -142,7 +153,12 @@ async function downloadFileWithTimeout(
     console.log(`[DEBUG] Successfully downloaded and wrote ${filename} to ${destination}`);
   } catch (error) {
     console.error(`[DEBUG] Error during Bun.fetch or Bun.write for ${fileOriginalName} from ${url}:`, error);
+    if (error instanceof Error && error.name === "AbortError") {
+      console.error(`[DEBUG] The request for ${url} was aborted, likely due to the 20s timeout.`);
+    }
     throw error; // Re-throw other errors
+  } finally {
+    clearTimeout(timeoutId);
   }
 }
 
