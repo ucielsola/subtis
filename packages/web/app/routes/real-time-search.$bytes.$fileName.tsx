@@ -11,9 +11,6 @@ import { titleTeaserFileNameResponseSchema } from "@subtis/api/routers/title/sch
 // lib
 import { apiClient } from "~/lib/api";
 
-// ui
-import { TextShimmerWave } from "~/components/ui/text-shimmer-wave";
-
 // features
 import beep from "~/features/real-time-search/beep.mp3";
 
@@ -249,9 +246,7 @@ export default function RealTimeSearchPage() {
       <article className="max-w-xl w-full">
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-4">
-            <TextShimmerWave as="h1" className="text-3xl md:text-4xl font-bold" duration={3}>
-              Buscando subtítulo...
-            </TextShimmerWave>
+            <h1 className="text-3xl md:text-4xl font-bold">Buscando subtítulo...</h1>
             <div className="flex flex-col gap-1">
               <h2 className="text-zinc-50 text-sm md:text-base">Este proceso puede tardar unos 20 segundos.</h2>
               {message ? (
