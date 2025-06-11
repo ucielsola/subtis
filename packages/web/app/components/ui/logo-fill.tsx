@@ -44,8 +44,8 @@ export const LogoFill: React.FC<LogoFillProps> = ({ percent, className, ...props
         className="absolute inset-0"
         animate={{ clipPath: clipPathValue }}
         transition={{ 
-          duration: 0.2, 
-          ease: "easeOut" 
+          duration: 0.4, 
+          ease: "backOut" 
         }}
       >
         <rect x="4" y="4" width="128.34" height="136" rx="28" fill="white"/>
