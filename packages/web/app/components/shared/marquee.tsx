@@ -30,7 +30,7 @@ function Marquee({ children, repeat = 2, baseVelocity = 1, inverted = false, cla
   useAnimationFrame((_: number, delta: number) => {
     if (!intersection?.isIntersecting) return;
 
-    const velocityFactor = 1 + Math.abs(smoothVelocity.get() * 0.025);
+    const velocityFactor = 1 + Math.abs(smoothVelocity.get() * 0.005);
     const moveBy = baseVelocity * velocityFactor * directionFactor * (delta / 1000);
     let newX = baseX.get() + moveBy;
 
