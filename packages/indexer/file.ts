@@ -291,7 +291,7 @@ export async function indexTitleByFileName({
       const parameter = await getSubDivXParameter();
       const { token, cookie } = await getSubDivXToken();
 
-      await getSubtitlesForTitle({
+      const wsSubtitleHasBeenFound = await getSubtitlesForTitle({
         indexedBy,
         index: "1",
         currentTitle: { ...tvShowData, episode, certification: null, backdropMain: null },
@@ -308,11 +308,15 @@ export async function indexTitleByFileName({
         subdivxParameter: parameter,
       });
 
-      if (websocket) {
-        websocket.send(JSON.stringify({ total: 1, message: "Subtitulo encontrado" }));
+      if (wsSubtitleHasBeenFound) {
+        if (websocket) {
+          websocket.send(JSON.stringify({ total: 1, message: "Subtitulo encontrado" }));
+        }
+
+        return { ok: true };
       }
 
-      return { ok: true };
+      return { ok: false };
     }
 
     if (websocket) {
