@@ -392,7 +392,7 @@ export default function SubtitlePage() {
           />
         </div>
       ) : null}
-      <article className="max-w-[630px] w-full">
+      <article className="max-w-[630px] w-full z-10">
         <section className="flex flex-col gap-12">
           <div className="flex flex-col gap-4">
             {loaderData.title.optimized_logo ? (
@@ -612,7 +612,7 @@ export default function SubtitlePage() {
       </article>
 
       {loaderData.title.optimized_poster ? (
-        <aside className="hidden lg:flex flex-1 flex-col items-center">
+        <aside className="hidden lg:flex flex-1 flex-col items-center z-10">
           <div>
             <PosterDisclosure
               src={loaderData.title.optimized_poster}
