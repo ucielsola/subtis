@@ -83,7 +83,35 @@ export default function TermsPage() {
       </section>
 
       <section>
-        <h2>3. Prohibición de Uso Comercial</h2>
+        <h2>3. Subtítulos de Origen Comunitario y Obras Derivadas</h2>
+        <p>
+          Subtis aloja subtítulos que pueden incluir traducciones o adaptaciones realizadas por la comunidad de usuarios
+          (comúnmente conocidos como fan-subs). Si bien estos subtítulos son recopilados desde fuentes públicas y se
+          alojan con fines educativos, culturales e inclusivos, reconocemos que algunos de ellos podrían ser
+          considerados obras derivadas sujetas a derechos de autor.
+        </p>
+        <p>
+          Por ello:
+          <ul>
+            <li>El uso de subtítulos generados por fans es responsabilidad exclusiva del usuario.</li>
+            <li>
+              Subtis no garantiza que todos los subtítulos estén libres de derechos de autor ni que su uso sea legal en
+              todas las jurisdicciones.
+            </li>
+            <li>
+              Subtis actuará de inmediato frente a cualquier notificación válida de infracción recibida por parte de
+              titulares de derechos, eliminando el contenido en cuestión de la plataforma.
+            </li>
+            <li>
+              Los usuarios que contribuyan con subtítulos a Subtis garantizan que cuentan con los derechos necesarios
+              para su publicación y que su contenido no infringe derechos de terceros.
+            </li>
+          </ul>
+        </p>
+      </section>
+
+      <section>
+        <h2>4. Prohibición de Uso Comercial</h2>
         <p>
           Los subtítulos descargados desde Subtis son únicamente para uso personal. Está estrictamente prohibido
           redistribuir, modificar o usar los subtítulos con fines comerciales, sin nuestro consentimiento previo por
@@ -92,7 +120,7 @@ export default function TermsPage() {
       </section>
 
       <section>
-        <h2>4. Responsabilidad del Usuario</h2>
+        <h2>5. Responsabilidad del Usuario</h2>
         <p>
           El usuario es responsable de asegurarse de que el uso de los subtítulos cumpla con las leyes de su
           jurisdicción. Subtis no se hace responsable por el uso indebido de los subtítulos ni por actividades que
@@ -101,7 +129,7 @@ export default function TermsPage() {
       </section>
 
       <section>
-        <h2>5. Limitación de Garantías</h2>
+        <h2>6. Limitación de Garantías</h2>
         <p>
           No garantizamos la funcionalidad, precisión o disponibilidad de los subtítulos proporcionados. El servicio se
           proporciona "tal cual", sin garantías de ningún tipo, ya sean explícitas o implícitas.
@@ -110,7 +138,7 @@ export default function TermsPage() {
       </section>
 
       <section>
-        <h2>6. Gestión de Subtítulos en la Plataforma</h2>
+        <h2>7. Gestión de Subtítulos en la Plataforma</h2>
         <p>
           Todos los subtítulos disponibles en Subtis están alojados directamente en nuestro sistema. No dependemos de
           enlaces externos ni de servicios de terceros para proporcionar contenido.
@@ -122,7 +150,7 @@ export default function TermsPage() {
       </section>
 
       <section>
-        <h2>7. Finalidad de la Plataforma</h2>
+        <h2>8. Finalidad de la Plataforma</h2>
         <p>
           Subtis tiene como objetivo facilitar el acceso a subtítulos para películas ya adquiridas legalmente, con fines
           educativos, culturales e inclusivos. No fomentamos actividades ilegales ni la infracción de derechos de autor.
@@ -130,7 +158,7 @@ export default function TermsPage() {
       </section>
 
       <section>
-        <h2>8. Jurisdicción y Ley Aplicable</h2>
+        <h2>9. Jurisdicción y Ley Aplicable</h2>
         <p>
           Estos términos se rigen por las leyes aplicables en el país del usuario o del proveedor del servicio. En caso
           de disputa, esta será resuelta en los tribunales competentes del país correspondiente.
@@ -138,7 +166,7 @@ export default function TermsPage() {
       </section>
 
       <section>
-        <h2>9. Reproductor de Videos</h2>
+        <h2>10. Reproductor de Videos</h2>
         <p>
           Subtis incluye un reproductor de videos diseñado exclusivamente para reproducir archivos de video almacenados
           localmente por el usuario. Este reproductor no proporciona acceso a videos, películas u otros archivos
@@ -152,16 +180,16 @@ export default function TermsPage() {
       </section>
 
       <section>
-        <h2>10. Modificaciones de los Términos</h2>
+        <h2>11. Modificaciones de los Términos</h2>
         <p>
           Subtis se reserva el derecho de actualizar estos Términos en cualquier momento. Las modificaciones se
-          notificarán con una antelación mínima de X días a su entrada en vigor. Se recomienda a los usuarios revisar
+          notificarán con una antelación mínima de 14 días a su entrada en vigor. Se recomienda a los usuarios revisar
           periódicamente esta sección para estar al tanto de cualquier cambio.
         </p>
       </section>
 
       <section>
-        <h2>11. Derechos de Propiedad Intelectual</h2>
+        <h2>12. Derechos de Propiedad Intelectual</h2>
         <p>
           Todos los textos, logotipos, elementos gráficos y el diseño del sitio web son propiedad exclusiva de Subtis y
           están protegidos por las leyes de propiedad intelectual. Si bien la plataforma no provee contenido
@@ -171,12 +199,12 @@ export default function TermsPage() {
       </section>
 
       <section>
-        <h2>12. Política de Datos</h2>
+        <h2>13. Política de Datos</h2>
         <p>En Subtis, únicamente almacenamos la cantidad de bytes y los nombres de los archivos de video.</p>
       </section>
 
       <section>
-        <h2>13. Contacto</h2>
+        <h2>14. Contacto</h2>
         <p>
           Si tenés dudas, preguntas o inquietudes sobre estos términos, puedes contactarnos en{" "}
           <button
