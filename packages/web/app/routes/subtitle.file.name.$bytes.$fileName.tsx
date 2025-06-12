@@ -549,7 +549,7 @@ export default function SubtitlePage() {
                       href="https://stremio.subt.is"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-yellow-300 hover:underline"
+                      className="text-[#E1FB00] hover:underline"
                     >
                       add-on
                     </a>{" "}
