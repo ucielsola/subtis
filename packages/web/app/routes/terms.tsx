@@ -105,6 +105,7 @@ export default function TermsPage() {
         <p>
           No garantizamos la funcionalidad, precisión o disponibilidad de los subtítulos proporcionados. El servicio se
           proporciona "tal cual", sin garantías de ningún tipo, ya sean explícitas o implícitas.
+          <strong>Hacemos esfuerzos por mantener el sitio online, pero puede haber interrupciones.</strong>
         </p>
       </section>
 
@@ -151,7 +152,31 @@ export default function TermsPage() {
       </section>
 
       <section>
-        <h2>10. Contacto</h2>
+        <h2>10. Modificaciones de los Términos</h2>
+        <p>
+          Subtis se reserva el derecho de actualizar estos Términos en cualquier momento. Las modificaciones se
+          notificarán con una antelación mínima de X días a su entrada en vigor. Se recomienda a los usuarios revisar
+          periódicamente esta sección para estar al tanto de cualquier cambio.
+        </p>
+      </section>
+
+      <section>
+        <h2>11. Derechos de Propiedad Intelectual</h2>
+        <p>
+          Todos los textos, logotipos, elementos gráficos y el diseño del sitio web son propiedad exclusiva de Subtis y
+          están protegidos por las leyes de propiedad intelectual. Si bien la plataforma no provee contenido
+          audiovisual, el material propio de Subtis no puede ser reproducido, distribuido o modificado sin nuestro
+          consentimiento explícito por escrito.
+        </p>
+      </section>
+
+      <section>
+        <h2>12. Política de Datos</h2>
+        <p>En Subtis, únicamente almacenamos la cantidad de bytes y los nombres de los archivos de video.</p>
+      </section>
+
+      <section>
+        <h2>13. Contacto</h2>
         <p>
           Si tenés dudas, preguntas o inquietudes sobre estos términos, puedes contactarnos en{" "}
           <button
