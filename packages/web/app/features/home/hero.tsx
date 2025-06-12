@@ -25,7 +25,7 @@ export function HomeHero() {
         <h1 className="text-[56px] font-semibold text-zinc-100 leading-16">
           El buscador de subtítulos más completo de la web
         </h1>
-        <h2 className="text-2xl text-[#6E6E6E]">Encontrá el subtítulo perfecto para cualquier película</h2>
+        <h2 className="text-2xl text-zinc-400">Encontrá el subtítulo perfecto para cualquier película</h2>
       </div>
       <div className="flex flex-col gap-4 max-w-2xl mx-auto items-center">
         <div className="flex flex-row gap-4">
