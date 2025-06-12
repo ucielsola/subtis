@@ -534,9 +534,7 @@ export default function NotFoundSubtitlePage() {
         <section className="flex flex-col gap-12 mt-16">
           <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold text-zinc-50">Buscar otro subtítulo</h3>
-            <h4 className="text-zinc-400 text-sm md:text-base">
-              Arrastrá tu archivo de video para encontrar una versión compatible
-            </h4>
+            <h4 className="text-zinc-400 text-sm md:text-base">Arrastra el archivo para buscar un nuevo subtítulo</h4>
           </div>
           <div className="h-[338px] rounded-sm border border-dashed border-zinc-800 hover:border-zinc-700 overflow-hidden">
             <VideoDropzone withMacbook={false} />
