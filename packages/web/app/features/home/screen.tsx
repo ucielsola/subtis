@@ -1,4 +1,4 @@
-import { motion, useMotionValue, useTransform, animate } from "framer-motion";
+import { animate, motion, useMotionValue, useTransform } from "motion/react";
 import { useEffect } from "react";
 
 // ui

@@ -77,7 +77,7 @@ export const meta: MetaFunction<typeof loader> = ({ data, params }) => {
       {
         name: "description",
         content:
-          "Subtítulos para todas tus películas. Buscador gratuito de subtítulos en español para películas. Compatible también con Stremio. Encuentra subtítulos sincronizados y descargalos al instante.",
+          "Subtítulos para todas tus películas. Buscador de subtítulos en español para películas. Compatible también con Stremio. Encuentra subtítulos sincronizados y descargalos al instante.",
       },
       {
         name: "keywords",
@@ -92,7 +92,7 @@ export const meta: MetaFunction<typeof loader> = ({ data, params }) => {
       {
         property: "og:description",
         content:
-          "Subtítulos para todas tus películas. Buscador gratuito de subtítulos en español para películas. Compatible también con Stremio. Encuentra subtítulos sincronizados y descargalos al instante.",
+          "Subtítulos para todas tus películas. Buscador de subtítulos en español para películas. Compatible también con Stremio. Encuentra subtítulos sincronizados y descargalos al instante.",
       },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Subtis" },
@@ -110,7 +110,7 @@ export const meta: MetaFunction<typeof loader> = ({ data, params }) => {
       {
         name: "twitter:description",
         content:
-          "Subtítulos para todas tus películas. Buscador gratuito de subtítulos en español para películas. Compatible también con Stremio. Encuentra subtítulos sincronizados y descargalos al instante.",
+          "Subtítulos para todas tus películas. Buscador de subtítulos en español para películas. Compatible también con Stremio. Encuentra subtítulos sincronizados y descargalos al instante.",
       },
       { name: "twitter:image", content: "https://subtis.io/twitter.png" },
     ];
@@ -123,7 +123,7 @@ export const meta: MetaFunction<typeof loader> = ({ data, params }) => {
     {
       name: "description",
       content:
-        "Subtítulos para todas tus películas. Buscador gratuito de subtítulos en español para películas. Compatible también con Stremio. Encuentra subtítulos sincronizados y descargalos al instante.",
+        "Subtítulos para todas tus películas. Buscador de subtítulos en español para películas. Compatible también con Stremio. Encuentra subtítulos sincronizados y descargalos al instante.",
     },
     {
       name: "keywords",
@@ -138,7 +138,7 @@ export const meta: MetaFunction<typeof loader> = ({ data, params }) => {
     {
       property: "og:description",
       content:
-        "Subtítulos para todas tus películas. Buscador gratuito de subtítulos en español para películas. Compatible también con Stremio. Encuentra subtítulos sincronizados y descargalos al instante.",
+        "Subtítulos para todas tus películas. Buscador de subtítulos en español para películas. Compatible también con Stremio. Encuentra subtítulos sincronizados y descargalos al instante.",
     },
     { property: "og:type", content: "website" },
     { property: "og:site_name", content: "Subtis" },
@@ -151,7 +151,7 @@ export const meta: MetaFunction<typeof loader> = ({ data, params }) => {
     {
       name: "twitter:description",
       content:
-        "Subtítulos para todas tus películas. Buscador gratuito de subtítulos en español para películas. Compatible también con Stremio. Encuentra subtítulos sincronizados y descargalos al instante.",
+        "Subtítulos para todas tus películas. Buscador de subtítulos en español para películas. Compatible también con Stremio. Encuentra subtítulos sincronizados y descargalos al instante.",
     },
     { name: "twitter:image", content: "https://subtis.io/twitter.png" },
   ];

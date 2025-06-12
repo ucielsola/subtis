@@ -15,8 +15,8 @@ export function HomeFaq() {
             </AccordionTrigger>
             <AccordionContent className="flex flex-col gap-4">
               <p className="text-zinc-400 text-normal">
-                Subtis es un proyecto gratuito y open-source que te permite encontrar y descargar subtítulos
-                sincronizados para tus películas.
+                Subtis es una plataforma open-source que te permite encontrar y descargar subtítulos sincronizados para
+                tus películas.
               </p>
             </AccordionContent>
           </AccordionItem>
