@@ -27,9 +27,6 @@ type Props = {
 };
 
 export function VideoDropzone({ withMacbook }: Props) {
-  // react hooks
-  const [isNavigating, setIsNavigating] = useState<boolean>(false);
-
   // remix hooks
   const navigate = useNavigate();
 
@@ -38,8 +35,13 @@ export function VideoDropzone({ withMacbook }: Props) {
 
   return (
     <Dropzone
-      onDrop={async (acceptedFiles) => {
+      onDrop={(acceptedFiles) => {
         const [firstFile] = acceptedFiles;
+
+        if (!firstFile) {
+          return;
+        }
+
         const { size: bytes, name: fileName, type: fileType } = firstFile;
 
         const format = fileType.split("/")[1];
@@ -78,8 +80,7 @@ export function VideoDropzone({ withMacbook }: Props) {
         const videoSrc = URL.createObjectURL(acceptedFiles[0]);
         localStorage.setItem(fileName, videoSrc);
 
-        setIsNavigating(true);
-        await navigate(`/subtitle/file/name/${bytes}/${fileName}`);
+        navigate(`/subtitle/file/name/${bytes}/${fileName}`);
       }}
     >
       {({ getRootProps, getInputProps, isDragActive }) => {
@@ -92,8 +93,6 @@ export function VideoDropzone({ withMacbook }: Props) {
               <input id="video-upload" {...getInputProps()} />
               {isDragActive ? (
                 <p className="text-sm text-zinc-400 z-10 bg-zinc-950 rounded-sm">Soltá acá para buscar el subtítulo</p>
-              ) : isNavigating ? (
-                <p className="text-sm text-zinc-400 z-10 bg-zinc-950 rounded-sm">Buscando subtítulo...</p>
               ) : (
                 <div className="flex flex-col gap-3 items-center mt-6">
                   <Button
