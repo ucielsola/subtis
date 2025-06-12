@@ -23,7 +23,8 @@
     "start:tv-shows": "bun run tv-shows.ts",
     "start:not-found-asc": "bun run not-found-asc.ts",
     "start:not-found-desc": "bun run not-found-desc.ts",
-    "start:supabase-not-found": "bun run supabase-not-found.ts"
+    "start:supabase-not-found": "bun run supabase-not-found.ts",
+    "start:image-optimizer": "bun run image-optimizer.ts"
   },
   "dependencies": {
     "@clack/prompts": "^0.11.0",

@@ -26,6 +26,7 @@
     "start:indexer:not-found-asc": "cd packages/indexer && bun run start:not-found-asc",
     "start:indexer:not-found-desc": "cd packages/indexer && bun run start:not-found-desc",
     "start:indexer:supabase-not-found": "cd packages/indexer && bun run start:supabase-not-found",
+    "start:indexer:image-optimizer": "cd packages/indexer && bun run start:image-optimizer",
     "dev:web": "cd packages/web && bun run dev",
     "dev:api": "cd packages/api && bun run dev",
     "dev:cli": "cd packages/cli && bun run dev --",
