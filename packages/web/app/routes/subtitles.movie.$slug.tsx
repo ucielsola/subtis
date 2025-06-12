@@ -604,7 +604,7 @@ export default function SubtitlesPage() {
   return (
     <div className="pt-24 pb-44 flex flex-col lg:flex-row justify-between gap-4 relative">
       {loaderData.title.optimized_backdrop_main ? (
-        <div className="absolute -top-[417px] -right-[700px] max-w-[1920px] opacity-40 hidden">
+        <div className="absolute -top-[417px] -right-[700px] max-w-[1920px] opacity-40 [mask-image:radial-gradient(ellipse_closest-side_at_center,black_50%,rgba(0,0,0,0.1)_90%,transparent_100%)]">
           <img
             src={loaderData.title.optimized_backdrop_main ?? ""}
             alt={loaderData.title.title_name}
