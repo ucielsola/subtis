@@ -120,7 +120,7 @@ const Carousel = React.forwardRef<
       <div
         ref={ref}
         onKeyDownCapture={handleKeyDown}
-        className={cn("relative", className)}
+        className={cn("relative group/carousel", className)}
         role="region"
         aria-roledescription="carousel"
         {...props}
@@ -185,10 +185,10 @@ const CarouselPrevious = React.forwardRef<
       ref={ref}
       type="button"
       className={cn(
-        "absolute flex items-center justify-center isolate group rounded-[6px]",
+        "absolute flex items-center justify-center isolate group rounded-[6px] hover:cursor-pointer opacity-0 group-hover/carousel:opacity-100 transition-all duration-200 z-10",
         orientation === "horizontal"
-          ? "left-0 top-2 bottom-2 w-20"
-          : "bottom-0 left-2 right-2 h-20 rotate-90",
+          ? "left-[-100px] group-hover/carousel:left-2 top-[10px] bottom-[10px] w-30"
+          : "bottom-2 left-[10px] right-[10px] h-30 rotate-90",
         className
       )}
       disabled={!canScrollPrev}
@@ -197,16 +197,16 @@ const CarouselPrevious = React.forwardRef<
     >
       <div
         className={cn(
-          "absolute inset-0 outline outline-[2px] rounded-[6px] overflow-hidden outline-white/0 outline-offset-[-2px] transition-all ease-in-out duration-300 group-hover:outline-zinc-50/60",
+          " absolute inset-0 outline-[2px] rounded-[6px] overflow-hidden outline-black/10 outline-offset-[-2px] transition-all ease-in-out duration-300 group-hover:outline-white/60",
           orientation === "horizontal" ? "progressive-blur-left" : "progressive-blur-top"
         )}
       />
       <ArrowLeft
         className={cn(
-          "h-4 w-4 stroke-zinc-300 relative z-10 transition-all ease-in-out duration-300  group-hover:stroke-zinc-50",
+          "h-4 w-4 stroke-zinc-300 relative z-10 transition-all ease-in-out duration-300 group-hover:stroke-white",
           orientation === "horizontal"
-            ? "-translate-x-4 group-hover:-translate-x-5"
-            : "translate-y-4 group-hover:translate-y-5"
+            ? "-translate-x-5 group-hover:-translate-x-6"
+            : "translate-y-5 group-hover:translate-y-6"
         )}
       />
       <span className="sr-only">Diapositiva anterior</span>
@@ -224,10 +224,10 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, React.HTMLAttributes<HT
         ref={ref}
         type="button"
         className={cn(
-          "absolute flex items-center justify-center isolate group rounded-[6px]",
+          "absolute flex items-center justify-center isolate group rounded-[6px] hover:cursor-pointer opacity-0 group-hover/carousel:opacity-100 transition-all duration-200 z-10",
           orientation === "horizontal"
-            ? "right-0 top-2 bottom-2 w-20"
-            : "bottom-0 left-2 right-2 h-20 rotate-90",
+            ? "right-[-100px] group-hover/carousel:right-2 top-[10px] bottom-[10px] w-30"
+            : "top-2 left-[10px] right-[10px] h-30 rotate-90",
           className
         )}
         disabled={!canScrollNext}
@@ -236,16 +236,16 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, React.HTMLAttributes<HT
       >
         <div
           className={cn(
-            "absolute inset-0 outline outline-[2px] overflow-hidden rounded-[6px] outline-zinc-50/0 outline-offset-[-2px] transition-all ease-in-out duration-300 group-hover:outline-zinc-50/60",
+            " absolute inset-0 outline-[2px] rounded-[6px] overflow-hidden outline-black/10 outline-offset-[-2px] transition-all ease-in-out duration-300 group-hover:outline-white/60",
             orientation === "horizontal" ? "progressive-blur-right" : "progressive-blur-bottom"
           )}
         />
         <ArrowRight
           className={cn(
-            "h-4 w-4 stroke-zinc-300 group-hover:stroke-zinc-50 relative z-10 transition-all ease-in-out duration-300",
+            "h-4 w-4 stroke-zinc-300 relative z-10 transition-all ease-in-out duration-300 group-hover:stroke-white",
             orientation === "horizontal"
-              ? "translate-x-4 group-hover:translate-x-5"
-              : "translate-y-4 group-hover:translate-y-5"
+              ? "translate-x-5 group-hover:translate-x-6"
+              : "-translate-y-5 group-hover:-translate-y-6"
           )}
         />
         <span className="sr-only">Siguiente diapositiva</span>
