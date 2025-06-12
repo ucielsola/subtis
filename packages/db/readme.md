@@ -268,10 +268,13 @@ create table public."Subtitles" (
   torrent_id bigint not null,
   uploaded_by text null,
   constraint Subtitles_pkey primary key (id),
-  constraint Subtitles_release_group_id_fkey foreign KEY (release_group_id) references "ReleaseGroups" (id),
-  constraint Subtitles_subtitle_group_id_fkey foreign KEY (subtitle_group_id) references "SubtitleGroups" (id),
+  constraint Subtitles_bytes_key unique (bytes),
+  constraint Subtitles_title_file_name_key unique (title_file_name),
+  constraint Subtitles_title_file_name_key1 unique (title_file_name),
   constraint Subtitles_title_slug_fkey foreign KEY (title_slug) references "Titles" (slug),
-  constraint Subtitles_torrent_id_fkey foreign KEY (torrent_id) references "Torrents" (id)
+  constraint Subtitles_torrent_id_fkey foreign KEY (torrent_id) references "Torrents" (id),
+  constraint Subtitles_release_group_id_fkey foreign KEY (release_group_id) references "ReleaseGroups" (id),
+  constraint Subtitles_subtitle_group_id_fkey foreign KEY (subtitle_group_id) references "SubtitleGroups" (id)
 ) TABLESPACE pg_default;
 ```
 
