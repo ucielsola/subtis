@@ -58,8 +58,7 @@ export default function FaqPage() {
       <section>
         <h2>¿Qué es Subtis?</h2>
         <p>
-          Subtis es una herramienta gratuita y open-source para encontrar y descargar subtítulos sincronizados para tus
-          películas.
+          Subtis es una plataforma open-source para encontrar y descargar subtítulos sincronizados para tus películas.
         </p>
       </section>
 
