@@ -9,9 +9,9 @@ import { indexMovieByName } from "./movies";
 
 // testing
 indexMovieByName({
-  year: 2009,
+  year: 2002,
   isDebugging: false,
-  name: "Coraline",
+  name: "The Pianist",
 });
 
 // saveReleaseGroupsToDb(supabase);
