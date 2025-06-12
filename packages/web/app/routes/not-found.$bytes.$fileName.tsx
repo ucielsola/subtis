@@ -33,6 +33,7 @@ import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import { LogoBroken } from "~/components/ui/logo-broken";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
 // schemas
@@ -542,9 +543,9 @@ export default function NotFoundSubtitlePage() {
           </div>
         </section>
       </article>
-      <figure className="flex-1 hidden lg:flex justify-center">
-        <img src="/broken-logo.webp" alt="Versión no disponible" className="size-64" />
-      </figure>
+      <div className="flex-1 hidden lg:flex justify-center">
+        <LogoBroken className="w-[136px] h-[144px]" />
+      </div>
     </div>
   );
 }
