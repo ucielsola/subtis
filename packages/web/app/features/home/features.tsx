@@ -75,7 +75,7 @@ export function HomeFeatures() {
               <p className="text-zinc-50 text-sm uppercase tracking-[3px] font-gillsans font-medium">
                 BUSCÁ SIN LÍMITES
               </p>
-              <p className="text-zinc-400 text-sm">Encontrá pelis, sin importar el idioma.</p>
+              <p className="text-zinc-400 text-sm">Encontrá películas, sin importar el idioma.</p>
             </div>
           </div>
 
