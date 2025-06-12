@@ -83,7 +83,7 @@ function StatsContainer({ statsPromise }: Props) {
 export function HomeStats() {
   // remix hooks
   const { statsPromise } = useLoaderData<typeof loader>();
-  const { isIntersecting, ref } = useIntersectionObserver({ threshold: 0.8, freezeOnceVisible: true });
+  const { isIntersecting } = useIntersectionObserver({ threshold: 0.8, freezeOnceVisible: true });
 
   return (
     <Suspense
