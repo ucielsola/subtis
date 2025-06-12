@@ -1,6 +1,5 @@
 import filesizeParser from "filesize-parser";
 import { useAnimation } from "motion/react";
-import { useState } from "react";
 import Dropzone from "react-dropzone-esm";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
