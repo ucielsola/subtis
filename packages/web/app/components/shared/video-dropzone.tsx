@@ -97,7 +97,7 @@ export function VideoDropzone({ withMacbook }: Props) {
                   <Button
                     variant="outline"
                     className={cn(
-                      "hover:bg-zinc-950 hover:text-zinc-50 bg-zinc-950 border border-zinc-800 transition-all ease-in-out z-10 cursor-pointer",
+                      "hover:bg-zinc-950 hover:text-zinc-50 bg-zinc-950 border border-[#232323] transition-all ease-in-out z-10 cursor-pointer",
                       withMacbook === false && "border-zinc-100 hover:border-zinc-50 rounded-lg",
                     )}
                     onMouseEnter={() => controls.start("animate")}

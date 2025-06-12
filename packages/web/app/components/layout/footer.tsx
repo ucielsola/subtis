@@ -20,7 +20,7 @@ export function HomeFooter() {
   }
 
   return (
-    <footer className="pt-8 pb-20 flex flex-col gap-6 border-t border-zinc-800">
+    <footer className="pt-8 pb-20 flex flex-col gap-6 border-t border-[#232323]">
       <div className="flex md:flex-row flex-col gap-6 justify-between items-start">
         <Link to="/" prefetch="viewport" className="cursor-pointer group">
           <SubtisSmall size={32} />

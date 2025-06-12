@@ -29,7 +29,7 @@ export function StremioButton() {
   return (
     <Fragment>
       <Sheet open={isOpen} onOpenChange={handleToggleIsOpen}>
-        <SheetContent className="overflow-y-auto bg-zinc-950 border-zinc-800 border rounded-sm my-3 mr-3 max-h-[calc(100vh-24px)] sm:max-w-md">
+        <SheetContent className="overflow-y-auto bg-zinc-950 border-[#232323] border rounded-sm my-3 mr-3 max-h-[calc(100vh-24px)] sm:max-w-md">
           <SheetHeader className="mb-10">
             <SheetTitle className="text-zinc-50">Cómo instalar y usar Subtis en Stremio</SheetTitle>
             <SheetDescription className="text-zinc-400 text-sm">
@@ -42,7 +42,7 @@ export function StremioButton() {
               <div className="flex flex-col gap-3 items-start">
                 <div className="flex flex-row items-end gap-3 ">
                   <div className="flex flex-col items-center">
-                    <div className="h-8 border border-dashed border-zinc-800 w-[1px]" />
+                    <div className="h-8 border border-dashed border-[#232323] w-[1px]" />
                     <div className="size-8 flex items-center justify-center rounded-full bg-zinc-800">
                       <span className="text-zinc-50 text-xs">1</span>
                     </div>
@@ -55,7 +55,7 @@ export function StremioButton() {
                   <MorphingDialogBasicImage
                     src="/stremio-1.webp"
                     alt="Instalación de add-on de Stremio"
-                    containerClassName="w-full md:w-44 border border-zinc-800 rounded-sm flex-shrink-0 overflow-hidden"
+                    containerClassName="w-full md:w-44 border border-[#232323] rounded-sm flex-shrink-0 overflow-hidden"
                   />
                   <p className="text-zinc-400 text-sm">
                     Hacé clic en este{" "}
@@ -84,7 +84,7 @@ export function StremioButton() {
               <div className="flex flex-col gap-3 items-start">
                 <div className="flex flex-row items-end gap-3 ">
                   <div className="flex flex-col items-center">
-                    <div className="h-8 border border-dashed border-zinc-800 w-[1px]" />
+                    <div className="h-8 border border-dashed border-[#232323] w-[1px]" />
                     <div className="size-8 flex items-center justify-center rounded-full bg-zinc-800">
                       <span className="text-zinc-50 text-xs">2</span>
                     </div>
@@ -97,7 +97,7 @@ export function StremioButton() {
                   <MorphingDialogBasicImage
                     src="/stremio-2.webp"
                     alt="Instalación de add-on de Stremio"
-                    containerClassName="w-full md:w-44 h-fit border border-zinc-800 rounded-sm flex-shrink-0 overflow-hidden"
+                    containerClassName="w-full md:w-44 h-fit border border-[#232323] rounded-sm flex-shrink-0 overflow-hidden"
                   />
                   <p className="text-zinc-400 text-sm">
                     Mientras estás viendo una película, hacé clic en el ícono de subtítulos en la barra de reproducción.
@@ -107,7 +107,7 @@ export function StremioButton() {
               <div className="flex flex-col gap-3 items-start">
                 <div className="flex flex-row items-end gap-3 ">
                   <div className="flex flex-col items-center">
-                    <div className="h-8 border border-dashed border-zinc-800 w-[1px]" />
+                    <div className="h-8 border border-dashed border-[#232323] w-[1px]" />
                     <div className="size-8 flex items-center justify-center rounded-full bg-zinc-800">
                       <span className="text-zinc-50 text-xs">3</span>
                     </div>
@@ -120,7 +120,7 @@ export function StremioButton() {
                   <MorphingDialogBasicImage
                     src="/stremio-3.webp"
                     alt="Instalación de add-on de Stremio"
-                    containerClassName="w-full md:w-44 h-fit border border-zinc-800 rounded-sm flex-shrink-0 overflow-hidden"
+                    containerClassName="w-full md:w-44 h-fit border border-[#232323] rounded-sm flex-shrink-0 overflow-hidden"
                   />
                   <p className="text-zinc-400 text-sm">
                     En la sección debajo de &ldquo;Add-ons&rdquo;, hacé clic en &ldquo;español&rdquo; para poner los
@@ -131,7 +131,7 @@ export function StremioButton() {
               <div className="flex flex-col gap-3 items-start">
                 <div className="flex flex-row items-end gap-3 ">
                   <div className="flex flex-col items-center">
-                    <div className="h-8 border border-dashed border-zinc-800 w-[1px]" />
+                    <div className="h-8 border border-dashed border-[#232323] w-[1px]" />
                     <div className="size-8 flex items-center justify-center rounded-full bg-zinc-800">
                       <span className="text-zinc-50 text-xs">4</span>
                     </div>
@@ -144,7 +144,7 @@ export function StremioButton() {
                   <MorphingDialogBasicImage
                     src="/stremio-4.webp"
                     alt="Instalación de add-on de Stremio"
-                    containerClassName="w-full md:w-44 h-fit border border-zinc-800 rounded-sm flex-shrink-0 overflow-hidden"
+                    containerClassName="w-full md:w-44 h-fit border border-[#232323] rounded-sm flex-shrink-0 overflow-hidden"
                   />
                   <p className="text-zinc-400 text-sm">
                     Para una mejor experiencia, te sugerimos desinstalar otros add-ons de subtítulos, como los de

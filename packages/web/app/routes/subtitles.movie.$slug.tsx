@@ -604,7 +604,7 @@ export default function SubtitlesPage() {
   return (
     <div className="pt-24 pb-44 flex flex-col lg:flex-row justify-between gap-4 relative">
       {loaderData.title.optimized_backdrop_main ? (
-        <div className="absolute -top-[417px] -right-[700px] max-w-[1920px] opacity-40">
+        <div className="absolute -top-[417px] -right-[700px] max-w-[1920px] opacity-40 hidden">
           <img
             src={loaderData.title.optimized_backdrop_main ?? ""}
             alt={loaderData.title.title_name}
@@ -827,7 +827,7 @@ export default function SubtitlesPage() {
 
             <TabsContent value="play-subtitle" className="flex flex-col gap-4 mt-0">
               <Alert
-                className="bg-[#161616] border border-zinc-800 flex items-start gap-3"
+                className="bg-[#161616] border border-[#232323] flex items-start gap-3"
                 onMouseEnter={() => videoTipControl.start("animate")}
                 onMouseLeave={() => videoTipControl.start("normal")}
               >
@@ -843,7 +843,7 @@ export default function SubtitlesPage() {
                 </div>
               </Alert>
               <Alert
-                className="bg-[#161616] border border-zinc-800 flex items-start gap-3"
+                className="bg-[#161616] border border-[#232323] flex items-start gap-3"
                 onMouseEnter={() => stremioTipControl.start("animate")}
                 onMouseLeave={() => stremioTipControl.start("normal")}
               >
@@ -868,7 +868,7 @@ export default function SubtitlesPage() {
                 </div>
               </Alert>{" "}
               <Alert
-                className="bg-[#161616] border border-zinc-800 flex items-start gap-4"
+                className="bg-[#161616] border border-[#232323] flex items-start gap-4"
                 onMouseEnter={() => internalVideoPlayerTipControl.start("animate")}
                 onMouseLeave={() => internalVideoPlayerTipControl.start("normal")}
               >
@@ -892,7 +892,7 @@ export default function SubtitlesPage() {
             <h3 className="text-2xl font-semibold text-zinc-50">Buscar nuevo subtítulo</h3>
             <h4 className="text-zinc-400 text-sm md:text-base">Arrastra el archivo para buscar un nuevo subtítulo</h4>
           </div>
-          <div className="h-[338px] rounded-sm border border-dashed border-zinc-800 hover:border-zinc-700 overflow-hidden">
+          <div className="h-[338px] rounded-sm border border-dashed border-[#232323] hover:border-zinc-700 overflow-hidden">
             <VideoDropzone withMacbook={false} />
           </div>
         </section>

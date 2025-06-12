@@ -20,7 +20,7 @@ export function TerminalButton() {
   return (
     <Fragment>
       <Sheet open={isOpen} onOpenChange={handleToggleIsOpen}>
-        <SheetContent className="overflow-y-auto bg-zinc-950 border-zinc-800 border rounded-sm my-3 mr-3 max-h-[calc(100vh-24px)] sm:max-w-md">
+        <SheetContent className="overflow-y-auto bg-zinc-950 border-[#232323] border rounded-sm my-3 mr-3 max-h-[calc(100vh-24px)] sm:max-w-md">
           <SheetHeader className="mb-10">
             <SheetTitle className="text-zinc-50">Cómo instalar y usar Subtis en tu Terminal</SheetTitle>
             <SheetDescription className="text-zinc-400 text-sm">
@@ -39,7 +39,7 @@ export function TerminalButton() {
               <div className="flex flex-col gap-3 items-start">
                 <div className="flex flex-row items-end gap-3 ">
                   <div className="flex flex-col items-center">
-                    <div className="h-8 border border-dashed border-zinc-800 w-[1px]" />
+                    <div className="h-8 border border-dashed border-[#232323] w-[1px]" />
                     <div className="size-8 flex items-center justify-center rounded-full bg-zinc-800">
                       <span className="text-zinc-50 text-xs">1</span>
                     </div>
@@ -56,7 +56,7 @@ export function TerminalButton() {
               <div className="flex flex-col gap-3 items-start">
                 <div className="flex flex-row items-end gap-3 ">
                   <div className="flex flex-col items-center">
-                    <div className="h-8 border border-dashed border-zinc-800 w-[1px]" />
+                    <div className="h-8 border border-dashed border-[#232323] w-[1px]" />
                     <div className="size-8 flex items-center justify-center rounded-full bg-zinc-800">
                       <span className="text-zinc-50 text-xs">2</span>
                     </div>
@@ -73,7 +73,7 @@ export function TerminalButton() {
               <div className="flex flex-col gap-3 items-start">
                 <div className="flex flex-row items-end gap-3 ">
                   <div className="flex flex-col items-center">
-                    <div className="h-8 border border-dashed border-zinc-800 w-[1px]" />
+                    <div className="h-8 border border-dashed border-[#232323] w-[1px]" />
                     <div className="size-8 flex items-center justify-center rounded-full bg-zinc-800">
                       <span className="text-zinc-50 text-xs">3</span>
                     </div>

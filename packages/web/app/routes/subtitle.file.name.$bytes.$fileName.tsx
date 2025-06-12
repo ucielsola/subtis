@@ -378,7 +378,7 @@ export default function SubtitlePage() {
   return (
     <div className="pt-24 pb-48 flex flex-col lg:flex-row justify-between gap-4 relative">
       {loaderData.title.optimized_backdrop_main ? (
-        <div className="absolute -top-[417px] -right-[700px] max-w-[1920px] opacity-40">
+        <div className="absolute -top-[417px] -right-[700px] max-w-[1920px] opacity-40 hidden">
           <img
             src={loaderData.title.optimized_backdrop_main ?? ""}
             alt={loaderData.title.title_name}
@@ -567,7 +567,7 @@ export default function SubtitlePage() {
             <h3 className="text-2xl font-semibold text-zinc-50">Buscar otro subtítulo</h3>
             <h4 className="text-zinc-400 text-sm md:text-base">Arrastra el archivo para buscar un nuevo subtítulo</h4>
           </div>
-          <div className="h-[338px] rounded-sm border border-dashed border-zinc-800 hover:border-zinc-700 overflow-hidden">
+          <div className="h-[338px] rounded-sm border border-dashed border-[#232323] hover:border-zinc-700 overflow-hidden">
             <VideoDropzone withMacbook={false} />
           </div>
         </section>

@@ -25,7 +25,7 @@ export function Header() {
             onMouseEnter={() => controls.start("animate")}
             onMouseLeave={() => controls.start("normal")}
             className={
-              "transition-all ease-in-out rounded-sm bg-zinc-950 text-zinc-50 hover:bg-zinc-900 border border-zinc-800"
+              "transition-all ease-in-out rounded-sm bg-zinc-950 text-zinc-50 hover:bg-zinc-900 border border-[#232323]"
             }
           >
             <SearchIcon controls={controls} className="size-5" />

@@ -120,7 +120,7 @@ export const AutoComplete = ({
           )}
         >
           <CommandList
-            className={`rounded-md border rounded-tl-none rounded-tr-none border-t-0 ${isLoading || emptyMessage || options.length > 0 ? "border-zinc-800" : "border-transparent"} max-h-[106px]`}
+            className={`rounded-md border rounded-tl-none rounded-tr-none border-t-0 ${isLoading || emptyMessage || options.length > 0 ? "border-[#232323]" : "border-transparent"} max-h-[106px]`}
           >
             {isLoading ? (
               <CommandPrimitive.Loading>

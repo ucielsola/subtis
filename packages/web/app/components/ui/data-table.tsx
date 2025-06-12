@@ -55,13 +55,13 @@ export function DataTable<TData, TValue>({
   const hasMore = rows.length > AMOUNT_TO_SHOW;
 
   return (
-    <div className="rounded-sm border bg-zinc-950 border-zinc-800 overflow-hidden">
+    <div className="rounded-sm border bg-zinc-950 border-[#232323] overflow-hidden">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow
               key={headerGroup.id}
-              className="border-zinc-800 hover:bg-[#161616] bg-[#141414]"
+              className="border-[#232323] hover:bg-[#161616] bg-[#141414]"
             >
               {headerGroup.headers.map((header) => {
                 return (
@@ -108,7 +108,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="hover:bg-zinc-900/40 border-b border-zinc-800 text-sm"
+                  className="hover:bg-zinc-900/40 border-b border-[#232323] text-sm"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className="py-2">
@@ -121,7 +121,7 @@ export function DataTable<TData, TValue>({
                 </TableRow>
               ))}
               {hasMore ? (
-                <TableRow className="border-b border-zinc-800 text-sm hover:bg-zinc-950">
+                <TableRow className="border-b border-[#232323] text-sm hover:bg-zinc-950">
                   <TableCell
                     colSpan={columns.length}
                     className="text-center p-0"
