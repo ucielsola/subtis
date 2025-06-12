@@ -113,7 +113,7 @@ export function VideoDropzone({ withMacbook }: Props) {
                       Si tenés el archivo de tu película, arrastralo acá
                     </p>
                     <p className="text-[11px] text-zinc-400 text-center w-fit container mx-auto">
-                      El procesamiento es local, tu archivo no se sube a internet
+                      El procesamiento es local, tu archivo no se sube a servidores
                     </p>
                   </div>
                 </div>
