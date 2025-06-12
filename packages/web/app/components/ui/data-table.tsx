@@ -134,7 +134,7 @@ export function DataTable<TData, TValue>({
                     >
                       {showAll
                         ? "Ver menos opciones"
-                        : `Ver más opciones (${rows.length - AMOUNT_TO_SHOW})`}
+                        : "Ver más opciones"}
                       {showAll ? (
                         <ChevronUp className="size-4" />
                       ) : (
