@@ -66,8 +66,8 @@ export default function FaqPage() {
       <section>
         <h2>¿Qué películas tienen subtítulos disponibles?</h2>
         <p>
-          Tenemos todas las películas del 2025 y el Top 300 de Rotten Tomatoes. Estamos sumando los años anteriores, así
-          que pronto vas a tener muchas más opciones.
+          Hoy tenemos todas las películas del 2025 y el top 300 de Rotten Tomatoes. Estamos sumando los años anteriores,
+          así que pronto vas a tener muchas más opciones.
         </p>
       </section>
 

@@ -21,10 +21,8 @@ export function HomeHero() {
   return (
     <section className="pt-20 pb-24 isolate relative flex flex-col gap-10">
       <HeroBackground className="absolute top-40 right-0 h-fit translate-y-[-30%] translate-x-[50%] 2xl:translate-x-[40%] 2xl:translate-y-[-50%] -z-10 -rotate-[25deg]" />
-      <div className="flex flex-col gap-4 text-center max-w-2xl mx-auto">
-        <h1 className="text-[56px] font-semibold text-zinc-100 leading-16">
-          El mejor buscador de subtítulos en internet
-        </h1>
+      <div className="flex flex-col gap-4 text-center max-w-[720px] mx-auto">
+        <h1 className="text-[56px] font-semibold text-zinc-100 leading-16">El buscador de subtítulos más completo</h1>
         <h2 className="text-2xl text-zinc-400">Encontrá el subtítulo perfecto para tu película</h2>
       </div>
       <div className="flex flex-col gap-4 max-w-2xl mx-auto items-center">

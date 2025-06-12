@@ -14,32 +14,24 @@ export function HomeFeatures() {
       <div className="flex flex-col md:flex-row gap-6 md:gap-14">
         <div className="flex flex-col gap-8">
           <div className="flex flex-row gap-3 items-start">
-            <div className="pt-[2.5px]">
-              <SyncIcon size={16} className="fill-zinc-50" />
-            </div>
+            <SyncIcon size={16} className="fill-zinc-50" />
             <div className="flex flex-col gap-[2px] leading-4">
-              <p className="text-zinc-50 text-sm uppercase tracking-[3px] font-gillsans font-medium">
-                SUBTÍTULOS A TIEMPO
-              </p>
+              <p className="text-zinc-50 text-sm uppercase tracking-[3px] font-gillsans font-medium">SIN DESFASES</p>
               <p className="text-zinc-400 text-sm">El subtítulo justo, siempre.</p>
             </div>
           </div>
-          <div className="flex flex-row gap-3 items-start">
-            <div className="pt-[2.5px]">
-              <ThunderIcon size={16} className="fill-zinc-50" />
-            </div>
+          <div className="flex flex-row gap-3">
+            <ThunderIcon size={16} className="fill-zinc-50" />
             <div className="flex flex-col gap-[2px] leading-4">
               <p className="text-zinc-50 text-sm uppercase tracking-[3px] font-gillsans font-medium">
-                BÚSQUEDA AL TOQUE
+                RESULTADOS EN UN CLICK
               </p>
               <p className="text-zinc-400 text-sm">Resultados al instante, siempre al día.</p>
             </div>
           </div>
 
           <div className="flex flex-row gap-3 items-start">
-            <div className="pt-[2.5px]">
-              <Lock size={16} className="fill-zinc-50" />
-            </div>
+            <Lock size={16} className="fill-zinc-50" />
             <div className="flex flex-col gap-[2px] leading-4">
               <p className="text-zinc-50 text-sm uppercase tracking-[3px] font-gillsans font-medium">
                 COMPATIBLE CON SRT
@@ -49,9 +41,7 @@ export function HomeFeatures() {
           </div>
 
           <div className="flex flex-row gap-3 items-start">
-            <div className="pt-[2.5px]">
-              <Robot size={16} className="fill-zinc-50" />
-            </div>
+            <Robot size={16} className="fill-zinc-50" />
             <div className="flex flex-col gap-[2px] leading-4">
               <p className="text-zinc-50 text-sm uppercase tracking-[3px] font-gillsans font-medium">
                 SUBTÍTULOS CON IA
@@ -62,9 +52,7 @@ export function HomeFeatures() {
         </div>
         <div className="flex flex-col gap-8">
           <div className="flex flex-row gap-3 items-start">
-            <div className="pt-[2.5px]">
-              <ListSearch size={16} className="fill-zinc-50" />
-            </div>
+            <ListSearch size={16} className="fill-zinc-50" />
             <div className="flex flex-col gap-[2px] leading-4">
               <p className="text-zinc-50 text-sm uppercase tracking-[3px] font-gillsans font-medium">ESPAÑOL LATINO</p>
               <p className="text-zinc-400 text-sm">Diálogos claros, como nos gusta.</p>
@@ -72,9 +60,7 @@ export function HomeFeatures() {
           </div>
 
           <div className="flex flex-row gap-3 items-start">
-            <div className="pt-[2.5px]">
-              <Shapes size={16} className="fill-zinc-50" />
-            </div>
+            <Shapes size={16} className="fill-zinc-50" />
             <div className="flex flex-col gap-[2px] leading-4">
               <p className="text-zinc-50 text-sm uppercase tracking-[3px] font-gillsans font-medium">
                 INTEGRACIONES SIMPLES
@@ -84,9 +70,7 @@ export function HomeFeatures() {
           </div>
 
           <div className="flex flex-row gap-3 items-start">
-            <div className="pt-[2.5px]">
-              <Translate size={16} className="fill-zinc-50" />
-            </div>
+            <Translate size={16} className="fill-zinc-50" />
             <div className="flex flex-col gap-[2px] leading-4">
               <p className="text-zinc-50 text-sm uppercase tracking-[3px] font-gillsans font-medium">
                 BUSCÁ SIN LÍMITES
@@ -96,9 +80,7 @@ export function HomeFeatures() {
           </div>
 
           <div className="flex flex-row gap-3 items-start">
-            <div className="pt-[2.5px]">
-              <MonitorPlay size={16} className="fill-zinc-50" />
-            </div>
+            <MonitorPlay size={16} className="fill-zinc-50" />
             <div className="flex flex-col gap-[2px] leading-4">
               <p className="text-zinc-50 text-sm uppercase tracking-[3px] font-gillsans font-medium">
                 MIRÁ AL INSTANTE
