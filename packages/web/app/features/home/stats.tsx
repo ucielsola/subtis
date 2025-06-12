@@ -83,12 +83,13 @@ function StatsContainer({ statsPromise }: Props) {
 export function HomeStats() {
   // remix hooks
   const { statsPromise } = useLoaderData<typeof loader>();
+  const { isIntersecting, ref } = useIntersectionObserver({ threshold: 0.8, freezeOnceVisible: true });
 
   return (
     <Suspense
       fallback={
         <section className="py-32 flex flex-col gap-40 items-center justify-center">
-          <Screen isGlowing={false} />
+          <Screen isGlowing={isIntersecting} />
           <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-4 text-center">
               <h2 className="text-zinc-50 text-xs tracking-[3px] font-medium font-gillsans uppercase">
