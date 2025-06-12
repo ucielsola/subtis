@@ -1,6 +1,6 @@
 import { parseMedia } from "@remotion/media-parser";
 import { AnimatePresence, motion, useAnimation } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
 import { redirect, useLoaderData, useParams } from "react-router";
 import { toast } from "sonner";
@@ -163,7 +163,7 @@ export default function SubtitlePage() {
   const loaderData = useLoaderData<typeof loader>();
 
   // react hooks
-  const player = useRef<HTMLVideoElement>(null);
+  const [playerElement, setPlayerElement] = useState<HTMLVideoElement | null>(null);
 
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   const [hasVideoError, setHasVideoError] = useState<boolean>(false);
@@ -208,32 +208,64 @@ export default function SubtitlePage() {
 
   useEffect(
     function transformSrtTracksToVtt() {
-      if (player.current && captionBlobUrl) {
-        const hasTransformed = player.current.dataset.transformed;
+      if (playerElement && captionBlobUrl) {
+        const hasTransformed = playerElement.dataset.transformed;
 
         if (!hasTransformed) {
-          transformSrtTracks(player.current);
-          player.current.dataset.transformed = "true";
+          transformSrtTracks(playerElement);
+          playerElement.dataset.transformed = "true";
         }
       }
     },
-    [captionBlobUrl],
+    [captionBlobUrl, playerElement],
   );
 
-  useEffect(function listenFullscreenChange() {
-    function pauseVideoOnExitFullscreen(): void {
-      if (!document.fullscreenElement) {
-        setIsFullscreen(false);
-        player.current?.pause();
+  useEffect(
+    function listenFullscreenChange() {
+      function handleFullscreenChange(): void {
+        if (document.fullscreenElement) {
+          setIsFullscreen(true);
+        } else {
+          setIsFullscreen(false);
+          playerElement?.pause();
+        }
       }
-    }
 
-    document.addEventListener("fullscreenchange", pauseVideoOnExitFullscreen);
+      document.addEventListener("fullscreenchange", handleFullscreenChange);
 
-    return () => {
-      document.removeEventListener("fullscreenchange", pauseVideoOnExitFullscreen);
-    };
-  }, []);
+      return () => {
+        document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      };
+    },
+    [playerElement],
+  );
+
+  useEffect(
+    function handleVideoPlay() {
+      if (!playerElement) {
+        return;
+      }
+
+      async function enterFullscreenOnPlay() {
+        if (!playerElement) {
+          return;
+        }
+
+        if (!document.fullscreenElement) {
+          await playerElement.requestFullscreen();
+        }
+      }
+
+      playerElement.addEventListener("play", enterFullscreenOnPlay);
+
+      return () => {
+        if (playerElement) {
+          playerElement.removeEventListener("play", enterFullscreenOnPlay);
+        }
+      };
+    },
+    [playerElement],
+  );
 
   useEffect(
     function throwErrorIfAudioCodecIsUnsupported() {
@@ -315,14 +347,9 @@ export default function SubtitlePage() {
     triggerShareToast();
   }
 
-  async function handlePlaySubtitle(): Promise<void> {
-    const videoElement = player.current;
-
-    if (videoElement) {
-      videoElement.play();
-      await videoElement.requestFullscreen();
-
-      setIsFullscreen(true);
+  function handlePlaySubtitle(): void {
+    if (playerElement) {
+      playerElement.play();
     }
   }
 
@@ -441,7 +468,7 @@ export default function SubtitlePage() {
         {displayVideoElements ? (
           <video
             controls
-            ref={player}
+            ref={setPlayerElement}
             className="w-0 h-0"
             onError={handleVideoError}
             style={{ opacity: isFullscreen ? 1 : 0 }}
