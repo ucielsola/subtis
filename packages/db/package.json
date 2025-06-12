@@ -13,10 +13,10 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.50.0",
-    "zod": "^3.25.62"
+    "zod": "^3.25.63"
   },
   "devDependencies": {
-    "@types/bun": "^1.2.15",
+    "@types/bun": "^1.2.16",
     "supabase": ">=2.24.3",
     "supazod": "^2.0.0",
     "typescript": "^5.8.3"

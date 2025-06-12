@@ -59,10 +59,10 @@
     "unrar-promise": "^3.1.0",
     "windows-1252": "^3.0.4",
     "x-ray": "^2.3.4",
-    "zod": "^3.25.62"
+    "zod": "^3.25.63"
   },
   "devDependencies": {
-    "@types/bun": "^1.2.15",
+    "@types/bun": "^1.2.16",
     "@types/cli-progress": "^3.11.6",
     "@types/download": "^8.0.5",
     "@types/ffprobe": "^1.1.8",
