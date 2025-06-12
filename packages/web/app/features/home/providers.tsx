@@ -14,19 +14,6 @@ export function HomeProviders() {
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://www.opensubtitles.com"
-          className="flex flex-col items-center justify-between group/provider"
-        >
-          <div className="h-24 flex items-center justify-center group-hover/provider:opacity-85 transition-all duration-300 ease-in-out">
-            <OpenSubtitlesLogo />
-          </div>
-          <span className="text-zinc-50 text-sm uppercase tracking-[3px] border-b border-b-zinc-50 transition-all duration-300 ease-in-out font-medium font-gillsans">
-            OpenSubtitles
-          </span>
-        </a>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
           href="https://www.subdivx.com"
           className="flex flex-col items-center justify-between group/provider"
         >
@@ -35,6 +22,19 @@ export function HomeProviders() {
           </div>
           <span className="text-zinc-50 text-sm uppercase tracking-[3px] border-b group-hover/provider:border-b-zinc-50 transition-all duration-300 ease-in-out font-medium font-gillsans">
             SubDivX
+          </span>
+        </a>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.opensubtitles.com"
+          className="flex flex-col items-center justify-between group/provider"
+        >
+          <div className="h-24 flex items-center justify-center group-hover/provider:opacity-85 transition-all duration-300 ease-in-out">
+            <OpenSubtitlesLogo />
+          </div>
+          <span className="text-zinc-50 text-sm uppercase tracking-[3px] border-b border-b-zinc-50 transition-all duration-300 ease-in-out font-medium font-gillsans">
+            OpenSubtitles
           </span>
         </a>
         <a
