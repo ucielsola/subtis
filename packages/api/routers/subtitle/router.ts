@@ -443,7 +443,7 @@ export const subtitle = new Hono<HonoAppType>()
       const { data, error } = await supabase
         .from("Subtitles")
         .select(subtitlesQuery)
-        .or(`title_file_name.eq.${fileName},bytes.eq.${bytes}`)
+        .or(`title_file_name.eq."${fileName}",bytes.eq.${bytes}`)
         .single();
 
       if (error && error.code === "PGRST116") {
