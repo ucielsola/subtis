@@ -164,8 +164,9 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
             return 1;
           }
 
-          return b.year - a.year;
-        });
+          return 0;
+        })
+        .sort((a, b) => b.year - a.year);
 
       return { results: parsedResults, statusCode: response.status };
     },
