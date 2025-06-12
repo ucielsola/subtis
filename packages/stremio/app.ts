@@ -93,7 +93,8 @@ const builder = new addonBuilder({
   resources: ["subtitles"],
   types: ["movie"],
   idPrefixes: ["tt"],
-  logo: "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/assets/stremio.jpg",
+  background: "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/assets//stremio-bg.png",
+  logo: "https://yelhsmnvfyyjuamxbobs.supabase.co/storage/v1/object/public/assets//stremio.png",
 });
 
 builder.defineSubtitlesHandler(getTitleSubtitle);
