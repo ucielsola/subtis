@@ -7,11 +7,14 @@ import { type SubtisSubtitle, releaseGroupSchema, subtitleGroupSchema, subtitleS
 // parsed rip types
 type RipTypeOutput =
   | "BluRay"
+  | "DVDRip"
   | "HDRip"
+  | "HDTVRip"
   | "Theater"
   | "BrRip"
+  | "BdRip"
   | "WEBRip"
-  | "Web-DL"
+  | "WebDL"
   | "WEB"
   | "DV"
   | "HDTV"
@@ -31,12 +34,24 @@ export function getParsedRipType(ripType: string | null): RipTypeOutput {
     return "BluRay";
   }
 
+  if (ripType === "dvdrip") {
+    return "DVDRip";
+  }
+
   if (ripType === "hdrip") {
     return "HDRip";
   }
 
+  if (ripType === "hdtvrip") {
+    return "HDTVRip";
+  }
+
   if (ripType === "theater") {
     return "Theater";
+  }
+
+  if (ripType === "bdrip") {
+    return "BdRip";
   }
 
   if (ripType === "brrip") {
@@ -47,8 +62,8 @@ export function getParsedRipType(ripType: string | null): RipTypeOutput {
     return "WEBRip";
   }
 
-  if (ripType === "web-dl") {
-    return "Web-DL";
+  if (ripType === "web-dl" || ripType === "webdl") {
+    return "WebDL";
   }
 
   if (ripType === "web") {
@@ -66,7 +81,6 @@ export function getParsedRipType(ripType: string | null): RipTypeOutput {
   if (ripType === "workprint") {
     return "Workprint";
   }
-
   throw new Error(`Unknown rip type: ${ripType}`);
 }
 
