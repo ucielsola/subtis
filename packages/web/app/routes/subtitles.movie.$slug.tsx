@@ -569,7 +569,7 @@ export default function SubtitlesPage() {
                     </a>
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent side="bottom">Ver en {subtitle_group_name}</TooltipContent>
+                <TooltipContent side="bottom">Ver fuente</TooltipContent>
               </Tooltip>
             ) : null}
           </div>
