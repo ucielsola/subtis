@@ -737,7 +737,7 @@ export default function SubtitlesPage() {
                         Por ejemplo, para el archivo{" "}
                         <Highlighter
                           highlightClassName={cn(
-                            "bg-zinc-950 text-zinc-50 font-medium",
+                            "bg-[#161616] text-zinc-50 font-medium",
                             isHoveringResolutionTip && "text-amber-400",
                           )}
                           className="break-all"
@@ -767,11 +767,13 @@ export default function SubtitlesPage() {
                         Por ejemplo, para el archivo{" "}
                         <Highlighter
                           highlightClassName={cn(
-                            "bg-zinc-950 text-zinc-50 font-medium",
+                            "bg-[#161616] text-zinc-50 font-medium",
                             isHoveringPublisherTip && "text-emerald-400",
                           )}
                           className="break-all"
-                          searchWords={[release_group_name]}
+                          searchWords={
+                            release_group_name === "YTS" ? [release_group_name, "YIFY"] : [release_group_name]
+                          }
                           autoEscape={true}
                           textToHighlight={`"${title_file_name}"`}
                         />{" "}
@@ -799,7 +801,7 @@ export default function SubtitlesPage() {
                         Por ejemplo, para el archivo{" "}
                         <Highlighter
                           highlightClassName={cn(
-                            "bg-zinc-950 text-zinc-50 font-medium",
+                            "bg-[#161616] text-zinc-50 font-medium",
                             isHoveringFormatTip && "text-indigo-400",
                           )}
                           className="break-all"
