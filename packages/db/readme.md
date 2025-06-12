@@ -135,22 +135,32 @@ SET search_path = ''
 AS $$
 DECLARE
     success boolean;
+    updated_subtitle boolean;
+    updated_title boolean;
 BEGIN
+    -- Update Subtitles if last_queried_at is old enough
     UPDATE public."Subtitles"
     SET last_queried_at = CURRENT_TIMESTAMP,
         queried_times = queried_times + 1
     WHERE id = _subtitle_id
-    RETURNING true INTO success;
+      AND (last_queried_at IS NULL OR last_queried_at < CURRENT_TIMESTAMP - INTERVAL '1 second')
+    RETURNING true INTO updated_subtitle;
 
-    IF success THEN
+    -- Update Titles if Subtitles update happened
+    IF updated_subtitle THEN
         UPDATE public."Titles"
         SET last_queried_at = CURRENT_TIMESTAMP,
             queried_times = queried_times + 1
         WHERE slug = _title_slug
-        RETURNING true INTO success;
+          AND (last_queried_at IS NULL OR last_queried_at < CURRENT_TIMESTAMP - INTERVAL '1 second')
+        RETURNING true INTO updated_title;
+    ELSE
+        updated_title := false;
     END IF;
 
-    RETURN COALESCE(success, false);
+    -- Return true if at least one update happened
+    success := updated_subtitle OR updated_title;
+    RETURN success;
 END;
 $$ LANGUAGE plpgsql;
 ```
@@ -169,6 +179,7 @@ BEGIN
     SET last_queried_at = CURRENT_TIMESTAMP,
         searched_times = searched_times + 1
     WHERE slug = _slug
+      AND (last_queried_at IS NULL OR last_queried_at < CURRENT_TIMESTAMP - INTERVAL '1 second')
     RETURNING true INTO success;
 
     RETURN COALESCE(success, false);
