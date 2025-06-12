@@ -148,6 +148,7 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
 
           return {
             label,
+            year: result.year,
             value: String(result.slug),
             optimizedPoster: result.optimized_poster,
             posterThumbHash: result.poster_thumbhash,
@@ -163,7 +164,7 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
             return 1;
           }
 
-          return 0;
+          return b.year - a.year;
         });
 
       return { results: parsedResults, statusCode: response.status };
