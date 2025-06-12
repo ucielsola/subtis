@@ -40,7 +40,7 @@ export function ThumbHashPosterImage({ src, hashUrl, alt, slug }: Props) {
   const viewTransitionName = slug ? `movie-poster-${slug}` : "movie-poster";
 
   return (
-    <div className="w-[384px] h-[575px] rounded-sm rounded-b-none overflow-hidden">
+    <div className="w-[384px] h-[575px] rounded-sm overflow-hidden">
       <AspectRatio ratio={384 / 575} className="relative">
         <img
           src={placeholderURL}
@@ -50,7 +50,7 @@ export function ThumbHashPosterImage({ src, hashUrl, alt, slug }: Props) {
         <img
           ref={imageReference}
           onLoad={onLoaded}
-          className={`absolute inset-0 brightness-105 ${imgIsLoading ? "opacity-0" : "opacity-100"} transition-opacity ease-in-out duration-300 w-[380px] h-[571px] rounded-[2px] inset-[2px] object-cover`}
+          className={`absolute inset-0 brightness-105 ${imgIsLoading ? "opacity-0" : "opacity-100"} transition-opacity ease-in-out duration-300 w-[380px] h-[571px] rounded-[5px] inset-[2px] object-cover`}
           style={{ viewTransitionName }}
           src={src}
           alt={alt}
