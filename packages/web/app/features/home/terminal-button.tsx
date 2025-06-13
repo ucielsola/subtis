@@ -67,7 +67,7 @@ export function TerminalButton() {
                 </div>
                 <div className="flex flex-col gap-1">
                   <p className="text-zinc-400 text-sm leading-6">Abrí tu terminal y corré el siguiente comando</p>
-                  <code className="text-zinc-300 font-mono text-sm">&gt; brew install @lndgalante/subtis</code>
+                  <code className="text-zinc-300 font-mono text-sm">&gt; brew install subtis</code>
                 </div>
               </div>
               <div className="flex flex-col gap-3 items-start">
@@ -84,7 +84,7 @@ export function TerminalButton() {
                 </div>
                 <div className="flex flex-col gap-1">
                   <p className="text-zinc-400 text-sm leading-6">Abrí tu terminal y corré el siguiente comando</p>
-                  <code className="text-zinc-300 font-mono text-sm">&gt; subtis file "nombre-del-archivo.mp4"</code>
+                  <code className="text-zinc-300 font-mono text-sm">&gt; subtis search "nombre-del-archivo.mp4"</code>
                 </div>
               </div>
             </section>
